@@ -24,6 +24,7 @@ class QiblaDirectionPage extends StatefulWidget {
 class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     with SingleTickerProviderStateMixin {
   String _imagePath = 'assets/images/app_icons/qibla_campass.png';
+  bool _showMap = true;
   void _showArrowimage() {
     setState(() {
       _imagePath = 'assets/images/app_icons/qiblaa_arrow.png';
@@ -75,92 +76,6 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    height: 60.h, // Set height of the tab buttons
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: _showQiblaImage,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8.r),
-                                  bottomLeft: Radius.circular(8.r),
-                                ),
-                                side: BorderSide(
-                                    color: appColors.mainBrandingColor),
-                              ),
-                            ),
-                            child: Text(
-                              'Compass',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'satoshi',
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: _showArrowimage,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                                side: BorderSide(
-                                    color: appColors.mainBrandingColor),
-                              ),
-                            ),
-                            child: Text(
-                              'Arrow',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'satoshi',
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => QiblahMaps()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(8.r),
-                                  topRight: Radius.circular(8.r),
-                                ),
-                                side: BorderSide(
-                                    color: appColors.mainBrandingColor),
-                              ),
-                            ),
-                            child: Text(
-                              'Map',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'satoshi',
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
                   Container(
                     padding: EdgeInsets.only(top: 14.h, bottom: 14.h),
                     decoration: BoxDecoration(
@@ -220,82 +135,168 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                       ],
                     ),
                   ),
-
-                  StreamBuilder(
-                      stream: FlutterQiblah.qiblahStream,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final qiblaDirection = snapshot.data;
-                          int degree = qiblaDirection!.offset.toInt();
-                          animation = Tween(
-                                  begin: begin,
-                                  end:
-                                      (qiblaDirection.qiblah) * (pi / 180) * -1)
-                              .animate(_animationController!);
-                          begin = (qiblaDirection.qiblah * (pi / 180) * -1);
-                          _animationController!.forward(from: 0);
-                          return Column(
-                            children: [
-                              Container(
-                                margin:
-                                    EdgeInsets.only(top: 40.h, bottom: 10.h),
-                                child: AnimatedBuilder(
-                                  animation: animation!,
-                                  builder: (context, child) {
-                                    return Transform.rotate(
-                                      angle: animation!.value,
-                                      child: Image.asset(
-                                        _imagePath,
-                                        height: 294.h,
-                                        width: 284.w,
-                                      ),
-                                    );
-                                  },
+                  Container(
+                    height: 60.h, // Set height of the tab buttons
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: _showQiblaImage,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(18.r),
+                                  bottomLeft: Radius.circular(18.r),
                                 ),
+                                side: BorderSide(
+                                    color: appColors.mainBrandingColor),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      localeText(
-                                          context, "degree_of_the_qibla"),
-                                      style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontFamily: 'satoshi',
-                                          fontWeight: FontWeight.w700)),
-                                  Container(
-                                    height: 34.h,
-                                    width: 34.w,
-                                    alignment: Alignment.center,
-                                    margin:
-                                        EdgeInsets.only(left: 9.w, right: 9.w),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(4.r),
-                                        color: Colors.green),
-                                    child: Text(
-                                      degree.toString(),
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.white,
-                                          fontFamily: 'satoshi',
-                                          fontWeight: FontWeight.w700),
-                                    ),
+                            ),
+                            child: Text(
+                              'Compass',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'satoshi',
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: _showArrowimage,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                                side: BorderSide(
+                                    color: appColors.mainBrandingColor),
+                              ),
+                            ),
+                            child: Text(
+                              'Arrow',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'satoshi',
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _showMap = true;
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(18.r),
+                                  topRight: Radius.circular(18.r),
+                                ),
+                                side: BorderSide(
+                                    color: appColors.mainBrandingColor),
+                              ),
+                            ),
+                            child: Text(
+                              'Map',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'satoshi',
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (_showMap)
+                    SizedBox(height: 400.h, child: QiblahMaps())
+                  else
+                    StreamBuilder(
+                        stream: FlutterQiblah.qiblahStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final qiblaDirection = snapshot.data;
+                            int degree = qiblaDirection!.offset.toInt();
+                            animation = Tween(
+                                    begin: begin,
+                                    end: (qiblaDirection.qiblah) *
+                                        (pi / 180) *
+                                        -1)
+                                .animate(_animationController!);
+                            begin = (qiblaDirection.qiblah * (pi / 180) * -1);
+                            _animationController!.forward(from: 0);
+                            return Column(
+                              children: [
+                                Container(
+                                  margin:
+                                      EdgeInsets.only(top: 40.h, bottom: 10.h),
+                                  child: AnimatedBuilder(
+                                    animation: animation!,
+                                    builder: (context, child) {
+                                      return Transform.rotate(
+                                        angle: animation!.value,
+                                        child: Image.asset(
+                                          _imagePath,
+                                          height: 294.h,
+                                          width: 284.w,
+                                        ),
+                                      );
+                                    },
                                   ),
-                                ],
-                              ),
-                            ],
-                          );
-                        } else {
-                          return Container(
-                              margin: EdgeInsets.all(20.h),
-                              child: CircularProgressIndicator(
-                                color: them.isDark
-                                    ? Colors.white
-                                    : appColors.mainBrandingColor,
-                              ));
-                        }
-                      }),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        localeText(
+                                            context, "degree_of_the_qibla"),
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontFamily: 'satoshi',
+                                            fontWeight: FontWeight.w700)),
+                                    Container(
+                                      height: 34.h,
+                                      width: 34.w,
+                                      alignment: Alignment.center,
+                                      margin: EdgeInsets.only(
+                                          left: 9.w, right: 9.w),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4.r),
+                                          color: Colors.green),
+                                      child: Text(
+                                        degree.toString(),
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: Colors.white,
+                                            fontFamily: 'satoshi',
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Container(
+                                margin: EdgeInsets.all(20.h),
+                                child: CircularProgressIndicator(
+                                  color: them.isDark
+                                      ? Colors.white
+                                      : appColors.mainBrandingColor,
+                                ));
+                          }
+                        }),
                   Container(
                     margin: EdgeInsets.only(top: 24.h, bottom: 24.h),
                     padding: EdgeInsets.only(
