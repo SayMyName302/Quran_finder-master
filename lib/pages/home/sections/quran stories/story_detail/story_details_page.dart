@@ -33,7 +33,7 @@ class StoryDetailsPage extends StatelessWidget {
                           ? HtmlWidget(
                               story.selectedQuranStory!.text!,
                               textStyle: TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: 15.sp,
                                 fontFamily: 'satoshi',
                                 fontWeight: FontWeight.w500,
                               ),

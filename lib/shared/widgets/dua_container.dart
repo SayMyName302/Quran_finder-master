@@ -17,6 +17,7 @@ class DuaContainer extends StatelessWidget {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
+        color: AppColors.grey6,
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(
           color: AppColors.grey5,

@@ -42,8 +42,13 @@ class WhenToRecite extends StatelessWidget {
                 BrandButton(
                     text: localeText(context, "continue"),
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(RouteHelper.quranReminder);
+                      String selectedTime = Provider.of<OnBoardingProvider>(
+                              context,
+                              listen: false)
+                          .selectTimeLikeToRecite;
+                      Navigator.of(context).pushNamed(RouteHelper.quranReminder,
+                          arguments: selectedTime);
+                      print(selectedTime);
                     }),
               ],
             ),

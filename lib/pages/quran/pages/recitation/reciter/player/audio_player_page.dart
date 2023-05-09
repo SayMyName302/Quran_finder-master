@@ -19,6 +19,7 @@ class AudioPlayerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     bool isLoopMore = false;
     return Scaffold(
       appBar: buildAppBar(
@@ -126,25 +127,35 @@ class AudioPlayerPage extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () {
-                            if (!isLoopMore) {
-                              isLoopMore = true;
+                            if (!isLoopMoreNotifier.value) {
+                              isLoopMoreNotifier.value = true;
                               player.audioPlayer.setLoopMode(LoopMode.one);
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text(
                                       'Loop More On For ${player.surah!.surahName!}')));
                             } else {
-                              isLoopMore = false;
+                              isLoopMoreNotifier.value = false;
                               player.audioPlayer.setLoopMode(LoopMode.off);
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text(
                                       'Loop More Off For ${player.surah!.surahName!}')));
                             }
                           },
-                          icon: Image.asset(
-                            'assets/images/app_icons/repeat.png',
-                            height: 18.h,
-                            width: 18.w,
-                            color: them.isDark ? Colors.white : Colors.black,
+                          icon: ValueListenableBuilder<bool>(
+                            valueListenable: isLoopMoreNotifier,
+                            builder: (context, isLoopMore, child) {
+                              return Image.asset(
+                                'assets/images/app_icons/repeat.png',
+                                height: 18.h,
+                                width: 18.w,
+                                color: isLoopMore
+                                    ? appColor.mainBrandingColor
+                                    : Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.white
+                                        : Colors.black,
+                              );
+                            },
                           ),
                           padding: EdgeInsets.zero,
                           alignment: Alignment.center,

@@ -73,7 +73,7 @@ class MiniPlayer extends StatelessWidget {
                                             MediaQuery.of(context).size.width *
                                                 0.58,
                                         child: Text(
-                                          '${player.surah!.englishName!}, Surah ${player.surah!.surahId}',
+                                          '${player.surah!.englishName!},  ${player.surah!.surahName}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 10.sp,
