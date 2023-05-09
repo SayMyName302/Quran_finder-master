@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nour_al_quran/shared/utills/palette.dart';
+import 'palette.dart';
 
 class AppThem {
   static ThemeData light = ThemeData(
@@ -18,7 +18,6 @@ class AppThem {
     primarySwatch: Palette.white,
     scaffoldBackgroundColor: const Color(0xFF1E1E1E),
     iconTheme: const IconThemeData(color: Colors.white),
-    textTheme: const TextTheme(
-        headlineLarge: TextStyle(color: Colors.white)),
+    textTheme: const TextTheme(headlineLarge: TextStyle(color: Colors.white)),
   );
 }

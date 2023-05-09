@@ -17,20 +17,20 @@ class Names {
 
   Names(
       {this.id,
-        this.arabictext,
-        this.audioUrl,
-        this.english,
-        this.urduMeaning,
-        this.englishMeaning,
-        this.arabicMeaning,
-        this.indonesianmeaning,
-        this.hindiMeaning,
-        this.bengalimeaning,
-        this.frenchmeaning,
-        this.chinesemeaning,
-        this.somalimeaning,
-        this.germanmeaning,
-        this.spanishmeaning});
+      this.arabictext,
+      this.audioUrl,
+      this.english,
+      this.urduMeaning,
+      this.englishMeaning,
+      this.arabicMeaning,
+      this.indonesianmeaning,
+      this.hindiMeaning,
+      this.bengalimeaning,
+      this.frenchmeaning,
+      this.chinesemeaning,
+      this.somalimeaning,
+      this.germanmeaning,
+      this.spanishmeaning});
 
   Names.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,22 +51,22 @@ class Names {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['arabictext'] = this.arabictext;
-    data['audio_url'] = this.audioUrl;
-    data['english'] = this.english;
-    data['urduMeaning'] = this.urduMeaning;
-    data['englishMeaning'] = this.englishMeaning;
-    data['arabicMeaning'] = this.arabicMeaning;
-    data['Indonesianmeaning'] = this.indonesianmeaning;
-    data['hindiMeaning'] = this.hindiMeaning;
-    data['bengalimeaning'] = this.bengalimeaning;
-    data['frenchmeaning'] = this.frenchmeaning;
-    data['chinesemeaning'] = this.chinesemeaning;
-    data['somalimeaning'] = this.somalimeaning;
-    data['germanmeaning'] = this.germanmeaning;
-    data['spanishmeaning'] = this.spanishmeaning;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['arabictext'] = arabictext;
+    data['audio_url'] = audioUrl;
+    data['english'] = english;
+    data['urduMeaning'] = urduMeaning;
+    data['englishMeaning'] = englishMeaning;
+    data['arabicMeaning'] = arabicMeaning;
+    data['Indonesianmeaning'] = indonesianmeaning;
+    data['hindiMeaning'] = hindiMeaning;
+    data['bengalimeaning'] = bengalimeaning;
+    data['frenchmeaning'] = frenchmeaning;
+    data['chinesemeaning'] = chinesemeaning;
+    data['somalimeaning'] = somalimeaning;
+    data['germanmeaning'] = germanmeaning;
+    data['spanishmeaning'] = spanishmeaning;
     return data;
   }
 }

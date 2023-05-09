@@ -1,19 +1,19 @@
 import 'dart:async';
-import 'dart:typed_data';
+
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/more/pages/qibla_direction/location_error_widget.dart';
+import 'location_error_widget.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:nour_al_quran/pages/more/pages/qibla_direction/provider.dart';
-import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
-import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/utills/app_colors.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
+import 'provider.dart';
+import '../../../settings/pages/app_colors/app_colors_provider.dart';
+import '../../../settings/pages/app_them/them_provider.dart';
+
+import '../../../../shared/utills/app_colors.dart';
+
 import 'package:provider/provider.dart';
 
 class QiblahMaps extends StatefulWidget {

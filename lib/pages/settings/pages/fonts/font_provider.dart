@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:nour_al_quran/shared/utills/app_constants.dart';
+import '../../../../shared/utills/app_constants.dart';
 
-class FontProvider extends ChangeNotifier{
+class FontProvider extends ChangeNotifier {
   int _fontSizeArabic = Hive.box(appBoxKey).get(quranFontSizeKey) ?? 20;
   int _fontSizeTranslation = Hive.box(appBoxKey).get(translationFontKey) ?? 12;
   bool _isQuranText = Hive.box(appBoxKey).get(isQuranShowKey) ?? true;
-  bool _isTranslationText = Hive.box(appBoxKey).get(isTranslationShowKey) ?? true;
-  String _finalFont = Hive.box(appBoxKey).get(quranFontKey) ?? 'Al Majeed Quranic Font';
+  bool _isTranslationText =
+      Hive.box(appBoxKey).get(isTranslationShowKey) ?? true;
+  String _finalFont =
+      Hive.box(appBoxKey).get(quranFontKey) ?? 'Al Majeed Quranic Font';
   String get finalFont => _finalFont;
 
   int get fontSizeArabic => _fontSizeArabic;
   int get fontSizeTranslation => _fontSizeTranslation;
   bool get isTranslationText => _isTranslationText;
   bool get isQuranText => _isQuranText;
-  final List<String> _fonts = [
-    'Al Majeed Quranic Font',
-    'Me Quran Font'
-  ];
+  final List<String> _fonts = ['Al Majeed Quranic Font', 'Me Quran Font'];
   List<String> get fonts => _fonts;
   String _currentFont = 'Al Majeed Quranic Font';
   String get currentFont => _currentFont;
@@ -30,8 +29,7 @@ class FontProvider extends ChangeNotifier{
   bool get isTranShow => _isTranShow;
   bool get isQuranShow => _isQuranShow;
 
-
-  void init(){
+  void init() {
     _fontSizeAr = _fontSizeArabic.toDouble();
     _fontSizeTrans = _fontSizeTranslation.toDouble();
     _isQuranShow = _isQuranText;
@@ -40,18 +38,17 @@ class FontProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-
-  void setFontSizeArabic(double fontSize){
+  void setFontSizeArabic(double fontSize) {
     _fontSizeAr = fontSize;
     notifyListeners();
   }
 
-  void setFontSizeTranslation(double fontSize){
+  void setFontSizeTranslation(double fontSize) {
     _fontSizeTrans = fontSize;
     notifyListeners();
   }
 
-  void setIsQuranText(bool value){
+  void setIsQuranText(bool value) {
     if (!_isTranShow) {
       _isTranShow = true;
     }
@@ -59,7 +56,7 @@ class FontProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setIsTranslationText(bool value){
+  void setIsTranslationText(bool value) {
     if (!_isQuranShow) {
       _isQuranShow = true;
     }
@@ -67,7 +64,8 @@ class FontProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setQuranSettings(int fontArabic, int fontTrans,bool isShowQuran,bool isShowTrans){
+  void setQuranSettings(
+      int fontArabic, int fontTrans, bool isShowQuran, bool isShowTrans) {
     _fontSizeArabic = fontArabic;
     _fontSizeTranslation = fontTrans;
     _isQuranText = isShowQuran;
@@ -80,7 +78,7 @@ class FontProvider extends ChangeNotifier{
     box.put(isTranslationShowKey, _isTranslationText);
   }
 
-  void setFontSettings(){
+  void setFontSettings() {
     _fontSizeArabic = _fontSizeAr.toInt();
     _fontSizeTranslation = _fontSizeTrans.toInt();
     _finalFont = _currentFont;
@@ -91,9 +89,8 @@ class FontProvider extends ChangeNotifier{
     box.put(quranFontKey, _finalFont);
   }
 
-  void setCurrentFont(String font){
+  void setCurrentFont(String font) {
     _currentFont = font;
     notifyListeners();
   }
-
 }

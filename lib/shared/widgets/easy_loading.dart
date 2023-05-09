@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:provider/provider.dart';
 
 class EasyLoadingDialog {
@@ -17,7 +17,7 @@ class EasyLoadingDialog {
       builder: (context) {
         var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
         return WillPopScope(
-          onWillPop: ()async{
+          onWillPop: () async {
             return false;
           },
           child: AlertDialog(

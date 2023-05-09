@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import 'package:nour_al_quran/pages/onboarding/on_boarding.dart';
+import '../../pages/onboarding/on_boarding.dart';
 
-class OnBoardingAdopter extends TypeAdapter<OnBoardingInformation>{
+class OnBoardingAdopter extends TypeAdapter<OnBoardingInformation> {
   @override
   int get typeId => 5;
 
@@ -32,5 +32,4 @@ class OnBoardingAdopter extends TypeAdapter<OnBoardingInformation>{
     writer.write(obj.dailyQuranReadTime);
     writer.write(obj.preferredLanguage);
   }
-
 }

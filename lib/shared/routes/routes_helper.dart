@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:nour_al_quran/pages/home/sections/miracles_of_quran/miracle_detail_page.dart';
-import 'package:nour_al_quran/pages/home/sections/miracles_of_quran/miracles_of_quran_page.dart';
-import 'package:nour_al_quran/pages/main/main_page.dart';
-import 'package:nour_al_quran/pages/more/pages/names_of_allah/name_of_allah_page.dart';
-import 'package:nour_al_quran/pages/more/pages/qibla_direction/qibla_direction.dart';
-import 'package:nour_al_quran/pages/more/pages/salah_timer/salah_timer_page.dart';
-import 'package:nour_al_quran/pages/more/pages/shahada/shahada_page.dart';
-import 'package:nour_al_quran/pages/more/pages/step_by_step_salah/steps_by_step_salah_page.dart';
-import 'package:nour_al_quran/pages/more/pages/tasbeeh/tasbeeh_page.dart';
-import 'package:nour_al_quran/pages/onboarding/pages/complete_profile/complete_profile.dart';
-import 'package:nour_al_quran/pages/onboarding/pages/index.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/dua_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/view_all/view_all.dart';
-import 'package:nour_al_quran/pages/settings/pages/about_the_app/about_the_app_page.dart';
-import 'package:nour_al_quran/pages/settings/pages/download_manager/reciter_download_surahs_page.dart';
-import 'package:nour_al_quran/pages/settings/pages/fonts/fonts_page.dart';
-import 'package:nour_al_quran/pages/settings/pages/privacy_policy/privacy_policy_page.dart';
-import 'package:nour_al_quran/pages/settings/pages/profile/edit_profile_page.dart';
-import 'package:nour_al_quran/pages/settings/pages/profile/manage_profile_page.dart';
-import 'package:nour_al_quran/pages/settings/pages/report_an_issue/report_issue_page.dart';
-import 'package:nour_al_quran/pages/settings/pages/subscriptions/manage_subscription_page.dart';
-import 'package:nour_al_quran/pages/settings/pages/subscriptions/upgrade_to_premium_page.dart';
-import 'package:nour_al_quran/pages/settings/pages/terms_of_service/terms_of_services_page.dart';
-import 'package:nour_al_quran/pages/sign_in/sigin_page.dart';
-import 'package:nour_al_quran/pages/sign_in/sign_up_page.dart';
-import 'package:nour_al_quran/pages/splash/splash.dart';
+import '../../pages/home/sections/miracles_of_quran/miracle_detail_page.dart';
+import '../../pages/home/sections/miracles_of_quran/miracles_of_quran_page.dart';
+import '../../pages/main/main_page.dart';
+import '../../pages/more/pages/names_of_allah/name_of_allah_page.dart';
+import '../../pages/more/pages/qibla_direction/qibla_direction.dart';
+import '../../pages/more/pages/salah_timer/salah_timer_page.dart';
+import '../../pages/more/pages/shahada/shahada_page.dart';
+import '../../pages/more/pages/step_by_step_salah/steps_by_step_salah_page.dart';
+import '../../pages/more/pages/tasbeeh/tasbeeh_page.dart';
+import '../../pages/onboarding/pages/complete_profile/complete_profile.dart';
+import '../../pages/onboarding/pages/index.dart';
+import '../../pages/quran/pages/duas/dua_page.dart';
+import '../../pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
+import '../../pages/quran/pages/recitation/reciter/reciter_page.dart';
+import '../../pages/quran/pages/recitation/view_all/view_all.dart';
+import '../../pages/settings/pages/about_the_app/about_the_app_page.dart';
+import '../../pages/settings/pages/download_manager/reciter_download_surahs_page.dart';
+import '../../pages/settings/pages/fonts/fonts_page.dart';
+import '../../pages/settings/pages/privacy_policy/privacy_policy_page.dart';
+import '../../pages/settings/pages/profile/edit_profile_page.dart';
+import '../../pages/settings/pages/profile/manage_profile_page.dart';
+import '../../pages/settings/pages/report_an_issue/report_issue_page.dart';
+import '../../pages/settings/pages/subscriptions/manage_subscription_page.dart';
+import '../../pages/settings/pages/subscriptions/upgrade_to_premium_page.dart';
+import '../../pages/settings/pages/terms_of_service/terms_of_services_page.dart';
+import '../../pages/sign_in/sigin_page.dart';
+import '../../pages/sign_in/sign_up_page.dart';
+import '../../pages/splash/splash.dart';
 import '../../pages/home/sections/basics_of_quran/basics_details_page.dart';
 import '../../pages/home/sections/basics_of_quran/basics_of_quran_page.dart';
 import '../../pages/home/sections/quran stories/story_detail/story_details_page.dart';
 import '../../pages/home/sections/player/player_page.dart';
 
-class RouteHelper{
+class RouteHelper {
   static const String initRoute = "/";
   static const String achieveWithQuran = "/achieve";
   static const String reviewOne = "/reviewOne";
@@ -55,7 +55,7 @@ class RouteHelper{
   static const String stepsOFPrayer = "/steps";
   static const String tasbeeh = "/tasbeeh";
   static const String salahTimer = "/salahTimer";
-  static const String upgradeApp =  "/upgradeApp";
+  static const String upgradeApp = "/upgradeApp";
   static const String managePremium = "/managePremium";
   static const String editProfile = "/editProfile";
   static const String manageProfile = "/manageProfile";
@@ -76,10 +76,10 @@ class RouteHelper{
   static const String termsOfServices = "/termsOfServices";
   static const String aboutApp = "/aboutApp";
 
-
   static late BuildContext currentContext;
 
-  static Map<String, Widget Function(BuildContext)> routes(BuildContext context){
+  static Map<String, Widget Function(BuildContext)> routes(
+      BuildContext context) {
     return {
       initRoute: (context) {
         currentContext = context;
@@ -117,7 +117,7 @@ class RouteHelper{
         currentContext = context;
         return const SignInPage();
       },
-      signUp: (context){
+      signUp: (context) {
         currentContext = context;
         return const SignUpPage();
       },
@@ -132,7 +132,7 @@ class RouteHelper{
         currentContext = context;
         return const MainPage();
       },
-      reciter: (context){
+      reciter: (context) {
         currentContext = context;
         return const ReciterPage();
       },
@@ -176,7 +176,7 @@ class RouteHelper{
         currentContext = context;
         return EditProfilepage();
       },
-      manageProfile: (context){
+      manageProfile: (context) {
         currentContext = context;
         return const ManageProfile();
       },
@@ -204,11 +204,11 @@ class RouteHelper{
       //   currentContext = context;
       //   return const ChaptersPage();
       // },
-      storyDetails : (context) {
+      storyDetails: (context) {
         currentContext = context;
         return const StoryDetailsPage();
       },
-      storyPlayer : (context){
+      storyPlayer: (context) {
         currentContext = context;
         return const StoryPlayer();
       },
@@ -228,22 +228,22 @@ class RouteHelper{
         currentContext = context;
         return const CompleteProfile();
       },
-      reportIssue: (context){
+      reportIssue: (context) {
         currentContext = context;
         return const ReportIssuePage();
       },
-      privacyPolicy:(context){
+      privacyPolicy: (context) {
         currentContext = context;
         return const PrivacyPolicyPage();
       },
-      termsOfServices: (context){
+      termsOfServices: (context) {
         currentContext = context;
         return const TermsOfServicesPage();
       },
-      aboutApp:(context){
+      aboutApp: (context) {
         currentContext = context;
         return const AboutTheAppPage();
       },
     };
-}
+  }
 }

@@ -1,13 +1,13 @@
 import 'dart:io';
-import 'dart:ui';
+
 import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:nour_al_quran/shared/providers/download_provider.dart';
-import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+
+import 'shared/providers/download_provider.dart';
+import 'shared/utills/app_colors.dart';
 
 class DownloadButton extends StatefulWidget {
   @override
@@ -17,37 +17,36 @@ class DownloadButton extends StatefulWidget {
 class _DownloadButtonState extends State<DownloadButton> {
   int progress = 0;
 
+  void checkDownloadComplete() async {
+    final savedDir = await getApplicationDocumentsDirectory();
+    final targetPath = "${savedDir.path}/rashid/001.zip";
+    if (await File(targetPath).exists()) {
+      // Decode the Zip file.
+      final archive =
+          ZipDecoder().decodeBytes(File(targetPath).readAsBytesSync());
 
-
-  void checkDownloadComplete() async{
-      final savedDir = await getApplicationDocumentsDirectory();
-      final targetPath = "${savedDir.path}/rashid/001.zip";
-      if(await File(targetPath).exists()){
-        // Decode the Zip file.
-        final archive = ZipDecoder().decodeBytes(File(targetPath).readAsBytesSync());
-
-        // Extract the contents of the Zip archive to disk.
-        final surahDirectory = "${savedDir.path}/rashid/001";
-        if (!Directory(surahDirectory).existsSync()) {
-          Directory(surahDirectory).createSync();
-        }
-
-        for (final file in archive) {
-          final filePath = '$surahDirectory/${file.name}';
-          if (file.isFile) {
-            final data = file.content as List<int>;
-            final f = File(filePath);
-            f.createSync(recursive: true);
-            f.writeAsBytesSync(data);
-          } else {
-            final dir = Directory(filePath);
-            dir.createSync(recursive: true);
-          }
-        }
-
-        // Delete the original Zip file.
-        File(targetPath).delete().then((value) {});
+      // Extract the contents of the Zip archive to disk.
+      final surahDirectory = "${savedDir.path}/rashid/001";
+      if (!Directory(surahDirectory).existsSync()) {
+        Directory(surahDirectory).createSync();
       }
+
+      for (final file in archive) {
+        final filePath = '$surahDirectory/${file.name}';
+        if (file.isFile) {
+          final data = file.content as List<int>;
+          final f = File(filePath);
+          f.createSync(recursive: true);
+          f.writeAsBytesSync(data);
+        } else {
+          final dir = Directory(filePath);
+          dir.createSync(recursive: true);
+        }
+      }
+
+      // Delete the original Zip file.
+      File(targetPath).delete().then((value) {});
+    }
   }
 
   @override
@@ -59,7 +58,6 @@ class _DownloadButtonState extends State<DownloadButton> {
   void dispose() {
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -94,19 +92,20 @@ class _DownloadButtonState extends State<DownloadButton> {
     );
   }
 
-
   Future<void> _downloadAndExtractZip() async {
     context.read<DownloadProvider>().setDownloading(true);
     const url = 'https://everyayah.com/data/Alafasy_64kbps/zips/001.zip';
 
     try {
       final dio = Dio();
-      final response = await dio.get(url, onReceiveProgress: (received, total) {
-        if (total != -1) {
-          final progress = received / total;
-          context.read<DownloadProvider>().setDownloadProgress(progress);
-        }
-      },
+      final response = await dio.get(
+        url,
+        onReceiveProgress: (received, total) {
+          if (total != -1) {
+            final progress = received / total;
+            context.read<DownloadProvider>().setDownloadProgress(progress);
+          }
+        },
         options: Options(responseType: ResponseType.bytes),
       );
       var file = <int>[];

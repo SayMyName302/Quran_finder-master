@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:nour_al_quran/pages/settings/pages/translation_manager/translations.dart';
-import 'package:nour_al_quran/shared/database/quran_db.dart';
-import 'package:nour_al_quran/shared/entities/quran_text.dart';
-import 'package:nour_al_quran/shared/entities/surah.dart';
-import 'package:nour_al_quran/shared/utills/app_constants.dart';
+import '../../../shared/database/quran_db.dart';
+import '../../../shared/entities/quran_text.dart';
+import '../../../shared/entities/surah.dart';
 
-class QuranProvider extends ChangeNotifier{
+class QuranProvider extends ChangeNotifier {
   int _currentPage = 0;
   int get currentPage => _currentPage;
   // for saving spend time in that screen
@@ -36,7 +34,6 @@ class QuranProvider extends ChangeNotifier{
   String? _selectedTranslation;
   String? get selectedTranslation => _selectedTranslation;
 
-
   void updateState(String name) {
     for (int i = 0; i < _quranTextList.length; i++) {
       QuranText quranText = _quranTextList[i];
@@ -47,12 +44,17 @@ class QuranProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setCurrentPage(int page){
+  void setCurrentPage(int page) {
     _currentPage = page;
     notifyListeners();
   }
 
-  void setJuzText({required int juzId,required String title,required int fromWhere,bool? isJuz = false, int? bookmarkPosition = -1}) async{
+  void setJuzText(
+      {required int juzId,
+      required String title,
+      required int fromWhere,
+      bool? isJuz = false,
+      int? bookmarkPosition = -1}) async {
     _fromWhere = fromWhere;
     _title = title;
     _isJuz = isJuz;
@@ -63,7 +65,13 @@ class QuranProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setSurahText({required int surahId,required String title,required int fromWhere,bool? isJuz = false, int? juzId = -1,int? bookmarkPosition = -1}) async{
+  void setSurahText(
+      {required int surahId,
+      required String title,
+      required int fromWhere,
+      bool? isJuz = false,
+      int? juzId = -1,
+      int? bookmarkPosition = -1}) async {
     _fromWhere = fromWhere;
     _title = title;
     _isJuz = isJuz;
@@ -71,29 +79,27 @@ class QuranProvider extends ChangeNotifier{
     _bookmarkPosition = bookmarkPosition;
     _surahId = surahId;
     _quranTextList = await QuranDatabase().getQuranSurahText(surahId: surahId);
-    _nextSurah = await getSpecificSurah(surahId+1);
+    _nextSurah = await getSpecificSurah(surahId + 1);
     notifyListeners();
   }
 
-  void bookmark(int index, int value){
+  void bookmark(int index, int value) {
     _quranTextList[index].setIsBookmark = value;
     notifyListeners();
   }
 
-  Future<Surah?> getSpecificSurah(int surahId) async{
+  Future<Surah?> getSpecificSurah(int surahId) async {
     return await QuranDatabase().getSpecificSurahName(surahId);
   }
-
 
   // user engagement
   void startTimer() {
     const oneSecond = Duration(seconds: 1);
-    _timer = Timer.periodic(oneSecond, (Timer timer) =>_seconds++);
+    _timer = Timer.periodic(oneSecond, (Timer timer) => _seconds++);
   }
 
-  void cancelTimer(){
+  void cancelTimer() {
     _timer!.cancel();
     Hive.box("myBox").put("seconds", _seconds);
   }
-
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:nour_al_quran/pages/quran/pages/surah/surah_provider.dart';
-import 'package:nour_al_quran/pages/quran/widgets/search_widget.dart';
-import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
-import 'package:nour_al_quran/shared/entities/surah.dart';
-import 'package:nour_al_quran/pages/quran/widgets/quran_text_view.dart';
-import 'package:nour_al_quran/pages/quran/providers/quran_provider.dart';
-import 'package:nour_al_quran/pages/quran/widgets/details_container_widget.dart';
-import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
+import 'surah_provider.dart';
+import '../../widgets/search_widget.dart';
+
+import '../../../../shared/entities/surah.dart';
+import '../../widgets/quran_text_view.dart';
+import '../../providers/quran_provider.dart';
+import '../../widgets/details_container_widget.dart';
+import '../../widgets/subtitle_text.dart';
+import '../../../../shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
 
 class SurahIndexPage extends StatefulWidget {
@@ -34,45 +34,57 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
 
   @override
   Widget build(BuildContext context) {
-    var appColors = context.read<AppColorsProvider>().mainBrandingColor;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SubTitleText(title: localeText(context, "surah_index")),
         SearchWidget(
-          hintText: localeText(context, "search_surah_name"), searchController: searchController,onChange: (value){
-          context.read<SurahProvider>().searchSurah(value);
-        },),
+          hintText: localeText(context, "search_surah_name"),
+          searchController: searchController,
+          onChange: (value) {
+            context.read<SurahProvider>().searchSurah(value);
+          },
+        ),
         Consumer<SurahProvider>(
           builder: (context, surahValue, child) {
-            return surahValue.surahNamesList.isNotEmpty ? Expanded(
-              child: MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                child: ListView.builder(
-                  itemCount: surahValue.surahNamesList.length,
-                  itemBuilder: (context, index) {
-                    Surah surah = surahValue.surahNamesList[index];
-                    return InkWell(
-                      onTap: () async{
-                        // to clear search field
-                        searchController.text = "";
-                        context.read<QuranProvider>().setSurahText(surahId: surah.surahId!,title: 'سورة ${surah.arabicName}',fromWhere: 1);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                          return const QuranTextView();
-                        },));
-                      },
-                      child: DetailsContainerWidget(
-                        title: surah.surahName!,
-                        subTitle: surah.englishName!,
-                        icon: Icons.remove_red_eye_outlined,
-                        imageIcon: "assets/images/app_icons/view.png",
+            return surahValue.surahNamesList.isNotEmpty
+                ? Expanded(
+                    child: MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      child: ListView.builder(
+                        itemCount: surahValue.surahNamesList.length,
+                        itemBuilder: (context, index) {
+                          Surah surah = surahValue.surahNamesList[index];
+                          return InkWell(
+                            onTap: () async {
+                              // to clear search field
+                              searchController.text = "";
+                              context.read<QuranProvider>().setSurahText(
+                                  surahId: surah.surahId!,
+                                  title: 'سورة ${surah.arabicName}',
+                                  fromWhere: 1);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  return const QuranTextView();
+                                },
+                              ));
+                            },
+                            child: DetailsContainerWidget(
+                              title: surah.surahName!,
+                              subTitle: surah.englishName!,
+                              icon: Icons.remove_red_eye_outlined,
+                              imageIcon: "assets/images/app_icons/view.png",
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
-            ) : const Expanded(child: Center(child: Text('No Result Found'),));
+                    ),
+                  )
+                : const Expanded(
+                    child: Center(
+                    child: Text('No Result Found'),
+                  ));
           },
         )
       ],

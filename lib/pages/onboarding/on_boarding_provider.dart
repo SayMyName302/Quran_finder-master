@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nour_al_quran/pages/onboarding/pages/fav_reciter/fav_reciter.dart';
-import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
-import 'package:nour_al_quran/shared/routes/routes_helper.dart';
-import 'package:nour_al_quran/shared/utills/app_constants.dart';
+import 'pages/fav_reciter/fav_reciter.dart';
+import '../settings/pages/notifications/notification_services.dart';
+import '../../shared/utills/app_constants.dart';
 
 import 'common.dart';
 
-
-class OnBoardingProvider extends ChangeNotifier{
+class OnBoardingProvider extends ChangeNotifier {
   // achieve functionality
   // final List<Common> _achieveWithQuranList = [
   //   Common(title: "Stream/Download Reciters", isSelected: false),
@@ -44,93 +41,93 @@ class OnBoardingProvider extends ChangeNotifier{
   final List<String> _selectAchieveWithQuranList = [];
   List<String> get selectAchieveWithQuranList => _selectAchieveWithQuranList;
 
-  void addAchieveItem(String item,int index){
-    if(!_selectAchieveWithQuranList.contains(item)){
+  void addAchieveItem(String item, int index) {
+    if (!_selectAchieveWithQuranList.contains(item)) {
       _selectAchieveWithQuranList.add(item);
-    }else{
+    } else {
       _selectAchieveWithQuranList.removeWhere((element) => element == item);
     }
     notifyListeners();
   }
 
-
   // set fav reciter functionality
   final List<FavReciter> _reciterList = [
-    FavReciter(title: "Sheikh Mishary Al Afasy", isPlaying: false,audioUrl: ""),
-    FavReciter(title: "Sheikh Maher Muaqily", isPlaying: false,audioUrl: ""),
-    FavReciter(title: "Abdur-Rahman as-Sudais", isPlaying: false,audioUrl: ""),
-    FavReciter(title: "Ibtraaheem Ash-Shuraym", isPlaying: false,audioUrl: ""),
-    FavReciter(title: "Hani ar-Rifai", isPlaying: false,audioUrl: ""),
-    FavReciter(title: "Mahmoud Al-Hussary", isPlaying: false,audioUrl: ""),
+    FavReciter(
+        title: "Sheikh Mishary Al Afasy", isPlaying: false, audioUrl: ""),
+    FavReciter(title: "Sheikh Maher Muaqily", isPlaying: false, audioUrl: ""),
+    FavReciter(title: "Abdur-Rahman as-Sudais", isPlaying: false, audioUrl: ""),
+    FavReciter(title: "Ibtraaheem Ash-Shuraym", isPlaying: false, audioUrl: ""),
+    FavReciter(title: "Hani ar-Rifai", isPlaying: false, audioUrl: ""),
+    FavReciter(title: "Mahmoud Al-Hussary", isPlaying: false, audioUrl: ""),
   ];
   List<FavReciter> get reciterList => _reciterList;
 
   String favReciter = "Sheikh Mishary Al Afasy";
 
-  void setFavReciter(int index){
+  void setFavReciter(int index) {
     favReciter = _reciterList[index].title!;
     notifyListeners();
   }
 
-  void setIsPlaying(int index){
+  void setIsPlaying(int index) {
     _reciterList[index].setIsPlaying = !_reciterList[index].isPlaying!;
     notifyListeners();
   }
 
   // set like to recite
- final List<String> _likeToRecite = [
-   "morning",
-   "afternoon",
-   "evening",
-   "night"
- ];
+  final List<String> _likeToRecite = [
+    "morning",
+    "afternoon",
+    "evening",
+    "night"
+  ];
   List<String> get likeToRecite => _likeToRecite;
 
   String selectTimeLikeToRecite = "Morning";
 
-  void selectTimeToRecite(int index){
+  void selectTimeToRecite(int index) {
     selectTimeLikeToRecite = _likeToRecite[index];
     notifyListeners();
   }
 
   // set dailyQuran time
- final List<String> _dailyTime = [
-   "5_minutes",
-   "10_minutes",
-   "15_minutes",
-   "20_minutes",
-   "30_minutes"
- ];
+  final List<String> _dailyTime = [
+    "5_minutes",
+    "10_minutes",
+    "15_minutes",
+    "20_minutes",
+    "30_minutes"
+  ];
 
   List<String> get dailyTime => _dailyTime;
 
   String selectedDailyTime = "5 minutes";
 
-  void selectDailyTime(int index){
+  void selectDailyTime(int index) {
     selectedDailyTime = _dailyTime[index];
     notifyListeners();
   }
 
-
   // recitation Reminder
   DateTime _recitationReminderTime = DateTime.now();
-  DateTime get recitationReminderTime => _recitationReminderTime; // set notification
-  void setRecitationReminderTime(DateTime dateTime){
+  DateTime get recitationReminderTime =>
+      _recitationReminderTime; // set notification
+  void setRecitationReminderTime(DateTime dateTime) {
     _recitationReminderTime = dateTime;
     notifyListeners();
   }
 
   // set notifications
- final List<Common> _notification = [
-   Common(title: "daily_quran_recitation_reminder", isSelected: true),
-   Common(title: "daily_quran_verse", isSelected: true),
-   // Common(title: "Dua Reminder", isSelected: true),
-   Common(title: "daily_salah_reminder", isSelected: true),
-   Common(title: "friday_prayer_reminder", isSelected: true),
- ];
+  final List<Common> _notification = [
+    Common(title: "daily_quran_recitation_reminder", isSelected: true),
+    Common(title: "daily_quran_verse", isSelected: true),
+    // Common(title: "Dua Reminder", isSelected: true),
+    Common(title: "daily_salah_reminder", isSelected: true),
+    Common(title: "friday_prayer_reminder", isSelected: true),
+  ];
 
   List<Common> get notification => _notification;
-  void setNotification(int index,bool value){
+  void setNotification(int index, bool value) {
     _notification[index].setIsSelected = value;
     notifyListeners();
     // if(index == 2 || index == 3){
@@ -138,10 +135,10 @@ class OnBoardingProvider extends ChangeNotifier{
     // }else{
     //
     // }
-    if(index== 0 && value == false){
+    if (index == 0 && value == false) {
       NotificationServices().cancelNotifications(dailyQuranRecitationId);
     }
-    if(index == 1 && value == false){
+    if (index == 1 && value == false) {
       NotificationServices().cancelNotifications(dailyVerseNotificationId);
     }
   }

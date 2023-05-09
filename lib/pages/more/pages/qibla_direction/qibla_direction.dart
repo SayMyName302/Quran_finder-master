@@ -2,14 +2,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/more/pages/qibla_direction/provider.dart';
-import 'package:nour_al_quran/pages/more/pages/qibla_direction/qibla_direction_map.dart';
+import 'provider.dart';
+import 'qibla_direction_map.dart';
 
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
-import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
-import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/utills/app_colors.dart';
+import '../../../../shared/widgets/title_row.dart';
+import '../../../settings/pages/app_colors/app_colors_provider.dart';
+import '../../../settings/pages/app_them/them_provider.dart';
+import '../../../../shared/localization/localization_constants.dart';
+import '../../../../shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/utills/dimensions.dart';
@@ -23,38 +23,64 @@ class QiblaDirectionPage extends StatefulWidget {
 
 class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     with SingleTickerProviderStateMixin {
+  bool _showList = true;
+
+  List<String> compassImages = [
+    'assets/images/app_icons/qibla_campass.png',
+    'assets/images/app_icons/compass_design_4.png',
+    'assets/images/app_icons/compass_design_1.png',
+    'assets/images/app_icons/compass_design_2.png',
+    'assets/images/app_icons/compass_design_3.png',
+  ];
+  int selectedImageIndex = 0;
+  ScrollController scrollController = ScrollController();
+
+  void scrollList(bool scrollRight) {
+    double scrollAmount = 0.0;
+    if (scrollRight) {
+      scrollAmount = 100.0;
+    } else {
+      scrollAmount = -100.0;
+    }
+    scrollController.animateTo(scrollController.offset + scrollAmount,
+        curve: Curves.easeInOut, duration: const Duration(milliseconds: 300));
+  }
+
   bool mapsButtonClicked = false;
   Color _qiblabutton = AppColors.mainBrandingColor;
   Color _arrowbutton = Colors.white;
   Color _mapbutton = Colors.white;
   String _imagePath = 'assets/images/app_icons/qibla_campass.png';
-  bool _showMap = false;
+
   bool _showCustomWidget = false;
-  void _showArrowimage() {
+  void _showArrowimage(Color mainBrandingColor) {
     setState(() {
+      _showList = false;
       _showCustomWidget = false;
       _qiblabutton = Colors.white;
-      _arrowbutton = AppColors.mainBrandingColor;
+      _arrowbutton = mainBrandingColor;
       _mapbutton = Colors.white;
       _imagePath = 'assets/images/app_icons/qiblaa_arrow.png';
     });
   }
 
-  void _showQiblaImage() {
+  void _showQiblaImage(Color mainBrandingColor) {
     setState(() {
+      _showList = true;
       _showCustomWidget = false;
-      _qiblabutton = AppColors.mainBrandingColor;
+      _qiblabutton = mainBrandingColor;
       _arrowbutton = Colors.white;
       _mapbutton = Colors.white;
       _imagePath = 'assets/images/app_icons/qibla_campass.png';
     });
   }
 
-  void _showCustomWidgetFunction() {
+  void _showCustomWidgetFunction(Color mainBrandingColor) {
     setState(() {
+      _showList = false;
       _qiblabutton = Colors.white;
       _arrowbutton = Colors.white;
-      _mapbutton = AppColors.mainBrandingColor;
+      _mapbutton = mainBrandingColor;
       _showCustomWidget = true;
     });
   }
@@ -70,6 +96,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     animation = Tween(begin: 0.0, end: 0.0).animate(_animationController!);
     print(Dimensions.width);
     super.initState();
+    _qiblabutton = AppColorsProvider().mainBrandingColor;
   }
 
   @override
@@ -163,7 +190,8 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: _showQiblaImage,
+                            onPressed: () =>
+                                _showQiblaImage(appColors.mainBrandingColor),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _qiblabutton,
                               shape: RoundedRectangleBorder(
@@ -189,7 +217,8 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                         SizedBox(width: 8.w),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: _showArrowimage,
+                            onPressed: () =>
+                                _showArrowimage(appColors.mainBrandingColor),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _arrowbutton,
                               shape: RoundedRectangleBorder(
@@ -212,7 +241,8 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                         SizedBox(width: 8.w),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: _showCustomWidgetFunction,
+                            onPressed: () => _showCustomWidgetFunction(
+                                appColors.mainBrandingColor),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _mapbutton,
                               shape: RoundedRectangleBorder(
@@ -278,6 +308,68 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                                         },
                                       ),
                               ),
+                              SizedBox(
+                                height: 80,
+                                width: 300.w,
+                                child: Visibility(
+                                  visible: _showList,
+                                  child: ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    controller: scrollController,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: compassImages.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return InkWell(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Image.asset(
+                                            compassImages[index],
+                                            width: 60,
+                                            height: 60,
+                                          ),
+                                        ),
+                                        onTap: () => (int index) {
+                                          setState(() {
+                                            _imagePath = compassImages[index];
+                                            //selectedImageIndex = index;
+                                          });
+                                        }(index),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Visibility(
+                                visible: _showList,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    InkWell(
+                                      child: SizedBox(
+                                        width: 15.w,
+                                        height: 15.h,
+                                        child: Image.asset(
+                                            'assets/images/app_icons/SlideLeft.png'),
+                                      ),
+                                      onTap: () => scrollList(false),
+                                    ),
+                                    SizedBox(width: 20.w),
+                                    InkWell(
+                                      child: SizedBox(
+                                        width: 15.w,
+                                        height: 15.h,
+                                        child: Image.asset(
+                                            'assets/images/app_icons/SlideRight.png'),
+                                      ),
+                                      onTap: () => scrollList(true),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10.h),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
