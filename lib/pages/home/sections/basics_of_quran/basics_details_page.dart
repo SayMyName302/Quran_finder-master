@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/widgets/title_row.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,39 @@ class IslamBasicDetailsPage extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.only(
                 left: 20.w, right: 20.w, top: 16.h, bottom: 16.h),
-            child: HtmlWidget(islamicBasic.text!),
+            child: HtmlWidget(
+              islamicBasic.text!,
+              textStyle: TextStyle(
+                fontFamily: 'satoshi',
+                fontSize: 14.sp,
+              ),
+              customStylesBuilder: (element) {
+                // Check if the element is <em>
+                if (element.localName == 'strong') {
+                  final appColorsProvider =
+                      Provider.of<AppColorsProvider>(context);
+                  final brandingColor = appColorsProvider.mainBrandingColor;
+                  final colorValue =
+                      '#${brandingColor.value.toRadixString(16).substring(2)}';
+
+                  return {
+                    'color': colorValue,
+                  }; // Apply mainBrandingColor to the text color
+                }
+                if (element.localName == 'em') {
+                  final appColorsProvider =
+                      Provider.of<AppColorsProvider>(context);
+                  final brandingColor = appColorsProvider.mainBrandingColor;
+                  final colorValue =
+                      '#${brandingColor.value.toRadixString(16).substring(2)}';
+                  return {
+                    'color': colorValue
+                  }; // Apply mainBrandingColor to the text color
+                }
+
+                return null; // Return null for other elements to apply default style
+              },
+            ),
           ),
         ),
       ),

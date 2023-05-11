@@ -68,7 +68,7 @@ class BasicsOfQuranPage extends StatelessWidget {
                                     localeText(context, model.title!),
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 12.sp,
+                                        fontSize: 14.sp,
                                         fontFamily: "satoshi",
                                         fontWeight: FontWeight.w900),
                                   ),

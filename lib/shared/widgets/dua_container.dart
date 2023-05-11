@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import '../../pages/settings/pages/fonts/font_provider.dart';
 import '../utills/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -14,10 +16,12 @@ class DuaContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemProvider>(context).isDark;
+
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: AppColors.grey6,
+        color: isDark ? Colors.transparent : AppColors.grey6,
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(
           color: AppColors.grey5,
