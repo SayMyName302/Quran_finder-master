@@ -44,9 +44,12 @@ class IslamBasicDetailsPage extends StatelessWidget {
                 if (element.localName == 'em') {
                   final appColorsProvider =
                       Provider.of<AppColorsProvider>(context);
+
                   final brandingColor = appColorsProvider.mainBrandingColor;
+
                   final colorValue =
                       '#${brandingColor.value.toRadixString(16).substring(2)}';
+
                   return {
                     'color': colorValue
                   }; // Apply mainBrandingColor to the text color

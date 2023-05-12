@@ -70,7 +70,7 @@ class ReciterPage extends StatelessWidget {
                               children: [
                                 Text(
                                   reciters.reciterName!.length > 23
-                                      ? "${reciters.reciterName!.substring(0, 23)}\n${reciters.reciterName!.substring(23, reciters.reciterName!.length)}"
+                                      ? reciters.reciterName!
                                       : reciters.reciterName!,
                                   style: TextStyle(
                                       // color: Colors.black,
