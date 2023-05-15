@@ -168,13 +168,14 @@ class SetFavReciter extends StatelessWidget {
                 BrandButton(
                     text: localeText(context, "continue"),
                     onTap: () {
-                      Navigator.of(context).pushNamed(RouteHelper.whenToRecite);
+                      Navigator.of(context)
+                          .pushNamed(RouteHelper.quranReminder);
                     }),
                 SizedBox(
                   height: 16.h,
                 ),
                 SkipButton(onTap: () {
-                  Navigator.of(context).pushNamed(RouteHelper.whenToRecite);
+                  Navigator.of(context).pushNamed(RouteHelper.quranReminder);
                 })
               ],
             ),

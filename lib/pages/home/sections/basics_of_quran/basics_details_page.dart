@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/widgets/title_row.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class IslamBasicDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FontProvider fontProvider = Provider.of<FontProvider>(context);
     var islamicBasic = context.read<IslamBasicsProvider>().selectedIslamBasics;
     return Scaffold(
       appBar: buildAppBar(
@@ -26,7 +28,7 @@ class IslamBasicDetailsPage extends StatelessWidget {
               islamicBasic.text!,
               textStyle: TextStyle(
                 fontFamily: 'satoshi',
-                fontSize: 14.sp,
+                fontSize: fontProvider.fontSizeTranslation.sp,
               ),
               customStylesBuilder: (element) {
                 // Check if the element is <em>

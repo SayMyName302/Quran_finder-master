@@ -77,10 +77,10 @@ class NotificationSetup extends StatelessWidget {
                 },
               ),
               BrandButton(
-                  text: localeText(context, "finish_setup"),
+                  text: localeText(context, "allow_notifications"),
                   onTap: () {
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                        RouteHelper.completeProfile, (route) => false);
+                        RouteHelper.reviewOne, (route) => false);
                   })
             ],
           ),

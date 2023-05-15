@@ -18,30 +18,29 @@ class QuranReminder extends StatefulWidget {
 }
 
 class _QuranReminderState extends State<QuranReminder> {
-  late TimeOfDay _timeOfDay;
-  // TimeOfDay _timeOfDay =
-  //     TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final selectedTime2 = ModalRoute.of(context)!.settings.arguments as String;
-    switch (selectedTime2) {
-      case 'morning':
-        _timeOfDay = const TimeOfDay(hour: 6, minute: 0); // set morning time
-        break;
-      case 'afternoon':
-        _timeOfDay = const TimeOfDay(hour: 13, minute: 0); // set afternoon time
-        break;
-      case 'evening':
-        _timeOfDay = const TimeOfDay(hour: 18, minute: 0); // set evening time
-        break;
-      case 'night':
-        _timeOfDay = const TimeOfDay(hour: 21, minute: 0); // set night time
-        break;
-      default:
-        _timeOfDay = TimeOfDay.now(); // set current time as default
-    }
-  }
+  TimeOfDay _timeOfDay =
+      TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   final selectedTime2 = ModalRoute.of(context)!.settings.arguments as String;
+  //   switch (selectedTime2) {
+  //     case 'morning':
+  //       _timeOfDay = const TimeOfDay(hour: 6, minute: 0); // set morning time
+  //       break;
+  //     case 'afternoon':
+  //       _timeOfDay = const TimeOfDay(hour: 13, minute: 0); // set afternoon time
+  //       break;
+  //     case 'evening':
+  //       _timeOfDay = const TimeOfDay(hour: 18, minute: 0); // set evening time
+  //       break;
+  //     case 'night':
+  //       _timeOfDay = const TimeOfDay(hour: 21, minute: 0); // set night time
+  //       break;
+  //     default:
+  //       _timeOfDay = TimeOfDay.now(); // set current time as default
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +124,14 @@ class _QuranReminderState extends State<QuranReminder> {
                           .read<OnBoardingProvider>()
                           .setRecitationReminderTime(myDateTime);
                       Navigator.of(context)
-                          .pushNamed(RouteHelper.setDailyQuranReadingTime);
+                          .pushNamed(RouteHelper.preferredLanguage);
                     }),
                 SizedBox(
                   height: 16.h,
                 ),
                 SkipButton(onTap: () {
                   Navigator.of(context)
-                      .pushNamed(RouteHelper.setDailyQuranReadingTime);
+                      .pushNamed(RouteHelper.preferredLanguage);
                 })
               ],
             ),

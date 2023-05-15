@@ -254,52 +254,52 @@ class TasbeehPage extends StatelessWidget {
                             blurRadius: 15,
                             color: Color.fromRGBO(0, 0, 0, 0.08))
                       ]),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                  top: 10.h, left: 10.w, right: 10.w),
-                              child: Image.asset(
-                                language.locale.languageCode == "ur" ||
-                                        language.locale.languageCode == "ar"
-                                    ? 'assets/images/app_icons/frame_left_t.png'
-                                    : 'assets/images/app_icons/frame_right_t.png',
-                                height: 43.h,
-                                width: 43.w,
-                                color: appColors.mainBrandingColor,
-                              )),
-                          Container(
-                              margin: EdgeInsets.only(
-                                  top: 10.h, right: 10.w, left: 10.w),
-                              child: Image.asset(
-                                language.locale.languageCode == "ur" ||
-                                        language.locale.languageCode == "ar"
-                                    ? 'assets/images/app_icons/frame_right_t.png'
-                                    : 'assets/images/app_icons/frame_left_t.png',
-                                height: 43.h,
-                                width: 43.w,
-                                color: appColors.mainBrandingColor,
-                              )),
-                        ],
-                      ),
-                      Text(
-                        '${tasbeehValue.counter}/${tasbeehValue.currentCounter}',
-                        // '${tasbeehValue.customCounter == 0 ? tasbeehValue.currentTabeeh == 2 ? tasbeehValue.counterList[tasbeehValue.selectedCounter] +1 : tasbeehValue.counterList[tasbeehValue.selectedCounter] : tasbeehValue.customCounter}',
-                        style: TextStyle(
-                            color: appColors.mainBrandingColor,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'satoshi'),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          tasbeehValue.increaseCounter();
-                        },
-                        child: Container(
+                  child: InkWell(
+                    onTap: () {
+                      tasbeehValue.increaseCounter();
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                margin: EdgeInsets.only(
+                                    top: 10.h, left: 10.w, right: 10.w),
+                                child: Image.asset(
+                                  language.locale.languageCode == "ur" ||
+                                          language.locale.languageCode == "ar"
+                                      ? 'assets/images/app_icons/frame_left_t.png'
+                                      : 'assets/images/app_icons/frame_right_t.png',
+                                  height: 43.h,
+                                  width: 43.w,
+                                  color: appColors.mainBrandingColor,
+                                )),
+                            Container(
+                                margin: EdgeInsets.only(
+                                    top: 10.h, right: 10.w, left: 10.w),
+                                child: Image.asset(
+                                  language.locale.languageCode == "ur" ||
+                                          language.locale.languageCode == "ar"
+                                      ? 'assets/images/app_icons/frame_right_t.png'
+                                      : 'assets/images/app_icons/frame_left_t.png',
+                                  height: 43.h,
+                                  width: 43.w,
+                                  color: appColors.mainBrandingColor,
+                                )),
+                          ],
+                        ),
+                        Text(
+                          '${tasbeehValue.counter}/${tasbeehValue.currentCounter}',
+                          // '${tasbeehValue.customCounter == 0 ? tasbeehValue.currentTabeeh == 2 ? tasbeehValue.counterList[tasbeehValue.selectedCounter] +1 : tasbeehValue.counterList[tasbeehValue.selectedCounter] : tasbeehValue.customCounter}',
+                          style: TextStyle(
+                              color: appColors.mainBrandingColor,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'satoshi'),
+                        ),
+                        Container(
                             margin: EdgeInsets.only(top: 30.h, bottom: 30.h),
                             child: Image.asset(
                               'assets/images/app_icons/fingerprint.png',
@@ -308,37 +308,37 @@ class TasbeehPage extends StatelessWidget {
                               color:
                                   them.isDark ? Colors.white : AppColors.grey1,
                             )),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                  bottom: 10.h, left: 10.w, right: 10.w),
-                              child: Image.asset(
-                                language.locale.languageCode == "ur" ||
-                                        language.locale.languageCode == "ar"
-                                    ? 'assets/images/app_icons/frame_left_b.png'
-                                    : 'assets/images/app_icons/frame_right_b.png',
-                                height: 43.h,
-                                width: 43.w,
-                                color: appColors.mainBrandingColor,
-                              )),
-                          Container(
-                              margin: EdgeInsets.only(
-                                  bottom: 10.h, right: 10.w, left: 10.w),
-                              child: Image.asset(
-                                language.locale.languageCode == "ur" ||
-                                        language.locale.languageCode == "ar"
-                                    ? 'assets/images/app_icons/frame_right_b.png'
-                                    : 'assets/images/app_icons/frame_left_b.png',
-                                height: 43.h,
-                                width: 43.w,
-                                color: appColors.mainBrandingColor,
-                              )),
-                        ],
-                      ),
-                    ],
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 10.h, left: 10.w, right: 10.w),
+                                child: Image.asset(
+                                  language.locale.languageCode == "ur" ||
+                                          language.locale.languageCode == "ar"
+                                      ? 'assets/images/app_icons/frame_left_b.png'
+                                      : 'assets/images/app_icons/frame_right_b.png',
+                                  height: 43.h,
+                                  width: 43.w,
+                                  color: appColors.mainBrandingColor,
+                                )),
+                            Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 10.h, right: 10.w, left: 10.w),
+                                child: Image.asset(
+                                  language.locale.languageCode == "ur" ||
+                                          language.locale.languageCode == "ar"
+                                      ? 'assets/images/app_icons/frame_right_b.png'
+                                      : 'assets/images/app_icons/frame_left_b.png',
+                                  height: 43.h,
+                                  width: 43.w,
+                                  color: appColors.mainBrandingColor,
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Container(

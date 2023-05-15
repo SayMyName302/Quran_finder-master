@@ -24,6 +24,7 @@ class QiblaDirectionPage extends StatefulWidget {
 class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     with SingleTickerProviderStateMixin {
   bool _showList = true;
+  bool _showDistanceData = false;
 
   List<String> compassImages = [
     'assets/images/app_icons/qibla_campass.png',
@@ -55,6 +56,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
   bool _showCustomWidget = false;
   void _showArrowimage(Color mainBrandingColor) {
     setState(() {
+      _showDistanceData = true;
       _showList = false;
       _showCustomWidget = false;
       _qiblabutton = Colors.white;
@@ -66,6 +68,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
 
   void _showQiblaImage(Color mainBrandingColor) {
     setState(() {
+      _showDistanceData = false;
       _showList = true;
       _showCustomWidget = false;
       _qiblabutton = mainBrandingColor;
@@ -77,6 +80,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
 
   void _showCustomWidgetFunction(Color mainBrandingColor) {
     setState(() {
+      _showDistanceData = true;
       _showList = false;
       _qiblabutton = Colors.white;
       _arrowbutton = Colors.white;
@@ -314,8 +318,6 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                                 child: Visibility(
                                   visible: _showList,
                                   child: ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
                                     controller: scrollController,
                                     scrollDirection: Axis.horizontal,
                                     itemCount: compassImages.length,
@@ -340,33 +342,6 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                                       );
                                     },
                                   ),
-                                ),
-                              ),
-                              Visibility(
-                                visible: _showList,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    InkWell(
-                                      child: SizedBox(
-                                        width: 15.w,
-                                        height: 15.h,
-                                        child: Image.asset(
-                                            'assets/images/app_icons/SlideLeft.png'),
-                                      ),
-                                      onTap: () => scrollList(false),
-                                    ),
-                                    SizedBox(width: 20.w),
-                                    InkWell(
-                                      child: SizedBox(
-                                        width: 15.w,
-                                        height: 15.h,
-                                        child: Image.asset(
-                                            'assets/images/app_icons/SlideRight.png'),
-                                      ),
-                                      onTap: () => scrollList(true),
-                                    ),
-                                  ],
                                 ),
                               ),
                               SizedBox(height: 10.h),
@@ -413,67 +388,71 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                               ));
                         }
                       }),
-                  Container(
-                    margin: EdgeInsets.only(top: 24.h, bottom: 24.h),
-                    padding: EdgeInsets.only(
-                        left: 13.w, right: 13.w, top: 13.h, bottom: 12.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: them.isDark ? AppColors.darkColor : Colors.white,
-                        boxShadow: const [
-                          BoxShadow(
-                              offset: Offset(0, 5),
-                              blurRadius: 15,
-                              color: Color.fromRGBO(0, 0, 0, 0.08))
-                        ]),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              localeText(context, 'distance_to_qibla'),
-                              style: textStyle,
-                            ),
-                            Text(
-                              '${qibla.qiblaDistance} ${localeText(context, "km")}',
-                              style: textStyle,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              localeText(context, 'longitude'),
-                              style: textStyle,
-                            ),
-                            Text(
-                              qibla.lng.toString(),
-                              style: textStyle,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              localeText(context, 'latitude'),
-                              style: textStyle,
-                            ),
-                            Text(
-                              qibla.lat.toString(),
-                              style: textStyle,
-                            )
-                          ],
-                        )
-                      ],
+                  Visibility(
+                    visible: _showDistanceData,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 24.h, bottom: 24.h),
+                      padding: EdgeInsets.only(
+                          left: 13.w, right: 13.w, top: 13.h, bottom: 12.h),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color:
+                              them.isDark ? AppColors.darkColor : Colors.white,
+                          boxShadow: const [
+                            BoxShadow(
+                                offset: Offset(0, 5),
+                                blurRadius: 15,
+                                color: Color.fromRGBO(0, 0, 0, 0.08))
+                          ]),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                localeText(context, 'distance_to_qibla'),
+                                style: textStyle,
+                              ),
+                              Text(
+                                '${qibla.qiblaDistance} ${localeText(context, "km")}',
+                                style: textStyle,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                localeText(context, 'longitude'),
+                                style: textStyle,
+                              ),
+                              Text(
+                                qibla.lng.toString(),
+                                style: textStyle,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                localeText(context, 'latitude'),
+                                style: textStyle,
+                              ),
+                              Text(
+                                qibla.lat.toString(),
+                                style: textStyle,
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   // BrandButton(text: "Switch to 3D VIEW",onTap: (){},)

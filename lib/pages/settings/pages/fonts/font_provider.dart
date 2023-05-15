@@ -4,7 +4,7 @@ import '../../../../shared/utills/app_constants.dart';
 
 class FontProvider extends ChangeNotifier {
   int _fontSizeArabic = Hive.box(appBoxKey).get(quranFontSizeKey) ?? 20;
-  int _fontSizeTranslation = Hive.box(appBoxKey).get(translationFontKey) ?? 12;
+  int _fontSizeTranslation = Hive.box(appBoxKey).get(translationFontKey) ?? 15;
   bool _isQuranText = Hive.box(appBoxKey).get(isQuranShowKey) ?? true;
   bool _isTranslationText =
       Hive.box(appBoxKey).get(isTranslationShowKey) ?? true;
@@ -21,7 +21,7 @@ class FontProvider extends ChangeNotifier {
   String _currentFont = 'Al Majeed Quranic Font';
   String get currentFont => _currentFont;
   double _fontSizeAr = 20;
-  double _fontSizeTrans = 12;
+  double _fontSizeTrans = 15;
   bool _isQuranShow = true;
   bool _isTranShow = true;
   double get fontSizeAr => _fontSizeAr;

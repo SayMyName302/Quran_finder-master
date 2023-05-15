@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'names.dart';
 import 'names_provider.dart';
 import '../../../../shared/widgets/title_row.dart';
@@ -107,7 +108,7 @@ class _NamesOfALLAHPageState extends State<NamesOfALLAHPage> {
                                       color: appColors.mainBrandingColor,
                                       fontFamily: 'satoshi',
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 18.sp),
+                                      fontSize: 20.sp),
                                 ),
                                 Text(
                                   names.arabictext!,

@@ -139,7 +139,7 @@ class FontPage extends StatelessWidget {
                     child: Slider(
                         value: fontProvider.fontSizeTrans.toDouble(),
                         label: fontProvider.fontSizeTrans.toString(),
-                        min: 12.0,
+                        min: 15.0,
                         max: 50.0,
                         activeColor: appColors.mainBrandingColor,
                         inactiveColor: AppColors.lightBrandingColor,

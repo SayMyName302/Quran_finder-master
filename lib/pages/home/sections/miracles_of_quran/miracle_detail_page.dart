@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/widgets/circle_button.dart';
 import '../../../../shared/widgets/title_row.dart';
@@ -39,6 +40,7 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    FontProvider fontProvider = Provider.of<FontProvider>(context);
     Miracles miracles =
         context.read<MiraclesOfQuranProvider>().selectedMiracle!;
     return Scaffold(
@@ -103,7 +105,7 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
                   miracles.text!,
                   textStyle: TextStyle(
                     fontFamily: 'satoshi',
-                    fontSize: 14.sp,
+                    fontSize: fontProvider.fontSizeTranslation.sp,
                   ),
                   customStylesBuilder: (element) {
                     // Check if the element is <em>

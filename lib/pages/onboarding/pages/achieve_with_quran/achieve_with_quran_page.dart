@@ -44,13 +44,14 @@ class AchieveWithQuranPage extends StatelessWidget {
                 BrandButton(
                     text: localeText(context, "continue"),
                     onTap: () {
-                      Navigator.of(context).pushNamed(RouteHelper.reviewOne);
+                      Navigator.of(context)
+                          .pushNamed(RouteHelper.setFavReciter);
                     }),
                 SizedBox(
                   height: 20.h,
                 ),
                 SkipButton(onTap: () {
-                  Navigator.of(context).pushNamed(RouteHelper.reviewOne);
+                  Navigator.of(context).pushNamed(RouteHelper.setFavReciter);
                 })
               ],
             ),

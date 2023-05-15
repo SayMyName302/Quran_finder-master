@@ -151,7 +151,7 @@ class _MainPageState extends State<MainPage> {
       NotificationServices().dailyNotifications(
           id: dailyQuranRecitationId,
           title: "Recitation Reminder",
-          body: "It is time to reciter Holy Quran",
+          body: "It is time to recite Holy Quran",
           payload: "recite",
           dailyNotifyTime: Time(reminderTime.hour, reminderTime.minute));
       // NotificationServices().dailyNotifications(

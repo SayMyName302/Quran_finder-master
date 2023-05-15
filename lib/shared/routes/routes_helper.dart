@@ -37,9 +37,9 @@ class RouteHelper {
   static const String achieveWithQuran = "/achieve";
   static const String reviewOne = "/reviewOne";
   static const String setFavReciter = "/setFavReciter";
-  static const String whenToRecite = "/whenToRecite";
+  // static const String whenToRecite = "/whenToRecite";
   static const String quranReminder = "/quranReminder";
-  static const String setDailyQuranReadingTime = "/dailyQuran";
+  // static const String setDailyQuranReadingTime = "/dailyQuran";
   static const String preferredLanguage = "setLanguage";
   static const String signIn = "/signIn";
   static const String signUp = "/signUp";
@@ -97,18 +97,18 @@ class RouteHelper {
         currentContext = context;
         return const SetFavReciter();
       },
-      whenToRecite: (context) {
-        currentContext = context;
-        return const WhenToRecite();
-      },
+      // whenToRecite: (context) {
+      //   currentContext = context;
+      //   return const WhenToRecite();
+      // },
       quranReminder: (context) {
         currentContext = context;
         return const QuranReminder();
       },
-      setDailyQuranReadingTime: (context) {
-        currentContext = context;
-        return const SetDailyQuranReadingTime();
-      },
+      // setDailyQuranReadingTime: (context) {
+      //   currentContext = context;
+      //   return const SetDailyQuranReadingTime();
+      // },
       preferredLanguage: (context) {
         currentContext = context;
         return const SetPreferredLanguage();
