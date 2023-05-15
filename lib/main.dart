@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/paywall/paywal_provider.dart';
 import 'global.dart';
 import 'pages/home/home_provider.dart';
 import 'pages/home/sections/basics_of_quran/islam_basics_provider.dart';
@@ -53,6 +54,9 @@ void main() async {
     ChangeNotifierProvider(create: (_) => LocalizationProvider()),
     ChangeNotifierProvider(
       create: (_) => ReciterProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) => PremiumScreenProvider(),
     ),
     ChangeNotifierProvider(create: (_) => DownloadProvider()),
     ChangeNotifierProvider(create: (_) => PlayerProvider()),
