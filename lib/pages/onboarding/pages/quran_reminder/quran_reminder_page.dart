@@ -124,14 +124,14 @@ class _QuranReminderState extends State<QuranReminder> {
                           .read<OnBoardingProvider>()
                           .setRecitationReminderTime(myDateTime);
                       Navigator.of(context)
-                          .pushNamed(RouteHelper.preferredLanguage);
+                          .pushNamed(RouteHelper.notificationSetup);
                     }),
                 SizedBox(
                   height: 16.h,
                 ),
                 SkipButton(onTap: () {
                   Navigator.of(context)
-                      .pushNamed(RouteHelper.preferredLanguage);
+                      .pushNamed(RouteHelper.notificationSetup);
                 })
               ],
             ),

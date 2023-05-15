@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
       if (!_isListening) {
         // Fluttertoast.showToast(msg: "goingToRoute");
         Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(
-            RouteHelper.achieveWithQuran, (route) => false);
+            RouteHelper.preferredLanguage, (route) => false);
       }
     });
     listenToNotification();

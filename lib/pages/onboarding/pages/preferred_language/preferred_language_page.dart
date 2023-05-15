@@ -118,7 +118,7 @@ class SetPreferredLanguage extends StatelessWidget {
                         onTap: () {
                           saveOnBoarding(localization);
                           Navigator.of(context)
-                              .pushNamed(RouteHelper.notificationSetup);
+                              .pushNamed(RouteHelper.achieveWithQuran);
                         }),
                     SizedBox(
                       height: 20.h,
