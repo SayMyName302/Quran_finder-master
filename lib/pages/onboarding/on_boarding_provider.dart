@@ -32,9 +32,9 @@ class OnBoardingProvider extends ChangeNotifier {
   final List<String> _achieveWithQuranList = [
     "stream/download_reciters",
     "read_offline_quran",
+    "translations_&_reflection",
     "set_quran_goals",
     "explore_the_quran",
-    "translations_&_reflection",
     "learn_the_qaida",
   ];
   List<String> get achieveWithQuranList => _achieveWithQuranList;
@@ -119,8 +119,9 @@ class OnBoardingProvider extends ChangeNotifier {
 
   // set notifications
   final List<Common> _notification = [
-    Common(title: "daily_quran_recitation_reminder", isSelected: true),
     Common(title: "daily_quran_verse", isSelected: true),
+    Common(title: "daily_quran_recitation_reminder", isSelected: true),
+
     // Common(title: "Dua Reminder", isSelected: true),
     Common(title: "daily_salah_reminder", isSelected: true),
     Common(title: "friday_prayer_reminder", isSelected: true),

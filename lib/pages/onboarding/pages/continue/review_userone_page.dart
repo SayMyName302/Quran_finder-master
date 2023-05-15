@@ -111,7 +111,7 @@ class ReviewOne extends StatelessWidget {
           BrandButton(
               text: localeText(context, "continue"),
               onTap: () {
-                Navigator.of(context).pushNamed(RouteHelper.setFavReciter);
+                Navigator.of(context).pushNamed(RouteHelper.completeProfile);
               }),
           SizedBox(
             height: 50.h,

@@ -80,7 +80,7 @@ class NotificationSetup extends StatelessWidget {
                   text: localeText(context, "finish_setup"),
                   onTap: () {
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                        RouteHelper.completeProfile, (route) => false);
+                        RouteHelper.reviewOne, (route) => false);
                   })
             ],
           ),
