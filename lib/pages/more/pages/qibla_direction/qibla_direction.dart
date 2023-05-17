@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
@@ -25,6 +26,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     with SingleTickerProviderStateMixin {
   bool _showList = true;
   bool _showDistanceData = false;
+  int? degree;
 
   List<String> compassImages = [
     'assets/images/app_icons/qibla_campass.png',
@@ -93,6 +95,8 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
   AnimationController? _animationController;
   double begin = 0.0;
 
+  StreamSubscription<QiblahDirection>? _qiblahStreamSubscription;
+
   @override
   void initState() {
     _animationController = AnimationController(
@@ -101,20 +105,30 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     print(Dimensions.width);
     super.initState();
     _qiblabutton = AppColorsProvider().mainBrandingColor;
+    _qiblahStreamSubscription =
+        FlutterQiblah.qiblahStream.listen((QiblahDirection direction) {
+      setState(() {
+        degree = direction.offset.toInt();
+      });
+    });
   }
 
   @override
   dispose() {
     _animationController!.dispose();
     FlutterQiblah().dispose();
+    _qiblahStreamSubscription?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(
-          context: context, title: localeText(context, "qibla_direction")),
+      appBar: showdegree(
+        context: context,
+        title: localeText(context, "qibla_direction"),
+        degree: "${degree?.toString()}°",
+      ),
       body: Consumer3<QiblaProvider, AppColorsProvider, ThemProvider>(
         builder: (context, qibla, appColors, them, child) {
           var textStyle = TextStyle(
@@ -281,7 +295,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           final qiblaDirection = snapshot.data;
-                          int degree = qiblaDirection!.offset.toInt();
+                          degree = qiblaDirection!.offset.toInt();
                           animation = Tween(
                                   begin: begin,
                                   end:
@@ -312,70 +326,74 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                                         },
                                       ),
                               ),
-                              SizedBox(
-                                height: 80,
-                                width: 300.w,
-                                child: Visibility(
-                                  visible: _showList,
-                                  child: ListView.builder(
-                                    controller: scrollController,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: compassImages.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return InkWell(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Image.asset(
-                                            compassImages[index],
-                                            width: 60,
-                                            height: 60,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 25),
+                                child: SizedBox(
+                                  height: 80,
+                                  width: 300.w,
+                                  child: Visibility(
+                                    visible: _showList,
+                                    child: ListView.builder(
+                                      controller: scrollController,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: compassImages.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return InkWell(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: Image.asset(
+                                              compassImages[index],
+                                              width: 60,
+                                              height: 60,
+                                            ),
                                           ),
-                                        ),
-                                        onTap: () => (int index) {
-                                          setState(() {
-                                            _imagePath = compassImages[index];
-                                            //selectedImageIndex = index;
-                                          });
-                                        }(index),
-                                      );
-                                    },
+                                          onTap: () => (int index) {
+                                            setState(() {
+                                              _imagePath = compassImages[index];
+                                              //selectedImageIndex = index;
+                                            });
+                                          }(index),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 10.h),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      localeText(
-                                          context, "degree_of_the_qibla"),
-                                      style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontFamily: 'satoshi',
-                                          fontWeight: FontWeight.w700)),
-                                  Container(
-                                    height: 34.h,
-                                    width: 34.w,
-                                    alignment: Alignment.center,
-                                    margin:
-                                        EdgeInsets.only(left: 9.w, right: 9.w),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(4.r),
-                                        color: Colors.green),
-                                    child: Text(
-                                      degree.toString(),
-                                      style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.white,
-                                          fontFamily: 'satoshi',
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              //    SizedBox(height: 10.h),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     // Text(
+                              //     //     localeText(
+                              //     //         context, "degree_of_the_qibla"),
+                              //     //     style: TextStyle(
+                              //     //         fontSize: 16.sp,
+                              //     //         fontFamily: 'satoshi',
+                              //     //         fontWeight: FontWeight.w700)),
+                              //     // Container(
+                              //     //   height: 34.h,
+                              //     //   width: 34.w,
+                              //     //   alignment: Alignment.center,
+                              //     //   margin:
+                              //     //       EdgeInsets.only(left: 9.w, right: 9.w),
+                              //     //   decoration: BoxDecoration(
+                              //     //       borderRadius:
+                              //     //           BorderRadius.circular(4.r),
+                              //     //       color: Colors.green),
+                              //     //   child: Text(
+                              //     //     degree.toString(),
+                              //     //     style: TextStyle(
+                              //     //         fontSize: 12.sp,
+                              //     //         color: Colors.white,
+                              //     //         fontFamily: 'satoshi',
+                              //     //         fontWeight: FontWeight.w700),
+                              //     //   ),
+                              //     // ),
+                              //   ],
+                              // ),
                             ],
                           );
                         } else {
