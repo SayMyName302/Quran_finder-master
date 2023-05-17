@@ -85,7 +85,7 @@ AppBar showdegree(
         Text(title!),
         if (degree != null)
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(right: 52.0),
             child: Text(degree),
           ),
       ],

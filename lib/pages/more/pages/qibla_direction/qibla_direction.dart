@@ -126,7 +126,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     return Scaffold(
       appBar: showdegree(
         context: context,
-        title: localeText(context, "qibla_direction"),
+        title: localeText(context, "qibla_degrees"),
         degree: "${degree?.toString()}°",
       ),
       body: Consumer3<QiblaProvider, AppColorsProvider, ThemProvider>(
