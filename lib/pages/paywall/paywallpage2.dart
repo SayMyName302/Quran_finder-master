@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 
@@ -239,8 +240,8 @@ class paywallpage2 extends StatelessWidget {
                   child: BrandButton(
                       text: localeText(context, "start_free_trial"),
                       onTap: () {
-                        // Navigator.of(context)
-                        //     .pushNamed(RouteHelper.paywallscreen2);
+                        Navigator.of(context)
+                            .pushNamed(RouteHelper.completeProfile);
                       }),
                 ),
 

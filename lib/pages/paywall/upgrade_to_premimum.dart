@@ -116,173 +116,164 @@ class paywall extends StatelessWidget {
 class pricetile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+    PremiumScreenProvider priceProvider =
+        Provider.of<PremiumScreenProvider>(context);
+    int focusedIndex = priceProvider.focusedIndex;
+
+    return Container(
+      height: 190.h,
       child: Center(
-          child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 110,
-            height: 130,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: AppColors.grey6,
-                width: 2,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            buildContainer(
+                context,
+                focusedIndex,
+                0,
+                '6 Months',
+                '\$21.56',
+                '\$3.59 per month',
+                'Save 39%',
+                Colors.green,
+                '',
+                Colors.white,
+                AppColors.darkColor // Small container color for index 0
+                ),
+            SizedBox(width: 10),
+            buildContainer(
+                context,
+                focusedIndex,
+                1,
+                '12 Months',
+                '\$15.45',
+                '\$3.59 per month',
+                'Save 39%',
+                Colors.white,
+                '7-day free trial',
+                AppColors.primeBlue,
+                AppColors.lightBrandingColor
+                // Small container color for index 1
+                ),
+            SizedBox(width: 10),
+            buildContainer(
+                context,
+                focusedIndex,
+                2,
+                '1 Month',
+                '\$5.99',
+                'No Trial',
+                'No Discount',
+                Colors.red,
+                '',
+                Colors.white,
+                AppColors.darkColor),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildContainer(
+    BuildContext context,
+    int focusedIndex,
+    int index,
+    String durationText,
+    String priceText,
+    String subscriptionText,
+    String discountText,
+    Color smallContainerColor,
+    String trialText,
+    Color containerColor,
+    Color textcolor,
+  ) {
+    final isFocused = focusedIndex == index;
+    final appColors = isFocused ? AppColors.primeBlue : AppColors.grey6;
+    final brandingColor =
+        isFocused ? AppColors.lightBrandingColor : AppColors.mainBrandingColor;
+
+    return GestureDetector(
+      onTap: () {
+        Provider.of<PremiumScreenProvider>(context, listen: false)
+            .setFocusedIndex(index);
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        width: isFocused ? 130 : 110,
+        height: isFocused ? 150 : 130,
+        decoration: BoxDecoration(
+          color: containerColor,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: appColors,
+            width: 2,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              durationText,
+              style: TextStyle(
+                color: textcolor,
+                fontFamily: 'satoshi',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text('6 Months',
-                    style: TextStyle(
-                        color: AppColors.darkColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold)),
-                Text('\$21.56',
-                    style: TextStyle(
-                        color: AppColors.mainBrandingColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold)),
-                Text('\$3.59 per month',
-                    style: TextStyle(
-                        color: AppColors.darkColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold)),
-                Container(
-                  width: 59,
-                  height: 17,
-                  decoration: BoxDecoration(
-                    color: AppColors.mainBrandingColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text('Save 39%',
-                        style: TextStyle(
-                            color: AppColors.lightBrandingColor,
-                            fontFamily: 'satoshi',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 10),
-          Container(
-            width: 110,
-            height: 130,
-            decoration: BoxDecoration(
-              color: AppColors.primeBlue,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: AppColors.grey6,
-                width: 2,
+            Text(
+              priceText,
+              style: TextStyle(
+                color: index == 1
+                    ? AppColors.lightBrandingColor
+                    : AppColors.mainBrandingColor,
+                fontFamily: 'satoshi',
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text('12 Months',
-                    style: TextStyle(
-                        color: AppColors.lightBrandingColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold)),
-                Text('\$15.45',
-                    style: TextStyle(
-                        color: AppColors.lightBrandingColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold)),
-                Text('\$3.59 per month',
-                    style: TextStyle(
-                        color: AppColors.lightBrandingColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold)),
-                Container(
-                  width: 59,
-                  height: 17,
-                  decoration: BoxDecoration(
-                    color: AppColors.lightBrandingColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text('Save 39%',
-                        style: TextStyle(
-                            color: AppColors.primeBlue,
-                            fontFamily: 'satoshi',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ),
-                Text('7-day free trial',
-                    style: TextStyle(
-                        color: AppColors.lightBrandingColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-          const SizedBox(width: 10),
-          Container(
-            width: 110,
-            height: 130,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: AppColors.grey6,
-                width: 2,
+            Text(
+              subscriptionText,
+              style: TextStyle(
+                color: textcolor,
+                fontFamily: 'satoshi',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text('1 Month',
-                    style: TextStyle(
-                        color: AppColors.darkColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold)),
-                Text('\$5.99',
-                    style: TextStyle(
-                        color: AppColors.mainBrandingColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold)),
-                Text('No Trial',
-                    style: TextStyle(
-                        color: AppColors.darkColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold)),
-                Container(
-                  height: 17,
-                  width: 75,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text('No Discount',
-                        style: TextStyle(
-                            color: AppColors.lightBrandingColor,
-                            fontFamily: 'satoshi',
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold)),
+            Container(
+              width: 75,
+              height: 17,
+              decoration: BoxDecoration(
+                color: smallContainerColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Text(
+                  discountText,
+                  style: TextStyle(
+                    color: index == 1
+                        ? AppColors.primeBlue
+                        : AppColors.lightBrandingColor,
+                    fontFamily: 'satoshi',
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
-      )),
+            if (trialText.isNotEmpty)
+              Text(
+                trialText,
+                style: TextStyle(
+                  color: textcolor,
+                  fontFamily: 'satoshi',
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
