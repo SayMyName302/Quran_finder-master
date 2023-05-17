@@ -44,6 +44,7 @@ import 'pages/home/sections/quran stories/quran_stories_provider.dart';
 
 void main() async {
   await Global.init();
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (_) => ThemProvider(),
