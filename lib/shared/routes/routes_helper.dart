@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nour_al_quran/pages/paywall/paywallpage2.dart';
 import 'package:nour_al_quran/pages/paywall/upgrade_to_premimum.dart';
 import '../../pages/home/sections/miracles_of_quran/miracle_detail_page.dart';
 import '../../pages/home/sections/miracles_of_quran/miracles_of_quran_page.dart';
@@ -39,6 +40,7 @@ class RouteHelper {
   static const String reviewOne = "/reviewOne";
   static const String setFavReciter = "/setFavReciter";
   static const String paywallscreen = "/paywall";
+  static const String paywallscreen2 = "/paywall2";
   // static const String whenToRecite = "/whenToRecite";
   static const String quranReminder = "/quranReminder";
   // static const String setDailyQuranReadingTime = "/dailyQuran";
@@ -102,6 +104,10 @@ class RouteHelper {
       paywallscreen: (context) {
         currentContext = context;
         return paywall();
+      },
+      paywallscreen2: (context) {
+        currentContext = context;
+        return const paywallpage2();
       },
       // whenToRecite: (context) {
       //   currentContext = context;

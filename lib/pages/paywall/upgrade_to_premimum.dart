@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
+import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:nour_al_quran/shared/widgets/title_row.dart';
@@ -19,7 +21,8 @@ class paywall extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
               child: Text(
                 'Get the premium today and enjoy unlimited access to the Quran App',
                 style: TextStyle(
@@ -28,9 +31,15 @@ class paywall extends StatelessWidget {
                     fontWeight: FontWeight.w500),
               ),
             ),
+            SizedBox(
+              height: 15.h,
+            ),
             CardSection(),
+            SizedBox(
+              height: 15.h,
+            ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Text(
                 'Plans specially curated for you',
                 style: TextStyle(
@@ -40,8 +49,40 @@ class paywall extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            PlansList(),
+            pricetile(),
             PrimePlanContainer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Recurring billing , Cancel Anytime',
+                    style: TextStyle(
+                      color: AppColors.grey3,
+                      fontFamily: 'satoshi',
+                      fontSize: 12.sp,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: 15.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                        'Your subscription will automatically renew for the same purchasing program at the same time',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.grey3,
+                          fontFamily: 'satoshi',
+                          fontSize: 12.sp,
+                        )),
+                  ),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
@@ -72,6 +113,180 @@ class paywall extends StatelessWidget {
   }
 }
 
+class pricetile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+      child: Center(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 110,
+            height: 130,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: AppColors.grey6,
+                width: 2,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text('6 Months',
+                    style: TextStyle(
+                        color: AppColors.darkColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold)),
+                Text('\$21.56',
+                    style: TextStyle(
+                        color: AppColors.mainBrandingColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold)),
+                Text('\$3.59 per month',
+                    style: TextStyle(
+                        color: AppColors.darkColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold)),
+                Container(
+                  width: 59,
+                  height: 17,
+                  decoration: BoxDecoration(
+                    color: AppColors.mainBrandingColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text('Save 39%',
+                        style: TextStyle(
+                            color: AppColors.lightBrandingColor,
+                            fontFamily: 'satoshi',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            width: 110,
+            height: 130,
+            decoration: BoxDecoration(
+              color: AppColors.primeBlue,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: AppColors.grey6,
+                width: 2,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text('12 Months',
+                    style: TextStyle(
+                        color: AppColors.lightBrandingColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold)),
+                Text('\$15.45',
+                    style: TextStyle(
+                        color: AppColors.lightBrandingColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold)),
+                Text('\$3.59 per month',
+                    style: TextStyle(
+                        color: AppColors.lightBrandingColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold)),
+                Container(
+                  width: 59,
+                  height: 17,
+                  decoration: BoxDecoration(
+                    color: AppColors.lightBrandingColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text('Save 39%',
+                        style: TextStyle(
+                            color: AppColors.primeBlue,
+                            fontFamily: 'satoshi',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ),
+                Text('7-day free trial',
+                    style: TextStyle(
+                        color: AppColors.lightBrandingColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            width: 110,
+            height: 130,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: AppColors.grey6,
+                width: 2,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text('1 Month',
+                    style: TextStyle(
+                        color: AppColors.darkColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold)),
+                Text('\$5.99',
+                    style: TextStyle(
+                        color: AppColors.mainBrandingColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold)),
+                Text('No Trial',
+                    style: TextStyle(
+                        color: AppColors.darkColor,
+                        fontFamily: 'satoshi',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold)),
+                Container(
+                  height: 17,
+                  width: 75,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text('No Discount',
+                        style: TextStyle(
+                            color: AppColors.lightBrandingColor,
+                            fontFamily: 'satoshi',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      )),
+    );
+  }
+}
+
 class CardSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -81,7 +296,7 @@ class CardSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: AppColors.mainBrandingColor,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Padding(
@@ -139,68 +354,7 @@ class CardSection extends StatelessWidget {
   }
 }
 
-class PlansList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        PriceTile(index: 0),
-        PriceTile(index: 1),
-        PriceTile(index: 2),
-      ],
-    );
-  }
-}
-
-class PriceTile extends StatelessWidget {
-  final int index;
-
-  PriceTile({required this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        final containerProvider =
-            Provider.of<PremiumScreenProvider>(context, listen: false);
-        containerProvider.updateTappedIndex(index);
-      },
-      child: Consumer<PremiumScreenProvider>(
-        builder: (context, containerProvider, _) {
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeInOut,
-            width: containerProvider.tappedIndex == index ? 120 : 110,
-            height: containerProvider.tappedIndex == index ? 160 : 150,
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: containerProvider.tappedIndex == index
-                    ? Colors.blue
-                    : AppColors.grey5,
-                width: 1,
-              ),
-            ),
-            child: containerProvider.tappedIndex == index
-                ? const Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      ),
-                    ),
-                  )
-                : null,
-          );
-        },
-      ),
-    );
-  }
-}
+//for texts in the container
 
 class PrimePlanContainer extends StatelessWidget {
   @override
@@ -239,7 +393,8 @@ class PrimePlanContainer extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      const Icon(Icons.check, color: Colors.green),
+                      const Icon(Icons.check_circle_rounded,
+                          color: AppColors.googleColor),
                       const SizedBox(width: 8),
                       Text(
                         'No ads',
@@ -250,9 +405,13 @@ class PrimePlanContainer extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
                   Row(
                     children: [
-                      const Icon(Icons.check, color: Colors.green),
+                      const Icon(Icons.check_circle_rounded,
+                          color: AppColors.googleColor),
                       const SizedBox(width: 8),
                       Text('Lorem ipsum',
                           style: TextStyle(
@@ -261,9 +420,13 @@ class PrimePlanContainer extends StatelessWidget {
                               fontWeight: FontWeight.w500)),
                     ],
                   ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
                   Row(
                     children: [
-                      const Icon(Icons.check, color: Colors.green),
+                      const Icon(Icons.check_circle_rounded,
+                          color: AppColors.googleColor),
                       const SizedBox(width: 8),
                       Text('Lorem ipsum',
                           style: TextStyle(
@@ -272,9 +435,13 @@ class PrimePlanContainer extends StatelessWidget {
                               fontWeight: FontWeight.w500)),
                     ],
                   ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
                   Row(
                     children: [
-                      const Icon(Icons.check, color: Colors.green),
+                      const Icon(Icons.check_circle_rounded,
+                          color: AppColors.googleColor),
                       const SizedBox(width: 8),
                       Text('Lorem ipsum',
                           style: TextStyle(
@@ -292,9 +459,10 @@ class PrimePlanContainer extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: BrandButton(
-                    text: localeText(context, "continue"),
+                    text: localeText(context, "start_free_trial"),
                     onTap: () {
-                      // Navigator.of(context).pushNamed(RouteHelper.completeProfile);
+                      Navigator.of(context)
+                          .pushNamed(RouteHelper.paywallscreen2);
                     }),
               ),
             ),
@@ -390,7 +558,10 @@ class SuccessStoryCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const Icon(Icons.star, color: Colors.yellow),
+                        SvgPicture.asset(
+                            width: 20.w,
+                            height: 20.h,
+                            'assets/images/app_icons/Star.svg'),
                         Text(user.rating),
                       ],
                     ),
@@ -498,8 +669,10 @@ class _FAQItemState extends State<FAQItem> {
                       isExpanded = !isExpanded;
                     });
                   },
-                  icon: Icon(
-                    isExpanded ? Icons.expand_less : Icons.expand_more,
+                  icon: SvgPicture.asset(
+                    isExpanded
+                        ? 'assets/images/app_icons/DropDown.svg'
+                        : 'assets/images/app_icons/DropDown.svg',
                   ),
                 ),
               ],
