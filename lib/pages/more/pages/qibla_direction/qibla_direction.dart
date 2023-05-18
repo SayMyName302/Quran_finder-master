@@ -36,18 +36,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     'assets/images/app_icons/compass_design_3.png',
   ];
   int selectedImageIndex = 0;
-  ScrollController scrollController = ScrollController();
-
-  void scrollList(bool scrollRight) {
-    double scrollAmount = 0.0;
-    if (scrollRight) {
-      scrollAmount = 100.0;
-    } else {
-      scrollAmount = -100.0;
-    }
-    scrollController.animateTo(scrollController.offset + scrollAmount,
-        curve: Curves.easeInOut, duration: const Duration(milliseconds: 300));
-  }
+  //ScrollController scrollController = ScrollController();
 
   bool mapsButtonClicked = false;
   Color _qiblabutton = AppColors.mainBrandingColor;
@@ -123,6 +112,8 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
 
   @override
   Widget build(BuildContext context) {
+    final qiblaprovider = Provider.of<QiblaProvider>(context);
+
     return Scaffold(
       appBar: showdegree(
         context: context,
@@ -335,28 +326,27 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                                   child: Visibility(
                                     visible: _showList,
                                     child: ListView.builder(
-                                      controller: scrollController,
+                                      controller:
+                                          qiblaprovider.scrollController,
                                       scrollDirection: Axis.horizontal,
                                       itemCount: compassImages.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return InkWell(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: Image.asset(
-                                              compassImages[index],
-                                              width: 60,
-                                              height: 60,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Image.asset(
+                                                compassImages[index],
+                                                width: 60,
+                                                height: 60,
+                                              ),
                                             ),
-                                          ),
-                                          onTap: () => (int index) {
-                                            setState(() {
-                                              _imagePath = compassImages[index];
-                                              //selectedImageIndex = index;
+                                            onTap: () {
+                                              qiblaprovider.setImagePath(
+                                                  compassImages[index]);
                                             });
-                                          }(index),
-                                        );
                                       },
                                     ),
                                   ),
@@ -409,7 +399,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                   Visibility(
                     visible: _showDistanceData,
                     child: Container(
-                      margin: EdgeInsets.only(top: 24.h, bottom: 24.h),
+                      margin: EdgeInsets.only(top: 21.h, bottom: 24.h),
                       padding: EdgeInsets.only(
                           left: 13.w, right: 13.w, top: 13.h, bottom: 12.h),
                       decoration: BoxDecoration(

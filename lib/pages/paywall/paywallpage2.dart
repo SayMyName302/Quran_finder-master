@@ -240,8 +240,7 @@ class paywallpage2 extends StatelessWidget {
                   child: BrandButton(
                       text: localeText(context, "start_free_trial"),
                       onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(RouteHelper.completeProfile);
+                        Navigator.of(context).pushNamed(RouteHelper.signIn);
                       }),
                 ),
 
