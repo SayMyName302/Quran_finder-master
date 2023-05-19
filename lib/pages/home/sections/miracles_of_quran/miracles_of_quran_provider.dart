@@ -54,6 +54,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
       CancelToken cancelToken = CancelToken();
       showDownloadingDialog(context, cancelToken);
       Dio dio = Dio();
+      dio.options.maxRedirects;
       var response = await dio.get(_selectedMiracle!.videoUrl!,
           onReceiveProgress: (receive, total) {
         downloaded = (receive / total) * 100;

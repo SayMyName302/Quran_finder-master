@@ -36,7 +36,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     'assets/images/app_icons/compass_design_3.png',
   ];
   int selectedImageIndex = 0;
-  //ScrollController scrollController = ScrollController();
+  ScrollController scrollController = ScrollController();
 
   bool mapsButtonClicked = false;
   Color _qiblabutton = AppColors.mainBrandingColor;
@@ -112,8 +112,6 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
 
   @override
   Widget build(BuildContext context) {
-    final qiblaprovider = Provider.of<QiblaProvider>(context);
-
     return Scaffold(
       appBar: showdegree(
         context: context,
@@ -317,22 +315,30 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                                         },
                                       ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 25),
-                                child: SizedBox(
-                                  height: 80,
-                                  width: 300.w,
-                                  child: Visibility(
-                                    visible: _showList,
-                                    child: ListView.builder(
-                                      controller:
-                                          qiblaprovider.scrollController,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: compassImages.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return InkWell(
+                              Visibility(
+                                visible: _showList,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 40),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      border: Border.all(
+                                        color: appColors.mainBrandingColor,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    height: 80.h,
+                                    width: 300.w,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ListView.builder(
+                                        controller: scrollController,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: compassImages.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return InkWell(
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
@@ -343,11 +349,16 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                                                 height: 60,
                                               ),
                                             ),
-                                            onTap: () {
-                                              qiblaprovider.setImagePath(
-                                                  compassImages[index]);
-                                            });
-                                      },
+                                            onTap: () => (int index) {
+                                              setState(() {
+                                                _imagePath =
+                                                    compassImages[index];
+                                                //selectedImageIndex = index;
+                                              });
+                                            }(index),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),

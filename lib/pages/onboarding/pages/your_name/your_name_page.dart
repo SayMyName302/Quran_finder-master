@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import '../../../sign_in/sign_in_provider.dart';
 import '../../../../shared/utills/app_colors.dart';
 import '../../../../shared/widgets/brand_button.dart';
@@ -79,6 +80,8 @@ class _YourNamePageState extends State<YourNamePage> {
                     Provider.of<SignInProvider>(context, listen: false)
                         .signUpWithEmailPassword(
                             arguments[0], arguments[1], name.text);
+                    Navigator.of(context)
+                        .pushNamed(RouteHelper.completeProfile);
                   }),
             ],
           ),

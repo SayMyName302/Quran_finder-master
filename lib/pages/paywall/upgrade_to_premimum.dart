@@ -120,54 +120,57 @@ class pricetile extends StatelessWidget {
         Provider.of<PremiumScreenProvider>(context);
     int focusedIndex = priceProvider.focusedIndex;
 
-    return Container(
-      height: 190.h,
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            buildContainer(
-                context,
-                focusedIndex,
-                0,
-                '6 Months',
-                '\$21.56',
-                '\$3.59 per month',
-                'Save 39%',
-                Colors.green,
-                '',
-                Colors.white,
-                AppColors.darkColor // Small container color for index 0
-                ),
-            SizedBox(width: 10),
-            buildContainer(
-                context,
-                focusedIndex,
-                1,
-                '12 Months',
-                '\$15.45',
-                '\$3.59 per month',
-                'Save 39%',
-                Colors.white,
-                '7-day free trial',
-                AppColors.primeBlue,
-                AppColors.lightBrandingColor
-                // Small container color for index 1
-                ),
-            SizedBox(width: 10),
-            buildContainer(
-                context,
-                focusedIndex,
-                2,
-                '1 Month',
-                '\$5.99',
-                'No Trial',
-                'No Discount',
-                Colors.red,
-                '',
-                Colors.white,
-                AppColors.darkColor),
-          ],
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        height: 190.h,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              buildContainer(
+                  context,
+                  focusedIndex,
+                  0,
+                  '6 Months',
+                  '\$21.56',
+                  '\$3.59 per month',
+                  'Save 39%',
+                  Colors.green,
+                  '',
+                  Colors.white,
+                  AppColors.darkColor // Small container color for index 0
+                  ),
+              SizedBox(width: 10),
+              buildContainer(
+                  context,
+                  focusedIndex,
+                  1,
+                  '12 Months',
+                  '\$15.45',
+                  '\$3.59 per month',
+                  'Save 39%',
+                  Colors.white,
+                  '7-day free trial',
+                  AppColors.primeBlue,
+                  AppColors.lightBrandingColor
+                  // Small container color for index 1
+                  ),
+              SizedBox(width: 10),
+              buildContainer(
+                  context,
+                  focusedIndex,
+                  2,
+                  '1 Month',
+                  '\$5.99',
+                  'No Trial',
+                  'No Discount',
+                  Colors.red,
+                  '',
+                  Colors.white,
+                  AppColors.darkColor),
+            ],
+          ),
         ),
       ),
     );

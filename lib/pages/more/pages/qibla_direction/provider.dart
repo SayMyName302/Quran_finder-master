@@ -14,13 +14,7 @@ import '../../../../shared/routes/routes_helper.dart';
 
 class QiblaProvider extends ChangeNotifier {
   //for scrolling list of compass images
-  ScrollController scrollController = ScrollController();
-  String imagePath = '';
 
-  void setImagePath(String path) {
-    imagePath = path;
-    notifyListeners();
-  }
 //for buttons changing color and display arrow insted of
 
   String _address = "";

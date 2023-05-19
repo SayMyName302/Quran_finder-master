@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 import '../settings/pages/profile/profile_provider.dart';
 
 class SignInProvider extends ChangeNotifier {
-  signInWithGoogle() async {
+  signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignInAccount? googleUser =
           await GoogleSignIn(scopes: <String>['email']).signIn();
@@ -70,7 +70,8 @@ class SignInProvider extends ChangeNotifier {
                     /// this is from in App Purchase Bottom Sheet
                     Fluttertoast.showToast(msg: "called");
                     EasyLoadingDialog.dismiss(RouteHelper.currentContext);
-                    Navigator.of(RouteHelper.currentContext).pop("login");
+                    Navigator.of(context)
+                        .pushNamed(RouteHelper.completeProfile);
                   }
                 });
               } else {

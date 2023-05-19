@@ -108,7 +108,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       context.read<SignInProvider>().signInWithFaceBook();
                     }),
                     _buildThirdPartyLoginContainers('google', () async {
-                      context.read<SignInProvider>().signInWithGoogle();
+                      context.read<SignInProvider>().signInWithGoogle(context);
                     }),
                     Platform.isIOS
                         ? _buildThirdPartyLoginContainers('apple', () {
