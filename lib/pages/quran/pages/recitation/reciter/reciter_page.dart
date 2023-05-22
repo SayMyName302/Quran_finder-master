@@ -1,20 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'player/mini_player.dart';
-import 'player/player_provider.dart';
-import 'reciter_provider.dart';
-import '../recitation_provider.dart';
-import '../../../../settings/pages/app_colors/app_colors_provider.dart';
-import '../../../../../shared/entities/reciters.dart';
-import '../../../../../shared/entities/surah.dart';
-import '../../../../../shared/localization/localization_constants.dart';
-import '../../../../../shared/network/network_check.dart';
-import '../../../../../shared/providers/download_provider.dart';
-import '../../../../../shared/routes/routes_helper.dart';
-import '../../../../../shared/utills/app_colors.dart';
-import '../../../../../shared/widgets/circle_button.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/mini_player.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+import 'package:nour_al_quran/shared/entities/reciters.dart';
+import 'package:nour_al_quran/shared/entities/surah.dart';
+import 'package:nour_al_quran/shared/localization/localization_constants.dart';
+import 'package:nour_al_quran/shared/localization/localization_provider.dart';
+import 'package:nour_al_quran/shared/network/network_check.dart';
+import 'package:nour_al_quran/shared/providers/download_provider.dart';
+import 'package:nour_al_quran/shared/routes/routes_helper.dart';
+import 'package:nour_al_quran/shared/utills/app_colors.dart';
+import 'package:nour_al_quran/shared/widgets/circle_button.dart';
 import 'package:provider/provider.dart';
+
 
 class ReciterPage extends StatelessWidget {
   const ReciterPage({Key? key}) : super(key: key);
@@ -23,16 +27,14 @@ class ReciterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Reciters? reciters = ModalRoute.of(context)!.settings.arguments as Reciters;
     return WillPopScope(
-      onWillPop: () async {
-        context.read<RecitationProvider>().getFavReciter();
-        return true;
-      },
+      onWillPop: ()async{
+      context.read<RecitationProvider>().getFavReciter();
+      return true;
+    },
       child: Scaffold(
         body: SafeArea(
-          child:
-              Consumer3<AppColorsProvider, ReciterProvider, RecitationProvider>(
-            builder: (context, appColors, reciterProvider, recitationProvider,
-                child) {
+          child: Consumer3<AppColorsProvider,ReciterProvider,RecitationProvider>(
+            builder: (context, appColors,reciterProvider,recitationProvider,child) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -43,124 +45,110 @@ class ReciterPage extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                     icon: const Icon(Icons.arrow_back_outlined),
-                    padding: EdgeInsets.only(left: 20.w, top: 13.41.h),
+                    padding: EdgeInsets.only(left: 20.w, top: 13.41.h,right: 20.w),
                     alignment: Alignment.topLeft,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                top: 19.4.h,
-                                left: 20.w,
-                                bottom: 16.h,
-                                right: 8.w),
-                            child: CircleAvatar(
-                              backgroundImage: CachedNetworkImageProvider(
+                  Container(
+                    margin: EdgeInsets.only(left: 20.w,right: 20.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: 19.4.h, bottom: 16.h,
+                                  right: LocalizationProvider().locale.languageCode == "ur" || LocalizationProvider().locale.languageCode == "ar" ? 0 : 8.w,
+                                  left: LocalizationProvider().locale.languageCode == "ur" || LocalizationProvider().locale.languageCode == "ar" ? 8.w: 0),
+                              child: CircleAvatar(
+                                backgroundImage: CachedNetworkImageProvider(
                                 reciters.imageUrl!,
+                                ),
+                            ),),
+                            Container(
+                              margin: EdgeInsets.only(top: 21.4.h, bottom: 18.h),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    reciters.reciterName!.length > 23
+                                        ? "${reciters.reciterName!.substring(0, 23)}\n${reciters.reciterName!.substring(23, reciters.reciterName!.length)}"
+                                        : reciters.reciterName!,
+                                    style: TextStyle(
+                                      // color: Colors.black,
+                                        fontSize: 15.5.sp,
+                                        fontFamily: "satoshi",
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  Text(
+                                    localeText(context, "complete_quran"),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12.sp,
+                                        fontFamily: "satoshi",
+                                        color: AppColors.grey4),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 21.4.h, bottom: 18.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  reciters.reciterName!.length > 23
-                                      ? reciters.reciterName!
-                                      : reciters.reciterName!,
-                                  style: TextStyle(
-                                      // color: Colors.black,
-                                      fontSize: 15.5.sp,
-                                      fontFamily: "satoshi",
-                                      fontWeight: FontWeight.w700),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            reciterProvider.downloadSurahList.length == 113 ? InkWell(
+                              onTap: (){
+                                // audio play logic
+                                context.read<RecitationPlayerProvider>().initAudioPlayer(reciters,0);
+                                Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+                              },
+                              child: Container(
+                                height: 23.h,
+                                width: 23.w,
+                                margin: EdgeInsets.only(top: 29.4.h, bottom: 25.h),
+                                child: CircleAvatar(
+                                  backgroundColor: appColors.mainBrandingColor,
+                                  child: Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.white,
+                                    size: 13.h,
+                                  ),
                                 ),
-                                Text(
-                                  localeText(context, "complete_quran"),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.sp,
-                                      fontFamily: "satoshi",
-                                      color: AppColors.grey4),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          reciterProvider.downloadSurahList.length == 113
-                              ? InkWell(
-                                  onTap: () {
-                                    // audio play logic
-                                    context
-                                        .read<PlayerProvider>()
-                                        .initAudioPlayer(reciters, 0);
-                                    Navigator.of(context)
-                                        .pushNamed(RouteHelper.audioPlayer);
-                                  },
-                                  child: Container(
-                                    height: 23.h,
-                                    width: 23.w,
-                                    margin: EdgeInsets.only(
-                                        top: 29.4.h, bottom: 25.h),
+                              ),
+                            ) : const SizedBox.shrink(),
+                            InkWell(
+                              onTap: (){
+                                if(reciters.isFav == 0){
+                                  recitationProvider.addFav(reciters.reciterId!);
+                                }else{
+                                  recitationProvider.removeFavReciter(reciters.reciterId!);
+                                }
+                              },
+                              child: Container(
+                                height: 23.h,
+                                width: 23.w,
+                                margin: EdgeInsets.only(
+                                    top: 29.4.h, bottom: 25.h,),
+                                child: CircleAvatar(
+                                  backgroundColor: appColors.mainBrandingColor,
+                                  child: SizedBox(
+                                    height: 21.h,
+                                    width: 21.w,
                                     child: CircleAvatar(
-                                      backgroundColor:
-                                          appColors.mainBrandingColor,
+                                      backgroundColor: reciters.isFav == 1 ? appColors.mainBrandingColor : Colors.white,
                                       child: Icon(
-                                        Icons.play_arrow,
-                                        color: Colors.white,
+                                        Icons.favorite,
+                                        color: reciters.isFav == 1 ? Colors.white : appColors.mainBrandingColor,
                                         size: 13.h,
                                       ),
                                     ),
                                   ),
-                                )
-                              : const SizedBox.shrink(),
-                          InkWell(
-                            onTap: () {
-                              if (reciters.isFav == 0) {
-                                recitationProvider.addFav(reciters.reciterId!);
-                              } else {
-                                recitationProvider
-                                    .removeFavReciter(reciters.reciterId!);
-                              }
-                            },
-                            child: Container(
-                              height: 23.h,
-                              width: 23.w,
-                              margin: EdgeInsets.only(
-                                  right: 20.w,
-                                  top: 29.4.h,
-                                  bottom: 25.h,
-                                  left: 13.w),
-                              child: CircleAvatar(
-                                backgroundColor: appColors.mainBrandingColor,
-                                child: SizedBox(
-                                  height: 21.h,
-                                  width: 21.w,
-                                  child: CircleAvatar(
-                                    backgroundColor: reciters.isFav == 1
-                                        ? appColors.mainBrandingColor
-                                        : Colors.white,
-                                    child: Icon(
-                                      Icons.favorite,
-                                      color: reciters.isFav == 1
-                                          ? Colors.white
-                                          : appColors.mainBrandingColor,
-                                      size: 13.h,
-                                    ),
-                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   Expanded(
                     child: ListView.builder(
@@ -173,12 +161,9 @@ class ReciterPage extends StatelessWidget {
                           downloadItem = surah.surahId!;
                         }
                         return InkWell(
-                          onTap: !reciterProvider.isDownload
-                              ? () {
-                                  downloadOrPlayAudio(reciterProvider, surah,
-                                      context, reciters);
-                                }
-                              : null,
+                          onTap: !reciterProvider.isDownload ? () {
+                            downloadOrPlayAudio(reciterProvider, surah, context, reciters);
+                          } : null,
                           child: Container(
                             margin: EdgeInsets.only(
                               left: 20.w,
@@ -186,7 +171,7 @@ class ReciterPage extends StatelessWidget {
                               bottom: 8.h,
                             ),
                             decoration: BoxDecoration(
-                                // color: AppColors.grey6,
+                              // color: AppColors.grey6,
                                 borderRadius: BorderRadius.circular(6.r),
                                 border: Border.all(
                                   color: AppColors.grey5,
@@ -196,11 +181,11 @@ class ReciterPage extends StatelessWidget {
                               children: [
                                 Container(
                                   margin:
-                                      EdgeInsets.only(left: 10.w, right: 10.w),
+                                  EdgeInsets.only(left: 10.w, right: 10.w),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       // color: AppColors.grey2
                                       Text(
@@ -215,10 +200,7 @@ class ReciterPage extends StatelessWidget {
                                         height: 2.h,
                                       ),
                                       SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.6,
+                                          width: MediaQuery.of(context).size.width * 0.6,
                                           child: Text(
                                             surah.englishName!,
                                             style: TextStyle(
@@ -283,25 +265,23 @@ class ReciterPage extends StatelessWidget {
     );
   }
 
-  void downloadOrPlayAudio(ReciterProvider reciterProvider, Surah surah,
-      BuildContext context, Reciters reciters) {
+  void downloadOrPlayAudio(ReciterProvider reciterProvider, Surah surah, BuildContext context, Reciters reciters) {
     if (!reciterProvider.downloadSurahList.contains(surah.surahId)) {
       reciterProvider.setIsDownloading(true);
-      NetworksCheck(onComplete: () async {
-        reciterProvider.downloadSurah(surah, context, reciters);
-        await buildDownloadingDialog(context, surah);
-        reciterProvider.setIsDownloading(false);
-      }, onError: () {
-        reciterProvider.setIsDownloading(false);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('No Internet')));
-      }).doRequest();
+      NetworksCheck(
+          onComplete: () async{
+            reciterProvider.downloadSurah(surah,context,reciters);
+            await buildDownloadingDialog(context, surah);
+            reciterProvider.setIsDownloading(false);
+          },
+          onError: (){
+            reciterProvider.setIsDownloading(false);
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No Internet')));
+          }
+      ).doRequest();
     } else {
       // audio play logic
-      context.read<PlayerProvider>().initAudioPlayer(
-          reciters,
-          reciters.downloadSurahList!
-              .indexWhere((element) => element == surah.surahId));
+      context.read<RecitationPlayerProvider>().initAudioPlayer(reciters,reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
       Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
     }
   }
@@ -312,11 +292,11 @@ class ReciterPage extends StatelessWidget {
       barrierDismissible: false,
       builder: (context) {
         return WillPopScope(
-          onWillPop: () async {
+          onWillPop: ()async{
             return false;
-          },
-          child: Consumer2<DownloadProvider, AppColorsProvider>(
-            builder: (context, value, appColors, child) {
+           },
+          child: Consumer2<DownloadProvider,AppColorsProvider>(
+            builder: (context, value,appColors, child) {
               return AlertDialog(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.r)),
@@ -336,18 +316,16 @@ class ReciterPage extends StatelessWidget {
                         child: CircleAvatar(
                           backgroundColor: appColors.mainBrandingColor,
                           child: ImageIcon(
-                            const AssetImage(
-                              'assets/images/app_icons/download_cloud.png',
-                            ),
+                            const AssetImage('assets/images/app_icons/download_cloud.png',),
                             size: 42.76.h,
                             color: Colors.white,
                           ),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(bottom: 14.h),
-                        child: Text(
-                          '${surah.surahName} ${localeText(context, "audio_is_downloading")}',
+                        margin: EdgeInsets.only(
+                            bottom: 14.h),
+                        child: Text('${surah.surahName} ${localeText(context, "audio_is_downloading")}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 16.sp,
@@ -358,31 +336,30 @@ class ReciterPage extends StatelessWidget {
                       SizedBox(
                         height: 6.h,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(2.5.r),
+                          borderRadius:
+                          BorderRadius.circular(2.5.r),
                           child: LinearProgressIndicator(
                             value: value.downloadProgress,
                             backgroundColor: AppColors.lightBrandingColor,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                appColors.mainBrandingColor),
+                            valueColor: AlwaysStoppedAnimation<Color>(appColors.mainBrandingColor),
                           ),
                         ),
                       ),
                       Container(
                           margin: EdgeInsets.only(top: 13.h, bottom: 23.h),
-                          child: Text(value.downloadText,
-                              style: TextStyle(
-                                  fontSize: 10.sp,
-                                  color: AppColors.grey3,
-                                  fontFamily: "satoshi",
-                                  fontWeight: FontWeight.w700)))
+                          child: Text(value.downloadText, style: TextStyle(fontSize: 10.sp, color: AppColors.grey3, fontFamily: "satoshi", fontWeight: FontWeight.w700)))
                     ],
                   ),
                 ),
               );
-            },
+              },
           ),
         );
-      },
+        },
     );
   }
+
+
 }
+
+

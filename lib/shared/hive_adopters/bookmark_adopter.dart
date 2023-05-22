@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
-import '../entities/bookmarks.dart';
+import 'package:nour_al_quran/shared/entities/bookmarks.dart';
+
+
 
 class BookmarksAdapter extends TypeAdapter<Bookmarks> {
   @override
@@ -16,15 +18,7 @@ class BookmarksAdapter extends TypeAdapter<Bookmarks> {
     final isFromJuz = reader.read();
     final bookmarkPosition = reader.read();
 
-    return Bookmarks(
-        surahId: surahId,
-        verseId: verseId,
-        surahName: surahName,
-        surahArabic: surahArabic,
-        juzId: juzId,
-        juzName: juzName,
-        isFromJuz: isFromJuz,
-        bookmarkPosition: bookmarkPosition);
+    return Bookmarks(surahId: surahId,verseId: verseId,surahName: surahName,surahArabic: surahArabic,juzId: juzId,juzName: juzName,isFromJuz: isFromJuz,bookmarkPosition: bookmarkPosition);
   }
 
   @override

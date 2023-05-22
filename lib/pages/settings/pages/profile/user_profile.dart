@@ -1,4 +1,6 @@
-class UserProfile {
+import 'package:flutter/cupertino.dart';
+
+class UserProfile{
   String? _email;
   String? _password;
   String? _fullName;
@@ -27,27 +29,31 @@ class UserProfile {
   String? get loginType => _loginType;
   List<String>? get loginDevices => _loginDevices;
 
-  set setPreferredLanguage(String value) => _preferredLanguage = value;
+
+  set setPreferredLanguage(String value) =>_preferredLanguage = value;
+
 
   set setFullName(String value) => _fullName = value;
 
-  set setEmail(String value) => _email = value;
+
+  set setEmail(String value) =>_email = value;
   set setPassword(String value) => _password = value;
 
-  UserProfile(
-      {required email,
-      required password,
-      required fullName,
-      required image,
-      required uid,
-      required purposeOfQuran,
-      required favReciter,
-      required whenToReciterQuran,
-      required recitationReminder,
-      required dailyQuranReadTime,
-      required preferredLanguage,
-      required loginDevices,
-      required loginType}) {
+  UserProfile({
+    required email,
+    required password,
+    required fullName,
+    required image,
+    required uid,
+    required purposeOfQuran,
+    required favReciter,
+    required whenToReciterQuran,
+    required recitationReminder,
+    required dailyQuranReadTime,
+    required preferredLanguage,
+    required loginDevices,
+    required loginType
+  }){
     _email = email;
     _password = password;
     _fullName = fullName;
@@ -63,7 +69,7 @@ class UserProfile {
     _loginType = loginType;
   }
 
-  UserProfile.fromJson(Map<String, dynamic> json) {
+  UserProfile.fromJson(Map<String,dynamic> json){
     _email = json['email'];
     _password = json['password'];
     _fullName = json['fullName'];
@@ -79,24 +85,26 @@ class UserProfile {
     _loginType = json['loginType'];
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String,dynamic> toJson(){
     return {
-      'email': _email,
-      'password': _password,
-      'fullName': _fullName,
-      'image': _image,
-      'uid': _uid,
+      'email' : _email,
+      'password' : _password,
+      'fullName' : _fullName,
+      'image' : _image,
+      'uid' : _uid,
       'purposeOfQuran': _purposeOfQuran,
-      'favReciter': _favReciter,
-      'whenToReciterQuran': _whenToReciterQuran,
-      'recitationReminder': _recitationReminder,
-      'dailyQuranReadTime': _dailyQuranReadTime,
-      'preferredLanguage': _preferredLanguage,
-      'loginDevices': _loginDevices,
-      "loginType": _loginType
+      'favReciter' : _favReciter,
+      'whenToReciterQuran' : _whenToReciterQuran,
+      'recitationReminder' : _recitationReminder,
+      'dailyQuranReadTime' : _dailyQuranReadTime,
+      'preferredLanguage' : _preferredLanguage,
+      'loginDevices' : _loginDevices,
+      "loginType":_loginType
     };
   }
+
 }
+
 
 class Devices {
   String? _name;
@@ -105,7 +113,7 @@ class Devices {
   String? get name => _name;
   DateTime? get datetime => _datetime;
 
-  Devices({name, datetime}) {
+  Devices({name, datetime}){
     _name = name;
     _datetime = datetime;
   }
@@ -116,6 +124,11 @@ class Devices {
   }
 
   Map<String, dynamic> toJson() {
-    return {"name": _name, "datetime": _datetime};
+    return {
+      "name":_name,
+      "datetime":_datetime
+    };
   }
+
+
 }

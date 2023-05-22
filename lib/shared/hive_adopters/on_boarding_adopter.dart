@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import '../../pages/onboarding/on_boarding.dart';
+import 'package:nour_al_quran/pages/onboarding/models/on_boarding_information.dart';
 
-class OnBoardingAdopter extends TypeAdapter<OnBoardingInformation> {
+class OnBoardingAdopter extends TypeAdapter<OnBoardingInformation>{
   @override
   int get typeId => 5;
 
@@ -11,7 +12,7 @@ class OnBoardingAdopter extends TypeAdapter<OnBoardingInformation> {
     List<String> purposeOfQuran = reader.read();
     String favReciter = reader.read();
     String whenToReciterQuran = reader.read();
-    DateTime recitationReminder = reader.read();
+    TimeOfDay recitationReminder = reader.read();
     String dailyQuranReadTime = reader.read();
     Locale preferredLanguage = reader.read();
     return OnBoardingInformation(
@@ -32,4 +33,5 @@ class OnBoardingAdopter extends TypeAdapter<OnBoardingInformation> {
     writer.write(obj.dailyQuranReadTime);
     writer.write(obj.preferredLanguage);
   }
+
 }

@@ -1,50 +1,51 @@
 import 'package:flutter/material.dart';
-import '../../../../shared/widgets/title_row.dart';
+import 'package:nour_al_quran/shared/widgets/title_row.dart';
 
+import '../../../../shared/widgets/app_bar.dart';
 class ManageSubscriptionPage extends StatelessWidget {
   const ManageSubscriptionPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context: context, title: "Manage Subscription"),
+      appBar: buildAppBar(context: context,title: "Manage Subscription"),
       body: Column(
         children: [
-          const Text('Purchased Plan'),
+          Text('Purchased Plan'),
           Container(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
               border: Border.all(color: Colors.grey),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Text('Yearly Plan 5000 PKR'),
                 Text('Purchased on 21-01-23 | 07:58 pm'),
               ],
             ),
           ),
-          const Text('As a premium member you have access to'),
+          Text('As a premium member you have access to'),
           Container(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
               border: Border.all(color: Colors.grey),
             ),
             child: Column(
-              children: const [
+              children: [
                 Text('Ad-free App Experience'),
                 Text('Unlock Quran Stories'),
                 Text('Unlock Quran Stories'),
               ],
             ),
           ),
-          const Text('Having an issue? Please write to us'),
+          Text('Having an issue? Please write to us'),
           Expanded(
             child: TextFormField(
               maxLines: null,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter your feedback here...',
               ),
@@ -52,11 +53,12 @@ class ManageSubscriptionPage extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {},
-            child: const Text('Submit Feedback'),
+            child: Text('Submit Feedback'),
           ),
-          const Text('Restore Purchase'),
+          Text('Restore Purchase'),
         ],
-      ),
+      )
+      ,
     );
   }
 }

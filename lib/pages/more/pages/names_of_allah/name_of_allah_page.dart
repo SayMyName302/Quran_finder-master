@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
-import 'names.dart';
-import 'names_provider.dart';
-import '../../../../shared/widgets/title_row.dart';
-import '../../../settings/pages/app_colors/app_colors_provider.dart';
-import '../../../../shared/localization/localization_provider.dart';
-import '../../../settings/pages/app_them/them_provider.dart';
-import '../../../../shared/utills/app_colors.dart';
-import '../../../../shared/utills/dimensions.dart';
-import '../../../../shared/widgets/circle_button.dart';
+import 'package:nour_al_quran/pages/more/pages/names_of_allah/names.dart';
+import 'package:nour_al_quran/pages/more/pages/names_of_allah/names_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+import 'package:nour_al_quran/shared/localization/localization_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
+import 'package:nour_al_quran/shared/utills/app_colors.dart';
+import 'package:nour_al_quran/shared/utills/dimensions.dart';
+import 'package:nour_al_quran/shared/widgets/circle_button.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../shared/widgets/app_bar.dart';
 
 class NamesOfALLAHPage extends StatefulWidget {
   const NamesOfALLAHPage({Key? key}) : super(key: key);
@@ -20,194 +20,117 @@ class NamesOfALLAHPage extends StatefulWidget {
 }
 
 class _NamesOfALLAHPageState extends State<NamesOfALLAHPage> {
+  
   @override
   void initState() {
     context.read<NamesProvider>().getNames(context);
-    print(Dimensions.height);
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context: context, title: "99 Names of Allah"),
-      body: Consumer4<LocalizationProvider, ThemProvider, AppColorsProvider,
-          NamesProvider>(
-        builder: (context, language, them, appColors, namesProvider, child) {
-          return namesProvider.names.isNotEmpty
-              ? PageView.builder(
-                  itemCount: namesProvider.names.length,
-                  itemBuilder: (context, index) {
-                    Names names = namesProvider.names[index];
-                    return Container(
-                      height: double.maxFinite,
+      appBar: buildAppBar(context: context,title: "99 Names of Allah"),
+      body: Consumer4<LocalizationProvider,ThemProvider,AppColorsProvider,NamesProvider>(
+        builder: (context, language,them,appColors,namesProvider, child) {
+          return namesProvider.names.isNotEmpty ? PageView.builder(
+            itemCount: namesProvider.names.length,
+            itemBuilder: (context, index) {
+              Names names = namesProvider.names[index];
+              return Container(
+                height: double.maxFinite,
+                margin: EdgeInsets.only(
+                    left: 20.w,
+                    right: 20.w,
+                    top: Dimensions.height < 400 || Dimensions.height < 600 ? 20.h : 70.h,
+                    bottom: Dimensions.height < 400 || Dimensions.height < 600 ? 20.h:68.h),
+                decoration: BoxDecoration(
+                    color: them.isDark ? AppColors.darkColor : Colors.white,
+                    borderRadius: BorderRadius.circular(10.r),
+                    boxShadow: const [BoxShadow(offset: Offset(0,5),blurRadius: 15,color: Color.fromRGBO(0, 0, 0, 0.08))]
+                ),
+                child: Column(
+                  children: [
+                    Container(
                       margin: EdgeInsets.only(
-                          left: 20.w,
-                          right: 20.w,
-                          top:
-                              Dimensions.height < 400 || Dimensions.height < 600
-                                  ? 20.h
-                                  : 70.h,
-                          bottom:
-                              Dimensions.height < 400 || Dimensions.height < 600
-                                  ? 20.h
-                                  : 68.h),
-                      decoration: BoxDecoration(
-                          color:
-                              them.isDark ? AppColors.darkColor : Colors.white,
-                          borderRadius: BorderRadius.circular(10.r),
-                          boxShadow: const [
-                            BoxShadow(
-                                offset: Offset(0, 5),
-                                blurRadius: 15,
-                                color: Color.fromRGBO(0, 0, 0, 0.08))
-                          ]),
-                      child: Column(
+                          bottom: 4.h
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(bottom: 4.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        top: 10.h, left: 10.w, right: 10.w),
-                                    child: Image.asset(
-                                      language.locale.languageCode == "ur" ||
-                                              language.locale.languageCode ==
-                                                  "ar"
-                                          ? 'assets/images/app_icons/frame_left_t.png'
-                                          : 'assets/images/app_icons/frame_right_t.png',
-                                      height: 43.h,
-                                      width: 43.w,
-                                      color: appColors.mainBrandingColor,
-                                    )),
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        top: 10.h, right: 10.w, left: 10.w),
-                                    child: Image.asset(
-                                      language.locale.languageCode == "ur" ||
-                                              language.locale.languageCode ==
-                                                  "ar"
-                                          ? 'assets/images/app_icons/frame_right_t.png'
-                                          : 'assets/images/app_icons/frame_left_t.png',
-                                      height: 43.h,
-                                      width: 43.w,
-                                      color: appColors.mainBrandingColor,
-                                    )),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${index + 1} of 99',
-                                  style: TextStyle(
-                                      color: appColors.mainBrandingColor,
-                                      fontFamily: 'satoshi',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20.sp),
-                                ),
-                                Text(
-                                  names.arabictext!,
-                                  style: TextStyle(
-                                      fontFamily: 'Al Majeed Quranic Font',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: Dimensions.height < 500 ||
-                                              Dimensions.height < 600
-                                          ? 40.sp
-                                          : 61.sp),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(names.english!,
-                                    style: TextStyle(
-                                        fontFamily: 'satoshi',
-                                        color: appColors.mainBrandingColor,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18.sp)),
-                                Text(names.englishMeaning!,
-                                    style: TextStyle(
-                                      fontFamily: 'satoshi',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: Dimensions.height < 300 ||
-                                              Dimensions.height < 500 ||
-                                              Dimensions.height < 600
-                                          ? 10.sp
-                                          : 16.sp,
-                                    )),
-                                Column(
-                                  children: [
-                                    CircleButton(
-                                        height: 58.h,
-                                        width: 58.w,
-                                        icon: Icon(
-                                          Icons.play_arrow,
-                                          size: 28.h,
-                                          color: Colors.white,
-                                        )),
-                                    SizedBox(
-                                      height: 9.h,
-                                    ),
-                                    Text(
-                                      'Play Audio',
-                                      style: TextStyle(
-                                          fontFamily: 'satoshi',
-                                          color: AppColors.grey3,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12.sp),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
+                              margin: EdgeInsets.only(top: 10.h,left: 10.w,right: 10.w),
+                              child: Image.asset(language.locale.languageCode == "ur" || language.locale.languageCode == "ar" ?
+                              'assets/images/app_icons/frame_left_t.png' : 'assets/images/app_icons/frame_right_t.png',height: 43.h,width: 43.w,color: appColors.mainBrandingColor,)),
                           Container(
-                            alignment: Alignment.bottomCenter,
-                            margin: EdgeInsets.only(top: 4.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: 10.h, left: 10.w, right: 10.w),
-                                    child: Image.asset(
-                                      language.locale.languageCode == "ur" ||
-                                              language.locale.languageCode ==
-                                                  "ar"
-                                          ? 'assets/images/app_icons/frame_left_b.png'
-                                          : 'assets/images/app_icons/frame_right_b.png',
-                                      height: 43.h,
-                                      width: 43.w,
-                                      color: appColors.mainBrandingColor,
-                                    )),
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: 10.h, right: 10.w, left: 10.w),
-                                    child: Image.asset(
-                                      language.locale.languageCode == "ur" ||
-                                              language.locale.languageCode ==
-                                                  "ar"
-                                          ? 'assets/images/app_icons/frame_right_b.png'
-                                          : 'assets/images/app_icons/frame_left_b.png',
-                                      height: 43.h,
-                                      width: 43.w,
-                                      color: appColors.mainBrandingColor,
-                                    )),
-                              ],
-                            ),
-                          ),
+                              margin: EdgeInsets.only(top: 10.h,right: 10.w,left: 10.w),
+                              child: Image.asset(language.locale.languageCode == "ur" || language.locale.languageCode == "ar" ? 'assets/images/app_icons/frame_right_t.png' : 'assets/images/app_icons/frame_left_t.png',height: 43.h,width: 43.w,color: appColors.mainBrandingColor,)),
                         ],
                       ),
-                    );
-                  },
-                )
-              : const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.mainBrandingColor,
-                  ),
-                );
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('${index+1} of 99',style: TextStyle(
+                            color: appColors.mainBrandingColor,
+                              fontFamily: 'satoshi',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18.sp
+                          ),),
+                          Text(names.arabictext!,style: TextStyle(
+                              fontFamily: 'Al Majeed Quranic Font',
+                              fontWeight: FontWeight.w400,
+                              fontSize: Dimensions.height < 500 || Dimensions.height < 600 ? 40.sp :61.sp
+                          ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(names.english!,style: TextStyle(
+                              fontFamily: 'satoshi',
+                              color: appColors.mainBrandingColor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18.sp
+                          )),
+                          Text(names.englishMeaning!,style: TextStyle(
+                            fontFamily: 'satoshi',
+                            fontWeight: FontWeight.w500,
+                            fontSize: Dimensions.height < 300 || Dimensions.height < 500 || Dimensions.height < 600 ? 10.sp : 16.sp,
+                          )),
+                          Column(
+                            children: [
+                              CircleButton(height: 58.h, width: 58.w, icon: Icon(Icons.play_arrow,size: 28.h,color: Colors.white,)),
+                              SizedBox(height: 9.h,),
+                              Text('Play Audio',style: TextStyle(
+                                  fontFamily: 'satoshi',
+                                  color: AppColors.grey3,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.sp
+                              ),),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      margin: EdgeInsets.only(
+                          top: 4.h
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(bottom: 10.h,left: 10.w,right: 10.w),
+                              child: Image.asset(language.locale.languageCode == "ur" || language.locale.languageCode == "ar" ? 'assets/images/app_icons/frame_left_b.png' : 'assets/images/app_icons/frame_right_b.png',height: 43.h,width: 43.w,color: appColors.mainBrandingColor,)),
+                          Container(
+                              margin: EdgeInsets.only(bottom: 10.h,right: 10.w,left: 10.w),
+                              child: Image.asset(language.locale.languageCode == "ur" || language.locale.languageCode == "ar" ? 'assets/images/app_icons/frame_right_b.png' : 'assets/images/app_icons/frame_left_b.png',height: 43.h,width: 43.w,color: appColors.mainBrandingColor,)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },) : const Center(child: CircularProgressIndicator(color: AppColors.mainBrandingColor,),);
         },
       ),
     );

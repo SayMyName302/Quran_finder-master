@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
-import '../entities/last_seen.dart';
+import 'package:nour_al_quran/shared/entities/last_seen.dart';
+
+
 
 class LastSeenAdapter extends TypeAdapter<LastSeen> {
   @override
@@ -16,16 +18,10 @@ class LastSeenAdapter extends TypeAdapter<LastSeen> {
     final lastSeen = reader.read();
     final isJuz = reader.read();
     final juzId = reader.read();
-    return LastSeen(
-        surahNameArabic: surahNameArabic,
-        surahName: surahName,
-        surahEnglish: surahEnglish,
-        juzName: juzArabic,
-        surahId: surahId,
-        ayahId: ayahId,
-        lastSeen: lastSeen,
-        isJuz: isJuz,
-        juzId: juzId);
+    return LastSeen(surahNameArabic: surahNameArabic,
+        surahName: surahName,surahEnglish: surahEnglish,
+        juzName: juzArabic,surahId: surahId,
+        ayahId: ayahId,lastSeen: lastSeen,isJuz: isJuz,juzId: juzId);
   }
 
   @override

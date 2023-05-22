@@ -8,5 +8,6 @@ export './notification/notification_setup.dart';
 export './like_to_recite/when_to_recite_page.dart';
 export './preferred_language/preferred_language_page.dart';
 export './quran_reminder/quran_reminder_page.dart';
-export './your_name/your_name_page.dart';
+export '../../sign_in/pages/your_name_page.dart';
+export './complete_profile/complete_profile.dart';
 

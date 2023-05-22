@@ -26,6 +26,12 @@ const String selectedQuranTranslationKey = "selectedTranslationForQuran";
 
 const String duaTranslationKey = "duaTranslationKey";
 
+const String miraclesTranslationKey = "miraclesTranslationKey";
+
+const String basicsTranslationKey = "miraclesTranslationKey";
+
+const String quranStoriesTranslationKey = "miraclesTranslationKey";
+
 const String loginStatusString = "loginStatus";
 
 const String salahSelectedThem = "salahThem";
@@ -46,5 +52,7 @@ const int dailyQuranRecitationId = 1;
 
 const int prayerNotificationId = 2;
 
+/// daily streak level
+const String streakLevelKey= "streakLevelKey";
 
 
