@@ -41,57 +41,76 @@ import 'package:nour_al_quran/shared/utills/app_them.dart';
 import 'package:nour_al_quran/shared/utills/dimensions.dart';
 import 'package:provider/provider.dart';
 
+import 'pages/paywall/paywal_provider.dart';
+
 void main() async {
   await Global.init();
-  runApp(MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => ThemProvider(),),
-            ChangeNotifierProvider(create: (_) => BottomTabsPageProvider()),
-            ChangeNotifierProvider(create: (_) => QuranProvider()),
-            ChangeNotifierProvider(create: (_) => TasbeehProvider()),
-            ChangeNotifierProvider(create: (_) => LocalizationProvider()),
-            ChangeNotifierProvider(create: (_) => ReciterProvider(),),
-            ChangeNotifierProvider(create: (_) => DownloadProvider()),
-            ChangeNotifierProvider(create: (_) => RecitationPlayerProvider()),
-            ChangeNotifierProvider(create: (_) => AppColorsProvider()),
-            ChangeNotifierProvider(create: (_) => PrayerTimeProvider()),
-            ChangeNotifierProvider(create: (_) => QiblaProvider()),
-            ChangeNotifierProvider(create: (_) => LastSeenProvider(),),
-            ChangeNotifierProvider(create: (_) => BookmarkProvider(),),
-            ChangeNotifierProvider(create: (_) => SurahProvider()),
-            ChangeNotifierProvider(create: (_) => JuzProvider()),
-            ChangeNotifierProvider(create: (_) => DuaProvider(),),
-            ChangeNotifierProvider(create: (_) => RecitationProvider()),
-            ChangeNotifierProvider(create: (_) => HomeProvider()),
-            ChangeNotifierProvider(create: (_) => OnBoardingProvider(),),
-            ChangeNotifierProvider(create: (_)=> FontProvider()),
-            ChangeNotifierProvider(create: (_)=> QuranStoriesProvider()),
-            ChangeNotifierProvider(create: (_)=>MiraclesOfQuranProvider()),
-            ChangeNotifierProvider(create: (_)=> TranslationManagerProvider(),),
-            ChangeNotifierProvider(create: (_)=> DownloadManagerProvider()),
-            ChangeNotifierProvider(create: (_)=>SalahStepsProvider()),
-            ChangeNotifierProvider(create: (_)=>IslamBasicsProvider()),
-            ChangeNotifierProvider(create: (_)=>NamesProvider()),
-            ChangeNotifierProvider(create: (_)=>SignInProvider(),),
-            ChangeNotifierProvider(create: (_)=>ProfileProvider()),
-            ChangeNotifierProvider(create: (_)=>StoryAndBasicPlayerProvider()),
-            ChangeNotifierProvider(create: (_)=>MyStateProvider()),
-            StreamProvider<int>(create: (context)=>NetworkProvider().streamController.stream, initialData: 0),
-          ],
-          child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (_) => PremiumScreenProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) => ThemProvider(),
+    ),
+    ChangeNotifierProvider(create: (_) => BottomTabsPageProvider()),
+    ChangeNotifierProvider(create: (_) => QuranProvider()),
+    ChangeNotifierProvider(create: (_) => TasbeehProvider()),
+    ChangeNotifierProvider(create: (_) => LocalizationProvider()),
+    ChangeNotifierProvider(
+      create: (_) => ReciterProvider(),
+    ),
+    ChangeNotifierProvider(create: (_) => DownloadProvider()),
+    ChangeNotifierProvider(create: (_) => RecitationPlayerProvider()),
+    ChangeNotifierProvider(create: (_) => AppColorsProvider()),
+    ChangeNotifierProvider(create: (_) => PrayerTimeProvider()),
+    ChangeNotifierProvider(create: (_) => QiblaProvider()),
+    ChangeNotifierProvider(
+      create: (_) => LastSeenProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) => BookmarkProvider(),
+    ),
+    ChangeNotifierProvider(create: (_) => SurahProvider()),
+    ChangeNotifierProvider(create: (_) => JuzProvider()),
+    ChangeNotifierProvider(
+      create: (_) => DuaProvider(),
+    ),
+    ChangeNotifierProvider(create: (_) => RecitationProvider()),
+    ChangeNotifierProvider(create: (_) => HomeProvider()),
+    ChangeNotifierProvider(
+      create: (_) => OnBoardingProvider(),
+    ),
+    ChangeNotifierProvider(create: (_) => FontProvider()),
+    ChangeNotifierProvider(create: (_) => QuranStoriesProvider()),
+    ChangeNotifierProvider(create: (_) => MiraclesOfQuranProvider()),
+    ChangeNotifierProvider(
+      create: (_) => TranslationManagerProvider(),
+    ),
+    ChangeNotifierProvider(create: (_) => DownloadManagerProvider()),
+    ChangeNotifierProvider(create: (_) => SalahStepsProvider()),
+    ChangeNotifierProvider(create: (_) => IslamBasicsProvider()),
+    ChangeNotifierProvider(create: (_) => NamesProvider()),
+    ChangeNotifierProvider(
+      create: (_) => SignInProvider(),
+    ),
+    ChangeNotifierProvider(create: (_) => ProfileProvider()),
+    ChangeNotifierProvider(create: (_) => StoryAndBasicPlayerProvider()),
+    ChangeNotifierProvider(create: (_) => MyStateProvider()),
+    StreamProvider<int>(
+        create: (context) => NetworkProvider().streamController.stream,
+        initialData: 0),
+  ], child: const MyApp()));
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
-      designSize: Size(Dimensions.width,Dimensions.height),
+      designSize: Size(Dimensions.width, Dimensions.height),
       builder: (BuildContext context, Widget? child) {
-        return Consumer2<LocalizationProvider,ThemProvider>(
+        return Consumer2<LocalizationProvider, ThemProvider>(
           builder: (context, value, dark, child) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
@@ -117,6 +136,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-

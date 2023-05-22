@@ -24,14 +24,20 @@ class SetFavReciter extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 20.w,right: 20.w,),
+            margin: EdgeInsets.only(
+              left: 20.w,
+              right: 20.w,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                OnBoardingTitleText(title: localeText(context, "beautiful_recitations_from_around_the_world")),
-                OnBoardingSubTitleText(title: localeText(context, "set_your_favorite_reciter")),
+                OnBoardingTitleText(
+                    title: localeText(context,
+                        "beautiful_recitations_from_around_the_world")),
+                OnBoardingSubTitleText(
+                    title: localeText(context, "set_your_favorite_reciter")),
                 Consumer<OnBoardingProvider>(
-                  builder: (context, setReciter,child) {
+                  builder: (context, setReciter, child) {
                     return MediaQuery.removePadding(
                       context: context,
                       removeTop: true,
@@ -43,22 +49,28 @@ class SetFavReciter extends StatelessWidget {
                         itemBuilder: (context, index) {
                           FavReciter reciter = setReciter.reciterList[index];
                           return InkWell(
-                            onTap: (){
+                            onTap: () {
                               setReciter.setFavReciter(index);
                             },
-                            child: _buildReciterNameContainer(reciter, setReciter, isDark, appColors, index),
+                            child: _buildReciterNameContainer(
+                                reciter, setReciter, isDark, appColors, index),
                           );
                         },
                       ),
                     );
                   },
                 ),
-                BrandButton(text: localeText(context, "continue"), onTap: (){
-                  Navigator.of(context).pushNamed(RouteHelper.whenToRecite);
-                }),
-                SizedBox(height: 16.h,),
-                SkipButton(onTap: (){
-                  Navigator.of(context).pushNamed(RouteHelper.whenToRecite);
+                BrandButton(
+                    text: localeText(context, "continue"),
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(RouteHelper.quranReminder);
+                    }),
+                SizedBox(
+                  height: 16.h,
+                ),
+                SkipButton(onTap: () {
+                  Navigator.of(context).pushNamed(RouteHelper.quranReminder);
                 })
               ],
             ),
@@ -68,48 +80,107 @@ class SetFavReciter extends StatelessWidget {
     );
   }
 
-  Container _buildReciterNameContainer(FavReciter reciter, OnBoardingProvider setReciter, bool isDark, AppColorsProvider appColors, int index) {
+  Container _buildReciterNameContainer(
+      FavReciter reciter,
+      OnBoardingProvider setReciter,
+      bool isDark,
+      AppColorsProvider appColors,
+      int index) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15.h,),
-      padding: EdgeInsets.only(left: 10.w,right: 10.w,top: 15.h,bottom: 15.h),
-      decoration: BoxDecoration(
-          color: reciter.title == setReciter.favReciter ? isDark ? AppColors.brandingDark : AppColors.lightBrandingColor : Colors.transparent,
-          border: Border.all(color: reciter.title == setReciter.favReciter ? appColors.mainBrandingColor : isDark ? AppColors.grey3 : AppColors.grey5),
-          borderRadius: BorderRadius.circular(6.r)
+      margin: EdgeInsets.only(
+        bottom: 15.h,
       ),
+      padding:
+          EdgeInsets.only(left: 10.w, right: 10.w, top: 15.h, bottom: 15.h),
+      decoration: BoxDecoration(
+          color: reciter.title == setReciter.favReciter
+              ? isDark
+                  ? AppColors.brandingDark
+                  : AppColors.lightBrandingColor
+              : Colors.transparent,
+          border: Border.all(
+              color: reciter.title == setReciter.favReciter
+                  ? appColors.mainBrandingColor
+                  : isDark
+                      ? AppColors.grey3
+                      : AppColors.grey5),
+          borderRadius: BorderRadius.circular(6.r)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(reciter.title!,style: TextStyle(
-              fontFamily: 'satoshi',
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500
-          ),),
-          reciter.title == setReciter.favReciter ? Row(
-            children: [
-              reciter.isPlaying! ? Image.asset( "assets/images/app_icons/sound_waves.png",height: 20.78.h,width: 27.46.w,color: isDark ? Colors.white : appColors.mainBrandingColor,) :
-              InkWell(
-                  onTap: (){
-                    setReciter.setIsPlaying(index);
-                  },
-                  child: Image.asset("assets/images/app_icons/play_mainplayer.png",height: 17.h,width: 17.w,)),
-              SizedBox(width: 9.w,),
-              Stack(
-                children: [
-                  Icon(Icons.circle,size: 17.h,color: isDark ? Colors.white : appColors.mainBrandingColor,),
-                  Positioned(
-                      left: 0, right: 0, top: 0, bottom: 0,
-                      child: Icon(Icons.circle,size: 9.h,color: isDark ? appColors.mainBrandingColor : Colors.white,))
-                ],
-              ),
-            ],
-          ) : Row(
-            children: [
-              Image.asset("assets/images/app_icons/play_mainplayer.png",height: 17.h,width: 17.w,),
-              SizedBox(width: 9.w,),
-              Icon(Icons.circle,size: 17.h,color: AppColors.grey5,),
-            ],
-          )
+          Text(
+            reciter.title!,
+            style: TextStyle(
+                fontFamily: 'satoshi',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500),
+          ),
+          reciter.title == setReciter.favReciter
+              ? Row(
+                  children: [
+                    reciter.isPlaying!
+                        ? Image.asset(
+                            "assets/images/app_icons/sound_waves.png",
+                            height: 20.78.h,
+                            width: 27.46.w,
+                            color: isDark
+                                ? Colors.white
+                                : appColors.mainBrandingColor,
+                          )
+                        : InkWell(
+                            onTap: () {
+                              setReciter.setIsPlaying(index);
+                            },
+                            child: Image.asset(
+                              "assets/images/app_icons/play_mainplayer.png",
+                              height: 17.h,
+                              width: 17.w,
+                            )),
+                    SizedBox(
+                      width: 9.w,
+                    ),
+                    Stack(
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          size: 17.h,
+                          color: isDark
+                              ? Colors.white
+                              : appColors.mainBrandingColor,
+                        ),
+                        Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Icon(
+                              Icons.circle,
+                              size: 9.h,
+                              color: isDark
+                                  ? appColors.mainBrandingColor
+                                  : Colors.white,
+                            ))
+                      ],
+                    ),
+                  ],
+                )
+              : Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/app_icons/play_mainplayer.png",
+                      height: 17.h,
+                      width: 17.w,
+                    ),
+                    SizedBox(
+                      width: 9.w,
+                    ),
+                    Icon(
+                      Icons.circle,
+                      size: 17.h,
+                      color: AppColors.grey5,
+                    ),
+                  ],
+                )
         ],
       ),
     );

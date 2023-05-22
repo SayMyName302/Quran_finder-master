@@ -29,77 +29,105 @@ class _SignInPageState extends State<SignInPage> {
   var email = TextEditingController();
   var password = TextEditingController();
 
-
   @override
   void dispose() {
     super.dispose();
     email.dispose();
     password.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    Color color = Provider.of<AppColorsProvider>(context,listen: false).mainBrandingColor;
+    Color color = Provider.of<AppColorsProvider>(context, listen: false)
+        .mainBrandingColor;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 20.w,right: 20.w,),
+            margin: EdgeInsets.only(
+              left: 20.w,
+              right: 20.w,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(bottom: 16.h,top: 25.h,),
-                  child: Text(localeText(context, "login_to_get_started"),style: TextStyle(
-                      fontFamily: "satoshi",
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w900
-                  ),),
+                  margin: EdgeInsets.only(
+                    bottom: 16.h,
+                    top: 25.h,
+                  ),
+                  child: Text(
+                    localeText(context, "login_to_get_started"),
+                    style: TextStyle(
+                        fontFamily: "satoshi",
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w900),
+                  ),
                 ),
                 TextFieldColumn(
                   titleText: localeText(context, "enter_your_email"),
                   controller: email,
                   hintText: localeText(context, "enter_your_email"),
                 ),
-                SizedBox(height: 10.h,),
+                SizedBox(
+                  height: 10.h,
+                ),
                 TextFieldColumn(
-                    titleText: localeText(context, 'password'),
-                    controller: password,
-                    hintText: localeText(context, 'password'),
-                    isPasswordField: true,
+                  titleText: localeText(context, 'password'),
+                  controller: password,
+                  hintText: localeText(context, 'password'),
+                  isPasswordField: true,
                 ),
                 Container(
-                    margin: EdgeInsets.only(top: 13.h,bottom: 20.h),
-                    child: Text(localeText(context, "forgot_password"),style: TextStyle(
-                      fontFamily: 'satoshi',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12.sp,
-                      color: AppColors.mainBrandingColor
-                    ),)),
-                BrandButton(text: localeText(context, "login"), onTap: (){
-                  Provider.of<SignInProvider>(context,listen: false).signInWithEmailPassword(email.text, password.text);
-                }),
+                    margin: EdgeInsets.only(top: 13.h, bottom: 20.h),
+                    child: Text(
+                      localeText(context, "forgot_password"),
+                      style: TextStyle(
+                          fontFamily: 'satoshi',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                          color: AppColors.mainBrandingColor),
+                    )),
+                BrandButton(
+                    text: localeText(context, "login"),
+                    onTap: () {
+                      Provider.of<SignInProvider>(context, listen: false)
+                          .signInWithEmailPassword(
+                              email.text, password.text, context);
+                    }),
                 Container(
-                  margin: EdgeInsets.only(top: 16.h),
+                    margin: EdgeInsets.only(top: 16.h),
                     width: double.maxFinite,
-                    child: Text(localeText(context, 'or_login_using'),textAlign: TextAlign.center,style: TextStyle(fontFamily: 'satoshi',fontSize: 10.sp,fontWeight: FontWeight.w500),)),
+                    child: Text(
+                      localeText(context, 'or_login_using'),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'satoshi',
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w500),
+                    )),
                 Container(
-                  margin: EdgeInsets.only(top: 16.h,bottom: 30.h),
-                  child: Row(
-                    children: [
-                      _buildThirdPartyLoginContainers('facebook',(){
-                        context.read<SignInProvider>().signInWithFaceBook();
-                      }),
-                      _buildThirdPartyLoginContainers('google',() async{
-                        context.read<SignInProvider>().signInWithGoogle();
-                      }),
-                      Platform.isIOS ? _buildThirdPartyLoginContainers('apple',(){
-                        context.read<SignInProvider>().signInWithApple();
-                      }) : const SizedBox.shrink(),
-                    ]),
+                  margin: EdgeInsets.only(top: 16.h, bottom: 30.h),
+                  child: Row(children: [
+                    _buildThirdPartyLoginContainers('facebook', () {
+                      context.read<SignInProvider>().signInWithFaceBook();
+                    }),
+                    _buildThirdPartyLoginContainers('google', () async {
+                      context.read<SignInProvider>().signInWithGoogle(context);
+                    }),
+                    Platform.isIOS
+                        ? _buildThirdPartyLoginContainers('apple', () {
+                            context.read<SignInProvider>().signInWithApple();
+                          })
+                        : const SizedBox.shrink(),
+                  ]),
                 ),
-                buildRegisterOrHaveAccountContainer(title:localeText(context,"don't_have_an_account_register") ,onPress: (){
-                  Navigator.of(context).pushNamed(RouteHelper.signUp);
-                }),
+                buildRegisterOrHaveAccountContainer(
+                    title:
+                        localeText(context, "don't_have_an_account_register"),
+                    onPress: () {
+                      Navigator.of(context).pushNamed(RouteHelper.signUp);
+                    }),
               ],
             ),
           ),
@@ -108,45 +136,55 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-
-  Widget _buildThirdPartyLoginContainers(String loginType,VoidCallback onTap) {
+  Widget _buildThirdPartyLoginContainers(String loginType, VoidCallback onTap) {
     return Expanded(
       child: InkWell(
         onTap: onTap,
         child: Container(
           height: 46.h,
           margin: EdgeInsets.only(right: 12.w),
-          padding: EdgeInsets.only(top: 13.h,bottom: 13.h),
+          padding: EdgeInsets.only(top: 13.h, bottom: 13.h),
           decoration: BoxDecoration(
-              color: loginType == "facebook" ? AppColors.facebookColor  : loginType == "google" ? AppColors.googleColor : Colors.black,
-              borderRadius: BorderRadius.circular(6.r)
+              color: loginType == "facebook"
+                  ? AppColors.facebookColor
+                  : loginType == "google"
+                      ? AppColors.googleColor
+                      : Colors.black,
+              borderRadius: BorderRadius.circular(6.r)),
+          child: Image.asset(
+            'assets/images/app_icons/$loginType.png',
+            height: 20.h,
+            width: 20.w,
           ),
-          child: Image.asset('assets/images/app_icons/$loginType.png',height: 20.h,width: 20.w,),
         ),
       ),
     );
   }
 }
 
-buildRegisterOrHaveAccountContainer({required String title,required VoidCallback onPress}) {
-  Color color = Provider.of<AppColorsProvider>(RouteHelper.currentContext,listen: false).mainBrandingColor;
+buildRegisterOrHaveAccountContainer(
+    {required String title, required VoidCallback onPress}) {
+  Color color =
+      Provider.of<AppColorsProvider>(RouteHelper.currentContext, listen: false)
+          .mainBrandingColor;
   return InkWell(
     onTap: onPress,
     child: Container(
       width: double.maxFinite,
-      padding: EdgeInsets.only(top: 16.h,bottom: 15.h),
+      padding: EdgeInsets.only(top: 16.h, bottom: 15.h),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(color: color),
       ),
-      child: Text(title,style: TextStyle(
-          color: color,
-          fontWeight: FontWeight.w700,
-          fontSize: 14.sp,
-          fontFamily: 'satoshi'
-      ),),
+      child: Text(
+        title,
+        style: TextStyle(
+            color: color,
+            fontWeight: FontWeight.w700,
+            fontSize: 14.sp,
+            fontFamily: 'satoshi'),
+      ),
     ),
   );
 }
-

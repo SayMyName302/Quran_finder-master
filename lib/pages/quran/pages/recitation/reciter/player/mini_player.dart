@@ -17,134 +17,183 @@ class MiniPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer3<AppColorsProvider,ThemProvider,RecitationPlayerProvider>(
-      builder: (context, appColors,them,player, child) {
-        return player.isOpen ? InkWell(
-          onTap: (){
-            Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
-          },
-          child: Container(
-            width: double.maxFinite,
-            // height: 62.h,
-            color: !them.isDark ? AppColors.lightBrandingColor : AppColors.grey1,
-            child:  Row(
-              children: [
-                Expanded(
-                  child: Column(
+    return Consumer3<AppColorsProvider, ThemProvider, RecitationPlayerProvider>(
+      builder: (context, appColors, them, player, child) {
+        return player.isOpen
+            ? InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+                },
+                child: Container(
+                  width: double.maxFinite,
+                  // height: 62.h,
+                  color: !them.isDark
+                      ? AppColors.lightBrandingColor
+                      : AppColors.grey1,
+                  child: Row(
                     children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 8.h, left: 20.w,right: 7.w,),
-                            child: CircleAvatar(
-                              backgroundImage: CachedNetworkImageProvider(
-                                player.reciter!.imageUrl!,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 12.h,bottom: 9.h),
-                            child: Column(
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Row(
                               mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(player.reciter!.reciterName!, style: TextStyle(
-                                    color: Theme.of(context).textTheme.headlineLarge!.color,
-                                    fontSize: 14.sp,
-                                    fontFamily: "satoshi",
-                                    fontWeight: FontWeight.w700),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 8.h,
+                                    left: 20.w,
+                                    right: 7.w,
+                                  ),
+                                  child: CircleAvatar(
+                                    backgroundImage: CachedNetworkImageProvider(
+                                      player.reciter!.imageUrl!,
+                                    ),
+                                  ),
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width*0.58,
-                                  child: Text('${player.surah!.englishName!}, Surah ${player.surah!.surahId}',style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 10.sp,
-                                      fontFamily: "satoshi",
-                                      color: !them.isDark ? AppColors.grey2 : AppColors.grey4),),
+                                Container(
+                                  margin:
+                                      EdgeInsets.only(top: 12.h, bottom: 9.h),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        player.reciter!.reciterName!,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .headlineLarge!
+                                                .color,
+                                            fontSize: 14.sp,
+                                            fontFamily: "satoshi",
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.58,
+                                        child: Text(
+                                          '${player.surah!.englishName!}, Surah ${player.surah!.surahName}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 10.sp,
+                                              fontFamily: "satoshi",
+                                              color: !them.isDark
+                                                  ? AppColors.grey2
+                                                  : AppColors.grey4),
+                                        ),
+                                      ),
+                                      // i want to give all available width to this
+                                    ],
+                                  ),
                                 ),
-                                // i want to give all available width to this
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: 2.h,left: 68.w,right: 68.w),
-                        child: SliderTheme(
-                          data: SliderThemeData(
-                              overlayShape: SliderComponentShape.noOverlay,
-                              trackHeight: 5.h,
-                              trackShape: CustomTrackShape(),
-                              thumbShape: const RoundSliderThumbShape(
-                                elevation: 0.0,
-                                enabledThumbRadius: 3.5,
-                              )
-                          ),
-                          child: Slider(
-                            min: 0.0,
-                            thumbColor: appColors.mainBrandingColor,
-                            activeColor: appColors.mainBrandingColor,
-                            inactiveColor: Colors.white,
-                            max: player.duration.inSeconds.toDouble(),
-                            value: player.position.inSeconds.toDouble(),
-                            onChanged: (value) {
-                              final position = Duration(seconds: value.toInt());
-                              // _audioPlayer!.seek(position);
-                              player.audioPlayer.seek(position);
-                            },
-                          ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  bottom: 2.h, left: 68.w, right: 68.w),
+                              child: SliderTheme(
+                                data: SliderThemeData(
+                                    overlayShape:
+                                        SliderComponentShape.noOverlay,
+                                    trackHeight: 5.h,
+                                    trackShape: CustomTrackShape(),
+                                    thumbShape: const RoundSliderThumbShape(
+                                      elevation: 0.0,
+                                      enabledThumbRadius: 3.5,
+                                    )),
+                                child: Slider(
+                                  min: 0.0,
+                                  thumbColor: appColors.mainBrandingColor,
+                                  activeColor: appColors.mainBrandingColor,
+                                  inactiveColor: Colors.white,
+                                  max: player.duration.inSeconds.toDouble(),
+                                  value: player.position.inSeconds.toDouble(),
+                                  onChanged: (value) {
+                                    final position =
+                                        Duration(seconds: value.toInt());
+                                    // _audioPlayer!.seek(position);
+                                    player.audioPlayer.seek(position);
+                                  },
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 69.w, bottom: 7.h, right: 69.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      "${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}",
+                                      style: TextStyle(
+                                          fontSize: 6.sp,
+                                          color: AppColors.grey2,
+                                          fontFamily: 'satoshi')),
+                                  Text(
+                                    '- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}',
+                                    style: TextStyle(
+                                        fontSize: 6.sp,
+                                        color: AppColors.grey2,
+                                        fontFamily: 'satoshi'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 69.w,bottom: 7.h,right: 69.w),
+                        margin: EdgeInsets.only(
+                            right: 19.22.w,
+                            top: 15.h,
+                            left: 11.w,
+                            bottom: 34.h),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}",style: TextStyle(
-                                fontSize: 6.sp,
-                                color: AppColors.grey2,
-                                fontFamily: 'satoshi'
-                            )),
-                            Text('- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}',style: TextStyle(
-                                fontSize: 6.sp,
-                                color: AppColors.grey2,
-                                fontFamily: 'satoshi'
-                            ),),
+                            InkWell(
+                              onTap: () async {
+                                if (player.isPlaying) {
+                                  await player.pause(context);
+                                } else {
+                                  await player.play(context);
+                                }
+                              },
+                              child: CircleButton(
+                                  height: 27.h,
+                                  width: 27.w,
+                                  icon: Icon(
+                                    player.isPlaying
+                                        ? Icons.pause
+                                        : Icons.play_arrow,
+                                    size: 13.h,
+                                    color: Colors.white,
+                                  )),
+                            ),
+                            SizedBox(
+                              width: 11.w,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                player.closePlayer();
+                              },
+                              child: ImageIcon(
+                                const AssetImage(
+                                  "assets/images/app_icons/close.png",
+                                ),
+                                size: 9.58.h,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(right: 19.22.w, top: 15.h, left: 11.w,bottom: 34.h),
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () async{
-                          if(player.isPlaying){
-                            await player.pause(context);
-                          }else{
-                            await player.play(context);
-                          }
-                        },
-                        child: CircleButton(height: 27.h, width: 27.w, icon: Icon(player.isPlaying ? Icons.pause : Icons.play_arrow,size: 13.h,color: Colors.white,)),
-                      ),
-                      SizedBox(width: 11.w,),
-                      InkWell(
-                        onTap: (){
-                          player.closePlayer();
-                        },
-                        child: ImageIcon(const AssetImage("assets/images/app_icons/close.png",),size: 9.58.h,),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ) : const SizedBox.shrink();
+              )
+            : const SizedBox.shrink();
       },
     );
   }

@@ -7,7 +7,9 @@ class TitleRow extends StatelessWidget {
   final String title;
   final double? fontSize;
   final double? height;
-  const TitleRow({Key? key, required this.title,this.fontSize = 0,this.height = 0}) : super(key: key);
+  const TitleRow(
+      {Key? key, required this.title, this.fontSize = 0, this.height = 0})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,20 +18,26 @@ class TitleRow extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 20.w, top: 60.h,right: 20.w),
+            margin: EdgeInsets.only(left: 20.w, top: 60.h, right: 20.w),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: const ImageIcon(AssetImage('assets/images/app_icons/back.png')),
+              child: const ImageIcon(
+                  AssetImage('assets/images/app_icons/back.png')),
             ),
           ),
           Container(
               margin: EdgeInsets.only(top: height == 0 ? 60.h : height!),
               alignment: Alignment.center,
-              child: TitleText(title: title,fontSize: fontSize,)),
+              child: TitleText(
+                title: title,
+                fontSize: fontSize,
+              )),
         ],
       ),
     );
   }
+
+  
 }

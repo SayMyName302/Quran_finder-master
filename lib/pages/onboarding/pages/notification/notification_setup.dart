@@ -18,24 +18,35 @@ class NotificationSetup extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(left: 20.w,right: 20.w,),
+          margin: EdgeInsets.only(
+            left: 20.w,
+            right: 20.w,
+          ),
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(bottom: 4.h,top: 28.h),
-                child: Text(localeText(context, "turn_on_notifications_to_get_the_most_out_of_quran_pro?"),style: TextStyle(
-                    fontFamily: "satoshi",
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w900
-                ),
+                margin: EdgeInsets.only(bottom: 4.h, top: 28.h),
+                child: Text(
+                  localeText(context,
+                      "turn_on_notifications_to_get_the_most_out_of_quran_pro?"),
+                  style: TextStyle(
+                      fontFamily: "satoshi",
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w900),
                   textAlign: TextAlign.justify,
                 ),
               ),
-              OnBoardingSubTitleText(title: localeText(context, "receive_personalized_recommedations,_hadiths,_athan,_duas_and_other_reminders_to_enhance_your_spirtual_journey._you_can_opt_out_anytime"),),
+              OnBoardingSubTitleText(
+                title: localeText(context,
+                    "receive_personalized_recommedations,_hadiths,_athan,_duas_and_other_reminders_to_enhance_your_spirtual_journey._you_can_opt_out_anytime"),
+              ),
               _buildNotificationList(),
-              BrandButton(text: localeText(context, "finish_setup"), onTap: (){
-                Navigator.of(context).pushNamedAndRemoveUntil(RouteHelper.completeProfile, (route) => false);
-              })
+              BrandButton(
+                  text: localeText(context, "finish_setup"),
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        RouteHelper.reviewOne, (route) => false);
+                  })
             ],
           ),
         ),
@@ -44,8 +55,8 @@ class NotificationSetup extends StatelessWidget {
   }
 
   _buildNotificationList() {
-    return Consumer2<OnBoardingProvider,AppColorsProvider>(
-      builder: (context, notify,appColors, child) {
+    return Consumer2<OnBoardingProvider, AppColorsProvider>(
+      builder: (context, notify, appColors, child) {
         return ListView.builder(
           padding: EdgeInsets.only(bottom: 50.h),
           shrinkWrap: true,
@@ -66,14 +77,16 @@ class NotificationSetup extends StatelessWidget {
                         fit: BoxFit.fill,
                         child: CupertinoSwitch(
                             activeColor: appColors.mainBrandingColor,
-                            value: notificationList.isSelected!, onChanged: (value){
-                          notify.setNotification(index, value);
-                        })),
+                            value: notificationList.isSelected!,
+                            onChanged: (value) {
+                              notify.setNotification(index, value);
+                            })),
                   ),
                 ],
               ),
             );
-          },);
+          },
+        );
       },
     );
   }

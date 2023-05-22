@@ -26,25 +26,40 @@ class SetPreferredLanguage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 20.w,right: 20.w,),
+            margin: EdgeInsets.only(
+              left: 20.w,
+              right: 20.w,
+            ),
             child: Consumer<LocalizationProvider>(
               builder: (context, localization, child) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    OnBoardingTitleText(title: localeText(context, "choose_your_preferred_language")),
-                    OnBoardingSubTitleText(title: localeText(context, "let's_personalize_the_app_experience")),
-                    _buildLanguageList(context, localization, isDark, appColors),
-                    SizedBox(height: 6.h,),
+                    OnBoardingTitleText(
+                        title: localeText(
+                            context, "choose_your_preferred_language")),
+                    OnBoardingSubTitleText(
+                        title: localeText(
+                            context, "let's_personalize_the_app_experience")),
+                    _buildLanguageList(
+                        context, localization, isDark, appColors),
+                    SizedBox(
+                      height: 6.h,
+                    ),
                     Consumer<OnBoardingProvider>(
                       builder: (context, value, child) {
-                        return BrandButton(text: localeText(context, "continue"), onTap: (){
-                          saveOnBoarding(localization,value);
-                          Navigator.of(context).pushNamed(RouteHelper.notificationSetup);
-                        });
+                        return BrandButton(
+                            text: localeText(context, "continue"),
+                            onTap: () {
+                              saveOnBoarding(localization, value);
+                              Navigator.of(context)
+                                  .pushNamed(RouteHelper.achieveWithQuran);
+                            });
                       },
                     ),
-                    SizedBox(height: 20.h,),
+                    SizedBox(
+                      height: 20.h,
+                    ),
                   ],
                 );
               },
@@ -55,7 +70,8 @@ class SetPreferredLanguage extends StatelessWidget {
     );
   }
 
-  _buildLanguageList(BuildContext context, LocalizationProvider localization, bool isDark, AppColorsProvider appColors) {
+  _buildLanguageList(BuildContext context, LocalizationProvider localization,
+      bool isDark, AppColorsProvider appColors) {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -67,26 +83,50 @@ class SetPreferredLanguage extends StatelessWidget {
         itemBuilder: (context, index) {
           Languages lang = Languages.languages[index];
           return InkWell(
-            onTap: (){
+            onTap: () {
               localization.setLocale(lang);
             },
             child: Container(
-              margin: EdgeInsets.only(bottom: 10.h,),
-              padding: EdgeInsets.only(left: 10.w,right: 10.w,top: 15.h,bottom: 15.h),
-              decoration: BoxDecoration(
-                  color: localization.locale.languageCode == lang.languageCode ? isDark ? AppColors.brandingDark : AppColors.lightBrandingColor : Colors.transparent,
-                  border: Border.all(color: localization.locale.languageCode == lang.languageCode ? appColors.mainBrandingColor : isDark ? AppColors.grey3 : AppColors.grey5),
-                  borderRadius: BorderRadius.circular(6.r)
+              margin: EdgeInsets.only(
+                bottom: 10.h,
               ),
+              padding: EdgeInsets.only(
+                  left: 10.w, right: 10.w, top: 15.h, bottom: 15.h),
+              decoration: BoxDecoration(
+                  color: localization.locale.languageCode == lang.languageCode
+                      ? isDark
+                          ? AppColors.brandingDark
+                          : AppColors.lightBrandingColor
+                      : Colors.transparent,
+                  border: Border.all(
+                      color:
+                          localization.locale.languageCode == lang.languageCode
+                              ? appColors.mainBrandingColor
+                              : isDark
+                                  ? AppColors.grey3
+                                  : AppColors.grey5),
+                  borderRadius: BorderRadius.circular(6.r)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(localeText(context, lang.name),style: TextStyle(
-                      fontFamily: 'satoshi',
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500
-                  ),),
-                  Icon(localization.locale.languageCode == lang.languageCode ? Icons.check_circle : Icons.circle,size: 17.h,color: localization.locale.languageCode == lang.languageCode ? isDark ? Colors.white : appColors.mainBrandingColor : AppColors.grey5,)
+                  Text(
+                    localeText(context, lang.name),
+                    style: TextStyle(
+                        fontFamily: 'satoshi',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Icon(
+                    localization.locale.languageCode == lang.languageCode
+                        ? Icons.check_circle
+                        : Icons.circle,
+                    size: 17.h,
+                    color: localization.locale.languageCode == lang.languageCode
+                        ? isDark
+                            ? Colors.white
+                            : appColors.mainBrandingColor
+                        : AppColors.grey5,
+                  )
                 ],
               ),
             ),
@@ -96,7 +136,8 @@ class SetPreferredLanguage extends StatelessWidget {
     );
   }
 
-  void saveOnBoarding(LocalizationProvider localization,OnBoardingProvider provider ){
+  void saveOnBoarding(
+      LocalizationProvider localization, OnBoardingProvider provider) {
     print(provider.recitationReminderTime);
     OnBoardingInformation onBoardingInfo = OnBoardingInformation(
         purposeOfQuran: provider.selectAchieveWithQuranList,

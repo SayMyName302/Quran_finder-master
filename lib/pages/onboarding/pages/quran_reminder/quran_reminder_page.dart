@@ -25,46 +25,63 @@ class _QuranReminderState extends State<QuranReminder> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 20.w,right: 20.w,),
+            margin: EdgeInsets.only(
+              left: 20.w,
+              right: 20.w,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                OnBoardingTitleText(title: localeText(context, "set_up_a_daily_reminder_for_quran_recitation")),
-                OnBoardingSubTitleText(title: localeText(context, "enabling_reminder_increases_the_likelihood_of_daily_quran_reading_by_3x._are_you_interested_in_establishing_a_successful_habit_of_reading_the_quran?")),
+                OnBoardingTitleText(
+                    title: localeText(context,
+                        "set_up_a_daily_reminder_for_quran_recitation")),
+                OnBoardingSubTitleText(
+                    title: localeText(context,
+                        "enabling_reminder_increases_the_likelihood_of_daily_quran_reading_by_3x._are_you_interested_in_establishing_a_successful_habit_of_reading_the_quran?")),
                 InkWell(
-                    onTap: () async{
+                    onTap: () async {
                       TimeOfDay? selectedTime = await showTimePicker(
-                          context: context,
-                          initialEntryMode: TimePickerEntryMode.inputOnly,
-                          initialTime: _timeOfDay,
+                        context: context,
+                        initialEntryMode: TimePickerEntryMode.inputOnly,
+                        initialTime: _timeOfDay,
                       );
-                      if(selectedTime != null){
+                      if (selectedTime != null) {
                         setState(() {
                           _timeOfDay = selectedTime;
                         });
                       }
                     },
                     child: Container(
-                      width: double.maxFinite,
-                       padding: const EdgeInsets.all(20),
-                        margin: EdgeInsets.only(top: 10.h,bottom: 10.h),
+                        width: double.maxFinite,
+                        padding: const EdgeInsets.all(20),
+                        margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6.r),
-                          border: Border.all(color: AppColors.grey4)
-                        ),
+                            borderRadius: BorderRadius.circular(6.r),
+                            border: Border.all(color: AppColors.grey4)),
                         child: Text(
-                            _timeOfDay.format(context),
-                          style: TextStyle(fontWeight: FontWeight.w900,fontSize: 44.sp,fontFamily: 'satoshi',color: AppColors.mainBrandingColor),
-                        )
-                    )),
-                BrandButton(text: localeText(context, "set_reminder"), onTap: (){
-                  context.read<OnBoardingProvider>().setRecitationReminderTime(_timeOfDay);
-                  Navigator.of(context).pushNamed(RouteHelper.setDailyQuranReadingTime);
-                }),
-                SizedBox(height: 16.h,),
-                SkipButton(onTap: (){
-                  Navigator.of(context).pushNamed(RouteHelper.setDailyQuranReadingTime);
+                          _timeOfDay.format(context),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 44.sp,
+                              fontFamily: 'satoshi',
+                              color: AppColors.mainBrandingColor),
+                        ))),
+                BrandButton(
+                    text: localeText(context, "set_reminder"),
+                    onTap: () {
+                      context
+                          .read<OnBoardingProvider>()
+                          .setRecitationReminderTime(_timeOfDay);
+                      Navigator.of(context)
+                          .pushNamed(RouteHelper.notificationSetup);
+                    }),
+                SizedBox(
+                  height: 16.h,
+                ),
+                SkipButton(onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(RouteHelper.notificationSetup);
                 })
               ],
             ),
@@ -74,5 +91,3 @@ class _QuranReminderState extends State<QuranReminder> {
     );
   }
 }
-
-

@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'localization_demo.dart';
 
-String localeText(BuildContext context,String key){
-return LocalizationDemo.of(context).getTranslatedValue(key)!;
+String localeText(BuildContext context, String key) {
+  final localizationDemo = LocalizationDemo.of(context);
+  return localizationDemo != null
+      ? localizationDemo.getTranslatedValue(key)!
+      : '';
 }
 
 const supportedLocales = [
@@ -18,7 +21,7 @@ const supportedLocales = [
   Locale('id', "IN"), // Indonesia
 ];
 
-Locale? localeResolutionCallback(deviceLocale, supportedLocale){
+Locale? localeResolutionCallback(deviceLocale, supportedLocale) {
   for (var local in supportedLocale) {
     if (local.languageCode == deviceLocale!.languageCode &&
         local.countryCode == deviceLocale.countryCode) {
