@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../widgets/subtitle_text.dart';
-import 'where_you_left_off_widget.dart';
-import '../../../../shared/localization/localization_constants.dart';
+import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
+import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
+import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 
 class ResumePage extends StatelessWidget {
   const ResumePage({Key? key}) : super(key: key);

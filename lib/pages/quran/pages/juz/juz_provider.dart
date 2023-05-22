@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../shared/database/quran_db.dart';
-import '../../../../shared/entities/juz.dart';
+import 'package:nour_al_quran/shared/database/quran_db.dart';
+import 'package:nour_al_quran/shared/entities/juz.dart';
 
-class JuzProvider extends ChangeNotifier {
+class JuzProvider extends ChangeNotifier{
   List<Juz> _juzNamesList = [];
   List<Juz> get juzNameList => _juzNamesList;
 
@@ -11,7 +11,7 @@ class JuzProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void searchJuz(String query) async {
+  void searchJuz(String query) async{
     // copy of list
     var juzNames = await QuranDatabase().getJuzNames();
     if (query.isEmpty) {

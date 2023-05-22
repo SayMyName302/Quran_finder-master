@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
 import '../../pages/settings/pages/profile/user_profile.dart';
 
-class UserProfileAdopter extends TypeAdapter<UserProfile> {
+class UserProfileAdopter extends TypeAdapter<UserProfile>{
+
   @override
   int get typeId => 4;
 
@@ -35,7 +37,8 @@ class UserProfileAdopter extends TypeAdapter<UserProfile> {
         dailyQuranReadTime: dailyQuranReadTime,
         preferredLanguage: preferredLanguage,
         loginDevices: loginDevices,
-        loginType: loginType);
+        loginType: loginType
+    );
   }
 
   @override
@@ -54,4 +57,5 @@ class UserProfileAdopter extends TypeAdapter<UserProfile> {
     writer.write(obj.loginDevices);
     writer.write(obj.loginType);
   }
+
 }

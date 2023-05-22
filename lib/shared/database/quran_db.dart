@@ -1,23 +1,22 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import 'package:path/path.dart';
+import 'package:nour_al_quran/pages/settings/pages/translation_manager/translation_manager_provider.dart';
+import 'package:nour_al_quran/shared/entities/bookmarks.dart';
+import 'package:nour_al_quran/shared/entities/juz.dart';
+import 'package:nour_al_quran/shared/entities/quran_text.dart';
+import 'package:nour_al_quran/pages/quran/pages/duas/models/dua.dart';
+import 'package:nour_al_quran/pages/quran/pages/duas/models/dua_category.dart';
+import 'package:nour_al_quran/shared/entities/reciters.dart';
+import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
-import '../../pages/quran/pages/duas/models/dua.dart';
-import '../../pages/quran/pages/duas/models/dua_category.dart';
-import '../../pages/settings/pages/translation_manager/translation_manager_provider.dart';
-import '../entities/bookmarks.dart';
-import '../entities/juz.dart';
-import '../entities/quran_text.dart';
-import '../entities/reciters.dart';
-import '../entities/surah.dart';
 
-class QuranDatabase {
+class QuranDatabase{
   Database? database;
   final String _quranTextTable = "quran_text";
   final String _surahNameTable = "surah";
@@ -26,6 +25,7 @@ class QuranDatabase {
   final String _reciterTable = "reciters";
 
   final String _juzListTable = "juz_list";
+  final String _bookmarkNameTable = "BookMarksList";
 
   // initDb() async {
   //   database = await openDatabase('assets/fullquran.db');
@@ -83,29 +83,12 @@ class QuranDatabase {
       } catch (_) {}
       // Copy the database file from the assets folder
       ByteData data = await rootBundle.load(join('assets', 'fullquran.db'));
-      List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       // Write and flush the bytes to the documents directory
-      await File(path).writeAsBytes(bytes, flush: true).then((value) async {
+      await File(path).writeAsBytes(bytes, flush: true).then((value) async{
         List bookmarkList = [
-          Bookmarks(
-              surahId: 36,
-              verseId: 1,
-              surahName: "Ya-seen",
-              surahArabic: "يس",
-              juzId: 23,
-              juzName: "",
-              isFromJuz: false,
-              bookmarkPosition: 1),
-          Bookmarks(
-              surahId: 18,
-              verseId: 1,
-              surahName: "Al-Kahf",
-              surahArabic: "الكهف",
-              juzId: 15,
-              juzName: "",
-              isFromJuz: false,
-              bookmarkPosition: 1),
+          Bookmarks(surahId: 36, verseId: 1, surahName: "Ya-seen", surahArabic: "يس", juzId: 23, juzName: "", isFromJuz: false, bookmarkPosition: 1),
+          Bookmarks(surahId: 18, verseId: 1, surahName: "Al-Kahf", surahArabic: "الكهف", juzId: 15, juzName: "", isFromJuz: false, bookmarkPosition: 1),
         ];
         Hive.box("myBox").put("bookmarks", bookmarkList);
       });
@@ -119,30 +102,29 @@ class QuranDatabase {
   Future<Database> openDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'fullquran.db');
-    return await openDatabase(path, readOnly: false);
+    return await openDatabase(path,readOnly: false);
   }
 
   // to load all quran text
   Future<List<QuranText>> getQuranSurahText({required int surahId}) async {
     database = await openDb();
-    var quranTextList = <QuranText>[];
-    var table = await database!.query(_quranTextTable,
-        where: "surah_id= ?", whereArgs: [surahId], orderBy: "verse_id");
-    for (var rows in table) {
+    var quranTextList = <QuranText> [];
+    var table = await database!.query(_quranTextTable,where: "surah_id= ?",whereArgs: [surahId],orderBy: "verse_id");
+    for(var rows in table){
       var ayahText = QuranText.fromJson(rows);
       quranTextList.add(ayahText);
     }
     return quranTextList;
   }
 
+
   // to load all quran text
   Future<List<QuranText>> getQuranJuzText({required int juzId}) async {
     database = await openDb();
-    var quranTextList = <QuranText>[];
-    var table = await database!.query(_quranTextTable,
-        where: "juz_id= ?", whereArgs: [juzId], orderBy: "surah_id, verse_id");
+    var quranTextList = <QuranText> [];
+    var table = await database!.query(_quranTextTable,where: "juz_id= ?",whereArgs: [juzId],orderBy: "surah_id, verse_id");
     // print(table);
-    for (var rows in table) {
+    for(var rows in table){
       var ayahText = QuranText.fromJson(rows);
       quranTextList.add(ayahText);
     }
@@ -150,30 +132,28 @@ class QuranDatabase {
   }
 
   // get verse of the day
-  Future<QuranText?> getVerseOfTheDay() async {
-    var quranTextList = <QuranText>[];
+  Future<QuranText?> getVerseOfTheDay() async{
+    var quranTextList = <QuranText> [];
     database = await openDb();
     var randomSurahId = Random().nextInt(114) + 1;
-    var table = await database!.query(_quranTextTable,
-        where: "surah_id= ?", whereArgs: [randomSurahId], orderBy: "verse_id");
-    for (var rows in table) {
+    var table = await database!.query(_quranTextTable,where: "surah_id= ?",whereArgs: [randomSurahId],orderBy: "verse_id");
+    for(var rows in table){
       var ayahText = QuranText.fromJson(rows);
       quranTextList.add(ayahText);
     }
-    if (quranTextList.isNotEmpty) {
+    if(quranTextList.isNotEmpty){
       var randomVerse = Random().nextInt(quranTextList.length);
       return quranTextList[randomVerse];
-    } else {
+    }else{
       return null;
     }
   }
 
-  Future<QuranText> getVerse(QuranText quranText) async {
+  Future<QuranText> getVerse(QuranText quranText) async{
     QuranText quranVerse = quranText;
     database = await openDb();
-    var table = await database!.rawQuery(
-        "select * from $_quranTextTable where surah_id = ${quranText.surahId} and verse_id = ${quranText.verseId}");
-    for (var rows in table) {
+    var table = await database!.rawQuery("select * from $_quranTextTable where surah_id = ${quranText.surahId} and verse_id = ${quranText.verseId}");
+    for(var rows in table){
       quranVerse = QuranText.fromJson(rows);
     }
     return quranVerse;
@@ -184,7 +164,7 @@ class QuranDatabase {
     database = await openDb();
     var surahList = <Surah>[];
     var cursor = await database!.query(_surahNameTable);
-    for (var maps in cursor) {
+    for(var maps in cursor){
       var surahNames = Surah.fromJson(maps);
       surahList.add(surahNames);
     }
@@ -194,9 +174,8 @@ class QuranDatabase {
   // to load all surah names
   Future<Surah?> getSpecificSurahName(int surahId) async {
     database = await openDb();
-    var cursor = await database!
-        .query(_surahNameTable, where: "Id=?", whereArgs: [surahId]);
-    for (var maps in cursor) {
+    var cursor = await database!.query(_surahNameTable, where:"Id=?", whereArgs: [surahId]);
+    for(var maps in cursor){
       return Surah.fromJson(maps);
     }
     return null;
@@ -208,7 +187,7 @@ class QuranDatabase {
     database = await openDb();
     var duaCategoryList = <DuaCategory>[];
     var cursor = await database!.query(_duaCategoryTable);
-    for (var maps in cursor) {
+    for(var maps in cursor){
       var duaCategory = DuaCategory.fromJson(maps);
       duaCategoryList.add(duaCategory);
     }
@@ -219,9 +198,8 @@ class QuranDatabase {
   Future<List<Dua>> getDua(int categoryId) async {
     database = await openDb();
     var duaList = <Dua>[];
-    var cursor = await database!
-        .query(_duaAllTable, where: "category_id = ?", whereArgs: [categoryId]);
-    for (var maps in cursor) {
+    var cursor = await database!.query(_duaAllTable,where: "category_id = ?",whereArgs: [categoryId]);
+    for(var maps in cursor){
       var dua = Dua.fromJson(maps);
       duaList.add(dua);
     }
@@ -234,40 +212,35 @@ class QuranDatabase {
     database = await openDb();
     var reciterList = <Reciters>[];
     var cursor = await database!.query(_reciterTable);
-    for (var maps in cursor) {
+    for(var maps in cursor){
       var reciter = Reciters.fromJson(maps);
       reciterList.add(reciter);
     }
     return reciterList;
   }
 
-  Future<void> updateReciterIsFav(int reciterId, int value) async {
+  Future<void> updateReciterIsFav(int reciterId,int value) async {
     database = await openDb();
-    await database!.execute(
-        "update $_reciterTable set is_fav = $value where reciter_id = $reciterId");
+    await database!.execute("update $_reciterTable set is_fav = $value where reciter_id = $reciterId");
   }
 
   Future<List<Reciters>> getFavReciters() async {
     database = await openDb();
     List<Reciters> reciters = [];
-    var table = await database!
-        .query(_reciterTable, where: "is_fav = ?", whereArgs: [1]);
-    for (var map in table) {
+    var table = await database!.query(_reciterTable,where: "is_fav = ?",whereArgs: [1]);
+    for(var map in table){
       reciters.add(Reciters.fromJson(map));
     }
     return reciters;
   }
 
-  Future<void> updateReciterDownloadList(
-      int reciterId, Reciters reciters) async {
+  Future<void> updateReciterDownloadList(int reciterId, Reciters reciters) async {
     database = await openDb();
-    await database!.update(_reciterTable, reciters.toJson(),
-        where: "reciter_id = ?", whereArgs: [reciterId]);
+    await database!.update(_reciterTable, reciters.toJson(),where: "reciter_id = ?",whereArgs: [reciterId]);
   }
 
   // for bismillah
-  Future<void> updateBissmillahOfEachTranslation(
-      String text, String translationName) async {
+  Future<void> updateBissmillahOfEachTranslation(String text,String translationName) async {
     database = await openDb();
     await database!.transaction((txn) async {
       await txn.rawUpdate(
@@ -276,6 +249,7 @@ class QuranDatabase {
       );
     });
   }
+
 
   // Future<void> updateQuranTranslations(List translations,String translationName,BuildContext context,int index) async {
   //   database = await openDb();
@@ -292,42 +266,33 @@ class QuranDatabase {
   //   });
   // }
 
-  Future<void> updateQuranTranslations(List translations,
-      String translationName, BuildContext context, int index) async {
+
+  Future<void> updateQuranTranslations(List translations,String translationName,BuildContext context,int index) async {
     database = await openDb();
 
     // create indexes on surah_id and verse_id columns
-    await database!.execute(
-        "CREATE INDEX IF NOT EXISTS surah_id_idx ON $_quranTextTable (surah_id)");
-    await database!.execute(
-        "CREATE INDEX IF NOT EXISTS verse_id_idx ON $_quranTextTable (verse_id)");
+    await database!.execute("CREATE INDEX IF NOT EXISTS surah_id_idx ON $_quranTextTable (surah_id)");
+    await database!.execute("CREATE INDEX IF NOT EXISTS verse_id_idx ON $_quranTextTable (verse_id)");
 
     await database!.transaction((txn) async {
-      for (int k = 0; k < translations.length; k++) {
+      for(int k = 0;k<translations.length;k++){
         await txn.execute(
           "update $_quranTextTable set $translationName = ? where surah_id = ? and verse_id = ?",
-          [
-            translations[k][2],
-            int.parse(translations[k][0]),
-            int.parse(translations[k][1])
-          ],
+          [translations[k][2], int.parse(translations[k][0]), int.parse(translations[k][1])],
         );
       }
     }).then((value) {
-      Future.delayed(
-          Duration.zero,
-          () => context
-              .read<TranslationManagerProvider>()
-              .updateState(index, context));
+      Future.delayed(Duration.zero,()=>context.read<TranslationManagerProvider>().updateState(index, context));
     });
   }
 
-  Future<void> addNew(List translations, String translationName) async {
+
+  
+  Future<void> addNew(List translations,String translationName) async {
     database = await openDb();
     await database!.transaction((txn) async {
-      for (int k = 0; k < translations.length; k++) {
-        trans transa = trans(int.parse(translations[k][0]),
-            int.parse(translations[k][1]), translations[k][2]);
+      for(int k = 0;k<translations.length;k++){
+        trans transa = trans(int.parse(translations[k][0]), int.parse(translations[k][1]), translations[k][2]);
         await txn.insert('testing', transa.toJson());
         print(k);
       }
@@ -338,9 +303,9 @@ class QuranDatabase {
   Future<List<Juz>> getJuzNames() async {
     // await initDb();
     database = await openDb();
-    var juzList = <Juz>[];
+    var juzList = <Juz> [];
     var cursor = await database!.query(_juzListTable);
-    for (var result in cursor) {
+    for(var result in cursor){
       var data = Juz.fromJson(result);
       juzList.add(data);
     }
@@ -351,33 +316,31 @@ class QuranDatabase {
     database = await openDb();
     List<QuranText> juzIds = [];
     var cursor = await database!.query(_quranTextTable);
-    for (var ids in cursor) {
+    for(var ids in cursor){
       var data = QuranText.fromJson(ids);
       juzIds.add(data);
     }
     return juzIds;
   }
 
+
   //add a bookmark
   void addBookmark(int surahId, int verseId) async {
     database = await openDb();
-    await database!.rawUpdate(
-        "update $_quranTextTable set is_bookmark = 1 where surah_id = $surahId AND verse_id = $verseId");
+    await database!.rawUpdate("update $_quranTextTable set is_bookmark = 1 where surah_id = $surahId AND verse_id = $verseId");
   }
 
   //delete bookmark
   void removeBookmark(int surahId, int verseId) async {
     database = await openDb();
-    await database!.rawUpdate(
-        "update $_quranTextTable set is_bookmark = 0 where surah_id = $surahId AND verse_id = $verseId");
+    await database!.rawUpdate("update $_quranTextTable set is_bookmark = 0 where surah_id = $surahId AND verse_id = $verseId");
   }
 
   Future<List<QuranText>> getBookmarks() async {
     database = await openDb();
     List<QuranText> quranTextList = [];
-    var table = await database!
-        .query(_quranTextTable, where: "is_bookmark= ?", whereArgs: [1]);
-    for (var rows in table) {
+    var table = await database!.query(_quranTextTable,where: "is_bookmark= ?",whereArgs: [1]);
+    for(var rows in table){
       var ayahText = QuranText.fromJson(rows);
       quranTextList.add(ayahText);
     }
@@ -420,6 +383,7 @@ class QuranDatabase {
   //   return filteredQuranText;
   // }
 
+
   // do searching in quran
   // Future<List<QuranText>> searchQuranText(String word) async{
   //   // Remove Tajweedi marks from the Arabic text
@@ -440,7 +404,7 @@ class QuranDatabase {
   // }
 }
 
-class trans {
+class trans{
   int surahId;
   int id2;
   String text;
@@ -448,6 +412,11 @@ class trans {
   trans(this.surahId, this.id2, this.text);
 
   Map<String, Object?> toJson() {
-    return {"surahId": surahId, "verseId": id2, "text": text};
+    return {
+      "surahId":surahId,
+      "verseId":id2,
+      "text":text
+    };
   }
+
 }

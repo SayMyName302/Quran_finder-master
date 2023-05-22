@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="c">
+    package="com.example.nour_al_quran">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -14,15 +14,9 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
    <application
-        android:label="Nour ul Quran"
+        android:label="Quran Pro: Quran Assistant"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-         <meta-data
-                android:name="com.google.android.gms.version"
-                android:value="@integer/google_play_services_version" />
-        <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyAzRS60Ji74V31TQIun752O-Wlo004d2jc" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,9 +24,12 @@
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            >
             <!-- Specifies an Android theme to apply to this Activity as soon as
-                 the Android process has started. This theme is visible to the user
+                 the Android process has starte d. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
@@ -78,6 +75,10 @@
                <data android:scheme="@string/fb_login_protocol_scheme" />
            </intent-filter>
        </activity>
+
+       <meta-data
+           android:name="com.google.android.gms.wallet.api.enabled"
+           android:value="true" />
 
    </application>
 </manifest>
