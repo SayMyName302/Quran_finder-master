@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,8 +16,10 @@ class paywall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(
-          context: context, title: localeText(context, "upgrade_to_premium")),
+      appBar: buildpaywallappbar(
+          context: context,
+          title: localeText(context, "upgrade_to_premium"),
+          icon: ""),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,6 +117,12 @@ class paywall extends StatelessWidget {
   }
 }
 
+Future<List<DocumentSnapshot>> getDataFromFirebase() async {
+  final snapshot =
+      await FirebaseFirestore.instance.collection('paywalldata').get();
+  return snapshot.docs;
+}
+
 class pricetile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -121,165 +130,201 @@ class pricetile extends StatelessWidget {
         Provider.of<PremiumScreenProvider>(context);
     int focusedIndex = priceProvider.focusedIndex;
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        height: 190.h,
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              buildContainer(
-                  context,
-                  focusedIndex,
-                  0,
-                  '6 Months',
-                  '\$21.56',
-                  '\$3.59 per month',
-                  'Save 39%',
-                  Colors.green,
-                  '',
-                  Colors.white,
-                  AppColors.darkColor // Small container color for index 0
-                  ),
-              SizedBox(width: 10),
-              buildContainer(
-                  context,
-                  focusedIndex,
-                  1,
-                  '12 Months',
-                  '\$15.45',
-                  '\$3.59 per month',
-                  'Save 39%',
-                  Colors.white,
-                  '7-day free trial',
-                  AppColors.primeBlue,
-                  AppColors.lightBrandingColor
-                  // Small container color for index 1
-                  ),
-              SizedBox(width: 10),
-              buildContainer(
-                  context,
-                  focusedIndex,
-                  2,
-                  '1 Month',
-                  '\$5.99',
-                  'No Trial',
-                  'No Discount',
-                  Colors.red,
-                  '',
-                  Colors.white,
-                  AppColors.darkColor),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildContainer(
-    BuildContext context,
-    int focusedIndex,
-    int index,
-    String durationText,
-    String priceText,
-    String subscriptionText,
-    String discountText,
-    Color smallContainerColor,
-    String trialText,
-    Color containerColor,
-    Color textcolor,
-  ) {
-    final isFocused = focusedIndex == index;
-    final appColors = isFocused ? AppColors.primeBlue : AppColors.grey6;
-    final brandingColor =
-        isFocused ? AppColors.lightBrandingColor : AppColors.mainBrandingColor;
-
-    return GestureDetector(
-      onTap: () {
-        Provider.of<PremiumScreenProvider>(context, listen: false)
-            .setFocusedIndex(index);
-      },
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
-        width: isFocused ? 130 : 110,
-        height: isFocused ? 150 : 130,
-        decoration: BoxDecoration(
-          color: containerColor,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: appColors,
-            width: 2,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              durationText,
-              style: TextStyle(
-                color: textcolor,
-                fontFamily: 'satoshi',
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              priceText,
-              style: TextStyle(
-                color: index == 1
-                    ? AppColors.lightBrandingColor
-                    : AppColors.mainBrandingColor,
-                fontFamily: 'satoshi',
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              subscriptionText,
-              style: TextStyle(
-                color: textcolor,
-                fontFamily: 'satoshi',
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Container(
-              width: 75,
-              height: 17,
-              decoration: BoxDecoration(
-                color: smallContainerColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
+    return FutureBuilder<List<DocumentSnapshot>>(
+      future: getDataFromFirebase(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Container(
+              height: 190.0,
               child: Center(
-                child: Text(
-                  discountText,
-                  style: TextStyle(
-                    color: index == 1
-                        ? AppColors.primeBlue
-                        : AppColors.lightBrandingColor,
-                    fontFamily: 'satoshi',
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: buildContainer(
+                        context,
+                        focusedIndex,
+                        0,
+                        data![0][
+                            'title'], // Update with the actual field names in your Firebase document
+                        data[0][
+                            'price'], // Update with the actual field names in your Firebase document
+                        data[0][
+                            'perMonthPrice'], // Update with the actual field names in your Firebase document
+                        data[0][
+                            'discount'], // Update with the actual field names in your Firebase document
+                        Colors.green,
+                        '',
+                        Colors.white,
+                        AppColors.darkColor,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: buildContainer(
+                        context,
+                        focusedIndex,
+                        1,
+                        data[1][
+                            'title'], // Update with the actual field names in your Firebase document
+                        data[1][
+                            'price'], // Update with the actual field names in your Firebase document
+                        data[1][
+                            'perMonthPrice'], // Update with the actual field names in your Firebase document
+                        data[1][
+                            'discount'], // Update with the actual field names in your Firebase document
+                        Colors.white,
+                        data[1][
+                            'trialText'], // Update with the actual field names in your Firebase document
+                        AppColors.primeBlue,
+                        AppColors.lightBrandingColor,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: buildContainer(
+                        context,
+                        focusedIndex,
+                        2,
+                        data[2][
+                            'title'], // Update with the actual field names in your Firebase document
+                        data[2][
+                            'price'], // Update with the actual field names in your Firebase document
+                        'No Trial',
+                        'No Discount',
+                        Colors.red,
+                        '',
+                        Colors.white,
+                        AppColors.darkColor,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            if (trialText.isNotEmpty)
-              Text(
-                trialText,
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+            AppColors.mainBrandingColor,
+          )));
+        }
+      },
+    );
+  }
+}
+
+Widget buildContainer(
+  BuildContext context,
+  int focusedIndex,
+  int index,
+  String durationText,
+  String priceText,
+  String subscriptionText,
+  String discountText,
+  Color smallContainerColor,
+  String trialText,
+  Color containerColor,
+  Color textcolor,
+) {
+  final isFocused = focusedIndex == index;
+  final appColors = isFocused ? AppColors.primeBlue : AppColors.grey6;
+  final brandingColor =
+      isFocused ? AppColors.lightBrandingColor : AppColors.mainBrandingColor;
+
+  return GestureDetector(
+    onTap: () {
+      Provider.of<PremiumScreenProvider>(context, listen: false)
+          .setFocusedIndex(index);
+    },
+    child: AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      width: isFocused ? 130 : 110,
+      height: isFocused ? 150 : 130,
+      decoration: BoxDecoration(
+        color: containerColor,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: appColors,
+          width: 2,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            durationText,
+            style: TextStyle(
+              color: textcolor,
+              fontFamily: 'satoshi',
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            priceText,
+            style: TextStyle(
+              color: index == 1
+                  ? AppColors.lightBrandingColor
+                  : AppColors.mainBrandingColor,
+              fontFamily: 'satoshi',
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            subscriptionText,
+            style: TextStyle(
+              color: textcolor,
+              fontFamily: 'satoshi',
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Container(
+            width: 75,
+            height: 17,
+            decoration: BoxDecoration(
+              color: smallContainerColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: Text(
+                discountText,
                 style: TextStyle(
-                  color: textcolor,
+                  color: index == 1
+                      ? AppColors.primeBlue
+                      : AppColors.lightBrandingColor,
                   fontFamily: 'satoshi',
                   fontSize: 12.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-          ],
-        ),
+            ),
+          ),
+          if (trialText.isNotEmpty)
+            Text(
+              trialText,
+              style: TextStyle(
+                color: textcolor,
+                fontFamily: 'satoshi',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
 
 class CardSection extends StatelessWidget {
@@ -295,7 +340,7 @@ class CardSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

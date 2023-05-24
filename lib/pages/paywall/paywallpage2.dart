@@ -197,7 +197,7 @@ class paywallpage2 extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 0),
                   child: Container(
-                    height: 50,
+                    height: 60,
                     child: Column(
                       children: [
                         Align(

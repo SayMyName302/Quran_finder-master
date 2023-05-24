@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nour_al_quran/pages/more/pages/names_of_allah/name_of_allah_page.dart';
 import 'package:nour_al_quran/pages/more/pages/qibla_direction/qibla_direction.dart';
@@ -27,6 +28,8 @@ import 'package:nour_al_quran/pages/settings/pages/terms_of_service/terms_of_ser
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sign_up_page.dart';
 import 'package:nour_al_quran/pages/splash/splash.dart';
+import 'package:nour_al_quran/shared/utills/app_colors.dart';
+import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import '../../pages/basics_of_quran/pages/basics_content_page.dart';
 import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';
 import '../../pages/bottom_tabs/pages/bottom_tab_page.dart';
@@ -42,6 +45,15 @@ class RouteHelper {
   static const String setFavReciter = "/setFavReciter";
   static const String paywallscreen = "/paywall";
   static const String paywallscreen2 = "/paywall2";
+
+  static late BuildContext currentContext;
+  static bool paywallVisibility = true;
+
+  // Variable to control visibility of paywallpage1
+  //static bool showPaywallPage2 = true; // Variable to control visibility of paywallpage2
+  //code to get paywall visibility bool true or false
+  // Function to fetch the value of showPaywallPage1 from Firestore
+
   // static const String whenToRecite = "/whenToRecite";
   static const String quranReminder = "/quranReminder";
   // static const String setDailyQuranReadingTime = "/dailyQuran";
@@ -83,7 +95,7 @@ class RouteHelper {
   static const String notificationSetting = "notificationSetting";
   static const String myState = "myState";
 
-  static late BuildContext currentContext;
+  // static late BuildContext currentContext;
 
   static Map<String, Widget Function(BuildContext)> routes(
       BuildContext context) {
@@ -96,13 +108,52 @@ class RouteHelper {
         currentContext = context;
         return const AchieveWithQuranPage();
       },
+
       reviewOne: (context) {
         currentContext = context;
         return const ReviewOne();
       },
       paywallscreen: (context) {
         currentContext = context;
-        return paywall();
+        final paywallVisibilityFuture = FirebaseFirestore.instance
+            .collection(
+                'paywallsettings') // Replace with your Firestore collection
+            .doc('hideunhide') // Replace with your Firestore document ID
+            .get()
+            .then((snapshot) => snapshot.data()!['paywallVisibility'] as bool);
+
+        return FutureBuilder<bool>(
+          future: paywallVisibilityFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
+                color: Colors.white,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppColors.mainBrandingColor,
+                    ),
+                  ),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              final paywallVisibility = snapshot.data ?? true;
+
+              if (paywallVisibility) {
+                return paywall();
+              } else {
+                Future.delayed(Duration.zero, () {
+                  Navigator.of(context).pushReplacementNamed(
+                    '/signIn',
+                  );
+                });
+                return Container();
+              }
+            }
+          },
+        );
       },
       paywallscreen2: (context) {
         currentContext = context;

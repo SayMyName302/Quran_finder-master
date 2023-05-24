@@ -335,7 +335,9 @@ class SignInProvider extends ChangeNotifier {
         purposeOfQuran: onBoarding.purposeOfQuran,
         favReciter: onBoarding.favReciter,
         whenToReciterQuran: onBoarding.whenToReciterQuran,
-        recitationReminder: onBoarding.recitationReminder,
+        // recitationReminder: onBoarding.recitationReminder,
+        /// changes
+        recitationReminder: DateTime.now(),
         dailyQuranReadTime: onBoarding.dailyQuranReadTime,
         preferredLanguage: onBoarding.preferredLanguage!.languageCode,
         loginDevices: <String>[androidInfo.model],
