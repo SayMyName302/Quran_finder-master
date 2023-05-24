@@ -727,7 +727,7 @@ class _SwipePagesState extends State<SwipePages>
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * .75,
+            top: MediaQuery.of(context).size.height * .785,
             right: _isExpanded ? 0 : MediaQuery.of(context).size.width,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
@@ -744,8 +744,8 @@ class _SwipePagesState extends State<SwipePages>
                 children: [
                   const SizedBox(width: 100),
                   Container(
-                    height: 20,
-                    width: 20,
+                    height: 15,
+                    width: 15,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.black,
@@ -820,7 +820,7 @@ class _SwipePagesState extends State<SwipePages>
                       },
                       icon: const Icon(
                         Icons.play_arrow,
-                        size: 18,
+                        size: 15,
                       ),
                       color: Colors.white,
                       iconSize: 0.0,
@@ -829,8 +829,8 @@ class _SwipePagesState extends State<SwipePages>
                   ),
                   const SizedBox(width: 50),
                   Container(
-                    height: 20,
-                    width: 20,
+                    height: 15,
+                    width: 15,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.black,
@@ -843,7 +843,7 @@ class _SwipePagesState extends State<SwipePages>
                           : () {},
                       icon: const Icon(
                         Icons.stop,
-                        size: 18,
+                        size: 15,
                       ),
                       color: Colors.white,
                       iconSize: 0.0,
@@ -855,11 +855,11 @@ class _SwipePagesState extends State<SwipePages>
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * .78,
+            top: MediaQuery.of(context).size.height * .812,
             right: MediaQuery.of(context).size.width * .06,
             child: SizedBox(
-              height: 20,
-              width: 20,
+              height: 19,
+              width: 19,
               child: FloatingActionButton(
                 backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                 onPressed: () {
