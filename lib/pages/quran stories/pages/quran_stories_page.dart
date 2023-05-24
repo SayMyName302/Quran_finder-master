@@ -14,8 +14,14 @@ class QuranStoriesPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-              margin: EdgeInsets.only(left: 20.w, top: 60.h,bottom: 12.h,right: 20.w),
-              child: TitleText(title: localeText(context, "quran_stories"),)),
+              margin: EdgeInsets.only(
+                  left: 20.w, top: 60.h, bottom: 12.h, right: 20.w),
+              child: TitleText(
+                  title: localeText(context, "quran_stories"),
+                  style: TextStyle(
+                      fontFamily: 'satoshi',
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.bold))),
           const QuranStoriesList()
         ],
       ),
