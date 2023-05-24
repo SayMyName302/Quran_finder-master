@@ -854,36 +854,36 @@ class _SwipePagesState extends State<SwipePages>
               ),
             ),
           ),
-          // Positioned(
-          //   top: MediaQuery.of(context).size.height * .78,
-          //   right: MediaQuery.of(context).size.width * .06,
-          //   child: SizedBox(
-          //     height: 20,
-          //     width: 20,
-          //     child: FloatingActionButton(
-          //       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          //       onPressed: () {
-          //         setState(() {
-          //           _isExpanded = !_isExpanded;
-          //         });
-          //       },
-          //       child: Icon(
-          //         _isExpanded ? Icons.close : Icons.menu,
-          //         size: 18,
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * .78,
+            right: MediaQuery.of(context).size.width * .06,
+            child: SizedBox(
+              height: 20,
+              width: 20,
+              child: FloatingActionButton(
+                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                onPressed: () {
+                  setState(() {
+                    _isExpanded = !_isExpanded;
+                  });
+                },
+                child: Icon(
+                  _isExpanded ? Icons.close : Icons.menu,
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
-      // bottomNavigationBar: CustomPageIndicator(
-      //   total: _list.length,
-      //   controller: controller,
-      // ),
-      bottomNavigationBar: const SizedBox(
-        height: 90,
-        child: QaidaPlayer(),
+      bottomNavigationBar: CustomPageIndicator(
+        total: _list.length,
+        controller: controller,
       ),
+      // bottomNavigationBar: const SizedBox(
+      //   height: 90,
+      //   child: QaidaPlayer(),
+      // ),
     );
   }
 }
