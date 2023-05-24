@@ -19,16 +19,21 @@ class UserPicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 17.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-              margin: EdgeInsets.only(left: 20.w, top: 60.h,right: 20.w),
+              margin: EdgeInsets.only(left: 20.w, top: 60.h, right: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(localeText(context,'home'),style: TextStyle(fontSize: 22.sp,fontFamily: "satoshi"),),
+                  Text(
+                    localeText(context, 'home'),
+                    style: TextStyle(
+                        fontSize: 22.sp,
+                        fontFamily: "satoshi",
+                        fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(
                     height: 2.h,
                   ),
@@ -46,27 +51,58 @@ class UserPicture extends StatelessWidget {
                 ],
               )),
           InkWell(
-            onTap: (){
+            onTap: () {
               var loginStatus = Hive.box(appBoxKey).get(loginStatusString) ?? 0;
-              Provider.of<ProfileProvider>(context,listen: false).setFromWhere("home");
-              Navigator.of(context).pushNamed(loginStatus != 0 ? RouteHelper.manageProfile : RouteHelper.signIn);
+              Provider.of<ProfileProvider>(context, listen: false)
+                  .setFromWhere("home");
+              Navigator.of(context).pushNamed(loginStatus != 0
+                  ? RouteHelper.manageProfile
+                  : RouteHelper.signIn);
             },
             child: Container(
-                margin: EdgeInsets.only(top: 61.h, right: 20.w,left: 20.w,),
-                child: CircleButton(height: 29.h, width: 29.w, icon: FirebaseAuth.instance.currentUser != null ? ClipRRect(
-                  borderRadius: BorderRadius.circular(30.r),
-                  child: Consumer<ProfileProvider>(
-                    builder: (context, profile, child) {
-                      return profile.userProfile != null ? profile.userProfile!.image != "" ? CachedNetworkImage(
-                        imageUrl: profile.userProfile!.image!,
-                        progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
-                        errorWidget: (context, url, error) => const Icon(Icons.person),
-                      ) : CircleButton(
-                          height: 29.h, width: 29.w, icon: const Icon(Icons.person)) : CircleButton(
-                          height: 29.h, width: 29.w, icon: const Icon(Icons.person));
-                    },
-                  ),
-                ) : Icon(Icons.person,size: 11.h,color: Colors.white,))),
+                margin: EdgeInsets.only(
+                  top: 61.h,
+                  right: 20.w,
+                  left: 20.w,
+                ),
+                child: CircleButton(
+                    height: 29.h,
+                    width: 29.w,
+                    icon: FirebaseAuth.instance.currentUser != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(30.r),
+                            child: Consumer<ProfileProvider>(
+                              builder: (context, profile, child) {
+                                return profile.userProfile != null
+                                    ? profile.userProfile!.image != ""
+                                        ? CachedNetworkImage(
+                                            imageUrl:
+                                                profile.userProfile!.image!,
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                CircularProgressIndicator(
+                                                    value: downloadProgress
+                                                        .progress),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.person),
+                                          )
+                                        : CircleButton(
+                                            height: 29.h,
+                                            width: 29.w,
+                                            icon: const Icon(Icons.person))
+                                    : CircleButton(
+                                        height: 29.h,
+                                        width: 29.w,
+                                        icon: const Icon(Icons.person));
+                              },
+                            ),
+                          )
+                        : Icon(
+                            Icons.person,
+                            size: 11.h,
+                            color: Colors.white,
+                          ))),
           ),
         ],
       ),

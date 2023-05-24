@@ -11,22 +11,30 @@ import '../../../shared/widgets/circle_button.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import '../../settings/pages/my_state/my_state_provider_updated.dart';
 
-
 class YourEngagementSection extends StatelessWidget {
   const YourEngagementSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<MyStateProvider,AppColorsProvider>(
-      builder: (context, myState,appColor, child) {
+    return Consumer2<MyStateProvider, AppColorsProvider>(
+      builder: (context, myState, appColor, child) {
         return Column(
           children: [
             Container(
-              margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 8.h),
+              margin: EdgeInsets.only(
+                left: 20.w,
+                right: 20.w,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(localeText(context,'your_engagement'), style: TextStyle(fontSize: 14.sp, fontFamily: 'satoshi',fontWeight: FontWeight.w900),),
+                  Text(
+                    localeText(context, 'your_engagement'),
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontFamily: 'satoshi',
+                        fontWeight: FontWeight.w900),
+                  ),
                   Consumer<ThemProvider>(
                     builder: (context, them, child) {
                       return DropdownButton(
@@ -34,13 +42,22 @@ class YourEngagementSection extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 9.9.sp,
                             fontFamily: 'satoshi',
-                            color: them.isDark ? AppColors.grey4 : AppColors.grey2,
+                            color:
+                                them.isDark ? AppColors.grey4 : AppColors.grey2,
                             fontWeight: FontWeight.w500),
                         underline: const SizedBox.shrink(),
                         iconSize: 20.h,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(7.4.r),bottomRight: Radius.circular(7.4.r),bottomLeft: Radius.circular(7.4.r)),
-                        items: myState.dropDown.map((e) => DropdownMenuItem(value: e,child: Text(e),)).toList(),
-                        onChanged: (value){
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(7.4.r),
+                            bottomRight: Radius.circular(7.4.r),
+                            bottomLeft: Radius.circular(7.4.r)),
+                        items: myState.dropDown
+                            .map((e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(e),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
                           myState.setYourEngagementCurrentDropDownItem(value!);
                           myState.getSeconds(value, "engagement");
                         },
@@ -51,72 +68,104 @@ class YourEngagementSection extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: (){
-                Future.delayed(Duration.zero,()=>context.read<RecitationPlayerProvider>().pause(context));
+              onTap: () {
+                Future.delayed(
+                    Duration.zero,
+                    () => context
+                        .read<RecitationPlayerProvider>()
+                        .pause(context));
                 myState.stopAppUsageTimer();
                 Navigator.of(context).pushNamed(RouteHelper.myState);
               },
               child: Container(
-                margin: EdgeInsets.only(left: 20.w,right: 20.w,bottom: 14.h),
+                margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                 // height: 68.h,
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.grey5,),
+                  border: Border.all(
+                    color: AppColors.grey5,
+                  ),
                   borderRadius: BorderRadius.circular(4.78.r),
                   // color: AppColors.lightBlue
                 ),
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 6.76.w,top: 7.94.h,right: 9.71.w,bottom: 7.52.h),
+                      margin: EdgeInsets.only(
+                          left: 6.76.w,
+                          top: 7.94.h,
+                          right: 9.71.w,
+                          bottom: 7.52.h),
                       height: 52.54.h,
                       width: 52.54.w,
                       decoration: BoxDecoration(
                           color: AppColors.mainBrandingColor,
-                          borderRadius: BorderRadius.circular(4.r)
+                          borderRadius: BorderRadius.circular(4.r)),
+                      child: Image.asset(
+                        'assets/images/app_icons/page.png',
+                        fit: BoxFit.cover,
                       ),
-                      child: Image.asset('assets/images/app_icons/page.png',fit: BoxFit.cover,),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 12.h,bottom: 10.h),
+                      margin: EdgeInsets.only(top: 12.h, bottom: 10.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
                               Text(
-                                _formatDuration(Duration(seconds: myState.yourEngagementAppUsageSeconds)),
+                                _formatDuration(Duration(
+                                    seconds:
+                                        myState.yourEngagementAppUsageSeconds)),
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w700,
                                     fontFamily: "satoshi"),
                               ),
                               Container(
-                                  margin: EdgeInsets.only(left: 4.w,right: 4.w,top: 3.h),
-                                  child: CircleButton(height: 11.h, width: 11.w, icon: Icon(Icons.cloud,size: 5.w,))),
+                                  margin: EdgeInsets.only(
+                                      left: 4.w, right: 4.w, top: 3.h),
+                                  child: CircleButton(
+                                      height: 11.h,
+                                      width: 11.w,
+                                      icon: Icon(
+                                        Icons.cloud,
+                                        size: 5.w,
+                                      ))),
                               Container(
                                 margin: EdgeInsets.only(top: 3.h),
-                                child: Text('${myState.weeklyPercentage} ${localeText(context,'from_last_week')}',
+                                child: Text(
+                                  '${myState.weeklyPercentage} ${localeText(context, 'from_last_week')}',
                                   style: TextStyle(
                                       fontFamily: 'satoshi',
                                       fontSize: 8.sp,
-                                      color: appColor.mainBrandingColor
-                                  ),),
+                                      color: appColor.mainBrandingColor),
+                                ),
                               )
                             ],
                           ),
-                          SizedBox(height: 4.h,),
-                          Text(localeText(context,'lifetime'),style: TextStyle(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.w500,
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          Text(
+                            localeText(context, 'lifetime'),
+                            style: TextStyle(
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "satoshi",
+                                color: AppColors.grey3),
+                          ),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          Text(
+                            _formatDuration(Duration(
+                                seconds: myState.lifeTimeAppUsageSeconds)),
+                            style: TextStyle(
+                              fontSize: 10.sp,
                               fontFamily: "satoshi",
-                              color: AppColors.grey3
-                          ),),
-                          SizedBox(height: 1.h,),
-                          Text(_formatDuration(Duration(seconds: myState.lifeTimeAppUsageSeconds)),style: TextStyle(
-                            fontSize: 10.sp,
-                            fontFamily: "satoshi",
-                            fontWeight: FontWeight.w700,
-                          ),),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ],
                       ),
                     )
@@ -135,11 +184,11 @@ class YourEngagementSection extends StatelessWidget {
       final hours = duration.inHours - duration.inDays * 24;
       final minutes = duration.inMinutes - duration.inHours * 60;
       return '${duration.inDays}d${hours}h${minutes}m';
-    } else if(duration.inSeconds <=60){
+    } else if (duration.inSeconds <= 60) {
       return '${duration.inSeconds}s';
-    }else if(duration.inSeconds >=61 && duration.inMinutes <=60){
+    } else if (duration.inSeconds >= 61 && duration.inMinutes <= 60) {
       return '${duration.inMinutes}m';
-    }else {
+    } else {
       final hours = duration.inHours;
       final minutes = duration.inMinutes - duration.inHours * 60;
       return '${hours}h ${minutes}m';

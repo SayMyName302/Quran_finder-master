@@ -12,7 +12,6 @@ import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -29,7 +28,6 @@ class _HomePageState extends State<HomePage> {
     // Future.delayed(const Duration(seconds: 5),()=>showInAppPurchaseBottomSheet());
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,20 +37,36 @@ class _HomePageState extends State<HomePage> {
           children: [
             /// user picture, home title and islamic date widget
             const UserPicture(),
+
             /// your engagement feature
             const YourEngagementSection(),
+
             /// ayah last seen container
-            lastSeen != null ? Container(
-                margin: EdgeInsets.only(left: 20.w,bottom: 8.h,right: 20.w),
-                child: Text(localeText(context,'continue_where_you_left_off'), style: TextStyle(fontSize: 14.sp, fontFamily: 'satoshi',fontWeight: FontWeight.w900),)
-            ) : const SizedBox.shrink(),
-            lastSeen != null ? const WhereULeftOffWidget() : const SizedBox.shrink(),
+            lastSeen != null
+                ? Container(
+                    margin:
+                        EdgeInsets.only(left: 20.w, bottom: 8.h, right: 20.w),
+                    child: Text(
+                      localeText(context, 'continue_where_you_left_off'),
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: 'satoshi',
+                          fontWeight: FontWeight.w900),
+                    ))
+                : const SizedBox.shrink(),
+            lastSeen != null
+                ? const WhereULeftOffWidget()
+                : const SizedBox.shrink(),
+
             /// quran Stories Section
             const QuranStoriesSection(),
+
             /// verse of the day Container
             const VerseOfTheDayContainer(),
+
             /// Quran Miracles Section
             const QuranMiraclesSection(),
+
             /// Islam Basics Section
             const IslamBasicsSection(),
           ],
@@ -61,20 +75,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-
   showInAppPurchaseBottomSheet() async {
     await showModalBottomSheet(
-        context: context,
-        useSafeArea: true,
-        isScrollControlled: true,
-        builder: (context) {
-          return const FreeTrial();
-        },);
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      builder: (context) {
+        return const FreeTrial();
+      },
+    );
   }
 }
-
-
-
-
-
