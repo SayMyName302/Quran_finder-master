@@ -122,6 +122,26 @@ flutter:
     - assets/images/splash/
     - assets/data/
     - assets/audios/fav_reciters/
+    - assets/images/qaida/
+    - assets/images/qaida/page1/
+    - assets/images/qaida/page2/
+    - assets/images/qaida/page3/
+    - assets/images/qaida/page4/
+    - assets/images/qaida/page5/
+    - assets/images/qaida/page6/
+    - assets/images/qaida/page7/
+    - assets/images/qaida/page8/
+    - assets/images/qaida/page9/
+    - assets/images/qaida/page10/
+    - assets/images/qaida/page11/
+    - assets/images/qaida/page12/
+    - assets/images/qaida/page13/
+    - assets/images/qaida/page14/
+    - assets/images/qaida/page15/
+    - assets/images/qaida/page16/
+    - assets/images/qaida/page17/
+    - assets/images/qaida/page18/
+    - assets/images/qaida/page19/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

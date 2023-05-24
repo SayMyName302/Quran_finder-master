@@ -37,6 +37,7 @@ import '../../pages/quran stories/pages/story_content_page.dart';
 import '../widgets/story_n_basics_player.dart';
 import '../../pages/miracles_of_quran/pages/miracle_content_page.dart';
 import '../../pages/miracles_of_quran/pages/miracles_of_quran_page.dart';
+import 'package:nour_al_quran/pages/qaida/screens/swipe.dart';
 
 class RouteHelper {
   static const String initRoute = "/";
@@ -94,6 +95,7 @@ class RouteHelper {
   static const String aboutApp = "/aboutApp";
   static const String notificationSetting = "notificationSetting";
   static const String myState = "myState";
+  static const String swipe = "/swipe";
 
   // static late BuildContext currentContext;
 
@@ -112,6 +114,10 @@ class RouteHelper {
       reviewOne: (context) {
         currentContext = context;
         return const ReviewOne();
+      },
+      swipe: (context) {
+        currentContext = context;
+        return const SwipePages();
       },
       paywallscreen: (context) {
         currentContext = context;
