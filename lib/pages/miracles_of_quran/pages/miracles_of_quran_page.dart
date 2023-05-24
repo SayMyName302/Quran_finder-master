@@ -8,7 +8,10 @@ class MiraclesOfQuranPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context: context,title: "Miracles Of Quran"),
+      appBar: buildAppBar(
+        context: context,
+        title: "Miracles Of Quran",
+      ),
       body: const MiraclesList(),
     );
   }
