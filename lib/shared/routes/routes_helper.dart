@@ -10,6 +10,7 @@ import 'package:nour_al_quran/pages/onboarding/pages/index.dart';
 import 'package:nour_al_quran/pages/paywall/paywallpage2.dart';
 import 'package:nour_al_quran/pages/paywall/upgrade_to_premimum.dart';
 import 'package:nour_al_quran/pages/quran/pages/duas/dua_page.dart';
+import 'package:nour_al_quran/pages/quran/pages/duas/dua_categories_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/view_all/view_all.dart';
@@ -29,7 +30,7 @@ import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sign_up_page.dart';
 import 'package:nour_al_quran/pages/splash/splash.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
-import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
+//import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import '../../pages/basics_of_quran/pages/basics_content_page.dart';
 import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';
 import '../../pages/bottom_tabs/pages/bottom_tab_page.dart';
@@ -46,7 +47,6 @@ class RouteHelper {
   static const String setFavReciter = "/setFavReciter";
   static const String paywallscreen = "/paywall";
   static const String paywallscreen2 = "/paywall2";
-
   static late BuildContext currentContext;
   static bool paywallVisibility = true;
 
@@ -96,6 +96,7 @@ class RouteHelper {
   static const String notificationSetting = "notificationSetting";
   static const String myState = "myState";
   static const String swipe = "/swipe";
+  static const String duaCategory = "/duaCategory";
 
   // static late BuildContext currentContext;
 
@@ -118,6 +119,10 @@ class RouteHelper {
       swipe: (context) {
         currentContext = context;
         return const SwipePages();
+      },
+      duaCategory: (context) {
+        currentContext = context;
+        return const DuaCategoriesPage();
       },
       paywallscreen: (context) {
         currentContext = context;

@@ -54,6 +54,9 @@ class _MorePageState extends State<MorePage> {
       More(
           name: localeText(context, "qaida"),
           image: 'assets/images/app_icons/basics.png'),
+      More(
+          name: localeText(context, "duas"),
+          image: 'assets/images/app_icons/basics.png'),
     ];
     List routes = [
       RouteHelper.namesOfALLAH,
@@ -65,6 +68,7 @@ class _MorePageState extends State<MorePage> {
       RouteHelper.miraclesOfQuran,
       RouteHelper.basicsOfQuran,
       RouteHelper.swipe,
+      RouteHelper.duaCategory,
     ];
     return Scaffold(
       body: Column(
