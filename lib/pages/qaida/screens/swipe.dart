@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:nour_al_quran/pages/qaida/screens/custompage.dart';
+//import 'package:nour_al_quran/pages/qaida/screens/custompage.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page1.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page2.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page3.dart';
@@ -21,6 +21,9 @@ import 'package:nour_al_quran/pages/qaida/screens/page17.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page18.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page19.dart';
 import 'package:nour_al_quran/pages/qaida/screens/qaidaplayer.dart';
+import 'package:nour_al_quran/shared/localization/localization_constants.dart';
+
+import '../../../shared/widgets/app_bar.dart';
 
 class SwipePages extends StatefulWidget {
   const SwipePages({super.key});
@@ -29,8 +32,7 @@ class SwipePages extends StatefulWidget {
   State<SwipePages> createState() => _SwipePagesState();
 }
 
-class _SwipePagesState extends State<SwipePages>
-    with SingleTickerProviderStateMixin {
+class _SwipePagesState extends State<SwipePages> {
   final List<GlobalKey<Page1State>> _page1Key = [
     GlobalKey<Page1State>(),
   ];
@@ -90,12 +92,13 @@ class _SwipePagesState extends State<SwipePages>
   ];
   int _curr = 0;
   bool _isPlaying = false;
-  bool _toggleValue = false;
-  bool _isExpanded = false;
-  bool _clearSelection = false;
+  //bool _toggleValue = false;
+  // bool _isExpanded = false;
+  //bool _clearSelection = false;
+  // bool _isButtonTapped = false;
   List<Widget> _list = <Widget>[];
-  late Animation<double> _animation;
-  late AnimationController _controller;
+  // late Animation<double> _animation;
+  // late AnimationController _controller;
   bool _isMultipleSelectionEnabled = false;
   AudioPlayer _audioPlayer = AudioPlayer();
   List<AudioPlayer> _audioLists = [];
@@ -105,14 +108,14 @@ class _SwipePagesState extends State<SwipePages>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    );
+    // _controller = AnimationController(
+    //   vsync: this,
+    //   duration: const Duration(milliseconds: 300),
+    // );
+    // _animation = CurvedAnimation(
+    //   parent: _controller,
+    //   curve: Curves.easeInOut,
+    // );
     controller = PageController(initialPage: _curr);
     _initList();
   }
@@ -131,6 +134,89 @@ class _SwipePagesState extends State<SwipePages>
     setState(() {
       _isMultipleSelectionEnabled = value;
     });
+  }
+
+  void selectWords(bool value) {
+    setState(() {
+      _isMultipleSelectionEnabled = value;
+    });
+    _updateList();
+    print('Button Value received: $value'); // Print the value
+  }
+
+  void fetchstop() {
+    if (_isPlaying) {
+      _stopPageAudios();
+    }
+  }
+
+  void fetchList() {
+    print('Play button tapped!');
+
+    List<String> audioFiles = [];
+    int pageId = -1;
+    if (_curr == 0) {
+      audioFiles = AudioListHolder1.audioList;
+      pageId = AudioListHolder1.pageId;
+    } else if (_curr == 1) {
+      audioFiles = AudioListHolder2.audioList;
+      pageId = AudioListHolder2.pageId;
+    } else if (_curr == 2) {
+      audioFiles = AudioListHolder3.audioList;
+      pageId = AudioListHolder3.pageId;
+    } else if (_curr == 3) {
+      audioFiles = AudioListHolder4.audioList;
+      pageId = AudioListHolder4.pageId;
+    } else if (_curr == 4) {
+      audioFiles = AudioListHolder5.audioList;
+      pageId = AudioListHolder5.pageId;
+    } else if (_curr == 5) {
+      audioFiles = AudioListHolder6.audioList;
+      pageId = AudioListHolder6.pageId;
+    } else if (_curr == 6) {
+      audioFiles = AudioListHolder7.audioList;
+      pageId = AudioListHolder7.pageId;
+    } else if (_curr == 7) {
+      audioFiles = AudioListHolder8.audioList;
+      pageId = AudioListHolder8.pageId;
+    } else if (_curr == 8) {
+      audioFiles = AudioListHolder9.audioList;
+      pageId = AudioListHolder9.pageId;
+    } else if (_curr == 9) {
+      audioFiles = AudioListHolder10.audioList;
+      pageId = AudioListHolder10.pageId;
+    } else if (_curr == 10) {
+      audioFiles = AudioListHolder11.audioList;
+      pageId = AudioListHolder11.pageId;
+    } else if (_curr == 11) {
+      audioFiles = AudioListHolder12.audioList;
+      pageId = AudioListHolder12.pageId;
+    } else if (_curr == 12) {
+      audioFiles = AudioListHolder13.audioList;
+      pageId = AudioListHolder13.pageId;
+    } else if (_curr == 13) {
+      audioFiles = AudioListHolder14.audioList;
+      pageId = AudioListHolder14.pageId;
+    } else if (_curr == 14) {
+      audioFiles = AudioListHolder15.audioList;
+      pageId = AudioListHolder15.pageId;
+    } else if (_curr == 15) {
+      audioFiles = AudioListHolder16.audioList;
+      pageId = AudioListHolder16.pageId;
+    } else if (_curr == 16) {
+      audioFiles = AudioListHolder17.audioList;
+      pageId = AudioListHolder17.pageId;
+    } else if (_curr == 17) {
+      audioFiles = AudioListHolder18.audioList;
+      pageId = AudioListHolder18.pageId;
+    } else if (_curr == 18) {
+      audioFiles = AudioListHolder19.audioList;
+      pageId = AudioListHolder19.pageId;
+    }
+    if (audioFiles.isNotEmpty) {
+      //       print("List of audio files: $audioFiles");
+      _playPageAudios(pageId, audioFiles);
+    }
   }
 
   void _initList() {
@@ -393,77 +479,77 @@ class _SwipePagesState extends State<SwipePages>
     }
   }
 
-  void _showMenu() {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.15,
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Settings',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                // const SizedBox(height: 16),
-                // Row(
-                //   children: [
-                //     const Text(
-                //       'Non-stop reading',
-                //       style: TextStyle(fontSize: 16),
-                //     ),
-                //     const SizedBox(width: 16),
-                //     Switch(
-                //       value: _toggleValue,
-                //       onChanged: (value) {
-                //         setState(() {
-                //           _toggleValue = value;
-                //         });
-                //       },
-                //     ),
-                //   ],
-                // ),
-                // const SizedBox(height: 16),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _isMultipleSelectionEnabled =
-                            !_isMultipleSelectionEnabled;
-                      });
-                      _updateList();
-                      Navigator.pop(context);
-                    },
-                    style: _isMultipleSelectionEnabled
-                        ? ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            textStyle: const TextStyle(color: Colors.white),
-                          )
-                        : ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            textStyle: _buttonTextStyle,
-                          ),
-                    child: const Text('Select the words'),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-      },
-    );
-  }
+  // void _showMenu() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     shape: const RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+  //     ),
+  //     isScrollControlled: true,
+  //     builder: (BuildContext context) {
+  //       return StatefulBuilder(
+  //           builder: (BuildContext context, StateSetter setState) {
+  //         return Container(
+  //           height: MediaQuery.of(context).size.height * 0.15,
+  //           padding: const EdgeInsets.all(16),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               const Text(
+  //                 'Settings',
+  //                 style: TextStyle(
+  //                   fontSize: 20,
+  //                   fontWeight: FontWeight.bold,
+  //                 ),
+  //               ),
+  //               // const SizedBox(height: 16),
+  //               // Row(
+  //               //   children: [
+  //               //     const Text(
+  //               //       'Non-stop reading',
+  //               //       style: TextStyle(fontSize: 16),
+  //               //     ),
+  //               //     const SizedBox(width: 16),
+  //               //     Switch(
+  //               //       value: _toggleValue,
+  //               //       onChanged: (value) {
+  //               //         setState(() {
+  //               //           _toggleValue = value;
+  //               //         });
+  //               //       },
+  //               //     ),
+  //               //   ],
+  //               // ),
+  //               // const SizedBox(height: 16),
+  //               Center(
+  //                 child: ElevatedButton(
+  //                   onPressed: () {
+  //                     setState(() {
+  //                       _isMultipleSelectionEnabled =
+  //                           !_isMultipleSelectionEnabled;
+  //                     });
+  //                     _updateList();
+  //                     Navigator.pop(context);
+  //                   },
+  //                   style: _isMultipleSelectionEnabled
+  //                       ? ElevatedButton.styleFrom(
+  //                           backgroundColor: Colors.green,
+  //                           textStyle: const TextStyle(color: Colors.white),
+  //                         )
+  //                       : ElevatedButton.styleFrom(
+  //                           backgroundColor: Colors.red,
+  //                           textStyle: _buttonTextStyle,
+  //                         ),
+  //                   child: const Text('Select the words'),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  //     },
+  //   );
+  // }
 
   Future<void> _playPageAudios(int pageId, List<String> audioFiles) async {
     try {
@@ -691,11 +777,13 @@ class _SwipePagesState extends State<SwipePages>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Qaida'),
-        backgroundColor: Colors.lightBlueAccent,
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: const Text('Qaida'),
+      //   backgroundColor: Colors.lightBlueAccent,
+      // ),
+      appBar:
+          buildAppBar(context: context, title: localeText(context, 'qaida')),
       body: Stack(
         children: [
           PageView(
@@ -715,175 +803,179 @@ class _SwipePagesState extends State<SwipePages>
             },
             children: _list,
           ),
-          Positioned(
-            top: 10,
-            left: 10,
-            child: IconButton(
-              icon: const Icon(Icons.settings),
-              iconSize: 30,
-              onPressed: () {
-                _showMenu();
-              },
-            ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * .785,
-            right: _isExpanded ? 0 : MediaQuery.of(context).size.width,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: MediaQuery.of(context).size.width,
-              height: _isExpanded ? 65 : 0,
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(width: 100),
-                  Container(
-                    height: 15,
-                    width: 15,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                    ),
-                    child: IconButton(
-                      onPressed: () async {
-                        List<String> audioFiles = [];
-                        int pageId = -1;
-                        if (_curr == 0) {
-                          audioFiles = AudioListHolder1.audioList;
-                          pageId = AudioListHolder1.pageId;
-                        } else if (_curr == 1) {
-                          audioFiles = AudioListHolder2.audioList;
-                          pageId = AudioListHolder2.pageId;
-                        } else if (_curr == 2) {
-                          audioFiles = AudioListHolder3.audioList;
-                          pageId = AudioListHolder3.pageId;
-                        } else if (_curr == 3) {
-                          audioFiles = AudioListHolder4.audioList;
-                          pageId = AudioListHolder4.pageId;
-                        } else if (_curr == 4) {
-                          audioFiles = AudioListHolder5.audioList;
-                          pageId = AudioListHolder5.pageId;
-                        } else if (_curr == 5) {
-                          audioFiles = AudioListHolder6.audioList;
-                          pageId = AudioListHolder6.pageId;
-                        } else if (_curr == 6) {
-                          audioFiles = AudioListHolder7.audioList;
-                          pageId = AudioListHolder7.pageId;
-                        } else if (_curr == 7) {
-                          audioFiles = AudioListHolder8.audioList;
-                          pageId = AudioListHolder8.pageId;
-                        } else if (_curr == 8) {
-                          audioFiles = AudioListHolder9.audioList;
-                          pageId = AudioListHolder9.pageId;
-                        } else if (_curr == 9) {
-                          audioFiles = AudioListHolder10.audioList;
-                          pageId = AudioListHolder10.pageId;
-                        } else if (_curr == 10) {
-                          audioFiles = AudioListHolder11.audioList;
-                          pageId = AudioListHolder11.pageId;
-                        } else if (_curr == 11) {
-                          audioFiles = AudioListHolder12.audioList;
-                          pageId = AudioListHolder12.pageId;
-                        } else if (_curr == 12) {
-                          audioFiles = AudioListHolder13.audioList;
-                          pageId = AudioListHolder13.pageId;
-                        } else if (_curr == 13) {
-                          audioFiles = AudioListHolder14.audioList;
-                          pageId = AudioListHolder14.pageId;
-                        } else if (_curr == 14) {
-                          audioFiles = AudioListHolder15.audioList;
-                          pageId = AudioListHolder15.pageId;
-                        } else if (_curr == 15) {
-                          audioFiles = AudioListHolder16.audioList;
-                          pageId = AudioListHolder16.pageId;
-                        } else if (_curr == 16) {
-                          audioFiles = AudioListHolder17.audioList;
-                          pageId = AudioListHolder17.pageId;
-                        } else if (_curr == 17) {
-                          audioFiles = AudioListHolder18.audioList;
-                          pageId = AudioListHolder18.pageId;
-                        } else if (_curr == 18) {
-                          audioFiles = AudioListHolder19.audioList;
-                          pageId = AudioListHolder19.pageId;
-                        }
-                        if (audioFiles.isNotEmpty) {
-                          //       print("List of audio files: $audioFiles");
-                          await _playPageAudios(pageId, audioFiles);
-                        }
-                        //  print('Curr = $_curr');
-                      },
-                      icon: const Icon(
-                        Icons.play_arrow,
-                        size: 15,
-                      ),
-                      color: Colors.white,
-                      iconSize: 0.0,
-                      padding: EdgeInsets.zero,
-                    ),
-                  ),
-                  const SizedBox(width: 50),
-                  Container(
-                    height: 15,
-                    width: 15,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                    ),
-                    child: IconButton(
-                      onPressed: _isPlaying
-                          ? () async {
-                              await _stopPageAudios();
-                            }
-                          : () {},
-                      icon: const Icon(
-                        Icons.stop,
-                        size: 15,
-                      ),
-                      color: Colors.white,
-                      iconSize: 0.0,
-                      padding: EdgeInsets.zero,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * .812,
-            right: MediaQuery.of(context).size.width * .06,
-            child: SizedBox(
-              height: 19,
-              width: 19,
-              child: FloatingActionButton(
-                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                onPressed: () {
-                  setState(() {
-                    _isExpanded = !_isExpanded;
-                  });
-                },
-                child: Icon(
-                  _isExpanded ? Icons.close : Icons.menu,
-                  size: 18,
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 10,
+          //   left: 10,
+          //   child: IconButton(
+          //     icon: const Icon(Icons.settings),
+          //     iconSize: 30,
+          //     onPressed: () {
+          //       _showMenu();
+          //     },
+          //   ),
+          // ),
+          // Positioned(
+          //   top: MediaQuery.of(context).size.height * .785,
+          //   right: _isExpanded ? 0 : MediaQuery.of(context).size.width,
+          //   child: AnimatedContainer(
+          //     duration: const Duration(milliseconds: 200),
+          //     width: MediaQuery.of(context).size.width,
+          //     height: _isExpanded ? 65 : 0,
+          //     decoration: const BoxDecoration(
+          //       color: Colors.transparent,
+          //       borderRadius: BorderRadius.only(
+          //         topLeft: Radius.circular(24.0),
+          //       ),
+          //     ),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         const SizedBox(width: 100),
+          //         Container(
+          //           height: 15,
+          //           width: 15,
+          //           decoration: const BoxDecoration(
+          //             shape: BoxShape.circle,
+          //             color: Colors.black,
+          //           ),
+          //           child: IconButton(
+          //             onPressed: () async {
+          //               List<String> audioFiles = [];
+          //               int pageId = -1;
+          //               if (_curr == 0) {
+          //                 audioFiles = AudioListHolder1.audioList;
+          //                 pageId = AudioListHolder1.pageId;
+          //               } else if (_curr == 1) {
+          //                 audioFiles = AudioListHolder2.audioList;
+          //                 pageId = AudioListHolder2.pageId;
+          //               } else if (_curr == 2) {
+          //                 audioFiles = AudioListHolder3.audioList;
+          //                 pageId = AudioListHolder3.pageId;
+          //               } else if (_curr == 3) {
+          //                 audioFiles = AudioListHolder4.audioList;
+          //                 pageId = AudioListHolder4.pageId;
+          //               } else if (_curr == 4) {
+          //                 audioFiles = AudioListHolder5.audioList;
+          //                 pageId = AudioListHolder5.pageId;
+          //               } else if (_curr == 5) {
+          //                 audioFiles = AudioListHolder6.audioList;
+          //                 pageId = AudioListHolder6.pageId;
+          //               } else if (_curr == 6) {
+          //                 audioFiles = AudioListHolder7.audioList;
+          //                 pageId = AudioListHolder7.pageId;
+          //               } else if (_curr == 7) {
+          //                 audioFiles = AudioListHolder8.audioList;
+          //                 pageId = AudioListHolder8.pageId;
+          //               } else if (_curr == 8) {
+          //                 audioFiles = AudioListHolder9.audioList;
+          //                 pageId = AudioListHolder9.pageId;
+          //               } else if (_curr == 9) {
+          //                 audioFiles = AudioListHolder10.audioList;
+          //                 pageId = AudioListHolder10.pageId;
+          //               } else if (_curr == 10) {
+          //                 audioFiles = AudioListHolder11.audioList;
+          //                 pageId = AudioListHolder11.pageId;
+          //               } else if (_curr == 11) {
+          //                 audioFiles = AudioListHolder12.audioList;
+          //                 pageId = AudioListHolder12.pageId;
+          //               } else if (_curr == 12) {
+          //                 audioFiles = AudioListHolder13.audioList;
+          //                 pageId = AudioListHolder13.pageId;
+          //               } else if (_curr == 13) {
+          //                 audioFiles = AudioListHolder14.audioList;
+          //                 pageId = AudioListHolder14.pageId;
+          //               } else if (_curr == 14) {
+          //                 audioFiles = AudioListHolder15.audioList;
+          //                 pageId = AudioListHolder15.pageId;
+          //               } else if (_curr == 15) {
+          //                 audioFiles = AudioListHolder16.audioList;
+          //                 pageId = AudioListHolder16.pageId;
+          //               } else if (_curr == 16) {
+          //                 audioFiles = AudioListHolder17.audioList;
+          //                 pageId = AudioListHolder17.pageId;
+          //               } else if (_curr == 17) {
+          //                 audioFiles = AudioListHolder18.audioList;
+          //                 pageId = AudioListHolder18.pageId;
+          //               } else if (_curr == 18) {
+          //                 audioFiles = AudioListHolder19.audioList;
+          //                 pageId = AudioListHolder19.pageId;
+          //               }
+          //               if (audioFiles.isNotEmpty) {
+          //                 //       print("List of audio files: $audioFiles");
+          //                 await _playPageAudios(pageId, audioFiles);
+          //               }
+          //               //  print('Curr = $_curr');
+          //             },
+          //             icon: const Icon(
+          //               Icons.play_arrow,
+          //               size: 15,
+          //             ),
+          //             color: Colors.white,
+          //             iconSize: 0.0,
+          //             padding: EdgeInsets.zero,
+          //           ),
+          //         ),
+          //         const SizedBox(width: 50),
+          //         Container(
+          //           height: 15,
+          //           width: 15,
+          //           decoration: const BoxDecoration(
+          //             shape: BoxShape.circle,
+          //             color: Colors.black,
+          //           ),
+          //           child: IconButton(
+          //             onPressed: _isPlaying
+          //                 ? () async {
+          //                     await _stopPageAudios();
+          //                   }
+          //                 : () {},
+          //             icon: const Icon(
+          //               Icons.stop,
+          //               size: 15,
+          //             ),
+          //             color: Colors.white,
+          //             iconSize: 0.0,
+          //             padding: EdgeInsets.zero,
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // Positioned(
+          //   top: MediaQuery.of(context).size.height * .812,
+          //   right: MediaQuery.of(context).size.width * .06,
+          //   child: SizedBox(
+          //     height: 19,
+          //     width: 19,
+          //     child: FloatingActionButton(
+          //       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          //       onPressed: () {
+          //         setState(() {
+          //           _isExpanded = !_isExpanded;
+          //         });
+          //       },
+          //       child: Icon(
+          //         _isExpanded ? Icons.close : Icons.menu,
+          //         size: 18,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
-      bottomNavigationBar: CustomPageIndicator(
-        total: _list.length,
-        controller: controller,
-      ),
-      // bottomNavigationBar: const SizedBox(
-      //   height: 90,
-      //   child: QaidaPlayer(),
+      // bottomNavigationBar: CustomPageIndicator(
+      //   total: _list.length,
+      //   controller: controller,
       // ),
+      bottomNavigationBar: SizedBox(
+        height: 90,
+        child: QaidaPlayer(
+          selectWords: selectWords,
+          playButton: fetchList,
+          stopButton: fetchstop,
+        ),
+      ),
     );
   }
 }
