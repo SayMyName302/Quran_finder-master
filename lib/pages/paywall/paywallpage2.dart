@@ -16,9 +16,10 @@ class paywallpage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(
+      appBar: buildpaywallappbar(
           context: context,
-          title: localeText(context, "how_your_free_trial_works")),
+          title: localeText(context, "how_your_free_trial_works"),
+          icon: ""),
       body: Stack(
         children: [
           Padding(
