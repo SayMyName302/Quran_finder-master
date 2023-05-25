@@ -10,7 +10,7 @@ import 'package:nour_al_quran/pages/onboarding/pages/index.dart';
 import 'package:nour_al_quran/pages/paywall/paywallpage2.dart';
 import 'package:nour_al_quran/pages/paywall/upgrade_to_premimum.dart';
 import 'package:nour_al_quran/pages/quran/pages/duas/dua_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/dua_categories_page.dart';
+import 'package:nour_al_quran/pages/quran/pages/duas/duamain.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/view_all/view_all.dart';
@@ -96,7 +96,7 @@ class RouteHelper {
   static const String notificationSetting = "notificationSetting";
   static const String myState = "myState";
   static const String swipe = "/swipe";
-  static const String duaCategory = "/duaCategory";
+  static const String duaMain = "/duaMain";
 
   // static late BuildContext currentContext;
 
@@ -120,9 +120,9 @@ class RouteHelper {
         currentContext = context;
         return const SwipePages();
       },
-      duaCategory: (context) {
+      duaMain: (context) {
         currentContext = context;
-        return const DuaCategoriesPage();
+        return const DuaCategoriesMain();
       },
       paywallscreen: (context) {
         currentContext = context;

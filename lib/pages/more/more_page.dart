@@ -68,7 +68,7 @@ class _MorePageState extends State<MorePage> {
       RouteHelper.miraclesOfQuran,
       RouteHelper.basicsOfQuran,
       RouteHelper.swipe,
-      RouteHelper.duaCategory,
+      RouteHelper.duaMain,
     ];
     return Scaffold(
       body: Column(
