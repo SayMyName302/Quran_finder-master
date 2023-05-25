@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
+
+import '../../settings/pages/app_colors/app_colors_provider.dart';
 
 class Page1 extends StatefulWidget {
   bool isMultipleSelectionEnabled;
@@ -206,6 +209,7 @@ class Page1State extends State<Page1> {
 
   @override
   Widget build(BuildContext context) {
+    AudioPlayerManager _audioPlayerManager = AudioPlayerManager();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -242,22 +246,24 @@ class Page1State extends State<Page1> {
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 28, 98, 155),
-                            border: Border(
-                              right: BorderSide(width: 1),
-                              left: BorderSide(width: 1),
-                              top: BorderSide(width: 1),
-                              bottom: BorderSide(width: 1),
-                            )),
-                        child: const Text(
-                          ' حروف الهجاء المفردة',
-                          style: TextStyle(
-                              fontSize: 24,
-                              color: Colors.white,
-                              letterSpacing: 1.5),
-                          textAlign: TextAlign.center,
+                      child: Consumer<AppColorsProvider>(
+                        builder: (context, value, child) => Container(
+                          decoration: BoxDecoration(
+                              color: value.mainBrandingColor,
+                              border: const Border(
+                                right: BorderSide(width: 1),
+                                left: BorderSide(width: 1),
+                                top: BorderSide(width: 1),
+                                bottom: BorderSide(width: 1),
+                              )),
+                          child: const Text(
+                            ' حروف الهجاء المفردة',
+                            style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.white,
+                                letterSpacing: 1.5),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     )
@@ -306,6 +312,8 @@ class Page1State extends State<Page1> {
                                                 await _audioPlayer.stop();
                                                 await _audioPlayer.setAsset(
                                                     audioFilePaths[4]);
+                                                _audioPlayerManager
+                                                    .playAudio(4);
                                                 await _audioPlayer.play();
                                                 //    _hideOverlay();
                                               },
@@ -2256,6 +2264,70 @@ class AudioListHolder1 {
   static List<String> audioList = [];
   static int pageId = 1;
 }
+
+class AudioPlayerManager {
+  AudioPlayer _audioPlayer = AudioPlayer();
+  List<String> audioFilePaths = [
+    'assets/images/qaida/page1/alif.mp3',
+    'assets/images/qaida/page1/baa1.mp3',
+    'assets/images/qaida/page1/taaah.mp3',
+    'assets/images/qaida/page1/saa.mp3',
+    'assets/images/qaida/page1/geem.mp3',
+    'assets/images/qaida/page1/haa.mp3',
+    'assets/images/qaida/page1/khaa.mp3',
+    'assets/images/qaida/page1/daal.mp3',
+    'assets/images/qaida/page1/zaal.mp3',
+    'assets/images/qaida/page1/raaa.mp3',
+    'assets/images/qaida/page1/zaaa.mp3',
+    'assets/images/qaida/page1/seen.mp3',
+    'assets/images/qaida/page1/sheen.mp3',
+    'assets/images/qaida/page1/suaad.mp3',
+    'assets/images/qaida/page1/zaad.mp3',
+    'assets/images/qaida/page1/taaah.mp3',
+    'assets/images/qaida/page1/zaaah.mp3',
+    'assets/images/qaida/page1/aaen.mp3',
+    'assets/images/qaida/page1/gaen.mp3',
+    'assets/images/qaida/page1/faa.mp3',
+    'assets/images/qaida/page1/qaaf.mp3',
+    'assets/images/qaida/page1/kaaf.mp3',
+    'assets/images/qaida/page1/laam.mp3',
+    'assets/images/qaida/page1/meem.mp3',
+    'assets/images/qaida/page1/noon.mp3',
+    'assets/images/qaida/page1/wahoo.mp3',
+    'assets/images/qaida/page1/haah.mp3',
+    'assets/images/qaida/page1/hamza.mp3',
+    'assets/images/qaida/page1/yaa.mp3',
+    'assets/images/qaida/page1/yaah.mp3',
+    // Add more audio file paths
+  ];
+
+  Future<void> playAudio(int index) async {
+    if (index < 0 || index >= audioFilePaths.length) {
+      // Handle invalid index
+      return;
+    }
+
+    final filePath = audioFilePaths[index];
+
+    if (_audioPlayer != null) {
+      await _audioPlayer.stop();
+      await _audioPlayer.dispose();
+    }
+
+    _audioPlayer = AudioPlayer();
+    await _audioPlayer.setAsset(filePath);
+    await _audioPlayer.play();
+  }
+
+  Future<void> stopAudio() async {
+    if (_audioPlayer != null) {
+      await _audioPlayer.stop();
+      await _audioPlayer.dispose();
+    }
+  }
+}
+
+
 
 //-> TESTS CLEARED
 //-> ~ Single AudioPlay working
