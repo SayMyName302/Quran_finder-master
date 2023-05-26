@@ -210,11 +210,12 @@ class ReciterPage extends StatelessWidget {
                               bottom: 8.h,
                             ),
                             decoration: BoxDecoration(
-                                // color: AppColors.grey6,
-                                borderRadius: BorderRadius.circular(6.r),
-                                border: Border.all(
-                                  color: AppColors.grey5,
-                                )),
+                              // color: AppColors.grey6,
+                              borderRadius: BorderRadius.circular(6.r),
+                              border: Border.all(
+                                color: AppColors.grey5,
+                              ),
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

@@ -12,7 +12,6 @@ import '../../quran stories/quran_stories_provider.dart';
 import '../../settings/pages/my_state/my_state_provider_updated.dart';
 import '../provider/bottom_tabs_page_provider.dart';
 
-
 class BottomTabsPage extends StatefulWidget {
   const BottomTabsPage({Key? key}) : super(key: key);
 
@@ -20,21 +19,22 @@ class BottomTabsPage extends StatefulWidget {
   State<BottomTabsPage> createState() => _BottomTabsPageState();
 }
 
-class _BottomTabsPageState extends State<BottomTabsPage> with WidgetsBindingObserver{
-
-
+class _BottomTabsPageState extends State<BottomTabsPage>
+    with WidgetsBindingObserver {
   /// this is the main bottom tabs screen
   /// so in the init method of this we are initializing all important data belong to
   /// home screen to load all the data from home screen loads
   @override
   void initState() {
     super.initState();
+
     /// observer is used to observe app lifecycle state
     /// and it is used to stop and start app usage and other timers when user stop or resume the app
     WidgetsBinding.instance.addObserver(this);
 
     /// this method will get verse of the day
     context.read<HomeProvider>().getVerse(context);
+
     /// get all stores, miracles and islam basics from home.db file
     context.read<QuranStoriesProvider>().getStories();
     context.read<MiraclesOfQuranProvider>().getMiracles();
@@ -42,7 +42,7 @@ class _BottomTabsPageState extends State<BottomTabsPage> with WidgetsBindingObse
 
     /// this is app usage state provider which is used to stop and start timers
     var provider = context.read<MyStateProvider>();
-    Future.delayed(Duration.zero,(){
+    Future.delayed(Duration.zero, () {
       /// update streak will initialize and update current streak level
       /// if user is using app continuously every day without any gap so it will increment
       /// streak level by +1 every day if user come after 1 day gap so streak level will start
@@ -59,7 +59,6 @@ class _BottomTabsPageState extends State<BottomTabsPage> with WidgetsBindingObse
       /// til user use the app
       provider.startAppUsageTimer();
     });
-
 
     setUpNotifications();
   }
@@ -82,11 +81,12 @@ class _BottomTabsPageState extends State<BottomTabsPage> with WidgetsBindingObse
     );
   }
 
-  void setUpNotifications(){
-    TimeOfDay reminderTime = Hive.box(appBoxKey).get(onBoardingInformationKey).recitationReminder;
+  void setUpNotifications() {
+    TimeOfDay reminderTime =
+        Hive.box(appBoxKey).get(onBoardingInformationKey).recitationReminder;
     OnBoardingProvider onBoardingProvider = OnBoardingProvider();
     var notificationList = onBoardingProvider.notification;
-    if(notificationList[0].isSelected!){
+    if (notificationList[0].isSelected!) {
       // schedule notification for quran recitations
       NotificationServices().dailyNotifications(
           id: dailyQuranRecitationId,
@@ -99,7 +99,7 @@ class _BottomTabsPageState extends State<BottomTabsPage> with WidgetsBindingObse
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    var provider = Provider.of<MyStateProvider>(context,listen: false);
+    var provider = Provider.of<MyStateProvider>(context, listen: false);
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached) {
