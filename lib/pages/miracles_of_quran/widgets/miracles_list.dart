@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ class MiraclesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     return Consumer<MiraclesOfQuranProvider>(
       builder: (context, miraclesProvider, child) {
         return miraclesProvider.miracles.isNotEmpty
@@ -25,6 +27,10 @@ class MiraclesList extends StatelessWidget {
                     onTap: () {
                       miraclesProvider.goToMiracleDetailsPage(
                           model.title!, context, index);
+                      analytics.logEvent(
+                        name: 'model_title_tapped',
+                        parameters: {'title': model.title},
+                      );
                     },
                     child: Container(
                       height: 149.h,
