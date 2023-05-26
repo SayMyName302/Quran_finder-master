@@ -41,28 +41,33 @@ class DuaCategoriesPage extends StatelessWidget {
                           onTap: () async {
                             /// if recitation player is on So this line is used to pause the player
                             Future.delayed(
-                                Duration.zero,
-                                () => context
-                                    .read<RecitationPlayerProvider>()
-                                    .pause(context));
+                              Duration.zero,
+                              () => context
+                                  .read<RecitationPlayerProvider>()
+                                  .pause(context),
+                            );
                             duaValue.getDua(duaCategory.categoryId!);
                             // context.read<QuranDbProvider>().setDuaList(await QuranDatabase().getDua(duaCategory.categoryId!));
-                            Navigator.of(context)
-                                .pushNamed(RouteHelper.dua, arguments: [
-                              localeText(context, duaCategory.categoryName!),
-                              LocalizationProvider().checkIsArOrUr()
-                                  ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                  : "${localeText(context, 'collection_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}"
-                            ]);
+                            Navigator.of(context).pushNamed(
+                              RouteHelper.dua,
+                              arguments: [
+                                localeText(context, duaCategory.categoryName!),
+                                //  LocalizationProvider().checkIsArOrUr()
+                                //      ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                                //       : "${localeText(context, 'collection_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
+                                duaCategory.imageUrl,
+                              ],
+                            );
                           },
                           child: Container(
                             height: 175.h,
                             decoration: BoxDecoration(
-                                color: Colors.amberAccent,
-                                borderRadius: BorderRadius.circular(8.r),
-                                image: DecorationImage(
-                                    image: AssetImage(duaCategory.imageUrl!),
-                                    fit: BoxFit.cover)),
+                              color: Colors.amberAccent,
+                              borderRadius: BorderRadius.circular(8.r),
+                              image: DecorationImage(
+                                  image: AssetImage(duaCategory.imageUrl!),
+                                  fit: BoxFit.cover),
+                            ),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.r),
@@ -91,15 +96,16 @@ class DuaCategoriesPage extends StatelessWidget {
                                           fontFamily: "satoshi",
                                           fontWeight: FontWeight.w700),
                                     ),
-                                    Text(
-                                        LocalizationProvider().checkIsArOrUr()
-                                            ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                            : "${localeText(context, 'collection_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 10.sp,
-                                            fontFamily: "satoshi",
-                                            fontWeight: FontWeight.w500))
+                                    // Text(
+                                    //   LocalizationProvider().checkIsArOrUr()
+                                    //       ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                                    //       : "${localeText(context, 'collection_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
+                                    //   style: TextStyle(
+                                    //       color: Colors.white,
+                                    //       fontSize: 10.sp,
+                                    //       fontFamily: "satoshi",
+                                    //       fontWeight: FontWeight.w500),
+                                    // ),
                                   ],
                                 ),
                               ),

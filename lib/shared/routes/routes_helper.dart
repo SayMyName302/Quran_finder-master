@@ -105,7 +105,7 @@ class RouteHelper {
     return {
       initRoute: (context) {
         currentContext = context;
-        return const SplashPage();
+        return const CompleteProfile();
       },
       achieveWithQuran: (context) {
         currentContext = context;
@@ -301,10 +301,10 @@ class RouteHelper {
         currentContext = context;
         return const IslamBasicDetailsPage();
       },
-      completeProfile: (context) {
-        currentContext = context;
-        return const CompleteProfile();
-      },
+      // completeProfile: (context) {
+      //   currentContext = context;
+      //   return const CompleteProfile();
+      // },
       reportIssue: (context) {
         currentContext = context;
         return const ReportIssuePage();

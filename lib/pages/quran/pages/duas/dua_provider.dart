@@ -9,6 +9,8 @@ class DuaProvider extends ChangeNotifier {
   List<DuaCategory> get duaCategoryList => _duaCategoryList;
   List<Dua> _duaList = [];
   List<Dua> get duaList => _duaList;
+  DuaCategory? _selectedCategory;
+  DuaCategory? get selectedCategory => _selectedCategory;
 
   Future<void> getDuaCategories() async {
     _duaCategoryList = await QuranDatabase().getDuaCategories();
@@ -17,6 +19,11 @@ class DuaProvider extends ChangeNotifier {
 
   Future<void> getDua(int duaCategoryId) async {
     _duaList = await QuranDatabase().getDua(duaCategoryId);
+    notifyListeners();
+  }
+
+  void selectCategory(DuaCategory category) {
+    _selectedCategory = category;
     notifyListeners();
   }
 }
