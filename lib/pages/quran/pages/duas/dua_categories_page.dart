@@ -52,10 +52,10 @@ class DuaCategoriesPage extends StatelessWidget {
                               RouteHelper.dua,
                               arguments: [
                                 localeText(context, duaCategory.categoryName!),
-                                //  LocalizationProvider().checkIsArOrUr()
-                                //      ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                //       : "${localeText(context, 'collection_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
                                 duaCategory.imageUrl,
+                                LocalizationProvider().checkIsArOrUr()
+                                    ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                                    : "${localeText(context, 'playlist_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
                               ],
                             );
                           },
