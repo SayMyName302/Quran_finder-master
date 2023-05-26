@@ -92,6 +92,8 @@ class _SwipePagesState extends State<SwipePages> {
   ];
   int _curr = 0;
   bool _isPlaying = false;
+  bool _isPaused = false;
+
   //bool _toggleValue = false;
   // bool _isExpanded = false;
   //bool _clearSelection = false;
@@ -151,71 +153,73 @@ class _SwipePagesState extends State<SwipePages> {
   }
 
   void fetchList() {
-    print('Play button tapped!');
+    if (!_isPlaying) {
+      print('Play button tapped!');
 
-    List<String> audioFiles = [];
-    int pageId = -1;
-    if (_curr == 0) {
-      audioFiles = AudioListHolder1.audioList;
-      pageId = AudioListHolder1.pageId;
-    } else if (_curr == 1) {
-      audioFiles = AudioListHolder2.audioList;
-      pageId = AudioListHolder2.pageId;
-    } else if (_curr == 2) {
-      audioFiles = AudioListHolder3.audioList;
-      pageId = AudioListHolder3.pageId;
-    } else if (_curr == 3) {
-      audioFiles = AudioListHolder4.audioList;
-      pageId = AudioListHolder4.pageId;
-    } else if (_curr == 4) {
-      audioFiles = AudioListHolder5.audioList;
-      pageId = AudioListHolder5.pageId;
-    } else if (_curr == 5) {
-      audioFiles = AudioListHolder6.audioList;
-      pageId = AudioListHolder6.pageId;
-    } else if (_curr == 6) {
-      audioFiles = AudioListHolder7.audioList;
-      pageId = AudioListHolder7.pageId;
-    } else if (_curr == 7) {
-      audioFiles = AudioListHolder8.audioList;
-      pageId = AudioListHolder8.pageId;
-    } else if (_curr == 8) {
-      audioFiles = AudioListHolder9.audioList;
-      pageId = AudioListHolder9.pageId;
-    } else if (_curr == 9) {
-      audioFiles = AudioListHolder10.audioList;
-      pageId = AudioListHolder10.pageId;
-    } else if (_curr == 10) {
-      audioFiles = AudioListHolder11.audioList;
-      pageId = AudioListHolder11.pageId;
-    } else if (_curr == 11) {
-      audioFiles = AudioListHolder12.audioList;
-      pageId = AudioListHolder12.pageId;
-    } else if (_curr == 12) {
-      audioFiles = AudioListHolder13.audioList;
-      pageId = AudioListHolder13.pageId;
-    } else if (_curr == 13) {
-      audioFiles = AudioListHolder14.audioList;
-      pageId = AudioListHolder14.pageId;
-    } else if (_curr == 14) {
-      audioFiles = AudioListHolder15.audioList;
-      pageId = AudioListHolder15.pageId;
-    } else if (_curr == 15) {
-      audioFiles = AudioListHolder16.audioList;
-      pageId = AudioListHolder16.pageId;
-    } else if (_curr == 16) {
-      audioFiles = AudioListHolder17.audioList;
-      pageId = AudioListHolder17.pageId;
-    } else if (_curr == 17) {
-      audioFiles = AudioListHolder18.audioList;
-      pageId = AudioListHolder18.pageId;
-    } else if (_curr == 18) {
-      audioFiles = AudioListHolder19.audioList;
-      pageId = AudioListHolder19.pageId;
-    }
-    if (audioFiles.isNotEmpty) {
-      //       print("List of audio files: $audioFiles");
-      _playPageAudios(pageId, audioFiles);
+      List<String> audioFiles = [];
+      int pageId = -1;
+      if (_curr == 0) {
+        audioFiles = AudioListHolder1.audioList;
+        pageId = AudioListHolder1.pageId;
+      } else if (_curr == 1) {
+        audioFiles = AudioListHolder2.audioList;
+        pageId = AudioListHolder2.pageId;
+      } else if (_curr == 2) {
+        audioFiles = AudioListHolder3.audioList;
+        pageId = AudioListHolder3.pageId;
+      } else if (_curr == 3) {
+        audioFiles = AudioListHolder4.audioList;
+        pageId = AudioListHolder4.pageId;
+      } else if (_curr == 4) {
+        audioFiles = AudioListHolder5.audioList;
+        pageId = AudioListHolder5.pageId;
+      } else if (_curr == 5) {
+        audioFiles = AudioListHolder6.audioList;
+        pageId = AudioListHolder6.pageId;
+      } else if (_curr == 6) {
+        audioFiles = AudioListHolder7.audioList;
+        pageId = AudioListHolder7.pageId;
+      } else if (_curr == 7) {
+        audioFiles = AudioListHolder8.audioList;
+        pageId = AudioListHolder8.pageId;
+      } else if (_curr == 8) {
+        audioFiles = AudioListHolder9.audioList;
+        pageId = AudioListHolder9.pageId;
+      } else if (_curr == 9) {
+        audioFiles = AudioListHolder10.audioList;
+        pageId = AudioListHolder10.pageId;
+      } else if (_curr == 10) {
+        audioFiles = AudioListHolder11.audioList;
+        pageId = AudioListHolder11.pageId;
+      } else if (_curr == 11) {
+        audioFiles = AudioListHolder12.audioList;
+        pageId = AudioListHolder12.pageId;
+      } else if (_curr == 12) {
+        audioFiles = AudioListHolder13.audioList;
+        pageId = AudioListHolder13.pageId;
+      } else if (_curr == 13) {
+        audioFiles = AudioListHolder14.audioList;
+        pageId = AudioListHolder14.pageId;
+      } else if (_curr == 14) {
+        audioFiles = AudioListHolder15.audioList;
+        pageId = AudioListHolder15.pageId;
+      } else if (_curr == 15) {
+        audioFiles = AudioListHolder16.audioList;
+        pageId = AudioListHolder16.pageId;
+      } else if (_curr == 16) {
+        audioFiles = AudioListHolder17.audioList;
+        pageId = AudioListHolder17.pageId;
+      } else if (_curr == 17) {
+        audioFiles = AudioListHolder18.audioList;
+        pageId = AudioListHolder18.pageId;
+      } else if (_curr == 18) {
+        audioFiles = AudioListHolder19.audioList;
+        pageId = AudioListHolder19.pageId;
+      }
+      if (audioFiles.isNotEmpty) {
+        //       print("List of audio files: $audioFiles");
+        _playPageAudios(pageId, audioFiles);
+      }
     }
   }
 
@@ -554,7 +558,7 @@ class _SwipePagesState extends State<SwipePages> {
   Future<void> _playPageAudios(int pageId, List<String> audioFiles) async {
     try {
       _audioLists.clear();
-      List<AudioPlayer> audioPlayer = [];
+      // List<AudioPlayer> audioPlayer = [];
       switch (pageId) {
         case 1:
           for (int i = 0; i < audioFiles.length; i++) {
@@ -694,8 +698,14 @@ class _SwipePagesState extends State<SwipePages> {
       for (int i = 0; i < _audioLists.length; i++) {
         setState(() {
           _isPlaying = true;
+          _isPaused = false;
         });
-        await _audioLists[i].play();
+
+        if (_isPlaying && !_isPaused) {
+          await _audioLists[i].play();
+        }
+
+        // await _audioLists[i].play();
         await _audioLists[i].playerStateStream.firstWhere(
             (state) => state.processingState == ProcessingState.completed);
         finishedCount++;
@@ -743,6 +753,7 @@ class _SwipePagesState extends State<SwipePages> {
         }
       }
       _isPlaying = false;
+      _isPaused = false;
     } catch (e) {
       print('Error playing audios: $e');
     }

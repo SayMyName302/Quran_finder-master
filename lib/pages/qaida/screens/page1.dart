@@ -209,7 +209,7 @@ class Page1State extends State<Page1> {
 
   @override
   Widget build(BuildContext context) {
-    AudioPlayerManager _audioPlayerManager = AudioPlayerManager();
+    // AudioPlayerManager _audioPlayerManager = AudioPlayerManager();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -312,8 +312,8 @@ class Page1State extends State<Page1> {
                                                 await _audioPlayer.stop();
                                                 await _audioPlayer.setAsset(
                                                     audioFilePaths[4]);
-                                                _audioPlayerManager
-                                                    .playAudio(4);
+                                                //     _audioPlayerManager
+                                                //       .playAudio(4);
                                                 await _audioPlayer.play();
                                                 //    _hideOverlay();
                                               },
