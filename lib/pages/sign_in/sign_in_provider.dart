@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -68,6 +69,9 @@ class SignInProvider extends ChangeNotifier {
                             RouteHelper.application, (route) => false);
                   } else {
                     /// this is from in App Purchase Bottom Sheet
+                    FirebaseAnalytics.instance.logEvent(
+                      name: 'google_login',
+                    );
                     Fluttertoast.showToast(msg: "called");
                     EasyLoadingDialog.dismiss(RouteHelper.currentContext);
                     Navigator.of(context)
@@ -199,7 +203,7 @@ class SignInProvider extends ChangeNotifier {
               () => EasyLoadingDialog.dismiss(RouteHelper.currentContext));
         }
       }
-    } on PlatformException catch (e) {
+    } on PlatformException {
       showErrorSnackBar("Network Error");
     }
   }

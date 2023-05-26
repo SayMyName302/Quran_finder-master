@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
@@ -15,6 +16,7 @@ class DuaContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Provider.of<AppColorsProvider>(context);
     final isDark = Provider.of<ThemProvider>(context).isDark;
     return Container(
       width: double.maxFinite,
@@ -38,10 +40,18 @@ class DuaContainer extends StatelessWidget {
                     : text!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                    color: appColors.mainBrandingColor,
                     fontWeight: FontWeight.w500,
                     fontSize: fontProvider.fontSizeArabic.sp,
                     fontFamily: fontProvider.finalFont),
               ),
+              Text('– $ref –',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: appColors.mainBrandingColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: fontProvider.fontSizeTranslation.sp,
+                      fontFamily: 'satoshi')),
               SizedBox(
                 height: 12.h,
               ),
