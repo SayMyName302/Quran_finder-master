@@ -35,6 +35,7 @@ import '../../pages/basics_of_quran/pages/basics_content_page.dart';
 import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';
 import '../../pages/bottom_tabs/pages/bottom_tab_page.dart';
 import '../../pages/quran stories/pages/story_content_page.dart';
+import '../../pages/quran/pages/duas/dua_detailed.dart';
 import '../widgets/story_n_basics_player.dart';
 import '../../pages/miracles_of_quran/pages/miracle_content_page.dart';
 import '../../pages/miracles_of_quran/pages/miracles_of_quran_page.dart';
@@ -97,6 +98,7 @@ class RouteHelper {
   static const String myState = "myState";
   static const String swipe = "/swipe";
   static const String duaMain = "/duaMain";
+  static const String duaDetailed = "/duaDetailed";
 
   // static late BuildContext currentContext;
 
@@ -123,6 +125,10 @@ class RouteHelper {
       duaMain: (context) {
         currentContext = context;
         return const DuaCategoriesMain();
+      },
+      duaDetailed: (context) {
+        currentContext = context;
+        return const DuaDetail();
       },
       paywallscreen: (context) {
         currentContext = context;
