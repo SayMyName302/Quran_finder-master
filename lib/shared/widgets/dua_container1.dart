@@ -28,44 +28,54 @@ class DuaContainer1 extends StatelessWidget {
       //   ),
       //   // color: AppColors.grey5
       // ),
-      margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
-      padding: EdgeInsets.only(left: 22.w, right: 22.w, top: 17.h, bottom: 9.h),
+      margin: EdgeInsets.only(
+        left: 20.w,
+        right: 20.w,
+      ),
+      padding: EdgeInsets.only(
+        left: 22.w,
+        right: 22.w,
+        top: 10.h,
+      ),
       child: Consumer<FontProvider>(
         builder: (context, fontProvider, child) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                text == ""
-                    ? 'رَبَّنَا وَاجْعَلْنَا مُسْلِمَیْنِ لَكَ وَمِن ذُرِّیَّتِنَآ أُمَّةً مُّسْلِمَةً لَّكَ وَأَرِنَا مَنَاسِكَنَا وَتُبْ عَلَیْنَآ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِیمُ'
-                    : text!,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                    // color: appColors.mainBrandingColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: fontProvider.fontSizeArabic.sp,
-                    fontFamily: fontProvider.finalFont),
-              ),
-              Text(
-                '$translation',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: appColors.mainBrandingColor,
-                    fontSize: fontProvider.fontSizeTranslation.sp,
-                    fontFamily: 'satoshi'),
-              ),
+              if (text != null && text!.isNotEmpty)
+                Text(
+                  text == ""
+                      ? 'رَبَّنَا وَاجْعَلْنَا مُسْلِمَیْنِ لَكَ وَمِن ذُرِّیَّتِنَآ أُمَّةً مُّسْلِمَةً لَّكَ وَأَرِنَا مَنَاسِكَنَا وَتُبْ عَلَیْنَآ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِیمُ'
+                      : text!,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                      // color: appColors.mainBrandingColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: fontProvider.fontSizeArabic.sp,
+                      fontFamily: fontProvider.finalFont),
+                ),
+              if (translation != null && translation!.isNotEmpty)
+                Text(
+                  translation == "" ? '$translation' : translation!,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: appColors.mainBrandingColor,
+                      fontSize: 11,
+                      fontFamily: 'satoshi'),
+                ),
               Row(
                 children: [
-                  Text(
-                    '– $ref –',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: fontProvider.fontSizeTranslation.sp,
-                      fontFamily: 'satoshi',
+                  if (ref != null && ref!.isNotEmpty)
+                    Text(
+                      '– $ref –',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10,
+                        fontFamily: 'satoshi',
+                      ),
                     ),
-                  ),
                 ],
               ),
             ],

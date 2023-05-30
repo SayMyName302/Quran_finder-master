@@ -50,7 +50,7 @@ class DuaDetail extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 10.w, right: 10.w),
+                      margin: EdgeInsets.only(left: 17.w),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,9 +60,9 @@ class DuaDetail extends StatelessWidget {
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(top: 4, bottom: 4),
+                                    const EdgeInsets.only(top: 5, bottom: 5),
                                 child: CircleAvatar(
-                                  radius: 19,
+                                  radius: 17,
                                   backgroundColor: appColors.mainBrandingColor,
                                   child: Container(
                                     width: 25,
@@ -108,21 +108,31 @@ class DuaDetail extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                width: 50.h,
-                              ),
-                              CircleAvatar(
-                                radius: 16,
-                                backgroundColor: Colors.grey[300],
-                                child: Container(
-                                  width: 10,
-                                  height: 10,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    sentenceCount,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 11, color: Colors.black),
+                              // SizedBox(
+                              //   width: 50.h,
+                              // ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  //right: 1.h,
+                                  top: 5.h,
+                                  bottom: 5.h,
+                                  left: 10.w,
+                                ),
+                                child: CircleAvatar(
+                                  radius: 16.h,
+                                  backgroundColor: Colors.grey[300],
+                                  child: Container(
+                                    width: 21.h,
+                                    height: 21.h,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      sentenceCount,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.black,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -139,40 +149,66 @@ class DuaDetail extends StatelessWidget {
           Row(
             children: [
               Consumer<FontProvider>(builder: (context, fontProvider, child) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 480,
-                      child: DuaContainer1(
-                        text: duaText,
+                return Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          // color: AppColors.grey6,
+                          borderRadius: BorderRadius.circular(1.r),
+                          border: Border.all(
+                            color: AppColors.grey5,
+                          ),
+                        ),
+                        child: DuaContainer1(
+                          text: duaText,
+                          // translation: duaTranslation,
+                          // ref: duaRef,
+                        ),
+                      ),
+                      DuaContainer1(
                         translation: duaTranslation,
+                        // ref: duaRef,
+                      ),
+                      DuaContainer1(
                         ref: duaRef,
                       ),
-                    ),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     // color: AppColors.grey6,
-                    //     borderRadius: BorderRadius.circular(1.r),
-                    //     border: Border.all(
-                    //       color: AppColors.grey5,
-                    //     ),
-                    //   ),
-                    //   margin: EdgeInsets.only(
-                    //       left: 20.w, right: 20.w, bottom: 10.h),
-                    //   padding: EdgeInsets.only(
-                    //       left: 22.w, right: 22.w, top: 17.h, bottom: 9.h),
-                    //   child: Text(
-                    //     duaText,
-                    //     style: TextStyle(
-                    //       fontWeight: FontWeight.w700,
-                    //       fontSize: fontProvider.fontSizeArabic.sp,
-                    //       fontFamily: "satoshi",
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+
+                      // DuaContainer1(
+                      //   text: duaText,
+                      //   // translation: duaTranslation,
+                      //   // ref: duaRef,
+                      // ),
+                      // DuaContainer1(
+                      //   //     text: duaText,
+                      //   translation: duaTranslation,
+                      //   //     // ref: duaRef,
+                      // ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     // color: AppColors.grey6,
+                      //     borderRadius: BorderRadius.circular(1.r),
+                      //     border: Border.all(
+                      //       color: AppColors.grey5,
+                      //     ),
+                      //   ),
+                      //   margin: EdgeInsets.only(
+                      //       left: 20.w, right: 20.w, bottom: 10.h),
+                      //   padding: EdgeInsets.only(
+                      //       left: 22.w, right: 22.w, top: 17.h, bottom: 9.h),
+                      //   child: Text(
+                      //     duaText,
+                      //     style: TextStyle(
+                      //       fontWeight: FontWeight.w700,
+                      //       fontSize: fontProvider.fontSizeArabic.sp,
+                      //       fontFamily: "satoshi",
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
                 );
               }),
             ],

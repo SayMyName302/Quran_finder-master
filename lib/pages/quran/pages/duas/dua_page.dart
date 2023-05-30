@@ -53,14 +53,6 @@ class DuaPage extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Text(
-                      //   collectionOfDua, //Collection of 40 Dua i.e.
-                      //   style: TextStyle(
-                      //       fontWeight: FontWeight.w500,
-                      //       fontSize: 12.sp,
-                      //       fontFamily: "satoshi",
-                      //       color: AppColors.grey4),
-                      // ),
                       Container(
                         height: 110.h,
                         width: 120.w,
@@ -89,25 +81,6 @@ class DuaPage extends StatelessWidget {
                                   fontFamily: "satoshi",
                                 ),
                               ),
-                              // Text(
-                              //   collectionOfDua, //Collection of 40 Dua i.e.
-                              //   style: TextStyle(
-                              //       fontWeight: FontWeight.w900,
-                              //       fontSize: 12.sp,
-                              //       fontFamily: "satoshi",
-                              //       color: AppColors.grey4),
-                              // ),
-                              // Container(
-                              //   margin: EdgeInsets.only(left: 0.w, top: 8.h),
-                              //   child: Text(
-                              //     collectionOfDua,
-                              //     textAlign: TextAlign.justify,
-                              //     style: TextStyle(
-                              //         fontWeight: FontWeight.w500,
-                              //         fontFamily: 'satoshi',
-                              //         fontSize: 13.sp),
-                              //   ),
-                              // ),
                               Container(
                                 margin: EdgeInsets.only(left: 0.w, top: 8.h),
                                 child: RichText(
@@ -171,14 +144,13 @@ class DuaPage extends StatelessWidget {
                       int sentenceCount = sentences.length;
                       String duaTranslation =
                           duaProvider.duaList[index].translations.toString();
-                      // print(' Translate: $duaTranslation');
 
                       return InkWell(
                         onTap: () {
                           Navigator.of(context).pushNamed(
                             RouteHelper.duaDetailed,
                             arguments: [
-                              "Dua \n${index + 1}",
+                              "Dua ${index + 1}",
                               capitalize(dua.duaTitle.toString()),
                               dua.duaRef.toString(),
                               sentenceCount.toString(),
@@ -194,7 +166,6 @@ class DuaPage extends StatelessWidget {
                             bottom: 8.h,
                           ),
                           decoration: BoxDecoration(
-                            // color: AppColors.grey6,
                             borderRadius: BorderRadius.circular(6.r),
                             border: Border.all(
                               color: AppColors.grey5,
@@ -210,14 +181,14 @@ class DuaPage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // color: AppColors.grey2
                                     Row(
                                       children: [
                                         Padding(
+                                          //padding: const EdgeInsets.all(8.0),
                                           padding: const EdgeInsets.only(
-                                              top: 4, bottom: 4),
+                                              top: 5, bottom: 5),
                                           child: CircleAvatar(
-                                            radius: 19,
+                                            radius: 17,
                                             backgroundColor:
                                                 appColors.mainBrandingColor,
                                             child: Container(
@@ -225,18 +196,17 @@ class DuaPage extends StatelessWidget {
                                               height: 25,
                                               alignment: Alignment.center,
                                               child: Text(
-                                                "Dua \n${index + 1}",
+                                                "Dua ${index + 1}",
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
-                                                    fontSize: 11,
-                                                    color: Colors.white),
+                                                  fontSize: 11,
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 10.h,
-                                        ),
+                                        SizedBox(width: 10.h),
                                         Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -252,9 +222,7 @@ class DuaPage extends StatelessWidget {
                                                 fontFamily: "satoshi",
                                               ),
                                             ),
-                                            SizedBox(
-                                              height: 5.h,
-                                            ),
+                                            SizedBox(height: 5.h),
                                             SizedBox(
                                               width: MediaQuery.of(context)
                                                       .size
@@ -263,29 +231,37 @@ class DuaPage extends StatelessWidget {
                                               child: Text(
                                                 dua.duaRef.toString(),
                                                 style: TextStyle(
-                                                    fontSize: 10.sp,
-                                                    fontFamily: "satoshi",
-                                                    color: AppColors.grey4),
+                                                  fontSize: 10.sp,
+                                                  fontFamily: "satoshi",
+                                                  color: AppColors.grey4,
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
-                                          width: 50.h,
-                                        ),
-                                        CircleAvatar(
-                                          radius: 16,
-                                          backgroundColor: Colors.grey[300],
-                                          child: Container(
-                                            width: 10,
-                                            height: 10,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "$sentenceCount",
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
+                                        //SizedBox(width: 10.h),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            //right: 1.h,
+                                            top: 5.h,
+                                            bottom: 5.h,
+                                            left: 10.w,
+                                          ),
+                                          child: CircleAvatar(
+                                            radius: 16.h,
+                                            backgroundColor: Colors.grey[300],
+                                            child: Container(
+                                              width: 21.h,
+                                              height: 21.h,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "$sentenceCount",
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
                                                   fontSize: 11,
-                                                  color: Colors.black),
+                                                  color: Colors.black,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),

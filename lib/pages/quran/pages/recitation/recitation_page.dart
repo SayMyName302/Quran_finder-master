@@ -37,11 +37,12 @@ class RecitationPage extends StatelessWidget {
               children: [
                 SubTitleText(title: localeText(context, "reciters_page")),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.of(context).pushNamed(RouteHelper.allReciters);
                   },
                   child: Container(
-                      margin: EdgeInsets.only(bottom: 10.h, right: 20.w,left: 20.w),
+                      margin: EdgeInsets.only(
+                          bottom: 10.h, right: 20.w, left: 20.w),
                       child: Text(
                         localeText(context, "view_all"),
                         style: TextStyle(
@@ -54,93 +55,116 @@ class RecitationPage extends StatelessWidget {
             ),
             Consumer<RecitationProvider>(
               builder: (context, recitersValue, child) {
-                return recitersValue.recitersList.isNotEmpty ? GridView.builder(
-                  padding: EdgeInsets.only(left: 20.w, right: 20.w),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 4,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      mainAxisExtent: 116.87.h,
-                      mainAxisSpacing: 10.h,
-                      crossAxisSpacing: 5.w
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    Reciters reciter = recitersValue.recitersList[index];
-                    return InkWell(
-                      onTap: () async{
-                        recitersValue.getSurahName();
-                        // context.read<ReciterProvider>().resetDownloadSurahList();
-                        context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
-                        // context.read<ReciterProvider>().getAvailableDownloadAudioFilesFromLocal(reciter.reciterName!);
-                        Navigator.of(context).pushNamed(RouteHelper.reciter,arguments: reciter);
-                      },
-                      child: buildReciterDetailsContainer(reciter),
-                    );
-                  },
-                ) : const CircularProgressIndicator();
+                return recitersValue.recitersList.isNotEmpty
+                    ? GridView.builder(
+                        padding: EdgeInsets.only(left: 20.w, right: 20.w),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 4,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            mainAxisExtent: 116.87.h,
+                            mainAxisSpacing: 10.h,
+                            crossAxisSpacing: 5.w),
+                        itemBuilder: (BuildContext context, int index) {
+                          Reciters reciter = recitersValue.recitersList[index];
+                          return InkWell(
+                            onTap: () async {
+                              recitersValue.getSurahName();
+                              // context.read<ReciterProvider>().resetDownloadSurahList();
+                              context
+                                  .read<ReciterProvider>()
+                                  .setReciterList(reciter.downloadSurahList!);
+                              // context.read<ReciterProvider>().getAvailableDownloadAudioFilesFromLocal(reciter.reciterName!);
+                              Navigator.of(context).pushNamed(
+                                  RouteHelper.reciter,
+                                  arguments: reciter);
+                            },
+                            child: buildReciterDetailsContainer(reciter),
+                          );
+                        },
+                      )
+                    : const CircularProgressIndicator();
               },
             ),
             buildTitleContainer(localeText(context, "bookmarks")),
             Consumer<BookmarkProvider>(
               builder: (context, bookmarkValue, child) {
-                return bookmarkValue.bookmarkList.isNotEmpty ? MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: ListView.builder(
-                    itemCount: bookmarkValue.bookmarkList.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      Bookmarks bookmarks = bookmarkValue.bookmarkList[index];
-                      return InkWell(
-                        onTap: () async{
-                          bookmarkValue.goToQuranView(bookmarks, context);
-                        },
-                        child: DetailsContainerWidget(
-                          title: LocalizationProvider().checkIsArOrUr() ? bookmarks.surahArabic! : bookmarks.surahName!,
-                          subTitle: "${localeText(context, "surah")} ${bookmarks.surahId} , ${localeText(context, "ayat")} ${bookmarks.verseId}",
-                          icon: Icons.bookmark,
-                          onTapIcon: (){
-                            bookmarkValue.removeBookmark(bookmarks.surahId!,bookmarks.verseId!);
-                          },),
-                      );
-                    },),
-                ) : messageContainer(localeText(context,"no_bookmarks_added_yet"));
+                return bookmarkValue.bookmarkList.isNotEmpty
+                    ? MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.builder(
+                          itemCount: bookmarkValue.bookmarkList.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            Bookmarks bookmarks =
+                                bookmarkValue.bookmarkList[index];
+                            return InkWell(
+                              onTap: () async {
+                                bookmarkValue.goToQuranView(bookmarks, context);
+                              },
+                              child: DetailsContainerWidget(
+                                title: LocalizationProvider().checkIsArOrUr()
+                                    ? bookmarks.surahArabic!
+                                    : bookmarks.surahName!,
+                                subTitle:
+                                    "${localeText(context, "surah")} ${bookmarks.surahId} , ${localeText(context, "ayat")} ${bookmarks.verseId}",
+                                icon: Icons.bookmark,
+                                onTapIcon: () {
+                                  bookmarkValue.removeBookmark(
+                                      bookmarks.surahId!, bookmarks.verseId!);
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : messageContainer(
+                        localeText(context, "no_bookmarks_added_yet"));
               },
             ),
             buildTitleContainer(localeText(context, "favorites")),
             Consumer<RecitationProvider>(
               builder: (context, recitation, child) {
-                return recitation.favReciters.isNotEmpty ? MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: ListView.builder(
-                    itemCount: recitation.favReciters.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder:(context, index) {
-                      Reciters reciter = recitation.favReciters[index];
-                      return  InkWell(
-                        onTap: (){
-                          recitation.getSurahName();
-                          // context.read<ReciterProvider>().resetDownloadSurahList();
-                          context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
-                          Navigator.of(context).pushNamed(RouteHelper.reciter,arguments: reciter);
-                        },
-                        child: DetailsContainerWidget(
-                          title: reciter.reciterName!,
-                          subTitle: localeText(context, "reciters"),
-                          icon: Icons.bookmark,
-                          imageIcon: "assets/images/app_icons/heart.png",
-                          onTapIcon: () {
-                            recitation.removeFavReciter(reciter.reciterId!);
+                return recitation.favReciters.isNotEmpty
+                    ? MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.builder(
+                          itemCount: recitation.favReciters.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            Reciters reciter = recitation.favReciters[index];
+                            return InkWell(
+                              onTap: () {
+                                recitation.getSurahName();
+                                // context.read<ReciterProvider>().resetDownloadSurahList();
+                                context
+                                    .read<ReciterProvider>()
+                                    .setReciterList(reciter.downloadSurahList!);
+                                Navigator.of(context).pushNamed(
+                                    RouteHelper.reciter,
+                                    arguments: reciter);
+                              },
+                              child: DetailsContainerWidget(
+                                title: reciter.reciterName!,
+                                subTitle: localeText(context, "reciters"),
+                                icon: Icons.bookmark,
+                                imageIcon: "assets/images/app_icons/heart.png",
+                                onTapIcon: () {
+                                  recitation
+                                      .removeFavReciter(reciter.reciterId!);
+                                },
+                              ),
+                            );
                           },
                         ),
-                      );
-                    },
-                  ),
-                ) : messageContainer(localeText(context, "no_fav_reciter_added_yet"));
+                      )
+                    : messageContainer(
+                        localeText(context, "no_fav_reciter_added_yet"));
               },
             ),
           ],
@@ -151,11 +175,12 @@ class RecitationPage extends StatelessWidget {
 
   Container buildTitleContainer(String title) {
     return Container(
-              margin: EdgeInsets.only(bottom: 10.h, left: 20.w, top: 2.h,right: 20.w),
-              child: Text(
-                title,
-                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
-              ));
+        margin:
+            EdgeInsets.only(bottom: 10.h, left: 20.w, top: 2.h, right: 20.w),
+        child: Text(
+          title,
+          style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+        ));
   }
 
   Container buildReciterDetailsContainer(Reciters reciter) {
@@ -172,7 +197,9 @@ class RecitationPage extends StatelessWidget {
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
                 imageUrl: reciter.imageUrl!,
-                placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.mainBrandingColor,),
+                placeholder: (context, url) => const CircularProgressIndicator(
+                  color: AppColors.mainBrandingColor,
+                ),
                 errorWidget: (context, url, error) => const Icon(Icons.person),
               ),
             ),
@@ -198,8 +225,9 @@ class RecitationPage extends StatelessWidget {
 
   Container messageContainer(String msg) {
     return Container(
-                height: 100.h,
-                alignment: Alignment.center,
-                child: Text(msg),);
+      height: 100.h,
+      alignment: Alignment.center,
+      child: Text(msg),
+    );
   }
 }
