@@ -11,18 +11,42 @@ class DuaCategoriesMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var appColors = context.read<AppColorsProvider>().mainBrandingColor;
     return Scaffold(
       appBar: buildAppBar(context: context, title: localeText(context, "dua")),
-      body: Consumer2<QuranProvider, AppColorsProvider>(
-          builder: (context, value, appColors, child) {
-        return Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Expanded(
-                child: DuaCategoriesPage(),
-              ),
-            ]);
-      }),
+      body: DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            TabBar(
+              indicatorColor: appColors,
+              tabs: const [
+                Tab(text: 'Dua'),
+                Tab(text: 'Al-Ruqyah'),
+              ],
+            ),
+            Expanded(
+                child: TabBarView(
+              children: [
+                Consumer2<QuranProvider, AppColorsProvider>(
+                    builder: (context, value, appColors, child) {
+                  return Column(
+                    children: const [
+                      Expanded(
+                        child: DuaCategoriesPage(),
+                      ),
+                    ],
+                  );
+                }),
+                const SizedBox(
+                  height: 500,
+                  width: 500,
+                ),
+              ],
+            )),
+          ],
+        ),
+      ),
     );
   }
 }
