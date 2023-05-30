@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/quran/providers/quran_provider.dart';
 import 'package:nour_al_quran/pages/quran/widgets/quran_text_view.dart';
@@ -8,6 +7,7 @@ import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
+import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:provider/provider.dart';
 import '../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import '../settings/pages/notifications/notification_services.dart';
@@ -22,14 +22,21 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   bool _isListening = false;
 
+  String onBoardingDone =
+      Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
+
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 1), () {
       if (!_isListening) {
-        // Fluttertoast.showToast(msg: "goingToRoute");
-        Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(
-            RouteHelper.preferredLanguage, (route) => false);
+        if (onBoardingDone == "done") {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              RouteHelper.application, (route) => false);
+        } else {
+          Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(
+              RouteHelper.achieveWithQuran, (route) => false);
+        }
       }
     });
     listenToNotification();
