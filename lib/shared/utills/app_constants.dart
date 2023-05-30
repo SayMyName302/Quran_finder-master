@@ -1,5 +1,3 @@
-
-
 const String appBoxKey = "myBox";
 
 const String secondsKey = "seconds";
@@ -14,7 +12,7 @@ const String quranFontKey = 'quranFontKey';
 
 const String isQuranShowKey = "showQuran";
 
-const String isTranslationShowKey  = "showTrans";
+const String isTranslationShowKey = "showTrans";
 
 const String quranTranslationKey = "quranTranslation";
 
@@ -40,7 +38,6 @@ const String salahTimerListKey = "salahTimerList";
 
 const String onBoardingInformationKey = "onBoardingInfoKey";
 
-
 // user Profile related
 
 const String userProfileKey = "userProfile";
@@ -53,6 +50,6 @@ const int dailyQuranRecitationId = 1;
 const int prayerNotificationId = 2;
 
 /// daily streak level
-const String streakLevelKey= "streakLevelKey";
+const String streakLevelKey = "streakLevelKey";
 
-
+const String onBoardingDoneKey = "onBoardingDoneKey";
