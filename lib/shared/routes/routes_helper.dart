@@ -36,6 +36,7 @@ import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';
 import '../../pages/bottom_tabs/pages/bottom_tab_page.dart';
 import '../../pages/quran stories/pages/story_content_page.dart';
 import '../../pages/quran/pages/duas/dua_detailed.dart';
+import '../../pages/quran/pages/duas/widgets/dua_player_list.dart';
 import '../widgets/story_n_basics_player.dart';
 import '../../pages/miracles_of_quran/pages/miracle_content_page.dart';
 import '../../pages/miracles_of_quran/pages/miracles_of_quran_page.dart';
@@ -99,6 +100,7 @@ class RouteHelper {
   static const String swipe = "/swipe";
   static const String duaMain = "/duaMain";
   static const String duaDetailed = "/duaDetailed";
+  static const String duaPlayList = "/duaPlayList";
 
   // static late BuildContext currentContext;
 
@@ -107,7 +109,7 @@ class RouteHelper {
     return {
       initRoute: (context) {
         currentContext = context;
-        return const BottomTabsPage();
+        return const SplashPage();
       },
       achieveWithQuran: (context) {
         currentContext = context;
@@ -129,6 +131,10 @@ class RouteHelper {
       duaDetailed: (context) {
         currentContext = context;
         return const DuaDetail();
+      },
+      duaPlayList: (context) {
+        currentContext = context;
+        return const DuaPlayList();
       },
       paywallscreen: (context) {
         currentContext = context;
@@ -211,10 +217,10 @@ class RouteHelper {
         currentContext = context;
         return const NotificationSetup();
       },
-      // application: (context) {
-      //   currentContext = context;
-      //   return const BottomTabsPage();
-      // },
+      application: (context) {
+        currentContext = context;
+        return const BottomTabsPage();
+      },
       reciter: (context) {
         currentContext = context;
         return const ReciterPage();
