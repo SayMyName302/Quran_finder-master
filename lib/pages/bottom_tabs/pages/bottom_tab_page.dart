@@ -82,18 +82,22 @@ class _BottomTabsPageState extends State<BottomTabsPage>
   }
 
   void setUpNotifications() {
-    TimeOfDay reminderTime =
-        Hive.box(appBoxKey).get(onBoardingInformationKey).recitationReminder;
-    OnBoardingProvider onBoardingProvider = OnBoardingProvider();
-    var notificationList = onBoardingProvider.notification;
-    if (notificationList[0].isSelected!) {
-      // schedule notification for quran recitations
-      NotificationServices().dailyNotifications(
+    final onBoardingInformation =
+        Hive.box(appBoxKey).get(onBoardingInformationKey);
+    if (onBoardingInformation != null) {
+      final reminderTime = onBoardingInformation.recitationReminder;
+      final onBoardingProvider = OnBoardingProvider();
+      final notificationList = onBoardingProvider.notification;
+      if (notificationList[0].isSelected!) {
+        // Schedule notification for Quran recitations
+        NotificationServices().dailyNotifications(
           id: dailyQuranRecitationId,
-          title: "Recitation Reminder",
-          body: "It is time to reciter Holy Quran",
-          payload: "recite",
-          dailyNotifyTime: reminderTime);
+          title: 'Recitation Reminder',
+          body: 'It is time to recite the Holy Quran',
+          payload: 'recite',
+          dailyNotifyTime: reminderTime,
+        );
+      }
     }
   }
 
