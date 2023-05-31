@@ -40,7 +40,7 @@ class DuaContainer1 extends StatelessWidget {
       child: Consumer<FontProvider>(
         builder: (context, fontProvider, child) {
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (text != null && text!.isNotEmpty)
                 Text(
@@ -55,29 +55,33 @@ class DuaContainer1 extends StatelessWidget {
                       fontFamily: fontProvider.finalFont),
                 ),
               if (translation != null && translation!.isNotEmpty)
-                Text(
-                  translation == "" ? '$translation' : translation!,
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: appColors.mainBrandingColor,
-                      fontSize: 11,
-                      fontFamily: 'satoshi'),
-                ),
-              Row(
-                children: [
-                  if (ref != null && ref!.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
-                      '– $ref –',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      translation == "" ? '$translation' : translation!,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        fontSize: 10,
+                        color: appColors.mainBrandingColor,
+                        fontSize: 11,
                         fontFamily: 'satoshi',
                       ),
                     ),
-                ],
-              ),
+                    const SizedBox(height: 4), // Adjust the spacing here
+                    if (ref != null && ref!.isNotEmpty)
+                      Text(
+                        '– $ref –',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: appColors.mainBrandingColor,
+                          fontSize: 10,
+                          fontFamily: 'satoshi',
+                        ),
+                      ),
+                  ],
+                ),
             ],
           );
         },

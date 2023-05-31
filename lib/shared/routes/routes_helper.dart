@@ -107,7 +107,7 @@ class RouteHelper {
     return {
       initRoute: (context) {
         currentContext = context;
-        return const SplashPage();
+        return const BottomTabsPage();
       },
       achieveWithQuran: (context) {
         currentContext = context;
@@ -211,10 +211,10 @@ class RouteHelper {
         currentContext = context;
         return const NotificationSetup();
       },
-      application: (context) {
-        currentContext = context;
-        return const BottomTabsPage();
-      },
+      // application: (context) {
+      //   currentContext = context;
+      //   return const BottomTabsPage();
+      // },
       reciter: (context) {
         currentContext = context;
         return const ReciterPage();
