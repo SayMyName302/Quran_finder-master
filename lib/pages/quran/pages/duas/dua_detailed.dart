@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:nour_al_quran/pages/quran/pages/duas/dua_categories_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/duas/dua_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../shared/localization/localization_constants.dart';
@@ -10,7 +9,6 @@ import '../../../../shared/widgets/dua_container1.dart';
 import '../../../../shared/widgets/dua_player.dart';
 import '../../../settings/pages/app_colors/app_colors_provider.dart';
 import '../../../settings/pages/fonts/font_provider.dart';
-// import '../../providers/quran_provider.dart';
 
 class DuaDetail extends StatelessWidget {
   const DuaDetail({Key? key}) : super(key: key);
@@ -24,7 +22,8 @@ class DuaDetail extends StatelessWidget {
     String sentenceCount = arguments[3];
     String duaText = arguments[4];
     String duaTranslation = arguments[5];
-    //print('text? $duaText');
+    int duacategoryID = arguments[6];
+    String duacategoryName = arguments[7];
 
     return Scaffold(
       appBar: buildAppBar(context: context, title: localeText(context, "dua")),
@@ -43,13 +42,6 @@ class DuaDetail extends StatelessWidget {
                         right: 20.w,
                         bottom: 8.h,
                       ),
-                      // decoration: BoxDecoration(
-                      //   // color: AppColors.grey6,
-                      //   borderRadius: BorderRadius.circular(6.r),
-                      //   border: Border.all(
-                      //     color: AppColors.grey5,
-                      //   ),
-                      // ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -118,9 +110,6 @@ class DuaDetail extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    // SizedBox(
-                                    //   width: 50.h,
-                                    // ),
                                     Container(
                                       margin: EdgeInsets.only(
                                         right: 7.h,
@@ -162,36 +151,8 @@ class DuaDetail extends StatelessWidget {
                         builder: (context, fontProvider, child) {
                       return Expanded(
                         child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Container(
-                            //   // decoration: BoxDecoration(
-                            //   //   // color: AppColors.grey6,
-                            //   //   borderRadius: BorderRadius.circular(1.r),
-                            //   //   border: Border.all(
-                            //   //     color: AppColors.grey5,
-                            //   //   ),
-                            //   // ),
-                            //   margin: EdgeInsets.only(
-                            //     left: 20.w,
-                            //     right: 20.w,
-                            //   ),
-                            //   padding: EdgeInsets.only(
-                            //     left: 22.w,
-                            //     right: 22.w,
-                            //   ),
-                            //   child: Text(
-                            //     duaText,
-                            //     textAlign: TextAlign.start,
-                            //     style: TextStyle(
-                            //       fontWeight: FontWeight.w500,
-                            //       fontSize: fontProvider.fontSizeArabic.sp,
-                            //       fontFamily: fontProvider.finalFont,
-                            //     ),
-                            //   ),
-                            // ),
-
                             Container(
                               margin: EdgeInsets.only(
                                 left: 20.w,
@@ -218,12 +179,6 @@ class DuaDetail extends StatelessWidget {
                             ),
                             const SizedBox(height: 7),
                             Container(
-                              // decoration: BoxDecoration(
-                              //   borderRadius: BorderRadius.circular(1.r),
-                              //   border: Border.all(
-                              //     color: AppColors.grey5,
-                              //   ),
-                              // ),
                               margin: EdgeInsets.only(
                                 left: 20.w,
                                 right: 20.w,
@@ -242,18 +197,8 @@ class DuaDetail extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            // DuaContainer1(
-                            //   translation: duaTranslation,
-                            // ),
                             const SizedBox(height: 7),
                             Container(
-                              // decoration: BoxDecoration(
-                              //   // color: AppColors.grey6,
-                              //   borderRadius: BorderRadius.circular(1.r),
-                              //   border: Border.all(
-                              //     color: AppColors.grey5,
-                              //   ),
-                              // ),
                               margin: EdgeInsets.only(
                                 left: 20.w,
                                 right: 20.w,
@@ -274,12 +219,6 @@ class DuaDetail extends StatelessWidget {
                             ),
                             const SizedBox(height: 7),
                             Container(
-                              // decoration: BoxDecoration(
-                              //   borderRadius: BorderRadius.circular(1.r),
-                              //   border: Border.all(
-                              //     color: AppColors.grey5,
-                              //   ),
-                              // ),
                               margin: EdgeInsets.only(
                                 left: 20.w,
                                 right: 20.w,
@@ -298,18 +237,8 @@ class DuaDetail extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            // DuaContainer1(
-                            //   translation: duaTranslation,
-                            // ),
                             const SizedBox(height: 7),
                             Container(
-                              // decoration: BoxDecoration(
-                              //   // color: AppColors.grey6,
-                              //   borderRadius: BorderRadius.circular(1.r),
-                              //   border: Border.all(
-                              //     color: AppColors.grey5,
-                              //   ),
-                              // ),
                               margin: EdgeInsets.only(
                                 left: 20.w,
                                 right: 20.w,
@@ -330,12 +259,6 @@ class DuaDetail extends StatelessWidget {
                             ),
                             const SizedBox(height: 7),
                             Container(
-                              // decoration: BoxDecoration(
-                              //   borderRadius: BorderRadius.circular(1.r),
-                              //   border: Border.all(
-                              //     color: AppColors.grey5,
-                              //   ),
-                              // ),
                               margin: EdgeInsets.only(
                                 left: 20.w,
                                 right: 20.w,
@@ -354,18 +277,8 @@ class DuaDetail extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            // DuaContainer1(
-                            //   translation: duaTranslation,
-                            // ),
                             const SizedBox(height: 7),
                             Container(
-                              // decoration: BoxDecoration(
-                              //   // color: AppColors.grey6,
-                              //   borderRadius: BorderRadius.circular(1.r),
-                              //   border: Border.all(
-                              //     color: AppColors.grey5,
-                              //   ),
-                              // ),
                               margin: EdgeInsets.only(
                                 left: 20.w,
                                 right: 20.w,
@@ -393,7 +306,13 @@ class DuaDetail extends StatelessWidget {
               ]);
         }),
       ),
-      bottomNavigationBar: const DuaAudioPlayer(),
+      bottomNavigationBar: const SizedBox(
+        height: 200,
+        child: DuaAudioPlayer(
+            // categoryId: duacategoryID,
+            // categoryName: duacategoryName,
+            ),
+      ),
     );
   }
 

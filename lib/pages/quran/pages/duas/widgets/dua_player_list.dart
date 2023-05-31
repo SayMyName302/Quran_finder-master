@@ -1,169 +1,78 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/dua_provider.dart';
-import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
-import 'package:nour_al_quran/shared/utills/app_colors.dart';
-// import 'package:nour_al_quran/shared/widgets/dua_container.dart';
-import 'package:nour_al_quran/shared/widgets/title_text.dart';
+import 'package:nour_al_quran/pages/quran/pages/duas/models/dua_category.dart';
 import 'package:provider/provider.dart';
-// import 'package:intl/intl.dart';
 
-// import '../../../../shared/widgets/circle_button.dart';
-import '../../../../shared/localization/localization_constants.dart';
-import '../../../../shared/routes/routes_helper.dart';
-import 'models/dua.dart';
-// import 'models/dua_category.dart';
+import '../../../../../shared/routes/routes_helper.dart';
+import '../../../../../shared/utills/app_colors.dart';
+import '../../../../settings/pages/app_colors/app_colors_provider.dart';
+import '../dua_provider.dart';
+import '../models/dua.dart';
 
-class DuaPage extends StatelessWidget {
-  const DuaPage({
-    Key? key,
-  }) : super(key: key);
+class DuaPlayList extends StatelessWidget {
+  const DuaPlayList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List arguments = ModalRoute.of(context)!.settings.arguments! as List;
-    String title = arguments[0];
-    String imageUrl = arguments[1];
-    String collectionOfDua = arguments[2];
-    int duaCategoryID = arguments[3];
-    // print("category id after nav from gridview: $duaCategoryID ");
-
-    //Split Collection
-    List<String> splitText = collectionOfDua.split(' ');
-    String duaCount = splitText[0];
-    String duasText = splitText.sublist(1).join(' ');
+    // List arguments = ModalRoute.of(context)!.settings.arguments! as List;
+    // ignore: unused_local_variable
+    //int duacategoryID = arguments[0];
+    // String duacategoryName = arguments[1];
 
     return Scaffold(
       body: SafeArea(
         child: Consumer2<AppColorsProvider, DuaProvider>(
           builder: (context, appColors, duaProvider, child) {
+            // DuaCategory duaCategory = duaProvider.duaCategoryList[d] ;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.arrow_back_outlined),
-                  padding: EdgeInsets.only(
-                      left: 20.w, top: 13.41.h, bottom: 21.4.h, right: 20.w),
-                  alignment: Alignment.topLeft,
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.arrow_back_outlined),
+                      padding: EdgeInsets.only(
+                          left: 20.w,
+                          top: 13.41.h,
+                          bottom: 21.4.h,
+                          right: 20.w),
+                      alignment: Alignment.topLeft,
+                    ),
+                    // Text(
+                    //   duacategoryName,
+                    //   style: TextStyle(
+                    //     fontWeight: FontWeight.w700,
+                    //     fontSize: 17.sp,
+                    //     fontFamily: "satoshi",
+                    //   ),
+                    // ),
+                  ],
                 ),
-                Container(
-                  margin:
-                      EdgeInsets.only(bottom: 18.h, left: 20.w, right: 20.w),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 110.h,
-                        width: 120.w,
-                        decoration: BoxDecoration(
-                          color: Colors.amberAccent,
-                          borderRadius: BorderRadius.circular(22),
-                          image: DecorationImage(
-                            image: AssetImage(imageUrl),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 19.4.h, bottom: 18.h),
-                          padding: EdgeInsets.only(
-                              left: 17.w, top: 13.41.h, right: 20.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TitleText(
-                                title: title,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 17.sp,
-                                  fontFamily: "satoshi",
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 0.w, top: 8.h),
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14.sp,
-                                      fontFamily: "satoshi",
-                                      color: AppColors.darkColor,
-                                    ),
-                                    children: [
-                                      TextSpan(text: duaCount),
-                                      const TextSpan(text: ' '),
-                                      TextSpan(
-                                        text: duasText,
-                                        style: TextStyle(
-                                            color: appColors.mainBrandingColor),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Consumer2<DuaProvider, AppColorsProvider>(
-                //   builder: (context, duaValue, appColors, child) {
-                //     return duaValue.duaList.isNotEmpty
-                //         ? Expanded(
-                //             child: ListView.builder(
-                //               itemCount: duaValue.duaList.length,
-                //               itemBuilder: (context, index) {
-                //                 return DuaContainer(
-                //                   text: duaValue.duaList[index].duaText,
-                //                   translation:
-                //                       duaValue.duaList[index].translations,
-                //                   ref: duaValue.duaList[index].duaRef,
-                //                 );
-                //               },
-                //             ),
-                //           )
-                //         : Expanded(
-                //             child: Center(
-                //             child: CircularProgressIndicator(
-                //               color: appColors.mainBrandingColor,
-                //             ),
-                //           ));
-                //   },
-                // ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: duaProvider.duaList.length,
-                    itemBuilder: (context, index) {
-                      Dua dua = duaProvider.duaList[index];
+                    itemBuilder: (context, duacategoryID) {
+                      Dua dua = duaProvider.duaList[duacategoryID];
                       String duaText = dua.duaText.toString();
                       List<String> sentences = duaText.split('.');
                       int sentenceCount = sentences.length;
-                      String duaTranslation =
-                          duaProvider.duaList[index].translations.toString();
 
                       return InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed(
-                            RouteHelper.duaDetailed,
-                            arguments: [
-                              "Dua ${index + 1}",
-                              dua.duaTitle.toString(),
-                              dua.duaRef.toString(),
-                              sentenceCount.toString(),
-                              duaText,
-                              duaTranslation,
-                              duaCategoryID,
-                              title,
-                            ],
-                          );
+                          // Navigator.of(context).pushNamed(
+                          //   RouteHelper.duaDetailed,
+                          //   arguments: [
+                          //     "Dua ${index + 1}",
+                          //     capitalize(dua.duaTitle.toString()),
+                          //     dua.duaRef.toString(),
+                          //     sentenceCount.toString(),
+                          //     duaText,
+                          //     duaTranslation,
+                          //   ],
+                          // );
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -190,7 +99,6 @@ class DuaPage extends StatelessWidget {
                                     Row(
                                       children: [
                                         Padding(
-                                          //padding: const EdgeInsets.all(8.0),
                                           padding: const EdgeInsets.only(
                                               top: 5, bottom: 5),
                                           child: CircleAvatar(
@@ -202,7 +110,7 @@ class DuaPage extends StatelessWidget {
                                               height: 25,
                                               alignment: Alignment.center,
                                               child: Text(
-                                                "Dua ${index + 1}",
+                                                "Dua ${duacategoryID + 1}",
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                   fontSize: 11,
@@ -245,7 +153,6 @@ class DuaPage extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        //SizedBox(width: 10.h),
                                         Container(
                                           margin: EdgeInsets.only(
                                             //right: 1.h,
