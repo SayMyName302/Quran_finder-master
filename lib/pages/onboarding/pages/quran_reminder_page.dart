@@ -9,6 +9,9 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
 
+import '../../../shared/utills/app_constants.dart';
+import '../../settings/pages/notifications/notification_services.dart';
+
 class QuranReminder extends StatefulWidget {
   const QuranReminder({Key? key}) : super(key: key);
 
@@ -70,9 +73,8 @@ class _QuranReminderState extends State<QuranReminder> {
                 BrandButton(
                     text: localeText(context, "set_reminder"),
                     onTap: () {
-                      context
-                          .read<OnBoardingProvider>()
-                          .setRecitationReminderTime(_timeOfDay);
+                      setUpRecitationNotifications(_timeOfDay);
+                      // context.read<OnBoardingProvider>().setRecitationReminderTime(_timeOfDay);
                       Navigator.of(context)
                           .pushNamed(RouteHelper.notificationSetup);
                     }),
@@ -88,6 +90,16 @@ class _QuranReminderState extends State<QuranReminder> {
           ),
         ),
       ),
+    );
+  }
+
+  void setUpRecitationNotifications(TimeOfDay reminderTime) {
+    NotificationServices().dailyNotifications(
+      id: dailyQuranRecitationId,
+      title: 'Recitation Reminder',
+      body: 'It is time to recite the Holy Quran',
+      payload: 'recite',
+      dailyNotifyTime: reminderTime,
     );
   }
 }

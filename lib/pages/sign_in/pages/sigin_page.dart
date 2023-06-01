@@ -110,7 +110,7 @@ class _SignInPageState extends State<SignInPage> {
                   margin: EdgeInsets.only(top: 16.h, bottom: 30.h),
                   child: Row(children: [
                     _buildThirdPartyLoginContainers('facebook', () {
-                      context.read<SignInProvider>().signInWithFaceBook();
+                      context.read<SignInProvider>().signInWithFaceBook(context);
                     }),
                     _buildThirdPartyLoginContainers('google', () async {
                       context.read<SignInProvider>().signInWithGoogle(context);
@@ -127,7 +127,8 @@ class _SignInPageState extends State<SignInPage> {
                         localeText(context, "don't_have_an_account_register"),
                     onPress: () {
                       Navigator.of(context).pushNamed(RouteHelper.signUp);
-                    }),
+                    },context: context
+                    ),
               ],
             ),
           ),
@@ -163,9 +164,9 @@ class _SignInPageState extends State<SignInPage> {
 }
 
 buildRegisterOrHaveAccountContainer(
-    {required String title, required VoidCallback onPress}) {
+    {required String title, required VoidCallback onPress,required BuildContext context}) {
   Color color =
-      Provider.of<AppColorsProvider>(RouteHelper.currentContext, listen: false)
+      Provider.of<AppColorsProvider>(context, listen: false)
           .mainBrandingColor;
   return InkWell(
     onTap: onPress,

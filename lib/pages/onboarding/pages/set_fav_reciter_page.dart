@@ -11,7 +11,7 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
 
-import 'fav_reciter.dart';
+import '../models/fav_reciter.dart';
 
 class SetFavReciter extends StatelessWidget {
   const SetFavReciter({Key? key}) : super(key: key);
@@ -63,14 +63,15 @@ class SetFavReciter extends StatelessWidget {
                 BrandButton(
                     text: localeText(context, "continue"),
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(RouteHelper.quranReminder);
+                      // Navigator.of(context).pushNamed(RouteHelper.quranReminder);
+                      Navigator.of(context).pushNamed(RouteHelper.notificationSetup);
                     }),
                 SizedBox(
                   height: 16.h,
                 ),
                 SkipButton(onTap: () {
-                  Navigator.of(context).pushNamed(RouteHelper.quranReminder);
+                  Navigator.of(context).pushNamed(RouteHelper.notificationSetup);
+                  // Navigator.of(context).pushNamed(RouteHelper.quranReminder);
                 })
               ],
             ),

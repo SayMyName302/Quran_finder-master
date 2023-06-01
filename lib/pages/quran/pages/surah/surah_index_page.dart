@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/surah_provider.dart';
 import 'package:nour_al_quran/pages/quran/widgets/search_widget.dart';
-import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:nour_al_quran/pages/quran/widgets/quran_text_view.dart';
 import 'package:nour_al_quran/pages/quran/providers/quran_provider.dart';
@@ -36,7 +35,6 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
 
   @override
   Widget build(BuildContext context) {
-    var appColors = context.read<AppColorsProvider>().mainBrandingColor;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

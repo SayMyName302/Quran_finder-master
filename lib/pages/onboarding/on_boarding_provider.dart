@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:nour_al_quran/pages/onboarding/pages/fav_reciter/fav_reciter.dart';
+import 'package:nour_al_quran/pages/onboarding/models/fav_reciter.dart';
 import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 
@@ -117,10 +117,10 @@ class OnBoardingProvider extends ChangeNotifier{
   TimeOfDay _recitationReminderTime = TimeOfDay.now();
   TimeOfDay get recitationReminderTime => _recitationReminderTime; // set notification
 
-  void setRecitationReminderTime(TimeOfDay dateTime){
-    _recitationReminderTime = dateTime;
-    notifyListeners();
-  }
+  // void setRecitationReminderTime(TimeOfDay dateTime){
+  //   _recitationReminderTime = dateTime;
+  //   notifyListeners();
+  // }
 
   // set notifications
  final List<Common> _notification = [
