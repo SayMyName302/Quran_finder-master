@@ -22,8 +22,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   bool _isListening = false;
 
-  String onBoardingDone =
-      Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
+  String onBoardingDone = Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
 
   @override
   void initState() {
@@ -35,7 +34,7 @@ class _SplashPageState extends State<SplashPage> {
               RouteHelper.application, (route) => false);
         } else {
           Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(
-              RouteHelper.achieveWithQuran, (route) => false);
+              RouteHelper.preferredLanguage, (route) => false);
         }
       }
     });

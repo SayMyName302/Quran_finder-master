@@ -60,7 +60,8 @@ class _BottomTabsPageState extends State<BottomTabsPage>
       provider.startAppUsageTimer();
     });
 
-    setUpNotifications();
+
+    setUpRecitationNotifications();
   }
 
   @override
@@ -81,25 +82,6 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     );
   }
 
-  void setUpNotifications() {
-    final onBoardingInformation =
-        Hive.box(appBoxKey).get(onBoardingInformationKey);
-    if (onBoardingInformation != null) {
-      final reminderTime = onBoardingInformation.recitationReminder;
-      final onBoardingProvider = OnBoardingProvider();
-      final notificationList = onBoardingProvider.notification;
-      if (notificationList[0].isSelected!) {
-        // Schedule notification for Quran recitations
-        NotificationServices().dailyNotifications(
-          id: dailyQuranRecitationId,
-          title: 'Recitation Reminder',
-          body: 'It is time to recite the Holy Quran',
-          payload: 'recite',
-          dailyNotifyTime: reminderTime,
-        );
-      }
-    }
-  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -113,5 +95,16 @@ class _BottomTabsPageState extends State<BottomTabsPage>
       provider.startQuranReadingTimer("home");
       provider.startQuranRecitationTimer("home");
     }
+  }
+
+
+  void setUpRecitationNotifications() {
+    NotificationServices().dailyNotifications(
+      id: dailyQuranRecitationId,
+      title: 'Recitation Reminder',
+      body: 'It is time to recite the Holy Quran',
+      payload: 'recite',
+      dailyNotifyTime: const TimeOfDay(hour: 8,minute: 0),
+    );
   }
 }

@@ -10,6 +10,7 @@ import 'package:nour_al_quran/pages/settings/pages/notifications/notification_se
 import 'package:nour_al_quran/shared/database/home_db.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/hive_adopters/bookmark_adopter.dart';
+import 'package:nour_al_quran/shared/hive_adopters/devices_adopter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/duration_adapter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/last_seen_adopter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/locale_adopter.dart';
@@ -38,6 +39,7 @@ class Global{
     Hive.registerAdapter(UserProfileAdopter());
     Hive.registerAdapter(OnBoardingAdopter());
     Hive.registerAdapter(TimeOfTheDayAdapter());
+    Hive.registerAdapter(DevicesAdapter());
     await Hive.openBox('myBox');
     await ScreenUtil.ensureScreenSize();
     await QuranDatabase().initAndSaveDb();

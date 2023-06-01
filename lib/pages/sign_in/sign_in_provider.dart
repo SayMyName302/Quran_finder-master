@@ -25,28 +25,20 @@ class SignInProvider extends ChangeNotifier {
           await GoogleSignIn(scopes: <String>['email']).signIn();
       if (googleUser != null) {
         /// to show loading when user select any google account after clicking on google button
-        Future.delayed(
-            Duration.zero,
-            () => EasyLoadingDialog.show(
-                context: RouteHelper.currentContext, radius: 20.r));
+        Future.delayed(Duration.zero, () => EasyLoadingDialog.show(context: RouteHelper.currentContext, radius: 20.r));
 
         /// google sign in code
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleUser.authentication;
+        final GoogleSignInAuthentication googleSignInAuthentication = await googleUser.authentication;
         final credential = GoogleAuthProvider.credential(
             accessToken: googleSignInAuthentication.accessToken,
             idToken: googleSignInAuthentication.idToken);
 
         /// firebase sign in with google account
         try {
-          await FirebaseAuth.instance
-              .signInWithCredential(credential)
-              .then((userCredential) async {
+          await FirebaseAuth.instance.signInWithCredential(credential).then((userCredential) async {
             /// to check weather user exist in the existing list of fire store database
-            var doc =
-                await FirebaseFirestore.instance.collection("users").get();
-            List<UserProfile> usersList =
-                doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
+            var doc = await FirebaseFirestore.instance.collection("users").get();
+            List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
 
             /// if list is not empty means there are some users logged in to this app
             if (usersList.isNotEmpty) {
@@ -56,17 +48,10 @@ class SignInProvider extends ChangeNotifier {
               if (userIndex != -1) {
                 Future.delayed(Duration.zero, () {
                   /// this could be from edit profile page or from home screen user icon available at the top right corner
-                  Provider.of<ProfileProvider>(RouteHelper.currentContext,
-                          listen: false)
-                      .saveUserProfile(usersList[userIndex]);
-                  String fromWhere = Provider.of<ProfileProvider>(
-                          RouteHelper.currentContext,
-                          listen: false)
-                      .fromWhere;
+                  Provider.of<ProfileProvider>(RouteHelper.currentContext, listen: false).saveUserProfile(usersList[userIndex]);
+                  String fromWhere = Provider.of<ProfileProvider>(RouteHelper.currentContext, listen: false).fromWhere;
                   if (fromWhere == "home") {
-                    Navigator.of(RouteHelper.currentContext)
-                        .pushNamedAndRemoveUntil(
-                            RouteHelper.application, (route) => false);
+                    Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
                   } else {
                     /// this is from in App Purchase Bottom Sheet
                     FirebaseAnalytics.instance.logEvent(
@@ -74,8 +59,11 @@ class SignInProvider extends ChangeNotifier {
                     );
                     Fluttertoast.showToast(msg: "called");
                     EasyLoadingDialog.dismiss(RouteHelper.currentContext);
-                    Navigator.of(context)
-                        .pushNamed(RouteHelper.completeProfile);
+                    // Navigator.of(context).pushNamed(RouteHelper.completeProfile);
+
+                    /// redirecting user onboard done
+                    Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
+                    Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
                   }
                 });
               } else {
@@ -84,12 +72,7 @@ class SignInProvider extends ChangeNotifier {
                   userCredential: userCredential,
                   loginType: "google",
                 );
-                Future.delayed(
-                    Duration.zero,
-                    () => RouteHelper.currentContext
-                        .read<ProfileProvider>()
-                        .uploadDataToFireStore(
-                            userCredential.user!.uid, userProfile));
+                Future.delayed(Duration.zero, () => RouteHelper.currentContext.read<ProfileProvider>().uploadDataToFireStore(userCredential.user!.uid, userProfile));
               }
             } else {
               /// else list is empty and it is the first use who logged in to this app
@@ -97,32 +80,31 @@ class SignInProvider extends ChangeNotifier {
                 userCredential: userCredential,
                 loginType: "google",
               );
-              Future.delayed(
-                  Duration.zero,
-                  () => RouteHelper.currentContext
-                      .read<ProfileProvider>()
-                      .uploadDataToFireStore(
-                          userCredential.user!.uid, userProfile));
+              Future.delayed(Duration.zero, () => RouteHelper.currentContext.read<ProfileProvider>().uploadDataToFireStore(userCredential.user!.uid, userProfile));
             }
           });
         } on FirebaseAuthException catch (e) {
-          Future.delayed(Duration.zero,
-              () => EasyLoadingDialog.dismiss(RouteHelper.currentContext));
-          showErrorSnackBar(e.message.toString());
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(RouteHelper.currentContext);
+            showErrorSnackBar(e.message.toString(),context);
+          });
+
         } catch (e) {
-          Future.delayed(Duration.zero,
-              () => EasyLoadingDialog.dismiss(RouteHelper.currentContext));
-          showErrorSnackBar(e.toString());
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(context);
+            showErrorSnackBar(e.toString(),context);
+          });
         }
       }
-    } on PlatformException {
-      showErrorSnackBar("Network Error");
+    } on PlatformException catch(e){
+      showErrorSnackBar(e.message!,context);
+      print(e.message);
     } catch (e) {
-      showErrorSnackBar("error");
+      showErrorSnackBar(e.toString(),context);
     }
   }
 
-  signInWithFaceBook() async {
+  signInWithFaceBook(BuildContext context) async {
     try {
       /// login in with facebook
       LoginResult facebookAuth = await FacebookAuth.instance
@@ -130,8 +112,7 @@ class SignInProvider extends ChangeNotifier {
       if (facebookAuth.accessToken != null) {
         /// to get user profile information
         var data = await FacebookAuth.instance.getUserData();
-        final OAuthCredential authCredential =
-            FacebookAuthProvider.credential(facebookAuth.accessToken!.token);
+        final OAuthCredential authCredential = FacebookAuthProvider.credential(facebookAuth.accessToken!.token);
         try {
           /// sign in with facebook account using firebase auth
           await FirebaseAuth.instance
@@ -140,9 +121,7 @@ class SignInProvider extends ChangeNotifier {
             /// to check weather user exist in the existing list of fire store database
             var doc =
                 await FirebaseFirestore.instance.collection("users").get();
-            List<UserProfile> usersList =
-                doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
-
+            List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
             /// if list is not empty means there are some users logged in to this app
             if (usersList.isNotEmpty) {
               int userIndex = usersList.indexWhere(
@@ -150,8 +129,7 @@ class SignInProvider extends ChangeNotifier {
               if (userIndex != -1) {
                 Future.delayed(Duration.zero, () {
                   /// this could be from edit profile page or from home screen user icon available at the top right corner
-                  Provider.of<ProfileProvider>(RouteHelper.currentContext,
-                          listen: false)
+                  Provider.of<ProfileProvider>(RouteHelper.currentContext, listen: false)
                       .saveUserProfile(usersList[userIndex]);
                   String fromWhere = Provider.of<ProfileProvider>(
                           RouteHelper.currentContext,
@@ -194,17 +172,19 @@ class SignInProvider extends ChangeNotifier {
             }
           });
         } on FirebaseAuthException catch (e) {
-          Future.delayed(Duration.zero,
-              () => EasyLoadingDialog.dismiss(RouteHelper.currentContext));
-          showErrorSnackBar(e.message.toString());
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(context);
+            showErrorSnackBar(e.toString(),context);
+          });
         } catch (e) {
-          showErrorSnackBar("error");
-          Future.delayed(Duration.zero,
-              () => EasyLoadingDialog.dismiss(RouteHelper.currentContext));
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(context);
+            showErrorSnackBar(e.toString(),context);
+          });
         }
       }
-    } on PlatformException {
-      showErrorSnackBar("Network Error");
+    } on PlatformException catch (e){
+      showErrorSnackBar(e.message!,context);
     }
   }
 
@@ -251,19 +231,18 @@ class SignInProvider extends ChangeNotifier {
         }
       });
     } on FirebaseAuthException catch (e) {
-      EasyLoadingDialog.dismiss(RouteHelper.currentContext);
-      showErrorSnackBar(e.message.toString());
+      EasyLoadingDialog.dismiss(context);
+      showErrorSnackBar(e.message.toString(),context);
     } catch (e) {
-      EasyLoadingDialog.dismiss(RouteHelper.currentContext);
+      EasyLoadingDialog.dismiss(context);
     }
   }
 
-  signUpWithEmailPassword(String email, String password, String name) async {
+  signUpWithEmailPassword(String email, String password, String name,BuildContext context) async {
     try {
       Future.delayed(
           Duration.zero,
-          () => EasyLoadingDialog.show(
-              context: RouteHelper.currentContext, radius: 20.r));
+          () => EasyLoadingDialog.show(context: context, radius: 20.r));
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((userCredential) async {
@@ -275,15 +254,13 @@ class SignInProvider extends ChangeNotifier {
             loginType: "email");
         Future.delayed(
             Duration.zero,
-            () => Provider.of<ProfileProvider>(RouteHelper.currentContext,
-                    listen: false)
-                .uploadDataToFireStore(userCredential.user!.uid, userProfile));
+            () => Provider.of<ProfileProvider>(RouteHelper.currentContext, listen: false).uploadDataToFireStore(userCredential.user!.uid, userProfile));
       });
     } on FirebaseAuthException catch (e) {
-      showErrorSnackBar(e.message.toString());
-      EasyLoadingDialog.dismiss(RouteHelper.currentContext);
+      showErrorSnackBar(e.message.toString(),context);
+      EasyLoadingDialog.dismiss(context);
     } catch (e) {
-      EasyLoadingDialog.dismiss(RouteHelper.currentContext);
+      EasyLoadingDialog.dismiss(context);
     }
   }
 
@@ -326,31 +303,28 @@ class SignInProvider extends ChangeNotifier {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     print(androidInfo.id);
-    OnBoardingInformation onBoarding =
-        Hive.box(appBoxKey).get(onBoardingInformationKey);
+    OnBoardingInformation onBoarding = Hive.box(appBoxKey).get(onBoardingInformationKey);
     UserProfile userProfile = UserProfile(
         email: loginType == "email" ? email : userCredential.user!.email,
         password: loginType == "email" ? password : "",
-        fullName:
-            loginType == "email" ? name : userCredential.user!.displayName,
-        image:
-            loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
+        fullName: loginType == "email" ? name : userCredential.user!.displayName,
+        image: loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
         uid: userCredential.user!.uid,
         purposeOfQuran: onBoarding.purposeOfQuran,
         favReciter: onBoarding.favReciter,
-        whenToReciterQuran: onBoarding.whenToReciterQuran,
-        // recitationReminder: onBoarding.recitationReminder,
-        /// changes
-        recitationReminder: DateTime.now(),
-        dailyQuranReadTime: onBoarding.dailyQuranReadTime,
         preferredLanguage: onBoarding.preferredLanguage!.languageCode,
-        loginDevices: <String>[androidInfo.model],
-        loginType: loginType);
+        loginDevices: <Devices>[Devices(name: androidInfo.model,datetime: DateTime.now())],
+        loginType: loginType, bookmarks: <int>[]
+
+      /// changes
+      // whenToReciterQuran: onBoarding.whenToReciterQuran,
+      // recitationReminder: onBoarding.recitationReminder,
+      // dailyQuranReadTime: onBoarding.dailyQuranReadTime,
+    );
     return userProfile;
   }
 
-  showErrorSnackBar(String msg) {
-    ScaffoldMessenger.of(RouteHelper.currentContext)
-        .showSnackBar(SnackBar(content: Text(msg)));
+  showErrorSnackBar(String msg,BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 }

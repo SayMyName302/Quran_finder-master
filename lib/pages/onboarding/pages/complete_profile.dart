@@ -6,7 +6,7 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 
-import '../../../../shared/utills/app_constants.dart';
+import '../../../shared/utills/app_constants.dart';
 
 class CompleteProfile extends StatelessWidget {
   const CompleteProfile({Key? key}) : super(key: key);
@@ -14,9 +14,8 @@ class CompleteProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 2), () {
-      Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
+      // Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
+      // Navigator.of(context).pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
     });
     return Container(
       decoration: const BoxDecoration(
