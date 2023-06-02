@@ -30,8 +30,6 @@ import 'package:nour_al_quran/pages/settings/pages/subscriptions/upgrade_to_prem
 import 'package:nour_al_quran/pages/settings/pages/terms_of_service/terms_of_services_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sign_up_page.dart';
-import 'package:nour_al_quran/pages/splash/splash.dart';
-import 'package:nour_al_quran/shared/utills/app_colors.dart';
 //import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import '../../pages/basics_of_quran/pages/basics_content_page.dart';
 import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';
@@ -165,16 +163,17 @@ class RouteHelper {
           future: paywallVisibilityFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                color: Colors.white,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.mainBrandingColor,
-                    ),
-                  ),
-                ),
-              );
+              return const CompleteProfile();
+              // return Container(
+              //   color: Colors.white,
+              //   child: const Center(
+              //     child: CircularProgressIndicator(
+              //       valueColor: AlwaysStoppedAnimation<Color>(
+              //         AppColors.mainBrandingColor,
+              //       ),
+              //     ),
+              //   ),
+              // );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
