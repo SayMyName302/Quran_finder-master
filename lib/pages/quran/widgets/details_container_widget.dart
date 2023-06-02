@@ -11,47 +11,81 @@ class DetailsContainerWidget extends StatelessWidget {
   final String? imageIcon;
   final IconData icon;
   final VoidCallback? onTapIcon;
-  const DetailsContainerWidget({Key? key,required this.title,required this.subTitle,required this.icon,this.imageIcon = "", this.onTapIcon}) : super(key: key);
+  const DetailsContainerWidget(
+      {Key? key,
+      required this.title,
+      required this.subTitle,
+      required this.icon,
+      this.imageIcon = "",
+      this.onTapIcon})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var isDark = context.read<ThemProvider>().isDark;
     return Container(
-      margin: EdgeInsets.only(left: 20.w,right: 20.w,bottom: 8.h,),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6.r),
-        border: Border.all(color: isDark? AppColors.grey3 : AppColors.grey5,)
+      margin: EdgeInsets.only(
+        left: 20.w,
+        right: 20.w,
+        bottom: 8.h,
       ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6.r),
+          border: Border.all(
+            color: isDark ? AppColors.grey3 : AppColors.grey5,
+          )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10.w,right: 10.w),
+            margin: EdgeInsets.only(left: 10.w, right: 10.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // color: AppColors.grey2
-                Text(title,style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 12.sp,
-                  fontFamily: "satoshi",
-                  color: isDark ? AppColors.grey5 : AppColors.grey2
-                ),),
-                SizedBox(height: 2.h,),
+                Text(
+                  title,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15.sp,
+                      fontFamily: "satoshi",
+                      color: isDark ? AppColors.grey5 : AppColors.grey2),
+                ),
                 SizedBox(
-                    width: MediaQuery.of(context).size.width*0.6,
+                  height: 2.h,
+                ),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.6,
                     child: Text(
                       subTitle,
-                      style: TextStyle(fontSize: 10.sp,fontFamily: "satoshi",color: isDark? AppColors.grey3 : AppColors.grey4),))
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          fontFamily: "satoshi",
+                          color: isDark ? AppColors.grey3 : AppColors.grey4),
+                    ))
               ],
             ),
           ),
           InkWell(
             onTap: onTapIcon,
             child: Container(
-              margin: EdgeInsets.only(right: 10.h,top: 17.h,bottom: 16.h,left: 10.w),
-              child:  CircleButton(height: 21.h, width: 21.h, icon: imageIcon == "" ? Icon(icon,size: 9.h,color: Colors.white,) : ImageIcon(AssetImage(imageIcon!),size: 9.h,color: Colors.white,)),
+              margin: EdgeInsets.only(
+                  right: 10.h, top: 17.h, bottom: 16.h, left: 10.w),
+              child: CircleButton(
+                  height: 21.h,
+                  width: 21.h,
+                  icon: imageIcon == ""
+                      ? Icon(
+                          icon,
+                          size: 9.h,
+                          color: Colors.white,
+                        )
+                      : ImageIcon(
+                          AssetImage(imageIcon!),
+                          size: 9.h,
+                          color: Colors.white,
+                        )),
             ),
           )
         ],

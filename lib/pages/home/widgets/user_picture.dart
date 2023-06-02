@@ -42,7 +42,7 @@ class UserPicture extends StatelessWidget {
                       return Text(
                         HijriCalendar.now().toFormat("dd MMMM yyyy"),
                         style: TextStyle(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontFamily: "satoshi",
                             color: appColors.mainBrandingColor),
                       );

@@ -89,7 +89,7 @@ class QuranStoriesSection extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 13.8.sp,
+                                    fontSize: 17.sp,
                                     fontFamily: "satoshi",
                                     fontWeight: FontWeight.w900),
                               ),

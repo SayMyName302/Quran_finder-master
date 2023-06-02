@@ -61,7 +61,7 @@ class MiraclesList extends StatelessWidget {
                             localeText(context, model.title!.toLowerCase()),
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 12.sp,
+                                fontSize: 15.sp,
                                 fontFamily: "satoshi",
                                 fontWeight: FontWeight.w900),
                           ),

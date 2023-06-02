@@ -17,9 +17,13 @@ class QuranMiraclesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        HomeRowWidget(text: localeText(context,'quran_miracles'), buttonText: localeText(context,"view_all"), onTap: () {
-          Navigator.of(context).pushNamed(RouteHelper.miraclesOfQuran);
-        },),
+        HomeRowWidget(
+          text: localeText(context, 'quran_miracles'),
+          buttonText: localeText(context, "view_all"),
+          onTap: () {
+            Navigator.of(context).pushNamed(RouteHelper.miraclesOfQuran);
+          },
+        ),
         Consumer<LocalizationProvider>(
           builder: (context, language, child) {
             return SizedBox(
@@ -28,15 +32,21 @@ class QuranMiraclesSection extends StatelessWidget {
                 builder: (context, miraclesProvider, child) {
                   return ListView.builder(
                     itemCount: miraclesProvider.miracles.length,
-                    padding: EdgeInsets.only(left: 20.w,right: 20.w,bottom: 14.h),
+                    padding:
+                        EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       Miracles model = miraclesProvider.miracles[index];
                       return InkWell(
-                        onTap: (){
+                        onTap: () {
                           // miraclesProvider.checkVideoAvailable(model.title!, context);
-                          Future.delayed(Duration.zero,()=>context.read<RecitationPlayerProvider>().pause(context));
-                          miraclesProvider.goToMiracleDetailsPage(model.title!, context,index);
+                          Future.delayed(
+                              Duration.zero,
+                              () => context
+                                  .read<RecitationPlayerProvider>()
+                                  .pause(context));
+                          miraclesProvider.goToMiracleDetailsPage(
+                              model.title!, context, index);
                         },
                         child: Container(
                           width: 287.w,
@@ -44,21 +54,29 @@ class QuranMiraclesSection extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: Colors.amberAccent,
                               borderRadius: BorderRadius.circular(8.r),
-                              image: DecorationImage(image: AssetImage('${model.image}'),fit: BoxFit.cover)
-                          ),
+                              image: DecorationImage(
+                                  image: AssetImage('${model.image}'),
+                                  fit: BoxFit.cover)),
                           child: Container(
-                            margin: EdgeInsets.only(left: 6.w,bottom: 8.h,right: 8.w),
-                            alignment: language.locale.languageCode == "ur" || language.locale.languageCode == "ar" ? Alignment.bottomRight : Alignment.bottomLeft,
-                            child: Text(localeText(context, model.title!.toLowerCase()),
+                            margin: EdgeInsets.only(
+                                left: 6.w, bottom: 8.h, right: 8.w),
+                            alignment: language.locale.languageCode == "ur" ||
+                                    language.locale.languageCode == "ar"
+                                ? Alignment.bottomRight
+                                : Alignment.bottomLeft,
+                            child: Text(
+                              localeText(context, model.title!.toLowerCase()),
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 13.8.sp,
+                                  fontSize: 17.sp,
                                   fontFamily: "satoshi",
-                                  fontWeight: FontWeight.w900),),
+                                  fontWeight: FontWeight.w900),
+                            ),
                           ),
                         ),
                       );
-                    },);
+                    },
+                  );
                 },
               ),
             );

@@ -116,7 +116,7 @@ class _ManageProfileState extends State<ManageProfile> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(profile.userProfile!.loginDevices![0],style: style12),
+                            Text(profile.userProfile!.loginDevices![0].name!,style: style12),
                             Text('Logged in at 22-12-22 | 04:28 pm',style: TextStyle(
                                 fontWeight: FontWeight.w500,fontSize: 10.sp,fontFamily: 'satoshi',color: them ? AppColors.grey4 : AppColors.grey3
                             ),),

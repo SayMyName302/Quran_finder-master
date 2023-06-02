@@ -31,7 +31,7 @@ class YourEngagementSection extends StatelessWidget {
                   Text(
                     localeText(context, 'your_engagement'),
                     style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 15.sp,
                         fontFamily: 'satoshi',
                         fontWeight: FontWeight.w900),
                   ),
@@ -40,7 +40,7 @@ class YourEngagementSection extends StatelessWidget {
                       return DropdownButton(
                         value: myState.yourEngagementCurrentDropDownItem,
                         style: TextStyle(
-                            fontSize: 9.9.sp,
+                            fontSize: 13.sp,
                             fontFamily: 'satoshi',
                             color:
                                 them.isDark ? AppColors.grey4 : AppColors.grey2,
@@ -117,7 +117,7 @@ class YourEngagementSection extends StatelessWidget {
                                     seconds:
                                         myState.yourEngagementAppUsageSeconds)),
                                 style: TextStyle(
-                                    fontSize: 12.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w700,
                                     fontFamily: "satoshi"),
                               ),
@@ -125,11 +125,11 @@ class YourEngagementSection extends StatelessWidget {
                                   margin: EdgeInsets.only(
                                       left: 4.w, right: 4.w, top: 3.h),
                                   child: CircleButton(
-                                      height: 11.h,
-                                      width: 11.w,
+                                      height: 13.h,
+                                      width: 13.w,
                                       icon: Icon(
                                         Icons.cloud,
-                                        size: 5.w,
+                                        size: 6.w,
                                       ))),
                               Container(
                                 margin: EdgeInsets.only(top: 3.h),
@@ -137,7 +137,7 @@ class YourEngagementSection extends StatelessWidget {
                                   '${myState.weeklyPercentage} ${localeText(context, 'from_last_week')}',
                                   style: TextStyle(
                                       fontFamily: 'satoshi',
-                                      fontSize: 8.sp,
+                                      fontSize: 14.sp,
                                       color: appColor.mainBrandingColor),
                                 ),
                               )
@@ -149,7 +149,7 @@ class YourEngagementSection extends StatelessWidget {
                           Text(
                             localeText(context, 'lifetime'),
                             style: TextStyle(
-                                fontSize: 8.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "satoshi",
                                 color: AppColors.grey3),
@@ -161,7 +161,7 @@ class YourEngagementSection extends StatelessWidget {
                             _formatDuration(Duration(
                                 seconds: myState.lifeTimeAppUsageSeconds)),
                             style: TextStyle(
-                              fontSize: 10.sp,
+                              fontSize: 14.sp,
                               fontFamily: "satoshi",
                               fontWeight: FontWeight.w700,
                             ),

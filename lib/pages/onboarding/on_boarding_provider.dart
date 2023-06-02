@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:nour_al_quran/pages/onboarding/pages/fav_reciter/fav_reciter.dart';
+import 'package:nour_al_quran/pages/onboarding/models/fav_reciter.dart';
 import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 
@@ -41,11 +41,11 @@ class OnBoardingProvider extends ChangeNotifier{
 
   // set fav reciter functionality
   final List<FavReciter> _reciterList = [
-    FavReciter(title: "Abdur- Rahman As- Sudais", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Abdur- Rahman As- Sudais.mp3"),
-    FavReciter(title: "Mahmoud Al-Hussary", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Mahmoud Al-Hussary.mp3"),
-    FavReciter(title: "Mishary Al Afsay", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Mishary Al Afsay.mp3"),
-    FavReciter(title: "Sheikh Maher Muaqily", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Sheikh Maher Muaqily.mp3"),
-    FavReciter(title: "Sheikh Saud Al-Shuraim", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Sheikh Saud Al-Shuraim.mp3"),
+    FavReciter(title: "Abdur- Rahman As- Sudais", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Abdur- Rahman As- Sudais.mp3",reciterId: 1),
+    FavReciter(title: "Mahmoud Al-Hussary", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Mahmoud Al-Hussary.mp3",reciterId: 1),
+    FavReciter(title: "Mishary Al Afsay", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Mishary Al Afsay.mp3",reciterId: 1),
+    FavReciter(title: "Sheikh Maher Muaqily", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Sheikh Maher Muaqily.mp3",reciterId: 1),
+    FavReciter(title: "Sheikh Saud Al-Shuraim", isPlaying: false,audioUrl: "assets/audios/fav_reciters/Sheikh Saud Al-Shuraim.mp3",reciterId: 1),
   ];
   List<FavReciter> get reciterList => _reciterList;
 
@@ -117,10 +117,10 @@ class OnBoardingProvider extends ChangeNotifier{
   TimeOfDay _recitationReminderTime = TimeOfDay.now();
   TimeOfDay get recitationReminderTime => _recitationReminderTime; // set notification
 
-  void setRecitationReminderTime(TimeOfDay dateTime){
-    _recitationReminderTime = dateTime;
-    notifyListeners();
-  }
+  // void setRecitationReminderTime(TimeOfDay dateTime){
+  //   _recitationReminderTime = dateTime;
+  //   notifyListeners();
+  // }
 
   // set notifications
  final List<Common> _notification = [

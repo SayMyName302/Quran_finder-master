@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       localeText(context, 'continue_where_you_left_off'),
                       style: TextStyle(
-                          fontSize: 14.sp,
+                          fontSize: 15.sp,
                           fontFamily: 'satoshi',
                           fontWeight: FontWeight.w900),
                     ))

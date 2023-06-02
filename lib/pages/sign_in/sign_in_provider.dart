@@ -74,8 +74,13 @@ class SignInProvider extends ChangeNotifier {
                     );
                     Fluttertoast.showToast(msg: "called");
                     EasyLoadingDialog.dismiss(RouteHelper.currentContext);
-                    Navigator.of(context)
-                        .pushNamed(RouteHelper.completeProfile);
+                    // Navigator.of(context).pushNamed(RouteHelper.completeProfile);
+
+                    /// redirecting user onboard done
+                    Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
+                    Navigator.of(RouteHelper.currentContext)
+                        .pushNamedAndRemoveUntil(
+                            RouteHelper.application, (route) => false);
                   }
                 });
               } else {
@@ -106,23 +111,26 @@ class SignInProvider extends ChangeNotifier {
             }
           });
         } on FirebaseAuthException catch (e) {
-          Future.delayed(Duration.zero,
-              () => EasyLoadingDialog.dismiss(RouteHelper.currentContext));
-          showErrorSnackBar(e.message.toString());
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(RouteHelper.currentContext);
+            showErrorSnackBar(e.message.toString(), context);
+          });
         } catch (e) {
-          Future.delayed(Duration.zero,
-              () => EasyLoadingDialog.dismiss(RouteHelper.currentContext));
-          showErrorSnackBar(e.toString());
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(context);
+            showErrorSnackBar(e.toString(), context);
+          });
         }
       }
-    } on PlatformException {
-      showErrorSnackBar("Network Error");
+    } on PlatformException catch (e) {
+      showErrorSnackBar(e.message!, context);
+      print(e.message);
     } catch (e) {
-      showErrorSnackBar("error");
+      showErrorSnackBar(e.toString(), context);
     }
   }
 
-  signInWithFaceBook() async {
+  signInWithFaceBook(BuildContext context) async {
     try {
       /// login in with facebook
       LoginResult facebookAuth = await FacebookAuth.instance
@@ -194,17 +202,19 @@ class SignInProvider extends ChangeNotifier {
             }
           });
         } on FirebaseAuthException catch (e) {
-          Future.delayed(Duration.zero,
-              () => EasyLoadingDialog.dismiss(RouteHelper.currentContext));
-          showErrorSnackBar(e.message.toString());
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(context);
+            showErrorSnackBar(e.toString(), context);
+          });
         } catch (e) {
-          showErrorSnackBar("error");
-          Future.delayed(Duration.zero,
-              () => EasyLoadingDialog.dismiss(RouteHelper.currentContext));
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(context);
+            showErrorSnackBar(e.toString(), context);
+          });
         }
       }
-    } on PlatformException {
-      showErrorSnackBar("Network Error");
+    } on PlatformException catch (e) {
+      showErrorSnackBar(e.message!, context);
     }
   }
 
@@ -244,26 +254,53 @@ class SignInProvider extends ChangeNotifier {
                 Fluttertoast.showToast(msg: "called");
                 EasyLoadingDialog.dismiss(RouteHelper.currentContext);
                 // Navigator.of(RouteHelper.currentContext).pop("login");
-                Navigator.of(context).pushNamed(RouteHelper.completeProfile);
+                //  Navigator.of(context).pushNamed(RouteHelper.completeProfile);
+                Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
+                Navigator.of(RouteHelper.currentContext)
+                    .pushNamedAndRemoveUntil(
+                        RouteHelper.application, (route) => false);
               }
             });
+          } else {
+            /// if user id Does not exist so create new user then and save data to fire store db
+            UserProfile userProfile = await setUserProfile(
+              userCredential: userCredential,
+              loginType: "email",
+            );
+            Future.delayed(
+                Duration.zero,
+                () => RouteHelper.currentContext
+                    .read<ProfileProvider>()
+                    .uploadDataToFireStore(
+                        userCredential.user!.uid, userProfile));
           }
+        } else {
+          /// else list is empty and it is the first use who logged in to this app
+          UserProfile userProfile = await setUserProfile(
+            userCredential: userCredential,
+            loginType: "email",
+          );
+          Future.delayed(
+              Duration.zero,
+              () => RouteHelper.currentContext
+                  .read<ProfileProvider>()
+                  .uploadDataToFireStore(
+                      userCredential.user!.uid, userProfile));
         }
       });
     } on FirebaseAuthException catch (e) {
       EasyLoadingDialog.dismiss(RouteHelper.currentContext);
-      showErrorSnackBar(e.message.toString());
+      showErrorSnackBar(e.message.toString(), context);
     } catch (e) {
-      EasyLoadingDialog.dismiss(RouteHelper.currentContext);
+      EasyLoadingDialog.dismiss(context);
     }
   }
 
-  signUpWithEmailPassword(String email, String password, String name) async {
+  signUpWithEmailPassword(
+      String email, String password, String name, BuildContext context) async {
     try {
-      Future.delayed(
-          Duration.zero,
-          () => EasyLoadingDialog.show(
-              context: RouteHelper.currentContext, radius: 20.r));
+      Future.delayed(Duration.zero,
+          () => EasyLoadingDialog.show(context: context, radius: 20.r));
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((userCredential) async {
@@ -280,10 +317,10 @@ class SignInProvider extends ChangeNotifier {
                 .uploadDataToFireStore(userCredential.user!.uid, userProfile));
       });
     } on FirebaseAuthException catch (e) {
-      showErrorSnackBar(e.message.toString());
-      EasyLoadingDialog.dismiss(RouteHelper.currentContext);
+      showErrorSnackBar(e.message.toString(), context);
+      EasyLoadingDialog.dismiss(context);
     } catch (e) {
-      EasyLoadingDialog.dismiss(RouteHelper.currentContext);
+      EasyLoadingDialog.dismiss(context);
     }
   }
 
@@ -338,19 +375,22 @@ class SignInProvider extends ChangeNotifier {
         uid: userCredential.user!.uid,
         purposeOfQuran: onBoarding.purposeOfQuran,
         favReciter: onBoarding.favReciter,
-        whenToReciterQuran: onBoarding.whenToReciterQuran,
-        // recitationReminder: onBoarding.recitationReminder,
-        /// changes
-        recitationReminder: DateTime.now(),
-        dailyQuranReadTime: onBoarding.dailyQuranReadTime,
         preferredLanguage: onBoarding.preferredLanguage!.languageCode,
-        loginDevices: <String>[androidInfo.model],
-        loginType: loginType);
+        loginDevices: <Devices>[
+          Devices(name: androidInfo.model, datetime: DateTime.now())
+        ],
+        loginType: loginType,
+        bookmarks: <int>[]
+
+        /// changes
+        // whenToReciterQuran: onBoarding.whenToReciterQuran,
+        // recitationReminder: onBoarding.recitationReminder,
+        // dailyQuranReadTime: onBoarding.dailyQuranReadTime,
+        );
     return userProfile;
   }
 
-  showErrorSnackBar(String msg) {
-    ScaffoldMessenger.of(RouteHelper.currentContext)
-        .showSnackBar(SnackBar(content: Text(msg)));
+  showErrorSnackBar(String msg, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 }

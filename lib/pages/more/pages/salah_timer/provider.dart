@@ -43,21 +43,32 @@ class PrayerTimeProvider extends ChangeNotifier{
   }
 
   void checkLocationPermission(BuildContext context) async {
-    bool isLocationServicesEnable = await Permission.location.serviceStatus.isEnabled;
-    bool isGeoEnable = await Geolocator.isLocationServiceEnabled();
-    if(isLocationServicesEnable && isGeoEnable){
-      Future.delayed(Duration.zero,(){
-        getSalahPageData(context);
-      });
+    if(await Permission.location.request().isGranted){
+      getSalahPageData(context);
     }else{
       await Permission.location.request().then((value) {
-        if(value.isDenied){
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enable Location Services')));
-        }else if(value.isGranted){
+        if(value.isGranted){
           getSalahPageData(context);
+        }else{
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enable Location Services')));
         }
       });
     }
+    // bool isLocationServicesEnable = await Permission.location.serviceStatus.isEnabled;
+    // bool isGeoEnable = await Geolocator.isLocationServiceEnabled();
+    // if(isLocationServicesEnable && isGeoEnable){
+    //   Future.delayed(Duration.zero,(){
+    //     getSalahPageData(context);
+    //   });
+    // }else{
+    //   await Permission.location.request().then((value) {
+    //     if(value.isDenied){
+    //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enable Location Services')));
+    //     }else if(value.isGranted){
+    //       getSalahPageData(context);
+    //     }
+    //   });
+    // }
   }
 
 
