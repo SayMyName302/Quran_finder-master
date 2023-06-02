@@ -19,6 +19,7 @@ class DuaDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     DuaProvider duaProvider = Provider.of<DuaProvider>(context);
     Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
+
     int index = nextDuaData['index'];
     Dua nextDua = nextDuaData['dua'];
     String duaTitle = nextDua.duaTitle.toString();

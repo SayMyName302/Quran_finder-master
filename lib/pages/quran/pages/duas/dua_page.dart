@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/quran/pages/duas/dua_provider.dart';
@@ -11,7 +9,6 @@ import 'package:provider/provider.dart';
 // import 'package:intl/intl.dart';
 
 // import '../../../../shared/widgets/circle_button.dart';
-import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/routes/routes_helper.dart';
 import 'models/dua.dart';
 // import 'models/dua_category.dart';
@@ -130,29 +127,16 @@ class DuaPage extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).pushNamed(
                             RouteHelper.duaDetailed,
-                            // arguments: [
-                            //   "Dua ${index + 1}",
-                            //   dua.duaTitle.toString(),
-                            //   dua.duaRef.toString(),
-                            //   sentenceCount.toString(),
-                            //   duaText,
-                            //   duaTranslation,
-                            //   // duaCategoryID,
-                            //   // title,
-                            // ],
+                            arguments: {
+                              'index': "Dua ${index + 1}",
+                              'duaTitle': dua.duaTitle.toString(),
+                              'duaRef': dua.duaRef.toString(),
+                              'duaText': duaText,
+                              'sentenceCount': sentenceCount.toString(),
+                              'duaTranslation': duaTranslation,
+                              'totallength': totalLength.toString(),
+                            },
                           );
-                          Provider.of<DuaProvider>(context, listen: false)
-                              .storeDuaData([
-                            "Dua ${index + 1}",
-                            dua.duaTitle.toString(),
-                            dua.duaRef.toString(),
-                            sentenceCount.toString(),
-                            duaText,
-                            duaTranslation,
-                            totalLength.toString(),
-                            // duaCategoryID,
-                            // title,
-                          ]);
                           duaProvider.gotoDuaPlayerPage(dua.id!, context);
                         },
                         child: Container(
