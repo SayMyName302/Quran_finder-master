@@ -17,22 +17,6 @@ class DuaProvider extends ChangeNotifier {
   Dua? _selectedDua;
   Dua? get selectedDua => _selectedDua;
 
-  List<String> _duaData = [];
-  List<String> get duaData => _duaData;
-
-  void storeDuaData(List<String> data) {
-    _duaData = data;
-    notifyListeners();
-  }
-
-  //Updates Dua by Index+1 which is at Index 0
-  void updateDuaAtIndex(int index, String newData) {
-    if (index >= 0 && index < _duaData.length) {
-      _duaData[index] = newData;
-      notifyListeners();
-    }
-  }
-
   Future<void> getDuaCategories() async {
     _duaCategoryList = await QuranDatabase().getDuaCategories();
     notifyListeners();
@@ -56,9 +40,6 @@ class DuaProvider extends ChangeNotifier {
     _currentduaIndex = (_currentduaIndex + 1) % _duaList.length;
     _selectedDua = _duaList[_currentduaIndex];
 
-    Provider.of<DuaProvider>(context, listen: false)
-        .updateDuaAtIndex(0, "Dua ${_currentduaIndex + 1}");
-
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);
     getNextDua();
@@ -70,7 +51,7 @@ class DuaProvider extends ChangeNotifier {
     int nextIndex = (_currentduaIndex) % _duaList.length;
     Dua nextDua = _duaList[nextIndex];
     return {
-      'index': nextIndex,
+      'index': nextIndex + 1,
       'dua': nextDua,
     };
   }
@@ -78,9 +59,6 @@ class DuaProvider extends ChangeNotifier {
   void playPreviousDuaInCategory(BuildContext context) {
     _currentduaIndex = (_currentduaIndex - 1) % _duaList.length;
     _selectedDua = _duaList[_currentduaIndex];
-
-    Provider.of<DuaProvider>(context, listen: false)
-        .updateDuaAtIndex(0, "Dua ${_currentduaIndex + 1}");
 
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);

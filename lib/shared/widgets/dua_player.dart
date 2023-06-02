@@ -17,14 +17,10 @@ class DuaAudioPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> data = Provider.of<DuaProvider>(context).duaData;
-    String part1 = data[0];
-    // String part2 = data[1];
-    // String part3 = data[2];
-    // String part4 = data[3];
-    // String part5 = data[4];
-    // String part6 = data[5];
-    String part7 = data[6];
+    DuaProvider duaProvider = Provider.of<DuaProvider>(context);
+    Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
+    int part1 = nextDuaData['index'];
+    int part7 = duaProvider.duaList.length;
 
     return Column(
       mainAxisSize: MainAxisSize.max,
