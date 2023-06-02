@@ -79,12 +79,13 @@ class ProfileProvider extends ChangeNotifier{
     await FirebaseFirestore.instance.collection('users').doc(uid).set(userProfile.toJson()).then((value){
       EasyLoadingDialog.dismiss(RouteHelper.currentContext);
       saveUserProfile(userProfile);
-      if(_fromWhere == "home"){
-        Provider.of<BottomTabsPageProvider>(RouteHelper.currentContext,listen: false).setCurrentPage(0);
-        Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
-      }else if(_fromWhere == "fromInApp"){
-        Navigator.of(RouteHelper.currentContext).pop("login");
-      }
+      Provider.of<BottomTabsPageProvider>(RouteHelper.currentContext,listen: false).setCurrentPage(0);
+      Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
+      // if(_fromWhere == "home"){
+      //
+      // }else if(_fromWhere == "fromInApp"){
+      //   Navigator.of(RouteHelper.currentContext).pop("login");
+      // }
     });
   }
 

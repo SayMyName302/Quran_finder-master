@@ -7,6 +7,7 @@ import 'package:nour_al_quran/pages/bottom_tabs/provider/bottom_tabs_page_provid
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
 import 'package:nour_al_quran/pages/qaida/providers/audiolist_provider.dart';
 import 'package:nour_al_quran/pages/quran%20stories/quran_stories_provider.dart';
+import 'package:nour_al_quran/shared/providers/dua_audio_player_provider.dart';
 import 'package:nour_al_quran/shared/providers/story_n_basics_audio_player_provider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import 'package:nour_al_quran/pages/more/pages/names_of_allah/names_provider.dart';
@@ -47,57 +48,40 @@ import 'pages/paywall/paywal_provider.dart';
 void main() async {
   await Global.init();
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (_) => PremiumScreenProvider(),
-    ),
-    ChangeNotifierProvider(
-      create: (_) => ThemProvider(),
-    ),
+    ChangeNotifierProvider(create: (_) => PremiumScreenProvider()),
+    ChangeNotifierProvider(create: (_) => ThemProvider()),
     ChangeNotifierProvider(create: (_) => BottomTabsPageProvider()),
     ChangeNotifierProvider(create: (_) => QuranProvider()),
     ChangeNotifierProvider(create: (_) => TasbeehProvider()),
     ChangeNotifierProvider(create: (_) => LocalizationProvider()),
-    ChangeNotifierProvider(
-      create: (_) => ReciterProvider(),
-    ),
+    ChangeNotifierProvider(create: (_) => ReciterProvider()),
     ChangeNotifierProvider(create: (_) => DownloadProvider()),
     ChangeNotifierProvider(create: (_) => RecitationPlayerProvider()),
     ChangeNotifierProvider(create: (_) => AppColorsProvider()),
     ChangeNotifierProvider(create: (_) => PrayerTimeProvider()),
     ChangeNotifierProvider(create: (_) => QiblaProvider()),
-    ChangeNotifierProvider(
-      create: (_) => LastSeenProvider(),
-    ),
+    ChangeNotifierProvider(create: (_) => LastSeenProvider()),
     ChangeNotifierProvider(create: (_) => AudioListProvider()),
-    ChangeNotifierProvider(
-      create: (_) => BookmarkProvider(),
-    ),
+    ChangeNotifierProvider(create: (_) => BookmarkProvider()),
     ChangeNotifierProvider(create: (_) => SurahProvider()),
     ChangeNotifierProvider(create: (_) => JuzProvider()),
-    ChangeNotifierProvider(
-      create: (_) => DuaProvider(),
-    ),
+    ChangeNotifierProvider(create: (_) => DuaProvider()),
     ChangeNotifierProvider(create: (_) => RecitationProvider()),
     ChangeNotifierProvider(create: (_) => HomeProvider()),
-    ChangeNotifierProvider(
-      create: (_) => OnBoardingProvider(),
-    ),
+    ChangeNotifierProvider(create: (_) => OnBoardingProvider()),
     ChangeNotifierProvider(create: (_) => FontProvider()),
     ChangeNotifierProvider(create: (_) => QuranStoriesProvider()),
     ChangeNotifierProvider(create: (_) => MiraclesOfQuranProvider()),
-    ChangeNotifierProvider(
-      create: (_) => TranslationManagerProvider(),
-    ),
+    ChangeNotifierProvider(create: (_) => TranslationManagerProvider()),
     ChangeNotifierProvider(create: (_) => DownloadManagerProvider()),
     ChangeNotifierProvider(create: (_) => SalahStepsProvider()),
     ChangeNotifierProvider(create: (_) => IslamBasicsProvider()),
     ChangeNotifierProvider(create: (_) => NamesProvider()),
-    ChangeNotifierProvider(
-      create: (_) => SignInProvider(),
-    ),
+    ChangeNotifierProvider(create: (_) => SignInProvider()),
     ChangeNotifierProvider(create: (_) => ProfileProvider()),
     ChangeNotifierProvider(create: (_) => StoryAndBasicPlayerProvider()),
     ChangeNotifierProvider(create: (_) => MyStateProvider()),
+    ChangeNotifierProvider(create: (_) => DuaPlayerProvider()),
     StreamProvider<int>(
         create: (context) => NetworkProvider().streamController.stream,
         initialData: 0),

@@ -22,20 +22,30 @@ class QiblaProvider extends ChangeNotifier{
   int _qiblaDistance = 0;
   int get qiblaDistance => _qiblaDistance;
 
-
   Future getLocationPermission(BuildContext context) async {
-    var isEnable = await Geolocator.isLocationServiceEnabled();
-    if (isEnable) {
+    if(await Permission.location.request().isGranted){
       Future.delayed(Duration.zero,()=>getQiblaPageData(context));
-    }else {
+    }else{
       await Permission.location.request().then((value) {
-        if(value.isDenied){
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enable Location Services')));
-        }else if(value.isGranted){
+        if(value.isGranted){
           Future.delayed(Duration.zero,()=>getQiblaPageData(context));
+        }else{
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enable Location Services')));
         }
       });
     }
+    // var isEnable = await Geolocator.isLocationServiceEnabled();
+    // if (isEnable) {
+    //   Future.delayed(Duration.zero,()=>getQiblaPageData(context));
+    // }else {
+    //   await Permission.location.request().then((value) {
+    //     if(value.isDenied){
+    //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enable Location Services')));
+    //     }else if(value.isGranted){
+    //       Future.delayed(Duration.zero,()=>getQiblaPageData(context));
+    //     }
+    //   });
+    // }
   }
 
   Future<void> getQiblaPageData(BuildContext context) async {

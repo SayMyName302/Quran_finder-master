@@ -12,8 +12,8 @@ class BottomNavWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<BottomTabsPageProvider,AppColorsProvider>(
-      builder: (context, bottomTabProvider,appColors,child) {
+    return Consumer2<BottomTabsPageProvider, AppColorsProvider>(
+      builder: (context, bottomTabProvider, appColors, child) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -21,19 +21,20 @@ class BottomNavWidget extends StatelessWidget {
             BottomNavigationBar(
               items: [
                 BottomNavigationBarItem(
-                    label: localeText(context,'home'),
+                    label: localeText(context, 'home'),
                     icon: _buildIcon('assets/images/app_icons/home.png')),
                 BottomNavigationBarItem(
-                    label: localeText(context,'quran'),
+                    label: localeText(context, 'quran'),
                     icon: _buildIcon('assets/images/app_icons/quran_icon.png')),
                 // BottomNavigationBarItem(
                 //     label: "Qaida",
                 //     icon: buildIcon('assets/images/app_icons/qaida_icon.png')),
                 BottomNavigationBarItem(
-                    label: localeText(context,'quran_stories'),
-                    icon: _buildIcon('assets/images/app_icons/quran_stories.png')),
+                    label: localeText(context, 'quran_stories'),
+                    icon: _buildIcon(
+                        'assets/images/app_icons/quran_stories.png')),
                 BottomNavigationBarItem(
-                    label: localeText(context,'more'),
+                    label: localeText(context, 'more'),
                     icon: _buildIcon('assets/images/app_icons/more.png')),
               ],
               // backgroundColor: Colors.white,
@@ -44,9 +45,11 @@ class BottomNavWidget extends StatelessWidget {
               selectedIconTheme: IconThemeData(size: 18.h),
               selectedItemColor: appColors.mainBrandingColor,
               unselectedItemColor: AppColors.grey3,
-              selectedLabelStyle: TextStyle(fontFamily: 'satoshi',fontSize: 10.sp),
-              unselectedLabelStyle: TextStyle(fontFamily: 'satoshi',fontSize: 10.sp),
-              onTap: (page) async{
+              selectedLabelStyle:
+                  TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
+              unselectedLabelStyle:
+                  TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
+              onTap: (page) async {
                 bottomTabProvider.setCurrentPage(page);
               },
             )
@@ -55,11 +58,12 @@ class BottomNavWidget extends StatelessWidget {
       },
     );
   }
-  
-  _buildIcon(String image){
+
+  _buildIcon(String image) {
     return Container(
         margin: EdgeInsets.only(bottom: 5.h),
-        child: ImageIcon(AssetImage(image),)
-    );
+        child: ImageIcon(
+          AssetImage(image),
+        ));
   }
 }

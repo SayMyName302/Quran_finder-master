@@ -97,7 +97,7 @@ class ReciterPage extends StatelessWidget {
                                     reciters.reciterName!,
                                     style: TextStyle(
                                         // color: Colors.black,
-                                        fontSize: 15.5.sp,
+                                        fontSize: 17.sp,
                                         fontFamily: "satoshi",
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -105,7 +105,7 @@ class ReciterPage extends StatelessWidget {
                                     localeText(context, "complete_quran"),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 12.sp,
+                                        fontSize: 14.sp,
                                         fontFamily: "satoshi",
                                         color: AppColors.grey4),
                                   ),
@@ -232,7 +232,7 @@ class ReciterPage extends StatelessWidget {
                                         "Surah ${surah.surahName}",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 12.sp,
+                                          fontSize: 16.sp,
                                           fontFamily: "satoshi",
                                         ),
                                       ),
@@ -247,7 +247,7 @@ class ReciterPage extends StatelessWidget {
                                           child: Text(
                                             surah.englishName!,
                                             style: TextStyle(
-                                                fontSize: 10.sp,
+                                                fontSize: 14.sp,
                                                 fontFamily: "satoshi",
                                                 color: AppColors.grey4),
                                           ))

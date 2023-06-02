@@ -68,7 +68,7 @@ class _YourNamePageState extends State<YourNamePage> {
               const Spacer(),
               BrandButton(text: "Continue", onTap: (){
                 List<String> arguments = ModalRoute.of(context)!.settings.arguments as List<String>;
-                Provider.of<SignInProvider>(context,listen: false).signUpWithEmailPassword(arguments[0], arguments[1],name.text);
+                Provider.of<SignInProvider>(context,listen: false).signUpWithEmailPassword(arguments[0], arguments[1],name.text,context);
               }),
               SizedBox(height: 20.h,)
             ],

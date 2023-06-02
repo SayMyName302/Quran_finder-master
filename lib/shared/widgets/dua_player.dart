@@ -6,27 +6,68 @@ import 'package:provider/provider.dart';
 import '../../pages/quran/pages/duas/dua_provider.dart';
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
 import '../providers/dua_audio_player_provider.dart';
+import '../routes/routes_helper.dart';
 import '../utills/app_colors.dart';
 import 'circle_button.dart';
 
 class DuaAudioPlayer extends StatelessWidget {
-  const DuaAudioPlayer({super.key});
+  // final int categoryId;
+  // final String categoryName;
+  const DuaAudioPlayer({
+    super.key,
+    // required this.categoryId,
+    // required this.categoryName
+  });
 
   @override
   Widget build(BuildContext context) {
-    var fromWhere = ModalRoute.of(context)!
-        .settings
-        .arguments; // Use this variable for playlist!!!
-    return Container(
-      margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 30.h, top: 20.h),
-      width: double.maxFinite,
-      child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
-          DuaProvider>(
-        builder: (context, them, player, appColor, dua, child) {
-          return Column(
-            children: [
-              Row(
+    // var fromWhere = ModalRoute.of(context)!
+    //     .settings
+    //     .arguments; // Use this variable for playlist!!!
+    // List arguments = ModalRoute.of(context)!.settings.arguments! as List;
+
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      //mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
+          width: double.maxFinite,
+          child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
+              DuaProvider>(
+            builder: (context, them, player, appColor, dua, child) {
+              return Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Allahu Akbar',
+                        style: TextStyle(
+                            fontFamily: 'satoshi',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 19.sp),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Surah 1 (Total 3)',
+                        style: TextStyle(
+                            fontFamily: 'satoshi',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.sp),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   Row(
                     children: [
                       Text(
@@ -66,27 +107,41 @@ class DuaAudioPlayer extends StatelessWidget {
                     height: 20.h,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                      // SizedBox(
+                      //   width: 15.h,
+                      // ),
                       IconButton(
                         onPressed: () {
-                          // Here Implement Logic to Show PlayList for User, he can choose any Dua from list!!!
-                          // if (fromWhere == "fromStory") {
-                          //   story.goToStoryContentPage(
-                          //       story.currentStoryIndex, context);
-                          // } else {
-                          //   basics.goToBasicsContentPage(
-                          //       basics.currentIslamBasics, context);
-                          // }
+                          Navigator.of(context).pushNamed(
+                            RouteHelper.duaPlayList,
+                            arguments: [
+                              // categoryId,
+                              // categoryName,
+                            ],
+                          );
                         },
                         icon: Image.asset(
-                          'assets/images/app_icons/story.png',
+                          'assets/images/app_icons/list.png',
                           height: 18.h,
                           width: 18.w,
                           color: them.isDark ? Colors.white : Colors.black,
                         ),
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
+                      ),
+                      const Spacer(),
+                      CircleButton(
+                        height: 37.h,
+                        width: 37.h,
+                        icon: Icon(
+                          Icons.skip_previous,
+                          size: 30.h,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20.h,
                       ),
                       Stack(
                         children: [
@@ -121,6 +176,19 @@ class DuaAudioPlayer extends StatelessWidget {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        width: 20.h,
+                      ),
+                      CircleButton(
+                        height: 37.h,
+                        width: 37.h,
+                        icon: Icon(
+                          Icons.skip_next,
+                          size: 30.h,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const Spacer(),
                       IconButton(
                         onPressed: () async {
                           player.setSpeed();
@@ -147,15 +215,18 @@ class DuaAudioPlayer extends StatelessWidget {
                         ),
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
-                      )
+                      ),
+                      // SizedBox(
+                      //   width: 15.h,
+                      // ),
                     ],
-                  )
+                  ),
                 ],
-              ),
-            ],
-          );
-        },
-      ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

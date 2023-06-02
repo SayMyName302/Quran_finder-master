@@ -17,12 +17,15 @@ class UserProfileAdopter extends TypeAdapter<UserProfile>{
     String uid = reader.read();
     List<String> quranAppPurpose = reader.read();
     String favReciter = reader.read();
-    String whenToReciterQuran = reader.read();
-    DateTime recitationReminder = reader.read();
-    String dailyQuranReadTime = reader.read();
+    List<int> bookmarks = reader.read();
     String preferredLanguage = reader.read();
-    List<String> loginDevices = reader.read();
+    List loginDevices = reader.read();
     String loginType = reader.read();
+
+
+    // String whenToReciterQuran = reader.read();
+    // DateTime recitationReminder = reader.read();
+    // String dailyQuranReadTime = reader.read();
 
     return UserProfile(
         email: email,
@@ -32,12 +35,14 @@ class UserProfileAdopter extends TypeAdapter<UserProfile>{
         uid: uid,
         purposeOfQuran: quranAppPurpose,
         favReciter: favReciter,
-        whenToReciterQuran: whenToReciterQuran,
-        recitationReminder: recitationReminder,
-        dailyQuranReadTime: dailyQuranReadTime,
+        bookmarks: bookmarks,
         preferredLanguage: preferredLanguage,
-        loginDevices: loginDevices,
+        loginDevices: loginDevices.map((e) => e as Devices).toList(),
         loginType: loginType
+
+      // whenToReciterQuran: whenToReciterQuran,
+      // recitationReminder: recitationReminder,
+      // dailyQuranReadTime: dailyQuranReadTime,
     );
   }
 
@@ -50,12 +55,15 @@ class UserProfileAdopter extends TypeAdapter<UserProfile>{
     writer.write(obj.uid);
     writer.write(obj.purposeOfQuran);
     writer.write(obj.favReciter);
-    writer.write(obj.whenToReciterQuran);
-    writer.write(obj.recitationReminder);
-    writer.write(obj.dailyQuranReadTime);
+    writer.write(obj.bookmarks);
     writer.write(obj.preferredLanguage);
     writer.write(obj.loginDevices);
     writer.write(obj.loginType);
+
+
+    // writer.write(obj.whenToReciterQuran);
+    // writer.write(obj.recitationReminder);
+    // writer.write(obj.dailyQuranReadTime);
   }
 
 }

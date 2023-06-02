@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   margin: EdgeInsets.only(top: 16.h, bottom: 30.h),
                   child: Row(children: [
                     _buildThirdPartyLoginContainers('facebook', () {
-                      context.read<SignInProvider>().signInWithFaceBook();
+                      context.read<SignInProvider>().signInWithFaceBook(context);
                     }),
                     _buildThirdPartyLoginContainers('google', () async {
                       context.read<SignInProvider>().signInWithGoogle(context);
@@ -128,7 +128,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         context, "already_have_account_an_account_login"),
                     onPress: () {
                       Navigator.of(context).pop();
-                    })
+                    },context: context
+                    )
               ],
             ),
           ),
