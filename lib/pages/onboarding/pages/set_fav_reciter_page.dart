@@ -5,6 +5,7 @@ import 'package:nour_al_quran/pages/onboarding/widgets/skip_button.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
+import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
@@ -62,7 +63,7 @@ class SetFavReciter extends StatelessWidget {
                 ),
                 BrandButton(
                     text: localeText(context, "continue"),
-                    onTap: () {
+                    onTap: () async {
                       var selectedReciterIds = context
                           .read<OnBoardingProvider>()
                           .reciterList
@@ -71,6 +72,16 @@ class SetFavReciter extends StatelessWidget {
                               context.read<OnBoardingProvider>().favReciter)
                           .map((reciter) => reciter.reciterId)
                           .toList();
+
+                      // Assuming you have access to the DBHelper instance
+                      var dbHelper = QuranDatabase();
+
+                      // Iterate over the selected reciter IDs and update the is_fav value
+                      for (var reciterId in selectedReciterIds) {
+                        await dbHelper.updateReciterIsFav(
+                            reciterId!, 1); // Set the value to 1 for true
+                      }
+
                       print('nichy hain reciter id');
                       print(selectedReciterIds);
                       // Navigator.of(context).pushNamed(RouteHelper.quranReminder);
