@@ -114,30 +114,6 @@ class DuaPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Consumer2<DuaProvider, AppColorsProvider>(
-                //   builder: (context, duaValue, appColors, child) {
-                //     return duaValue.duaList.isNotEmpty
-                //         ? Expanded(
-                //             child: ListView.builder(
-                //               itemCount: duaValue.duaList.length,
-                //               itemBuilder: (context, index) {
-                //                 return DuaContainer(
-                //                   text: duaValue.duaList[index].duaText,
-                //                   translation:
-                //                       duaValue.duaList[index].translations,
-                //                   ref: duaValue.duaList[index].duaRef,
-                //                 );
-                //               },
-                //             ),
-                //           )
-                //         : Expanded(
-                //             child: Center(
-                //             child: CircularProgressIndicator(
-                //               color: appColors.mainBrandingColor,
-                //             ),
-                //           ));
-                //   },
-                // ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: duaProvider.duaList.length,
@@ -148,22 +124,36 @@ class DuaPage extends StatelessWidget {
                       int sentenceCount = sentences.length;
                       String duaTranslation =
                           duaProvider.duaList[index].translations.toString();
+                      int totalLength = duaProvider.duaList.length;
 
                       return InkWell(
                         onTap: () {
                           Navigator.of(context).pushNamed(
                             RouteHelper.duaDetailed,
-                            arguments: [
-                              "Dua ${index + 1}",
-                              dua.duaTitle.toString(),
-                              dua.duaRef.toString(),
-                              sentenceCount.toString(),
-                              duaText,
-                              duaTranslation,
-                              duaCategoryID,
-                              title,
-                            ],
+                            // arguments: [
+                            //   "Dua ${index + 1}",
+                            //   dua.duaTitle.toString(),
+                            //   dua.duaRef.toString(),
+                            //   sentenceCount.toString(),
+                            //   duaText,
+                            //   duaTranslation,
+                            //   // duaCategoryID,
+                            //   // title,
+                            // ],
                           );
+                          Provider.of<DuaProvider>(context, listen: false)
+                              .storeDuaData([
+                            "Dua ${index + 1}",
+                            dua.duaTitle.toString(),
+                            dua.duaRef.toString(),
+                            sentenceCount.toString(),
+                            duaText,
+                            duaTranslation,
+                            totalLength.toString(),
+                            // duaCategoryID,
+                            // title,
+                          ]);
+                          duaProvider.gotoDuaPlayerPage(dua.id!, context);
                         },
                         child: Container(
                           margin: EdgeInsets.only(

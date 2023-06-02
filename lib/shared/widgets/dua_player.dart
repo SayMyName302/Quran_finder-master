@@ -11,20 +11,20 @@ import '../utills/app_colors.dart';
 import 'circle_button.dart';
 
 class DuaAudioPlayer extends StatelessWidget {
-  // final int categoryId;
-  // final String categoryName;
   const DuaAudioPlayer({
     super.key,
-    // required this.categoryId,
-    // required this.categoryName
   });
 
   @override
   Widget build(BuildContext context) {
-    // var fromWhere = ModalRoute.of(context)!
-    //     .settings
-    //     .arguments; // Use this variable for playlist!!!
-    // List arguments = ModalRoute.of(context)!.settings.arguments! as List;
+    List<String> data = Provider.of<DuaProvider>(context).duaData;
+    String part1 = data[0];
+    // String part2 = data[1];
+    // String part3 = data[2];
+    // String part4 = data[3];
+    // String part5 = data[4];
+    // String part6 = data[5];
+    String part7 = data[6];
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -57,7 +57,7 @@ class DuaAudioPlayer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Surah 1 (Total 3)',
+                        '$part1  (Total $part7)',
                         style: TextStyle(
                             fontFamily: 'satoshi',
                             fontWeight: FontWeight.w500,
@@ -115,10 +115,10 @@ class DuaAudioPlayer extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pushNamed(
                             RouteHelper.duaPlayList,
-                            arguments: [
-                              // categoryId,
-                              // categoryName,
-                            ],
+                            // arguments: [
+                            //   // categoryId,
+                            //   // categoryName,
+                            // ],
                           );
                         },
                         icon: Image.asset(
@@ -134,10 +134,16 @@ class DuaAudioPlayer extends StatelessWidget {
                       CircleButton(
                         height: 37.h,
                         width: 37.h,
-                        icon: Icon(
-                          Icons.skip_previous,
-                          size: 30.h,
-                          color: Colors.white,
+                        icon: InkWell(
+                          onTap: () {
+                            Provider.of<DuaProvider>(context, listen: false)
+                                .playPreviousDuaInCategory(context);
+                          },
+                          child: Icon(
+                            Icons.skip_previous,
+                            size: 30.h,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -182,10 +188,16 @@ class DuaAudioPlayer extends StatelessWidget {
                       CircleButton(
                         height: 37.h,
                         width: 37.h,
-                        icon: Icon(
-                          Icons.skip_next,
-                          size: 30.h,
-                          color: Colors.white,
+                        icon: InkWell(
+                          onTap: () {
+                            Provider.of<DuaProvider>(context, listen: false)
+                                .playNextDuaInCategory(context);
+                          },
+                          child: Icon(
+                            Icons.skip_next,
+                            size: 30.h,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                       const Spacer(),

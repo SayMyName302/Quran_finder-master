@@ -40,13 +40,14 @@ class DuaPlayerProvider extends ChangeNotifier {
   }
 
   void _init(String url, BuildContext context) async {
-    /// to reset all the previous position and data
+    // Reset all the previous position and data
     setInitData(url);
 
-    /// init audio player
+    // Init audio player
     _audioPlayer = AudioPlayer();
     try {
       await _audioPlayer!.setUrl(url);
+      print('Audio player URL set: $url');
     } on PlatformException catch (e) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
@@ -57,18 +58,21 @@ class DuaPlayerProvider extends ChangeNotifier {
         ..showSnackBar(const SnackBar(content: Text('Error Occur')));
     }
     _audioPlayer!.playerStateStream.listen((event) {
+      print('Player state changed: ${event.processingState}');
       setIsPlaying(event.playing);
       if (event.processingState == ProcessingState.buffering) {
         _lastPosition = _position;
+
+        // Update isLoading to true when buffering
         isLoading = true;
         _isPlaying = false;
         notifyListeners();
-      } else if (event.processingState == ProcessingState.loading) {
-        isLoading = true;
-        notifyListeners();
+        print('Buffering...');
       } else if (event.processingState == ProcessingState.ready) {
+        // Update isLoading to false when ready
         isLoading = false;
         notifyListeners();
+        print('Ready to play');
       } else if (event.processingState == ProcessingState.completed) {
         _audioPlayer!.seek(Duration.zero);
         _audioPlayer!.pause();

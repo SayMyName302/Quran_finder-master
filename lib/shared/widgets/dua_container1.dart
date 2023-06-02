@@ -64,8 +64,9 @@ class DuaContainer1 extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: appColors.mainBrandingColor,
-                        fontSize: 11,
-                        fontFamily: 'satoshi',
+                        //fontSize: 11,
+                        fontFamily: fontProvider.finalFont,
+                        fontSize: fontProvider.fontSizeTrans.sp,
                       ),
                     ),
                     const SizedBox(height: 4), // Adjust the spacing here
@@ -76,8 +77,9 @@ class DuaContainer1 extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: appColors.mainBrandingColor,
-                          fontSize: 10,
-                          fontFamily: 'satoshi',
+                          // fontSize: 10,
+                          fontFamily: fontProvider.finalFont,
+                          fontSize: fontProvider.fontSizeTrans.sp,
                         ),
                       ),
                   ],

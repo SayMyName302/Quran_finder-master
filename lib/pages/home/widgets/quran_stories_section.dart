@@ -18,9 +18,13 @@ class QuranStoriesSection extends StatelessWidget {
     int network = Provider.of<int>(context);
     return Column(
       children: [
-        HomeRowWidget(text: localeText(context,'quran_stories'), buttonText: localeText(context,"view_all"), onTap: () {
-          context.read<BottomTabsPageProvider>().setCurrentPage(2);
-        },),
+        HomeRowWidget(
+          text: localeText(context, 'quran_stories'),
+          buttonText: localeText(context, "view_all"),
+          onTap: () {
+            context.read<BottomTabsPageProvider>().setCurrentPage(2);
+          },
+        ),
         Consumer<LocalizationProvider>(
           builder: (context, language, child) {
             return SizedBox(
@@ -29,17 +33,26 @@ class QuranStoriesSection extends StatelessWidget {
                 builder: (context, storiesProvider, child) {
                   return ListView.builder(
                     itemCount: storiesProvider.stories.length,
-                    padding: EdgeInsets.only(left: 20.w,right: 20.w,bottom: 14.h),
+                    padding:
+                        EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       QuranStories model = storiesProvider.stories[index];
                       return InkWell(
-                        onTap: (){
-                          if(network == 1){
-                            Future.delayed(Duration.zero,()=>context.read<RecitationPlayerProvider>().pause(context));
-                            storiesProvider.gotoStoryPlayerPage(model.storyId!, context);
-                          }else{
-                            ScaffoldMessenger.of(context)..removeCurrentSnackBar()..showSnackBar(const SnackBar(content: Text("No Internet")));
+                        onTap: () {
+                          if (network == 1) {
+                            Future.delayed(
+                                Duration.zero,
+                                () => context
+                                    .read<RecitationPlayerProvider>()
+                                    .pause(context));
+                            storiesProvider.gotoStoryPlayerPage(
+                                model.storyId!, context);
+                          } else {
+                            ScaffoldMessenger.of(context)
+                              ..removeCurrentSnackBar()
+                              ..showSnackBar(
+                                  const SnackBar(content: Text("No Internet")));
                           }
                         },
                         child: Container(
@@ -48,8 +61,10 @@ class QuranStoriesSection extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: Colors.amberAccent,
                               borderRadius: BorderRadius.circular(8.r),
-                              image: DecorationImage(image: AssetImage("assets/images/quran_stories/${model.image!}"),fit: BoxFit.cover)
-                          ),
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/quran_stories/${model.image!}"),
+                                  fit: BoxFit.cover)),
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.r),
@@ -63,20 +78,27 @@ class QuranStoriesSection extends StatelessWidget {
                               ),
                             ),
                             child: Container(
-                              margin: EdgeInsets.only(left: 6.w,bottom: 8.h,right: 6.w),
-                              alignment: language.locale.languageCode == "ur" || language.locale.languageCode == "ar" ? Alignment.bottomRight : Alignment.bottomLeft,
-                              child: Text(localeText(context, model.storyTitle!),
+                              margin: EdgeInsets.only(
+                                  left: 6.w, bottom: 8.h, right: 6.w),
+                              alignment: language.locale.languageCode == "ur" ||
+                                      language.locale.languageCode == "ar"
+                                  ? Alignment.bottomRight
+                                  : Alignment.bottomLeft,
+                              child: Text(
+                                localeText(context, model.storyTitle!),
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 13.8.sp,
                                     fontFamily: "satoshi",
-                                    fontWeight: FontWeight.w900),),
+                                    fontWeight: FontWeight.w900),
+                              ),
                             ),
                           ),
                         ),
                       );
-                    },);
+                    },
+                  );
                 },
               ),
             );

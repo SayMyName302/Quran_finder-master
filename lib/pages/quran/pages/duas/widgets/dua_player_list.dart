@@ -62,17 +62,8 @@ class DuaPlayList extends StatelessWidget {
 
                       return InkWell(
                         onTap: () {
-                          // Navigator.of(context).pushNamed(
-                          //   RouteHelper.duaDetailed,
-                          //   arguments: [
-                          //     "Dua ${index + 1}",
-                          //     capitalize(dua.duaTitle.toString()),
-                          //     dua.duaRef.toString(),
-                          //     sentenceCount.toString(),
-                          //     duaText,
-                          //     duaTranslation,
-                          //   ],
-                          // );
+                          duaProvider.gotoDuaPlayerPage(dua.id!, context);
+                          Navigator.pop(context);
                         },
                         child: Container(
                           margin: EdgeInsets.only(
