@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/more/pages/names_of_allah/name_of_allah_page.dart';
 import 'package:nour_al_quran/pages/more/pages/qibla_direction/qibla_direction.dart';
 import 'package:nour_al_quran/pages/more/pages/salah_timer/salah_timer_page.dart';
@@ -30,16 +28,12 @@ import 'package:nour_al_quran/pages/settings/pages/subscriptions/upgrade_to_prem
 import 'package:nour_al_quran/pages/settings/pages/terms_of_service/terms_of_services_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sign_up_page.dart';
-import 'package:nour_al_quran/pages/splash/splash.dart';
-import 'package:nour_al_quran/shared/utills/app_colors.dart';
 //import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import '../../pages/basics_of_quran/pages/basics_content_page.dart';
 import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';
 import '../../pages/bottom_tabs/pages/bottom_tab_page.dart';
 import '../../pages/quran stories/pages/story_content_page.dart';
 import '../../pages/quran/pages/duas/dua_detailed.dart';
-import '../../pages/quran/pages/duas/widgets/dua_player_list.dart';
-import '../utills/app_constants.dart';
 import '../widgets/story_n_basics_player.dart';
 import '../../pages/miracles_of_quran/pages/miracle_content_page.dart';
 import '../../pages/miracles_of_quran/pages/miracles_of_quran_page.dart';
@@ -102,7 +96,6 @@ class RouteHelper {
   static const String swipe = "/swipe";
   static const String duaMain = "/duaMain";
   static const String duaDetailed = "/duaDetailed";
-  static const String duaPlayList = "/duaPlayList";
 
   // static late BuildContext currentContext;
 
@@ -110,12 +103,8 @@ class RouteHelper {
       BuildContext context) {
     return {
       initRoute: (context) {
-        String onBoardingDone =
-            Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
         currentContext = context;
-        return onBoardingDone == "done"
-            ? const BottomTabsPage()
-            : const SetPreferredLanguage();
+        return const BottomTabsPage();
       },
       achieveWithQuran: (context) {
         currentContext = context;
@@ -138,43 +127,30 @@ class RouteHelper {
         currentContext = context;
         return const DuaDetail();
       },
-      duaPlayList: (context) {
-        currentContext = context;
-        return const DuaPlayList();
-      },
       paywallscreen: (context) {
-        final paywallVisibilityFuture = () async {
-          final connectivityResult = await Connectivity().checkConnectivity();
-          if (connectivityResult == ConnectivityResult.none) {
-            return false; // No internet connection, set paywallVisibility to false
-          } else {
-            final snapshot = await FirebaseFirestore.instance
-                .collection('paywallsettings')
-                .doc('hideunhide')
-                .get();
-            print(snapshot.data());
-            if (snapshot.data() != null) {
-              return snapshot.data()!['paywallVisibility'] as bool;
-            } else {
-              return true;
-            }
-          }
-        }();
+        currentContext = context;
+        final paywallVisibilityFuture = FirebaseFirestore.instance
+            .collection(
+                'paywallsettings') // Replace with your Firestore collection
+            .doc('hideunhide') // Replace with your Firestore document ID
+            .get()
+            .then((snapshot) => snapshot.data()!['paywallVisibility'] as bool);
 
         return FutureBuilder<bool>(
           future: paywallVisibilityFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                color: Colors.white,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.mainBrandingColor,
-                    ),
-                  ),
-                ),
-              );
+              return const CompleteProfile();
+              // return Container(
+              //   color: Colors.white,
+              //   child: const Center(
+              //     child: CircularProgressIndicator(
+              //       valueColor: AlwaysStoppedAnimation<Color>(
+              //         AppColors.mainBrandingColor,
+              //       ),
+              //     ),
+              //   ),
+              // );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {

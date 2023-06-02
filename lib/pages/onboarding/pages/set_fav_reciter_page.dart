@@ -63,27 +63,14 @@ class SetFavReciter extends StatelessWidget {
                 BrandButton(
                     text: localeText(context, "continue"),
                     onTap: () {
-                      var selectedReciterIds = context
-                          .read<OnBoardingProvider>()
-                          .reciterList
-                          .where((reciter) =>
-                              reciter.title ==
-                              context.read<OnBoardingProvider>().favReciter)
-                          .map((reciter) => reciter.reciterId)
-                          .toList();
-                      print('nichy hain reciter id');
-                      print(selectedReciterIds);
-                      // Navigator.of(context).pushNamed(RouteHelper.quranReminder);
                       Navigator.of(context)
-                          .pushNamed(RouteHelper.notificationSetup);
+                          .pushNamed(RouteHelper.quranReminder);
                     }),
                 SizedBox(
                   height: 16.h,
                 ),
                 SkipButton(onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(RouteHelper.notificationSetup);
-                  // Navigator.of(context).pushNamed(RouteHelper.quranReminder);
+                  Navigator.of(context).pushNamed(RouteHelper.quranReminder);
                 })
               ],
             ),
