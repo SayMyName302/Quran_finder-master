@@ -15,8 +15,116 @@ import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
 
-class SetPreferredLanguage extends StatelessWidget {
+import '../../../shared/entities/last_seen.dart';
+import '../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
+import '../../quran/providers/quran_provider.dart';
+import '../../quran/widgets/quran_text_view.dart';
+import '../../settings/pages/notifications/notification_services.dart';
+
+class SetPreferredLanguage extends StatefulWidget {
   const SetPreferredLanguage({Key? key}) : super(key: key);
+
+  @override
+  State<SetPreferredLanguage> createState() => _SetPreferredLanguageState();
+}
+
+class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
+
+  bool _isListening = false;
+
+  String onBoardingDone = Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
+
+  @override
+  void initState() {
+    super.initState();
+    // Future.delayed(Duration.zero, () {
+    //   if (!_isListening) {
+    //     if (onBoardingDone == "done") {
+    //       Navigator.of(context).pushNamedAndRemoveUntil(
+    //           RouteHelper.application, (route) => false);
+    //     } else {
+    //       /// if onBoarding not done stay in preferred language screen
+    //       // Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(
+    //       //     RouteHelper.preferredLanguage, (route) => false);
+    //     }
+    //   }
+    // });
+    listenToNotification();
+  }
+
+  void gotoQuranTextView() {
+    LastSeen? lastSeen = Hive.box('myBox').get("lastSeen");
+    if (lastSeen != null) {
+      if (lastSeen.isJuz!) {
+        RouteHelper.currentContext.read<QuranProvider>().setJuzText(
+          juzId: lastSeen.juzId!,
+          title: lastSeen.juzArabic!,
+          fromWhere: 0,
+          isJuz: true,
+        );
+        Navigator.of(RouteHelper.currentContext)
+            .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
+        Navigator.of(RouteHelper.currentContext).push(MaterialPageRoute(
+          builder: (context) {
+            return const QuranTextView();
+          },
+        ));
+      } else {
+        // coming from surah so isJuz already false
+        // coming from surah so JuzId already -1
+        RouteHelper.currentContext.read<QuranProvider>().setSurahText(
+            surahId: lastSeen.surahId!,
+            title: 'سورة ${lastSeen.surahNameArabic}',
+            fromWhere: 0);
+        Navigator.of(RouteHelper.currentContext)
+            .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
+        Navigator.of(RouteHelper.currentContext).push(MaterialPageRoute(
+          builder: (context) {
+            return const QuranTextView();
+          },
+        ));
+      }
+    } else {
+      RouteHelper.currentContext
+          .read<QuranProvider>()
+          .setSurahText(surahId: 1, title: 'سورةالفاتحة', fromWhere: 1);
+      Navigator.of(RouteHelper.currentContext)
+          .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
+      Navigator.of(RouteHelper.currentContext).push(MaterialPageRoute(
+        builder: (context) {
+          return const QuranTextView();
+        },
+      ));
+    }
+  }
+
+  void listenToNotification() {
+    NotificationServices.onNotification.stream.listen((event) {
+      if (event != null) {
+        _isListening = true;
+        // Fluttertoast.showToast(msg: "listening");
+        notificationOnClick(event);
+      } else {
+        // Fluttertoast.showToast(msg: "Not listening");
+        _isListening = false;
+      }
+    });
+  }
+
+  notificationOnClick(String payload) {
+    if (payload == "recite") {
+      gotoQuranTextView();
+    } else if (payload == "dua") {
+      RouteHelper.currentContext
+          .read<BottomTabsPageProvider>()
+          .setCurrentPage(0);
+      Navigator.of(RouteHelper.currentContext)
+          .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
+    } else {
+      Navigator.of(RouteHelper.currentContext)
+          .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +159,6 @@ class SetPreferredLanguage extends StatelessWidget {
                         return BrandButton(
                             text: localeText(context, "continue"),
                             onTap: () {
-                              saveOnBoarding(localization, value);
                               Navigator.of(context)
                                   .pushNamed(RouteHelper.achieveWithQuran);
                             });
@@ -134,18 +241,5 @@ class SetPreferredLanguage extends StatelessWidget {
         },
       ),
     );
-  }
-
-  void saveOnBoarding(
-      LocalizationProvider localization, OnBoardingProvider provider) {
-    print(provider.recitationReminderTime);
-    OnBoardingInformation onBoardingInfo = OnBoardingInformation(
-        purposeOfQuran: provider.selectAchieveWithQuranList,
-        favReciter: provider.favReciter,
-        whenToReciterQuran: provider.selectTimeLikeToRecite,
-        recitationReminder: provider.recitationReminderTime,
-        dailyQuranReadTime: provider.selectedDailyTime,
-        preferredLanguage: localization.locale);
-    Hive.box(appBoxKey).put(onBoardingInformationKey, onBoardingInfo);
   }
 }

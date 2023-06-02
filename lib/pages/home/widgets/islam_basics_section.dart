@@ -84,7 +84,7 @@ class IslamBasicsSection extends StatelessWidget {
                                   context, islamBasics.title!.toLowerCase()),
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 13.8.sp,
+                                  fontSize: 17.sp,
                                   fontFamily: "satoshi",
                                   fontWeight: FontWeight.w900),
                             ),

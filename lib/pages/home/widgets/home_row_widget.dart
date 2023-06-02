@@ -9,12 +9,18 @@ class HomeRowWidget extends StatelessWidget {
   final String text;
   final String buttonText;
   final VoidCallback onTap;
-  const HomeRowWidget({Key? key,required this.text,required this.buttonText,required this.onTap}) : super(key: key);
+  const HomeRowWidget(
+      {Key? key,
+      required this.text,
+      required this.buttonText,
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 20.w,bottom: 8.h,right: 20.4.w,top: 14.h),
+      margin:
+          EdgeInsets.only(left: 20.w, bottom: 8.h, right: 20.4.w, top: 14.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -24,18 +30,20 @@ class HomeRowWidget extends StatelessWidget {
               return InkWell(
                 onTap: onTap,
                 child: Container(
-                  padding: EdgeInsets.only(left: 8.w,right: 8.w,top: 3.5.h,bottom: 3.5.h),
+                  padding: EdgeInsets.only(
+                      left: 8.w, right: 8.w, top: 3.5.h, bottom: 3.5.h),
                   decoration: BoxDecoration(
                       color: value.mainBrandingColor,
-                      borderRadius: BorderRadius.circular(8.50674.r)
-                  ),
+                      borderRadius: BorderRadius.circular(8.50674.r)),
                   child: Center(
-                    child: Text(buttonText,style: TextStyle(
-                        fontSize: 9.6.sp,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'satoshi'
-                    ),),
+                    child: Text(
+                      buttonText,
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'satoshi'),
+                    ),
                   ),
                 ),
               );

@@ -8,12 +8,12 @@ class UserProfile{
   String? _uid;
   List<String>? _purposeOfQuran;
   String? _favReciter;
-  String? _whenToReciterQuran;
-  DateTime? _recitationReminder;
-  String? _dailyQuranReadTime;
+  List<int>? _bookmarks;
   String? _preferredLanguage;
-  List<String>? _loginDevices;
+  List<Devices>? _loginDevices;
   String? _loginType;
+
+
 
   String? get email => _email;
   String? get password => _password;
@@ -22,12 +22,20 @@ class UserProfile{
   String? get uid => _uid;
   List<String>? get purposeOfQuran => _purposeOfQuran;
   String? get favReciter => _favReciter;
-  String? get whenToReciterQuran => _whenToReciterQuran;
-  DateTime? get recitationReminder => _recitationReminder;
-  String? get dailyQuranReadTime => _dailyQuranReadTime;
+  List<int>? get bookmarks => _bookmarks;
   String? get preferredLanguage => _preferredLanguage;
   String? get loginType => _loginType;
-  List<String>? get loginDevices => _loginDevices;
+  List<Devices>? get loginDevices => _loginDevices;
+
+  // String? _whenToReciterQuran;
+  // DateTime? _recitationReminder;
+  // String? _dailyQuranReadTime;
+
+
+  // String? get whenToReciterQuran => _whenToReciterQuran;
+  // DateTime? get recitationReminder => _recitationReminder;
+  // String? get dailyQuranReadTime => _dailyQuranReadTime;
+
 
 
   set setPreferredLanguage(String value) =>_preferredLanguage = value;
@@ -47,12 +55,13 @@ class UserProfile{
     required uid,
     required purposeOfQuran,
     required favReciter,
-    required whenToReciterQuran,
-    required recitationReminder,
-    required dailyQuranReadTime,
+    required bookmarks,
     required preferredLanguage,
     required loginDevices,
     required loginType
+    // required whenToReciterQuran,
+    // required recitationReminder,
+    // required dailyQuranReadTime,
   }){
     _email = email;
     _password = password;
@@ -61,12 +70,14 @@ class UserProfile{
     _uid = uid;
     _purposeOfQuran = purposeOfQuran;
     _favReciter = favReciter;
-    _whenToReciterQuran = whenToReciterQuran;
-    _recitationReminder = recitationReminder;
-    _dailyQuranReadTime = dailyQuranReadTime;
+    _bookmarks = bookmarks;
     _preferredLanguage = preferredLanguage;
     _loginDevices = loginDevices;
     _loginType = loginType;
+
+    // _whenToReciterQuran = whenToReciterQuran;
+    // _recitationReminder = recitationReminder;
+    // _dailyQuranReadTime = dailyQuranReadTime;
   }
 
   UserProfile.fromJson(Map<String,dynamic> json){
@@ -77,12 +88,19 @@ class UserProfile{
     _uid = json['uid'];
     _purposeOfQuran = List<String>.from(json['purposeOfQuran']);
     _favReciter = json['favReciter'];
-    _whenToReciterQuran = json['whenToReciterQuran'];
-    _recitationReminder = json['recitationReminder'].toDate();
-    _dailyQuranReadTime = json['dailyQuranReadTime'];
+    _bookmarks = List<int>.from(json['bookmarks']);
     _preferredLanguage = json['preferredLanguage'];
-    _loginDevices = List<String>.from(json['loginDevices']);
+    if(json['loginDevices'] != null){
+      _loginDevices = [];
+      for(var map in json['loginDevices']){
+        _loginDevices!.add(Devices.fromJson(map));
+      }
+    }
     _loginType = json['loginType'];
+
+    // _whenToReciterQuran = json['whenToReciterQuran'];
+    // _recitationReminder = json['recitationReminder'].toDate();
+    // _dailyQuranReadTime = json['dailyQuranReadTime'];
   }
 
   Map<String,dynamic> toJson(){
@@ -94,15 +112,17 @@ class UserProfile{
       'uid' : _uid,
       'purposeOfQuran': _purposeOfQuran,
       'favReciter' : _favReciter,
-      'whenToReciterQuran' : _whenToReciterQuran,
-      'recitationReminder' : _recitationReminder,
-      'dailyQuranReadTime' : _dailyQuranReadTime,
+      'bookmarks':_bookmarks,
       'preferredLanguage' : _preferredLanguage,
-      'loginDevices' : _loginDevices,
+      'loginDevices' : _loginDevices!.map((e) => e.toJson()).toList(),
       "loginType":_loginType
+
+
+      // 'whenToReciterQuran' : _whenToReciterQuran,
+      // 'recitationReminder' : _recitationReminder,
+      // 'dailyQuranReadTime' : _dailyQuranReadTime,
     };
   }
-
 }
 
 
@@ -120,7 +140,7 @@ class Devices {
 
   Devices.fromJson(Map<String, dynamic> json) {
     _name = json['name'];
-    _datetime = json['datetime'];
+    _datetime = json['datetime'].toDate();
   }
 
   Map<String, dynamic> toJson() {

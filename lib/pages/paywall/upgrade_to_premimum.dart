@@ -118,8 +118,7 @@ class paywall extends StatelessWidget {
 }
 
 Future<List<DocumentSnapshot>> getDataFromFirebase() async {
-  final snapshot =
-      await FirebaseFirestore.instance.collection('paywalldata').get();
+  final snapshot = await FirebaseFirestore.instance.collection('paywalldata').get();
   return snapshot.docs;
 }
 

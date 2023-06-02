@@ -47,6 +47,7 @@ class DuaCategoriesPage extends StatelessWidget {
                                   .pause(context),
                             );
                             duaValue.getDua(duaCategory.categoryId!);
+
                             // context.read<QuranDbProvider>().setDuaList(await QuranDatabase().getDua(duaCategory.categoryId!));
                             Navigator.of(context).pushNamed(
                               RouteHelper.dua,
@@ -56,6 +57,7 @@ class DuaCategoriesPage extends StatelessWidget {
                                 LocalizationProvider().checkIsArOrUr()
                                     ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
                                     : "${localeText(context, 'playlist_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
+                                duaCategory.categoryId,
                               ],
                             );
                           },
