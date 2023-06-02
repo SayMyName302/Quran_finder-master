@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/dua_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/providers/dua_audio_player_provider.dart';
@@ -8,8 +7,9 @@ import '../../../../shared/utills/app_colors.dart';
 import '../../../../shared/widgets/app_bar.dart';
 import '../../../../shared/widgets/dua_container1.dart';
 import '../../../../shared/widgets/dua_player.dart';
-import '../../../settings/pages/app_colors/app_colors_provider.dart';
-import '../../../settings/pages/fonts/font_provider.dart';
+import '../settings/pages/app_colors/app_colors_provider.dart';
+import '../settings/pages/fonts/font_provider.dart';
+import 'dua_provider.dart';
 import 'models/dua.dart';
 
 class DuaDetail extends StatelessWidget {

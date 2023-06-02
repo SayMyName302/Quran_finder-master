@@ -7,13 +7,14 @@ import 'package:nour_al_quran/pages/settings/pages/translation_manager/translati
 import 'package:nour_al_quran/shared/entities/bookmarks.dart';
 import 'package:nour_al_quran/shared/entities/juz.dart';
 import 'package:nour_al_quran/shared/entities/quran_text.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/models/dua.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/models/dua_category.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+import '../../pages/duas/models/dua.dart';
+import '../../pages/duas/models/dua_category.dart';
 
 class QuranDatabase {
   Database? database;

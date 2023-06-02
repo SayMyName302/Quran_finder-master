@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/dua_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 // import 'package:nour_al_quran/shared/widgets/dua_container.dart';
@@ -10,6 +9,7 @@ import 'package:provider/provider.dart';
 
 // import '../../../../shared/widgets/circle_button.dart';
 import '../../../../shared/routes/routes_helper.dart';
+import 'dua_provider.dart';
 import 'models/dua.dart';
 // import 'models/dua_category.dart';
 

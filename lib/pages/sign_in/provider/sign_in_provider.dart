@@ -17,7 +17,7 @@ import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import 'package:provider/provider.dart';
 
-import '../settings/pages/profile/profile_provider.dart';
+import '../../settings/pages/profile/profile_provider.dart';
 
 class SignInProvider extends ChangeNotifier {
   signInWithGoogle(BuildContext context) async {
@@ -263,6 +263,24 @@ class SignInProvider extends ChangeNotifier {
         );
     return userProfile;
   }
+
+
+  resetPassword({required String email,required BuildContext context}) async {
+    try{
+      Future.delayed(Duration.zero,()=>EasyLoadingDialog.show(context: context,radius: 20.r));
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((value) {
+        showErrorSnackBar("An Email is sent to You Check your Gmail", context);
+        EasyLoadingDialog.dismiss(context);
+        Navigator.of(context).pop();
+      });
+    }on FirebaseAuthException catch (e){
+      EasyLoadingDialog.dismiss(context);
+      showErrorSnackBar(e.message.toString(),context);
+    }catch (e){
+      EasyLoadingDialog.dismiss(context);
+    }
+  }
+
 
   showErrorSnackBar(String msg, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));

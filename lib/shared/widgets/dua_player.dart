@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../../pages/quran/pages/duas/dua_provider.dart';
+import '../../pages/duas/dua_provider.dart';
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
 import '../providers/dua_audio_player_provider.dart';
 import '../routes/routes_helper.dart';

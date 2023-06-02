@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../shared/utills/app_colors.dart';
-import '../../../../settings/pages/app_colors/app_colors_provider.dart';
+import '../../settings/pages/app_colors/app_colors_provider.dart';
 import '../dua_provider.dart';
 import '../models/dua.dart';
 

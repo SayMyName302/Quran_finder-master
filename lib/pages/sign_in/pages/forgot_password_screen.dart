@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/sign_in/provider/sign_in_provider.dart';
+import 'package:nour_al_quran/shared/widgets/brand_button.dart';
+import 'package:nour_al_quran/shared/widgets/text_field_column.dart';
 import 'package:provider/provider.dart';
-import 'package:squip/src/common/widgets/app_text_field.dart';
-import 'package:squip/src/pages/login/providers/login_provider.dart';
-import '../../../common/widgets/app_title.dart';
-import '../../../common/widgets/branding_button.dart';
-import '../widgets/subtitle_row.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({Key? key}) : super(key: key);
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   var email = TextEditingController();
   var formKey = GlobalKey<FormState>();
+
 
   @override
   void dispose() {
@@ -29,16 +28,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const AppTitle(),
-              SizedBox(height: 80.h,),
-              Image.asset("assets/images/icons/forgot.png",height: 70.h,width: 70.w,),
-              const SubTitleRow(title: "Forgot Your Password"),
-              _buildForm(),
-            ],
-          ),
+        child: Column(
+          children: [
+            SizedBox(height: 80.h,),
+            const Text("Forgot Your Password"),
+            _buildForm(),
+          ],
         ),
       ),
     );
@@ -51,13 +46,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         key: formKey,
         child: Column(
           children: [
-            AppTextField(hint: "Type Your Email", controller: email, icon: Icons.email),
-            SizedBox(height: 50.h,),
-            BrandingButton(title: "Send", onTap: (){
+            TextFieldColumn(titleText: "Email", controller: email, hintText: "Type Your Email",isPasswordField: false,),
+            BrandButton(text: "Send", onTap: (){
               if(formKey.currentState!.validate()){
-                Provider.of<LoginProvider>(context,listen: false).resetPassword(email: email.text, context: context);
+                Provider.of<SignInProvider>(context,listen: false).resetPassword(email: email.text, context: context);
               }
-            },alignment: Alignment.center,),
+            }),
           ],
         ),
       ),

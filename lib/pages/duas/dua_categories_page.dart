@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/dua_provider.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/models/dua_category.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 //import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
@@ -9,6 +7,9 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
+
+import 'dua_provider.dart';
+import 'models/dua_category.dart';
 
 class DuaCategoriesPage extends StatelessWidget {
   const DuaCategoriesPage({Key? key}) : super(key: key);
