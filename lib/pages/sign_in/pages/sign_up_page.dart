@@ -1,11 +1,7 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
-import 'package:nour_al_quran/pages/onboarding/models/on_boarding_information.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/sign_in_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -14,9 +10,6 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:nour_al_quran/shared/widgets/text_field_column.dart';
 import 'package:provider/provider.dart';
-
-import '../../../shared/utills/app_constants.dart';
-import '../../settings/pages/profile/user_profile.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -104,14 +97,16 @@ class _SignUpPageState extends State<SignUpPage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: 'satoshi',
-                          fontSize: 10.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w500),
                     )),
                 Container(
                   margin: EdgeInsets.only(top: 16.h, bottom: 30.h),
                   child: Row(children: [
                     _buildThirdPartyLoginContainers('facebook', () {
-                      context.read<SignInProvider>().signInWithFaceBook(context);
+                      context
+                          .read<SignInProvider>()
+                          .signInWithFaceBook(context);
                     }),
                     _buildThirdPartyLoginContainers('google', () async {
                       context.read<SignInProvider>().signInWithGoogle(context);
@@ -128,8 +123,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         context, "already_have_account_an_account_login"),
                     onPress: () {
                       Navigator.of(context).pop();
-                    },context: context
-                    )
+                    },
+                    context: context)
               ],
             ),
           ),

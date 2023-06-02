@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +12,6 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/details_container_widget.dart';
@@ -179,7 +176,7 @@ class RecitationPage extends StatelessWidget {
             EdgeInsets.only(bottom: 10.h, left: 20.w, top: 2.h, right: 20.w),
         child: Text(
           title,
-          style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold),
         ));
   }
 
@@ -213,7 +210,7 @@ class RecitationPage extends StatelessWidget {
             maxLines: 3,
             style: TextStyle(
                 fontWeight: FontWeight.w500,
-                fontSize: 9.67.sp,
+                fontSize: 11.sp,
                 height: 1.3.h,
                 fontFamily: "satoshi"),
             textAlign: TextAlign.center,

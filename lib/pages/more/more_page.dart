@@ -164,7 +164,7 @@ class _MorePageState extends State<MorePage> {
                                 child: Text(
                                   pages[index].name!,
                                   style: TextStyle(
-                                    fontSize: 12.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w900,
                                     fontFamily: 'satoshi',
                                   ),

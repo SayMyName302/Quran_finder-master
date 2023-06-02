@@ -1,11 +1,7 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
-import 'package:nour_al_quran/pages/onboarding/models/on_boarding_information.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/sign_in/sign_in_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -14,9 +10,6 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:nour_al_quran/shared/widgets/text_field_column.dart';
 import 'package:provider/provider.dart';
-
-import '../../../shared/utills/app_constants.dart';
-import '../../settings/pages/profile/user_profile.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -85,7 +78,7 @@ class _SignInPageState extends State<SignInPage> {
                       style: TextStyle(
                           fontFamily: 'satoshi',
                           fontWeight: FontWeight.w500,
-                          fontSize: 12.sp,
+                          fontSize: 13.sp,
                           color: AppColors.mainBrandingColor),
                     )),
                 BrandButton(
@@ -103,14 +96,16 @@ class _SignInPageState extends State<SignInPage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: 'satoshi',
-                          fontSize: 10.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w500),
                     )),
                 Container(
                   margin: EdgeInsets.only(top: 16.h, bottom: 30.h),
                   child: Row(children: [
                     _buildThirdPartyLoginContainers('facebook', () {
-                      context.read<SignInProvider>().signInWithFaceBook(context);
+                      context
+                          .read<SignInProvider>()
+                          .signInWithFaceBook(context);
                     }),
                     _buildThirdPartyLoginContainers('google', () async {
                       context.read<SignInProvider>().signInWithGoogle(context);
@@ -127,8 +122,8 @@ class _SignInPageState extends State<SignInPage> {
                         localeText(context, "don't_have_an_account_register"),
                     onPress: () {
                       Navigator.of(context).pushNamed(RouteHelper.signUp);
-                    },context: context
-                    ),
+                    },
+                    context: context),
               ],
             ),
           ),
@@ -164,10 +159,11 @@ class _SignInPageState extends State<SignInPage> {
 }
 
 buildRegisterOrHaveAccountContainer(
-    {required String title, required VoidCallback onPress,required BuildContext context}) {
+    {required String title,
+    required VoidCallback onPress,
+    required BuildContext context}) {
   Color color =
-      Provider.of<AppColorsProvider>(context, listen: false)
-          .mainBrandingColor;
+      Provider.of<AppColorsProvider>(context, listen: false).mainBrandingColor;
   return InkWell(
     onTap: onPress,
     child: Container(

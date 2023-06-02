@@ -84,7 +84,7 @@ class AllReciters extends StatelessWidget {
             maxLines: 3,
             style: TextStyle(
                 fontWeight: FontWeight.w500,
-                fontSize: 9.67.sp,
+                fontSize: 11.sp,
                 height: 1.3.h,
                 fontFamily: "satoshi"),
             textAlign: TextAlign.center,

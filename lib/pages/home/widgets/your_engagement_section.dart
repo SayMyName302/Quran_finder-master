@@ -40,7 +40,7 @@ class YourEngagementSection extends StatelessWidget {
                       return DropdownButton(
                         value: myState.yourEngagementCurrentDropDownItem,
                         style: TextStyle(
-                            fontSize: 11.sp,
+                            fontSize: 13.sp,
                             fontFamily: 'satoshi',
                             color:
                                 them.isDark ? AppColors.grey4 : AppColors.grey2,
