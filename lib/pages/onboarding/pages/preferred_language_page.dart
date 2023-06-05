@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
+import 'package:nour_al_quran/pages/bottom_tabs/pages/bottom_tab_page.dart';
 import 'package:nour_al_quran/pages/onboarding/models/on_boarding_information.dart';
 import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.dart';
@@ -37,19 +38,8 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
   @override
   void initState() {
     super.initState();
-    // Future.delayed(Duration.zero, () {
-    //   if (!_isListening) {
-    //     if (onBoardingDone == "done") {
-    //       Navigator.of(context).pushNamedAndRemoveUntil(
-    //           RouteHelper.application, (route) => false);
-    //     } else {
-    //       /// if onBoarding not done stay in preferred language screen
-    //       // Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(
-    //       //     RouteHelper.preferredLanguage, (route) => false);
-    //     }
-    //   }
-    // });
     listenToNotification();
+    print(onBoardingDone);
   }
 
   void gotoQuranTextView() {
@@ -131,7 +121,10 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
     var isDark = context.read<ThemProvider>().isDark;
     var appColors = context.read<AppColorsProvider>();
     return Scaffold(
-      body: SafeArea(
+      /// middleware to check where to do
+      /// this is for notification this page must be called once to init the rx listener
+      /// in order to listen to notifications
+      body: onBoardingDone == "done" ? const BottomTabsPage() : SafeArea(
         child: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.only(

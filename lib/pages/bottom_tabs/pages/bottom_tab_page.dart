@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/bottom_tabs/widgets/bottom_nav_widget.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
-import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +29,6 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     /// observer is used to observe app lifecycle state
     /// and it is used to stop and start app usage and other timers when user stop or resume the app
     WidgetsBinding.instance.addObserver(this);
-
     /// this method will get verse of the day
     context.read<HomeProvider>().getVerse(context);
 
@@ -107,4 +104,6 @@ class _BottomTabsPageState extends State<BottomTabsPage>
       dailyNotifyTime: const TimeOfDay(hour: 8,minute: 0),
     );
   }
+
+
 }

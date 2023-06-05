@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/global.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
-import 'package:nour_al_quran/pages/sign_in/sign_in_provider.dart';
+import 'package:nour_al_quran/pages/sign_in/provider/sign_in_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
@@ -21,6 +22,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   var email = TextEditingController();
   var password = TextEditingController();
+  var formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -57,37 +59,52 @@ class _SignInPageState extends State<SignInPage> {
                         fontWeight: FontWeight.w900),
                   ),
                 ),
-                TextFieldColumn(
-                  titleText: localeText(context, "enter_your_email"),
-                  controller: email,
-                  hintText: localeText(context, "enter_your_email"),
+
+                Form(
+                  key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFieldColumn(
+                          titleText: localeText(context, "enter_your_email"),
+                          controller: email,
+                          hintText: localeText(context, "enter_your_email"),
+                          isPasswordField: false,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        TextFieldColumn(
+                          titleText: localeText(context, 'password'),
+                          controller: password,
+                          hintText: localeText(context, 'password'),
+                          isPasswordField: true,
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(top: 13.h, bottom: 20.h),
+                            child: TextButton(
+                              onPressed: (){
+                                Navigator.of(context).pushNamed(RouteHelper.forgetPassword);
+                              },
+                              child: Text(
+                                localeText(context, "forgot_password"),
+                                style: TextStyle(
+                                    fontFamily: 'satoshi',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13.sp,
+                                    color: AppColors.mainBrandingColor),
+                              ),
+                            )),
+                        BrandButton(
+                            text: localeText(context, "login"),
+                            onTap: () {
+                              if(formKey.currentState!.validate()){
+                                Provider.of<SignInProvider>(context, listen: false).signInWithEmailPassword(email.text, password.text, context);
+                              }
+                            }),
+                      ],
+                    )
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                TextFieldColumn(
-                  titleText: localeText(context, 'password'),
-                  controller: password,
-                  hintText: localeText(context, 'password'),
-                  isPasswordField: true,
-                ),
-                Container(
-                    margin: EdgeInsets.only(top: 13.h, bottom: 20.h),
-                    child: Text(
-                      localeText(context, "forgot_password"),
-                      style: TextStyle(
-                          fontFamily: 'satoshi',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13.sp,
-                          color: AppColors.mainBrandingColor),
-                    )),
-                BrandButton(
-                    text: localeText(context, "login"),
-                    onTap: () {
-                      Provider.of<SignInProvider>(context, listen: false)
-                          .signInWithEmailPassword(
-                              email.text, password.text, context);
-                    }),
                 Container(
                     margin: EdgeInsets.only(top: 16.h),
                     width: double.maxFinite,

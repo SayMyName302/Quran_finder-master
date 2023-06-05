@@ -80,6 +80,8 @@ class ProfileProvider extends ChangeNotifier{
       EasyLoadingDialog.dismiss(RouteHelper.currentContext);
       saveUserProfile(userProfile);
       Provider.of<BottomTabsPageProvider>(RouteHelper.currentContext,listen: false).setCurrentPage(0);
+      /// save on boarding done and redirect user to application
+      Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
       Navigator.of(RouteHelper.currentContext).pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
       // if(_fromWhere == "home"){
       //

@@ -1,8 +1,8 @@
 class FavReciter {
+  int? _reciterId;
   String? _title;
   bool? _isPlaying;
   String? _audioUrl;
-  int? _reciterId;
   String? get title => _title;
 
   bool? get isPlaying => _isPlaying;

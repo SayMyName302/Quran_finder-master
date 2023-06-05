@@ -120,6 +120,20 @@ class NotificationServices{
     return NotificationDetails(android: androidNotificationDetails,iOS: iosNotificationDetails);
   }
 
+  showNotification() async {
+    await _notificationPlugin.show(
+      1,
+      "Notify ",
+      "Notify ",
+      _notificationDetails("other_icon",
+        channelId: _dailyNotificationChannel.id,
+          channelName: _dailyNotificationChannel.name,
+          channelDes: _dailyNotificationChannel.description!,
+      ),
+      payload: "recite"
+    );
+  }
+
   Future<void> scheduleNotification(
       {required int id,
         required String title,
