@@ -103,11 +103,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 Container(
                   margin: EdgeInsets.only(top: 16.h, bottom: 30.h),
                   child: Row(children: [
-                    _buildThirdPartyLoginContainers('facebook', () {
-                      context
-                          .read<SignInProvider>()
-                          .signInWithFaceBook(context);
-                    }),
+                    // _buildThirdPartyLoginContainers('facebook', () {
+                    //   context
+                    //       .read<SignInProvider>()
+                    //       .signInWithFaceBook(context);
+                    // }),
                     _buildThirdPartyLoginContainers('google', () async {
                       context.read<SignInProvider>().signInWithGoogle(context);
                     }),

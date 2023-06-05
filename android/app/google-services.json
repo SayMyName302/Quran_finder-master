@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1067017544784",
-    "project_id": "quran-pro-c5c2b",
-    "storage_bucket": "quran-pro-c5c2b.appspot.com"
+    "project_number": "966166920037",
+    "project_id": "quran-pro-and-islam-assistant",
+    "storage_bucket": "quran-pro-and-islam-assistant.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1067017544784:android:11a72bd4d66f3a2905dd55",
+        "mobilesdk_app_id": "1:966166920037:android:290b733db7d1c029a77f8c",
         "android_client_info": {
           "package_name": "com.example.nour_al_quran"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1067017544784-dp3k2g9qv6m7icmm3l83ohst8bse4lmn.apps.googleusercontent.com",
+          "client_id": "966166920037-b7f08ki9vmbli31tkqhjvinu2vm8mrid.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_N-hYL20nYHx2ahy38fnafrQ8k3AXfn0"
+          "current_key": "AIzaSyA7s3OVemjFzDfnOUJUaI93epAy51XuGyc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1067017544784-dp3k2g9qv6m7icmm3l83ohst8bse4lmn.apps.googleusercontent.com",
+              "client_id": "966166920037-b7f08ki9vmbli31tkqhjvinu2vm8mrid.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
