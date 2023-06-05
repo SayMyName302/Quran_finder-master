@@ -76,7 +76,7 @@ class DuaDetail extends StatelessWidget {
                                             height: 25,
                                             alignment: Alignment.center,
                                             child: Text(
-                                              'Dua ${index + 1}',
+                                              'Dua $index ',
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                   fontSize: 11,

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../shared/localization/localization_constants.dart';
 import '../../../../../shared/utills/app_colors.dart';
+import '../../../../../shared/widgets/app_bar.dart';
 import '../../../../settings/pages/app_colors/app_colors_provider.dart';
 import '../dua_provider.dart';
 import '../models/dua.dart';
@@ -13,6 +15,10 @@ class DuaPlayList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: buildAppBar(
+          context: context,
+          font: 16.sp,
+          title: localeText(context, "playlist_dua")),
       body: SafeArea(
         child: Consumer2<AppColorsProvider, DuaProvider>(
           builder: (context, appColors, duaProvider, child) {
@@ -20,30 +26,30 @@ class DuaPlayList extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(Icons.arrow_back_outlined),
-                      padding: EdgeInsets.only(
-                          left: 20.w,
-                          top: 13.41.h,
-                          bottom: 21.4.h,
-                          right: 20.w),
-                      alignment: Alignment.topLeft,
-                    ),
-                    // Text(
-                    //   duacategoryName,
-                    //   style: TextStyle(
-                    //     fontWeight: FontWeight.w700,
-                    //     fontSize: 17.sp,
-                    //     fontFamily: "satoshi",
-                    //   ),
-                    // ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     IconButton(
+                //       onPressed: () {
+                //         Navigator.of(context).pop();
+                //       },
+                //       icon: const Icon(Icons.arrow_back_outlined),
+                //       padding: EdgeInsets.only(
+                //           left: 20.w,
+                //           top: 13.41.h,
+                //           bottom: 21.4.h,
+                //           right: 20.w),
+                //       alignment: Alignment.topLeft,
+                //     ),
+                //     // Text(
+                //     //   duacategoryName,
+                //     //   style: TextStyle(
+                //     //     fontWeight: FontWeight.w700,
+                //     //     fontSize: 17.sp,
+                //     //     fontFamily: "satoshi",
+                //     //   ),
+                //     // ),
+                //   ],
+                // ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: duaProvider.duaList.length,

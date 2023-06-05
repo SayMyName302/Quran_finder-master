@@ -4,6 +4,7 @@ import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../pages/quran/pages/duas/dua_provider.dart';
+import '../../pages/quran/pages/duas/models/dua.dart';
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
 import '../providers/dua_audio_player_provider.dart';
 import '../routes/routes_helper.dart';
@@ -20,7 +21,9 @@ class DuaAudioPlayer extends StatelessWidget {
     DuaProvider duaProvider = Provider.of<DuaProvider>(context);
     Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
     int part1 = nextDuaData['index'];
+    Dua nextDua = nextDuaData['dua'];
     int part7 = duaProvider.duaList.length;
+    String duaTitle = nextDua.duaTitle.toString();
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -38,7 +41,7 @@ class DuaAudioPlayer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Allahu Akbar',
+                        duaTitle,
                         style: TextStyle(
                             fontFamily: 'satoshi',
                             fontWeight: FontWeight.w700,
@@ -53,7 +56,7 @@ class DuaAudioPlayer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '$part1  (Total $part7)',
+                        'Dua $part1  (Total $part7)',
                         style: TextStyle(
                             fontFamily: 'satoshi',
                             fontWeight: FontWeight.w500,

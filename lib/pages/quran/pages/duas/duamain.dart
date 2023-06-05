@@ -28,16 +28,13 @@ class DuaCategoriesMain extends StatelessWidget {
             Expanded(
                 child: TabBarView(
               children: [
-                Consumer2<QuranProvider, AppColorsProvider>(
-                    builder: (context, value, appColors, child) {
-                  return Column(
-                    children: const [
-                      Expanded(
-                        child: DuaCategoriesPage(),
-                      ),
-                    ],
-                  );
-                }),
+                Column(
+                  children: const [
+                    Expanded(
+                      child: DuaCategoriesPage(),
+                    ),
+                  ],
+                ),
                 const SizedBox(
                   height: 500,
                   width: 500,

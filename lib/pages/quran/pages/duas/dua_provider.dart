@@ -34,6 +34,7 @@ class DuaProvider extends ChangeNotifier {
     _selectedDua = _duaList[_currentduaIndex];
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);
+    notifyListeners();
   }
 
   void playNextDuaInCategory(BuildContext context) {

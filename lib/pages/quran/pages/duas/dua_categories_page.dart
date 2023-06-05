@@ -37,6 +37,7 @@ class DuaCategoriesPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         DuaCategory duaCategory =
                             duaValue.duaCategoryList[index];
+
                         return InkWell(
                           onTap: () async {
                             /// if recitation player is on So this line is used to pause the player
