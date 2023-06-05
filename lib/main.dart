@@ -5,6 +5,8 @@ import 'package:nour_al_quran/global.dart';
 import 'package:nour_al_quran/pages/basics_of_quran/provider/islam_basics_provider.dart';
 import 'package:nour_al_quran/pages/bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
+import 'package:nour_al_quran/pages/onesginalnotify/provider.dart';
+
 import 'package:nour_al_quran/pages/qaida/providers/audiolist_provider.dart';
 import 'package:nour_al_quran/pages/quran%20stories/quran_stories_provider.dart';
 import 'package:nour_al_quran/shared/providers/dua_audio_player_provider.dart';
@@ -82,6 +84,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => StoryAndBasicPlayerProvider()),
     ChangeNotifierProvider(create: (_) => MyStateProvider()),
     ChangeNotifierProvider(create: (_) => DuaPlayerProvider()),
+    ChangeNotifierProvider(create: (_) => OneSignalProvider()),
     StreamProvider<int>(
         create: (context) => NetworkProvider().streamController.stream,
         initialData: 0),
@@ -93,6 +96,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //onsignal notification code :
+    final oneSignalProvider = Provider.of<OneSignalProvider>(context);
+    // Initialize OneSignal
+    oneSignalProvider.initializeOneSignal();
     return ScreenUtilInit(
       designSize: Size(Dimensions.width, Dimensions.height),
       builder: (BuildContext context, Widget? child) {
