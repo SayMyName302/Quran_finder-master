@@ -34,32 +34,24 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
         Container(
             margin: EdgeInsets.only(bottom: 7.h),
             child: Text(widget.titleText,style: style14,)),
-        widget.isPasswordField! != true ? TextField(
+        TextFormField(
           controller: widget.controller,
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.only(left: 10.w),
             hintText: widget.hintText,
             hintStyle: style14,
-            suffixIcon: widget.isPasswordField! ? IconButton(
-              onPressed: (){},
-              icon: const Icon(Icons.visibility),
-            ) : const SizedBox.shrink(),
-            contentPadding: EdgeInsets.only(left: 10.w,right: 10.w),
-            focusedBorder: OutlineInputBorder(
+            border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(6.r),
                 borderSide: const BorderSide(color: AppColors.grey5)
             ),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: const BorderSide(color: AppColors.grey5)
-            ),
-          ),
-        ) : const SizedBox.shrink(),
-        widget.isPasswordField! ? TextField(
-          obscureText: isHide,
-          controller: widget.controller,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            hintStyle: style14,
+            // focusedBorder: OutlineInputBorder(
+            //     borderRadius: BorderRadius.circular(6.r),
+            //     borderSide: const BorderSide(color: AppColors.grey5)
+            // ),
+            // enabledBorder: OutlineInputBorder(
+            //     borderRadius: BorderRadius.circular(6.r),
+            //     borderSide: const BorderSide(color: AppColors.grey5)
+            // ),
             suffixIcon: widget.isPasswordField! ? IconButton(
               onPressed: (){
                 setState(() {
@@ -68,18 +60,91 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
               },
               icon: Icon(isHide ? Icons.visibility_off : Icons.visibility),
             ) : const SizedBox.shrink(),
-            contentPadding: EdgeInsets.only(left: 10.w,right: 10.w),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: const BorderSide(color: AppColors.grey5)
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: const BorderSide(color: AppColors.grey5)
-            ),
           ),
-        ) : const SizedBox.shrink()
+          obscureText: widget.isPasswordField! ? isHide : false,
+          validator: (value){
+            if(widget.isPasswordField!){
+              return validatePassword();
+            }if(!widget.isPasswordField!){
+              return validateEmail();
+            }else{
+              return null;
+            }
+
+          },
+        ),
+
+        // widget.isPasswordField! != true ? TextFormField(
+        //   controller: widget.controller,
+        //   decoration: InputDecoration(
+        //     hintText: widget.hintText,
+        //     hintStyle: style14,
+        //     suffixIcon: widget.isPasswordField! ? IconButton(
+        //       onPressed: (){},
+        //       icon: const Icon(Icons.visibility),
+        //     ) : const SizedBox.shrink(),
+        //     contentPadding: EdgeInsets.only(left: 10.w,right: 10.w),
+        //     focusedBorder: OutlineInputBorder(
+        //         borderRadius: BorderRadius.circular(6.r),
+        //         borderSide: const BorderSide(color: AppColors.grey5)
+        //     ),
+        //     enabledBorder: OutlineInputBorder(
+        //         borderRadius: BorderRadius.circular(6.r),
+        //         borderSide: const BorderSide(color: AppColors.grey5)
+        //     ),
+        //   ),
+        // ) : const SizedBox.shrink(),
+        // widget.isPasswordField! ? TextFormField(
+        //   obscureText: isHide,
+        //   controller: widget.controller,
+        //   decoration: InputDecoration(
+        //     hintText: widget.hintText,
+        //     hintStyle: style14,
+        //     suffixIcon: widget.isPasswordField! ? IconButton(
+        //       onPressed: (){
+        //         setState(() {
+        //           isHide = !isHide;
+        //         });
+        //       },
+        //       icon: Icon(isHide ? Icons.visibility_off : Icons.visibility),
+        //     ) : const SizedBox.shrink(),
+        //     contentPadding: EdgeInsets.only(left: 10.w,right: 10.w),
+        //     focusedBorder: OutlineInputBorder(
+        //         borderRadius: BorderRadius.circular(6.r),
+        //         borderSide: const BorderSide(color: AppColors.grey5)
+        //     ),
+        //     enabledBorder: OutlineInputBorder(
+        //         borderRadius: BorderRadius.circular(6.r),
+        //         borderSide: const BorderSide(color: AppColors.grey5)
+        //     ),
+        //   ),
+        // ) : const SizedBox.shrink()
       ],
     );
+  }
+
+
+  validateEmail(){
+    final bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(widget.controller.text);
+    if(widget.controller.text.isEmpty){
+      return "Required";
+    }else if(!emailValid){
+      return "Not a Valid Email";
+    }else{
+      return null;
+    }
+  }
+
+  validatePassword(){
+    RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    if(widget.controller.text.isEmpty){
+      return "Required";
+    }else if(widget.controller.text.length < 8){
+      return "8 character Required";
+    }else if(!regex.hasMatch(widget.controller.text)){
+      return "Password Should Contain uppercase, lowercase , digit ,  special character";
+    }else{
+      return null;
+    }
   }
 }

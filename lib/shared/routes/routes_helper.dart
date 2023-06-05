@@ -11,8 +11,6 @@ import 'package:nour_al_quran/pages/more/pages/tasbeeh/pages/tasbeeh_page.dart';
 import 'package:nour_al_quran/pages/onboarding/pages/index.dart';
 import 'package:nour_al_quran/pages/paywall/paywallpage2.dart';
 import 'package:nour_al_quran/pages/paywall/upgrade_to_premimum.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/dua_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/duamain.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/view_all/view_all.dart';
@@ -28,15 +26,18 @@ import 'package:nour_al_quran/pages/settings/pages/report_an_issue/report_issue_
 import 'package:nour_al_quran/pages/settings/pages/subscriptions/manage_subscription_page.dart';
 import 'package:nour_al_quran/pages/settings/pages/subscriptions/upgrade_to_premium_page.dart';
 import 'package:nour_al_quran/pages/settings/pages/terms_of_service/terms_of_services_page.dart';
+import 'package:nour_al_quran/pages/sign_in/pages/forgot_password_screen.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sign_up_page.dart';
 //import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import '../../pages/basics_of_quran/pages/basics_content_page.dart';
 import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';
 import '../../pages/bottom_tabs/pages/bottom_tab_page.dart';
+import '../../pages/duas/dua_detailed.dart';
+import '../../pages/duas/dua_page.dart';
+import '../../pages/duas/duamain.dart';
+import '../../pages/duas/widgets/dua_player_list.dart';
 import '../../pages/quran stories/pages/story_content_page.dart';
-import '../../pages/quran/pages/duas/dua_detailed.dart';
-import '../../pages/quran/pages/duas/widgets/dua_player_list.dart';
 import '../utills/app_constants.dart';
 import '../widgets/story_n_basics_player.dart';
 import '../../pages/miracles_of_quran/pages/miracle_content_page.dart';
@@ -101,6 +102,7 @@ class RouteHelper {
   static const String duaMain = "/duaMain";
   static const String duaDetailed = "/duaDetailed";
   static const String duaPlayList = "/duaPlayList";
+  static const String forgetPassword = "/forgetPassword";
 
   // static late BuildContext currentContext;
 
@@ -111,9 +113,10 @@ class RouteHelper {
         String onBoardingDone =
             Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
         currentContext = context;
-        return onBoardingDone == "done"
-            ? const BottomTabsPage()
-            : const SetPreferredLanguage();
+        return const SetPreferredLanguage();
+        // return onBoardingDone == "done"
+        //     ? const BottomTabsPage()
+        //     : const SetPreferredLanguage();
       },
       achieveWithQuran: (context) {
         currentContext = context;
@@ -352,6 +355,10 @@ class RouteHelper {
       myState: (context) {
         currentContext = context;
         return const MyStatePage();
+      },
+      forgetPassword: (context){
+        currentContext = context;
+        return const ForgotPasswordPage();
       }
     };
   }

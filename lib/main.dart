@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/global.dart';
 import 'package:nour_al_quran/pages/basics_of_quran/provider/islam_basics_provider.dart';
 import 'package:nour_al_quran/pages/bottom_tabs/provider/bottom_tabs_page_provider.dart';
+import 'package:nour_al_quran/pages/duas/dua_provider.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
 import 'package:nour_al_quran/pages/onesginalnotify/provider.dart';
 
@@ -19,7 +20,6 @@ import 'package:nour_al_quran/pages/more/pages/step_by_step_salah/salah_steps_pr
 import 'package:nour_al_quran/pages/more/pages/tasbeeh/provider/tasbeeh_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmarks_provider.dart';
-import 'package:nour_al_quran/pages/quran/pages/duas/dua_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/juz/juz_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
@@ -32,7 +32,7 @@ import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/my_state/my_state_provider_updated.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/translation_manager/translation_manager_provider.dart';
-import 'package:nour_al_quran/pages/sign_in/sign_in_provider.dart';
+import 'package:nour_al_quran/pages/sign_in/provider/sign_in_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_demo.dart';

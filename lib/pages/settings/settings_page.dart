@@ -10,7 +10,7 @@ import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart
 import 'package:nour_al_quran/pages/settings/pages/translation_manager/translations_manager_page.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_bottom_sheet.dart';
 import 'package:nour_al_quran/pages/settings/widgets/setting_options.dart';
-import 'package:nour_al_quran/pages/sign_in/sign_in_provider.dart';
+import 'package:nour_al_quran/pages/sign_in/provider/sign_in_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:provider/provider.dart';

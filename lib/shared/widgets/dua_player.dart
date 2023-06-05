@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
+<<<<<<< HEAD
 
 import '../../pages/quran/pages/duas/dua_provider.dart';
+import '../../pages/quran/pages/duas/models/dua.dart';
+=======
+import '../../pages/duas/dua_provider.dart';
+>>>>>>> dfc4eb6ceb9c7b5350826d424d7fb0b57cc4a3c8
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
 import '../providers/dua_audio_player_provider.dart';
 import '../routes/routes_helper.dart';
@@ -17,14 +22,12 @@ class DuaAudioPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> data = Provider.of<DuaProvider>(context).duaData;
-    String part1 = data[0];
-    // String part2 = data[1];
-    // String part3 = data[2];
-    // String part4 = data[3];
-    // String part5 = data[4];
-    // String part6 = data[5];
-    String part7 = data[6];
+    DuaProvider duaProvider = Provider.of<DuaProvider>(context);
+    Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
+    int part1 = nextDuaData['index'];
+    Dua nextDua = nextDuaData['dua'];
+    int part7 = duaProvider.duaList.length;
+    String duaTitle = nextDua.duaTitle.toString();
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -42,7 +45,7 @@ class DuaAudioPlayer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Allahu Akbar',
+                        duaTitle,
                         style: TextStyle(
                             fontFamily: 'satoshi',
                             fontWeight: FontWeight.w700,
@@ -57,7 +60,7 @@ class DuaAudioPlayer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '$part1  (Total $part7)',
+                        'Dua $part1  (Total $part7)',
                         style: TextStyle(
                             fontFamily: 'satoshi',
                             fontWeight: FontWeight.w500,

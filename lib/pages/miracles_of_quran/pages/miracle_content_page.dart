@@ -4,6 +4,7 @@ import 'package:nour_al_quran/pages/miracles_of_quran/widgets/video_player_conta
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/widgets/app_bar.dart';
+import '../../settings/pages/notifications/notification_services.dart';
 import '../models/miracles.dart';
 import '../provider/miracles_of_quran_provider.dart';
 
@@ -19,6 +20,7 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
   @override
   void initState() {
     super.initState();
+    NotificationServices().showNotification();
     Provider.of<MiraclesOfQuranProvider>(context,listen: false).initVideoPlayer();
   }
 

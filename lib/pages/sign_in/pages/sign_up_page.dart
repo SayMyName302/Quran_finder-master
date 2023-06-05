@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
-import 'package:nour_al_quran/pages/sign_in/sign_in_provider.dart';
+import 'package:nour_al_quran/pages/sign_in/provider/sign_in_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';

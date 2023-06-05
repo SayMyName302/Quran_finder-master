@@ -47,7 +47,7 @@ class DuaPlayerProvider extends ChangeNotifier {
     _audioPlayer = AudioPlayer();
     try {
       await _audioPlayer!.setUrl(url);
-      print('Audio player URL set: $url');
+      // print('Audio player URL set: $url');
     } on PlatformException catch (e) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
