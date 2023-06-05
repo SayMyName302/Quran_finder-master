@@ -4,12 +4,10 @@ import 'package:provider/provider.dart';
 
 import '../../../../../shared/localization/localization_constants.dart';
 import '../../../../../shared/utills/app_colors.dart';
-<<<<<<< HEAD:lib/pages/quran/pages/duas/widgets/dua_player_list.dart
+
 import '../../../../../shared/widgets/app_bar.dart';
-import '../../../../settings/pages/app_colors/app_colors_provider.dart';
-=======
-import '../../settings/pages/app_colors/app_colors_provider.dart';
->>>>>>> dfc4eb6ceb9c7b5350826d424d7fb0b57cc4a3c8:lib/pages/duas/widgets/dua_player_list.dart
+import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+
 import '../dua_provider.dart';
 import '../models/dua.dart';
 
