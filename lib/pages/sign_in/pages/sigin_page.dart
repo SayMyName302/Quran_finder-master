@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/global.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/sign_in/provider/sign_in_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -59,9 +58,8 @@ class _SignInPageState extends State<SignInPage> {
                         fontWeight: FontWeight.w900),
                   ),
                 ),
-
                 Form(
-                  key: formKey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -83,8 +81,9 @@ class _SignInPageState extends State<SignInPage> {
                         Container(
                             margin: EdgeInsets.only(top: 13.h, bottom: 20.h),
                             child: TextButton(
-                              onPressed: (){
-                                Navigator.of(context).pushNamed(RouteHelper.forgetPassword);
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(RouteHelper.forgetPassword);
                               },
                               child: Text(
                                 localeText(context, "forgot_password"),
@@ -98,13 +97,15 @@ class _SignInPageState extends State<SignInPage> {
                         BrandButton(
                             text: localeText(context, "login"),
                             onTap: () {
-                              if(formKey.currentState!.validate()){
-                                Provider.of<SignInProvider>(context, listen: false).signInWithEmailPassword(email.text, password.text, context);
+                              if (formKey.currentState!.validate()) {
+                                Provider.of<SignInProvider>(context,
+                                        listen: false)
+                                    .signInWithEmailPassword(
+                                        email.text, password.text, context);
                               }
                             }),
                       ],
-                    )
-                ),
+                    )),
                 Container(
                     margin: EdgeInsets.only(top: 16.h),
                     width: double.maxFinite,
@@ -119,11 +120,11 @@ class _SignInPageState extends State<SignInPage> {
                 Container(
                   margin: EdgeInsets.only(top: 16.h, bottom: 30.h),
                   child: Row(children: [
-                    _buildThirdPartyLoginContainers('facebook', () {
-                      context
-                          .read<SignInProvider>()
-                          .signInWithFaceBook(context);
-                    }),
+                    // _buildThirdPartyLoginContainers('facebook', () {
+                    //   context
+                    //       .read<SignInProvider>()
+                    //       .signInWithFaceBook(context);
+                    // }),
                     _buildThirdPartyLoginContainers('google', () async {
                       context.read<SignInProvider>().signInWithGoogle(context);
                     }),

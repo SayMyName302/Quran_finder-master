@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
@@ -152,8 +151,8 @@ class AudioPlayerPage extends StatelessWidget {
                             builder: (context, isLoopMore, child) {
                               return Image.asset(
                                 'assets/images/app_icons/repeat.png',
-                                height: 18.h,
-                                width: 18.w,
+                                height: 30.h,
+                                width: 30.w,
                                 color: isLoopMore
                                     ? appColor.mainBrandingColor
                                     : Theme.of(context).brightness ==
@@ -172,8 +171,8 @@ class AudioPlayerPage extends StatelessWidget {
                           },
                           icon: Image.asset(
                             'assets/images/app_icons/previous.png',
-                            height: 18.h,
-                            width: 15.w,
+                            height: 30.h,
+                            width: 30.w,
                             color: them.isDark ? Colors.white : Colors.black,
                           ),
                           padding: EdgeInsets.zero,
@@ -220,8 +219,8 @@ class AudioPlayerPage extends StatelessWidget {
                           },
                           icon: Image.asset(
                             'assets/images/app_icons/next.png',
-                            height: 18.h,
-                            width: 15.w,
+                            height: 30.h,
+                            width: 30.w,
                             color: them.isDark ? Colors.white : Colors.black,
                           ),
                           padding: EdgeInsets.zero,
@@ -233,8 +232,8 @@ class AudioPlayerPage extends StatelessWidget {
                           },
                           icon: Image.asset(
                             'assets/images/app_icons/list.png',
-                            height: 15.h,
-                            width: 18.75.w,
+                            height: 30.h,
+                            width: 30.w,
                             color: them.isDark ? Colors.white : Colors.black,
                           ),
                           padding: EdgeInsets.zero,

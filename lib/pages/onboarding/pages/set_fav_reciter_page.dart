@@ -77,8 +77,6 @@ class SetFavReciter extends StatelessWidget {
                             reciterId!, 1); // Set the value to 1 for true
                       }
 
-                      print('nichy hain reciter id');
-                      print(selectedReciterIds);
                       // Navigator.of(context).pushNamed(RouteHelper.quranReminder);
                       Navigator.of(context)
                           .pushNamed(RouteHelper.notificationSetup);

@@ -5,9 +5,8 @@ import 'package:provider/provider.dart';
 import '../../../../../shared/localization/localization_constants.dart';
 import '../../../../../shared/utills/app_colors.dart';
 import '../../../../../shared/widgets/app_bar.dart';
-//import '../../../../settings/pages/app_colors/app_colors_provider.dart';
+import '../../quran/pages/duas/dua_provider.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
-import '../dua_provider.dart';
 import '../models/dua.dart';
 
 class DuaPlayList extends StatelessWidget {

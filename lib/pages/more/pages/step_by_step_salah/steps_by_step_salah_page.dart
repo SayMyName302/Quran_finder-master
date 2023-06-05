@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/more/pages/step_by_step_salah/salah_steps.dart';
 import 'package:nour_al_quran/pages/more/pages/step_by_step_salah/salah_steps_provider.dart';
 //import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/utills/app_colors.dart';
@@ -17,6 +16,7 @@ class StepByStepSalahPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FontProvider fontProvider = Provider.of<FontProvider>(context);
     return Scaffold(
       appBar: buildAppBar(context: context, title: "Salah Steps"),
       body: Consumer2<SalahStepsProvider, AppColorsProvider>(
@@ -48,13 +48,14 @@ class StepByStepSalahPage extends StatelessWidget {
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'satoshi',
                                   color: appColors.mainBrandingColor,
-                                  fontSize: 16.sp)),
+                                  fontSize:
+                                      fontProvider.fontSizeTranslation.sp)),
                         ),
                         Text(salahSteps.title!,
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'satoshi',
-                                fontSize: 14.sp))
+                                fontSize: fontProvider.fontSizeTranslation.sp))
                       ],
                     ),
                     Container(
@@ -65,7 +66,7 @@ class StepByStepSalahPage extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontFamily: 'satoshi',
-                            fontSize: 10.sp),
+                            fontSize: fontProvider.fontSizeTranslation.sp),
                       ),
                     )
                   ],
