@@ -15,6 +15,8 @@ import 'package:path/path.dart';
 
 import '../../pages/duas/models/dua.dart';
 import '../../pages/duas/models/dua_category.dart';
+import '../../pages/quran/pages/ruqyah/models/ruqyah.dart';
+import '../../pages/quran/pages/ruqyah/models/ruqyah_category.dart';
 
 class QuranDatabase {
   Database? database;
@@ -25,7 +27,36 @@ class QuranDatabase {
   final String _reciterTable = "reciters";
 
   final String _juzListTable = "juz_list";
-  final String _bookmarkNameTable = "BookMarksList";
+  //final String _bookmarkNameTable = "BookMarksList";
+
+  final String _rduaAllTable = "al_ruqyah_all";
+  final String _rduaCatergoryTable = "ruqyah_category";
+
+  // to load all Ruqyah duas category names
+  Future<List<Ruqyah>> getRDua(int categoryId) async {
+    database = await openDb();
+    var duaList = <Ruqyah>[];
+    var cursor = await database!.query(_rduaAllTable,
+        where: "category_id = ?", whereArgs: [categoryId]);
+    for (var maps in cursor) {
+      var dua = Ruqyah.fromJson(maps);
+      duaList.add(dua);
+    }
+    return duaList;
+  }
+
+  // to load all duas category names
+  Future<List<RuqyahCategory>> getRDuaCategories() async {
+    // await initDb();
+    database = await openDb();
+    var duaCategoryList = <RuqyahCategory>[];
+    var cursor = await database!.query(_rduaCatergoryTable);
+    for (var maps in cursor) {
+      var duaCategory = RuqyahCategory.fromJson(maps);
+      duaCategoryList.add(duaCategory);
+    }
+    return duaCategoryList;
+  }
 
   // initDb() async {
   //   database = await openDatabase('assets/fullquran.db');

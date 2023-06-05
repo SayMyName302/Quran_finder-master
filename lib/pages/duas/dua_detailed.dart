@@ -25,8 +25,8 @@ class DuaDetail extends StatelessWidget {
     String duaTitle = nextDua.duaTitle.toString();
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
-    List<String> sentences = duaText.split('.');
-    int sentenceCount = sentences.length;
+
+    String duaCount = nextDua.ayahCount.toString();
     String duaTranslation = nextDua.translations.toString();
 
     return WillPopScope(
@@ -135,7 +135,7 @@ class DuaDetail extends StatelessWidget {
                                             height: 21.h,
                                             alignment: Alignment.center,
                                             child: Text(
-                                              sentenceCount.toString(),
+                                              duaCount.toString(),
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                 fontSize: 11,

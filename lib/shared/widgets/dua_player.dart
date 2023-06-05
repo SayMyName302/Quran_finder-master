@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
-<<<<<<< HEAD
-
-import '../../pages/quran/pages/duas/dua_provider.dart';
-import '../../pages/quran/pages/duas/models/dua.dart';
-=======
+import '../../pages/duas/models/dua.dart';
+//import '../../pages/quran/pages/duas/dua_provider.dart';
 import '../../pages/duas/dua_provider.dart';
->>>>>>> dfc4eb6ceb9c7b5350826d424d7fb0b57cc4a3c8
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
 import '../providers/dua_audio_player_provider.dart';
 import '../routes/routes_helper.dart';
 import '../utills/app_colors.dart';
-import 'circle_button.dart';
+import '../widgets/circle_button.dart';
 
 class DuaAudioPlayer extends StatelessWidget {
   const DuaAudioPlayer({

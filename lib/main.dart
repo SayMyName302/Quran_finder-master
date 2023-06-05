@@ -8,6 +8,7 @@ import 'package:nour_al_quran/pages/duas/dua_provider.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
 import 'package:nour_al_quran/pages/qaida/providers/audiolist_provider.dart';
 import 'package:nour_al_quran/pages/quran%20stories/quran_stories_provider.dart';
+import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah_provider.dart';
 import 'package:nour_al_quran/shared/providers/dua_audio_player_provider.dart';
 import 'package:nour_al_quran/shared/providers/story_n_basics_audio_player_provider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
@@ -66,6 +67,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => SurahProvider()),
     ChangeNotifierProvider(create: (_) => JuzProvider()),
     ChangeNotifierProvider(create: (_) => DuaProvider()),
+    ChangeNotifierProvider(create: (_) => RuqyahProvider()),
     ChangeNotifierProvider(create: (_) => RecitationProvider()),
     ChangeNotifierProvider(create: (_) => HomeProvider()),
     ChangeNotifierProvider(create: (_) => OnBoardingProvider()),

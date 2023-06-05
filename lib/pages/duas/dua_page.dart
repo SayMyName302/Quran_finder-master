@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
-// import 'package:nour_al_quran/shared/widgets/dua_container.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
-// import 'package:intl/intl.dart';
-
-// import '../../../../shared/widgets/circle_button.dart';
 import '../../../../shared/routes/routes_helper.dart';
 import 'dua_provider.dart';
 import 'models/dua.dart';
-// import 'models/dua_category.dart';
 
 class DuaPage extends StatelessWidget {
   const DuaPage({
@@ -24,8 +19,6 @@ class DuaPage extends StatelessWidget {
     String title = arguments[0];
     String imageUrl = arguments[1];
     String collectionOfDua = arguments[2];
-    int duaCategoryID = arguments[3];
-    // print("category id after nav from gridview: $duaCategoryID ");
 
     //Split Collection
     List<String> splitText = collectionOfDua.split(' ');
@@ -116,26 +109,13 @@ class DuaPage extends StatelessWidget {
                     itemCount: duaProvider.duaList.length,
                     itemBuilder: (context, index) {
                       Dua dua = duaProvider.duaList[index];
-                      String duaText = dua.duaText.toString();
-                      List<String> sentences = duaText.split('.');
-                      int sentenceCount = sentences.length;
-                      String duaTranslation =
-                          duaProvider.duaList[index].translations.toString();
-                      int totalLength = duaProvider.duaList.length;
+                      duaProvider.duaList[index].translations.toString();
+                      String duaCount = dua.ayahCount.toString();
 
                       return InkWell(
                         onTap: () {
                           Navigator.of(context).pushNamed(
                             RouteHelper.duaDetailed,
-                            arguments: {
-                              'index': "Dua ${index + 1}",
-                              'duaTitle': dua.duaTitle.toString(),
-                              'duaRef': dua.duaRef.toString(),
-                              'duaText': duaText,
-                              'sentenceCount': sentenceCount.toString(),
-                              'duaTranslation': duaTranslation,
-                              'totallength': totalLength.toString(),
-                            },
                           );
                           duaProvider.gotoDuaPlayerPage(dua.id!, context);
                         },
@@ -176,7 +156,7 @@ class DuaPage extends StatelessWidget {
                                               height: 25,
                                               alignment: Alignment.center,
                                               child: Text(
-                                                "Dua ${index + 1}",
+                                                "${index + 1}",
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                   fontSize: 11,
@@ -235,7 +215,7 @@ class DuaPage extends StatelessWidget {
                                               height: 21.h,
                                               alignment: Alignment.center,
                                               child: Text(
-                                                "$sentenceCount",
+                                                duaCount,
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                   fontSize: 11,

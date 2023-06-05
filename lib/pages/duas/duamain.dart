@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/widgets/app_bar.dart';
-import '../quran/providers/quran_provider.dart';
+//import '../quran/providers/quran_provider.dart';
+import '../quran/pages/ruqyah/ruqyah_categories_page.dart';
 import '../settings/pages/app_colors/app_colors_provider.dart';
 import 'dua_categories_page.dart';
 
@@ -35,9 +36,12 @@ class DuaCategoriesMain extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 500,
-                  width: 500,
+                Column(
+                  children: const [
+                    Expanded(
+                      child: RuqyahCategoriesPage(),
+                    ),
+                  ],
                 ),
               ],
             )),

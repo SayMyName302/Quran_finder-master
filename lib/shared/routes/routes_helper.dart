@@ -38,6 +38,9 @@ import '../../pages/duas/dua_page.dart';
 import '../../pages/duas/duamain.dart';
 import '../../pages/duas/widgets/dua_player_list.dart';
 import '../../pages/quran stories/pages/story_content_page.dart';
+import '../../pages/quran/pages/ruqyah/ruqyah_detailed.dart';
+import '../../pages/quran/pages/ruqyah/ruqyah_page.dart';
+import '../../pages/quran/pages/ruqyah/ruqyah_play_list.dart';
 import '../utills/app_constants.dart';
 import '../widgets/story_n_basics_player.dart';
 import '../../pages/miracles_of_quran/pages/miracle_content_page.dart';
@@ -103,6 +106,9 @@ class RouteHelper {
   static const String duaDetailed = "/duaDetailed";
   static const String duaPlayList = "/duaPlayList";
   static const String forgetPassword = "/forgetPassword";
+  static const String ruqyah = "/ruqyah";
+  static const String ruqyahDetailed = "/ruqyahDetailed";
+  static const String ruqyahPlayList = "/ruqyahPlayList";
 
   // static late BuildContext currentContext;
 
@@ -139,9 +145,17 @@ class RouteHelper {
         currentContext = context;
         return const DuaDetail();
       },
+      ruqyahDetailed: (context) {
+        currentContext = context;
+        return const RuqyahDetail();
+      },
       duaPlayList: (context) {
         currentContext = context;
         return const DuaPlayList();
+      },
+      ruqyahPlayList: (context) {
+        currentContext = context;
+        return const RuqyahPlayList();
       },
       paywallscreen: (context) {
         final paywallVisibilityFuture = () async {
@@ -244,6 +258,11 @@ class RouteHelper {
         currentContext = context;
         return const DuaPage();
       },
+      ruqyah: (context) {
+        currentContext = context;
+        return const RuqyahPage();
+      },
+
       shahada: (context) {
         currentContext = context;
         return const ShahadahPage();
@@ -356,7 +375,7 @@ class RouteHelper {
         currentContext = context;
         return const MyStatePage();
       },
-      forgetPassword: (context){
+      forgetPassword: (context) {
         currentContext = context;
         return const ForgotPasswordPage();
       }
