@@ -14,6 +14,8 @@ class DuaPlayerProvider extends ChangeNotifier {
   bool isLoading = true;
   double _speed = 1.0;
   Duration? _lastPosition;
+  bool _isLoopMode = false;
+  bool get isLoopMode => _isLoopMode;
 
   double get speed => _speed;
   Duration get duration => _duration;
@@ -155,6 +157,11 @@ class DuaPlayerProvider extends ChangeNotifier {
 
   void seek(Duration position) {
     _dragValue = position.inSeconds.toDouble();
+    notifyListeners();
+  }
+
+  void setLoopMode(bool value) {
+    _isLoopMode = value;
     notifyListeners();
   }
 

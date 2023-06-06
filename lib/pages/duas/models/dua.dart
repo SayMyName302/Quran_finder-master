@@ -9,6 +9,7 @@ class Dua {
   String? _translations;
   String? _contentUrl;
   int? _ayahCount;
+  int? _isFav;
 
   int? get id => _id;
   String? get translations => _translations;
@@ -17,6 +18,7 @@ class Dua {
   String? get duaTitle => _duatitle;
   String? get duaUrl => _contentUrl;
   int? get ayahCount => _ayahCount;
+  int? get isFav => _isFav;
 
   Dua({
     required id,
@@ -26,6 +28,7 @@ class Dua {
     required duaTitle,
     required duaUrl,
     required ayahCount,
+    required isFav,
   }) {
     _id = id;
     _duaText = duaText;
@@ -34,6 +37,7 @@ class Dua {
     _duatitle = duaTitle;
     _contentUrl = duaUrl;
     _ayahCount = ayahCount;
+    _isFav = isFav;
   }
 
   Dua.fromJson(Map<String, dynamic> json) {
@@ -45,10 +49,24 @@ class Dua {
         Hive.box(appBoxKey).get(duaTranslationKey) ?? 'translation_english'];
     _contentUrl = json['content_url'];
     _ayahCount = json['ayah_count'];
+    _isFav = json['is_fav'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'dua_id': _id,
+      'dua_text': _duaText,
+      'dua_title': _duatitle,
+      'dua_ref': _duaRef,
+      'translations': _translations,
+      'content_url': _contentUrl,
+      'ayah_count': _ayahCount,
+      'is_fav': _isFav,
+    };
   }
 
   @override
   String toString() {
-    return 'Dua: duaId=$id,duaTitle=$duaTitle, duaText=$duaText, translations=$translations, duaRef=$duaRef, totalAyaat=$ayahCount';
+    return 'Dua: duaId=$id,duaTitle=$duaTitle, duaText=$duaText, translations=$translations, duaRef=$duaRef, totalAyaat=$ayahCount, isFAV ? $isFav';
   }
 }

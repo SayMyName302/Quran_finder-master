@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
 import '../../pages/duas/models/dua.dart';
@@ -24,6 +25,9 @@ class DuaAudioPlayer extends StatelessWidget {
     int part7 = duaProvider.duaList.length;
     String duaTitle = nextDua.duaTitle.toString();
 
+    final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
+    // ignore: unused_local_variable
+    bool isLoopMore = false;
     return Column(
       mainAxisSize: MainAxisSize.max,
       //mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -106,43 +110,70 @@ class DuaAudioPlayer extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      // SizedBox(
-                      //   width: 15.h,
+                      // IconButton(
+                      //   onPressed: () {
+                      //     Navigator.of(context).pushNamed(
+                      //       RouteHelper.duaPlayList,
+                      //     );
+                      //   },
+                      //   icon: Image.asset(
+                      //     'assets/images/app_icons/list.png',
+                      //     height: 30.h,
+                      //     width: 30.w,
+                      //     color: them.isDark ? Colors.white : Colors.black,
+                      //   ),
+                      //   padding: EdgeInsets.zero,
+                      //   alignment: Alignment.center,
                       // ),
                       IconButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed(
-                            RouteHelper.duaPlayList,
-                            // arguments: [
-                            //   // categoryId,
-                            //   // categoryName,
-                            // ],
-                          );
+                          if (!isLoopMoreNotifier.value) {
+                            isLoopMoreNotifier.value = true;
+                            player.audioPlayer.setLoopMode(LoopMode.one);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content:
+                                    Text('Loop More On For ${'Dua $part1'}')));
+                          } else {
+                            isLoopMoreNotifier.value = false;
+                            player.audioPlayer.setLoopMode(LoopMode.off);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content:
+                                    Text('Loop More Off For ${'Dua $part1'}')));
+                          }
                         },
-                        icon: Image.asset(
-                          'assets/images/app_icons/list.png',
-                          height: 18.h,
-                          width: 18.w,
-                          color: them.isDark ? Colors.white : Colors.black,
+                        icon: ValueListenableBuilder<bool>(
+                          valueListenable: isLoopMoreNotifier,
+                          builder: (context, isLoopMore, child) {
+                            return Image.asset(
+                              'assets/images/app_icons/repeat.png',
+                              height: 30.h,
+                              width: 30.w,
+                              color: isLoopMore
+                                  ? appColor.mainBrandingColor
+                                  : Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black,
+                            );
+                          },
                         ),
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
                       const Spacer(),
-                      CircleButton(
-                        height: 37.h,
-                        width: 37.h,
-                        icon: InkWell(
-                          onTap: () {
-                            Provider.of<DuaProvider>(context, listen: false)
-                                .playPreviousDuaInCategory(context);
-                          },
-                          child: Icon(
-                            Icons.skip_previous,
-                            size: 30.h,
-                            color: Colors.white,
-                          ),
+                      IconButton(
+                        onPressed: () async {
+                          Provider.of<DuaProvider>(context, listen: false)
+                              .playPreviousDuaInCategory(context);
+                        },
+                        icon: Image.asset(
+                          'assets/images/app_icons/previous.png',
+                          height: 30.h,
+                          width: 30.w,
+                          color: them.isDark ? Colors.white : Colors.black,
                         ),
+                        padding: EdgeInsets.zero,
+                        alignment: Alignment.center,
                       ),
                       SizedBox(
                         width: 20.h,
@@ -183,49 +214,64 @@ class DuaAudioPlayer extends StatelessWidget {
                       SizedBox(
                         width: 20.h,
                       ),
-                      CircleButton(
-                        height: 37.h,
-                        width: 37.h,
-                        icon: InkWell(
-                          onTap: () {
-                            Provider.of<DuaProvider>(context, listen: false)
-                                .playNextDuaInCategory(context);
-                          },
-                          child: Icon(
-                            Icons.skip_next,
-                            size: 30.h,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
                       IconButton(
                         onPressed: () async {
-                          player.setSpeed();
+                          Provider.of<DuaProvider>(context, listen: false)
+                              .playNextDuaInCategory(context);
                         },
-                        icon: Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/app_icons/speed.png',
-                              height: 15.h,
-                              width: 18.75.w,
-                              color: them.isDark ? Colors.white : Colors.black,
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Text(
-                              "${player.speed}x",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: 'satoshi',
-                                  fontSize: 12.sp),
-                            )
-                          ],
+                        icon: Image.asset(
+                          'assets/images/app_icons/next.png',
+                          height: 30.h,
+                          width: 30.w,
+                          color: them.isDark ? Colors.white : Colors.black,
                         ),
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            RouteHelper.duaPlayList,
+                          );
+                        },
+                        icon: Image.asset(
+                          'assets/images/app_icons/list.png',
+                          height: 30.h,
+                          width: 30.w,
+                          color: them.isDark ? Colors.white : Colors.black,
+                        ),
+                        padding: EdgeInsets.zero,
+                        alignment: Alignment.center,
+                      ),
+                      // IconButton(
+                      //   onPressed: () async {
+                      //     player.setSpeed();
+                      //   },
+                      //   icon: Row(
+                      //     children: [
+                      //       Image.asset(
+                      //         'assets/images/app_icons/speed.png',
+                      //         height: 15.h,
+                      //         width: 18.75.w,
+                      //         color: them.isDark ? Colors.white : Colors.black,
+                      //       ),
+                      //       SizedBox(
+                      //         width: 5.w,
+                      //       ),
+                      //       Text(
+                      //         "${player.speed}x",
+                      //         style: TextStyle(
+                      //             fontWeight: FontWeight.w700,
+                      //             fontFamily: 'satoshi',
+                      //             fontSize: 12.sp),
+                      //       )
+                      //     ],
+                      //   ),
+                      //   padding: EdgeInsets.zero,
+                      //   alignment: Alignment.center,
+                      // ),
+
                       // SizedBox(
                       //   width: 15.h,
                       // ),

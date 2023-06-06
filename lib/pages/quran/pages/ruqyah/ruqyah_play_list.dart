@@ -74,7 +74,7 @@ class RuqyahPlayList extends StatelessWidget {
                                                   height: 25,
                                                   alignment: Alignment.center,
                                                   child: Text(
-                                                    "Dua ${duacategoryID + 1}",
+                                                    "${duacategoryID + 1}",
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                       fontSize: 11,
