@@ -111,7 +111,7 @@ class RouteHelper {
   static const String ruqyahPlayList = "/ruqyahPlayList";
 
   // static late BuildContext currentContext;
-
+  static bool isLoggedIn = false;
   static Map<String, Widget Function(BuildContext)> routes(
       BuildContext context) {
     return {
@@ -119,10 +119,14 @@ class RouteHelper {
         String onBoardingDone =
             Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
         currentContext = context;
-        return const SetPreferredLanguage();
-        // return onBoardingDone == "done"
-        //     ? const BottomTabsPage()
-        //     : const SetPreferredLanguage();
+
+        if (isLoggedIn) {
+          return const BottomTabsPage();
+        } else if (onBoardingDone == "done") {
+          return const SignInPage();
+        } else {
+          return const SetPreferredLanguage();
+        }
       },
       achieveWithQuran: (context) {
         currentContext = context;
