@@ -119,14 +119,10 @@ class RouteHelper {
         String onBoardingDone =
             Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
         currentContext = context;
-
-        if (isLoggedIn) {
-          return const BottomTabsPage();
-        } else if (onBoardingDone == "done") {
-          return const SignInPage();
-        } else {
-          return const SetPreferredLanguage();
-        }
+        return const SetPreferredLanguage();
+        // return onBoardingDone == "done"
+        //     ? const BottomTabsPage()
+        //     : const SetPreferredLanguage();
       },
       achieveWithQuran: (context) {
         currentContext = context;
