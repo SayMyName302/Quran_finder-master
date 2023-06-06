@@ -111,7 +111,7 @@ class RouteHelper {
   static const String ruqyahPlayList = "/ruqyahPlayList";
 
   // static late BuildContext currentContext;
-
+  static bool isLoggedIn = false;
   static Map<String, Widget Function(BuildContext)> routes(
       BuildContext context) {
     return {

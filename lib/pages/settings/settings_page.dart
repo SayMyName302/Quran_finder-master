@@ -293,6 +293,11 @@ class _SettingsPageState extends State<SettingsPage> {
                                   profile.resetUserProfile();
                                   await login.signOutFromEmailPassword();
                                 }
+
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  RouteHelper.signIn,
+                                  (Route<dynamic> route) => false,
+                                );
                               },
                             )
                           : const SizedBox.shrink();

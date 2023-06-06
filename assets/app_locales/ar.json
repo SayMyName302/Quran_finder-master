@@ -53,6 +53,7 @@
   "5th_shahadah_penitence": "الشهادة الخامسة للتوبة",
   "6th_shahadah_rejecting_disbelief": "السادسة: نبذ الكفر",
   "settings": "إعدادات",
+
   "app_experience": "تجربة التطبيق",
   "upgrade_app_experience": "ترقية تجربة التطبيق",
   "manage_subscriptions": "إدارة الاشتراكات",
@@ -353,8 +354,8 @@
   "islamic_terms_2": "المصطلحات الإسلامية 2",
   "animal_languages": "لغات الحيوانات",
   "fats": "الدهون",
-  "brain_cells": "خلايا الدماغ",
-  "gender_of_a_newborn_child": "جنس المولود الجديد",
+  "braincells": "خلايا الدماغ",
+  "genderofnewbornchild": "جنس المولود الجديد",
   "embryo": "الجنين",
   "fetal_development": "نمو الجنين",
   "miscarriage_linked_to_stress": "الإجهاض المرتبط بالتوتر"
