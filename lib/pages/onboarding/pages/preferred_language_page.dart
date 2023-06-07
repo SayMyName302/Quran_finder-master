@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/bottom_tabs/pages/bottom_tab_page.dart';
-import 'package:nour_al_quran/pages/onboarding/models/on_boarding_information.dart';
 import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
+import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/shared/localization/languages.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
@@ -30,10 +30,10 @@ class SetPreferredLanguage extends StatefulWidget {
 }
 
 class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
-
   bool _isListening = false;
 
-  String onBoardingDone = Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
+  String onBoardingDone =
+      Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
 
   @override
   void initState() {
@@ -47,11 +47,11 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
     if (lastSeen != null) {
       if (lastSeen.isJuz!) {
         RouteHelper.currentContext.read<QuranProvider>().setJuzText(
-          juzId: lastSeen.juzId!,
-          title: lastSeen.juzArabic!,
-          fromWhere: 0,
-          isJuz: true,
-        );
+              juzId: lastSeen.juzId!,
+              title: lastSeen.juzArabic!,
+              fromWhere: 0,
+              isJuz: true,
+            );
         Navigator.of(RouteHelper.currentContext)
             .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
         Navigator.of(RouteHelper.currentContext).push(MaterialPageRoute(
@@ -118,55 +118,60 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
 
   @override
   Widget build(BuildContext context) {
+    int? loginStatus = Hive.box(appBoxKey).get(loginStatusString);
     var isDark = context.read<ThemProvider>().isDark;
     var appColors = context.read<AppColorsProvider>();
     return Scaffold(
       /// middleware to check where to do
       /// this is for notification this page must be called once to init the rx listener
       /// in order to listen to notifications
-      body: onBoardingDone == "done" ? const BottomTabsPage() : SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(
-              left: 20.w,
-              right: 20.w,
+      body: onBoardingDone == "done"
+          ? loginStatus == 1
+              ? const BottomTabsPage()
+              : const SignInPage()
+          : SafeArea(
+              child: SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    left: 20.w,
+                    right: 20.w,
+                  ),
+                  child: Consumer<LocalizationProvider>(
+                    builder: (context, localization, child) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          OnBoardingTitleText(
+                              title: localeText(
+                                  context, "choose_your_preferred_language")),
+                          OnBoardingSubTitleText(
+                              title: localeText(context,
+                                  "let's_personalize_the_app_experience")),
+                          _buildLanguageList(
+                              context, localization, isDark, appColors),
+                          SizedBox(
+                            height: 6.h,
+                          ),
+                          Consumer<OnBoardingProvider>(
+                            builder: (context, value, child) {
+                              return BrandButton(
+                                  text: localeText(context, "continue"),
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        RouteHelper.achieveWithQuran);
+                                  });
+                            },
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
             ),
-            child: Consumer<LocalizationProvider>(
-              builder: (context, localization, child) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    OnBoardingTitleText(
-                        title: localeText(
-                            context, "choose_your_preferred_language")),
-                    OnBoardingSubTitleText(
-                        title: localeText(
-                            context, "let's_personalize_the_app_experience")),
-                    _buildLanguageList(
-                        context, localization, isDark, appColors),
-                    SizedBox(
-                      height: 6.h,
-                    ),
-                    Consumer<OnBoardingProvider>(
-                      builder: (context, value, child) {
-                        return BrandButton(
-                            text: localeText(context, "continue"),
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed(RouteHelper.achieveWithQuran);
-                            });
-                      },
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ),
-      ),
     );
   }
 
