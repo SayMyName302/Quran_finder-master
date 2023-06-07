@@ -90,19 +90,24 @@ class YourEngagementSection extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(
-                          left: 6.76.w,
-                          top: 7.94.h,
-                          right: 9.71.w,
-                          bottom: 7.52.h),
-                      height: 52.54.h,
-                      width: 52.54.w,
+                      margin: const EdgeInsets.only(
+                        left: 6.76,
+                        top: 7.94,
+                        right: 9.71,
+                        bottom: 7.52,
+                      ),
+                      height: 52.54,
+                      width: 52.54,
                       decoration: BoxDecoration(
-                          color: AppColors.mainBrandingColor,
-                          borderRadius: BorderRadius.circular(4.r)),
-                      child: Image.asset(
-                        'assets/images/app_icons/page.png',
-                        fit: BoxFit.cover,
+                        color: AppColors.mainBrandingColor,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6.37.r),
+                        child: Image.asset(
+                          'assets/images/app_icons/page.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Container(

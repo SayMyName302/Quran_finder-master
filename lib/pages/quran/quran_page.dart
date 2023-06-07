@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmark_page.dart';
 //import 'package:nour_al_quran/pages/quran/pages/duas/dua_categories_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/favorites_reciters/fav_reciter_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/juz/juz_Index_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/resume/resume_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/surah_index_page.dart';
 import 'package:nour_al_quran/pages/quran/providers/quran_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
@@ -24,19 +22,19 @@ class QuranPage extends StatelessWidget {
       localeText(context, "recitation"),
       localeText(context, "surah"),
       localeText(context, "juz"),
-      localeText(context, "resume"),
+      // localeText(context, "resume"),
       localeText(context, "bookmarks"),
       // localeText(context, "duas"),
-      localeText(context, "favorites")
+      // localeText(context, "favorites")
     ];
     var pages = [
       const RecitationPage(),
       const SurahIndexPage(),
       const JuzIndexPage(),
-      const ResumePage(),
+      // const ResumePage(),
       const BookmarkPage(),
       //     const DuaCategoriesPage(),
-      const FavoritesRecitersPage(),
+      // const FavoritesRecitersPage(),
     ];
     return Scaffold(
       body: Consumer2<QuranProvider, AppColorsProvider>(
@@ -86,7 +84,7 @@ class QuranPage extends StatelessWidget {
                                   : AppColors.grey3,
                               fontWeight: FontWeight.w500,
                               fontFamily: 'satoshi',
-                              fontSize: 14.sp,
+                              fontSize: 15.sp,
                             ),
                           )),
                         ));

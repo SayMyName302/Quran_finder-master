@@ -29,7 +29,7 @@ class AverageStatsSection extends StatelessWidget {
                 DropdownButton(
                   value: myState.averageStatsCurrentDropDownItem,
                   style: TextStyle(
-                      fontSize: 9.9.sp,
+                      fontSize: 12.sp,
                       fontFamily: 'satoshi',
                       color: them.isDark ? AppColors.grey4 : AppColors.grey2,
                       fontWeight: FontWeight.w500),

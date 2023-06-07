@@ -1,15 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
-import 'package:nour_al_quran/shared/entities/bookmarks.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -84,44 +81,44 @@ class RecitationPage extends StatelessWidget {
                     : const CircularProgressIndicator();
               },
             ),
-            buildTitleContainer(localeText(context, "bookmarks")),
-            Consumer<BookmarkProvider>(
-              builder: (context, bookmarkValue, child) {
-                return bookmarkValue.bookmarkList.isNotEmpty
-                    ? MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          itemCount: bookmarkValue.bookmarkList.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            Bookmarks bookmarks =
-                                bookmarkValue.bookmarkList[index];
-                            return InkWell(
-                              onTap: () async {
-                                bookmarkValue.goToQuranView(bookmarks, context);
-                              },
-                              child: DetailsContainerWidget(
-                                title: LocalizationProvider().checkIsArOrUr()
-                                    ? bookmarks.surahArabic!
-                                    : bookmarks.surahName!,
-                                subTitle:
-                                    "${localeText(context, "surah")} ${bookmarks.surahId} , ${localeText(context, "ayat")} ${bookmarks.verseId}",
-                                icon: Icons.bookmark,
-                                onTapIcon: () {
-                                  bookmarkValue.removeBookmark(
-                                      bookmarks.surahId!, bookmarks.verseId!);
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    : messageContainer(
-                        localeText(context, "no_bookmarks_added_yet"));
-              },
-            ),
+            // buildTitleContainer(localeText(context, "bookmarks")),
+            // Consumer<BookmarkProvider>(
+            //   builder: (context, bookmarkValue, child) {
+            //     return bookmarkValue.bookmarkList.isNotEmpty
+            //         ? MediaQuery.removePadding(
+            //             context: context,
+            //             removeTop: true,
+            //             child: ListView.builder(
+            //               itemCount: bookmarkValue.bookmarkList.length,
+            //               shrinkWrap: true,
+            //               physics: const NeverScrollableScrollPhysics(),
+            //               itemBuilder: (context, index) {
+            //                 Bookmarks bookmarks =
+            //                     bookmarkValue.bookmarkList[index];
+            //                 return InkWell(
+            //                   onTap: () async {
+            //                     bookmarkValue.goToQuranView(bookmarks, context);
+            //                   },
+            //                   child: DetailsContainerWidget(
+            //                     title: LocalizationProvider().checkIsArOrUr()
+            //                         ? bookmarks.surahArabic!
+            //                         : bookmarks.surahName!,
+            //                     subTitle:
+            //                         "${localeText(context, "surah")} ${bookmarks.surahId} , ${localeText(context, "ayat")} ${bookmarks.verseId}",
+            //                     icon: Icons.bookmark,
+            //                     onTapIcon: () {
+            //                       bookmarkValue.removeBookmark(
+            //                           bookmarks.surahId!, bookmarks.verseId!);
+            //                     },
+            //                   ),
+            //                 );
+            //               },
+            //             ),
+            //           )
+            //         : messageContainer(
+            //             localeText(context, "no_bookmarks_added_yet"));
+            //   },
+            // ),
             buildTitleContainer(localeText(context, "favorites")),
             Consumer<RecitationProvider>(
               builder: (context, recitation, child) {
