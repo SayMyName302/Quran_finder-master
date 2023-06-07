@@ -66,11 +66,11 @@ class DuaCategoriesPage extends StatelessWidget {
                           child: Container(
                             height: 175.h,
                             decoration: BoxDecoration(
-                              color: Colors.amberAccent,
+                              color: Colors.transparent,
                               borderRadius: BorderRadius.circular(8.r),
                               image: DecorationImage(
                                   image: AssetImage(duaCategory.imageUrl!),
-                                  fit: BoxFit.cover),
+                                  fit: BoxFit.contain),
                             ),
                             child: Container(
                               decoration: BoxDecoration(

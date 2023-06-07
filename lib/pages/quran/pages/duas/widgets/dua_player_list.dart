@@ -6,7 +6,6 @@ import '../../../../../shared/utills/app_colors.dart';
 import '../../../../duas/models/dua.dart';
 import '../../../../settings/pages/app_colors/app_colors_provider.dart';
 import '../dua_provider.dart';
-//import '../models/dua.dart';
 
 class DuaPlayList extends StatelessWidget {
   const DuaPlayList({Key? key}) : super(key: key);
@@ -17,7 +16,6 @@ class DuaPlayList extends StatelessWidget {
       body: SafeArea(
         child: Consumer2<AppColorsProvider, DuaProvider>(
           builder: (context, appColors, duaProvider, child) {
-            // DuaCategory duaCategory = duaProvider.duaCategoryList[d] ;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -35,14 +33,6 @@ class DuaPlayList extends StatelessWidget {
                           right: 20.w),
                       alignment: Alignment.topLeft,
                     ),
-                    // Text(
-                    //   duacategoryName,
-                    //   style: TextStyle(
-                    //     fontWeight: FontWeight.w700,
-                    //     fontSize: 17.sp,
-                    //     fontFamily: "satoshi",
-                    //   ),
-                    // ),
                   ],
                 ),
                 Expanded(

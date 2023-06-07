@@ -79,7 +79,7 @@ class RuqyahDetail extends StatelessWidget {
                                             height: 25,
                                             alignment: Alignment.center,
                                             child: Text(
-                                              'Dua $index ',
+                                              '$index',
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                   fontSize: 11,
