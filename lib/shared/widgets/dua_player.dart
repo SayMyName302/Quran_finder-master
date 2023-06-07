@@ -18,22 +18,24 @@ class DuaAudioPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Dua? duaa = ModalRoute.of(context)!.settings.arguments as Dua;
+
     DuaProvider duaProvider = Provider.of<DuaProvider>(context);
     Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
     int part1 = nextDuaData['index'];
     Dua nextDua = nextDuaData['dua'];
     int part7 = duaProvider.duaList.length;
     String duaTitle = nextDua.duaTitle.toString();
+    //print(nextDua);
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
-    // ignore: unused_local_variable
     bool isLoopMore = false;
     return Column(
       mainAxisSize: MainAxisSize.max,
       //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
+          margin: EdgeInsets.only(left: 20.w, right: 20.w),
           width: double.maxFinite,
           child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
               DuaProvider>(
@@ -52,24 +54,74 @@ class DuaAudioPlayer extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
+                  // SizedBox(
+                  //   height: 5.h,
+                  // ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Dua $part1  (Total $part7)',
-                        style: TextStyle(
-                            fontFamily: 'satoshi',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.sp),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            'Dua $part1  (Total $part7)',
+                            style: const TextStyle(
+                              fontFamily: 'satoshi',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                        ),
                       ),
+                      //Spacer(),
+                      SizedBox(
+                        width: 135.h,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          // if (reciters.isFav == 0) {
+                          //   recitationProvider
+                          //       .addFav(reciters.reciterId!);
+                          // } else {
+                          //   recitationProvider
+                          //       .removeFavReciter(reciters.reciterId!);
+                          // }
+                        },
+                        child: Consumer<AppColorsProvider>(
+                            builder: (context, appColors, child) {
+                          return Container(
+                            height: 23.h,
+                            width: 23.w,
+                            margin: EdgeInsets.only(
+                              top: 29.4.h,
+                              bottom: 25.h,
+                            ),
+                            child: CircleAvatar(
+                              backgroundColor: appColors.mainBrandingColor,
+                              child: SizedBox(
+                                height: 21.h,
+                                width: 21.w,
+                                child: CircleAvatar(
+                                  backgroundColor: nextDua.isFav == 1
+                                      ? appColors.mainBrandingColor
+                                      : Colors.white,
+                                  child: Icon(
+                                    Icons.favorite,
+                                    color: nextDua.isFav == 1
+                                        ? Colors.white
+                                        : appColors.mainBrandingColor,
+                                    size: 13.h,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      )
                     ],
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  // SizedBox(
+                  //   height: 5.h,
+                  // ),
                   Row(
                     children: [
                       Text(
@@ -106,7 +158,7 @@ class DuaAudioPlayer extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: 20.h,
+                    height: 10.h,
                   ),
                   Row(
                     children: [

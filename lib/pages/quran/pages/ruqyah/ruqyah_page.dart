@@ -195,6 +195,8 @@ class RuqyahPage extends StatelessWidget {
                                                   fontFamily: "satoshi",
                                                   color: AppColors.grey4,
                                                 ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
                                           ],

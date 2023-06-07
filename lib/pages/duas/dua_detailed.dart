@@ -228,48 +228,48 @@ class DuaDetail extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 7),
-                              Container(
-                                margin: EdgeInsets.only(
-                                  left: 20.w,
-                                  right: 20.w,
-                                ),
-                                padding: EdgeInsets.only(
-                                  left: 22.w,
-                                  right: 22.w,
-                                ),
-                                child: Text(
-                                  "Benefit",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 17.sp,
-                                    fontFamily: fontProvider.finalFont,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 7),
-                              Container(
-                                margin: EdgeInsets.only(
-                                  left: 20.w,
-                                  right: 20.w,
-                                ),
-                                padding: EdgeInsets.only(
-                                  left: 22.w,
-                                  right: 22.w,
-                                ),
-                                child: Text(
-                                  duaTranslation,
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'satoshi',
-                                    fontSize:
-                                        fontProvider.fontSizeTranslation.sp,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 7),
+                              // const SizedBox(height: 7),
+                              // Container(
+                              //   margin: EdgeInsets.only(
+                              //     left: 20.w,
+                              //     right: 20.w,
+                              //   ),
+                              //   padding: EdgeInsets.only(
+                              //     left: 22.w,
+                              //     right: 22.w,
+                              //   ),
+                              //   child: Text(
+                              //     "Benefit",
+                              //     textAlign: TextAlign.start,
+                              //     style: TextStyle(
+                              //       fontWeight: FontWeight.w700,
+                              //       fontSize: 17.sp,
+                              //       fontFamily: fontProvider.finalFont,
+                              //     ),
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 7),
+                              // Container(
+                              //   margin: EdgeInsets.only(
+                              //     left: 20.w,
+                              //     right: 20.w,
+                              //   ),
+                              //   padding: EdgeInsets.only(
+                              //     left: 22.w,
+                              //     right: 22.w,
+                              //   ),
+                              //   child: Text(
+                              //     duaTranslation,
+                              //     textAlign: TextAlign.start,
+                              //     style: TextStyle(
+                              //       fontWeight: FontWeight.w400,
+                              //       fontFamily: 'satoshi',
+                              //       fontSize:
+                              //           fontProvider.fontSizeTranslation.sp,
+                              //     ),
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 7),
                               Container(
                                 margin: EdgeInsets.only(
                                   left: 20.w,
@@ -300,7 +300,7 @@ class DuaDetail extends StatelessWidget {
                                   right: 22.w,
                                 ),
                                 child: Text(
-                                  duaTranslation,
+                                  duaRef,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
