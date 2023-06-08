@@ -259,6 +259,18 @@ class QuranDatabase {
     return duaList;
   }
 
+  // to load all the duas in the table
+  Future<List<Dua>> getallDua() async {
+    database = await openDb();
+    var duaList = <Dua>[];
+    var cursor = await database!.query(_duaAllTable);
+    for (var maps in cursor) {
+      var dua = Dua.fromJson(maps);
+      duaList.add(dua);
+    }
+    return duaList;
+  }
+
   // to load all Reciter names
   Future<List<Reciters>> getReciter() async {
     // await initDb();
@@ -414,6 +426,35 @@ class QuranDatabase {
     }
     return quranTextList;
   }
+
+  //________________________________________________
+  //                  DUA BOOKMARKS
+  //add a bookmark
+  void adduaBookmark(int duaId) async {
+    database = await openDb();
+    await database!
+        .rawUpdate("update $_duaAllTable set is_fav = 1 where dua_id = $duaId");
+  }
+
+  //delete bookmark
+  void removeduaBookmark(int duaId, int categoryId) async {
+    database = await openDb();
+    await database!.rawUpdate(
+        "update $_duaAllTable set is_fav = 0 where surah_id = $duaId AND verse_id = $categoryId");
+  }
+
+  Future<List<QuranText>> getduaBookmarks() async {
+    database = await openDb();
+    List<QuranText> quranTextList = [];
+    var table =
+        await database!.query(_duaAllTable, where: "is_fav= ?", whereArgs: [1]);
+    for (var rows in table) {
+      var ayahText = QuranText.fromJson(rows);
+      quranTextList.add(ayahText);
+    }
+    return quranTextList;
+  }
+  //_______________________________________________
 
   // List<String> words = normalizedText.trim().split(RegExp(r'\s+'));
 

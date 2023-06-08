@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:just_audio/just_audio.dart';
+import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
+import 'package:provider/provider.dart';
+
+// import '../../../shared/utills/app_colors.dart';
+import '../../../shared/widgets/circle_button.dart';
 
 class QaidaPlayer extends StatefulWidget {
   final void Function(bool value) selectWords;
   final void Function() playButton;
   final void Function() stopButton;
+  final bool isAudioPlaying;
 
   const QaidaPlayer(
       {super.key,
       required this.selectWords,
       required this.playButton,
-      required this.stopButton});
+      required this.stopButton,
+      required this.isAudioPlaying});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -19,219 +28,240 @@ class QaidaPlayer extends StatefulWidget {
 class _QaidaPlayerState extends State<QaidaPlayer> {
   int currentTab = 0;
   double _currentSliderValue = 0;
+  bool isActive = false;
+  bool isPlaying = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //  floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: qaidaplayer(),
-      // floatingActionButton: FloatingActionButton(
-      //   child: const Icon(Icons.play_arrow_sharp),
-      //   onPressed: () {
-      //     widget.playButton();
-      //   },
-      // ),
-    );
-  }
+    ThemProvider them = Provider.of<ThemProvider>(context);
+    // DuaProvider duaProvider = Provider.of<DuaProvider>(context);
+    // Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
+    // int? index = nextDuaData['index'];
+    // Dua nextDua = nextDuaData['dua'];
+    // int part7 = duaProvider.duaList.length;
+    // String duaTitle = nextDua.duaTitle.toString();
+    // String duaRef = nextDua.duaRef.toString();
+    // String duaText = nextDua.duaText.toString();
+    // int? duaCount = nextDua.ayahCount;
+    // String duaTranslation = nextDua.translations.toString();
 
-  BottomAppBar qaidaplayer() {
-    return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      notchMargin: 5,
-      child: SizedBox(
-        height: 80, // increased height to accommodate SeekBar
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start, // align SeekBar to bottom
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MaterialButton(
-                      //minWidth: 70,
-                      onPressed: () {
-                        setState(() {
-                          bool buttonValue = true;
-                          widget.selectWords(buttonValue);
-                        });
-                      },
-                      child: Column(
-                        ////////////Settings button//////////////
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.settings,
-                              color:
-                                  currentTab == 0 ? Colors.blue : Colors.grey)
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(() {
-                          // Handle button press
-                        });
-                      },
-                      child: Column(
-                        ////////////Loop button//////////////
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.loop,
-                              color:
-                                  currentTab == 0 ? Colors.blue : Colors.grey)
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(() {
-                          // Handle button press
-                        });
-                      },
-                      child: Column(
-                        ////////////Previous Audio Button//////////////
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.fast_rewind,
-                              color:
-                                  currentTab == 0 ? Colors.blue : Colors.grey)
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(() {
-                          widget.playButton();
-                        });
-                      },
-                      child: Column(
-                        ////////////Play Audio Button//////////////
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.play_arrow_sharp,
-                              color:
-                                  currentTab == 0 ? Colors.blue : Colors.grey)
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(() {
-                          // Handle button press
-                        });
-                      },
-                      child: Column(
-                        ////////////Next Audio Button//////////////
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.fast_forward,
-                              color:
-                                  currentTab == 0 ? Colors.blue : Colors.grey)
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        setState(() {
-                          widget.stopButton();
-                        });
-                      },
-                      child: Column(
-                        //Favourite Button
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.stop_sharp,
-                              color:
-                                  currentTab == 0 ? Colors.blue : Colors.grey)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     // MaterialButton(
-                //     //   minWidth: 40,
-                //     //   onPressed: () {
-                //     //     setState(() {
-                //     //       // Handle button press
-                //     //     });
-                //     //   },
-                //     //   child: Column(
-                //     //     ////////////Next Audio Button//////////////
-                //     //     mainAxisAlignment: MainAxisAlignment.center,
-                //     //     children: [
-                //     //       Icon(Icons.fast_forward,
-                //     //           color:
-                //     //               currentTab == 0 ? Colors.blue : Colors.grey)
-                //     //     ],
-                //     //   ),
-                //     // ),
-                //     // MaterialButton(
-                //     //   minWidth: 40,
-                //     //   onPressed: () {
-                //     //     setState(() {
-                //     //       // Handle button press
-                //     //     });
-                //     //   },
-                //     //   child: Column(
-                //     //     //List Button
-                //     //     mainAxisAlignment: MainAxisAlignment.center,
-                //     //     children: [
-                //     //       Icon(Icons.list,
-                //     //           color:
-                //     //               currentTab == 0 ? Colors.blue : Colors.grey)
-                //     //     ],
-                //     //   ),
-                //     // ),
-                //     // MaterialButton(
-                //     //   minWidth: 40,
-                //     //   onPressed: () {
-                //     //     setState(() {
-                //     //       widget.stopButton();
-                //     //     });
-                //     //   },
-                //     //   child: Column(
-                //     //     //Favourite Button
-                //     //     mainAxisAlignment: MainAxisAlignment.center,
-                //     //     children: [
-                //     //       Icon(Icons.stop_sharp,
-                //     //           color:
-                //     //               currentTab == 0 ? Colors.blue : Colors.grey)
-                //     //     ],
-                //     //   ),
-                //     // ),
-                //   ],
-                // )
-              ],
-            ),
-            // added spacing between buttons and SeekBar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                height: 20,
-                width: 400,
-                child: Slider(
-                    value: _currentSliderValue,
-                    min: 0,
-                    max: 100,
-                    onChanged: (double value) {
+    //List<Dua> totalduas = duaProvider.duaList;
+
+    //print(nextDua);
+    // final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
+    // // ignore: unused_local_variable
+    // bool isLoopMore = false;
+
+    return Column(mainAxisSize: MainAxisSize.max, children: [
+      Container(
+          margin: EdgeInsets.only(left: 10.w, top: 30.h),
+          width: double.maxFinite,
+          child: Column(
+            children: [
+              // Row(
+              //   children: [
+              //     Text(
+              //         "${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
+              //     SliderTheme(
+              //       data: SliderThemeData(
+              //           overlayShape: SliderComponentShape.noOverlay,
+              //           trackHeight: 9.h,
+              //           thumbShape: const RoundSliderThumbShape(
+              //             elevation: 0.0,
+              //             enabledThumbRadius: 6,
+              //           )),
+              //       child: Expanded(
+              //         child: Container(
+              //           margin: EdgeInsets.only(left: 7.w, right: 7.w),
+              //           child: Slider(
+              //             min: 0.0,
+              //             thumbColor: appColor.mainBrandingColor,
+              //             activeColor: appColor.mainBrandingColor,
+              //             inactiveColor: AppColors.lightBrandingColor,
+              //             max: player.duration.inSeconds.toDouble(),
+              //             value: player.position.inSeconds.toDouble(),
+              //             onChanged: (value) {
+              //               final position =
+              //                   Duration(seconds: value.toInt());
+              //               player.audioPlayer.seek(position);
+              //             },
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //     Text(
+              //         '- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 10.h,
+              // ),
+              Row(
+                children: [
+                  // IconButton(
+                  //   onPressed: () {
+                  //     Navigator.of(context).pushNamed(
+                  //       RouteHelper.duaPlayList,
+                  //     );
+                  //   },
+                  //   icon: Image.asset(
+                  //     'assets/images/app_icons/list.png',
+                  //     height: 30.h,
+                  //     width: 30.w,
+                  //     color: them.isDark ? Colors.white : Colors.black,
+                  //   ),
+                  //   padding: EdgeInsets.zero,
+                  //   alignment: Alignment.center,
+                  // ),
+                  // IconButton(
+                  //   onPressed: () {
+
+                  //   },
+                  //   icon: ValueListenableBuilder<bool>(
+                  //     valueListenable: isLoopMoreNotifier,
+                  //     builder: (context, isLoopMore, child) {
+                  //       return Image.asset(
+                  //         'assets/images/app_icons/repeat.png',
+                  //         height: 30.h,
+                  //         width: 30.w,
+                  //         color: isLoopMore
+                  //             ? appColor.mainBrandingColor
+                  //             : Theme.of(context).brightness ==
+                  //                     Brightness.dark
+                  //                 ? Colors.white
+                  //                 : Colors.black,
+                  //       );
+                  //     },
+                  //   ),
+                  //   padding: EdgeInsets.zero,
+                  //   alignment: Alignment.center,
+                  // ),
+                  GestureDetector(
+                    onTap: () {
                       setState(() {
-                        _currentSliderValue = value;
+                        isActive = !isActive;
+                        widget.selectWords(isActive);
                       });
-                    }),
+                    },
+                    child: Text(
+                      'Select Specific words',
+                      style: TextStyle(
+                        fontSize: 10,
+                        decoration: TextDecoration.underline,
+                        color: isActive && widget.isAudioPlaying
+                            ? Colors.green
+                            : Colors.black,
+                      ),
+                    ),
+                  ),
+
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () async {
+                      // Provider.of<DuaProvider>(context, listen: false)
+                      //     .playPreviousDuaInCategory(context);
+                    },
+                    icon: Image.asset(
+                      'assets/images/app_icons/previous.png',
+                      height: 30.h,
+                      width: 30.w,
+                      color: them.isDark ? Colors.white : Colors.black,
+                    ),
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.center,
+                  ),
+                  SizedBox(
+                    width: 15.h,
+                  ),
+                  Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          widget.playButton();
+                        },
+                        child: CircleButton(
+                          height: 63.h,
+                          width: 63.h,
+                          icon: Icon(
+                            widget.isAudioPlaying
+                                ? Icons.pause_rounded
+                                : Icons.play_arrow_rounded,
+                            size: 40.h,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(
+                    width: 15.h,
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      // Provider.of<DuaProvider>(context, listen: false)
+                      //     .playNextDuaInCategory(context);
+                    },
+                    icon: Image.asset(
+                      'assets/images/app_icons/next.png',
+                      height: 30.h,
+                      width: 30.w,
+                      color: them.isDark ? Colors.white : Colors.black,
+                    ),
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.center,
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      // Navigator.of(context).pushNamed(
+                      //   RouteHelper.duaPlayList,
+                      // );
+                    },
+                    icon: Image.asset(
+                      'assets/images/app_icons/list.png',
+                      height: 30.h,
+                      width: 30.w,
+                      color: them.isDark ? Colors.white : Colors.black,
+                    ),
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.center,
+                  ),
+                  // IconButton(
+                  //   onPressed: () async {
+                  //     player.setSpeed();
+                  //   },
+                  //   icon: Row(
+                  //     children: [
+                  //       Image.asset(
+                  //         'assets/images/app_icons/speed.png',
+                  //         height: 15.h,
+                  //         width: 18.75.w,
+                  //         color: them.isDark ? Colors.white : Colors.black,
+                  //       ),
+                  //       SizedBox(
+                  //         width: 5.w,
+                  //       ),
+                  //       Text(
+                  //         "${player.speed}x",
+                  //         style: TextStyle(
+                  //             fontWeight: FontWeight.w700,
+                  //             fontFamily: 'satoshi',
+                  //             fontSize: 12.sp),
+                  //       )
+                  //     ],
+                  //   ),
+                  //   padding: EdgeInsets.zero,
+                  //   alignment: Alignment.center,
+                  // ),
+
+                  SizedBox(
+                    width: 15.h,
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+            ],
+          ))
+    ]);
   }
 }

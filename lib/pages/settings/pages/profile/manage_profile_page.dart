@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
+// import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
@@ -15,29 +15,38 @@ import 'package:provider/provider.dart';
 import '../../../../shared/widgets/app_bar.dart';
 
 class ManageProfile extends StatefulWidget {
-  const ManageProfile ({Key? key}) : super(key: key);
+  const ManageProfile({Key? key}) : super(key: key);
 
   @override
   State<ManageProfile> createState() => _ManageProfileState();
 }
 
 class _ManageProfileState extends State<ManageProfile> {
-
   @override
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var them = context.read<ThemProvider>().isDark;
-    var style12 = TextStyle(fontFamily: 'satoshi',fontSize: 12.sp,fontWeight: FontWeight.w500,color: them ? Colors.white : Colors.black);
-    var style400 = TextStyle(fontFamily: 'satoshi',fontSize: 12.sp,fontWeight: FontWeight.w400,color: them ? AppColors.grey4 : AppColors.grey2);
+    var style12 = TextStyle(
+        fontFamily: 'satoshi',
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w500,
+        color: them ? Colors.white : Colors.black);
+    var style400 = TextStyle(
+        fontFamily: 'satoshi',
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w400,
+        color: them ? AppColors.grey4 : AppColors.grey2);
     return Scaffold(
-      appBar: buildAppBar(context: context,title: localeText(context, "manage_profile")),
+      appBar: buildAppBar(
+          context: context, title: localeText(context, "manage_profile")),
       body: Consumer<ProfileProvider>(
         builder: (context, profile, child) {
           return Container(
-            margin: EdgeInsets.only(left: 20.w,right: 20.w,top: 30.h),
+            margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,38 +55,64 @@ class _ManageProfileState extends State<ManageProfile> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(localeText(context, 'full_name'),style: style400,),
-                      Text(profile.userProfile!.fullName ?? "",style: style12,),
+                      Text(
+                        localeText(context, 'full_name'),
+                        style: style400,
+                      ),
+                      Text(
+                        profile.userProfile!.fullName ?? "",
+                        style: style12,
+                      ),
                     ],
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(localeText(context, 'email_address'),style: style400,),
-                    Text(profile.userProfile!.email ?? "",style: style12,),
+                    Text(
+                      localeText(context, 'email_address'),
+                      style: style400,
+                    ),
+                    Text(
+                      profile.userProfile!.email ?? "",
+                      style: style12,
+                    ),
                   ],
                 ),
-                SizedBox(height: 16.h,),
-                profile.userProfile!.loginType != "google" ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Password',style: style400,),
-                    Text(profile.userProfile!.password ?? "",style: style12),
-                  ],
-                ) : const SizedBox.shrink(),
-                profile.userProfile!.loginType != "google" ? SizedBox(height: 16.h,) : const SizedBox.shrink(),
+                SizedBox(
+                  height: 16.h,
+                ),
+                profile.userProfile!.loginType != "google"
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          // Text('Password',style: style400,),
+                          // Text(profile.userProfile!.password ?? "",style: style12),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
+                profile.userProfile!.loginType != "google"
+                    ? SizedBox(
+                        height: 1.h,
+                      )
+                    : const SizedBox.shrink(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(localeText(context, 'preferred_app_language'),style: style400,),
+                    Text(
+                      localeText(context, 'preferred_app_language'),
+                      style: style400,
+                    ),
                     DropdownButton<Languages>(
                       underline: const SizedBox.shrink(),
                       style: style12,
                       value: profile.languages,
-                      items: Languages.languages.map<DropdownMenuItem<Languages>>((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(localeText(context, e.name)))).toList(),
+                      items: Languages.languages
+                          .map<DropdownMenuItem<Languages>>((e) =>
+                              DropdownMenuItem(
+                                  value: e,
+                                  child: Text(localeText(context, e.name))))
+                          .toList(),
                       onChanged: (value) {
                         profile.updatePreferredLanguage(value!);
                         context.read<LocalizationProvider>().setLocale(value!);
@@ -85,14 +120,22 @@ class _ManageProfileState extends State<ManageProfile> {
                     ),
                   ],
                 ),
-                BrandButton(text: localeText(context, "edit_profile"), onTap: (){
-                  Navigator.of(context).pushNamed(RouteHelper.editProfile);
-                }),
-                SizedBox(height: 40.h,),
-                Text(localeText(context, 'logged_in_devices'),style: TextStyle(
-                    fontWeight: FontWeight.w500,fontSize: 18.sp,fontFamily: 'satoshi'
-                )),
-                SizedBox(height: 10.h,),
+                BrandButton(
+                    text: localeText(context, "edit_profile"),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(RouteHelper.editProfile);
+                    }),
+                SizedBox(
+                  height: 40.h,
+                ),
+                Text(localeText(context, 'logged_in_devices'),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18.sp,
+                        fontFamily: 'satoshi')),
+                SizedBox(
+                  height: 10.h,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -103,23 +146,35 @@ class _ManageProfileState extends State<ManageProfile> {
                             return Container(
                               height: 38.h,
                               width: 38.w,
-                              padding: EdgeInsets.symmetric(vertical: 10.67.h,horizontal: 10.w),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.67.h, horizontal: 10.w),
                               decoration: BoxDecoration(
                                 color: appColors.mainBrandingColor,
                                 borderRadius: BorderRadius.circular(6.r),
                               ),
-                              child: Image.asset('assets/images/app_icons/smartphone.png',),
+                              child: Image.asset(
+                                'assets/images/app_icons/smartphone.png',
+                              ),
                             );
                           },
                         ),
-                        SizedBox(width: 10.w,),
+                        SizedBox(
+                          width: 10.w,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(profile.userProfile!.loginDevices![0].name!,style: style12),
-                            Text('Logged in at 22-12-22 | 04:28 pm',style: TextStyle(
-                                fontWeight: FontWeight.w500,fontSize: 10.sp,fontFamily: 'satoshi',color: them ? AppColors.grey4 : AppColors.grey3
-                            ),),
+                            Text(profile.userProfile!.loginDevices![0].name!,
+                                style: style12),
+                            Text(
+                              'Logged in at 22-12-22 | 04:28 pm',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 10.sp,
+                                  fontFamily: 'satoshi',
+                                  color:
+                                      them ? AppColors.grey4 : AppColors.grey3),
+                            ),
                           ],
                         ),
                       ],

@@ -19,6 +19,7 @@ class Dua {
   String? get duaUrl => _contentUrl;
   int? get ayahCount => _ayahCount;
   int? get isFav => _isFav;
+  set setIsBookmark(int value) => _isFav = value;
 
   Dua({
     required id,

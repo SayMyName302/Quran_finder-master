@@ -26,6 +26,8 @@ class DuaDetail extends StatelessWidget {
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
 
+    // print(nextDua);
+
     String duaCount = nextDua.ayahCount.toString();
     String duaTranslation = nextDua.translations.toString();
 
@@ -183,10 +185,10 @@ class DuaDetail extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              DuaContainer1(
-                                translation: duaTranslation,
-                                ref: duaRef,
-                              ),
+                              // DuaContainer1(
+                              //   translation: duaTranslation,
+                              //   ref: duaRef,
+                              // ),
                               const SizedBox(height: 7),
                               Container(
                                 margin: EdgeInsets.only(
@@ -228,6 +230,7 @@ class DuaDetail extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              const SizedBox(height: 7),
                               // const SizedBox(height: 7),
                               // Container(
                               //   margin: EdgeInsets.only(
