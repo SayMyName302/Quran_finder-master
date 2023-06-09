@@ -105,19 +105,11 @@ class _SwipePagesState extends State<SwipePages> {
   AudioPlayer _audioPlayer = AudioPlayer();
   List<AudioPlayer> _audioLists = [];
   PageController controller = PageController();
-  final TextStyle _buttonTextStyle = const TextStyle(color: Colors.black);
+  // final TextStyle _buttonTextStyle = const TextStyle(color: Colors.black);
 
   @override
   void initState() {
     super.initState();
-    // _controller = AnimationController(
-    //   vsync: this,
-    //   duration: const Duration(milliseconds: 300),
-    // );
-    // _animation = CurvedAnimation(
-    //   parent: _controller,
-    //   curve: Curves.easeInOut,
-    // );
     controller = PageController(initialPage: _curr);
     _initList();
   }
@@ -144,6 +136,7 @@ class _SwipePagesState extends State<SwipePages> {
     });
     _updateList();
     print('Button Value received: $value'); // Print the value
+    print('select words called after audio played?'); // Print the value
   }
 
   void fetchstop() {
@@ -754,6 +747,7 @@ class _SwipePagesState extends State<SwipePages> {
       }
       _isPlaying = false;
       _isPaused = false;
+      selectWords(false);
     } catch (e) {
       print('Error playing audios: $e');
     }
@@ -788,11 +782,6 @@ class _SwipePagesState extends State<SwipePages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: const Text('Qaida'),
-      //   backgroundColor: Colors.lightBlueAccent,
-      // ),
       appBar:
           buildAppBar(context: context, title: localeText(context, 'qaida')),
       body: Stack(
@@ -975,10 +964,6 @@ class _SwipePagesState extends State<SwipePages> {
           // ),
         ],
       ),
-      // bottomNavigationBar: CustomPageIndicator(
-      //   total: _list.length,
-      //   controller: controller,
-      // ),
       bottomNavigationBar: SizedBox(
         height: 120,
         child: QaidaPlayer(
@@ -986,6 +971,7 @@ class _SwipePagesState extends State<SwipePages> {
           playButton: fetchList,
           stopButton: fetchstop,
           isAudioPlaying: _isPlaying,
+          // updateMultipleSelectionEnabled: updateMultipleSelectionEnabled,
         ),
       ),
     );

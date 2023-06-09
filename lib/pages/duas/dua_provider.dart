@@ -75,8 +75,21 @@ class DuaProvider extends ChangeNotifier {
   }
 
   //DuaList i.e. dua 77 will update to either 0,1
+  //List index starting with 0
   void bookmark(int duaId, int value) {
     _duaList[duaId].setIsBookmark = value;
     notifyListeners();
   }
+
+  // void setSurahText({required int duaId,required String title,required int fromWhere,bool? isJuz = false, int? juzId = -1,int? bookmarkPosition = -1}) async{
+
+  //   _title = title;
+  //   _isJuz = isJuz;
+  //   _juzId = juzId;
+  //   _bookmarkPosition = bookmarkPosition;
+  //   _surahId = surahId;
+  //   _quranTextList = await QuranDatabase().getQuranSurahText(surahId: surahId);
+  //   _nextSurah = await getSpecificSurah(surahId+1);
+  //   notifyListeners();
+  // }
 }

@@ -186,11 +186,11 @@ class RuqyahDetail extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              DuaContainer1(
-                                translation: duaTranslation,
-                                ref: duaRef,
-                              ),
-                              const SizedBox(height: 7),
+                              // DuaContainer1(
+                              //   translation: duaTranslation,
+                              //   ref: duaRef,
+                              // ),
+                              // const SizedBox(height: 7),
                               Container(
                                 margin: EdgeInsets.only(
                                   left: 20.w,
@@ -272,7 +272,7 @@ class RuqyahDetail extends StatelessWidget {
                               //     ),
                               //   ),
                               // ),
-                              //const SizedBox(height: 7),
+                              const SizedBox(height: 7),
                               Container(
                                 margin: EdgeInsets.only(
                                   left: 20.w,

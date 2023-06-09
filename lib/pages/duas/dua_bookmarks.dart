@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/duas/dua_bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/quran/widgets/details_container_widget.dart';
 import 'package:nour_al_quran/shared/entities/bookmarks.dart';
+import 'package:nour_al_quran/shared/entities/bookmarks_dua.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +25,7 @@ class DuaBookmarkPage extends StatelessWidget {
               localeText(context, "dua_bookmarks"),
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
             )),
-        Consumer<BookmarkProvider>(
+        Consumer<BookmarkProviderDua>(
           builder: (context, bookmarkValue, child) {
             return bookmarkValue.bookmarkList.isNotEmpty
                 ? Expanded(
@@ -33,22 +35,19 @@ class DuaBookmarkPage extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: bookmarkValue.bookmarkList.length,
                         itemBuilder: (context, index) {
-                          Bookmarks bookmarks =
+                          BookmarksDua bookmarks =
                               bookmarkValue.bookmarkList[index];
                           return InkWell(
                             onTap: () async {
-                              bookmarkValue.goToQuranView(bookmarks, context);
+                              bookmarkValue.goToAudioPlayer(bookmarks, context);
                             },
                             child: DetailsContainerWidget(
-                              title: LocalizationProvider().checkIsArOrUr()
-                                  ? bookmarks.surahArabic!
-                                  : bookmarks.surahName!,
+                              title: "ABC",
                               subTitle:
-                                  "${localeText(context, "surah")} ${bookmarks.surahId} , ${localeText(context, "ayat")} ${bookmarks.verseId}",
+                                  "${localeText(context, "dua")} ${bookmarks.duaId} , ${bookmarks.duaRef}",
                               icon: Icons.bookmark,
                               onTapIcon: () {
-                                bookmarkValue.removeBookmark(
-                                    bookmarks.surahId!, bookmarks.verseId!);
+                                bookmarkValue.removeBookmark(bookmarks.duaId!);
                               },
                             ),
                           );

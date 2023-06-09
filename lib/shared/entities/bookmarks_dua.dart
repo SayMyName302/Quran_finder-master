@@ -7,6 +7,7 @@ class BookmarksDua {
   String? _duaText; // Arabic Text for Dua
   String? _duaTranslation; // Translation for Dua
   int? _bookmarkPosition; // saving dua either 0,1
+  String? _contentUrl;
 
   int? get duaId => _duaId;
   // String? get categoryId => _categoryId;
@@ -16,6 +17,7 @@ class BookmarksDua {
   String? get duaText => _duaText;
   String? get duaTranslation => _duaTranslation;
   int? get bookmarkPosition => _bookmarkPosition;
+  String? get duaUrl => _contentUrl;
 
   BookmarksDua({
     required duaId,
@@ -26,6 +28,7 @@ class BookmarksDua {
     required duaText,
     required duaTranslation,
     required bookmarkPosition,
+    required duaUrl,
   }) {
     _duaId = duaId;
     //   _categoryId = categoryId;
@@ -35,6 +38,7 @@ class BookmarksDua {
     _duaText = duaText;
     _duaTranslation = duaTranslation;
     _bookmarkPosition = bookmarkPosition;
+    _contentUrl = duaUrl;
   }
 
   BookmarksDua.fromJson(Map<String, dynamic> json) {
@@ -46,6 +50,7 @@ class BookmarksDua {
     _duaText = json['duaText'];
     _duaTranslation = json['duaTranslation'];
     _bookmarkPosition = json['bookmarkPosition'];
+    _contentUrl = json['contenturl'];
   }
 
   Map toJson() {
@@ -57,7 +62,13 @@ class BookmarksDua {
       "ayahCount": _ayahCount,
       "duaText": _duaText,
       "duaTranslation": _duaTranslation,
-      "bookmarkPosition": _bookmarkPosition
+      "bookmarkPosition": _bookmarkPosition,
+      "contenturl": _contentUrl,
     };
   }
+
+  // @override
+  // String toString() {
+  //   return 'Dua: duaId=$duaId,duaTitle=$duaTitle, duaText=$duaText, translations=$duaTranslation, duaRef=$duaRef, totalAyaat=$ayahCount, isFAV ? $bookmarkPosition';
+  // }
 }

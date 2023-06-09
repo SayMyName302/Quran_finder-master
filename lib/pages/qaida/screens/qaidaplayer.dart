@@ -12,13 +12,16 @@ class QaidaPlayer extends StatefulWidget {
   final void Function() playButton;
   final void Function() stopButton;
   final bool isAudioPlaying;
+  // final Function(bool) updateMultipleSelectionEnabled;
 
-  const QaidaPlayer(
-      {super.key,
-      required this.selectWords,
-      required this.playButton,
-      required this.stopButton,
-      required this.isAudioPlaying});
+  const QaidaPlayer({
+    super.key,
+    required this.selectWords,
+    required this.playButton,
+    required this.stopButton,
+    required this.isAudioPlaying,
+    // required this.updateMultipleSelectionEnabled,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -27,13 +30,14 @@ class QaidaPlayer extends StatefulWidget {
 
 class _QaidaPlayerState extends State<QaidaPlayer> {
   int currentTab = 0;
-  double _currentSliderValue = 0;
+  // double _currentSliderValue = 0;
+  bool isAudioPlaying = false;
   bool isActive = false;
-  bool isPlaying = false;
 
   @override
   Widget build(BuildContext context) {
     ThemProvider them = Provider.of<ThemProvider>(context);
+
     // DuaProvider duaProvider = Provider.of<DuaProvider>(context);
     // Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
     // int? index = nextDuaData['index'];
@@ -44,8 +48,6 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
     // String duaText = nextDua.duaText.toString();
     // int? duaCount = nextDua.ayahCount;
     // String duaTranslation = nextDua.translations.toString();
-
-    //List<Dua> totalduas = duaProvider.duaList;
 
     //print(nextDua);
     // final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
@@ -136,19 +138,20 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                   //   padding: EdgeInsets.zero,
                   //   alignment: Alignment.center,
                   // ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       setState(() {
                         isActive = !isActive;
-                        widget.selectWords(isActive);
                       });
+                      widget.selectWords(isActive);
+                      print('Button Value: $isActive');
                     },
                     child: Text(
                       'Select Specific words',
                       style: TextStyle(
                         fontSize: 10,
                         decoration: TextDecoration.underline,
-                        color: isActive && widget.isAudioPlaying
+                        color: isActive || widget.isAudioPlaying
                             ? Colors.green
                             : Colors.black,
                       ),

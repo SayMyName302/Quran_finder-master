@@ -434,13 +434,15 @@ class QuranDatabase {
     database = await openDb();
     await database!
         .rawUpdate("update $_duaAllTable set is_fav = 1 where dua_id = $duaId");
+    //print('DuaID is: $duaId');
   }
 
   //delete bookmark
-  void removeduaBookmark(int duaId, int categoryId) async {
+  void removeduaBookmark(int duaId) async {
     database = await openDb();
-    await database!.rawUpdate(
-        "update $_duaAllTable set is_fav = 0 where surah_id = $duaId AND verse_id = $categoryId");
+    await database!
+        .rawUpdate("update $_duaAllTable set is_fav = 0 where dua_id = $duaId");
+    // print('DuaID removed is: $duaId');
   }
 
   Future<List<QuranText>> getduaBookmarks() async {

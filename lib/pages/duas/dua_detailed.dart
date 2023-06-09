@@ -40,8 +40,8 @@ class DuaDetail extends StatelessWidget {
         appBar:
             buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
-          child: Consumer2<DuaProvider, AppColorsProvider>(
-              builder: (context, duaProvider, appColors, child) {
+          child:
+              Consumer<AppColorsProvider>(builder: (context, appColors, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

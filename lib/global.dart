@@ -11,6 +11,7 @@ import 'package:nour_al_quran/shared/database/home_db.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/hive_adopters/bookmark_adopter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/devices_adopter.dart';
+import 'package:nour_al_quran/shared/hive_adopters/duaboomark_adopter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/duration_adapter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/last_seen_adopter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/locale_adopter.dart';
@@ -20,22 +21,23 @@ import 'package:nour_al_quran/shared/hive_adopters/user_profile_adopter.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:path_provider/path_provider.dart';
 
-
-class Global{
+class Global {
   static init() async {
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.white,
-        // statusBarColor: Colors.white
+      systemNavigationBarColor: Colors.white,
+      // statusBarColor: Colors.white
     ));
     await Firebase.initializeApp();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     Directory dir = await getApplicationDocumentsDirectory();
     await Hive.initFlutter(dir.path);
     Hive.registerAdapter(DurationAdapter());
     Hive.registerAdapter(LastSeenAdapter());
     Hive.registerAdapter(LocaleAdapter());
     Hive.registerAdapter(BookmarksAdapter());
+    Hive.registerAdapter(DuaBookmarksAdapter());
     Hive.registerAdapter(UserProfileAdopter());
     Hive.registerAdapter(OnBoardingAdopter());
     Hive.registerAdapter(TimeOfTheDayAdapter());
