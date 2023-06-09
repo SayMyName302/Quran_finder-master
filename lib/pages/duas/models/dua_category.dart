@@ -14,17 +14,22 @@ class DuaCategory {
       required categoryName,
       required noOfDua,
       required imageUrl,
-      required orderBy}){
+      required orderBy}) {
     _categoryId = categoryId;
     _categoryName = categoryName;
     _noOfDua = noOfDua;
     _imageUrl = imageUrl;
   }
 
-  DuaCategory.fromJson(Map<String,dynamic> json){
+  DuaCategory.fromJson(Map<String, dynamic> json) {
     _categoryId = json['category_id'];
     _categoryName = json['category_name'];
     _noOfDua = json['number_of_duas'];
     _imageUrl = json['image_url'];
+  }
+
+  @override
+  String toString() {
+    return 'Dua: CatId=$categoryId,duaTitle=$categoryName';
   }
 }

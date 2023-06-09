@@ -28,6 +28,11 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getAllDuas() async {
+    _duaList = await QuranDatabase().getallDua();
+    notifyListeners();
+  }
+
   gotoDuaPlayerPage(int duaId, BuildContext context) {
     //Dua list index always starting from 0
     _currentduaIndex = _duaList.indexWhere((element) => element.id == duaId);
@@ -40,6 +45,8 @@ class DuaProvider extends ChangeNotifier {
   void playNextDuaInCategory(BuildContext context) {
     _currentduaIndex = (_currentduaIndex + 1) % _duaList.length;
     _selectedDua = _duaList[_currentduaIndex];
+    // print('curr index $_currentduaIndex');
+    // print('selct dua $_selectedDua');
 
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);
@@ -64,6 +71,12 @@ class DuaProvider extends ChangeNotifier {
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);
     getNextDua();
+    notifyListeners();
+  }
+
+  //DuaList i.e. dua 77 will update to either 0,1
+  void bookmark(int duaId, int value) {
+    _duaList[duaId].setIsBookmark = value;
     notifyListeners();
   }
 }

@@ -3,9 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
+import '../../pages/duas/dua_bookmarks_provider.dart';
 import '../../pages/duas/models/dua.dart';
 import '../../pages/duas/dua_provider.dart';
+// import '../../pages/duas/models/dua_category.dart';
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
+import '../entities/bookmarks_dua.dart';
 import '../providers/dua_audio_player_provider.dart';
 import '../routes/routes_helper.dart';
 import '../utills/app_colors.dart';
@@ -18,24 +21,30 @@ class DuaAudioPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Dua? duaa = ModalRoute.of(context)!.settings.arguments as Dua;
-
     DuaProvider duaProvider = Provider.of<DuaProvider>(context);
     Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
-    int part1 = nextDuaData['index'];
+    int? index = nextDuaData['index'];
     Dua nextDua = nextDuaData['dua'];
     int part7 = duaProvider.duaList.length;
     String duaTitle = nextDua.duaTitle.toString();
-    //print(nextDua);
+    String duaRef = nextDua.duaRef.toString();
+    String duaText = nextDua.duaText.toString();
+    int? duaCount = nextDua.ayahCount;
+    String duaTranslation = nextDua.translations.toString();
 
+    //List<Dua> totalduas = duaProvider.duaList;
+
+    //print(nextDua);
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
+    // ignore: unused_local_variable
     bool isLoopMore = false;
+
     return Column(
       mainAxisSize: MainAxisSize.max,
       //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 20.w, right: 20.w),
+          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
           width: double.maxFinite,
           child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
               DuaProvider>(
@@ -63,7 +72,7 @@ class DuaAudioPlayer extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            'Dua $part1  (Total $part7)',
+                            'Dua $index  (Total $part7)',
                             style: const TextStyle(
                               fontFamily: 'satoshi',
                               fontWeight: FontWeight.w500,
@@ -74,48 +83,74 @@ class DuaAudioPlayer extends StatelessWidget {
                       ),
                       //Spacer(),
                       SizedBox(
-                        width: 135.h,
+                        width: 110.h,
                       ),
                       InkWell(
-                        onTap: () {
-                          // if (reciters.isFav == 0) {
-                          //   recitationProvider
-                          //       .addFav(reciters.reciterId!);
-                          // } else {
-                          //   recitationProvider
-                          //       .removeFavReciter(reciters.reciterId!);
-                          // }
+                        onTap: () async {
+                          //print('dua index is::::::::::::::: $totalduas');
+                          // this will save bookmark in hive
+                          //        QuranText quranText = _quranText[index];
+                          // Surah? surah = await value
+                          //     .getSpecificSurah(quranText.surahId!);
+                          // DuaCategory duaCategory =
+                          //     duaProvider.duaCategoryList[index];
+                          // duaProvider.getDua(duaCategory.categoryId!);
+                          // print('DUACATEGORYYYYY:$duaCategory');
+                          if (nextDua.isFav == 0) {
+                            duaProvider.bookmark(index!, 1);
+                            BookmarksDua bookmark = BookmarksDua(
+                                duaId: index,
+                                // categoryId: duaCategory,
+                                duaTitle: duaTitle,
+                                duaRef: duaRef,
+                                ayahCount: duaCount,
+                                duaText: duaText,
+                                duaTranslation: duaTranslation,
+                                bookmarkPosition: index);
+                            context
+                                .read<BookmarkProviderDua>()
+                                .addBookmark(bookmark);
+                          } else {
+                            // to change state
+                            duaProvider.bookmark(index!, 0);
+                            // context
+                            //     .read<BookmarkProviderDua>()
+                            //     .removeBookmark(index,
+                            //         quranText.verseId!);
+                          }
                         },
-                        child: Consumer<AppColorsProvider>(
-                            builder: (context, appColors, child) {
-                          return Container(
-                            height: 23.h,
-                            width: 23.w,
-                            margin: EdgeInsets.only(
-                              top: 29.4.h,
-                              bottom: 25.h,
-                            ),
-                            child: CircleAvatar(
-                              backgroundColor: appColors.mainBrandingColor,
-                              child: SizedBox(
-                                height: 21.h,
-                                width: 21.w,
-                                child: CircleAvatar(
-                                  backgroundColor: nextDua.isFav == 1
-                                      ? appColors.mainBrandingColor
-                                      : Colors.white,
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: nextDua.isFav == 1
-                                        ? Colors.white
-                                        : appColors.mainBrandingColor,
-                                    size: 13.h,
+                        child: Container(
+                          height: 19.h,
+                          width: 19.w,
+                          margin: EdgeInsets.only(
+                              bottom: 7.h, top: 8.h, right: 20.w, left: 20.w),
+                          child: CircleAvatar(
+                            backgroundColor: appColor.mainBrandingColor,
+                            child: SizedBox(
+                              height: 16.h,
+                              width: 16.w,
+                              child: CircleAvatar(
+                                backgroundColor: appColor.mainBrandingColor,
+                                child: SizedBox(
+                                  height: 21.h,
+                                  width: 21.w,
+                                  child: CircleAvatar(
+                                    backgroundColor: nextDua.isFav == 1
+                                        ? appColor.mainBrandingColor
+                                        : Colors.white,
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: nextDua.isFav == 1
+                                          ? Colors.white
+                                          : appColor.mainBrandingColor,
+                                      size: 13.h,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          );
-                        }),
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -184,13 +219,13 @@ class DuaAudioPlayer extends StatelessWidget {
                             player.audioPlayer.setLoopMode(LoopMode.one);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content:
-                                    Text('Loop More On For ${'Dua $part1'}')));
+                                    Text('Loop More On For ${'Dua $index'}')));
                           } else {
                             isLoopMoreNotifier.value = false;
                             player.audioPlayer.setLoopMode(LoopMode.off);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content:
-                                    Text('Loop More Off For ${'Dua $part1'}')));
+                                    Text('Loop More Off For ${'Dua $index'}')));
                           }
                         },
                         icon: ValueListenableBuilder<bool>(

@@ -7,6 +7,7 @@ import '../../shared/widgets/title_text.dart';
 import '../quran/pages/ruqyah/ruqyah_categories_page.dart';
 import '../quran/providers/quran_provider.dart';
 import '../settings/pages/app_colors/app_colors_provider.dart';
+import 'dua_bookmarks.dart';
 import 'dua_categories_page.dart';
 
 class DuaCategoriesMain extends StatelessWidget {
@@ -63,7 +64,7 @@ class DuaCategoriesMain extends StatelessWidget {
     var pages = [
       const DuaCategoriesPage(),
       const RuqyahCategoriesPage(),
-      const DuaCategoriesPage(),
+      const DuaBookmarkPage(),
     ];
     return Scaffold(
       body: Consumer2<QuranProvider, AppColorsProvider>(

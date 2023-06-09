@@ -980,11 +980,12 @@ class _SwipePagesState extends State<SwipePages> {
       //   controller: controller,
       // ),
       bottomNavigationBar: SizedBox(
-        height: 90,
+        height: 120,
         child: QaidaPlayer(
           selectWords: selectWords,
           playButton: fetchList,
           stopButton: fetchstop,
+          isAudioPlaying: _isPlaying,
         ),
       ),
     );

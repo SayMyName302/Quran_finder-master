@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/global.dart';
 import 'package:nour_al_quran/pages/basics_of_quran/provider/islam_basics_provider.dart';
 import 'package:nour_al_quran/pages/bottom_tabs/provider/bottom_tabs_page_provider.dart';
+import 'package:nour_al_quran/pages/duas/dua_bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/duas/dua_provider.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
 import 'package:nour_al_quran/pages/onesginalnotify/provider.dart';
@@ -87,6 +88,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => MyStateProvider()),
     ChangeNotifierProvider(create: (_) => DuaPlayerProvider()),
     ChangeNotifierProvider(create: (_) => OneSignalProvider()),
+    ChangeNotifierProvider(create: (_) => BookmarkProviderDua()),
     StreamProvider<int>(
         create: (context) => NetworkProvider().streamController.stream,
         initialData: 0),
