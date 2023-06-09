@@ -160,7 +160,7 @@ class YourEngagementSection extends StatelessWidget {
                                 color: AppColors.grey3),
                           ),
                           SizedBox(
-                            height: 1.h,
+                            height: 4.h,
                           ),
                           Text(
                             _formatDuration(Duration(

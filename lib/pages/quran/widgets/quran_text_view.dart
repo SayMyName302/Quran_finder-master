@@ -197,7 +197,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                                       right: 5.w,
                                     ),
                                     child: Text(
-                                      quranText.verseText!,
+                                      '${quranText.verseText!}﴿ ayanumber ﴾',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontFamily: font.finalFont,
@@ -643,6 +643,40 @@ class _QuranTextViewState extends State<QuranTextView> {
   }
 }
 
+String convertToArabicNumber(int? verseId) {
+  if (verseId == null) {
+    return '';
+  }
+
+  const List<String> arabicNumbers = [
+    '٠',
+    '١',
+    '٢',
+    '٣',
+    '٤',
+    '٥',
+    '٦',
+    '٧',
+    '٨',
+    '٩'
+  ];
+
+  if (verseId == 0) {
+    return arabicNumbers[0];
+  }
+
+  String arabicNumeral = '';
+  int id = verseId;
+
+  while (id > 0) {
+    int digit = id % 10;
+    arabicNumeral = arabicNumbers[digit] + arabicNumeral;
+    id ~/= 10;
+    print('Digit: $digit, Arabic Numeral: $arabicNumeral');
+  }
+
+  return arabicNumeral;
+}
 
 // String formatTimeSpent(int timeInSeconds) {
 //   Duration duration = Duration(seconds: timeInSeconds);

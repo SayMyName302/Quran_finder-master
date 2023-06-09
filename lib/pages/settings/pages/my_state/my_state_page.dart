@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../../../../shared/widgets/app_bar.dart';
 import 'my_state_provider_updated.dart';
 
-
 class MyStatePage extends StatefulWidget {
   const MyStatePage({Key? key}) : super(key: key);
 
@@ -24,10 +23,12 @@ class _MyStatePageState extends State<MyStatePage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero,(){
+    Future.delayed(Duration.zero, () {
       // Provider.of<MyStateProvider>(context,listen: false).getCurrentStreak();
-      Provider.of<MyStateProvider>(context,listen: false).getWeeklyAppEngagement();
-      Provider.of<MyStateProvider>(context,listen: false).getWeeklyPercentageDifference();
+      Provider.of<MyStateProvider>(context, listen: false)
+          .getWeeklyAppEngagement();
+      Provider.of<MyStateProvider>(context, listen: false)
+          .getWeeklyPercentageDifference();
       // _value = Provider.of<MyStateProvider>(context,listen: false).streak!.secondsElapsed!.toDouble();
     });
   }
@@ -35,24 +36,33 @@ class _MyStatePageState extends State<MyStatePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async{
-        Provider.of<MyStateProvider>(context,listen: false).startAppUsageTimer();
+      onWillPop: () async {
+        Provider.of<MyStateProvider>(context, listen: false)
+            .startAppUsageTimer();
         return true;
       },
       child: Scaffold(
-        appBar: buildAppBar(context: context,title: localeText(context, "my_stats")),
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 20.w,right: 20.w),
+            margin: EdgeInsets.only(right: 20.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
+                Text("My Stats",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18.sp,
+                        fontFamily: 'satoshi')),
+
                 /// your engagement
                 YourEngagementContainer(),
+
                 /// average stats section
                 AverageStatsSection(),
+
                 /// weekly Engagement Section
                 WeeklyEngagementSection(),
+
                 /// achievement Section
                 AchievementSection(),
               ],
@@ -64,17 +74,16 @@ class _MyStatePageState extends State<MyStatePage> {
   }
 }
 
-
 String formatDuration(Duration duration) {
   if (duration.inDays > 0) {
     final hours = duration.inHours - duration.inDays * 24;
     final minutes = duration.inMinutes - duration.inHours * 60;
     return '${duration.inDays}d${hours}h${minutes}m';
-  } else if(duration.inSeconds <=60){
+  } else if (duration.inSeconds <= 60) {
     return '${duration.inSeconds}s';
-  }else if(duration.inSeconds >=61 && duration.inMinutes <=60){
+  } else if (duration.inSeconds >= 61 && duration.inMinutes <= 60) {
     return '${duration.inMinutes}m';
-  }else {
+  } else {
     final hours = duration.inHours;
     final minutes = duration.inMinutes - duration.inHours * 60;
     return '${hours}h ${minutes}m';

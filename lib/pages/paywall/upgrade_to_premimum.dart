@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:nour_al_quran/pages/paywall/paywal_provider.dart';
 
 class paywall extends StatelessWidget {
+  const paywall({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +40,7 @@ class paywall extends StatelessWidget {
             SizedBox(
               height: 15.h,
             ),
-            CardSection(),
+            const CardSection(),
             SizedBox(
               height: 15.h,
             ),
@@ -53,8 +55,8 @@ class paywall extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            pricetile(),
-            PrimePlanContainer(),
+            const pricetile(),
+            const PrimePlanContainer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -109,7 +111,7 @@ class paywall extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            FAQList(),
+            const FAQList(),
           ],
         ),
       ),
@@ -118,11 +120,14 @@ class paywall extends StatelessWidget {
 }
 
 Future<List<DocumentSnapshot>> getDataFromFirebase() async {
-  final snapshot = await FirebaseFirestore.instance.collection('paywalldata').get();
+  final snapshot =
+      await FirebaseFirestore.instance.collection('paywalldata').get();
   return snapshot.docs;
 }
 
 class pricetile extends StatelessWidget {
+  const pricetile({super.key});
+
   @override
   Widget build(BuildContext context) {
     PremiumScreenProvider priceProvider =
@@ -136,7 +141,7 @@ class pricetile extends StatelessWidget {
           final data = snapshot.data;
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Container(
+            child: SizedBox(
               height: 190.0,
               child: Center(
                 child: Row(
@@ -327,6 +332,8 @@ Widget buildContainer(
 }
 
 class CardSection extends StatelessWidget {
+  const CardSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PremiumScreenProvider>(
@@ -396,6 +403,8 @@ class CardSection extends StatelessWidget {
 //for texts in the container
 
 class PrimePlanContainer extends StatelessWidget {
+  const PrimePlanContainer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -434,65 +443,77 @@ class PrimePlanContainer extends StatelessWidget {
                     children: [
                       const Icon(Icons.check_circle_rounded,
                           color: AppColors.googleColor),
-                      const SizedBox(width: 8),
-                      Text(
-                        'No ads',
-                        style: TextStyle(
+                      SizedBox(width: 8.w),
+                      Flexible(
+                        child: Text(
+                          'No ads',
+                          style: TextStyle(
                             fontFamily: 'satoshi',
                             fontSize: 15.sp,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
+                  SizedBox(height: 10.h),
                   Row(
                     children: [
                       const Icon(Icons.check_circle_rounded,
                           color: AppColors.googleColor),
-                      const SizedBox(width: 8),
-                      Text('Lorem ipsum',
+                      SizedBox(width: 8.w),
+                      Flexible(
+                        child: Text(
+                          'Unlock bedtime Quran stories to cleanse your thoughts',
                           style: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500)),
+                            fontFamily: 'satoshi',
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
+                  SizedBox(height: 10.h),
                   Row(
                     children: [
                       const Icon(Icons.check_circle_rounded,
                           color: AppColors.googleColor),
-                      const SizedBox(width: 8),
-                      Text('Lorem ipsum',
+                      SizedBox(width: 8.w),
+                      Flexible(
+                        child: Text(
+                          'Unlock soothing recitation of the Quran to calm your mind',
                           style: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500)),
+                            fontFamily: 'satoshi',
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
+                  SizedBox(height: 10.h),
                   Row(
                     children: [
                       const Icon(Icons.check_circle_rounded,
                           color: AppColors.googleColor),
-                      const SizedBox(width: 8),
-                      Text('Lorem ipsum',
+                      SizedBox(width: 8.w),
+                      Flexible(
+                        child: Text(
+                          'Unlock 1000 du’a to protect you from Jahannum',
                           style: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500)),
+                            fontFamily: 'satoshi',
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
@@ -515,30 +536,32 @@ class PrimePlanContainer extends StatelessWidget {
 class SuccessStoriesList extends StatelessWidget {
   final List<UserModel> successStories = [
     UserModel(
-      name: 'John Doe',
+      name: 'Ali Muhammad',
       rating: '4.5',
       avatarUrl: 'assets/images/app_icons/avatar.png',
       description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          'Love it! This app has helped me calm myself. The recitation of the Quran captivates me and makes me want to put down my work and listen to the whole chapter. Every time I feel depressed or restless I come back here to listen to the recitations.',
     ),
     UserModel(
-      name: 'Jane Smith',
-      rating: '4.0',
+      name: 'Usman Mirza',
+      rating: '4.9',
       avatarUrl: 'assets/images/app_icons/avatar.png',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      description:
+          'This app was referred by a friend. He told me that listening to recitations on this app will help cure my insomnia. When I opened this app and saw the huge library of Quran recitations and stories, I was blown away. I think it might have a different story for each day of the month.',
     ),
     UserModel(
-      name: 'Jane Smith',
-      rating: '4.0',
+      name: 'Nadir Ahmed',
+      rating: '4.5',
       avatarUrl: 'assets/images/app_icons/avatar.png',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      description:
+          'The prime plan is awesome! It has no ads and unlocks hundreds of extra stories. I can listen to the recitations and stories from the Quran here, all day and not get tired.',
     ),
-    UserModel(
-      name: 'Jane Smith',
-      rating: '4.0',
-      avatarUrl: 'assets/images/app_icons/avatar.png',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    ),
+    // UserModel(
+    //   name: 'Jane Smith',
+    //   rating: '4.0',
+    //   avatarUrl: 'assets/images/app_icons/avatar.png',
+    //   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    // ),
     // Add more success stories here
   ];
 
@@ -561,7 +584,7 @@ class SuccessStoriesList extends StatelessWidget {
 class SuccessStoryCard extends StatelessWidget {
   final UserModel user;
 
-  const SuccessStoryCard({required this.user});
+  const SuccessStoryCard({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -618,42 +641,36 @@ class SuccessStoryCard extends StatelessWidget {
 }
 
 class FAQList extends StatelessWidget {
+  const FAQList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: const [
         FAQItem(
-            question:
-                '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmint nim id est laborum."',
+            question: '"I downloaded the app, am I going to be charged?"',
             answer:
-                '''Anr3qrq3rrrrrrrrrrrrrrrrswer 1Anr3qrq3rrrrrrrrrrrrrrrrswer 
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 1
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 1
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 11Anr3qrq3rrrrrrrrrrrrrrrrswer 1Anr3qrq3rrrrrrrrrrrrrrrrswer 1'''),
+                '''We provide our users with a free version, as well as a paid version. The paid version unlocks more stories and recitations of the Quran.'''),
         FAQItem(
-            question:
-                '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmint nim id est laborum."',
+            question: '"How can I cancel my subscription?"',
             answer:
-                '''Anr3qrq3rrrrrrrrrrrrrrrrswer 1Anr3qrq3rrrrrrrrrrrrrrrrswer 
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 1
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 1
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 11Anr3qrq3rrrrrrrrrrrrrrrrswer 1Anr3qrq3rrrrrrrrrrrrrrrrswer 1'''),
+                '''• If you downloaded the app through an iOS device: Cancel the subscription via Apple 
+                
+• If you downloaded the app via an Android device: Cancel the subscription from Google'''),
         FAQItem(
-            question:
-                '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmint nim id est laborum."',
+            question: '"How can I access Premium Plan on multiple devices?"',
             answer:
-                '''Anr3qrq3rrrrrrrrrrrrrrrrswer 1Anr3qrq3rrrrrrrrrrrrrrrrswer 
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 1
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 1
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 11Anr3qrq3rrrrrrrrrrrrrrrrswer 1Anr3qrq3rrrrrrrrrrrrrrrrswer 1'''),
+                '''We advise you to make an account to access the premium plan on multiple devices. Open the app. Go to the link that says "Enter your email". Input your email.
+Once you have entered your email address, click "Next" to continue. You will get an email with a login link. Please be sure that you have access to this email address on the device you plan to use.
+Tap on the link, and you will be redirected to the app and logged into your existing account.'''),
         FAQItem(
-            question:
-                '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmint nim id est laborum."',
+            question: '"Will I get a refund?"',
             answer:
-                '''Anr3qrq3rrrrrrrrrrrrrrrrswer 1Anr3qrq3rrrrrrrrrrrrrrrrswer 
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 1
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 1
-                Anr3qrq3rrrrrrrrrrrrrrrrswer 11Anr3qrq3rrrrrrrrrrrrrrrrswer 1Anr3qrq3rrrrrrrrrrrrrrrrswer 1''')
+                "If you have purchased our subscription via Google Play Store, Google will process refunds only if it’s less than 48 hours after signing up or making an in-app purchase."),
+        FAQItem(
+            question: '"How can I unsubscribe from promotional emails?"',
+            answer:
+                "You can unsubscribe from our promotional emails whenever you want by scrolling down to the bottom of the email and clicking on the “Unsubscribe” link. We will not send you any promotional emails once you have unsubscribed yourself.")
         // Add more FAQ items here
       ],
     );
@@ -664,7 +681,7 @@ class FAQItem extends StatefulWidget {
   final String question;
   final String answer;
 
-  FAQItem({required this.question, required this.answer});
+  const FAQItem({super.key, required this.question, required this.answer});
 
   @override
   _FAQItemState createState() => _FAQItemState();
@@ -718,7 +735,7 @@ class _FAQItemState extends State<FAQItem> {
             ),
             if (isExpanded)
               Padding(
-                padding: const EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
                 child: Text(widget.answer),
               ),
           ],

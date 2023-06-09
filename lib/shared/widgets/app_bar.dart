@@ -34,6 +34,35 @@ AppBar buildAppBar(
   );
 }
 
+AppBar appbarforstats(
+    {String? title,
+    required BuildContext context,
+    double? font,
+    String? icon}) {
+  return AppBar(
+    centerTitle: false,
+    elevation: 0.0,
+    backgroundColor: Colors.transparent,
+    title: TitleText(
+      title: title!,
+      fontSize: 18.sp,
+    ),
+    actions: [
+      icon != null
+          ? IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SalahTimerSetting()));
+              },
+              icon: ImageIcon(
+                const AssetImage('assets/images/app_icons/settings.png'),
+                size: 16.5.h,
+              ))
+          : const SizedBox.shrink(),
+    ],
+  );
+}
+
 AppBar showdegree(
     {String? title,
     required BuildContext context,

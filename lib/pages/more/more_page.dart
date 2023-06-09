@@ -52,9 +52,6 @@ class _MorePageState extends State<MorePage> {
           name: localeText(context, "islam_basics"),
           image: 'assets/images/app_icons/islam_basics.png'),
       More(
-          name: localeText(context, "qaida"),
-          image: 'assets/images/app_icons/qaida.png'),
-      More(
           name: localeText(context, "duas"),
           image: 'assets/images/app_icons/duas.png'),
     ];
@@ -82,7 +79,7 @@ class _MorePageState extends State<MorePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TitleText(
-                      title: localeText(context, "more"),
+                      title: localeText(context, "discover"),
                       style: TextStyle(
                           fontFamily: 'satoshi',
                           fontSize: 22.sp,

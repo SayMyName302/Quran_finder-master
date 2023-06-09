@@ -62,43 +62,43 @@ class _SettingsPageState extends State<SettingsPage> {
                       Navigator.of(context).pushNamed(RouteHelper.upgradeApp);
                     },
                   ),
-                  Consumer<ProfileProvider>(
-                    builder: (context, value, child) {
-                      return SettingOptions(
-                        title: localeText(context, "edit_profile"),
-                        subTitle: value.userProfile != null
-                            ? "Logged in as ${value.userProfile!.fullName}"
-                            : "",
-                        icon: "edit.png",
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          size: 12.h,
-                        ),
-                        onTap: () {
-                          var loginStatus =
-                              Hive.box(appBoxKey).get(loginStatusString) ?? 0;
-                          Provider.of<ProfileProvider>(context, listen: false)
-                              .setFromWhere("home");
-                          Navigator.of(context).pushNamed(loginStatus != 0
-                              ? RouteHelper.manageProfile
-                              : RouteHelper.signIn);
-                        },
-                      );
-                    },
-                  ),
-                  SettingOptions(
-                    title: localeText(context, "my_stats"),
-                    subTitle: localeText(context, "your_app_engagement_stats"),
-                    icon: "theme.png",
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 12.h,
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(RouteHelper.myState);
-                      // Navigator.of(context).push(MaterialPageRoute(builder: (context){));
-                    },
-                  ),
+                  // Consumer<ProfileProvider>(
+                  //   builder: (context, value, child) {
+                  //     return SettingOptions(
+                  //       title: localeText(context, "edit_profile"),
+                  //       subTitle: value.userProfile != null
+                  //           ? "Logged in as ${value.userProfile!.fullName}"
+                  //           : "",
+                  //       icon: "edit.png",
+                  //       trailing: Icon(
+                  //         Icons.arrow_forward_ios,
+                  //         size: 12.h,
+                  //       ),
+                  //       onTap: () {
+                  //         var loginStatus =
+                  //             Hive.box(appBoxKey).get(loginStatusString) ?? 0;
+                  //         Provider.of<ProfileProvider>(context, listen: false)
+                  //             .setFromWhere("home");
+                  //         Navigator.of(context).pushNamed(loginStatus != 0
+                  //             ? RouteHelper.manageProfile
+                  //             : RouteHelper.signIn);
+                  //       },
+                  //     );
+                  //   },
+                  // ),
+                  // SettingOptions(
+                  //   title: localeText(context, "my_stats"),
+                  //   subTitle: localeText(context, "your_app_engagement_stats"),
+                  //   icon: "theme.png",
+                  //   trailing: Icon(
+                  //     Icons.arrow_forward_ios,
+                  //     size: 12.h,
+                  //   ),
+                  //   onTap: () {
+                  //     Navigator.of(context).pushNamed(RouteHelper.myState);
+                  //     // Navigator.of(context).push(MaterialPageRoute(builder: (context){));
+                  //   },
+                  // ),
                   SettingOptions(
                     title: localeText(context, "app_theme"),
                     subTitle: localeText(context, "choose_dark_or_light_mode"),

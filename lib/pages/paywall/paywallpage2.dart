@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -88,38 +89,54 @@ class paywallpage2 extends StatelessWidget {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  child: Container(
-                    width: double.infinity,
-                    height: 120.h,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Unlimted free access for 7 days, then US \$15.49 per  year (US \$1.29 per month)',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'satoshi',
-                            fontSize: 15.sp,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Text(
-                                'View All Plans',
+                  child: FutureBuilder<DocumentSnapshot>(
+                    future: fetchPaywallData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final data =
+                            snapshot.data!.data() as Map<String, dynamic>;
+                        final perYearPrice = data['price'];
+                        final perMonthPrice = data['perMonthPrice'];
+                        return Container(
+                          width: double.infinity,
+                          height: 120.h,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Unlimited free access for 7 days, then $perYearPrice per year ($perMonthPrice )',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: AppColors.mainBrandingColor,
                                   fontFamily: 'satoshi',
                                   fontSize: 15.sp,
                                 ),
                               ),
-                            ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15.0),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    child: Text(
+                                      'View All Plans',
+                                      style: TextStyle(
+                                        color: AppColors.mainBrandingColor,
+                                        fontFamily: 'satoshi',
+                                        fontSize: 15.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return const Text('Error retrieving data');
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    },
                   ),
                 ),
               ],
@@ -238,7 +255,8 @@ class paywallpage2 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
                   child: BrandButton(
                       text: localeText(context, "start_free_trial"),
                       onTap: () {
@@ -249,18 +267,21 @@ class paywallpage2 extends StatelessWidget {
                 // Handle button 1 press
 
                 const SizedBox(height: 8),
-                Text(
-                    localeText(
-                      context, "unlimted_access_for_15_days",
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Text(
+                      localeText(
+                        context, "unlimted_access_for_15_days",
 
-                      // Navigator.of(context)
-                      //     .pushNamed(RouteHelper.paywallscreen2);
-                    ),
-                    style: TextStyle(
-                        color: AppColors.mainBrandingColor,
-                        fontFamily: 'satoshi',
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w500)),
+                        // Navigator.of(context)
+                        //     .pushNamed(RouteHelper.paywallscreen2);
+                      ),
+                      style: TextStyle(
+                          color: AppColors.mainBrandingColor,
+                          fontFamily: 'satoshi',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500)),
+                ),
               ],
             ),
           ),
@@ -268,4 +289,13 @@ class paywallpage2 extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<DocumentSnapshot> fetchPaywallData() async {
+  final snapshot = await FirebaseFirestore.instance
+      .collection('paywalldata')
+      .doc(
+          'giHi8IY0OaCGvLpfITpQ') // Replace 'DOCUMENT_ID' with the ID of the document you want to retrieve data from
+      .get();
+  return snapshot;
 }

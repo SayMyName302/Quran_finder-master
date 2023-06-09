@@ -154,6 +154,12 @@ flutter:
     - family: satoshi
       fonts:
         - asset: assets/fonts/satoshi_medium.otf
+    - family: Noto Nastaliq Urdu
+      fonts:
+        - asset: assets/fonts/notonastaliqurdu_regular.ttf
+    - family: Noto Sans Arabic
+      fonts:
+        - asset: assets/fonts/notosansarabic_regular.ttf
     - family: Al Majeed Quranic Font
       fonts:
         - asset: assets/fonts/al_majeed_regular.ttf

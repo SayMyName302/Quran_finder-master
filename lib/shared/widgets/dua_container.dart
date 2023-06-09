@@ -10,14 +10,19 @@ class DuaContainer extends StatelessWidget {
   final String? text;
   final String? translation;
   final String? ref;
+  final String? verseId;
   const DuaContainer(
-      {Key? key, this.text = "", this.translation = "", this.ref})
+      {Key? key, this.text = "", this.translation = "", this.ref, this.verseId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final appColors = Provider.of<AppColorsProvider>(context);
     final isDark = Provider.of<ThemProvider>(context).isDark;
+    final arabicVerseId = verseId != null && verseId!.isNotEmpty
+        ? convertToArabicNumber(int.parse(verseId!))
+        : '';
+
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
@@ -34,28 +39,56 @@ class DuaContainer extends StatelessWidget {
         builder: (context, fontProvider, child) {
           return Column(
             children: [
-              Text(
-                text == ""
-                    ? 'رَبَّنَا وَاجْعَلْنَا مُسْلِمَیْنِ لَكَ وَمِن ذُرِّیَّتِنَآ أُمَّةً مُّسْلِمَةً لَّكَ وَأَرِنَا مَنَاسِكَنَا وَتُبْ عَلَیْنَآ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِیمُ'
-                    : text!,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: appColors.mainBrandingColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: fontProvider.fontSizeArabic.sp,
-                    fontFamily: fontProvider.finalFont),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text('– $ref –',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: appColors.mainBrandingColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: fontProvider.fontSizeTranslation.sp,
+                        fontFamily: 'satoshi')),
               ),
-              Text('– $ref –',
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: RichText(
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  text: TextSpan(
+                    text: text == ""
+                        ? 'رَبَّنَا وَاجْعَلْنَا مُسْلِمَیْنِ لَكَ وَمِن ذُرِّیَّتِنَآ أُمَّةً مُّسْلِمَةً لَّكَ وَأَرِنَا مَنَاسِكَنَا وَتُبْ عَلَیْنَآ إِنَّكَ أَنتَ التَّوَّابُ الرَّحِیمُ'
+                        : '$text ',
+                    style: TextStyle(
                       color: appColors.mainBrandingColor,
                       fontWeight: FontWeight.w500,
-                      fontSize: fontProvider.fontSizeTranslation.sp,
-                      fontFamily: 'satoshi')),
+                      fontSize: fontProvider.fontSizeArabic.sp,
+                      fontFamily: fontProvider.finalFont,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            '﴿ ${convertToArabicNumber(int.parse(verseId!))} ﴾',
+                        style: TextStyle(
+                          fontFamily: 'Noto Sans Arabic',
+                          fontWeight: FontWeight.w400,
+                          fontSize: fontProvider.fontSizeArabic.sp,
+                          // Add any other desired styling properties
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // Text('– $ref –',
+              //     textAlign: TextAlign.center,
+              //     style: TextStyle(
+              //         color: appColors.mainBrandingColor,
+              //         fontWeight: FontWeight.w500,
+              //         fontSize: fontProvider.fontSizeTranslation.sp,
+              //         fontFamily: 'satoshi')),
               SizedBox(
                 height: 12.h,
               ),
-              Text('$translation\n– $ref –',
+              Text('$translation',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
@@ -67,4 +100,39 @@ class DuaContainer extends StatelessWidget {
       ),
     );
   }
+}
+
+String convertToArabicNumber(int? verseId) {
+  if (verseId == null) {
+    return '';
+  }
+
+  const List<String> arabicNumbers = [
+    '٠',
+    '١',
+    '٢',
+    '٣',
+    '٤',
+    '٥',
+    '٦',
+    '٧',
+    '٨',
+    '٩'
+  ];
+
+  if (verseId == 0) {
+    return arabicNumbers[0];
+  }
+
+  String arabicNumeral = '';
+  int id = verseId;
+
+  while (id > 0) {
+    int digit = id % 10;
+    arabicNumeral = arabicNumbers[digit] + arabicNumeral;
+    id ~/= 10;
+    print('Digit: $digit, Arabic Numeral: $arabicNumeral');
+  }
+
+  return arabicNumeral;
 }

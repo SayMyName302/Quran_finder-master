@@ -26,16 +26,18 @@ class BottomNavWidget extends StatelessWidget {
                 BottomNavigationBarItem(
                     label: localeText(context, 'quran'),
                     icon: _buildIcon('assets/images/app_icons/quran_icon.png')),
+                BottomNavigationBarItem(
+                    label: localeText(context, 'qaida'),
+                    icon: _buildIcon('assets/images/app_icons/qaida_icon.png')),
+                BottomNavigationBarItem(
+                    label: localeText(context, 'discover'),
+                    icon: _buildIcon('assets/images/app_icons/explore.png')),
                 // BottomNavigationBarItem(
                 //     label: "Qaida",
                 //     icon: buildIcon('assets/images/app_icons/qaida_icon.png')),
                 BottomNavigationBarItem(
-                    label: localeText(context, 'quran_stories'),
-                    icon: _buildIcon(
-                        'assets/images/app_icons/quran_stories.png')),
-                BottomNavigationBarItem(
-                    label: localeText(context, 'more'),
-                    icon: _buildIcon('assets/images/app_icons/more.png')),
+                    label: localeText(context, 'profile'),
+                    icon: _buildIcon('assets/images/app_icons/profile.png')),
               ],
               // backgroundColor: Colors.white,
               currentIndex: bottomTabProvider.currentPage,

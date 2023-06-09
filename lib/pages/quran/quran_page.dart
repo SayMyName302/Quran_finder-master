@@ -99,5 +99,5 @@ class QuranPage extends StatelessWidget {
     );
   }
 
-  Future<void> getData() async {}
+  // Future<void> getData() async {}
 }

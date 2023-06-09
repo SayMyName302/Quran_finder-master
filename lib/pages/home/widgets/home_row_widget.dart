@@ -39,7 +39,7 @@ class HomeRowWidget extends StatelessWidget {
                     child: Text(
                       buttonText,
                       style: TextStyle(
-                          fontSize: 12.sp,
+                          fontSize: 10.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'satoshi'),
