@@ -66,10 +66,10 @@ class _ManageProfileState extends State<ManageProfile> {
         fontWeight: FontWeight.w400,
         color: them ? AppColors.grey4 : AppColors.grey2);
     return Scaffold(
-      appBar: buildAppBar(
-        context: context,
-        title: localeText(context, "manage_profile"),
-      ),
+      appBar: appbarformanageprofile(
+          context: context,
+          title: localeText(context, "manage_profile"),
+          icon: ""),
       body: Consumer2<QuranProvider, AppColorsProvider>(
           builder: (context, value, appColors, child) {
         return Column(

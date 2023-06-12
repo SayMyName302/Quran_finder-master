@@ -84,19 +84,19 @@ class _MorePageState extends State<MorePage> {
                           fontFamily: 'satoshi',
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold)),
-                  InkWell(onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const SettingsPage()));
-                  }, child: Consumer<ThemProvider>(
-                    builder: (context, them, child) {
-                      return Image.asset(
-                        'assets/images/app_icons/settings.png',
-                        height: 16.5.h,
-                        width: 16.5.w,
-                        color: them.isDark ? Colors.white : Colors.black,
-                      );
-                    },
-                  ))
+                  // InkWell(onTap: () {
+                  //   Navigator.of(context).push(MaterialPageRoute(
+                  //       builder: (context) => const SettingsPage()));
+                  // }, child: Consumer<ThemProvider>(
+                  //   builder: (context, them, child) {
+                  //     return Image.asset(
+                  //       'assets/images/app_icons/settings.png',
+                  //       height: 16.5.h,
+                  //       width: 16.5.w,
+                  //       color: them.isDark ? Colors.white : Colors.black,
+                  //     );
+                  //   },
+                  // ))
                 ],
               )),
           Expanded(
