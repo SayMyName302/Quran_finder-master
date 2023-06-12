@@ -11,6 +11,7 @@ import 'package:nour_al_quran/pages/more/pages/tasbeeh/pages/tasbeeh_page.dart';
 import 'package:nour_al_quran/pages/onboarding/pages/index.dart';
 import 'package:nour_al_quran/pages/paywall/paywallpage2.dart';
 import 'package:nour_al_quran/pages/paywall/upgrade_to_premimum.dart';
+import 'package:nour_al_quran/pages/quran%20stories/pages/quran_stories_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/view_all/view_all.dart';
@@ -109,6 +110,7 @@ class RouteHelper {
   static const String ruqyah = "/ruqyah";
   static const String ruqyahDetailed = "/ruqyahDetailed";
   static const String ruqyahPlayList = "/ruqyahPlayList";
+  static const String quranstoriespage = "/quranStoriesPage";
 
   // static late BuildContext currentContext;
   static bool isLoggedIn = false;
@@ -152,6 +154,10 @@ class RouteHelper {
       duaPlayList: (context) {
         currentContext = context;
         return const DuaPlayList();
+      },
+      quranstoriespage: (context) {
+        currentContext = context;
+        return const QuranStoriesPage();
       },
       ruqyahPlayList: (context) {
         currentContext = context;
@@ -359,6 +365,7 @@ class RouteHelper {
         currentContext = context;
         return const PrivacyPolicyPage();
       },
+
       termsOfServices: (context) {
         currentContext = context;
         return const TermsOfServicesPage();

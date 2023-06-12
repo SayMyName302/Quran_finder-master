@@ -155,28 +155,26 @@ class _ManageProfileState extends State<ManageProfile> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 16.h,
-                          ),
-                          profile.userProfile!.loginType != "google"
-                              ? Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Password',
-                                      style: style400,
-                                    ),
-                                    Text(profile.userProfile!.password ?? "",
-                                        style: style12),
-                                  ],
-                                )
-                              : const SizedBox.shrink(),
-                          profile.userProfile!.loginType != "google"
-                              ? SizedBox(
-                                  height: 16.h,
-                                )
-                              : const SizedBox.shrink(),
+
+                          // profile.userProfile!.loginType != "google"
+                          //     ? Row(
+                          //         mainAxisAlignment:
+                          //             MainAxisAlignment.spaceBetween,
+                          //         children: [
+                          //           Text(
+                          //             'Password',
+                          //             style: style400,
+                          //           ),
+                          //           Text(profile.userProfile!.password ?? "",
+                          //               style: style12),
+                          //         ],
+                          //       )
+                          //     : const SizedBox.shrink(),
+                          // profile.userProfile!.loginType != "google"
+                          //     ? SizedBox(
+                          //         height: 16.h,
+                          //       )
+                          //     : const SizedBox.shrink(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

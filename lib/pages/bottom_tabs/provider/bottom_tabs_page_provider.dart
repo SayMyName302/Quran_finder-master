@@ -15,10 +15,11 @@ class BottomTabsPageProvider extends ChangeNotifier {
     const HomePage(),
     const QuranPage(),
     // const QaidaPage(),
-    //const QuranStoriesPage(),
+
     const SwipePages(),
     const MorePage(),
-    const ManageProfile()
+    const ManageProfile(),
+    // const QuranStoriesPage(),
   ];
 
   void setCurrentPage(int page) {
