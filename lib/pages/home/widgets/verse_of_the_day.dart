@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -14,6 +15,7 @@ class VerseOfTheDayContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (context, value, child) {
+        final Surah? surahNamea = Provider.of<HomeProvider>(context).surahName;
         return Column(
           children: [
             HomeRowWidget(
@@ -25,11 +27,13 @@ class VerseOfTheDayContainer extends StatelessWidget {
               },
             ),
             DuaContainer(
-                ref:
-                    "${value.verseOfTheDay.surahId}:${value.verseOfTheDay.verseId}",
-                text: value.verseOfTheDay.verseText,
-                translation: value.verseOfTheDay.translationText,
-                verseId: value.verseOfTheDay.verseId.toString())
+              ref:
+                  "${value.verseOfTheDay.surahId}:${value.verseOfTheDay.verseId}",
+              text: value.verseOfTheDay.verseText,
+              translation: value.verseOfTheDay.translationText,
+              verseId: value.verseOfTheDay.verseId.toString(),
+              surahName: surahNamea,
+            ),
           ],
         );
       },

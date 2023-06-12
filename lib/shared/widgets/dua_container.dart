@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
+import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -11,9 +12,17 @@ class DuaContainer extends StatelessWidget {
   final String? translation;
   final String? ref;
   final String? verseId;
-  const DuaContainer(
-      {Key? key, this.text = "", this.translation = "", this.ref, this.verseId})
-      : super(key: key);
+
+  final Surah? surahName;
+
+  const DuaContainer({
+    Key? key,
+    this.text = "",
+    this.translation = "",
+    this.ref,
+    this.verseId,
+    this.surahName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +50,8 @@ class DuaContainer extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.topLeft,
-                child: Text('– $ref –',
+                child: Text(
+                    'Surah ' + (surahName?.surahName ?? '') + ' ($ref) ',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: appColors.mainBrandingColor,
@@ -49,6 +59,7 @@ class DuaContainer extends StatelessWidget {
                         fontSize: fontProvider.fontSizeTranslation.sp,
                         fontFamily: 'satoshi')),
               ),
+              SizedBox(height: 10.h),
               Directionality(
                 textDirection: TextDirection.rtl,
                 child: RichText(
