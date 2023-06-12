@@ -28,9 +28,6 @@ class DuaContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final appColors = Provider.of<AppColorsProvider>(context);
     final isDark = Provider.of<ThemProvider>(context).isDark;
-    final arabicVerseId = verseId != null && verseId!.isNotEmpty
-        ? convertToArabicNumber(int.parse(verseId!))
-        : '';
 
     return Container(
       width: double.maxFinite,
@@ -76,10 +73,25 @@ class DuaContainer extends StatelessWidget {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text:
-                            '﴿ ${convertToArabicNumber(int.parse(verseId!))} ﴾',
+                        text: '﴿ ',
                         style: TextStyle(
-                          fontFamily: 'Noto Sans Arabic',
+                          fontWeight: FontWeight.w400,
+                          fontSize: fontProvider.fontSizeArabic.sp,
+                          // Add any other desired styling properties
+                        ),
+                      ),
+                      TextSpan(
+                        text: convertToArabicNumber(int.parse(verseId!)),
+                        style: TextStyle(
+                          fontFamily: 'satoshi',
+                          fontWeight: FontWeight.w700,
+                          fontSize: fontProvider.fontSizeArabic.sp,
+                          // Add any other desired styling properties
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' ﴾',
+                        style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: fontProvider.fontSizeArabic.sp,
                           // Add any other desired styling properties
@@ -89,6 +101,7 @@ class DuaContainer extends StatelessWidget {
                   ),
                 ),
               ),
+
               // Text('– $ref –',
               //     textAlign: TextAlign.center,
               //     style: TextStyle(

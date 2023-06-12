@@ -39,20 +39,23 @@ class _HomePageState extends State<HomePage> {
             const UserPicture(),
 
             /// your engagement feature
-            const YourEngagementSection(),
+            //const YourEngagementSection(),
 
             /// ayah last seen container
             lastSeen != null
-                ? Container(
-                    margin:
-                        EdgeInsets.only(left: 20.w, bottom: 8.h, right: 20.w),
-                    child: Text(
-                      localeText(context, 'continue_where_you_left_off'),
-                      style: TextStyle(
-                          fontSize: 15.sp,
-                          fontFamily: 'satoshi',
-                          fontWeight: FontWeight.w900),
-                    ))
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Container(
+                        margin: EdgeInsets.only(
+                            left: 20.w, bottom: 8.h, right: 20.w),
+                        child: Text(
+                          localeText(context, 'continue_where_you_left_off'),
+                          style: TextStyle(
+                              fontSize: 15.sp,
+                              fontFamily: 'satoshi',
+                              fontWeight: FontWeight.w900),
+                        )),
+                  )
                 : const SizedBox.shrink(),
             lastSeen != null
                 ? const WhereULeftOffWidget()
