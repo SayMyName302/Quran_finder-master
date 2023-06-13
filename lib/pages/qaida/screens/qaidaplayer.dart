@@ -5,22 +5,24 @@ import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
 
 // import '../../../shared/utills/app_colors.dart';
+import '../../../shared/routes/routes_helper.dart';
 import '../../../shared/widgets/circle_button.dart';
+import '../../settings/pages/app_colors/app_colors_provider.dart';
 
 class QaidaPlayer extends StatefulWidget {
   final void Function(bool value) selectWords;
   final void Function() playButton;
   final void Function() stopButton;
   final bool isAudioPlaying;
-  // final Function(bool) updateMultipleSelectionEnabled;
+  final bool updateMultipleSelectionEnabled;
 
   const QaidaPlayer({
     super.key,
-    required this.selectWords,
-    required this.playButton,
-    required this.stopButton,
-    required this.isAudioPlaying,
-    // required this.updateMultipleSelectionEnabled,
+    required this.selectWords, //To pass the updated value to swipePages
+    required this.playButton, //To pass the updated value to swipePages
+    required this.stopButton, //To pass the updated value to swipePages
+    required this.isAudioPlaying, //To pass the updated value to swipePages
+    required this.updateMultipleSelectionEnabled, //To Disable Select Words After the Audio is played
   });
 
   @override
@@ -30,33 +32,22 @@ class QaidaPlayer extends StatefulWidget {
 
 class _QaidaPlayerState extends State<QaidaPlayer> {
   int currentTab = 0;
-  // double _currentSliderValue = 0;
   bool isAudioPlaying = false;
   bool isActive = false;
 
   @override
   Widget build(BuildContext context) {
+    Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
     ThemProvider them = Provider.of<ThemProvider>(context);
 
-    // DuaProvider duaProvider = Provider.of<DuaProvider>(context);
-    // Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
-    // int? index = nextDuaData['index'];
-    // Dua nextDua = nextDuaData['dua'];
-    // int part7 = duaProvider.duaList.length;
-    // String duaTitle = nextDua.duaTitle.toString();
-    // String duaRef = nextDua.duaRef.toString();
-    // String duaText = nextDua.duaText.toString();
-    // int? duaCount = nextDua.ayahCount;
-    // String duaTranslation = nextDua.translations.toString();
-
-    //print(nextDua);
-    // final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
-    // // ignore: unused_local_variable
-    // bool isLoopMore = false;
+    final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
+    // ignore: unused_local_variable
+    bool isLoopMore = false;
 
     return Column(mainAxisSize: MainAxisSize.max, children: [
       Container(
-          margin: EdgeInsets.only(left: 10.w, top: 30.h),
+          margin: EdgeInsets.only(top: 25.h),
+          //decoration: BoxDecoration(border: Border.all(width: 1)),
           width: double.maxFinite,
           child: Column(
             children: [
@@ -100,64 +91,71 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
               // ),
               Row(
                 children: [
-                  // IconButton(
-                  //   onPressed: () {
-                  //     Navigator.of(context).pushNamed(
-                  //       RouteHelper.duaPlayList,
-                  //     );
-                  //   },
-                  //   icon: Image.asset(
-                  //     'assets/images/app_icons/list.png',
-                  //     height: 30.h,
-                  //     width: 30.w,
-                  //     color: them.isDark ? Colors.white : Colors.black,
-                  //   ),
-                  //   padding: EdgeInsets.zero,
-                  //   alignment: Alignment.center,
-                  // ),
-                  // IconButton(
-                  //   onPressed: () {
-
-                  //   },
-                  //   icon: ValueListenableBuilder<bool>(
-                  //     valueListenable: isLoopMoreNotifier,
-                  //     builder: (context, isLoopMore, child) {
-                  //       return Image.asset(
-                  //         'assets/images/app_icons/repeat.png',
-                  //         height: 30.h,
-                  //         width: 30.w,
-                  //         color: isLoopMore
-                  //             ? appColor.mainBrandingColor
-                  //             : Theme.of(context).brightness ==
-                  //                     Brightness.dark
-                  //                 ? Colors.white
-                  //                 : Colors.black,
-                  //       );
-                  //     },
-                  //   ),
-                  //   padding: EdgeInsets.zero,
-                  //   alignment: Alignment.center,
-                  // ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        isActive = !isActive;
-                      });
-                      widget.selectWords(isActive);
-                      print('Button Value: $isActive');
-                    },
-                    child: Text(
-                      'Select Specific words',
-                      style: TextStyle(
-                        fontSize: 10,
-                        decoration: TextDecoration.underline,
-                        color: isActive || widget.isAudioPlaying
-                            ? Colors.green
-                            : Colors.black,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            isActive = !isActive;
+                          });
+                          widget.selectWords(isActive);
+                          isActive = widget.updateMultipleSelectionEnabled;
+                        },
+                        child: Row(
+                          //    crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 20.h,
+                            ),
+                            Text(
+                              'Select Words',
+                              style: TextStyle(
+                                fontSize: 10,
+                                decoration: TextDecoration.underline,
+                                color: isActive || widget.isAudioPlaying
+                                    ? Colors.green
+                                    : Colors.black,
+                              ),
+                            ),
+                            // Checkbox(
+                            //   value: isActive,
+                            //   onChanged: (bool? newValue) {
+                            //     setState(() {
+                            //       isActive = newValue ?? false;
+                            //     });
+                            //     widget.selectWords(isActive);
+                            //     //      print('Checkbox Value: $isActive');
+                            //   },
+                            //   visualDensity: VisualDensity.compact,
+                            // ),
+                          ],
+                        ),
                       ),
-                    ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: ValueListenableBuilder<bool>(
+                          valueListenable: isLoopMoreNotifier,
+                          builder: (context, isLoopMore, child) {
+                            return Image.asset(
+                              'assets/images/app_icons/repeat.png',
+                              height: 30.h,
+                              width: 30.w,
+                              color: isLoopMore
+                                  ? appColor
+                                  : Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black,
+                            );
+                          },
+                        ),
+                        padding: EdgeInsets.zero,
+                        alignment: Alignment.center,
+                      ),
+                    ],
                   ),
-
                   const Spacer(),
                   IconButton(
                     onPressed: () async {
@@ -174,7 +172,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                     alignment: Alignment.center,
                   ),
                   SizedBox(
-                    width: 15.h,
+                    width: 10.h,
                   ),
                   Stack(
                     children: [
