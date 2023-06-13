@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/duas/dua_bookmarks_provider.dart';
+import 'package:nour_al_quran/pages/duas/dua_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/quran/widgets/details_container_widget.dart';
 import 'package:nour_al_quran/shared/entities/bookmarks.dart';
@@ -8,6 +9,8 @@ import 'package:nour_al_quran/shared/entities/bookmarks_dua.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../shared/routes/routes_helper.dart';
 
 class DuaBookmarkPage extends StatelessWidget {
   const DuaBookmarkPage({Key? key}) : super(key: key);
@@ -35,16 +38,19 @@ class DuaBookmarkPage extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: bookmarkValue.bookmarkList.length,
                         itemBuilder: (context, index) {
-                          BookmarksDua bookmarks =
-                              bookmarkValue.bookmarkList[index];
+                          BookmarksDua bookmarks = bookmarkValue.bookmarkList[index];
                           return InkWell(
                             onTap: () async {
-                              bookmarkValue.goToAudioPlayer(bookmarks, context);
+                              Provider.of<DuaProvider>(context,listen: false).getDua(bookmarks.categoryId!);
+                              Provider.of<DuaProvider>(context,listen: false).gotoDuaPlayerPage(bookmarks.duaId!, context);
+                              Navigator.of(context).pushNamed(
+                                RouteHelper.duaDetailed,
+                              );
+                              // bookmarkValue.goToAudioPlayer(bookmarks, context);
                             },
                             child: DetailsContainerWidget(
-                              title: "ABC",
-                              subTitle:
-                                  "${localeText(context, "dua")} ${bookmarks.duaId} , ${bookmarks.duaRef}",
+                              title: bookmarks.duaTitle!,
+                              subTitle: "${localeText(context, "dua")} ${bookmarks.duaId} , ${bookmarks.duaRef}",
                               icon: Icons.bookmark,
                               onTapIcon: () {
                                 bookmarkValue.removeBookmark(bookmarks.duaId!);

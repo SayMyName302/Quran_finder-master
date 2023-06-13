@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:nour_al_quran/pages/duas/dua_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:provider/provider.dart';
@@ -33,9 +34,9 @@ class BookmarkProviderDua extends ChangeNotifier {
     //     isJuz: true,
     //     bookmarkPosition: bookmarks.bookmarkPosition);
 
+    Provider.of<DuaProvider>(context,listen: false);
     /// if recitation player is on So this line is used to pause the player
-    Future.delayed(Duration.zero,
-        () => context.read<RecitationPlayerProvider>().pause(context));
+    Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) {
         return const DuaDetail();

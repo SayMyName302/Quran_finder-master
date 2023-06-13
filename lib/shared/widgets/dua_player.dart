@@ -89,9 +89,13 @@ class DuaAudioPlayer extends StatelessWidget {
                       InkWell(
                         onTap: () async {
                           if (fav == 0 || fav == null) {
+                            int duaIndex = duaProvider.duaList.indexWhere((element) => element.duaText == duaText);
+                            print(duaIndex);
                             duaProvider.bookmark(favindex, 1);
                             BookmarksDua bookmark = BookmarksDua(
-                                duaId: index,
+                                // duaId: index,
+                                duaId: duaProvider.duaList[duaIndex].id,
+                                categoryId: duaProvider.duaList[duaIndex].duaCategory,
                                 duaTitle: duaTitle,
                                 duaRef: duaRef,
                                 ayahCount: duaCount,

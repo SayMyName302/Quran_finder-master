@@ -9,6 +9,7 @@ import 'models/dua_category.dart';
 class DuaProvider extends ChangeNotifier {
   List<DuaCategory> _duaCategoryList = [];
   List<DuaCategory> get duaCategoryList => _duaCategoryList;
+
   List<Dua> _duaList = [];
   List<Dua> get duaList => _duaList;
   int _currentduaIndex = 0;
@@ -33,13 +34,16 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
   gotoDuaPlayerPage(int duaId, BuildContext context) {
     //Dua list index always starting from 0
     _currentduaIndex = _duaList.indexWhere((element) => element.id == duaId);
-    _selectedDua = _duaList[_currentduaIndex];
-    Provider.of<DuaPlayerProvider>(context, listen: false)
-        .initAudioPlayer(_selectedDua!.duaUrl!, context);
-    notifyListeners();
+    if(_currentduaIndex != -1){
+      _selectedDua = _duaList[_currentduaIndex];
+      Provider.of<DuaPlayerProvider>(context, listen: false)
+          .initAudioPlayer(_selectedDua!.duaUrl!, context);
+      notifyListeners();
+    }
   }
 
   void playNextDuaInCategory(BuildContext context) {
