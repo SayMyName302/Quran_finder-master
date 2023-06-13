@@ -16,6 +16,7 @@ import 'package:nour_al_quran/shared/hive_adopters/duration_adapter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/last_seen_adopter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/locale_adopter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/on_boarding_adopter.dart';
+import 'package:nour_al_quran/shared/hive_adopters/ruqyahbookmark_adopter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/time_of_the_day_adopter.dart';
 import 'package:nour_al_quran/shared/hive_adopters/user_profile_adopter.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
@@ -38,6 +39,7 @@ class Global {
     Hive.registerAdapter(LocaleAdapter());
     Hive.registerAdapter(BookmarksAdapter());
     Hive.registerAdapter(DuaBookmarksAdapter());
+    Hive.registerAdapter(RuqyahBookmarksAdapter());
     Hive.registerAdapter(UserProfileAdopter());
     Hive.registerAdapter(OnBoardingAdopter());
     Hive.registerAdapter(TimeOfTheDayAdapter());

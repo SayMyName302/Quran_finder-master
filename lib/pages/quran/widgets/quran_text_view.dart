@@ -171,7 +171,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                       QuranText quranText = value.quranTextList[index];
                       // saving quran text in upper declare variable
                       _quranText = value.quranTextList;
-
+                      bool isFirstVerse = (index == 0);
                       return Container(
                         margin:
                             EdgeInsets.only(top: 13.h, left: 5.w, right: 5.w),
@@ -203,8 +203,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                                         TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: '${quranText.verseText!}﴿ '
-                                                  '',
+                                              text: '${quranText.verseText!}﴿ ',
                                               style: TextStyle(
                                                 fontFamily: font.finalFont,
                                                 fontWeight: FontWeight.w400,

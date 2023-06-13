@@ -43,7 +43,7 @@ class BookmarksDua {
 
   BookmarksDua.fromJson(Map<String, dynamic> json) {
     _duaId = json['duaId'];
-     _categoryId = json['categoryId'];
+    _categoryId = json['categoryId'];
     _duaTitle = json['duaTitle'];
     _duaRef = json['duaRef'];
     _ayahCount = json['ayahCount'];
@@ -66,9 +66,4 @@ class BookmarksDua {
       "contenturl": _contentUrl,
     };
   }
-
-  // @override
-  // String toString() {
-  //   return 'Dua: duaId=$duaId,duaTitle=$duaTitle, duaText=$duaText, translations=$duaTranslation, duaRef=$duaRef, totalAyaat=$ayahCount, isFAV ? $bookmarkPosition';
-  // }
 }

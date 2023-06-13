@@ -39,11 +39,11 @@ class DuaProvider extends ChangeNotifier {
     _duaList = [];
     _duaList = await QuranDatabase().getDua(duaCategoryId);
     if (_duaList.isNotEmpty) {
-      print("//////////$duaText///////////");
+      //   print("//////////$duaText///////////");
       //Dua list index always starting from 0
       _currentduaIndex =
           _duaList.indexWhere((element) => element.duaText == duaText);
-      print("//////////$currentDuaIndex///////////");
+      //   print("//////////$currentDuaIndex///////////");
       if (_currentduaIndex != -1) {
         _selectedDua = _duaList[_currentduaIndex];
         Provider.of<DuaPlayerProvider>(context, listen: false)
@@ -56,8 +56,6 @@ class DuaProvider extends ChangeNotifier {
   void playNextDuaInCategory(BuildContext context) {
     _currentduaIndex = (_currentduaIndex + 1) % _duaList.length;
     _selectedDua = _duaList[_currentduaIndex];
-    // print('curr index $_currentduaIndex');
-    // print('selct dua $_selectedDua');
 
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);
@@ -72,14 +70,6 @@ class DuaProvider extends ChangeNotifier {
       'index': _currentduaIndex,
       'dua': _duaList[_currentduaIndex],
     };
-    // if(_currentduaIndex != 0){
-    //   int nextIndex = (_currentduaIndex) % _duaList.length;
-    //   Dua nextDua = _duaList[nextIndex];
-    //   return {
-    //     'index': nextIndex + 1,
-    //     'dua': nextDua,
-    //   };
-    // }
   }
 
   void playPreviousDuaInCategory(BuildContext context) {

@@ -34,7 +34,7 @@ class RuqyahPlayList extends StatelessWidget {
 
                       return InkWell(
                         onTap: () {
-                          duaProvider.gotoDuaPlayerPage(dua.id!, context);
+                          //       duaProvider.gotoDuaPlayerPage(dua.id!, context);
                           Navigator.pop(context);
                         },
                         child: Container(

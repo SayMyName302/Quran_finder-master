@@ -17,7 +17,7 @@ class TitleText extends StatelessWidget {
       style: style != null
           ? style
           : TextStyle(
-              fontSize: fontSize == 0 ? 22.sp : fontSize,
+              fontSize: fontSize == 0 ? 22.1.sp : fontSize,
               fontFamily: "satoshi"),
     );
   }

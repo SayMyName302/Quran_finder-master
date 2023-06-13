@@ -117,7 +117,7 @@ class RuqyahPage extends StatelessWidget {
                           Navigator.of(context).pushNamed(
                             RouteHelper.ruqyahDetailed,
                           );
-                          duaProvider.gotoDuaPlayerPage(dua.id!, context);
+                          //      duaProvider.gotoDuaPlayerPage(dua.id!, context);
                         },
                         child: Container(
                           margin: EdgeInsets.only(
