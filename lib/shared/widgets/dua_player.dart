@@ -88,10 +88,14 @@ class DuaAudioPlayer extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () async {
+                          int duaIndex = duaProvider.duaList.indexWhere((element) => element.duaText == duaText);
+                          print(duaIndex);
                           if (fav == 0 || fav == null) {
-                            duaProvider.bookmark(favindex, 1);
+                            duaProvider.bookmark(duaIndex, 1);
                             BookmarksDua bookmark = BookmarksDua(
-                                duaId: index,
+                                // duaId: index,
+                                duaId: duaProvider.duaList[duaIndex].id,
+                                categoryId: duaProvider.duaList[duaIndex].duaCategory,
                                 duaTitle: duaTitle,
                                 duaRef: duaRef,
                                 ayahCount: duaCount,
@@ -99,15 +103,11 @@ class DuaAudioPlayer extends StatelessWidget {
                                 duaTranslation: duaTranslation,
                                 bookmarkPosition: favindex,
                                 duaUrl: duaUrl);
-                            context
-                                .read<BookmarkProviderDua>()
-                                .addBookmark(bookmark);
+                            context.read<BookmarkProviderDua>().addBookmark(bookmark);
                           } else {
                             // to change state
-                            duaProvider.bookmark(favindex, 0);
-                            context
-                                .read<BookmarkProviderDua>()
-                                .removeBookmark(favindex);
+                            duaProvider.bookmark(duaIndex, 0);
+                            context.read<BookmarkProviderDua>().removeBookmark(duaProvider.duaList[duaIndex].id!);
                           }
                           // }
                         },

@@ -9,6 +9,7 @@ import 'models/dua_category.dart';
 class DuaProvider extends ChangeNotifier {
   List<DuaCategory> _duaCategoryList = [];
   List<DuaCategory> get duaCategoryList => _duaCategoryList;
+
   List<Dua> _duaList = [];
   List<Dua> get duaList => _duaList;
   int _currentduaIndex = 0;
@@ -33,13 +34,22 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  gotoDuaPlayerPage(int duaId, BuildContext context) {
-    //Dua list index always starting from 0
-    _currentduaIndex = _duaList.indexWhere((element) => element.id == duaId);
-    _selectedDua = _duaList[_currentduaIndex];
-    Provider.of<DuaPlayerProvider>(context, listen: false)
-        .initAudioPlayer(_selectedDua!.duaUrl!, context);
-    notifyListeners();
+
+  gotoDuaPlayerPage(int duaCategoryId,String duaText, BuildContext context) async{
+    _duaList = [];
+    _duaList = await QuranDatabase().getDua(duaCategoryId);
+    if(_duaList.isNotEmpty){
+      print("//////////$duaText///////////");
+      //Dua list index always starting from 0
+      _currentduaIndex = _duaList.indexWhere((element) => element.duaText == duaText);
+      print("//////////$currentDuaIndex///////////");
+      if(_currentduaIndex != -1){
+        _selectedDua = _duaList[_currentduaIndex];
+        Provider.of<DuaPlayerProvider>(context, listen: false)
+            .initAudioPlayer(_selectedDua!.duaUrl!, context);
+        notifyListeners();
+      }
+    }
   }
 
   void playNextDuaInCategory(BuildContext context) {
@@ -48,20 +58,27 @@ class DuaProvider extends ChangeNotifier {
     // print('curr index $_currentduaIndex');
     // print('selct dua $_selectedDua');
 
-    Provider.of<DuaPlayerProvider>(context, listen: false)
-        .initAudioPlayer(_selectedDua!.duaUrl!, context);
+    Provider.of<DuaPlayerProvider>(context, listen: false).initAudioPlayer(_selectedDua!.duaUrl!, context);
     getNextDua();
     notifyListeners();
   }
 
   // Method to get the next dua
   Map<String, dynamic> getNextDua() {
-    int nextIndex = (_currentduaIndex) % _duaList.length;
-    Dua nextDua = _duaList[nextIndex];
+    /// IntegerDivisionByZeroException ye exception a rahi thi
     return {
-      'index': nextIndex + 1,
-      'dua': nextDua,
+      'index': _currentduaIndex,
+      'dua': _duaList[_currentduaIndex],
     };
+    // if(_currentduaIndex != 0){
+    //   int nextIndex = (_currentduaIndex) % _duaList.length;
+    //   Dua nextDua = _duaList[nextIndex];
+    //   return {
+    //     'index': nextIndex + 1,
+    //     'dua': nextDua,
+    //   };
+    // }
+
   }
 
   void playPreviousDuaInCategory(BuildContext context) {

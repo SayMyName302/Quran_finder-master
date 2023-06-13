@@ -117,7 +117,7 @@ class DuaPage extends StatelessWidget {
                           Navigator.of(context).pushNamed(
                             RouteHelper.duaDetailed,
                           );
-                          duaProvider.gotoDuaPlayerPage(dua.id!, context);
+                          duaProvider.gotoDuaPlayerPage(dua.duaCategory!, dua.duaText!,context);
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -145,8 +145,7 @@ class DuaPage extends StatelessWidget {
                                       children: [
                                         Padding(
                                           //padding: const EdgeInsets.all(8.0),
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
+                                          padding: const EdgeInsets.only(top: 5, bottom: 5),
                                           child: CircleAvatar(
                                             radius: 17,
                                             backgroundColor:
@@ -207,7 +206,8 @@ class DuaPage extends StatelessWidget {
                                             //right: 1.h,
                                             top: 5.h,
                                             bottom: 5.h,
-                                            left: 10.w,
+                                            /// yaha 10.w tha
+                                            left: 0.w,
                                           ),
                                           child: CircleAvatar(
                                             radius: 16.h,
