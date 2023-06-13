@@ -61,7 +61,7 @@ class Dua {
   Map<String, dynamic> toJson() {
     return {
       'dua_id': _id,
-      'category_id':_duaCategory,
+      'category_id': _duaCategory,
       'dua_text': _duaText,
       'dua_title': _duatitle,
       'dua_ref': _duaRef,
