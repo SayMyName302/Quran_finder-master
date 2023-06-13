@@ -21,7 +21,9 @@ class BookmarkProviderDua extends ChangeNotifier {
 
   void addBookmark(BookmarksDua bookmarks) {
     QuranDatabase().adduaBookmark(bookmarks.duaId!);
-    _bookmarkList.add(bookmarks);
+    if(!_bookmarkList.contains(bookmarks)){
+      _bookmarkList.add(bookmarks);
+    }
     notifyListeners();
     Hive.box("myBox").put("bookmarks1", _bookmarkList);
   }

@@ -440,8 +440,7 @@ class QuranDatabase {
   //delete bookmark
   void removeduaBookmark(int duaId) async {
     database = await openDb();
-    await database!
-        .rawUpdate("update $_duaAllTable set is_fav = 0 where dua_id = $duaId");
+    await database!.rawUpdate("update $_duaAllTable set is_fav = 0 where dua_id = $duaId");
     // print('DuaID removed is: $duaId');
   }
 

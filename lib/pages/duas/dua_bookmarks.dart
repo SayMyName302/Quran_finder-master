@@ -41,8 +41,8 @@ class DuaBookmarkPage extends StatelessWidget {
                           BookmarksDua bookmarks = bookmarkValue.bookmarkList[index];
                           return InkWell(
                             onTap: () async {
-                              Provider.of<DuaProvider>(context,listen: false).getDua(bookmarks.categoryId!);
-                              Provider.of<DuaProvider>(context,listen: false).gotoDuaPlayerPage(bookmarks.duaId!, context);
+                              // Provider.of<DuaProvider>(context,listen: false).getDua(bookmarks.categoryId!);
+                              Provider.of<DuaProvider>(context,listen: false).gotoDuaPlayerPage(bookmarks.categoryId!,bookmarks.duaText!, context);
                               Navigator.of(context).pushNamed(
                                 RouteHelper.duaDetailed,
                               );
