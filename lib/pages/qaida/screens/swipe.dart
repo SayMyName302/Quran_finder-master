@@ -90,22 +90,18 @@ class _SwipePagesState extends State<SwipePages> {
   final List<GlobalKey<Page19State>> _page19Key = [
     GlobalKey<Page19State>(),
   ];
+
   int _curr = 0;
   bool _isPlaying = false;
   bool _isPaused = false;
 
-  //bool _toggleValue = false;
-  // bool _isExpanded = false;
-  //bool _clearSelection = false;
-  // bool _isButtonTapped = false;
   List<Widget> _list = <Widget>[];
-  // late Animation<double> _animation;
-  // late AnimationController _controller;
   bool _isMultipleSelectionEnabled = false;
+  // ignore: prefer_final_fields
   AudioPlayer _audioPlayer = AudioPlayer();
+  // ignore: prefer_final_fields
   List<AudioPlayer> _audioLists = [];
   PageController controller = PageController();
-  // final TextStyle _buttonTextStyle = const TextStyle(color: Colors.black);
 
   @override
   void initState() {
@@ -127,6 +123,7 @@ class _SwipePagesState extends State<SwipePages> {
   void updateMultipleSelectionEnabled(bool value) {
     setState(() {
       _isMultipleSelectionEnabled = value;
+      print('value received after playing audio: $_isMultipleSelectionEnabled');
     });
   }
 
@@ -135,8 +132,8 @@ class _SwipePagesState extends State<SwipePages> {
       _isMultipleSelectionEnabled = value;
     });
     _updateList();
-    print('Button Value received: $value'); // Print the value
-    print('select words called after audio played?'); // Print the value
+    print('Button Value received: $value');
+    print('select words called after audio played?');
   }
 
   void fetchstop() {
@@ -747,7 +744,7 @@ class _SwipePagesState extends State<SwipePages> {
       }
       _isPlaying = false;
       _isPaused = false;
-      selectWords(false);
+      // selectWords(false);
     } catch (e) {
       print('Error playing audios: $e');
     }
@@ -971,7 +968,7 @@ class _SwipePagesState extends State<SwipePages> {
           playButton: fetchList,
           stopButton: fetchstop,
           isAudioPlaying: _isPlaying,
-          // updateMultipleSelectionEnabled: updateMultipleSelectionEnabled,
+          updateMultipleSelectionEnabled: _isMultipleSelectionEnabled,
         ),
       ),
     );

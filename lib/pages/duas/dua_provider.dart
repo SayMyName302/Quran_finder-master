@@ -34,16 +34,17 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  gotoDuaPlayerPage(int duaCategoryId,String duaText, BuildContext context) async{
+  gotoDuaPlayerPage(
+      int duaCategoryId, String duaText, BuildContext context) async {
     _duaList = [];
     _duaList = await QuranDatabase().getDua(duaCategoryId);
-    if(_duaList.isNotEmpty){
+    if (_duaList.isNotEmpty) {
       print("//////////$duaText///////////");
       //Dua list index always starting from 0
-      _currentduaIndex = _duaList.indexWhere((element) => element.duaText == duaText);
+      _currentduaIndex =
+          _duaList.indexWhere((element) => element.duaText == duaText);
       print("//////////$currentDuaIndex///////////");
-      if(_currentduaIndex != -1){
+      if (_currentduaIndex != -1) {
         _selectedDua = _duaList[_currentduaIndex];
         Provider.of<DuaPlayerProvider>(context, listen: false)
             .initAudioPlayer(_selectedDua!.duaUrl!, context);
@@ -58,7 +59,8 @@ class DuaProvider extends ChangeNotifier {
     // print('curr index $_currentduaIndex');
     // print('selct dua $_selectedDua');
 
-    Provider.of<DuaPlayerProvider>(context, listen: false).initAudioPlayer(_selectedDua!.duaUrl!, context);
+    Provider.of<DuaPlayerProvider>(context, listen: false)
+        .initAudioPlayer(_selectedDua!.duaUrl!, context);
     getNextDua();
     notifyListeners();
   }
@@ -78,7 +80,6 @@ class DuaProvider extends ChangeNotifier {
     //     'dua': nextDua,
     //   };
     // }
-
   }
 
   void playPreviousDuaInCategory(BuildContext context) {
@@ -97,16 +98,4 @@ class DuaProvider extends ChangeNotifier {
     _duaList[duaId].setIsBookmark = value;
     notifyListeners();
   }
-
-  // void setSurahText({required int duaId,required String title,required int fromWhere,bool? isJuz = false, int? juzId = -1,int? bookmarkPosition = -1}) async{
-
-  //   _title = title;
-  //   _isJuz = isJuz;
-  //   _juzId = juzId;
-  //   _bookmarkPosition = bookmarkPosition;
-  //   _surahId = surahId;
-  //   _quranTextList = await QuranDatabase().getQuranSurahText(surahId: surahId);
-  //   _nextSurah = await getSpecificSurah(surahId+1);
-  //   notifyListeners();
-  // }
 }
