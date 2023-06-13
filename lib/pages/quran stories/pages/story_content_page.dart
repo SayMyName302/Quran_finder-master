@@ -35,9 +35,8 @@ class StoryDetailsPage extends StatelessWidget {
                         ? HtmlWidget(
                             story.selectedQuranStory!.text!,
                             textStyle: TextStyle(
-                              fontSize: fontProvider.fontSizeTranslation.sp,
                               fontFamily: 'satoshi',
-                              fontWeight: FontWeight.w500,
+                              fontSize: fontProvider.fontSizeTranslation.sp,
                             ),
 
                             /// pending means data not added in db by data entry person
