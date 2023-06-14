@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah.dart';
 import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah_category.dart';
@@ -22,7 +24,6 @@ class RuqyahProvider extends ChangeNotifier {
   }
 
   Future<void> getRDua(int duaCategoryId) async {
-    //fetches all the dua in current category list
     _duaList = await QuranDatabase().getRDua(duaCategoryId);
     notifyListeners();
   }
@@ -53,10 +54,9 @@ class RuqyahProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Method to get the next dua
   Map<String, dynamic> getNextDua() {
     return {
-      'index': _currentduaIndex,
+      'index': _currentduaIndex + 1,
       'dua': _duaList[_currentduaIndex],
     };
   }

@@ -56,14 +56,17 @@ class DetailsContainerWidget extends StatelessWidget {
                   height: 2.h,
                 ),
                 SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    child: Text(
-                      subTitle,
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          fontFamily: "satoshi",
-                          color: isDark ? AppColors.grey3 : AppColors.grey4),
-                    ))
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: Text(
+                    subTitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        fontFamily: "satoshi",
+                        color: isDark ? AppColors.grey3 : AppColors.grey4),
+                  ),
+                )
               ],
             ),
           ),

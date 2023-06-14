@@ -66,4 +66,9 @@ class BookmarksRuqyah {
       "contenturl": _contentUrl,
     };
   }
+
+  @override
+  String toString() {
+    return 'InsideDuaBookmarks: duaId=$duaId,categoryID=$categoryId ,duaTitle=$duaTitle';
+  }
 }

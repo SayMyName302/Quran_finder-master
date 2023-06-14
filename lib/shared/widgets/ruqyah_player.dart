@@ -50,49 +50,28 @@ class RuqyahAudioPlayer extends StatelessWidget {
               return Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        duaTitle,
-                        style: TextStyle(
-                            fontFamily: 'satoshi',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 19.sp),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: Align(
-                          alignment: Alignment.centerRight,
+                        child: Center(
                           child: Text(
-                            'Dua $index  (Total $part7)',
-                            style: const TextStyle(
+                            duaTitle,
+                            style: TextStyle(
                               fontFamily: 'satoshi',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 19.sp,
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 110.h,
                       ),
                       InkWell(
                         onTap: () async {
                           int duaIndex = ruqyahProvider.duaList.indexWhere(
                               (element) => element.duaText == duaText);
-                          print(duaIndex);
+
                           if (fav == 0 || fav == null) {
                             ruqyahProvider.bookmark(duaIndex, 1);
                             BookmarksRuqyah bookmark = BookmarksRuqyah(
-                                // duaId: index,
-                                duaId: ruqyahProvider.duaList[duaIndex].id,
+                                duaId: index,
                                 categoryId: ruqyahProvider
                                     .duaList[duaIndex].duaCategory,
                                 duaTitle: duaTitle,
@@ -106,7 +85,6 @@ class RuqyahAudioPlayer extends StatelessWidget {
                                 .read<BookmarkProviderRuqyah>()
                                 .addBookmark(bookmark);
                           } else {
-                            // to change state
                             ruqyahProvider.bookmark(duaIndex, 0);
                             context
                                 .read<BookmarkProviderRuqyah>()
@@ -116,10 +94,9 @@ class RuqyahAudioPlayer extends StatelessWidget {
                           // }
                         },
                         child: Container(
-                          height: 19.h,
-                          width: 19.w,
-                          margin: EdgeInsets.only(
-                              bottom: 7.h, top: 8.h, right: 20.w, left: 20.w),
+                          height: 20.h,
+                          width: 20.w,
+                          margin: EdgeInsets.only(bottom: 7.h, top: 8.h),
                           child: CircleAvatar(
                             backgroundColor: appColor.mainBrandingColor,
                             child: SizedBox(
@@ -148,6 +125,19 @@ class RuqyahAudioPlayer extends StatelessWidget {
                           ),
                         ),
                       )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Dua $index  (Total $part7)',
+                        style: const TextStyle(
+                          fontFamily: 'satoshi',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0,
+                        ),
+                      ),
                     ],
                   ),
                   Row(

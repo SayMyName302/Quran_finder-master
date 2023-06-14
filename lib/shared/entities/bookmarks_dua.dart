@@ -1,6 +1,7 @@
 class BookmarksDua {
   int? _duaId; // index of dua in a table
   int? _categoryId; //dua category in a table
+  String? _categoryName; //This is for concating the name for Bookmarks only!
   String? _duaTitle; //Title of dua i.e. Dua1/Dua2/Dua3
   String? _duaRef; //Reference of dua
   int? _ayahCount; //Total ayat count
@@ -11,6 +12,7 @@ class BookmarksDua {
 
   int? get duaId => _duaId;
   int? get categoryId => _categoryId;
+  String? get categoryName => _categoryName;
   String? get duaTitle => _duaTitle;
   String? get duaRef => _duaRef;
   int? get ayahCount => _ayahCount;
@@ -22,6 +24,7 @@ class BookmarksDua {
   BookmarksDua({
     required duaId,
     required categoryId,
+    required categoryName,
     required duaTitle,
     required duaRef,
     required ayahCount,
@@ -32,6 +35,7 @@ class BookmarksDua {
   }) {
     _duaId = duaId;
     _categoryId = categoryId;
+    _categoryName = categoryName;
     _duaTitle = duaTitle;
     _duaRef = duaRef;
     _ayahCount = ayahCount;
@@ -44,6 +48,7 @@ class BookmarksDua {
   BookmarksDua.fromJson(Map<String, dynamic> json) {
     _duaId = json['duaId'];
     _categoryId = json['categoryId'];
+    _categoryName = json['categoryName'];
     _duaTitle = json['duaTitle'];
     _duaRef = json['duaRef'];
     _ayahCount = json['ayahCount'];
@@ -57,6 +62,7 @@ class BookmarksDua {
     return {
       "duaId": _duaId,
       "categoryId": _categoryId,
+      "categoryName": _categoryName,
       "duaTitle": _duaTitle,
       "duaRef": _duaRef,
       "ayahCount": _ayahCount,
@@ -65,5 +71,10 @@ class BookmarksDua {
       "bookmarkPosition": _bookmarkPosition,
       "contenturl": _contentUrl,
     };
+  }
+
+  @override
+  String toString() {
+    return 'InsideDuaBookmarks: duaId=$duaId,categoryID=$categoryId ,duaTitle=$duaTitle,categoryName=$categoryName';
   }
 }

@@ -9,6 +9,7 @@ class DuaBookmarksAdapter extends TypeAdapter<BookmarksDua> {
   BookmarksDua read(BinaryReader reader) {
     final duaId = reader.read();
     final categoryId = reader.read();
+    final categoryName = reader.read();
     final duaTitle = reader.read();
     final duaRef = reader.read();
     final ayahCount = reader.read();
@@ -20,6 +21,7 @@ class DuaBookmarksAdapter extends TypeAdapter<BookmarksDua> {
     return BookmarksDua(
         duaId: duaId,
         categoryId: categoryId,
+        categoryName: categoryName,
         duaTitle: duaTitle,
         duaRef: duaRef,
         ayahCount: ayahCount,
@@ -33,6 +35,7 @@ class DuaBookmarksAdapter extends TypeAdapter<BookmarksDua> {
   void write(BinaryWriter writer, BookmarksDua obj) {
     writer.write(obj.duaId);
     writer.write(obj.categoryId);
+    writer.write(obj.categoryName);
     writer.write(obj.duaTitle);
     writer.write(obj.duaRef);
     writer.write(obj.ayahCount);

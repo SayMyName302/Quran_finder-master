@@ -28,8 +28,8 @@ class DuaCategory {
     _imageUrl = json['image_url'];
   }
 
-  @override
-  String toString() {
-    return 'Dua: CatId=$categoryId,duaTitle=$categoryName';
-  }
+  // @override
+  // String toString() {
+  //   return 'Dua: CatId=$categoryId,duaTitle=$categoryName';
+  // }
 }

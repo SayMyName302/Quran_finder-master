@@ -39,13 +39,11 @@ class DuaProvider extends ChangeNotifier {
     _duaList = [];
     _duaList = await QuranDatabase().getDua(duaCategoryId);
     if (_duaList.isNotEmpty) {
-      //   print("//////////$duaText///////////");
-      //Dua list index always starting from 0
       _currentduaIndex =
           _duaList.indexWhere((element) => element.duaText == duaText);
-      //   print("//////////$currentDuaIndex///////////");
       if (_currentduaIndex != -1) {
         _selectedDua = _duaList[_currentduaIndex];
+        // ignore: use_build_context_synchronously
         Provider.of<DuaPlayerProvider>(context, listen: false)
             .initAudioPlayer(_selectedDua!.duaUrl!, context);
         notifyListeners();
@@ -63,11 +61,9 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Method to get the next dua
   Map<String, dynamic> getNextDua() {
-    /// IntegerDivisionByZeroException ye exception a rahi thi
     return {
-      'index': _currentduaIndex,
+      'index': _currentduaIndex + 1,
       'dua': _duaList[_currentduaIndex],
     };
   }
@@ -82,8 +78,6 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //DuaList i.e. dua 77 will update to either 0,1
-  //List index starting with 0
   void bookmark(int duaId, int value) {
     _duaList[duaId].setIsBookmark = value;
     notifyListeners();

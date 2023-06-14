@@ -117,7 +117,8 @@ class RuqyahPage extends StatelessWidget {
                           Navigator.of(context).pushNamed(
                             RouteHelper.ruqyahDetailed,
                           );
-                          //      duaProvider.gotoDuaPlayerPage(dua.id!, context);
+                          duaProvider.gotoDuaPlayerPage(
+                              dua.duaCategory!, dua.duaText!, context);
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -135,101 +136,90 @@ class RuqyahPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                margin:
-                                    EdgeInsets.only(left: 10.w, right: 10.w),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                margin: EdgeInsets.only(left: 10.w),
+                                child: Row(
                                   children: [
-                                    Row(
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: CircleAvatar(
+                                        radius: 17,
+                                        backgroundColor:
+                                            appColors.mainBrandingColor,
+                                        child: Container(
+                                          width: 25,
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "${index + 1}",
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 11,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.h),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                          //padding: const EdgeInsets.all(8.0),
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: CircleAvatar(
-                                            radius: 17,
-                                            backgroundColor:
-                                                appColors.mainBrandingColor,
-                                            child: Container(
-                                              width: 25,
-                                              height: 25,
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "${index + 1}",
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                  fontSize: 11,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
+                                        Text(
+                                          capitalize(dua.duaTitle.toString()),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12.sp,
+                                            fontFamily: "satoshi",
                                           ),
                                         ),
-                                        SizedBox(width: 10.h),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              capitalize(
-                                                  dua.duaTitle.toString()),
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 12.sp,
-                                                fontFamily: "satoshi",
-                                              ),
+                                        SizedBox(height: 2.h),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.6,
+                                          child: Text(
+                                            dua.duaRef.toString(),
+                                            style: TextStyle(
+                                              fontSize: 10.sp,
+                                              fontFamily: "satoshi",
+                                              color: AppColors.grey4,
                                             ),
-                                            SizedBox(height: 5.h),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.6,
-                                              child: Text(
-                                                dua.duaRef.toString(),
-                                                style: TextStyle(
-                                                  fontSize: 10.sp,
-                                                  fontFamily: "satoshi",
-                                                  color: AppColors.grey4,
-                                                ),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        //SizedBox(width: 10.h),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                            //right: 1.h,
-                                            top: 5.h,
-                                            bottom: 5.h,
-                                            left: 10.w,
-                                          ),
-                                          child: CircleAvatar(
-                                            radius: 16.h,
-                                            backgroundColor: Colors.grey[300],
-                                            child: Container(
-                                              width: 21.h,
-                                              height: 21.h,
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                duaCount,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                  fontSize: 11,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  right: 10.h,
+                                  top: 5.h,
+                                  bottom: 5.h,
+                                ),
+                                child: CircleAvatar(
+                                  radius: 16.h,
+                                  backgroundColor: Colors.grey[300],
+                                  child: Container(
+                                    width: 21.h,
+                                    height: 21.h,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      duaCount,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],

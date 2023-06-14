@@ -5,7 +5,6 @@ import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../../shared/utills/app_colors.dart';
 import '../../../../shared/widgets/app_bar.dart';
-import '../../../../shared/widgets/dua_container1.dart';
 import '../../../../shared/widgets/dua_player.dart';
 import '../settings/pages/app_colors/app_colors_provider.dart';
 import '../settings/pages/fonts/font_provider.dart';
@@ -25,9 +24,6 @@ class DuaDetail extends StatelessWidget {
     String duaTitle = nextDua.duaTitle.toString();
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
-
-    // print(nextDua);
-
     String duaCount = nextDua.ayahCount.toString();
     String duaTranslation = nextDua.translations.toString();
 
@@ -40,7 +36,8 @@ class DuaDetail extends StatelessWidget {
         appBar:
             buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
-          child: Consumer<AppColorsProvider>(builder: (context, appColors, child) {
+          child:
+              Consumer<AppColorsProvider>(builder: (context, appColors, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -62,7 +59,6 @@ class DuaDetail extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // color: AppColors.grey2
                                   Row(
                                     children: [
                                       Padding(
