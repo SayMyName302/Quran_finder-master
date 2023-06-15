@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.19.3 <3.0.0"
+  sdk: ">=2.18.3 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -45,17 +45,17 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_facebook_auth: ^5.0.11
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: 
   flutter_local_notifications: ^14.0.0+2
   flutter_localizations:
     sdk: flutter
-  flutter_native_splash: ^2.2.19
+  flutter_native_splash:
   flutter_qiblah:
     path: packages/flutter_qiblah-master
   flutter_screenutil: ^5.7.0
   flutter_spinkit: ^5.2.0
   flutter_timezone: ^1.0.6
-  flutter_widget_from_html: ^0.10.0
+  flutter_widget_from_html: 
   fluttertoast: ^8.2.1
   geocoding: ^2.1.0
   geolocator: ^9.0.2
@@ -66,8 +66,8 @@ dependencies:
     path: packages/hijri_date-master
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  http: ^0.13.6
-  intl: ^0.17.0
+  http: 
+  intl: ^0.18.0
   just_audio: ^0.9.33
   location: ^4.4.0
   onesignal_flutter: ^3.5.1

@@ -15,17 +15,18 @@ class BookmarkProviderDua extends ChangeNotifier {
   void removeBookmark(int duaId) {
     QuranDatabase().removeduaBookmark(duaId);
     _bookmarkList.removeWhere((element) => element.duaId == duaId);
-    notifyListeners();
     Hive.box("myBox").put("bookmarks1", _bookmarkList);
+    notifyListeners();
   }
 
   void addBookmark(BookmarksDua bookmarks) {
     QuranDatabase().adduaBookmark(bookmarks.duaId!);
-    if(!_bookmarkList.contains(bookmarks)){
+    if (!_bookmarkList.contains(bookmarks)) {
       _bookmarkList.add(bookmarks);
     }
-    notifyListeners();
+
     Hive.box("myBox").put("bookmarks1", _bookmarkList);
+    notifyListeners();
   }
 
   void goToAudioPlayer(BookmarksDua bookmarks, BuildContext context) async {
@@ -36,9 +37,11 @@ class BookmarkProviderDua extends ChangeNotifier {
     //     isJuz: true,
     //     bookmarkPosition: bookmarks.bookmarkPosition);
 
-    Provider.of<DuaProvider>(context,listen: false);
+    Provider.of<DuaProvider>(context, listen: false);
+
     /// if recitation player is on So this line is used to pause the player
-    Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
+    Future.delayed(Duration.zero,
+        () => context.read<RecitationPlayerProvider>().pause(context));
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) {
         return const DuaDetail();

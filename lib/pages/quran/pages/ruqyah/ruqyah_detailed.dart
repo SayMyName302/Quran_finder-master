@@ -5,7 +5,6 @@ import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../../shared/utills/app_colors.dart';
 import '../../../../shared/widgets/app_bar.dart';
-import '../../../../shared/widgets/dua_container1.dart';
 import '../../../../shared/widgets/ruqyah_player.dart';
 import '../../../settings/pages/app_colors/app_colors_provider.dart';
 import '../../../settings/pages/fonts/font_provider.dart';
@@ -283,7 +282,7 @@ class RuqyahDetail extends StatelessWidget {
           }),
         ),
         bottomNavigationBar: const SizedBox(
-          height: 200,
+          height: 275,
           child: RuqyahAudioPlayer(),
         ),
       ),

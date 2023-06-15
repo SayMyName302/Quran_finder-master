@@ -49,7 +49,7 @@ class DuaAudioPlayer extends StatelessWidget {
           width: double.maxFinite,
           child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
               DuaProvider>(
-            builder: (context, them, player, appColor, dua, child) {
+            builder: (context, them, player, appColor, duaProv, child) {
               return Column(
                 children: [
                   Container(
@@ -71,15 +71,15 @@ class DuaAudioPlayer extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () async {
-                            int duaIndex = duaProvider.duaList.indexWhere(
+                            int duaIndex = duaProv.duaList.indexWhere(
                                 (element) => element.duaText == duaText);
                             int? categoryId =
-                                duaProvider.duaList[duaIndex].duaCategory;
+                                duaProv.duaList[duaIndex].duaCategory;
                             String categoryName = getCategoryNameById(
-                                categoryId!, duaProvider.duaCategoryList);
+                                categoryId!, duaProv.duaCategoryList);
 
-                            if (fav == 0 || fav == null) {
-                              duaProvider.bookmark(duaIndex, 1);
+                            if (dua.isFav == 0) {
+                              duaProv.bookmark(duaIndex, 1);
                               BookmarksDua bookmark = BookmarksDua(
                                   duaId: index,
                                   categoryId: categoryId,
@@ -96,7 +96,7 @@ class DuaAudioPlayer extends StatelessWidget {
                                   .addBookmark(bookmark);
                             } else {
                               // to change state
-                              duaProvider.bookmark(duaIndex, 0);
+                              duaProv.bookmark(duaIndex, 0);
                               context
                                   .read<BookmarkProviderDua>()
                                   .removeBookmark(

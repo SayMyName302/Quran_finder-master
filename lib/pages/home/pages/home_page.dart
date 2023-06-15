@@ -6,13 +6,12 @@ import 'package:nour_al_quran/pages/home/widgets/islam_basics_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_miracles_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_stories_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/user_picture.dart';
-import 'package:nour_al_quran/pages/home/widgets/verse_of_the_day.dart';
-import 'package:nour_al_quran/pages/home/widgets/your_engagement_section.dart';
 import 'package:nour_al_quran/pages/settings/pages/subscriptions/on_board/free_trial.dart';
 import 'package:nour_al_quran/pages/trending/trending.dart';
 import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
+import '../widgets/verse_of_the_day.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

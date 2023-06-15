@@ -43,94 +43,100 @@ class RuqyahAudioPlayer extends StatelessWidget {
       //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
+          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 15.h),
           width: double.maxFinite,
           child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
               RuqyahProvider>(
             builder: (context, them, player, appColor, dua, child) {
               return Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            duaTitle,
-                            style: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 19.sp,
+                  Container(
+                    margin: EdgeInsets.only(left: 50.w, right: 35.w, top: 10.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              duaTitle,
+                              style: TextStyle(
+                                fontFamily: 'satoshi',
+                                fontWeight: FontWeight.w700,
+                                fontSize: 19.sp,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          int duaIndex = ruqyahProvider.duaList.indexWhere(
-                              (element) => element.duaText == duaText);
-                          int? categoryId =
-                              ruqyahProvider.duaList[duaIndex].duaCategory;
-                          String categoryName = getCategoryNameById(
-                              categoryId!, ruqyahProvider.duaCategoryList);
+                        InkWell(
+                          onTap: () async {
+                            int duaIndex = ruqyahProvider.duaList.indexWhere(
+                                (element) => element.duaText == duaText);
+                            int? categoryId =
+                                ruqyahProvider.duaList[duaIndex].duaCategory;
+                            String categoryName = getCategoryNameById(
+                                categoryId!, ruqyahProvider.duaCategoryList);
 
-                          if (fav == 0 || fav == null) {
-                            ruqyahProvider.bookmark(duaIndex, 1);
-                            BookmarksRuqyah bookmark = BookmarksRuqyah(
-                                duaId: index,
-                                categoryId: categoryId,
-                                categoryName: categoryName,
-                                duaTitle: duaTitle,
-                                duaRef: duaRef,
-                                ayahCount: duaCount,
-                                duaText: duaText,
-                                duaTranslation: duaTranslation,
-                                bookmarkPosition: favindex,
-                                duaUrl: duaUrl);
-                            context
-                                .read<BookmarkProviderRuqyah>()
-                                .addBookmark(bookmark);
-                          } else {
-                            ruqyahProvider.bookmark(duaIndex, 0);
-                            context
-                                .read<BookmarkProviderRuqyah>()
-                                .removeBookmark(
-                                    ruqyahProvider.duaList[duaIndex].id!);
-                          }
-                          // }
-                        },
-                        child: Container(
-                          height: 20.h,
-                          width: 20.w,
-                          margin: EdgeInsets.only(bottom: 7.h, top: 8.h),
-                          child: CircleAvatar(
-                            backgroundColor: appColor.mainBrandingColor,
-                            child: SizedBox(
-                              height: 16.h,
-                              width: 16.w,
-                              child: CircleAvatar(
-                                backgroundColor: appColor.mainBrandingColor,
-                                child: SizedBox(
-                                  height: 21.h,
-                                  width: 21.w,
-                                  child: CircleAvatar(
-                                    backgroundColor: fav == 1
-                                        ? appColor.mainBrandingColor
-                                        : Colors.white,
-                                    child: Icon(
-                                      Icons.favorite,
-                                      color: fav == 1
-                                          ? Colors.white
-                                          : appColor.mainBrandingColor,
-                                      size: 13.h,
+                            if (fav == 0 || fav == null) {
+                              ruqyahProvider.bookmark(duaIndex, 1);
+                              BookmarksRuqyah bookmark = BookmarksRuqyah(
+                                  duaId: index,
+                                  categoryId: categoryId,
+                                  categoryName: categoryName,
+                                  duaTitle: duaTitle,
+                                  duaRef: duaRef,
+                                  ayahCount: duaCount,
+                                  duaText: duaText,
+                                  duaTranslation: duaTranslation,
+                                  bookmarkPosition: favindex,
+                                  duaUrl: duaUrl);
+                              context
+                                  .read<BookmarkProviderRuqyah>()
+                                  .addBookmark(bookmark);
+                            } else {
+                              ruqyahProvider.bookmark(duaIndex, 0);
+                              context
+                                  .read<BookmarkProviderRuqyah>()
+                                  .removeBookmark(
+                                      ruqyahProvider.duaList[duaIndex].id!);
+                            }
+                            // }
+                          },
+                          child: Container(
+                            height: 20.h,
+                            width: 20.w,
+                            margin: EdgeInsets.only(bottom: 7.h, top: 8.h),
+                            child: CircleAvatar(
+                              backgroundColor: appColor.mainBrandingColor,
+                              child: SizedBox(
+                                height: 16.h,
+                                width: 16.w,
+                                child: CircleAvatar(
+                                  backgroundColor: appColor.mainBrandingColor,
+                                  child: SizedBox(
+                                    height: 21.h,
+                                    width: 21.w,
+                                    child: CircleAvatar(
+                                      backgroundColor: fav == 1
+                                          ? appColor.mainBrandingColor
+                                          : Colors.white,
+                                      child: Icon(
+                                        Icons.favorite,
+                                        color: fav == 1
+                                            ? Colors.white
+                                            : appColor.mainBrandingColor,
+                                        size: 13.h,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -144,6 +150,9 @@ class RuqyahAudioPlayer extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 70.h,
                   ),
                   Row(
                     children: [
@@ -181,9 +190,10 @@ class RuqyahAudioPlayer extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: 20.h,
+                    height: 10.h,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       // SizedBox(
                       //   width: 15.h,
@@ -244,7 +254,6 @@ class RuqyahAudioPlayer extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
-                      const Spacer(),
                       IconButton(
                         onPressed: () async {
                           Provider.of<RuqyahProvider>(context, listen: false)
@@ -259,9 +268,9 @@ class RuqyahAudioPlayer extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
-                      SizedBox(
-                        width: 20.h,
-                      ),
+                      // SizedBox(
+                      //   width: 20.h,
+                      // ),
                       Stack(
                         children: [
                           InkWell(
@@ -295,9 +304,9 @@ class RuqyahAudioPlayer extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: 20.h,
-                      ),
+                      // SizedBox(
+                      //   width: 20.h,
+                      // ),
                       IconButton(
                         onPressed: () async {
                           Provider.of<RuqyahProvider>(context, listen: false)
@@ -312,7 +321,7 @@ class RuqyahAudioPlayer extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
-                      const Spacer(),
+                      // const Spacer(),
                       // IconButton(
                       //   onPressed: () async {
                       //     player.setSpeed();
