@@ -5,6 +5,7 @@ import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
 import '../../pages/duas/widgets/ruqyah_bookmark_provider.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah.dart';
+import '../../pages/quran/pages/ruqyah/models/ruqyah_category.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah_provider.dart';
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
 import '../entities/bookmarks_ruqyah.dart';
@@ -67,13 +68,17 @@ class RuqyahAudioPlayer extends StatelessWidget {
                         onTap: () async {
                           int duaIndex = ruqyahProvider.duaList.indexWhere(
                               (element) => element.duaText == duaText);
+                          int? categoryId =
+                              ruqyahProvider.duaList[duaIndex].duaCategory;
+                          String categoryName = getCategoryNameById(
+                              categoryId!, ruqyahProvider.duaCategoryList);
 
                           if (fav == 0 || fav == null) {
                             ruqyahProvider.bookmark(duaIndex, 1);
                             BookmarksRuqyah bookmark = BookmarksRuqyah(
                                 duaId: index,
-                                categoryId: ruqyahProvider
-                                    .duaList[duaIndex].duaCategory,
+                                categoryId: categoryId,
+                                categoryName: categoryName,
                                 duaTitle: duaTitle,
                                 duaRef: duaRef,
                                 ayahCount: duaCount,
@@ -367,5 +372,15 @@ class RuqyahAudioPlayer extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String getCategoryNameById(
+      int categoryId, List<RuqyahCategory> categoryList) {
+    for (RuqyahCategory category in categoryList) {
+      if (category.categoryId == categoryId) {
+        return category.categoryName!;
+      }
+    }
+    return ''; // Return an empty string or handle the case when category is not found
   }
 }

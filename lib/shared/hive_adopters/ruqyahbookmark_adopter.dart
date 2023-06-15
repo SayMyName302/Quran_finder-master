@@ -1,6 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:nour_al_quran/shared/entities/bookmarks_dua.dart';
-
 import '../entities/bookmarks_ruqyah.dart';
 
 class RuqyahBookmarksAdapter extends TypeAdapter<BookmarksRuqyah> {
@@ -11,6 +9,7 @@ class RuqyahBookmarksAdapter extends TypeAdapter<BookmarksRuqyah> {
   BookmarksRuqyah read(BinaryReader reader) {
     final duaId = reader.read();
     final categoryId = reader.read();
+    final categoryName = reader.read();
     final duaTitle = reader.read();
     final duaRef = reader.read();
     final ayahCount = reader.read();
@@ -22,6 +21,7 @@ class RuqyahBookmarksAdapter extends TypeAdapter<BookmarksRuqyah> {
     return BookmarksRuqyah(
         duaId: duaId,
         categoryId: categoryId,
+        categoryName: categoryName,
         duaTitle: duaTitle,
         duaRef: duaRef,
         ayahCount: ayahCount,
@@ -35,6 +35,7 @@ class RuqyahBookmarksAdapter extends TypeAdapter<BookmarksRuqyah> {
   void write(BinaryWriter writer, BookmarksRuqyah obj) {
     writer.write(obj.duaId);
     writer.write(obj.categoryId);
+    writer.write(obj.categoryName);
     writer.write(obj.duaTitle);
     writer.write(obj.duaRef);
     writer.write(obj.ayahCount);

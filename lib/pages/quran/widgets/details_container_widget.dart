@@ -37,37 +37,40 @@ class DetailsContainerWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            margin: EdgeInsets.only(left: 10.w, right: 10.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // color: AppColors.grey2
-                Text(
-                  title,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15.sp,
-                      fontFamily: "satoshi",
-                      color: isDark ? AppColors.grey5 : AppColors.grey2),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: Text(
-                    subTitle,
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(left: 10.w, right: 10.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15.sp,
                         fontFamily: "satoshi",
-                        color: isDark ? AppColors.grey3 : AppColors.grey4),
+                        color: isDark ? AppColors.grey5 : AppColors.grey2),
                   ),
-                )
-              ],
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Text(
+                      subTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          fontFamily: "satoshi",
+                          color: isDark ? AppColors.grey3 : AppColors.grey4),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           InkWell(

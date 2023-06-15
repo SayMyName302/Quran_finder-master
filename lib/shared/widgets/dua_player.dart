@@ -45,94 +45,102 @@ class DuaAudioPlayer extends StatelessWidget {
       //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
+          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 15.h),
           width: double.maxFinite,
           child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
               DuaProvider>(
             builder: (context, them, player, appColor, dua, child) {
               return Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            duaTitle,
-                            style: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 19.sp,
+                  Container(
+                    margin: EdgeInsets.only(left: 50.w, right: 35.w, top: 10.h),
+                    //decoration: BoxDecoration(border: Border.all(width: 1)),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              duaTitle,
+                              style: TextStyle(
+                                fontFamily: 'satoshi',
+                                fontWeight: FontWeight.w700,
+                                fontSize: 19.sp,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          int duaIndex = duaProvider.duaList.indexWhere(
-                              (element) => element.duaText == duaText);
-                          int? categoryId =
-                              duaProvider.duaList[duaIndex].duaCategory;
-                          String categoryName = getCategoryNameById(
-                              categoryId!, duaProvider.duaCategoryList);
+                        InkWell(
+                          onTap: () async {
+                            int duaIndex = duaProvider.duaList.indexWhere(
+                                (element) => element.duaText == duaText);
+                            int? categoryId =
+                                duaProvider.duaList[duaIndex].duaCategory;
+                            String categoryName = getCategoryNameById(
+                                categoryId!, duaProvider.duaCategoryList);
 
-                          if (fav == 0 || fav == null) {
-                            duaProvider.bookmark(duaIndex, 1);
-                            BookmarksDua bookmark = BookmarksDua(
-                                duaId: index,
-                                categoryId: categoryId,
-                                categoryName: categoryName,
-                                duaTitle: duaTitle,
-                                duaRef: duaRef,
-                                ayahCount: duaCount,
-                                duaText: duaText,
-                                duaTranslation: duaTranslation,
-                                bookmarkPosition: favindex,
-                                duaUrl: duaUrl);
-                            //print(bookmark);
-                            context
-                                .read<BookmarkProviderDua>()
-                                .addBookmark(bookmark);
-                          } else {
-                            // to change state
-                            duaProvider.bookmark(duaIndex, 0);
-                            context.read<BookmarkProviderDua>().removeBookmark(
-                                duaProvider.duaList[duaIndex].id!);
-                          }
-                          // }
-                        },
-                        child: Container(
-                          height: 20.h,
-                          width: 20.w,
-                          margin: EdgeInsets.only(bottom: 7.h, top: 8.h),
-                          child: CircleAvatar(
-                            backgroundColor: appColor.mainBrandingColor,
-                            child: SizedBox(
-                              height: 16.h,
-                              width: 16.w,
-                              child: CircleAvatar(
-                                backgroundColor: appColor.mainBrandingColor,
-                                child: SizedBox(
-                                  height: 21.h,
-                                  width: 21.w,
-                                  child: CircleAvatar(
-                                    backgroundColor: fav == 1
-                                        ? appColor.mainBrandingColor
-                                        : Colors.white,
-                                    child: Icon(
-                                      Icons.favorite,
-                                      color: fav == 1
-                                          ? Colors.white
-                                          : appColor.mainBrandingColor,
-                                      size: 13.h,
+                            if (fav == 0 || fav == null) {
+                              duaProvider.bookmark(duaIndex, 1);
+                              BookmarksDua bookmark = BookmarksDua(
+                                  duaId: index,
+                                  categoryId: categoryId,
+                                  categoryName: categoryName,
+                                  duaTitle: duaTitle,
+                                  duaRef: duaRef,
+                                  ayahCount: duaCount,
+                                  duaText: duaText,
+                                  duaTranslation: duaTranslation,
+                                  bookmarkPosition: favindex,
+                                  duaUrl: duaUrl);
+                              context
+                                  .read<BookmarkProviderDua>()
+                                  .addBookmark(bookmark);
+                            } else {
+                              // to change state
+                              duaProvider.bookmark(duaIndex, 0);
+                              context
+                                  .read<BookmarkProviderDua>()
+                                  .removeBookmark(
+                                      duaProvider.duaList[duaIndex].id!);
+                            }
+                            // }
+                          },
+                          child: Container(
+                            height: 20.h,
+                            width: 20.w,
+                            margin: EdgeInsets.only(bottom: 7.h, top: 8.h),
+                            child: CircleAvatar(
+                              backgroundColor: appColor.mainBrandingColor,
+                              child: SizedBox(
+                                height: 16.h,
+                                width: 16.w,
+                                child: CircleAvatar(
+                                  backgroundColor: appColor.mainBrandingColor,
+                                  child: SizedBox(
+                                    height: 21.h,
+                                    width: 21.w,
+                                    child: CircleAvatar(
+                                      backgroundColor: fav == 1
+                                          ? appColor.mainBrandingColor
+                                          : Colors.white,
+                                      child: Icon(
+                                        Icons.favorite,
+                                        color: fav == 1
+                                            ? Colors.white
+                                            : appColor.mainBrandingColor,
+                                        size: 13.h,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -146,6 +154,9 @@ class DuaAudioPlayer extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 70.h,
                   ),
                   Row(
                     children: [
@@ -186,22 +197,8 @@ class DuaAudioPlayer extends StatelessWidget {
                     height: 10.h,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // IconButton(
-                      //   onPressed: () {
-                      //     Navigator.of(context).pushNamed(
-                      //       RouteHelper.duaPlayList,
-                      //     );
-                      //   },
-                      //   icon: Image.asset(
-                      //     'assets/images/app_icons/list.png',
-                      //     height: 30.h,
-                      //     width: 30.w,
-                      //     color: them.isDark ? Colors.white : Colors.black,
-                      //   ),
-                      //   padding: EdgeInsets.zero,
-                      //   alignment: Alignment.center,
-                      // ),
                       IconButton(
                         onPressed: () {
                           if (!isLoopMoreNotifier.value) {
@@ -237,7 +234,6 @@ class DuaAudioPlayer extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
-                      const Spacer(),
                       IconButton(
                         onPressed: () async {
                           Provider.of<DuaProvider>(context, listen: false)
@@ -251,9 +247,6 @@ class DuaAudioPlayer extends StatelessWidget {
                         ),
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
-                      ),
-                      SizedBox(
-                        width: 20.h,
                       ),
                       Stack(
                         children: [
@@ -288,9 +281,6 @@ class DuaAudioPlayer extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: 20.h,
-                      ),
                       IconButton(
                         onPressed: () async {
                           Provider.of<DuaProvider>(context, listen: false)
@@ -305,7 +295,6 @@ class DuaAudioPlayer extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
-                      const Spacer(),
                       IconButton(
                         onPressed: () {
                           Navigator.of(context).pushNamed(
@@ -321,37 +310,6 @@ class DuaAudioPlayer extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
-                      // IconButton(
-                      //   onPressed: () async {
-                      //     player.setSpeed();
-                      //   },
-                      //   icon: Row(
-                      //     children: [
-                      //       Image.asset(
-                      //         'assets/images/app_icons/speed.png',
-                      //         height: 15.h,
-                      //         width: 18.75.w,
-                      //         color: them.isDark ? Colors.white : Colors.black,
-                      //       ),
-                      //       SizedBox(
-                      //         width: 5.w,
-                      //       ),
-                      //       Text(
-                      //         "${player.speed}x",
-                      //         style: TextStyle(
-                      //             fontWeight: FontWeight.w700,
-                      //             fontFamily: 'satoshi',
-                      //             fontSize: 12.sp),
-                      //       )
-                      //     ],
-                      //   ),
-                      //   padding: EdgeInsets.zero,
-                      //   alignment: Alignment.center,
-                      // ),
-
-                      // SizedBox(
-                      //   width: 15.h,
-                      // ),
                     ],
                   ),
                 ],
@@ -369,6 +327,6 @@ class DuaAudioPlayer extends StatelessWidget {
         return category.categoryName!;
       }
     }
-    return ''; // Return an empty string or handle the case when category is not found
+    return '';
   }
 }

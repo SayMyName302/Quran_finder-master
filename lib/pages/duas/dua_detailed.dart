@@ -318,7 +318,7 @@ class DuaDetail extends StatelessWidget {
           }),
         ),
         bottomNavigationBar: const SizedBox(
-          height: 200,
+          height: 275,
           child: DuaAudioPlayer(),
         ),
       ),

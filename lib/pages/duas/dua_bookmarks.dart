@@ -48,7 +48,7 @@ class DuaBookmarkPage extends StatelessWidget {
                       },
                       child: DetailsContainerWidget(
                         title:
-                            '${bookmarks.duaTitle} - ${bookmarks.categoryName}',
+                            '${bookmarks.duaTitle} - ${localeText(context, bookmarks.categoryName!)}',
                         subTitle:
                             "${localeText(context, "dua")} ${bookmarks.duaId} , ${bookmarks.duaRef}",
                         icon: Icons.bookmark,
@@ -59,7 +59,7 @@ class DuaBookmarkPage extends StatelessWidget {
                     );
                   },
                 )
-              : Text('');
+              : const Text('');
         }),
         Consumer<BookmarkProviderRuqyah>(
           builder: (context, bookmarkValue, child) {
@@ -80,7 +80,8 @@ class DuaBookmarkPage extends StatelessWidget {
                           );
                         },
                         child: DetailsContainerWidget(
-                          title: bookmarks.duaTitle!,
+                          title:
+                              '${bookmarks.duaTitle} - ${localeText(context, bookmarks.categoryName!)}',
                           subTitle:
                               "${localeText(context, "dua")} ${bookmarks.duaId} , ${bookmarks.duaRef}",
                           icon: Icons.bookmark,
@@ -91,7 +92,7 @@ class DuaBookmarkPage extends StatelessWidget {
                       );
                     },
                   )
-                : Text('');
+                : const Text('');
           },
         ),
       ],
