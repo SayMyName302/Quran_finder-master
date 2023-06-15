@@ -286,9 +286,9 @@ class _ManageProfileState extends State<ManageProfile> {
                           SizedBox(
                             height: 16.h,
                           ), // Add additional spacing if needed
-                          Align(
+                          const Align(
                             alignment: Alignment.topLeft,
-                            child: Container(
+                            child: SizedBox(
                               height: 700,
                               width: double.infinity,
                               child: MyStatePage(),

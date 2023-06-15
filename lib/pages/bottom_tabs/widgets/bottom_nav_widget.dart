@@ -28,7 +28,8 @@ class BottomNavWidget extends StatelessWidget {
                     icon: _buildIcon('assets/images/app_icons/quran_icon.png')),
                 BottomNavigationBarItem(
                     label: localeText(context, 'qaida'),
-                    icon: _buildIcon('assets/images/app_icons/qaida_icon.png')),
+                    icon:
+                        _buildIcon('assets/images/app_icons/qaidaiconnew.png')),
                 BottomNavigationBarItem(
                     label: localeText(context, 'discover'),
                     icon: _buildIcon('assets/images/app_icons/explore.png')),

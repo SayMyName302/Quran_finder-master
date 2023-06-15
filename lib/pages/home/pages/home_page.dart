@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
+import 'package:nour_al_quran/pages/featured/featured.dart';
 import 'package:nour_al_quran/pages/home/widgets/islam_basics_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_miracles_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_stories_section.dart';
@@ -8,6 +9,7 @@ import 'package:nour_al_quran/pages/home/widgets/user_picture.dart';
 import 'package:nour_al_quran/pages/home/widgets/verse_of_the_day.dart';
 import 'package:nour_al_quran/pages/home/widgets/your_engagement_section.dart';
 import 'package:nour_al_quran/pages/settings/pages/subscriptions/on_board/free_trial.dart';
+import 'package:nour_al_quran/pages/trending/trending.dart';
 import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
@@ -60,12 +62,14 @@ class _HomePageState extends State<HomePage> {
             lastSeen != null
                 ? const WhereULeftOffWidget()
                 : const SizedBox.shrink(),
+            const FeaturedSection(),
+            const TrendingSection(),
+            const VerseOfTheDayContainer(),
 
             /// quran Stories Section
             const QuranStoriesSection(),
 
             /// verse of the day Container
-            const VerseOfTheDayContainer(),
 
             /// Quran Miracles Section
             const QuranMiraclesSection(),

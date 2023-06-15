@@ -74,15 +74,13 @@ class YourEngagementContainer extends StatelessWidget {
                         bottom: 7.52.h),
                     height: 52.54.h,
                     width: 52.54.w,
-                    decoration: BoxDecoration(
-                        color: AppColors.mainBrandingColor,
-                        borderRadius: BorderRadius.circular(4.r)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(6.37.r),
-                      child: Image.asset(
-                        'assets/images/app_icons/page.png',
-                        fit: BoxFit.cover,
-                      ),
+                    // decoration: BoxDecoration(
+                    //   color: AppColors.mainBrandingColor,
+                    //   //   borderRadius: BorderRadius.circular(9.r)
+                    // ),
+                    child: Image.asset(
+                      'assets/images/app_icons/hourglass.png',
+                      fit: BoxFit.cover,
                     ),
                   ),
                   Container(

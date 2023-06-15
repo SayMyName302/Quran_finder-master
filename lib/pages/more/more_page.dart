@@ -54,6 +54,9 @@ class _MorePageState extends State<MorePage> {
       More(
           name: localeText(context, "duas"),
           image: 'assets/images/app_icons/duas.png'),
+      More(
+          name: localeText(context, "hajjandumrah"),
+          image: 'assets/images/app_icons/hajjandumrah.png'),
     ];
     List routes = [
       RouteHelper.namesOfALLAH,
