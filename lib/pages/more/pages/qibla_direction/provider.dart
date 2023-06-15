@@ -9,6 +9,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../shared/routes/routes_helper.dart';
 
@@ -23,7 +24,7 @@ class QiblaProvider extends ChangeNotifier {
   int get qiblaDistance => _qiblaDistance;
 
   Future getLocationPermission(BuildContext context) async {
-    if (await Permission.location.request().isGranted) {
+    if (await Permission.location.request().isDenied) {
       Future.delayed(Duration.zero, () => getQiblaPageData(context));
     } else {
       await Permission.location.request().then((value) {
@@ -35,18 +36,40 @@ class QiblaProvider extends ChangeNotifier {
         }
       });
     }
-    // var isEnable = await Geolocator.isLocationServiceEnabled();
-    // if (isEnable) {
-    //   Future.delayed(Duration.zero,()=>getQiblaPageData(context));
-    // }else {
-    //   await Permission.location.request().then((value) {
-    //     if(value.isDenied){
-    //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please Enable Location Services')));
-    //     }else if(value.isGranted){
-    //       Future.delayed(Duration.zero,()=>getQiblaPageData(context));
-    //     }
-    //   });
-    // }
+  }
+
+  Future<void> getLocationPermissionIOS(BuildContext context) async {
+    final status = await Permission.locationWhenInUse.request();
+    if (status.isDenied || status.isPermanentlyDenied) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Enable Location Services'),
+            content: const Text(
+                'Location services are required for this app. Please enable location services in the device settings.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Open Settings'),
+                onPressed: () {
+                  openDeviceSettings();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> openDeviceSettings() async {
+    final appSettings = Uri.parse('app-settings:');
+    if (await canLaunch(appSettings.toString())) {
+      await launch(appSettings.toString());
+    } else {
+      print('Could not open the app settings.');
+    }
   }
 
   Future<void> getQiblaPageData(BuildContext context) async {
@@ -100,6 +123,13 @@ class QiblaProvider extends ChangeNotifier {
         data: 'package:com.example.nouralquran',
       );
       await intent.launch();
+    } else if (Platform.isIOS) {
+      const String settingsUrl = 'app-settings:';
+      if (await canLaunchUrl(settingsUrl as Uri)) {
+        await launchUrl(settingsUrl as Uri);
+      } else {
+        throw 'Could not launch the app settings page.';
+      }
     }
   }
 
