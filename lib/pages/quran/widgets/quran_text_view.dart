@@ -171,6 +171,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                       QuranText quranText = value.quranTextList[index];
                       // saving quran text in upper declare variable
                       _quranText = value.quranTextList;
+                      bool isFirstVerse = (index == 0);
                       return Container(
                         margin:
                             EdgeInsets.only(top: 13.h, left: 5.w, right: 5.w),
@@ -196,13 +197,45 @@ class _QuranTextViewState extends State<QuranTextView> {
                                       left: 5.w,
                                       right: 5.w,
                                     ),
-                                    child: Text(
-                                      '${quranText.verseText!}﴿ ayanumber ﴾',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontFamily: font.finalFont,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: font.fontSizeArabic.sp),
+                                    child: Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: '${quranText.verseText!}﴿ ',
+                                              style: TextStyle(
+                                                fontFamily: font.finalFont,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize:
+                                                    font.fontSizeArabic.sp,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: convertToArabicNumber(
+                                                  (quranText.verseId!)),
+                                              style: TextStyle(
+                                                // Add the desired font style for convertToArabicNumber
+                                                // Example:
+                                                fontFamily: 'satoshi',
+                                                fontSize:
+                                                    font.fontSizeArabic.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: ' ﴾',
+                                              style: TextStyle(
+                                                fontFamily: font.finalFont,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize:
+                                                    font.fontSizeArabic.sp,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   )
                                 : const SizedBox.shrink(),
@@ -252,7 +285,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                                     child: Text(
                                       "${quranText.surahId}:${quranText.verseId}",
                                       style: TextStyle(
-                                          fontSize: 10.sp,
+                                          fontSize: 13.sp,
                                           fontFamily: 'satoshi',
                                           color: !them.isDark
                                               ? AppColors.grey1
@@ -643,41 +676,6 @@ class _QuranTextViewState extends State<QuranTextView> {
   }
 }
 
-String convertToArabicNumber(int? verseId) {
-  if (verseId == null) {
-    return '';
-  }
-
-  const List<String> arabicNumbers = [
-    '٠',
-    '١',
-    '٢',
-    '٣',
-    '٤',
-    '٥',
-    '٦',
-    '٧',
-    '٨',
-    '٩'
-  ];
-
-  if (verseId == 0) {
-    return arabicNumbers[0];
-  }
-
-  String arabicNumeral = '';
-  int id = verseId;
-
-  while (id > 0) {
-    int digit = id % 10;
-    arabicNumeral = arabicNumbers[digit] + arabicNumeral;
-    id ~/= 10;
-    print('Digit: $digit, Arabic Numeral: $arabicNumeral');
-  }
-
-  return arabicNumeral;
-}
-
 // String formatTimeSpent(int timeInSeconds) {
 //   Duration duration = Duration(seconds: timeInSeconds);
 //
@@ -738,3 +736,37 @@ String convertToArabicNumber(int? verseId) {
 //   }
 // }
 
+String convertToArabicNumber(int? verseId) {
+  if (verseId == null) {
+    return '';
+  }
+
+  const List<String> arabicNumbers = [
+    '٠',
+    '١',
+    '٢',
+    '٣',
+    '٤',
+    '٥',
+    '٦',
+    '٧',
+    '٨',
+    '٩'
+  ];
+
+  if (verseId == 0) {
+    return arabicNumbers[0];
+  }
+
+  String arabicNumeral = '';
+  int id = verseId;
+
+  while (id > 0) {
+    int digit = id % 10;
+    arabicNumeral = arabicNumbers[digit] + arabicNumeral;
+    id ~/= 10;
+    print('Difeafeafeagit: $digit, Arabic Numerefaaefeafal: $arabicNumeral');
+  }
+
+  return arabicNumeral;
+}

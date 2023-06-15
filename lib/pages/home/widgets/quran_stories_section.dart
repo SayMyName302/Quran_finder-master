@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
+import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_constants.dart';
@@ -22,7 +23,7 @@ class QuranStoriesSection extends StatelessWidget {
           text: localeText(context, 'quran_stories'),
           buttonText: localeText(context, "view_all"),
           onTap: () {
-            context.read<BottomTabsPageProvider>().setCurrentPage(2);
+            Navigator.of(context).pushNamed(RouteHelper.quranstoriespage);
           },
         ),
         Consumer<LocalizationProvider>(

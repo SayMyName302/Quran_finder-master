@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/settings/settings_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 
@@ -34,13 +35,13 @@ AppBar buildAppBar(
   );
 }
 
-AppBar appbarforstats(
+AppBar appbarformanageprofile(
     {String? title,
     required BuildContext context,
     double? font,
     String? icon}) {
   return AppBar(
-    centerTitle: false,
+    centerTitle: true,
     elevation: 0.0,
     backgroundColor: Colors.transparent,
     title: TitleText(
@@ -52,7 +53,7 @@ AppBar appbarforstats(
           ? IconButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SalahTimerSetting()));
+                    builder: (context) => const SettingsPage()));
               },
               icon: ImageIcon(
                 const AssetImage('assets/images/app_icons/settings.png'),

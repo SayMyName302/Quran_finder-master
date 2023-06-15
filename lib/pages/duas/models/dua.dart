@@ -3,6 +3,7 @@ import 'package:nour_al_quran/shared/utills/app_constants.dart';
 
 class Dua {
   int? _id;
+  int? _duaCategory;
   String? _duaText;
   String? _duatitle;
   String? _duaRef;
@@ -12,6 +13,7 @@ class Dua {
   int? _isFav;
 
   int? get id => _id;
+  int? get duaCategory => _duaCategory;
   String? get translations => _translations;
   String? get duaRef => _duaRef;
   String? get duaText => _duaText;
@@ -23,6 +25,7 @@ class Dua {
 
   Dua({
     required id,
+    required duaCategory,
     required duaText,
     required duaRef,
     required translations,
@@ -32,6 +35,7 @@ class Dua {
     required isFav,
   }) {
     _id = id;
+    _duaCategory = duaCategory;
     _duaText = duaText;
     _duaRef = duaRef;
     _translations = translations;
@@ -43,6 +47,7 @@ class Dua {
 
   Dua.fromJson(Map<String, dynamic> json) {
     _id = json['dua_id'];
+    _duaCategory = json['category_id'];
     _duaText = json['dua_text'];
     _duatitle = json['dua_title'];
     _duaRef = json['dua_ref'];
@@ -56,6 +61,7 @@ class Dua {
   Map<String, dynamic> toJson() {
     return {
       'dua_id': _id,
+      'category_id': _duaCategory,
       'dua_text': _duaText,
       'dua_title': _duatitle,
       'dua_ref': _duaRef,

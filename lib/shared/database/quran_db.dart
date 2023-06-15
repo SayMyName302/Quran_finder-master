@@ -445,18 +445,46 @@ class QuranDatabase {
     // print('DuaID removed is: $duaId');
   }
 
-  Future<List<QuranText>> getduaBookmarks() async {
+  Future<List<Dua>> getduaBookmarks() async {
     database = await openDb();
-    List<QuranText> quranTextList = [];
+    List<Dua> quranTextList = [];
     var table =
         await database!.query(_duaAllTable, where: "is_fav= ?", whereArgs: [1]);
     for (var rows in table) {
-      var ayahText = QuranText.fromJson(rows);
+      var ayahText = Dua.fromJson(rows);
       quranTextList.add(ayahText);
     }
     return quranTextList;
   }
-  //_______________________________________________
+
+  //                 Ruqyah Dua BOOKMARKS
+  //add a bookmark
+  void addRBookmark(int duaId) async {
+    database = await openDb();
+    await database!.rawUpdate(
+        "update $_rduaAllTable set is_fav = 1 where ruqyah_id = $duaId");
+    //print('DuaID is: $duaId');
+  }
+
+  //delete bookmark
+  void removeRduaBookmark(int duaId) async {
+    database = await openDb();
+    await database!.rawUpdate(
+        "update $_rduaAllTable set is_fav = 0 where ruqyah_id = $duaId");
+    // print('DuaID removed is: $duaId');
+  }
+
+  Future<List<Ruqyah>> getRduaBookmarks() async {
+    database = await openDb();
+    List<Ruqyah> quranTextList = [];
+    var table = await database!
+        .query(_rduaAllTable, where: "is_fav= ?", whereArgs: [1]);
+    for (var rows in table) {
+      var ayahText = Ruqyah.fromJson(rows);
+      quranTextList.add(ayahText);
+    }
+    return quranTextList;
+  }
 
   // List<String> words = normalizedText.trim().split(RegExp(r'\s+'));
 

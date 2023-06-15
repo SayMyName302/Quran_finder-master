@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah.dart';
 import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah_category.dart';
@@ -22,18 +24,24 @@ class RuqyahProvider extends ChangeNotifier {
   }
 
   Future<void> getRDua(int duaCategoryId) async {
-    //fetches all the dua in current category list
     _duaList = await QuranDatabase().getRDua(duaCategoryId);
     notifyListeners();
   }
 
-  gotoDuaPlayerPage(int duaId, BuildContext context) {
-    //Dua list index always starting from 0
-    _currentduaIndex = _duaList.indexWhere((element) => element.id == duaId);
-    _selectedDua = _duaList[_currentduaIndex];
-    Provider.of<DuaPlayerProvider>(context, listen: false)
-        .initAudioPlayer(_selectedDua!.duaUrl!, context);
-    notifyListeners();
+  gotoDuaPlayerPage(
+      int duaCategoryId, String duaText, BuildContext context) async {
+    _duaList = [];
+    _duaList = await QuranDatabase().getRDua(duaCategoryId);
+    if (_duaList.isNotEmpty) {
+      _currentduaIndex =
+          _duaList.indexWhere((element) => element.duaText == duaText);
+      if (_currentduaIndex != -1) {
+        _selectedDua = _duaList[_currentduaIndex];
+        Provider.of<DuaPlayerProvider>(context, listen: false)
+            .initAudioPlayer(_selectedDua!.duaUrl!, context);
+        notifyListeners();
+      }
+    }
   }
 
   void playNextDuaInCategory(BuildContext context) {
@@ -46,13 +54,10 @@ class RuqyahProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Method to get the next dua
   Map<String, dynamic> getNextDua() {
-    int nextIndex = (_currentduaIndex) % _duaList.length;
-    Ruqyah nextDua = _duaList[nextIndex];
     return {
-      'index': nextIndex + 1,
-      'dua': nextDua,
+      'index': _currentduaIndex + 1,
+      'dua': _duaList[_currentduaIndex],
     };
   }
 
@@ -63,6 +68,11 @@ class RuqyahProvider extends ChangeNotifier {
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);
     getNextDua();
+    notifyListeners();
+  }
+
+  void bookmark(int duaId, int value) {
+    _duaList[duaId].setIsBookmark = value;
     notifyListeners();
   }
 }

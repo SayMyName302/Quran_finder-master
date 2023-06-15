@@ -66,10 +66,10 @@ class _ManageProfileState extends State<ManageProfile> {
         fontWeight: FontWeight.w400,
         color: them ? AppColors.grey4 : AppColors.grey2);
     return Scaffold(
-      appBar: buildAppBar(
-        context: context,
-        title: localeText(context, "manage_profile"),
-      ),
+      appBar: appbarformanageprofile(
+          context: context,
+          title: localeText(context, "manage_profile"),
+          icon: ""),
       body: Consumer2<QuranProvider, AppColorsProvider>(
           builder: (context, value, appColors, child) {
         return Column(
@@ -155,28 +155,26 @@ class _ManageProfileState extends State<ManageProfile> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 16.h,
-                          ),
-                          profile.userProfile!.loginType != "google"
-                              ? Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Password',
-                                      style: style400,
-                                    ),
-                                    Text(profile.userProfile!.password ?? "",
-                                        style: style12),
-                                  ],
-                                )
-                              : const SizedBox.shrink(),
-                          profile.userProfile!.loginType != "google"
-                              ? SizedBox(
-                                  height: 16.h,
-                                )
-                              : const SizedBox.shrink(),
+
+                          // profile.userProfile!.loginType != "google"
+                          //     ? Row(
+                          //         mainAxisAlignment:
+                          //             MainAxisAlignment.spaceBetween,
+                          //         children: [
+                          //           Text(
+                          //             'Password',
+                          //             style: style400,
+                          //           ),
+                          //           Text(profile.userProfile!.password ?? "",
+                          //               style: style12),
+                          //         ],
+                          //       )
+                          //     : const SizedBox.shrink(),
+                          // profile.userProfile!.loginType != "google"
+                          //     ? SizedBox(
+                          //         height: 16.h,
+                          //       )
+                          //     : const SizedBox.shrink(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -288,9 +286,9 @@ class _ManageProfileState extends State<ManageProfile> {
                           SizedBox(
                             height: 16.h,
                           ), // Add additional spacing if needed
-                          Align(
+                          const Align(
                             alignment: Alignment.topLeft,
-                            child: Container(
+                            child: SizedBox(
                               height: 700,
                               width: double.infinity,
                               child: MyStatePage(),

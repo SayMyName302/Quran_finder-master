@@ -40,40 +40,59 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
       children: [
         SubTitleText(title: localeText(context, "surah_index")),
         SearchWidget(
-          hintText: localeText(context, "search_surah_name"), searchController: searchController,onChange: (value){
-          context.read<SurahProvider>().searchSurah(value);
-        },),
+          hintText: localeText(context, "search_surah_name"),
+          searchController: searchController,
+          onChange: (value) {
+            context.read<SurahProvider>().searchSurah(value);
+          },
+        ),
         Consumer<SurahProvider>(
           builder: (context, surahValue, child) {
-            return surahValue.surahNamesList.isNotEmpty ? Expanded(
-              child: MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                child: ListView.builder(
-                  itemCount: surahValue.surahNamesList.length,
-                  itemBuilder: (context, index) {
-                    Surah surah = surahValue.surahNamesList[index];
-                    return InkWell(
-                      onTap: () async{
-                        // to clear search field
-                        searchController.text = "";
-                        context.read<QuranProvider>().setSurahText(surahId: surah.surahId!,title: 'سورة ${surah.arabicName}',fromWhere: 1);
-                        Future.delayed(Duration.zero,()=>context.read<RecitationPlayerProvider>().pause(context));
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                          return const QuranTextView();
-                        },));
-                      },
-                      child: DetailsContainerWidget(
-                        title: LocalizationProvider().checkIsArOrUr() ? surah.arabicName! : surah.surahName!,
-                        subTitle: surah.englishName!,
-                        icon: Icons.remove_red_eye_outlined,
-                        imageIcon: "assets/images/app_icons/view.png",
+            return surahValue.surahNamesList.isNotEmpty
+                ? Expanded(
+                    child: MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      child: ListView.builder(
+                        itemCount: surahValue.surahNamesList.length,
+                        itemBuilder: (context, index) {
+                          Surah surah = surahValue.surahNamesList[index];
+                          return InkWell(
+                            onTap: () async {
+                              // to clear search field
+                              searchController.text = "";
+                              context.read<QuranProvider>().setSurahText(
+                                  surahId: surah.surahId!,
+                                  title: 'سورة ${surah.arabicName}',
+                                  fromWhere: 1);
+                              Future.delayed(
+                                  Duration.zero,
+                                  () => context
+                                      .read<RecitationPlayerProvider>()
+                                      .pause(context));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  return const QuranTextView();
+                                },
+                              ));
+                            },
+                            child: DetailsContainerWidget(
+                              title: LocalizationProvider().checkIsArOrUr()
+                                  ? surah.arabicName!
+                                  : surah.surahName!,
+                              subTitle: surah.englishName!,
+                              icon: Icons.remove_red_eye_outlined,
+                              imageIcon: "assets/images/app_icons/view.png",
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
-            ) : const Expanded(child: Center(child: Text('No Result Found'),));
+                    ),
+                  )
+                : const Expanded(
+                    child: Center(
+                    child: Text('No Result Found'),
+                  ));
           },
         )
       ],

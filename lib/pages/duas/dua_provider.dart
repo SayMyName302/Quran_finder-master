@@ -9,6 +9,7 @@ import 'models/dua_category.dart';
 class DuaProvider extends ChangeNotifier {
   List<DuaCategory> _duaCategoryList = [];
   List<DuaCategory> get duaCategoryList => _duaCategoryList;
+
   List<Dua> _duaList = [];
   List<Dua> get duaList => _duaList;
   int _currentduaIndex = 0;
@@ -33,20 +34,26 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  gotoDuaPlayerPage(int duaId, BuildContext context) {
-    //Dua list index always starting from 0
-    _currentduaIndex = _duaList.indexWhere((element) => element.id == duaId);
-    _selectedDua = _duaList[_currentduaIndex];
-    Provider.of<DuaPlayerProvider>(context, listen: false)
-        .initAudioPlayer(_selectedDua!.duaUrl!, context);
-    notifyListeners();
+  gotoDuaPlayerPage(
+      int duaCategoryId, String duaText, BuildContext context) async {
+    _duaList = [];
+    _duaList = await QuranDatabase().getDua(duaCategoryId);
+    if (_duaList.isNotEmpty) {
+      _currentduaIndex =
+          _duaList.indexWhere((element) => element.duaText == duaText);
+      if (_currentduaIndex != -1) {
+        _selectedDua = _duaList[_currentduaIndex];
+        // ignore: use_build_context_synchronously
+        Provider.of<DuaPlayerProvider>(context, listen: false)
+            .initAudioPlayer(_selectedDua!.duaUrl!, context);
+        notifyListeners();
+      }
+    }
   }
 
   void playNextDuaInCategory(BuildContext context) {
     _currentduaIndex = (_currentduaIndex + 1) % _duaList.length;
     _selectedDua = _duaList[_currentduaIndex];
-    // print('curr index $_currentduaIndex');
-    // print('selct dua $_selectedDua');
 
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);
@@ -54,13 +61,10 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Method to get the next dua
   Map<String, dynamic> getNextDua() {
-    int nextIndex = (_currentduaIndex) % _duaList.length;
-    Dua nextDua = _duaList[nextIndex];
     return {
-      'index': nextIndex + 1,
-      'dua': nextDua,
+      'index': _currentduaIndex + 1,
+      'dua': _duaList[_currentduaIndex],
     };
   }
 
@@ -74,22 +78,8 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //DuaList i.e. dua 77 will update to either 0,1
-  //List index starting with 0
   void bookmark(int duaId, int value) {
     _duaList[duaId].setIsBookmark = value;
     notifyListeners();
   }
-
-  // void setSurahText({required int duaId,required String title,required int fromWhere,bool? isJuz = false, int? juzId = -1,int? bookmarkPosition = -1}) async{
-
-  //   _title = title;
-  //   _isJuz = isJuz;
-  //   _juzId = juzId;
-  //   _bookmarkPosition = bookmarkPosition;
-  //   _surahId = surahId;
-  //   _quranTextList = await QuranDatabase().getQuranSurahText(surahId: surahId);
-  //   _nextSurah = await getSpecificSurah(surahId+1);
-  //   notifyListeners();
-  // }
 }

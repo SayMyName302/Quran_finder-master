@@ -34,10 +34,7 @@ class _EditProfilePageState extends State<EditProfilepage> {
             .userProfile!
             .email ??
         "";
-    // password.text = Provider.of<ProfileProvider>(context, listen: false)
-    //         .userProfile!
-    //         .password ??
-    //     "";
+    password.text = "";
   }
 
   @override
@@ -116,40 +113,36 @@ class _EditProfilePageState extends State<EditProfilepage> {
                               focusedBorder: InputBorder.none)),
                     ),
                     const SizedBox(height: 16),
-                    password.text != ""
-                        ? Text(
-                            'Password',
-                            style: style14,
-                          )
-                        : const SizedBox.shrink(),
-                    password.text != ""
-                        ? Container(
-                            margin: EdgeInsets.only(top: 7.h),
-                            padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6.r),
-                                border: Border.all(color: AppColors.grey5)),
-                            child: TextFormField(
-                              obscureText: isHide,
-                              style: style,
-                              controller: password,
-                              decoration: InputDecoration(
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                suffixIcon: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        isHide = !isHide;
-                                      });
-                                    },
-                                    icon: Icon(isHide
-                                        ? Icons.visibility
-                                        : Icons.visibility_off)),
-                              ),
-                              onSaved: (value) {},
-                            ),
-                          )
-                        : const SizedBox.shrink(),
+                    Text(
+                      'Password',
+                      style: style14,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 7.h),
+                      padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6.r),
+                          border: Border.all(color: AppColors.grey5)),
+                      child: TextFormField(
+                        obscureText: isHide,
+                        style: style,
+                        controller: password,
+                        decoration: InputDecoration(
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isHide = !isHide;
+                                });
+                              },
+                              icon: Icon(isHide
+                                  ? Icons.visibility
+                                  : Icons.visibility_off)),
+                        ),
+                        onSaved: (value) {},
+                      ),
+                    ),
                     // Text(
                     //   'Preferred App Language',
                     // ),
