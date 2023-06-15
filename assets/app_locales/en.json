@@ -32,7 +32,9 @@
   "dashboard": "Dashboard",
   "library": "Library",
   "history": "History",
-
+  "featured": "Featured",
+  "trending": "Trending",
+  "hajjandumrah": "Hajj & Umrah",
   "99_names_of_allah": "99 Names of Allah",
   "qibla_direction": "Qibla Direction",
   "step_by_step_salah": "Step By Step Salah",
