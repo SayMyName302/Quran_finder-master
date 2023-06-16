@@ -155,7 +155,7 @@ String convertToArabicNumber(int? verseId) {
     int digit = id % 10;
     arabicNumeral = arabicNumbers[digit] + arabicNumeral;
     id ~/= 10;
-    print('Digit: $digit, Arabic Numeral: $arabicNumeral');
+    // print('Digit: $digit, Arabic Numeral: $arabicNumeral');
   }
 
   return arabicNumeral;

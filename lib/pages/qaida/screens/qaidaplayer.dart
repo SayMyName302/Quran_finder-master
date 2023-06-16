@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
-
-// import '../../../shared/utills/app_colors.dart';
 import '../../../shared/routes/routes_helper.dart';
 import '../../../shared/widgets/circle_button.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
@@ -47,6 +44,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
     );
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
+    // ignore: unused_local_variable
     bool isLoopMore = false;
 
     return Column(
@@ -93,10 +91,6 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                 ],
                               ),
                             ),
-                            // Text('dsdds'),
-                            // Text('dsdds'),
-                            // Text('dsdds'),
-                            // Text('dsdds'),
                           ],
                         ),
                       ],
@@ -176,9 +170,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                       ),
                       IconButton(
                         onPressed: () {
-                          // Navigator.of(context).pushNamed(
-                          //   RouteHelper.duaPlayList,
-                          // );
+                          Navigator.of(context).pushNamed(
+                            RouteHelper.qaidapageindex,
+                          );
                         },
                         icon: Image.asset(
                           'assets/images/app_icons/list.png',

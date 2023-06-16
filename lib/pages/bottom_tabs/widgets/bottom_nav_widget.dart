@@ -54,6 +54,7 @@ class BottomNavWidget extends StatelessWidget {
                   TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
               onTap: (page) async {
                 bottomTabProvider.setCurrentPage(page);
+                //bottomTabProvider.navigateToQaidaPage(context);
               },
             )
           ],

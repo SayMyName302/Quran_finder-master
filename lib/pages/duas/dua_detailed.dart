@@ -172,11 +172,12 @@ class DuaDetail extends StatelessWidget {
                                 alignment: Alignment.centerRight,
                                 child: Text(
                                   duaText,
-                                  textAlign: TextAlign.end,
+                                  textDirection: TextDirection.rtl,
+                                  //  textAlign: TextAlign.end,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: fontProvider.fontSizeArabic.sp,
-                                    fontFamily: fontProvider.finalFont,
+                                    fontFamily: 'satoshi',
                                   ),
                                 ),
                               ),

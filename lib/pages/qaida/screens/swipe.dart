@@ -26,7 +26,8 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import '../../../shared/widgets/app_bar.dart';
 
 class SwipePages extends StatefulWidget {
-  const SwipePages({super.key});
+  final int initialPage;
+  const SwipePages({super.key, required this.initialPage});
 
   @override
   State<SwipePages> createState() => _SwipePagesState();
@@ -106,7 +107,7 @@ class _SwipePagesState extends State<SwipePages> {
   @override
   void initState() {
     super.initState();
-    controller = PageController(initialPage: _curr);
+    controller = PageController(initialPage: widget.initialPage);
     _initList();
   }
 
@@ -123,7 +124,6 @@ class _SwipePagesState extends State<SwipePages> {
   void updateMultipleSelectionEnabled(bool value) {
     setState(() {
       _isMultipleSelectionEnabled = value;
-      print('value received after playing audio: $_isMultipleSelectionEnabled');
     });
   }
 
@@ -133,7 +133,6 @@ class _SwipePagesState extends State<SwipePages> {
     });
     _updateList();
     print('Button Value received: $value');
-    print('select words called after audio played?');
   }
 
   void fetchstop() {
@@ -143,7 +142,7 @@ class _SwipePagesState extends State<SwipePages> {
   }
 
   void fetchList() {
-    if (!_isPlaying) {
+    if (!_isPlaying && !_isPaused) {
       print('Play button tapped!');
 
       List<String> audioFiles = [];
@@ -207,7 +206,6 @@ class _SwipePagesState extends State<SwipePages> {
         pageId = AudioListHolder19.pageId;
       }
       if (audioFiles.isNotEmpty) {
-        //       print("List of audio files: $audioFiles");
         _playPageAudios(pageId, audioFiles);
       }
     }
@@ -695,7 +693,6 @@ class _SwipePagesState extends State<SwipePages> {
           await _audioLists[i].play();
         }
 
-        // await _audioLists[i].play();
         await _audioLists[i].playerStateStream.firstWhere(
             (state) => state.processingState == ProcessingState.completed);
         finishedCount++;
@@ -744,9 +741,33 @@ class _SwipePagesState extends State<SwipePages> {
       }
       _isPlaying = false;
       _isPaused = false;
-      // selectWords(false);
     } catch (e) {
       print('Error playing audios: $e');
+    }
+  }
+
+  void pauseResumeAudio() async {
+    if (_isPlaying) {
+      // Pause the audio
+      for (int i = 0; i < _audioLists.length; i++) {
+        await _audioLists[i].pause();
+      }
+      setState(() {
+        _isPaused = true;
+      });
+    } else {
+      // Resume the audio
+      for (int i = 0; i < _audioLists.length; i++) {
+        if (_isPaused) {
+          await _audioLists[i].seek(Duration.zero);
+          await _audioLists[i].play();
+        } else {
+          await _audioLists[i].play();
+        }
+      }
+      setState(() {
+        _isPaused = false;
+      });
     }
   }
 
@@ -965,9 +986,10 @@ class _SwipePagesState extends State<SwipePages> {
         height: 120,
         child: QaidaPlayer(
           selectWords: selectWords,
+          // pauseResumeButton: pauseResumeAudio,
           playButton: fetchList,
           stopButton: fetchstop,
-          isAudioPlaying: _isPlaying,
+          isAudioPlaying: _isPlaying && !_isPaused,
           updateMultipleSelectionEnabled: _isMultipleSelectionEnabled,
         ),
       ),

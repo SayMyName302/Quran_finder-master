@@ -38,6 +38,7 @@ import '../../pages/duas/dua_detailed.dart';
 import '../../pages/duas/dua_page.dart';
 import '../../pages/duas/duamain.dart';
 import '../../pages/duas/widgets/dua_player_list.dart';
+import '../../pages/qaida/screens/pageIndex.dart';
 import '../../pages/quran stories/pages/story_content_page.dart';
 import '../../pages/quran/pages/ruqyah/ruqyah_detailed.dart';
 import '../../pages/quran/pages/ruqyah/ruqyah_page.dart';
@@ -111,6 +112,7 @@ class RouteHelper {
   static const String ruqyahDetailed = "/ruqyahDetailed";
   static const String ruqyahPlayList = "/ruqyahPlayList";
   static const String quranstoriespage = "/quranStoriesPage";
+  static const String qaidapageindex = "/qaidapageindex";
 
   // static late BuildContext currentContext;
   static bool isLoggedIn = false;
@@ -137,7 +139,9 @@ class RouteHelper {
       },
       swipe: (context) {
         currentContext = context;
-        return const SwipePages();
+        return const SwipePages(
+          initialPage: 0,
+        );
       },
       duaMain: (context) {
         currentContext = context;
@@ -147,6 +151,11 @@ class RouteHelper {
         currentContext = context;
         return const DuaDetail();
       },
+      qaidapageindex: (context) {
+        currentContext = context;
+        return QaidaPageIndex();
+      },
+
       ruqyahDetailed: (context) {
         currentContext = context;
         return const RuqyahDetail();
