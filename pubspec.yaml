@@ -45,7 +45,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_facebook_auth: ^5.0.11
-  flutter_launcher_icons: 
+  flutter_launcher_icons:
   flutter_local_notifications: ^14.0.0+2
   flutter_localizations:
     sdk: flutter
@@ -55,7 +55,7 @@ dependencies:
   flutter_screenutil: ^5.7.0
   flutter_spinkit: ^5.2.0
   flutter_timezone: ^1.0.6
-  flutter_widget_from_html: 
+  flutter_widget_from_html:
   fluttertoast: ^8.2.1
   geocoding: ^2.1.0
   geolocator: ^9.0.2
@@ -66,10 +66,10 @@ dependencies:
     path: packages/hijri_date-master
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  http: 
-  intl: ^0.18.0
+  http:
+  intl: ^0.17.0
   just_audio: ^0.9.33
-  location: ^4.4.0
+
   onesignal_flutter: ^3.5.1
   path: ^1.8.2
   path_provider: ^2.0.15
@@ -79,6 +79,7 @@ dependencies:
   rxdart: ^0.27.7
   scrollable_positioned_list: ^0.3.8
   share_plus: ^6.3.1
+  shared_preferences: ^2.1.2
   sqflite: ^2.2.8+2
   timezone: ^0.9.1
   url_launcher: ^6.1.11

@@ -765,7 +765,7 @@ String convertToArabicNumber(int? verseId) {
     int digit = id % 10;
     arabicNumeral = arabicNumbers[digit] + arabicNumeral;
     id ~/= 10;
-    print('Difeafeafeagit: $digit, Arabic Numerefaaefeafal: $arabicNumeral');
+    // print('Difeafeafeagit: $digit, Arabic Numerefaaefeafal: $arabicNumeral');
   }
 
   return arabicNumeral;
