@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
 
-class SurahProvider extends ChangeNotifier{
+class SurahProvider extends ChangeNotifier {
   List<Surah> _surahNamesList = [];
   List<Surah> get surahNamesList => _surahNamesList;
 
@@ -11,7 +11,7 @@ class SurahProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void searchSurah(String query) async{
+  void searchSurah(String query) async {
     var surahName = await QuranDatabase().getSurahName();
     if (query.isEmpty) {
       _surahNamesList = surahName;

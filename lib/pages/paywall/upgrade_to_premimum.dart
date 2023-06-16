@@ -538,21 +538,21 @@ class SuccessStoriesList extends StatelessWidget {
     UserModel(
       name: 'Ali Muhammad',
       rating: '4.5',
-      avatarUrl: 'assets/images/app_icons/avatar.png',
+      avatarUrl: 'assets/images/app_icons/male1.png',
       description:
           'Love it! This app has helped me calm myself. The recitation of the Quran captivates me and makes me want to put down my work and listen to the whole chapter. Every time I feel depressed or restless I come back here to listen to the recitations.',
     ),
     UserModel(
       name: 'Usman Mirza',
       rating: '4.9',
-      avatarUrl: 'assets/images/app_icons/avatar.png',
+      avatarUrl: 'assets/images/app_icons/male2.png',
       description:
           'This app was referred by a friend. He told me that listening to recitations on this app will help cure my insomnia. When I opened this app and saw the huge library of Quran recitations and stories, I was blown away. I think it might have a different story for each day of the month.',
     ),
     UserModel(
       name: 'Nadir Ahmed',
       rating: '4.5',
-      avatarUrl: 'assets/images/app_icons/avatar.png',
+      avatarUrl: 'assets/images/app_icons/male3.png',
       description:
           'The prime plan is awesome! It has no ads and unlocks hundreds of extra stories. I can listen to the recitations and stories from the Quran here, all day and not get tired.',
     ),
@@ -607,7 +607,7 @@ class SuccessStoryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  radius: 30,
+                  radius: 20,
                   backgroundImage: AssetImage(user.avatarUrl),
                 ),
                 const SizedBox(width: 8),
