@@ -61,8 +61,7 @@ class _HomePageState extends State<HomePage> {
             lastSeen != null
                 ? const WhereULeftOffWidget()
                 : const SizedBox.shrink(),
-            const FeaturedSection(),
-            const TrendingSection(),
+
             const VerseOfTheDayContainer(),
 
             /// quran Stories Section
