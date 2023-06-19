@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:nour_al_quran/pages/qaida/screens/swipe.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/manage_profile_page.dart';
 
@@ -18,14 +17,6 @@ class BottomTabsPageProvider extends ChangeNotifier {
     const MorePage(),
     const ManageProfile(),
   ];
-  // void navigateToQaidaPage(BuildContext context) {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => const SwipePages(initialPage: 0),
-  //     ),
-  //   );
-  // }
 
   void setCurrentPage(int page) {
     _currentPage = page;

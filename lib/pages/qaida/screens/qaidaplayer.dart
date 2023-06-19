@@ -10,17 +10,17 @@ import '../../settings/pages/app_colors/app_colors_provider.dart';
 class QaidaPlayer extends StatefulWidget {
   final void Function(bool value) selectWords;
   final void Function() playButton;
-  final void Function() stopButton;
   final bool isAudioPlaying;
   final bool updateMultipleSelectionEnabled;
+  final Function(bool) toggleLoop;
 
   const QaidaPlayer({
     super.key,
     required this.selectWords, //To pass the updated value to swipePages
     required this.playButton, //To pass the updated value to swipePages
-    required this.stopButton, //To pass the updated value to swipePages
     required this.isAudioPlaying, //To pass the updated value to swipePages
     required this.updateMultipleSelectionEnabled, //To Disable Select Words After the Audio is played
+    required this.toggleLoop,
   });
 
   @override
@@ -32,6 +32,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
   int currentTab = 0;
   bool isAudioPlaying = false;
   bool isActive = false;
+  bool loop = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +43,6 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
       Duration.zero,
       () => context.read<RecitationPlayerProvider>().pause(context),
     );
-
-    final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
-    // ignore: unused_local_variable
-    bool isLoopMore = false;
 
     return Column(
         mainAxisSize: MainAxisSize.max,
@@ -64,9 +61,6 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                     child: Column(
                       children: [
                         Row(
-                          // mainAxisAlignment: MainAxisAlignment.start,
-
-                          // crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             InkWell(
                               onTap: () {
@@ -87,7 +81,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                     },
                                     visualDensity: VisualDensity.compact,
                                   ),
-                                  const Text('Select Words'),
+                                  const Text('Multi-Play'),
                                 ],
                               ),
                             ),
@@ -100,22 +94,21 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                        onPressed: () {},
-                        icon: ValueListenableBuilder<bool>(
-                          valueListenable: isLoopMoreNotifier,
-                          builder: (context, isLoopMore, child) {
-                            return Image.asset(
-                              'assets/images/app_icons/repeat.png',
-                              height: 30.h,
-                              width: 30.w,
-                              color: isLoopMore
-                                  ? appColor
-                                  : Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.white
-                                      : Colors.black,
-                            );
-                          },
+                        onPressed: () {
+                          setState(() {
+                            loop = !loop;
+                          });
+                          widget.toggleLoop(loop);
+                        },
+                        icon: Image.asset(
+                          'assets/images/app_icons/repeat.png',
+                          height: 30.h,
+                          width: 30.w,
+                          color: loop
+                              ? appColor
+                              : (Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black),
                         ),
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,

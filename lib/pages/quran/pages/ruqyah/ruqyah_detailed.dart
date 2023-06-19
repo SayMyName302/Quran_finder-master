@@ -177,11 +177,12 @@ class RuqyahDetail extends StatelessWidget {
                                 alignment: Alignment.centerRight,
                                 child: Text(
                                   duaText,
-                                  textAlign: TextAlign.end,
+                                  // textAlign: TextAlign.end,
+                                  textDirection: TextDirection.rtl,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: fontProvider.fontSizeArabic.sp,
-                                    fontFamily: fontProvider.finalFont,
+                                    fontFamily: 'satoshi',
                                   ),
                                 ),
                               ),

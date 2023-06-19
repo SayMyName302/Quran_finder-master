@@ -58,11 +58,10 @@ class Page1State extends State<Page1> {
   ];
   int? _startIndex;
   int? _endIndex;
-  bool _isPlaying = false;
+  // bool _isPlaying = false;
 
   void _toggleSelection(int index, String filePath) {
     if (_startIndex != null && _endIndex != null) {
-      // Selection already made, clear selection on any tap
       _selectedContainers.clear();
       _selectedAudioFiles.clear();
       _startIndex = null;
@@ -71,27 +70,31 @@ class Page1State extends State<Page1> {
       widget.isMultipleSelectionEnabled = false;
       widget.updateMultipleSelectionEnabled(false);
     } else if (_startIndex == null) {
-      // Start index is null, select start index
       _selectedContainers.clear();
       _selectedAudioFiles.clear();
       _selectedContainers.add(index);
       _startIndex = index;
     } else {
-      // Start index already selected, select end index
       _selectedContainers.clear();
       _selectedAudioFiles.clear();
       int start = _startIndex!;
       int end = index;
+
+      if (start > end) {
+        int temp = start;
+        start = end;
+        end = temp;
+      }
+
       for (int i = start; i <= end; i++) {
         _selectedContainers.add(i);
       }
       _endIndex = index;
 
-      // Add audio files in range of selected containers
       List<String> selectedAudioFiles = [];
       for (int i = start; i <= end; i++) {
         selectedAudioFiles.add(audioFilePaths[i]);
-        print('_selectedAudioFiles: $selectedAudioFiles');
+        //print('_selectedAudioFiles: $selectedAudioFiles');
       }
       AudioListHolder1.audioList = selectedAudioFiles;
       widget.isMultipleSelectionEnabled = true;
@@ -282,80 +285,84 @@ class Page1State extends State<Page1> {
                             children: [
                               Expanded(
                                 child: Container(
-                                    //   key: _getContainerKey(4),
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                        left: BorderSide(width: 1),
-                                        right: BorderSide(width: .1),
-                                        top: BorderSide(width: 0.5),
-                                        bottom: BorderSide(width: 0.5),
-                                      ),
+                                  //   key: _getContainerKey(4),
+                                  decoration: const BoxDecoration(
+                                    border: Border(
+                                      left: BorderSide(width: 1),
+                                      right: BorderSide(width: .1),
+                                      top: BorderSide(width: 0.5),
+                                      bottom: BorderSide(width: 0.5),
                                     ),
-                                    child: InkWell(
-                                        onTap: widget.isMultipleSelectionEnabled
-                                            ? () {
-                                                _toggleSelection(
-                                                    4, audioFilePaths[4]);
-                                              }
-                                            : () async {
-                                                // String img =
-                                                //     'assets/images/qaida/page1/jem1.png';
-                                                // RenderBox containerRenderBox =
-                                                //     _getContainerKey(4)
-                                                //             ?.currentContext!
-                                                //             .findRenderObject()
-                                                //         as RenderBox;
-                                                // await _audioPlayer.stop();
-                                                // _hideOverlay();
-                                                // _showOverlay(
-                                                //     img, containerRenderBox);
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[4]);
-                                                //     _audioPlayerManager
-                                                //       .playAudio(4);
-                                                await _audioPlayer.play();
-                                                //    _hideOverlay();
-                                              },
-                                        child: Stack(children: [
-                                          FractionallySizedBox(
-                                            widthFactor: 1.0,
-                                            heightFactor: 1,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: AspectRatio(
-                                                aspectRatio: 1.1,
-                                                child: Image.asset(
-                                                  'assets/images/qaida/page1/jeemp1.png',
-                                                  fit: BoxFit.contain,
-                                                ),
+                                  ),
+                                  child: InkWell(
+                                    onTap: widget.isMultipleSelectionEnabled
+                                        ? () {
+                                            _toggleSelection(
+                                                4, audioFilePaths[4]);
+                                          }
+                                        : () async {
+                                            // String img =
+                                            //     'assets/images/qaida/page1/jem1.png';
+                                            // RenderBox containerRenderBox =
+                                            //     _getContainerKey(4)
+                                            //             ?.currentContext!
+                                            //             .findRenderObject()
+                                            //         as RenderBox;
+                                            // await _audioPlayer.stop();
+                                            // _hideOverlay();
+                                            // _showOverlay(
+                                            //     img, containerRenderBox);
+                                            await _audioPlayer.stop();
+                                            await _audioPlayer
+                                                .setAsset(audioFilePaths[4]);
+                                            //     _audioPlayerManager
+                                            //       .playAudio(4);
+                                            await _audioPlayer.play();
+                                            //    _hideOverlay();
+                                          },
+                                    child: Stack(
+                                      children: [
+                                        FractionallySizedBox(
+                                          widthFactor: 1.0,
+                                          heightFactor: 1,
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: AspectRatio(
+                                              aspectRatio: 1.1,
+                                              child: Image.asset(
+                                                'assets/images/qaida/page1/jeemp1.png',
+                                                fit: BoxFit.contain,
                                               ),
                                             ),
                                           ),
-                                          if (_selectedContainers.contains(4))
-                                            if (_startIndex == 4)
-                                              Positioned(
-                                                right: 0,
-                                                top: 0,
-                                                bottom: 0,
-                                                child: Image.asset(
-                                                  'assets/images/qaida/arrow_left.png',
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                              )
-                                            else if (_endIndex == 4)
-                                              Positioned(
-                                                left: 0,
-                                                top: 0,
-                                                bottom: 0,
-                                                child: Image.asset(
-                                                  'assets/images/qaida/arrow_right.png',
-                                                  width: 20,
-                                                  height: 20,
-                                                ),
-                                              )
-                                        ]))),
+                                        ),
+                                        if (_selectedContainers.contains(4))
+                                          if (_startIndex == 4)
+                                            Positioned(
+                                              right: 0,
+                                              top: 0,
+                                              bottom: 0,
+                                              child: Image.asset(
+                                                'assets/images/qaida/arrow_left.png',
+                                                width: 20,
+                                                height: 20,
+                                              ),
+                                            )
+                                          else if (_endIndex == 4)
+                                            Positioned(
+                                              left: 0,
+                                              top: 0,
+                                              bottom: 0,
+                                              child: Image.asset(
+                                                'assets/images/qaida/arrow_right.png',
+                                                width: 20,
+                                                height: 20,
+                                              ),
+                                            )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                               Expanded(
                                 child: Container(

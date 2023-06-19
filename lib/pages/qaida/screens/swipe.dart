@@ -102,6 +102,9 @@ class _SwipePagesState extends State<SwipePages> {
   AudioPlayer _audioPlayer = AudioPlayer();
   // ignore: prefer_final_fields
   List<AudioPlayer> _audioLists = [];
+  // ignore: prefer_final_fields
+  bool _loop = false;
+  int _currentPlayingIndex = 0;
   PageController controller = PageController();
 
   @override
@@ -132,7 +135,7 @@ class _SwipePagesState extends State<SwipePages> {
       _isMultipleSelectionEnabled = value;
     });
     _updateList();
-    print('Button Value received: $value');
+    //print('Button Value received: $value');
   }
 
   void fetchstop() {
@@ -143,8 +146,6 @@ class _SwipePagesState extends State<SwipePages> {
 
   void fetchList() {
     if (!_isPlaying && !_isPaused) {
-      print('Play button tapped!');
-
       List<String> audioFiles = [];
       int pageId = -1;
       if (_curr == 0) {
@@ -205,9 +206,23 @@ class _SwipePagesState extends State<SwipePages> {
         audioFiles = AudioListHolder19.audioList;
         pageId = AudioListHolder19.pageId;
       }
+
       if (audioFiles.isNotEmpty) {
-        _playPageAudios(pageId, audioFiles);
+        if (_isPaused) {
+          _audioLists[_currentPlayingIndex].play();
+        } else {
+          _playPageAudios(pageId, audioFiles);
+        }
+        setState(() {
+          _isPlaying = true;
+          _isPaused = false;
+        });
       }
+    } else if (_isPlaying && !_isPaused) {
+      _audioLists[_currentPlayingIndex].pause();
+      setState(() {
+        _isPaused = true;
+      });
     }
   }
 
@@ -546,7 +561,6 @@ class _SwipePagesState extends State<SwipePages> {
   Future<void> _playPageAudios(int pageId, List<String> audioFiles) async {
     try {
       _audioLists.clear();
-      // List<AudioPlayer> audioPlayer = [];
       switch (pageId) {
         case 1:
           for (int i = 0; i < audioFiles.length; i++) {
@@ -682,92 +696,126 @@ class _SwipePagesState extends State<SwipePages> {
           }
           break;
       }
-      int finishedCount = 0;
-      for (int i = 0; i < _audioLists.length; i++) {
-        setState(() {
-          _isPlaying = true;
-          _isPaused = false;
-        });
 
+      for (int i = _currentPlayingIndex; i < _audioLists.length; i++) {
         if (_isPlaying && !_isPaused) {
           await _audioLists[i].play();
         }
 
-        await _audioLists[i].playerStateStream.firstWhere(
-            (state) => state.processingState == ProcessingState.completed);
-        finishedCount++;
-        // Call clearSelection() when all audio files have finished playing
-        if (finishedCount == _audioLists.length) {
-          if (pageId == 1) {
-            _page1Key[0].currentState?.clearSelection();
-          } else if (pageId == 2) {
-            _page2Key[0].currentState?.clearSelection();
-          } else if (pageId == 3) {
-            _page3Key[0].currentState?.clearSelection();
-          } else if (pageId == 4) {
-            _page4Key[0].currentState?.clearSelection();
-          } else if (pageId == 5) {
-            _page5Key[0].currentState?.clearSelection();
-          } else if (pageId == 6) {
-            _page6Key[0].currentState?.clearSelection();
-          } else if (pageId == 7) {
-            _page7Key[0].currentState?.clearSelection();
-          } else if (pageId == 8) {
-            _page8Key[0].currentState?.clearSelection();
-          } else if (pageId == 9) {
-            _page9Key[0].currentState?.clearSelection();
-          } else if (pageId == 10) {
-            _page10Key[0].currentState?.clearSelection();
-          } else if (pageId == 11) {
-            _page11Key[0].currentState?.clearSelection();
-          } else if (pageId == 12) {
-            _page12Key[0].currentState?.clearSelection();
-          } else if (pageId == 13) {
-            _page13Key[0].currentState?.clearSelection();
-          } else if (pageId == 14) {
-            _page14Key[0].currentState?.clearSelection();
-          } else if (pageId == 15) {
-            _page15Key[0].currentState?.clearSelection();
-          } else if (pageId == 16) {
-            _page16Key[0].currentState?.clearSelection();
-          } else if (pageId == 17) {
-            _page17Key[0].currentState?.clearSelection();
-          } else if (pageId == 18) {
-            _page18Key[0].currentState?.clearSelection();
-          } else if (pageId == 19) {
-            _page19Key[0].currentState?.clearSelection();
+        await _audioLists[i].playerStateStream.firstWhere((state) =>
+            state.processingState == ProcessingState.completed || _isPaused);
+
+        if (_isPaused) {
+          setState(() {
+            _currentPlayingIndex = i + 1;
+          });
+          break;
+        }
+
+        // Reset the player for the next iteration
+        await _audioLists[i].stop();
+        await _audioLists[i].seek(Duration.zero);
+
+        bool isLooping = _loop;
+        if (i == _audioLists.length - 1) {
+          if (isLooping) {
+            _currentPlayingIndex = 0;
+            if (!_loop) {
+              setState(() {
+                _isPlaying = false;
+              });
+              if (pageId == 1) {
+                _page1Key[0].currentState?.clearSelection();
+              } else if (pageId == 2) {
+                _page2Key[0].currentState?.clearSelection();
+              } else if (pageId == 3) {
+                _page3Key[0].currentState?.clearSelection();
+              } else if (pageId == 4) {
+                _page4Key[0].currentState?.clearSelection();
+              } else if (pageId == 5) {
+                _page5Key[0].currentState?.clearSelection();
+              } else if (pageId == 6) {
+                _page6Key[0].currentState?.clearSelection();
+              } else if (pageId == 7) {
+                _page7Key[0].currentState?.clearSelection();
+              } else if (pageId == 8) {
+                _page8Key[0].currentState?.clearSelection();
+              } else if (pageId == 9) {
+                _page9Key[0].currentState?.clearSelection();
+              } else if (pageId == 10) {
+                _page10Key[0].currentState?.clearSelection();
+              } else if (pageId == 11) {
+                _page11Key[0].currentState?.clearSelection();
+              } else if (pageId == 12) {
+                _page12Key[0].currentState?.clearSelection();
+              } else if (pageId == 13) {
+                _page13Key[0].currentState?.clearSelection();
+              } else if (pageId == 14) {
+                _page14Key[0].currentState?.clearSelection();
+              } else if (pageId == 15) {
+                _page15Key[0].currentState?.clearSelection();
+              } else if (pageId == 16) {
+                _page16Key[0].currentState?.clearSelection();
+              } else if (pageId == 17) {
+                _page17Key[0].currentState?.clearSelection();
+              } else if (pageId == 18) {
+                _page18Key[0].currentState?.clearSelection();
+              } else if (pageId == 19) {
+                _page19Key[0].currentState?.clearSelection();
+              }
+            }
+            await _playPageAudios(pageId, audioFiles);
+          } else {
+            _currentPlayingIndex = 0;
+            if (pageId == 1) {
+              _page1Key[0].currentState?.clearSelection();
+            } else if (pageId == 2) {
+              _page2Key[0].currentState?.clearSelection();
+            } else if (pageId == 3) {
+              _page3Key[0].currentState?.clearSelection();
+            } else if (pageId == 4) {
+              _page4Key[0].currentState?.clearSelection();
+            } else if (pageId == 5) {
+              _page5Key[0].currentState?.clearSelection();
+            } else if (pageId == 6) {
+              _page6Key[0].currentState?.clearSelection();
+            } else if (pageId == 7) {
+              _page7Key[0].currentState?.clearSelection();
+            } else if (pageId == 8) {
+              _page8Key[0].currentState?.clearSelection();
+            } else if (pageId == 9) {
+              _page9Key[0].currentState?.clearSelection();
+            } else if (pageId == 10) {
+              _page10Key[0].currentState?.clearSelection();
+            } else if (pageId == 11) {
+              _page11Key[0].currentState?.clearSelection();
+            } else if (pageId == 12) {
+              _page12Key[0].currentState?.clearSelection();
+            } else if (pageId == 13) {
+              _page13Key[0].currentState?.clearSelection();
+            } else if (pageId == 14) {
+              _page14Key[0].currentState?.clearSelection();
+            } else if (pageId == 15) {
+              _page15Key[0].currentState?.clearSelection();
+            } else if (pageId == 16) {
+              _page16Key[0].currentState?.clearSelection();
+            } else if (pageId == 17) {
+              _page17Key[0].currentState?.clearSelection();
+            } else if (pageId == 18) {
+              _page18Key[0].currentState?.clearSelection();
+            } else if (pageId == 19) {
+              _page19Key[0].currentState?.clearSelection();
+            }
+            break;
           }
         }
       }
-      _isPlaying = false;
-      _isPaused = false;
-    } catch (e) {
-      print('Error playing audios: $e');
-    }
-  }
-
-  void pauseResumeAudio() async {
-    if (_isPlaying) {
-      // Pause the audio
-      for (int i = 0; i < _audioLists.length; i++) {
-        await _audioLists[i].pause();
-      }
       setState(() {
-        _isPaused = true;
-      });
-    } else {
-      // Resume the audio
-      for (int i = 0; i < _audioLists.length; i++) {
-        if (_isPaused) {
-          await _audioLists[i].seek(Duration.zero);
-          await _audioLists[i].play();
-        } else {
-          await _audioLists[i].play();
-        }
-      }
-      setState(() {
+        _isPlaying = false;
         _isPaused = false;
       });
+    } catch (e) {
+      print('Error playing audios: $e');
     }
   }
 
@@ -795,6 +843,13 @@ class _SwipePagesState extends State<SwipePages> {
     _page18Key[0].currentState?.clearSelection();
     _page19Key[0].currentState?.clearSelection();
     _isPlaying = false;
+  }
+
+  void toggleLoop(bool value) {
+    setState(() {
+      _loop = value;
+    });
+    print('loop value received in swipe pages is : $_loop');
   }
 
   @override
@@ -988,9 +1043,10 @@ class _SwipePagesState extends State<SwipePages> {
           selectWords: selectWords,
           // pauseResumeButton: pauseResumeAudio,
           playButton: fetchList,
-          stopButton: fetchstop,
+          // stopButton: fetchstop,
           isAudioPlaying: _isPlaying && !_isPaused,
           updateMultipleSelectionEnabled: _isMultipleSelectionEnabled,
+          toggleLoop: toggleLoop,
         ),
       ),
     );
