@@ -222,6 +222,17 @@ class QuranDatabase {
     return surahList;
   }
 
+  Future<Surah?> getSurahByName(String surahName) async {
+    database = await openDb();
+    var cursor = await database!.query(_surahNameTable,
+        where: 'surah_name = ?', whereArgs: [surahName], limit: 1);
+    if (cursor.isNotEmpty) {
+      return Surah.fromJson(cursor.first);
+    } else {
+      return null;
+    }
+  }
+
   // to load all surah names
   Future<Surah?> getSpecificSurahName(int surahId) async {
     database = await openDb();

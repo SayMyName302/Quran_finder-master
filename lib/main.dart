@@ -13,6 +13,7 @@ import 'package:nour_al_quran/pages/onesginalnotify/provider.dart';
 import 'package:nour_al_quran/pages/qaida/providers/audiolist_provider.dart';
 import 'package:nour_al_quran/pages/quran%20stories/quran_stories_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah_provider.dart';
+import 'package:nour_al_quran/pages/quran/pages/surah/provider.dart';
 import 'package:nour_al_quran/shared/providers/dua_audio_player_provider.dart';
 import 'package:nour_al_quran/shared/providers/story_n_basics_audio_player_provider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
@@ -54,6 +55,7 @@ void main() async {
   await Global.init();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => PremiumScreenProvider()),
+    ChangeNotifierProvider(create: (_) => recentProvider()),
     ChangeNotifierProvider(create: (_) => ThemProvider()),
     ChangeNotifierProvider(create: (_) => BottomTabsPageProvider()),
     ChangeNotifierProvider(create: (_) => QuranProvider()),
