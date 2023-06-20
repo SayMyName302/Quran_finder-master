@@ -113,6 +113,9 @@ class DuaBookmarkPage extends StatelessWidget {
                         final bookmark = combinedBookmarkList[index];
                         final isDuaBookmark = index < bookmarkListDua.length;
 
+                        // print('dua id : ${bookmark.duaId!}');
+                        // print('dua catid: ${bookmark.categoryId!}');
+
                         return InkWell(
                           onTap: () async {
                             if (isDuaBookmark) {
@@ -146,11 +149,11 @@ class DuaBookmarkPage extends StatelessWidget {
                             icon: Icons.bookmark,
                             onTapIcon: () {
                               if (isDuaBookmark) {
-                                bookmarkDuaValue
-                                    .removeBookmark(bookmark.duaId!);
+                                bookmarkDuaValue.removeBookmark(
+                                    bookmark.duaId!, bookmark.categoryId!);
                               } else {
-                                bookmarkRuqyahValue
-                                    .removeBookmark(bookmark.duaId!);
+                                bookmarkRuqyahValue.removeBookmark(
+                                    bookmark.duaId!, bookmark.categoryId!);
                               }
                             },
                           ),

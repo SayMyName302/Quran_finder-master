@@ -96,7 +96,9 @@ class RuqyahAudioPlayer extends StatelessWidget {
                               context
                                   .read<BookmarkProviderRuqyah>()
                                   .removeBookmark(
-                                      ruqyahProvider.duaList[duaIndex].id!);
+                                      ruqyahProvider.duaList[duaIndex].id!,
+                                      ruqyahProvider
+                                          .duaList[duaIndex].duaCategory!);
                             }
                             // }
                           },

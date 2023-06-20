@@ -449,10 +449,10 @@ class QuranDatabase {
   }
 
   //delete bookmark
-  void removeduaBookmark(int duaId) async {
+  void removeduaBookmark(int duaId, int categoryId) async {
     database = await openDb();
-    await database!
-        .rawUpdate("update $_duaAllTable set is_fav = 0 where dua_id = $duaId");
+    await database!.rawUpdate(
+        "update $_duaAllTable set is_fav = 0 where dua_id = $duaId AND category_id = $categoryId");
     // print('DuaID removed is: $duaId');
   }
 
@@ -478,10 +478,10 @@ class QuranDatabase {
   }
 
   //delete bookmark
-  void removeRduaBookmark(int duaId) async {
+  void removeRduaBookmark(int duaId, int RCategory) async {
     database = await openDb();
     await database!.rawUpdate(
-        "update $_rduaAllTable set is_fav = 0 where ruqyah_id = $duaId");
+        "update $_rduaAllTable set is_fav = 0 where ruqyah_id = $duaId AND category_id = $RCategory ");
     // print('DuaID removed is: $duaId');
   }
 

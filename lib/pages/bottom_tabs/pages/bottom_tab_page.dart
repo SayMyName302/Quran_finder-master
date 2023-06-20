@@ -29,6 +29,7 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     /// observer is used to observe app lifecycle state
     /// and it is used to stop and start app usage and other timers when user stop or resume the app
     WidgetsBinding.instance.addObserver(this);
+
     /// this method will get verse of the day
     context.read<HomeProvider>().getVerse(context);
 
@@ -57,7 +58,6 @@ class _BottomTabsPageState extends State<BottomTabsPage>
       provider.startAppUsageTimer();
     });
 
-
     setUpRecitationNotifications();
   }
 
@@ -75,10 +75,9 @@ class _BottomTabsPageState extends State<BottomTabsPage>
           return value.page[value.currentPage];
         },
       ),
-      bottomNavigationBar: const BottomNavWidget(),
+      bottomNavigationBar: BottomNavWidget(),
     );
   }
-
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -94,16 +93,13 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     }
   }
 
-
   void setUpRecitationNotifications() {
     NotificationServices().dailyNotifications(
       id: dailyQuranRecitationId,
       title: 'Recitation Reminder',
       body: 'It is time to recite the Holy Quran',
       payload: 'recite',
-      dailyNotifyTime: const TimeOfDay(hour: 8,minute: 0),
+      dailyNotifyTime: const TimeOfDay(hour: 8, minute: 0),
     );
   }
-
-
 }
