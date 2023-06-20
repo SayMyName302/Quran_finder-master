@@ -12,9 +12,10 @@ class BookmarkProviderDua extends ChangeNotifier {
   final List _bookmarkList = Hive.box('myBox').get('bookmarks1') ?? [];
   List get bookmarkList => _bookmarkList;
 
-  void removeBookmark(int duaId) {
-    QuranDatabase().removeduaBookmark(duaId);
-    _bookmarkList.removeWhere((element) => element.duaId == duaId);
+  void removeBookmark(int duaId, int categoryId) {
+    QuranDatabase().removeduaBookmark(duaId, categoryId);
+    _bookmarkList.removeWhere((element) =>
+        element.duaId == duaId && element.categoryId == categoryId);
     Hive.box("myBox").put("bookmarks1", _bookmarkList);
     notifyListeners();
   }

@@ -78,6 +78,11 @@ class DuaAudioPlayer extends StatelessWidget {
                             String categoryName = getCategoryNameById(
                                 categoryId!, duaProv.duaCategoryList);
 
+                            // duaProv.printDuaList();
+                            // print('duaIndex: $duaIndex');
+                            // print('categoryId: $categoryId');
+                            // print('categoryName: $categoryName');
+
                             if (dua.isFav == 0) {
                               duaProv.bookmark(duaIndex, 1);
                               BookmarksDua bookmark = BookmarksDua(
@@ -94,15 +99,22 @@ class DuaAudioPlayer extends StatelessWidget {
                               context
                                   .read<BookmarkProviderDua>()
                                   .addBookmark(bookmark);
+                              print('add index $index');
+                              print('add category$categoryId');
                             } else {
                               // to change state
                               duaProv.bookmark(duaIndex, 0);
                               context
                                   .read<BookmarkProviderDua>()
                                   .removeBookmark(
-                                      duaProvider.duaList[duaIndex].id!);
+                                      duaProvider.duaList[duaIndex].id!,
+                                      duaProvider
+                                          .duaList[duaIndex].duaCategory!);
+                              print(
+                                  'removed index ${duaProvider.duaList[duaIndex].id!}');
+                              print(
+                                  'removed category ${duaProvider.duaList[duaIndex].duaCategory!}');
                             }
-                            // }
                           },
                           child: Container(
                             height: 20.h,

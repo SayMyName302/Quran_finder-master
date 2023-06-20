@@ -12,9 +12,10 @@ class BookmarkProviderRuqyah extends ChangeNotifier {
   final List _bookmarkList = Hive.box('myBox').get('bookmarks2') ?? [];
   List get bookmarkList => _bookmarkList;
 
-  void removeBookmark(int duaId) {
-    QuranDatabase().removeRduaBookmark(duaId);
-    _bookmarkList.removeWhere((element) => element.duaId == duaId);
+  void removeBookmark(int duaId, int categoryId) {
+    QuranDatabase().removeRduaBookmark(duaId, categoryId);
+    _bookmarkList.removeWhere((element) =>
+        element.duaId == duaId && element.categoryId == categoryId);
     notifyListeners();
     Hive.box("myBox").put("bookmarks2", _bookmarkList);
   }

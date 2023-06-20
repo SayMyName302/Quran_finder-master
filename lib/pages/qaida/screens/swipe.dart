@@ -798,6 +798,7 @@ class SwipePagesState extends State<SwipePages> {
                 _curr = num;
                 _isMultipleSelectionEnabled = false;
                 _stopPageAudios();
+                _loop = false;
               });
             },
             children: _list,
@@ -813,6 +814,7 @@ class SwipePagesState extends State<SwipePages> {
           isAudioPlaying: _isPlaying && !_isPaused,
           updateMultipleSelectionEnabled: _isMultipleSelectionEnabled,
           toggleLoop: toggleLoop,
+          updateLoopVal: _loop,
         ),
       ),
     );

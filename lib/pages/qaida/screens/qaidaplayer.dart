@@ -14,6 +14,7 @@ class QaidaPlayer extends StatefulWidget {
   final bool isAudioPlaying;
   final bool updateMultipleSelectionEnabled;
   final Function(bool) toggleLoop;
+  final bool updateLoopVal;
 
   const QaidaPlayer({
     super.key,
@@ -21,8 +22,9 @@ class QaidaPlayer extends StatefulWidget {
     required this.playButton, //To pass the updated value to swipePages
     required this.stopAudio,
     required this.isAudioPlaying, //To pass the updated value to swipePages
-    required this.updateMultipleSelectionEnabled, //To Disable Select Words After the Audio is played
-    required this.toggleLoop,
+    required this.updateMultipleSelectionEnabled, //To Disable Select Words After the Audio is played/OnPage Changed
+    required this.toggleLoop, // Passing val from this screen to swipe
+    required this.updateLoopVal, //Receiving val from swipe to this screen
   });
 
   @override
@@ -39,6 +41,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
   @override
   Widget build(BuildContext context) {
     isActive = widget.updateMultipleSelectionEnabled;
+    loop = widget.updateLoopVal;
     Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
     ThemProvider them = Provider.of<ThemProvider>(context);
     Future.delayed(
@@ -101,6 +104,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                             loop = !loop;
                           });
                           widget.toggleLoop(loop);
+                          print('value of loop is : $loop');
                         },
                         icon: Image.asset(
                           'assets/images/app_icons/repeat.png',

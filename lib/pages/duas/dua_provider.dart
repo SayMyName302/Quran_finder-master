@@ -18,6 +18,12 @@ class DuaProvider extends ChangeNotifier {
   Dua? _selectedDua;
   Dua? get selectedDua => _selectedDua;
 
+  void printDuaList() {
+    for (var dua in _duaList) {
+      print('Dua ${dua.id}: ${dua.duaCategory}');
+    }
+  }
+
   Future<void> getDuaCategories() async {
     _duaCategoryList = await QuranDatabase().getDuaCategories();
     notifyListeners();

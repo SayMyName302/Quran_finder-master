@@ -255,7 +255,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
               context.read<SurahProvider>().searchSurah(value);
             },
           ),
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height * 0.5,
             width: double.infinity,
             child: Consumer<SurahProvider>(
@@ -317,27 +317,4 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
       ),
     );
   }
-
-  // Future<void> loadTappedSurahNames() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   List<String>? savedNames = prefs.getStringList('tappedSurahNames');
-  //   setState(() {
-  //     tappedSurahNames =
-  //         savedNames ?? []; // If savedNames is null, set an empty list
-  //   });
-  // }
-
-  // Future<void> saveTappedSurahNames() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //   if (tappedSurahNames.length > 10) {
-  //     tappedSurahNames = tappedSurahNames.sublist(tappedSurahNames.length - 10);
-  //   }
-
-  //   await prefs.setStringList('tappedSurahNames', tappedSurahNames);
-  // }
-
-  // void printTappedSurahNames() {
-  //   print('Tapped Surah Names: $tappedSurahNames');
-  // }
 }

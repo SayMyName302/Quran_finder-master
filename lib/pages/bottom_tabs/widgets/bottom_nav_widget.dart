@@ -14,16 +14,15 @@ class BottomNavWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<BottomTabsPageProvider, AppColorsProvider>(
       builder: (context, bottomTabProvider, appColors, child) {
-        // Check if the currentPage is 2
         final int currentPage = bottomTabProvider.currentPage;
+        int previousPage = 0;
         return WillPopScope(
           onWillPop: () async {
             if (currentPage != 0) {
-              bottomTabProvider.setCurrentPage(
-                  0); // Navigate to home screen (index 0) when back button is pressed
-              return false; // Prevent default back button behavior
+              bottomTabProvider.setCurrentPage(previousPage);
+              return false;
             }
-            return true; // Allow default back button behavior if already on the home screen
+            return true;
           },
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -70,7 +69,6 @@ class BottomNavWidget extends StatelessWidget {
                       TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
                   onTap: (page) async {
                     bottomTabProvider.setCurrentPage(page);
-                    //bottomTabProvider.navigateToQaidaPage(context);
                   },
                 ),
               )
