@@ -10,10 +10,11 @@ import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import '../models/miracles.dart';
 
-class MiraclesOfQuranProvider extends ChangeNotifier{
+class MiraclesOfQuranProvider extends ChangeNotifier {
   List<Miracles> _miracles = [];
   List<Miracles> get miracles => _miracles;
   Miracles? _selectedMiracle;
@@ -28,13 +29,13 @@ class MiraclesOfQuranProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void goToMiracleDetailsPage(String title, BuildContext context,int index){
+  void goToMiracleDetailsPage(String title, BuildContext context, int index) {
     _selectedMiracle = _miracles[index];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
   }
 
-  void setVideoFile(File video){
+  void setVideoFile(File video) {
     _videoUrl = video;
     notifyListeners();
   }
@@ -46,52 +47,87 @@ class MiraclesOfQuranProvider extends ChangeNotifier{
   bool isBuffering = false;
 
   void initVideoPlayer() async {
-    try{
+    try {
       controller = VideoPlayerController.network(
-          _selectedMiracle!.videoUrl!,
-      )..initialize().then((_) {
+        _selectedMiracle!.videoUrl!,
+      )
+        ..initialize().then((_) {
           setNetworkError(false);
+
           /// if user internet connection lost during video
           /// so after connection resolve so user can seek to the same point of video
-          if(lastPosition != Duration.zero){
+          if (lastPosition != Duration.zero) {
             controller.seekTo(lastPosition);
           }
           notifyListeners();
-        })..addListener(() async{
+        })
+        ..addListener(() async {
           /// if there will be any error so this block will trigger error and resolve error during video
-          if(controller.value.hasError){
+          if (controller.value.hasError) {
             controller.pause();
             setNetworkError(true);
             lastPosition = (await controller.position)!;
             notifyListeners();
           }
         });
-    }on PlatformException catch(e){
+    } on PlatformException catch (e) {
       setNetworkError(true);
       Fluttertoast.showToast(msg: e.toString());
-    }
-    catch(e){
+    } catch (e) {
       setNetworkError(true);
       Fluttertoast.showToast(msg: e.toString());
     }
   }
 
-  setNetworkError(value){
+  setNetworkError(value) {
     isNetworkError = value;
     notifyListeners();
   }
 
   /// this method will play if video is pause if pause so it will play
   /// based on condition
-  playVideo(){
-    controller.value.isPlaying
-        ? controller.pause()
-        : controller.play();
+  playVideo() {
+    controller.value.isPlaying ? controller.pause() : controller.play();
     notifyListeners();
   }
-}
 
-/// login to download Video From Internet
+  void moveMiracleToEnd(int index) async {
+    if (index >= 0 && index < miracles.length) {
+      Miracles tappedMiracle = miracles[index];
+      miracles.removeAt(index);
+      miracles.add(tappedMiracle);
+      currentMiracle = miracles.length - 1; // Update the currentMiracle index
+      notifyListeners();
+
+      // Save the updated order in shared preferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String> tappedMiracleTitles =
+          miracles.map((miracle) => miracle.title!).toList();
+      prefs.setStringList('tappedMiracleOrder', tappedMiracleTitles);
+    }
+    Future<void> getMiracles() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String>? tappedMiracleTitles =
+          prefs.getStringList('tappedMiracleOrder');
+
+      if (tappedMiracleTitles != null) {
+        _miracles = await HomeDb().getMiracles();
+
+        // Reorder the miracles list based on the saved order
+        _miracles.sort((a, b) {
+          int indexA = tappedMiracleTitles.indexOf(a.title!);
+          int indexB = tappedMiracleTitles.indexOf(b.title!);
+          return indexA.compareTo(indexB);
+        });
+      } else {
+        _miracles = await HomeDb().getMiracles();
+      }
+
+      notifyListeners();
+    }
+  }
+
+  /// login to download Video From Internet
 // Future<void> checkVideoAvailable(String miracleTitle,BuildContext context) async {
 //   currentMiracle = _miracles.indexWhere((element) => element.title == miracleTitle);
 //   _selectedMiracle = _miracles[currentMiracle];
@@ -202,3 +238,4 @@ class MiraclesOfQuranProvider extends ChangeNotifier{
 //       );
 //     },);
 // }
+}

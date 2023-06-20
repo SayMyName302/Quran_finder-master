@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 
 import '../../../shared/utills/app_constants.dart';
 
-class Miracles{
+class Miracles {
   String? _title;
   String? _image;
   String? _text;
@@ -15,17 +15,16 @@ class Miracles{
 
   String? get text => _text;
 
-
   String? get videoUrl => _videoUrl;
 
-  Miracles({required title, required image, required text,required video}){
+  Miracles({required title, required image, required text, required video}) {
     _title = title;
     _image = image;
     _text = text;
     _videoUrl = video;
   }
 
-  Miracles.fromJson(Map<String,dynamic> json){
+  Miracles.fromJson(Map<String, dynamic> json) {
     _title = json['miracle_title'];
     _image = json['app_image_url'];
     _text = json[Hive.box(appBoxKey).get(miraclesTranslationKey) ?? 'text'];

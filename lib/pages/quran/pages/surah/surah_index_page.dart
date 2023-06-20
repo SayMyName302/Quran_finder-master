@@ -260,52 +260,56 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
             width: double.infinity,
             child: Consumer<SurahProvider>(
               builder: (context, surahValue, child) {
-                return surahValue.surahNamesList.isNotEmpty
-                    ? ListView.builder(
-                        physics: const ClampingScrollPhysics(),
-                        itemCount: surahValue.surahNamesList.length,
-                        itemBuilder: (context, index) {
-                          Surah surah = surahValue.surahNamesList[index];
-                          return InkWell(
-                            onTap: () async {
-                              // to clear search field
-                              searchController.text = "";
-                              context.read<QuranProvider>().setSurahText(
-                                  surahId: surah.surahId!,
-                                  title: 'سورة ${surah.arabicName}',
-                                  fromWhere: 1);
-                              Future.delayed(
-                                  Duration.zero,
-                                  () => context
-                                      .read<RecitationPlayerProvider>()
-                                      .pause(context));
-                              tappedSurahNames.add(surah.surahName!);
-                              context
-                                  .read<LastReadProvider>()
-                                  .addTappedSurahName(surah.surahName!);
+                List<Surah> surahNamesList = surahValue.surahNamesList;
 
-                              saveTappedSurahNames(context);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) {
-                                  return const QuranTextView();
-                                },
-                              ));
-                            },
-                            child: DetailsContainerWidget(
-                              title: LocalizationProvider().checkIsArOrUr()
-                                  ? surah.arabicName!
-                                  : surah.surahName!,
-                              subTitle: surah.englishName!,
-                              icon: Icons.remove_red_eye_outlined,
-                              imageIcon: "assets/images/app_icons/view.png",
-                            ),
-                          );
-                        },
-                      )
-                    : const Expanded(
-                        child: Center(
+                return surahValue.surahNamesList.isNotEmpty
+                    ? MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.builder(
+                          physics: const ClampingScrollPhysics(),
+                          itemCount: surahValue.surahNamesList.length,
+                          itemBuilder: (context, index) {
+                            Surah surah = surahValue.surahNamesList[index];
+                            return InkWell(
+                              onTap: () async {
+                                // to clear search field
+                                searchController.text = "";
+                                context.read<QuranProvider>().setSurahText(
+                                    surahId: surah.surahId!,
+                                    title: 'سورة ${surah.arabicName}',
+                                    fromWhere: 1);
+                                Future.delayed(
+                                    Duration.zero,
+                                    () => context
+                                        .read<RecitationPlayerProvider>()
+                                        .pause(context));
+                                tappedSurahNames.add(surah.surahName!);
+                                context
+                                    .read<LastReadProvider>()
+                                    .addTappedSurahName(surah.surahName!);
+
+                                saveTappedSurahNames(context);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) {
+                                    return const QuranTextView();
+                                  },
+                                ));
+                              },
+                              child: DetailsContainerWidget(
+                                title: LocalizationProvider().checkIsArOrUr()
+                                    ? surah.arabicName!
+                                    : surah.surahName!,
+                                subTitle: surah.englishName!,
+                                icon: Icons.remove_red_eye_outlined,
+                                imageIcon: "assets/images/app_icons/view.png",
+                              ),
+                            );
+                          },
+                        ))
+                    : const Center(
                         child: Text('No Result Found'),
-                      ));
+                      );
               },
             ),
           )

@@ -19,6 +19,7 @@ class SearchWidget extends StatelessWidget {
       margin: EdgeInsets.only(
         left: 20.w,
         right: 20.w,
+        bottom: 10.w,
       ),
       child: TextField(
         controller: searchController,

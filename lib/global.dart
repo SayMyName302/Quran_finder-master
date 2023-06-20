@@ -44,6 +44,7 @@ class Global {
     Hive.registerAdapter(OnBoardingAdopter());
     Hive.registerAdapter(TimeOfTheDayAdapter());
     Hive.registerAdapter(DevicesAdapter());
+
     await Hive.openBox('myBox');
     await ScreenUtil.ensureScreenSize();
     await QuranDatabase().initAndSaveDb();
