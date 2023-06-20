@@ -91,16 +91,16 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
             return Padding(
               padding: const EdgeInsets.only(
                   left: 20.0, right: 20.0, bottom: 14.0, top: 10),
-              child: Container(
+              child: SizedBox(
                 height: 23.h, // Set the desired height constraint
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: tappedSurahNames.reversed.length > 3
+                  itemCount: tappedSurahNames.reversed.toSet().length > 3
                       ? 3
-                      : tappedSurahNames.reversed.length,
+                      : tappedSurahNames.reversed.toSet().length,
                   itemBuilder: (context, index) {
-                    final surahName =
-                        tappedSurahNames.reversed.elementAt(index);
+                    final surahNamesSet = tappedSurahNames.reversed.toSet();
+                    final surahName = surahNamesSet.elementAt(index);
                     return GestureDetector(
                       onTap: () async {
                         var surahList = await QuranDatabase().getSurahName();
@@ -111,6 +111,8 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                             surahId: surah.surahId!,
                             title: 'سورة ${surah.arabicName}',
                             fromWhere: 1);
+                        tappedSurahNames.add(surah.surahName!);
+                        saveTappedSurahNames();
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
                             return const QuranTextView();
@@ -197,6 +199,8 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                               title: 'سورة ${surah.arabicName}',
                               fromWhere: 1,
                             );
+                        tappedSurahNames.add(surah.surahName!);
+                        saveTappedSurahNames();
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
                             return const QuranTextView();
