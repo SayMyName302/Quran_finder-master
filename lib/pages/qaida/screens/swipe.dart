@@ -26,13 +26,13 @@ import '../../../shared/widgets/app_bar.dart';
 
 class SwipePages extends StatefulWidget {
   final int initialPage;
-  const SwipePages({super.key, required this.initialPage});
+  const SwipePages({Key? key, required this.initialPage}) : super(key: key);
 
   @override
-  State<SwipePages> createState() => _SwipePagesState();
+  SwipePagesState createState() => SwipePagesState();
 }
 
-class _SwipePagesState extends State<SwipePages> {
+class SwipePagesState extends State<SwipePages> {
   final List<GlobalKey<Page1State>> _page1Key = [
     GlobalKey<Page1State>(),
   ];
@@ -109,6 +109,10 @@ class _SwipePagesState extends State<SwipePages> {
     controller = PageController(initialPage: widget.initialPage);
     _curr = widget.initialPage;
     _initList();
+  }
+
+  void jumpToPage(int index) {
+    controller.jumpToPage(index);
   }
 
   @override
@@ -801,7 +805,7 @@ class _SwipePagesState extends State<SwipePages> {
         ],
       ),
       bottomNavigationBar: SizedBox(
-        height: 120,
+        height: 160,
         child: QaidaPlayer(
           selectWords: selectWords,
           playButton: fetchList,

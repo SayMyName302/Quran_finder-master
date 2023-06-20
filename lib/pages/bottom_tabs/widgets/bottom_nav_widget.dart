@@ -14,50 +14,68 @@ class BottomNavWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<BottomTabsPageProvider, AppColorsProvider>(
       builder: (context, bottomTabProvider, appColors, child) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const MiniPlayer(),
-            BottomNavigationBar(
-              items: [
-                BottomNavigationBarItem(
-                    label: localeText(context, 'home'),
-                    icon: _buildIcon('assets/images/app_icons/home.png')),
-                BottomNavigationBarItem(
-                    label: localeText(context, 'quran'),
-                    icon: _buildIcon('assets/images/app_icons/quran_icon.png')),
-                BottomNavigationBarItem(
-                    label: localeText(context, 'qaida'),
-                    icon:
-                        _buildIcon('assets/images/app_icons/qaidaiconnew.png')),
-                BottomNavigationBarItem(
-                    label: localeText(context, 'discover'),
-                    icon: _buildIcon('assets/images/app_icons/explore.png')),
-                // BottomNavigationBarItem(
-                //     label: "Qaida",
-                //     icon: buildIcon('assets/images/app_icons/qaida_icon.png')),
-                BottomNavigationBarItem(
-                    label: localeText(context, 'profile'),
-                    icon: _buildIcon('assets/images/app_icons/profile.png')),
-              ],
-              // backgroundColor: Colors.white,
-              currentIndex: bottomTabProvider.currentPage,
-              iconSize: 16.h,
-              type: BottomNavigationBarType.fixed,
-              showUnselectedLabels: true,
-              selectedIconTheme: IconThemeData(size: 18.h),
-              selectedItemColor: appColors.mainBrandingColor,
-              unselectedItemColor: AppColors.grey3,
-              selectedLabelStyle:
-                  TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
-              unselectedLabelStyle:
-                  TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
-              onTap: (page) async {
-                bottomTabProvider.setCurrentPage(page);
-                //bottomTabProvider.navigateToQaidaPage(context);
-              },
-            )
-          ],
+        // Check if the currentPage is 2
+        final int currentPage = bottomTabProvider.currentPage;
+        return WillPopScope(
+          onWillPop: () async {
+            if (currentPage != 0) {
+              bottomTabProvider.setCurrentPage(
+                  0); // Navigate to home screen (index 0) when back button is pressed
+              return false; // Prevent default back button behavior
+            }
+            return true; // Allow default back button behavior if already on the home screen
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const MiniPlayer(),
+              Visibility(
+                visible: currentPage != 2,
+                child: BottomNavigationBar(
+                  items: [
+                    BottomNavigationBarItem(
+                        label: localeText(context, 'home'),
+                        icon: _buildIcon('assets/images/app_icons/home.png')),
+                    BottomNavigationBarItem(
+                        label: localeText(context, 'quran'),
+                        icon: _buildIcon(
+                            'assets/images/app_icons/quran_icon.png')),
+                    BottomNavigationBarItem(
+                        label: localeText(context, 'qaida'),
+                        icon: _buildIcon(
+                            'assets/images/app_icons/qaidaiconnew.png')),
+                    BottomNavigationBarItem(
+                        label: localeText(context, 'discover'),
+                        icon:
+                            _buildIcon('assets/images/app_icons/explore.png')),
+                    // BottomNavigationBarItem(
+                    //     label: "Qaida",
+                    //     icon: buildIcon('assets/images/app_icons/qaida_icon.png')),
+                    BottomNavigationBarItem(
+                        label: localeText(context, 'profile'),
+                        icon:
+                            _buildIcon('assets/images/app_icons/profile.png')),
+                  ],
+                  // backgroundColor: Colors.white,
+                  currentIndex: bottomTabProvider.currentPage,
+                  iconSize: 16.h,
+                  type: BottomNavigationBarType.fixed,
+                  showUnselectedLabels: true,
+                  selectedIconTheme: IconThemeData(size: 18.h),
+                  selectedItemColor: appColors.mainBrandingColor,
+                  unselectedItemColor: AppColors.grey3,
+                  selectedLabelStyle:
+                      TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
+                  unselectedLabelStyle:
+                      TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
+                  onTap: (page) async {
+                    bottomTabProvider.setCurrentPage(page);
+                    //bottomTabProvider.navigateToQaidaPage(context);
+                  },
+                ),
+              )
+            ],
+          ),
         );
       },
     );

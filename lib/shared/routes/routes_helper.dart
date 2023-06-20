@@ -141,6 +141,7 @@ class RouteHelper {
         currentContext = context;
         return const SwipePages(
           initialPage: 0,
+          // swipePagesKey: GlobalKey<SwipePagesState>(),
         );
       },
       duaMain: (context) {
