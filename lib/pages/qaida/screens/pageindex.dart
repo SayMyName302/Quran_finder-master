@@ -53,7 +53,7 @@ class QaidaPageIndex extends StatelessWidget {
             child: ListTile(
               title: Text(listData[index]),
               onTap: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => SwipePages(initialPage: index),

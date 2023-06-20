@@ -10,6 +10,7 @@ import '../../settings/pages/app_colors/app_colors_provider.dart';
 class QaidaPlayer extends StatefulWidget {
   final void Function(bool value) selectWords;
   final void Function() playButton;
+  final void Function() stopAudio;
   final bool isAudioPlaying;
   final bool updateMultipleSelectionEnabled;
   final Function(bool) toggleLoop;
@@ -18,6 +19,7 @@ class QaidaPlayer extends StatefulWidget {
     super.key,
     required this.selectWords, //To pass the updated value to swipePages
     required this.playButton, //To pass the updated value to swipePages
+    required this.stopAudio,
     required this.isAudioPlaying, //To pass the updated value to swipePages
     required this.updateMultipleSelectionEnabled, //To Disable Select Words After the Audio is played
     required this.toggleLoop,
@@ -132,6 +134,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                           GestureDetector(
                             onTap: () {
                               widget.playButton();
+                              print('play button tapped');
                             },
                             child: CircleButton(
                               height: 63.h,
@@ -163,6 +166,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                       ),
                       IconButton(
                         onPressed: () {
+                          widget.stopAudio();
                           Navigator.of(context).pushNamed(
                             RouteHelper.qaidapageindex,
                           );

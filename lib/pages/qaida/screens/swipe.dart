@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-//import 'package:nour_al_quran/pages/qaida/screens/custompage.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page1.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page2.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page3.dart';
@@ -98,11 +97,8 @@ class _SwipePagesState extends State<SwipePages> {
 
   List<Widget> _list = <Widget>[];
   bool _isMultipleSelectionEnabled = false;
-  // ignore: prefer_final_fields
   AudioPlayer _audioPlayer = AudioPlayer();
-  // ignore: prefer_final_fields
   List<AudioPlayer> _audioLists = [];
-  // ignore: prefer_final_fields
   bool _loop = false;
   int _currentPlayingIndex = 0;
   PageController controller = PageController();
@@ -111,6 +107,7 @@ class _SwipePagesState extends State<SwipePages> {
   void initState() {
     super.initState();
     controller = PageController(initialPage: widget.initialPage);
+    _curr = widget.initialPage;
     _initList();
   }
 
@@ -486,78 +483,6 @@ class _SwipePagesState extends State<SwipePages> {
     }
   }
 
-  // void _showMenu() {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-  //     ),
-  //     isScrollControlled: true,
-  //     builder: (BuildContext context) {
-  //       return StatefulBuilder(
-  //           builder: (BuildContext context, StateSetter setState) {
-  //         return Container(
-  //           height: MediaQuery.of(context).size.height * 0.15,
-  //           padding: const EdgeInsets.all(16),
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               const Text(
-  //                 'Settings',
-  //                 style: TextStyle(
-  //                   fontSize: 20,
-  //                   fontWeight: FontWeight.bold,
-  //                 ),
-  //               ),
-  //               // const SizedBox(height: 16),
-  //               // Row(
-  //               //   children: [
-  //               //     const Text(
-  //               //       'Non-stop reading',
-  //               //       style: TextStyle(fontSize: 16),
-  //               //     ),
-  //               //     const SizedBox(width: 16),
-  //               //     Switch(
-  //               //       value: _toggleValue,
-  //               //       onChanged: (value) {
-  //               //         setState(() {
-  //               //           _toggleValue = value;
-  //               //         });
-  //               //       },
-  //               //     ),
-  //               //   ],
-  //               // ),
-  //               // const SizedBox(height: 16),
-  //               Center(
-  //                 child: ElevatedButton(
-  //                   onPressed: () {
-  //                     setState(() {
-  //                       _isMultipleSelectionEnabled =
-  //                           !_isMultipleSelectionEnabled;
-  //                     });
-  //                     _updateList();
-  //                     Navigator.pop(context);
-  //                   },
-  //                   style: _isMultipleSelectionEnabled
-  //                       ? ElevatedButton.styleFrom(
-  //                           backgroundColor: Colors.green,
-  //                           textStyle: const TextStyle(color: Colors.white),
-  //                         )
-  //                       : ElevatedButton.styleFrom(
-  //                           backgroundColor: Colors.red,
-  //                           textStyle: _buttonTextStyle,
-  //                         ),
-  //                   child: const Text('Select the words'),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  //       });
-  //     },
-  //   );
-  // }
-
   Future<void> _playPageAudios(int pageId, List<String> audioFiles) async {
     try {
       _audioLists.clear();
@@ -849,7 +774,6 @@ class _SwipePagesState extends State<SwipePages> {
     setState(() {
       _loop = value;
     });
-    print('loop value received in swipe pages is : $_loop');
   }
 
   @override
@@ -869,181 +793,19 @@ class _SwipePagesState extends State<SwipePages> {
               setState(() {
                 _curr = num;
                 _isMultipleSelectionEnabled = false;
-                _page1Key[0].currentState?.clearSelection();
-
                 _stopPageAudios();
               });
             },
             children: _list,
           ),
-          // Positioned(
-          //   top: 10,
-          //   left: 10,
-          //   child: IconButton(
-          //     icon: const Icon(Icons.settings),
-          //     iconSize: 30,
-          //     onPressed: () {
-          //       _showMenu();
-          //     },
-          //   ),
-          // ),
-          // Positioned(
-          //   top: MediaQuery.of(context).size.height * .785,
-          //   right: _isExpanded ? 0 : MediaQuery.of(context).size.width,
-          //   child: AnimatedContainer(
-          //     duration: const Duration(milliseconds: 200),
-          //     width: MediaQuery.of(context).size.width,
-          //     height: _isExpanded ? 65 : 0,
-          //     decoration: const BoxDecoration(
-          //       color: Colors.transparent,
-          //       borderRadius: BorderRadius.only(
-          //         topLeft: Radius.circular(24.0),
-          //       ),
-          //     ),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       children: [
-          //         const SizedBox(width: 100),
-          //         Container(
-          //           height: 15,
-          //           width: 15,
-          //           decoration: const BoxDecoration(
-          //             shape: BoxShape.circle,
-          //             color: Colors.black,
-          //           ),
-          //           child: IconButton(
-          //             onPressed: () async {
-          //               List<String> audioFiles = [];
-          //               int pageId = -1;
-          //               if (_curr == 0) {
-          //                 audioFiles = AudioListHolder1.audioList;
-          //                 pageId = AudioListHolder1.pageId;
-          //               } else if (_curr == 1) {
-          //                 audioFiles = AudioListHolder2.audioList;
-          //                 pageId = AudioListHolder2.pageId;
-          //               } else if (_curr == 2) {
-          //                 audioFiles = AudioListHolder3.audioList;
-          //                 pageId = AudioListHolder3.pageId;
-          //               } else if (_curr == 3) {
-          //                 audioFiles = AudioListHolder4.audioList;
-          //                 pageId = AudioListHolder4.pageId;
-          //               } else if (_curr == 4) {
-          //                 audioFiles = AudioListHolder5.audioList;
-          //                 pageId = AudioListHolder5.pageId;
-          //               } else if (_curr == 5) {
-          //                 audioFiles = AudioListHolder6.audioList;
-          //                 pageId = AudioListHolder6.pageId;
-          //               } else if (_curr == 6) {
-          //                 audioFiles = AudioListHolder7.audioList;
-          //                 pageId = AudioListHolder7.pageId;
-          //               } else if (_curr == 7) {
-          //                 audioFiles = AudioListHolder8.audioList;
-          //                 pageId = AudioListHolder8.pageId;
-          //               } else if (_curr == 8) {
-          //                 audioFiles = AudioListHolder9.audioList;
-          //                 pageId = AudioListHolder9.pageId;
-          //               } else if (_curr == 9) {
-          //                 audioFiles = AudioListHolder10.audioList;
-          //                 pageId = AudioListHolder10.pageId;
-          //               } else if (_curr == 10) {
-          //                 audioFiles = AudioListHolder11.audioList;
-          //                 pageId = AudioListHolder11.pageId;
-          //               } else if (_curr == 11) {
-          //                 audioFiles = AudioListHolder12.audioList;
-          //                 pageId = AudioListHolder12.pageId;
-          //               } else if (_curr == 12) {
-          //                 audioFiles = AudioListHolder13.audioList;
-          //                 pageId = AudioListHolder13.pageId;
-          //               } else if (_curr == 13) {
-          //                 audioFiles = AudioListHolder14.audioList;
-          //                 pageId = AudioListHolder14.pageId;
-          //               } else if (_curr == 14) {
-          //                 audioFiles = AudioListHolder15.audioList;
-          //                 pageId = AudioListHolder15.pageId;
-          //               } else if (_curr == 15) {
-          //                 audioFiles = AudioListHolder16.audioList;
-          //                 pageId = AudioListHolder16.pageId;
-          //               } else if (_curr == 16) {
-          //                 audioFiles = AudioListHolder17.audioList;
-          //                 pageId = AudioListHolder17.pageId;
-          //               } else if (_curr == 17) {
-          //                 audioFiles = AudioListHolder18.audioList;
-          //                 pageId = AudioListHolder18.pageId;
-          //               } else if (_curr == 18) {
-          //                 audioFiles = AudioListHolder19.audioList;
-          //                 pageId = AudioListHolder19.pageId;
-          //               }
-          //               if (audioFiles.isNotEmpty) {
-          //                 //       print("List of audio files: $audioFiles");
-          //                 await _playPageAudios(pageId, audioFiles);
-          //               }
-          //               //  print('Curr = $_curr');
-          //             },
-          //             icon: const Icon(
-          //               Icons.play_arrow,
-          //               size: 15,
-          //             ),
-          //             color: Colors.white,
-          //             iconSize: 0.0,
-          //             padding: EdgeInsets.zero,
-          //           ),
-          //         ),
-          //         const SizedBox(width: 50),
-          //         Container(
-          //           height: 15,
-          //           width: 15,
-          //           decoration: const BoxDecoration(
-          //             shape: BoxShape.circle,
-          //             color: Colors.black,
-          //           ),
-          //           child: IconButton(
-          //             onPressed: _isPlaying
-          //                 ? () async {
-          //                     await _stopPageAudios();
-          //                   }
-          //                 : () {},
-          //             icon: const Icon(
-          //               Icons.stop,
-          //               size: 15,
-          //             ),
-          //             color: Colors.white,
-          //             iconSize: 0.0,
-          //             padding: EdgeInsets.zero,
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // Positioned(
-          //   top: MediaQuery.of(context).size.height * .812,
-          //   right: MediaQuery.of(context).size.width * .06,
-          //   child: SizedBox(
-          //     height: 19,
-          //     width: 19,
-          //     child: FloatingActionButton(
-          //       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          //       onPressed: () {
-          //         setState(() {
-          //           _isExpanded = !_isExpanded;
-          //         });
-          //       },
-          //       child: Icon(
-          //         _isExpanded ? Icons.close : Icons.menu,
-          //         size: 18,
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
       bottomNavigationBar: SizedBox(
         height: 120,
         child: QaidaPlayer(
           selectWords: selectWords,
-          // pauseResumeButton: pauseResumeAudio,
           playButton: fetchList,
-          // stopButton: fetchstop,
+          stopAudio: fetchstop,
           isAudioPlaying: _isPlaying && !_isPaused,
           updateMultipleSelectionEnabled: _isMultipleSelectionEnabled,
           toggleLoop: toggleLoop,

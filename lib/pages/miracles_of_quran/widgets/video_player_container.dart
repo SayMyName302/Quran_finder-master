@@ -176,7 +176,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
     return Material(
       child: InkWell(
         onTap: () {
-          widget.miraclesOfQuranProvider!.playVideo();
+          widget.miraclesOfQuranProvider.playVideo();
         },
         child: Stack(
           alignment: Alignment.center,
@@ -190,7 +190,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
                     height: 15.h,
                     margin: EdgeInsets.only(left: 20.w, right: 20.w),
                     child: VideoProgressIndicator(
-                        widget.miraclesOfQuranProvider!.controller!,
+                        widget.miraclesOfQuranProvider.controller,
                         allowScrubbing: true))),
             Positioned(
                 left: 0,

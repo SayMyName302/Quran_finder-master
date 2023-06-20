@@ -108,7 +108,6 @@ class DuaBookmarkPage extends StatelessWidget {
               return combinedBookmarkList.isNotEmpty
                   ? ListView.builder(
                       shrinkWrap: true,
-                      //physics: NeverScrollableScrollPhysics(),
                       itemCount: combinedBookmarkList.length,
                       itemBuilder: (context, index) {
                         final bookmark = combinedBookmarkList[index];
