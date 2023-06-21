@@ -51,7 +51,7 @@ class IslamBasicsSection extends StatelessWidget {
                                     .read<RecitationPlayerProvider>()
                                     .pause(context));
                             islamBasicProvider.gotoBasicsPlayerPage(
-                                islamBasics.title!, context);
+                                islamBasics.title!, context, index);
                             analytics.logEvent(
                               name: 'islam_basics_title_tapped',
                               parameters: {'title': islamBasics.title},

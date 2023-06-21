@@ -1,4 +1,4 @@
-class Languages{
+class Languages {
   int id;
   String name;
   String flag;

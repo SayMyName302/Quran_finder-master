@@ -178,11 +178,13 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
               builder: (context, surahValue, child) {
                 // Modify the logic to display the specific surahs you want
                 final additionalSurahNames = [
+                  'Al-Mulk',
                   'Al-Baqara',
-                  'An-Nisaa',
-                  'Al-Faatiha',
-                  'Al-Kahf',
-                  'Yaseen'
+                  'As-Sajda',
+                  'Yaseen',
+                  'Ar-Rahmaan',
+                  'Al-Waaqia',
+                  'Al-Kahf'
                 ];
 
                 return Container(

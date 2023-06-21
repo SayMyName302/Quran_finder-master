@@ -51,7 +51,7 @@ class TrendingSection extends StatelessWidget {
                                     .read<RecitationPlayerProvider>()
                                     .pause(context));
                             storiesProvider.gotoStoryPlayerPage(
-                                model.storyId!, context);
+                                model.storyId!, context, index);
                           } else {
                             ScaffoldMessenger.of(context)
                               ..removeCurrentSnackBar()
