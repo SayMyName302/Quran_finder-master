@@ -19,9 +19,11 @@ import 'package:nour_al_quran/pages/qaida/screens/page16.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page17.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page18.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page19.dart';
+import 'package:nour_al_quran/pages/qaida/screens/pageindex.dart';
 import 'package:nour_al_quran/pages/qaida/screens/qaidaplayer.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 
+import '../../../shared/routes/routes_helper.dart';
 import '../../../shared/widgets/app_bar.dart';
 
 class SwipePages extends StatefulWidget {
@@ -94,14 +96,14 @@ class SwipePagesState extends State<SwipePages> {
   int _curr = 0;
   bool _isPlaying = false;
   bool _isPaused = false;
-
   List<Widget> _list = <Widget>[];
   bool _isMultipleSelectionEnabled = false;
-  AudioPlayer _audioPlayer = AudioPlayer();
-  List<AudioPlayer> _audioLists = [];
   bool _loop = false;
   int _currentPlayingIndex = 0;
   PageController controller = PageController();
+  AudioPlayer _audioPlayer = AudioPlayer();
+  List<AudioPlayer> _audioLists = [];
+  int _currentPageIndex = 0;
 
   @override
   void initState() {
@@ -109,10 +111,7 @@ class SwipePagesState extends State<SwipePages> {
     controller = PageController(initialPage: widget.initialPage);
     _curr = widget.initialPage;
     _initList();
-  }
-
-  void jumpToPage(int index) {
-    controller.jumpToPage(index);
+    print('current page index selected is $_currentPageIndex');
   }
 
   @override
@@ -780,6 +779,17 @@ class SwipePagesState extends State<SwipePages> {
     });
   }
 
+  void onPageSelected(int page) {
+    setState(() {
+      _curr = page;
+      _loop = false;
+      _stopPageAudios();
+      _isMultipleSelectionEnabled = false;
+      _currentPageIndex = page;
+      print('current page index selected is $_currentPageIndex');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -787,42 +797,44 @@ class SwipePagesState extends State<SwipePages> {
           buildAppBar(context: context, title: localeText(context, 'qaida')),
       body: Stack(
         children: [
-          PageView(
-            allowImplicitScrolling: true,
-            scrollDirection: Axis.horizontal,
-            controller: controller,
-            reverse: true,
-            // ignore: avoid_types_as_parameter_names
-            onPageChanged: (int num) {
-              setState(() {
-                _curr = num;
-                _isMultipleSelectionEnabled = false;
-                _stopPageAudios();
-                _loop = false;
-              });
-            },
-            children: _list,
+          Builder(
+            builder: (context) => PageView(
+              allowImplicitScrolling: true,
+              scrollDirection: Axis.horizontal,
+              controller: controller,
+              reverse: true,
+              onPageChanged: onPageSelected,
+              children: _list,
+            ),
           ),
         ],
       ),
       bottomNavigationBar: SizedBox(
         height: 160,
         child: QaidaPlayer(
-          selectWords: selectWords,
-          playButton: fetchList,
           stopAudio: fetchstop,
+          updateLoopVal: _loop,
+          playButton: fetchList,
+          toggleLoop: toggleLoop,
+          selectWords: selectWords,
           isAudioPlaying: _isPlaying && !_isPaused,
           updateMultipleSelectionEnabled: _isMultipleSelectionEnabled,
-          toggleLoop: toggleLoop,
-          updateLoopVal: _loop,
+          selectedIndex: _currentPageIndex,
+          onIndexPressed: () async {
+            final selectedPage = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        QaidaPageIndex(selectedIndex: _currentPageIndex)));
+
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context);
+            if (selectedPage != null) {
+              controller.jumpToPage(selectedPage);
+            }
+          },
         ),
       ),
     );
   }
 }
-
-//-> Implemented Correctly!!!
-//-> On Page Change The Select words button is setting to FALSE :)
-//-> _isMultipleSelectionEnabled getting updated back in SwipePage
-//->    when the selection is cleared.
-//-> _isMultipleSelectionEnabled value is Passed to only current Page!

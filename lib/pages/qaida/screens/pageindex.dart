@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/qaida/screens/swipe.dart';
 
 import '../../../shared/localization/localization_constants.dart';
 import '../../../shared/utills/app_colors.dart';
 import '../../../shared/widgets/app_bar.dart';
 
 class QaidaPageIndex extends StatelessWidget {
+  final int selectedIndex;
+
   final List<String> listData = [
     'Page 1',
     'Page 2',
@@ -29,7 +30,7 @@ class QaidaPageIndex extends StatelessWidget {
     'Page 19',
   ];
 
-  QaidaPageIndex({super.key});
+  QaidaPageIndex({super.key, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +49,14 @@ class QaidaPageIndex extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.r),
                 border: Border.all(
-                  color: AppColors.grey5,
+                  color:
+                      selectedIndex == index ? Colors.green : AppColors.grey5,
                 )),
             child: ListTile(
               title: Text(listData[index]),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SwipePages(initialPage: index),
-                  ),
-                );
+                Navigator.pop(context, index);
+                print('index passed is $index');
               },
             ),
           );

@@ -27,7 +27,10 @@ class BottomNavWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const MiniPlayer(),
+              Visibility(
+                visible: currentPage != 2,
+                child: const MiniPlayer(),
+              ),
               Visibility(
                 visible: currentPage != 2,
                 child: BottomNavigationBar(

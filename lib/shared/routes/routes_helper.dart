@@ -154,7 +154,9 @@ class RouteHelper {
       },
       qaidapageindex: (context) {
         currentContext = context;
-        return QaidaPageIndex();
+        return QaidaPageIndex(
+          selectedIndex: 0,
+        );
       },
 
       ruqyahDetailed: (context) {
