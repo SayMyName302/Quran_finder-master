@@ -47,7 +47,7 @@ class QuranMiraclesSection extends StatelessWidget {
                                   .pause(context));
                           miraclesProvider.goToMiracleDetailsPage(
                               model.title!, context, index);
-                          miraclesProvider.moveMiracleToEnd(index);
+                         
                         },
                         child: Container(
                           width: 287.w,

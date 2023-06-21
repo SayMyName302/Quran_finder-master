@@ -1,21 +1,26 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nour_al_quran/shared/database/home_db.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/localization/localization_provider.dart';
-import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
+
+import 'package:nour_al_quran/shared/database/home_db.dart';
+import 'package:nour_al_quran/shared/localization/localization_constants.dart';
+import 'package:nour_al_quran/shared/localization/localization_provider.dart';
+import 'package:nour_al_quran/shared/routes/routes_helper.dart';
+
 import '../models/miracles.dart';
 
 class MiraclesOfQuranProvider extends ChangeNotifier {
   List<Miracles> _miracles = [];
+  SharedPreferences? _preferences;
   List<Miracles> get miracles => _miracles;
   Miracles? _selectedMiracle;
   Miracles? get selectedMiracle => _selectedMiracle;
@@ -26,13 +31,24 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   /// this method will get miracles from home.db
   Future<void> getMiracles() async {
     _miracles = await HomeDb().getMiracles();
+    _loadMiraclesOrder();
     notifyListeners();
+  }
+
+  MiraclesOfQuranProvider() {
+    print("Initializing SharedPreferences...");
+    _initSharedPreferences();
+    print("Loading miracles order...");
+  }
+  Future<void> _initSharedPreferences() async {
+    _preferences = await SharedPreferences.getInstance();
   }
 
   void goToMiracleDetailsPage(String title, BuildContext context, int index) {
     _selectedMiracle = _miracles[index];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
+    _moveMiracleToEnd(index);
   }
 
   void setVideoFile(File video) {
@@ -91,38 +107,35 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void moveMiracleToEnd(int index) async {
-    if (index >= 0 && index < miracles.length) {
-      Miracles tappedMiracle = miracles[index];
-      miracles.removeAt(index);
-      miracles.add(tappedMiracle);
-      currentMiracle = miracles.length - 1; // Update the currentMiracle index
+  void _moveMiracleToEnd(int index) {
+    Future.delayed(Duration(milliseconds: 300), () {
+      _miracles.removeAt(index);
+      _miracles.add(_selectedMiracle!);
       notifyListeners();
+      _saveMiraclesOrder();
+    });
+  }
 
-      // Save the updated order in shared preferences
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      List<String> tappedMiracleTitles =
-          miracles.map((miracle) => miracle.title!).toList();
-      prefs.setStringList('tappedMiracleOrder', tappedMiracleTitles);
-    }
-    Future<void> getMiracles() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      List<String>? tappedMiracleTitles =
-          prefs.getStringList('tappedMiracleOrder');
+  void _saveMiraclesOrder() {
+    final List<String> order =
+        _miracles.map((miracle) => miracle.title!).toList();
+    _preferences?.setStringList('miracles_order', order);
+  }
 
-      if (tappedMiracleTitles != null) {
-        _miracles = await HomeDb().getMiracles();
-
-        // Reorder the miracles list based on the saved order
-        _miracles.sort((a, b) {
-          int indexA = tappedMiracleTitles.indexOf(a.title!);
-          int indexB = tappedMiracleTitles.indexOf(b.title!);
-          return indexA.compareTo(indexB);
-        });
-      } else {
-        _miracles = await HomeDb().getMiracles();
+  void _loadMiraclesOrder() {
+    final List<String>? order = _preferences?.getStringList('miracles_order');
+    if (order != null && order.isNotEmpty) {
+      // Add a check for non-empty order
+      final List<Miracles> sortedMiracles = [];
+      for (final title in order) {
+        final miracle = _miracles.firstWhere(
+          (m) => m.title == title,
+        );
+        if (miracle != null) {
+          sortedMiracles.add(miracle);
+        }
       }
-
+      _miracles = sortedMiracles;
       notifyListeners();
     }
   }

@@ -32,7 +32,7 @@ class IslamBasicList extends StatelessWidget {
                                 .read<RecitationPlayerProvider>()
                                 .pause(context));
                         islamBasicProvider.gotoBasicsPlayerPage(
-                            model.title!, context);
+                            model.title!, context, index);
                       } else {
                         ScaffoldMessenger.of(context)
                           ..removeCurrentSnackBar()
