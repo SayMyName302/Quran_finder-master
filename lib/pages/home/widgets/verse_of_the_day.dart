@@ -22,8 +22,10 @@ class VerseOfTheDayContainer extends StatelessWidget {
               text: localeText(context, 'verse_of_the_day'),
               buttonText: localeText(context, 'share'),
               onTap: () {
-                Share.share(
-                    "${value.verseOfTheDay.verseText}\n${value.verseOfTheDay.translationText}\n-- ${value.verseOfTheDay.surahId}:${value.verseOfTheDay.verseId} --\nhttps://play.google.com/store/apps/details?id=com.fanzetech.holyquran");
+                Share.share("${value.verseOfTheDay.verseText}\n"
+                    "${value.verseOfTheDay.translationText}\n"
+                    "\u{200E}-- ${value.verseOfTheDay.surahId}:${value.verseOfTheDay.verseId} --\n"
+                    "https://play.google.com/store/apps/details?id=com.fanzetech.holyquran");
               },
             ),
             DuaContainer(
