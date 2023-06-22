@@ -100,6 +100,8 @@ class ReciterPage extends StatelessWidget {
                                         fontSize: 17.sp,
                                         fontFamily: "satoshi",
                                         fontWeight: FontWeight.w700),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
                                     localeText(context, "complete_quran"),

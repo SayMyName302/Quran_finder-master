@@ -35,33 +35,30 @@ class QaidaPageIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(
-          context: context, title: localeText(context, "qaida_index")),
-      body: ListView.builder(
-        itemCount: listData.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            margin: EdgeInsets.only(
-              left: 20.w,
-              right: 20.w,
-              bottom: 8.h,
-            ),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6.r),
-                border: Border.all(
-                  color:
-                      selectedIndex == index ? Colors.green : AppColors.grey5,
-                )),
-            child: ListTile(
-              title: Text(listData[index]),
-              onTap: () {
-                Navigator.pop(context, index);
-                print('index passed is $index');
-              },
-            ),
-          );
-        },
-      ),
-    );
+        appBar: buildAppBar(
+            context: context, title: localeText(context, "qaida_index")),
+        body: ListView.builder(
+            itemCount: listData.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                  margin: EdgeInsets.only(
+                    left: 20.w,
+                    right: 20.w,
+                    bottom: 8.h,
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.r),
+                      border: Border.all(
+                        color: selectedIndex == index
+                            ? Colors.green
+                            : AppColors.grey5,
+                      )),
+                  child: ListTile(
+                    title: Text(listData[index]),
+                    onTap: () {
+                      Navigator.pop(context, index);
+                    },
+                  ));
+            }));
   }
 }

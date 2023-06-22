@@ -17,19 +17,21 @@ class QaidaPlayer extends StatefulWidget {
   final VoidCallback onIndexPressed;
   final bool updateMultipleSelectionEnabled;
   final void Function(bool value) selectWords;
-  final int selectedIndex; // Added argument for selected index
+  final int selectedIndex;
+  final void Function() clearstate;
 
   const QaidaPlayer({
     super.key,
-    required this.selectWords, //To pass the updated value to swipePages
-    required this.playButton, //To pass the updated value to swipePages
-    required this.stopAudio,
+    required this.selectWords, //To pass the value to swipePages
+    required this.playButton, //To play audio for the selected range
+    required this.stopAudio, // No explanation needed :)
     required this.isAudioPlaying, //To pass the updated value to swipePages
     required this.toggleLoop, // Passing val from this screen to swipe
     required this.updateLoopVal, //Receiving val from swipe to this screen
     required this.onIndexPressed, // Added callback for index pressed
     required this.updateMultipleSelectionEnabled, //To Disable Select Words After the Audio is played/OnPage Changed
-    required this.selectedIndex,
+    required this.selectedIndex, // Added argument for selected index
+    required this.clearstate, // To clear Start/End Index Icon when Multi-Play is tapped
   });
 
   @override
@@ -47,6 +49,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
   Widget build(BuildContext context) {
     isActive = widget.updateMultipleSelectionEnabled;
     loop = widget.updateLoopVal;
+    // print('is audio playing>>>$isAudioPlaying');
     Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
     ThemProvider them = Provider.of<ThemProvider>(context);
     Future.delayed(
@@ -78,6 +81,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                               isActive = !isActive;
                             });
                             widget.selectWords(isActive);
+                            if (!isActive) {
+                              widget.clearstate();
+                            }
                           },
                           child: Row(
                             children: [
@@ -88,6 +94,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                     isActive = !isActive;
                                   });
                                   widget.selectWords(isActive);
+                                  if (!isActive) {
+                                    widget.clearstate();
+                                  }
                                 },
                                 visualDensity: VisualDensity.compact,
                               ),
@@ -103,15 +112,34 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const AlertDialog(
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0.0,
-                                  contentPadding: EdgeInsets.zero,
-                                  content: SizedBox(
-                                    width: double.maxFinite,
-                                    height: 500.0,
-                                    child: VideoPlayerWidget(),
-                                  ),
+                                return Stack(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Container(
+                                        color: Colors.black.withOpacity(
+                                            0.5), // Adjust the opacity to make it darker or lighter
+                                      ),
+                                    ),
+                                    Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      elevation: 0.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      child: const Align(
+                                        alignment: Alignment.topCenter,
+                                        child: FractionallySizedBox(
+                                          widthFactor: 1.12,
+                                          heightFactor: 0.8,
+                                          child: VideoPlayerWidget(),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 );
                               },
                             );

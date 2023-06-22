@@ -36,7 +36,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       videoPlayerController: videoPlayerController,
       autoPlay: true,
       looping: true,
+      // showControls: false,
     );
+
     setState(() {
       _isVideoInitialized = true;
     });
@@ -45,9 +47,26 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   Widget build(BuildContext context) {
     return _isVideoInitialized
-        ? Chewie(
-            controller: chewieController,
+        ? Stack(
+            children: [
+              Chewie(
+                controller: chewieController,
+              ),
+              // Positioned(
+              //   top: 10.0,
+              //   right: 35.0,
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       Navigator.of(context).pop();
+              //     },
+              //     child: const Icon(
+              //       Icons.close,
+              //       color: Colors.black87,
+              //     ),
+              //   ),
+              // ),
+            ],
           )
-        : Center(child: CircularProgressIndicator());
+        : const Center(child: CircularProgressIndicator());
   }
 }

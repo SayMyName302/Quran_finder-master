@@ -13,7 +13,7 @@ class BottomTabsPageProvider extends ChangeNotifier {
   var page = [
     const HomePage(),
     const QuranPage(),
-    const SwipePages(initialPage: 0),
+    const SwipePages(),
     const MorePage(),
     const ManageProfile(),
   ];

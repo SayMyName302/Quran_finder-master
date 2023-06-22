@@ -70,6 +70,7 @@ class RuqyahAudioPlayer extends StatelessWidget {
                           onTap: () async {
                             int duaIndex = ruqyahProvider.duaList.indexWhere(
                                 (element) => element.duaText == duaText);
+                            int indx = ruqyahProvider.duaList[duaIndex].id!;
                             int? categoryId =
                                 ruqyahProvider.duaList[duaIndex].duaCategory;
                             String categoryName = getCategoryNameById(
@@ -78,7 +79,7 @@ class RuqyahAudioPlayer extends StatelessWidget {
                             if (fav == 0 || fav == null) {
                               ruqyahProvider.bookmark(duaIndex, 1);
                               BookmarksRuqyah bookmark = BookmarksRuqyah(
-                                  duaId: index,
+                                  duaId: indx,
                                   categoryId: categoryId,
                                   categoryName: categoryName,
                                   duaTitle: duaTitle,

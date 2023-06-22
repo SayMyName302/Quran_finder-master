@@ -73,20 +73,16 @@ class DuaAudioPlayer extends StatelessWidget {
                           onTap: () async {
                             int duaIndex = duaProv.duaList.indexWhere(
                                 (element) => element.duaText == duaText);
+                            int indx = duaProv.duaList[duaIndex].id!;
                             int? categoryId =
                                 duaProv.duaList[duaIndex].duaCategory;
                             String categoryName = getCategoryNameById(
                                 categoryId!, duaProv.duaCategoryList);
 
-                            // duaProv.printDuaList();
-                            // print('duaIndex: $duaIndex');
-                            // print('categoryId: $categoryId');
-                            // print('categoryName: $categoryName');
-
                             if (dua.isFav == 0) {
                               duaProv.bookmark(duaIndex, 1);
                               BookmarksDua bookmark = BookmarksDua(
-                                  duaId: index,
+                                  duaId: indx,
                                   categoryId: categoryId,
                                   categoryName: categoryName,
                                   duaTitle: duaTitle,
@@ -99,8 +95,8 @@ class DuaAudioPlayer extends StatelessWidget {
                               context
                                   .read<BookmarkProviderDua>()
                                   .addBookmark(bookmark);
-                              print('add index $index');
-                              print('add category$categoryId');
+                              // print('add index $indx');
+                              // print('add category$categoryId');
                             } else {
                               // to change state
                               duaProv.bookmark(duaIndex, 0);
@@ -110,10 +106,10 @@ class DuaAudioPlayer extends StatelessWidget {
                                       duaProvider.duaList[duaIndex].id!,
                                       duaProvider
                                           .duaList[duaIndex].duaCategory!);
-                              print(
-                                  'removed index ${duaProvider.duaList[duaIndex].id!}');
-                              print(
-                                  'removed category ${duaProvider.duaList[duaIndex].duaCategory!}');
+                              // print(
+                              //     'removed index ${duaProvider.duaList[duaIndex].id!}');
+                              // print(
+                              //     'removed category ${duaProvider.duaList[duaIndex].duaCategory!}');
                             }
                           },
                           child: Container(
