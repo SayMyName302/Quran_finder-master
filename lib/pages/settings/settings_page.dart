@@ -177,21 +177,21 @@ class _SettingsPageState extends State<SettingsPage> {
                       ));
                     },
                   ),
-                  SettingOptions(
-                    title: localeText(context, "app_language"),
-                    icon: "app_language.png",
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 12.h,
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return const AppTranslationPage();
-                        },
-                      ));
-                    },
-                  ),
+                  // SettingOptions(
+                  //   title: localeText(context, "app_language"),
+                  //   icon: "app_language.png",
+                  //   trailing: Icon(
+                  //     Icons.arrow_forward_ios,
+                  //     size: 12.h,
+                  //   ),
+                  //   onTap: () {
+                  //     Navigator.of(context).push(MaterialPageRoute(
+                  //       builder: (context) {
+                  //         return const AppTranslationPage();
+                  //       },
+                  //     ));
+                  //   },
+                  // ),
                   SettingOptions(
                     title: localeText(context, "notifications"),
                     icon: "notification.png",
