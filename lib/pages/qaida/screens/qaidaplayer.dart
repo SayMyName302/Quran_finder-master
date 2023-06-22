@@ -98,31 +98,31 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                         SizedBox(
                           width: 30.h,
                         ),
-                        InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const AlertDialog(
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0.0,
-                                  contentPadding: EdgeInsets.zero,
-                                  content: SizedBox(
-                                    width: double.maxFinite,
-                                    height: 500.0,
-                                    child: VideoPlayerWidget(),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          child: Image.asset(
-                            'assets/images/app_icons/info.png',
-                            height: 15.h,
-                            width: 15.w,
-                            // color: them.isDark ? Colors.white : Colors.black,
-                          ),
-                        ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     showDialog(
+                        //       context: context,
+                        //       builder: (BuildContext context) {
+                        //         return const AlertDialog(
+                        //           backgroundColor: Colors.transparent,
+                        //           elevation: 0.0,
+                        //           contentPadding: EdgeInsets.zero,
+                        //           content: SizedBox(
+                        //             width: double.maxFinite,
+                        //             height: 500.0,
+                        //             child: VideoPlayerWidget(),
+                        //           ),
+                        //         );
+                        //       },
+                        //     );
+                        //   },
+                        //   child: Image.asset(
+                        //     'assets/images/app_icons/info.png',
+                        //     height: 15.h,
+                        //     width: 15.w,
+                        //     // color: them.isDark ? Colors.white : Colors.black,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],
