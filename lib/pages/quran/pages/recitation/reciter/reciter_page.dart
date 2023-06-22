@@ -97,7 +97,7 @@ class ReciterPage extends StatelessWidget {
                                     reciters.reciterName!,
                                     style: TextStyle(
                                         // color: Colors.black,
-                                        fontSize: 17.sp,
+                                        fontSize: 15.sp,
                                         fontFamily: "satoshi",
                                         fontWeight: FontWeight.w700),
                                     maxLines: 1,

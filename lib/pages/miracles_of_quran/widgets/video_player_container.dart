@@ -16,6 +16,7 @@ class VideoPlayerContainer extends StatelessWidget {
 
     return Consumer<MiraclesOfQuranProvider>(
       builder: (context, miraclesOfQuranProvider, child) {
+        bool isPlaying = miraclesOfQuranProvider.controller.value.isPlaying;
         print(miraclesOfQuranProvider.isNetworkError);
         return Column(
           children: [
@@ -65,8 +66,7 @@ class VideoPlayerContainer extends StatelessWidget {
                         Positioned(
                             left: 0,
                             right: 0,
-                            child: !miraclesOfQuranProvider
-                                    .controller.value.isPlaying
+                            child: !isPlaying
                                 ? CircleButton(
                                     height: 50.h,
                                     width: 50.h,
@@ -84,6 +84,7 @@ class VideoPlayerContainer extends StatelessWidget {
                                     //video: miraclesOfQuranProvider.controller.value.isPlaying,
                                     miraclesOfQuranProvider:
                                         miraclesOfQuranProvider,
+                                    isPlaying: isPlaying,
                                   ),
                                 ));
                               },
@@ -133,15 +134,17 @@ class VideoPlayerContainer extends StatelessWidget {
 }
 
 class LandScapePlayer extends StatefulWidget {
-  const LandScapePlayer({
+  LandScapePlayer({
     Key? key,
     //  required this.controller,
     //required this.video,
+    required this.isPlaying,
     required this.miraclesOfQuranProvider,
   }) : super(key: key);
 
   // final VideoPlayerController controller;
   // final video;
+  final bool isPlaying;
   final MiraclesOfQuranProvider miraclesOfQuranProvider;
 
   @override
@@ -149,6 +152,7 @@ class LandScapePlayer extends StatefulWidget {
 }
 
 class _LandScapePlayerState extends State<LandScapePlayer> {
+  bool isPlaying = false;
   Future _landScapeMode() async {
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -164,6 +168,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
   void initState() {
     super.initState();
     _landScapeMode();
+    isPlaying = widget.isPlaying;
   }
 
   void dispose() {
@@ -171,12 +176,18 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
     _setAllOrientation();
   }
 
+  // Add a state variable
   @override
   Widget build(BuildContext context) {
+    // isPlaying = widget.miraclesOfQuranProvider.isPlaying;
     return Material(
       child: InkWell(
         onTap: () {
-          widget.miraclesOfQuranProvider.playVideo();
+          setState(() {
+            isPlaying = !isPlaying;
+          });
+
+          widget.miraclesOfQuranProvider!.playVideo();
         },
         child: Stack(
           alignment: Alignment.center,
@@ -190,23 +201,18 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
                     height: 15.h,
                     margin: EdgeInsets.only(left: 20.w, right: 20.w),
                     child: VideoProgressIndicator(
-                        widget.miraclesOfQuranProvider.controller,
+                        widget.miraclesOfQuranProvider!.controller!,
                         allowScrubbing: true))),
             Positioned(
                 left: 0,
                 right: 0,
-                // bottom: 350.h,
-                //top: 250.h,
-                child: widget.miraclesOfQuranProvider.controller.value.isPlaying
-                    ? CircleButton(
-                        height: 50.h,
-                        width: 50.h,
-                        icon: const Icon(
-                          Icons.play_arrow_rounded,
-                          color: Colors.deepOrange,
-                        ),
-                      )
-                    : const SizedBox.shrink()),
+                child: isPlaying // Use the state variable
+                    ? const SizedBox.shrink()
+                    : CircleButton(
+                        height: 100.h,
+                        width: 100.h,
+                        icon: const Icon(Icons.play_arrow_rounded),
+                      )),
             Positioned(
                 bottom: 0,
                 right: 15.w,

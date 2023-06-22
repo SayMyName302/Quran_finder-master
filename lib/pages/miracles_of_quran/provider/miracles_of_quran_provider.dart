@@ -28,6 +28,15 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   File? get videoUrl => _videoUrl;
   int currentMiracle = 0;
 
+  bool _isPlaying = false;
+
+  bool get isPlaying => _isPlaying;
+
+  set isPlaying(bool newValue) {
+    _isPlaying = newValue;
+    notifyListeners();
+  }
+
   /// this method will get miracles from home.db
   Future<void> getMiracles() async {
     _miracles = await HomeDb().getMiracles();
