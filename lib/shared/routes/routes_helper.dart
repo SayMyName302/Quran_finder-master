@@ -115,6 +115,7 @@ class RouteHelper {
   static const String qaidapageindex = "/qaidapageindex";
 
   // static late BuildContext currentContext;
+  static bool signInSkipped = false;
   static bool isLoggedIn = false;
   static Map<String, Widget Function(BuildContext)> routes(
       BuildContext context) {
@@ -123,10 +124,9 @@ class RouteHelper {
         String onBoardingDone =
             Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
         currentContext = context;
-        return const SetPreferredLanguage();
-        // return onBoardingDone == "done"
-        //     ? const BottomTabsPage()
-        //     : const SetPreferredLanguage();
+        return onBoardingDone == "done"
+            ? const BottomTabsPage()
+            : const SetPreferredLanguage();
       },
       achieveWithQuran: (context) {
         currentContext = context;

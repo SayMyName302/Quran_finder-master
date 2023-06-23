@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/provider/sign_in_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -10,6 +11,8 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:nour_al_quran/shared/widgets/text_field_column.dart';
 import 'package:provider/provider.dart';
+
+import '../../../shared/utills/app_constants.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -31,9 +34,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    Icon closeIcon = const Icon(Icons.close);
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+        body: SafeArea(
+      child: Stack(children: [
+        SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.only(
               left: 20.w,
@@ -129,8 +134,21 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
         ),
-      ),
-    );
+        Positioned(
+          top: 0,
+          right: 0,
+          child: IconButton(
+            onPressed: () {
+              // Handle close button press
+              Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  RouteHelper.application, (route) => false);
+            },
+            icon: closeIcon,
+          ),
+        ),
+      ]),
+    ));
   }
 
   Widget _buildThirdPartyLoginContainers(String loginType, VoidCallback onTap) {

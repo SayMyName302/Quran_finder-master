@@ -120,6 +120,19 @@ class _ManageProfileState extends State<ManageProfile> {
               child: SingleChildScrollView(
                 child: Consumer<ProfileProvider>(
                   builder: (context, profile, child) {
+                    if (profile.userProfile == null) {
+                      return Center(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              left: 20.w, right: 20.w, top: 200.h),
+                          child: Text("Sign-in to get Started!",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'satoshi',
+                                  fontSize: 17.sp)),
+                        ),
+                      );
+                    }
                     return Container(
                       margin:
                           EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
@@ -208,6 +221,39 @@ class _ManageProfileState extends State<ManageProfile> {
                                 Navigator.of(context)
                                     .pushNamed(RouteHelper.editProfile);
                               }),
+                          SizedBox(height: 20.h),
+                          BrandButton(
+                            text: localeText(context, "delete_profile"),
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Delete Profile"),
+                                    content: Text(
+                                        "Are you sure you want to delete your profile?"),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text("Cancel"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text("Delete"),
+                                        onPressed: () {
+                                          // Call the delete method from the ProfileProvider
+                                          Provider.of<ProfileProvider>(context,
+                                                  listen: false)
+                                              .deleteUserProfile();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
                           SizedBox(
                             height: 40.h,
                           ),

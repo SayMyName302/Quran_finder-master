@@ -142,7 +142,7 @@ class PrayerTimeProvider extends ChangeNotifier {
     if (Platform.isAndroid) {
       const intent = AndroidIntent(
         action: 'action_application_details_settings',
-        data: 'package:com.example.nouralquran',
+        data: 'package:com.nouralquran.nouralquran',
       );
       await intent.launch();
     }
