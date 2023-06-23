@@ -25,75 +25,6 @@ class DuaBookmarkPage extends StatelessWidget {
               localeText(context, "dua_bookmarks"),
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
             )),
-        // Consumer<BookmarkProviderDua>(builder: (context, bookmarkValue, child) {
-        //   return bookmarkValue.bookmarkList.isNotEmpty
-        //       ? ListView.builder(
-        //           shrinkWrap: true,
-        //           itemCount: bookmarkValue.bookmarkList.length,
-        //           itemBuilder: (context, index) {
-        //             BookmarksDua bookmarks = bookmarkValue.bookmarkList[index];
-
-        //             return InkWell(
-        //               onTap: () async {
-        //                 // Provider.of<DuaProvider>(context,listen: false).getDua(bookmarks.categoryId!);
-        //                 Provider.of<DuaProvider>(context, listen: false)
-        //                     .gotoDuaPlayerPage(bookmarks.categoryId!,
-        //                         bookmarks.duaText!, context);
-        //                 Navigator.of(context).pushNamed(
-        //                   RouteHelper.duaDetailed,
-        //                 );
-        //                 // bookmarkValue.goToAudioPlayer(bookmarks, context);
-        //               },
-        //               child: DetailsContainerWidget(
-        //                 title:
-        //                     '${bookmarks.duaTitle} - ${localeText(context, bookmarks.categoryName!)}',
-        //                 subTitle:
-        //                     "${localeText(context, "dua")} ${bookmarks.duaId} , ${bookmarks.duaRef}",
-        //                 icon: Icons.bookmark,
-        //                 onTapIcon: () {
-        //                   bookmarkValue.removeBookmark(bookmarks.duaId!);
-        //                 },
-        //               ),
-        //             );
-        //           },
-        //         )
-        //       : const Text('');
-        // }),
-
-        // Consumer<BookmarkProviderRuqyah>(
-        //   builder: (context, bookmarkValue, child) {
-        //     return bookmarkValue.bookmarkList.isNotEmpty
-        //         ? ListView.builder(
-        //             shrinkWrap: true,
-        //             itemCount: bookmarkValue.bookmarkList.length,
-        //             itemBuilder: (context, index) {
-        //               BookmarksRuqyah bookmarks =
-        //                   bookmarkValue.bookmarkList[index];
-        //               return InkWell(
-        //                 onTap: () async {
-        //                   Provider.of<RuqyahProvider>(context, listen: false)
-        //                       .gotoDuaPlayerPage(bookmarks.categoryId!,
-        //                           bookmarks.duaText!, context);
-        //                   Navigator.of(context).pushNamed(
-        //                     RouteHelper.ruqyahDetailed,
-        //                   );
-        //                 },
-        //                 child: DetailsContainerWidget(
-        //                   title:
-        //                       '${bookmarks.duaTitle} - ${localeText(context, bookmarks.categoryName!)}',
-        //                   subTitle:
-        //                       "${localeText(context, "dua")} ${bookmarks.duaId} , ${bookmarks.duaRef}",
-        //                   icon: Icons.bookmark,
-        //                   onTapIcon: () {
-        //                     bookmarkValue.removeBookmark(bookmarks.duaId!);
-        //                   },
-        //                 ),
-        //               );
-        //             },
-        //           )
-        //         : const Text('');
-        //   },
-        // ),
         Expanded(
           child: Consumer2<BookmarkProviderDua, BookmarkProviderRuqyah>(
             builder: (context, bookmarkDuaValue, bookmarkRuqyahValue, child) {
@@ -113,8 +44,9 @@ class DuaBookmarkPage extends StatelessWidget {
                         final bookmark = combinedBookmarkList[index];
                         final isDuaBookmark = index < bookmarkListDua.length;
 
-                        // print('dua id : ${bookmark.duaId!}');
-                        // print('dua catid: ${bookmark.categoryId!}');
+                        print('dua id : ${bookmark.duaId!}');
+                        print('dua catid: ${bookmark.categoryId!}');
+                        // print('duaText: ${bookmark.duaText!}');
 
                         return InkWell(
                           onTap: () async {
@@ -151,6 +83,8 @@ class DuaBookmarkPage extends StatelessWidget {
                               if (isDuaBookmark) {
                                 bookmarkDuaValue.removeBookmark(
                                     bookmark.duaId!, bookmark.categoryId!);
+                                // print('dua id : ${bookmark.duaId!}');
+                                // print('dua catid: ${bookmark.categoryId!}');
                               } else {
                                 bookmarkRuqyahValue.removeBookmark(
                                     bookmark.duaId!, bookmark.categoryId!);

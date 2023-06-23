@@ -20,7 +20,7 @@ class DuaProvider extends ChangeNotifier {
 
   void printDuaList() {
     for (var dua in _duaList) {
-      print('Dua ${dua.id}: ${dua.duaCategory}');
+      print('Dua ${dua.id}: ${dua.duaCategory}: ${dua.status} ');
     }
   }
 

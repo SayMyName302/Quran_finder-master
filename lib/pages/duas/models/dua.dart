@@ -11,6 +11,7 @@ class Dua {
   String? _contentUrl;
   int? _ayahCount;
   int? _isFav;
+  String? _status;
 
   int? get id => _id;
   int? get duaCategory => _duaCategory;
@@ -21,6 +22,7 @@ class Dua {
   String? get duaUrl => _contentUrl;
   int? get ayahCount => _ayahCount;
   int? get isFav => _isFav;
+  String? get status => _status;
   set setIsBookmark(int value) => _isFav = value;
 
   Dua({
@@ -33,6 +35,7 @@ class Dua {
     required duaUrl,
     required ayahCount,
     required isFav,
+    required status,
   }) {
     _id = id;
     _duaCategory = duaCategory;
@@ -43,6 +46,7 @@ class Dua {
     _contentUrl = duaUrl;
     _ayahCount = ayahCount;
     _isFav = isFav;
+    _status = status;
   }
 
   Dua.fromJson(Map<String, dynamic> json) {
@@ -56,6 +60,7 @@ class Dua {
     _contentUrl = json['content_url'];
     _ayahCount = json['ayah_count'];
     _isFav = json['is_fav'];
+    _status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -69,11 +74,12 @@ class Dua {
       'content_url': _contentUrl,
       'ayah_count': _ayahCount,
       'is_fav': _isFav,
+      'status': _status,
     };
   }
 
   @override
   String toString() {
-    return 'Dua: duaId=$id,duaTitle=$duaTitle, duaText=$duaText, translations=$translations, duaRef=$duaRef, totalAyaat=$ayahCount, isFAV ? $isFav';
+    return 'Dua: duaId=$id,duaTitle=$duaTitle, duaText=$duaText, translations=$translations, duaRef=$duaRef, totalAyaat=$ayahCount, isFAV ? $isFav, status > $status';
   }
 }

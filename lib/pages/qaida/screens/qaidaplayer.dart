@@ -18,6 +18,7 @@ class QaidaPlayer extends StatefulWidget {
   final bool updateMultipleSelectionEnabled;
   final void Function(bool value) selectWords;
   final int selectedIndex; // Added argument for selected index
+  final void Function() clearstate;
 
   const QaidaPlayer({
     super.key,
@@ -30,6 +31,7 @@ class QaidaPlayer extends StatefulWidget {
     required this.onIndexPressed, // Added callback for index pressed
     required this.updateMultipleSelectionEnabled, //To Disable Select Words After the Audio is played/OnPage Changed
     required this.selectedIndex,
+    required this.clearstate, // To clear Start/End Index Icon when Multi-Play is tapped
   });
 
   @override
@@ -78,6 +80,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                               isActive = !isActive;
                             });
                             widget.selectWords(isActive);
+                            if (!isActive) {
+                              widget.clearstate();
+                            }
                           },
                           child: Row(
                             children: [
@@ -88,6 +93,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                     isActive = !isActive;
                                   });
                                   widget.selectWords(isActive);
+                                  if (!isActive) {
+                                    widget.clearstate();
+                                  }
                                 },
                                 visualDensity: VisualDensity.compact,
                               ),
@@ -96,33 +104,33 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                           ),
                         ),
                         SizedBox(
-                          width: 30.h,
+                          width: 5.h,
                         ),
-                        // InkWell(
-                        //   onTap: () {
-                        //     showDialog(
-                        //       context: context,
-                        //       builder: (BuildContext context) {
-                        //         return const AlertDialog(
-                        //           backgroundColor: Colors.transparent,
-                        //           elevation: 0.0,
-                        //           contentPadding: EdgeInsets.zero,
-                        //           content: SizedBox(
-                        //             width: double.maxFinite,
-                        //             height: 500.0,
-                        //             child: VideoPlayerWidget(),
-                        //           ),
-                        //         );
-                        //       },
-                        //     );
-                        //   },
-                        //   child: Image.asset(
-                        //     'assets/images/app_icons/info.png',
-                        //     height: 15.h,
-                        //     width: 15.w,
-                        //     // color: them.isDark ? Colors.white : Colors.black,
-                        //   ),
-                        // ),
+                        InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const AlertDialog(
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0.0,
+                                  contentPadding: EdgeInsets.zero,
+                                  content: SizedBox(
+                                    width: double.maxFinite,
+                                    height: 500.0,
+                                    child: VideoPlayerWidget(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/app_icons/info.png',
+                            height: 15.h,
+                            width: 15.w,
+                            // color: them.isDark ? Colors.white : Colors.black,
+                          ),
+                        ),
                       ],
                     ),
                   ],

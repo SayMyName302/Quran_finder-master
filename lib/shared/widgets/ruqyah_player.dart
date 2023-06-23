@@ -74,11 +74,12 @@ class RuqyahAudioPlayer extends StatelessWidget {
                                 ruqyahProvider.duaList[duaIndex].duaCategory;
                             String categoryName = getCategoryNameById(
                                 categoryId!, ruqyahProvider.duaCategoryList);
+                            int indx = ruqyahProvider.duaList[duaIndex].id!;
 
                             if (fav == 0 || fav == null) {
                               ruqyahProvider.bookmark(duaIndex, 1);
                               BookmarksRuqyah bookmark = BookmarksRuqyah(
-                                  duaId: index,
+                                  duaId: indx,
                                   categoryId: categoryId,
                                   categoryName: categoryName,
                                   duaTitle: duaTitle,

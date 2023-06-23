@@ -812,6 +812,7 @@ class SwipePagesState extends State<SwipePages> {
       bottomNavigationBar: SizedBox(
         height: 160,
         child: QaidaPlayer(
+          clearstate: _stopPageAudios,
           stopAudio: fetchstop,
           updateLoopVal: _loop,
           playButton: fetchList,

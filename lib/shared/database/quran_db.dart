@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/settings/pages/translation_manager/translation_manager_provider.dart';
 import 'package:nour_al_quran/shared/entities/bookmarks.dart';
+import 'package:nour_al_quran/shared/entities/bookmarks_dua.dart';
+import 'package:nour_al_quran/shared/entities/bookmarks_ruqyah.dart';
 import 'package:nour_al_quran/shared/entities/juz.dart';
 import 'package:nour_al_quran/shared/entities/quran_text.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
@@ -139,6 +141,105 @@ class QuranDatabase {
               bookmarkPosition: 1),
         ];
         Hive.box("myBox").put("bookmarks", bookmarkList);
+        List duaBookmarkList = [
+          BookmarksDua(
+            duaId: 1,
+            categoryId: 2,
+            categoryName: "Prayers_to_Start_Your_Day",
+            duaTitle: "Dua 1",
+            duaRef: "Al-Baqara: 255",
+            ayahCount: 1,
+            duaText:
+                '''اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ ‎﴿٢٥٥﴾''',
+            duaTranslation:
+                '''Allah - there is no deity except Him, the Ever-Living, the Sustainer of [all] existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is [presently] before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.''',
+            bookmarkPosition: 1,
+            duaUrl:
+                "https://bucketsawstest.s3.us-west-1.amazonaws.com/Duas/Prayers_to_Start_Your_Day/Dua_1.mp3",
+          ),
+          BookmarksDua(
+            duaId: 8,
+            categoryId: 5,
+            categoryName: "Influential_Duas_for_Ruqyah",
+            duaTitle: "Dua 8",
+            duaRef: "Surah Al-Baqarah, verses 285-286",
+            ayahCount: 2,
+            duaText:
+                '''آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ ‎﴿٢٨٥﴾‏ لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ ‎﴿٢٨٦﴾‏''',
+            duaTranslation: '''<p>
+The Prophet believes in what has been revealed to him by his Lord, and so do the faithful. Each one believes in God and His angels, His Books and the prophets, and We make no distinction between the apostles. For they say: "We hear and obey, and we seek Your forgiveness, O Lord, for to You we shall journey in the end." (285) 
+</p>
+<p>
+God does not burden a soul beyond capacity. Each will enjoy what (good) he earns, as indeed each will suffer from (the wrong) he does. Punish us not, O Lord, if we fail to remember or lapse into error. Burden us not, O Lord, with a burden as You did those before us. Impose not upon us a burden, O Lord, we cannot carry. Overlook our trespasses and forgive us, and have mercy upon us; You are our Lord and Master, help us against the clan of unbelievers. (286)
+</p>''',
+            bookmarkPosition: 1,
+            duaUrl:
+                "https://bucketsawstest.s3.us-west-1.amazonaws.com/Duas/Influential_Duas_for_Ruqyah/Dua_8.mp3",
+          ),
+          BookmarksDua(
+            duaId: 1,
+            categoryId: 6,
+            categoryName: "Bedtime_Prayers",
+            duaTitle: "Dua 1",
+            duaRef: "Surah Al-Kafirun",
+            ayahCount: 6,
+            duaText: '''بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+
+قُلْ يَا أَيُّهَا الْكَافِرُونَ ‎﴿١﴾‏ لَا أَعْبُدُ مَا تَعْبُدُونَ ‎﴿٢﴾‏ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ‎﴿٣﴾‏ وَلَا أَنَا عَابِدٌ مَّا عَبَدتُّمْ ‎﴿٤﴾‏ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ‎﴿٥﴾‏ لَكُمْ دِينُكُمْ وَلِيَ دِينِ ‎﴿٦﴾‏''',
+            duaTranslation:
+                '''SAY: "O YOU unbelievers, (1) I do not worship what you worship, (2) Nor do you worship who I worship, (3) Nor will I worship what you worship, (4) Nor will you worship who I worship: (5) To you your way, to me my way (6)''',
+            bookmarkPosition: 1,
+            duaUrl:
+                "https://bucketsawstest.s3.us-west-1.amazonaws.com/Duas/Bedtime_Prayers/Dua_1.mp3",
+          ),
+        ];
+        Hive.box("myBox").put("bookmarks1", duaBookmarkList);
+        List ruqyahbookmark = [
+          BookmarksRuqyah(
+            duaId: 4,
+            categoryId: 4,
+            categoryName: "The protection against black magic and evil eye",
+            duaTitle: "Dua 1",
+            duaRef: "Al Kafiroon, Al Ikhlaas, Al Falak, An Nas.",
+            ayahCount: 15,
+            duaText: '''بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+قُلْ يَا أَيُّهَا الْكَافِرُونَ ‎﴿١﴾‏ لَا أَعْبُدُ مَا تَعْبُدُونَ ‎﴿٢﴾‏ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ‎﴿٣﴾‏ وَلَا أَنَا عَابِدٌ مَّا عَبَدتُّمْ ‎﴿٤﴾‏ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ‎﴿٥﴾‏ لَكُمْ دِينُكُمْ وَلِيَ دِينِ ‎﴿٦﴾‏
+
+بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+قُلْ هُوَ اللَّهُ أَحَدٌ ‎﴿١﴾‏ اللَّهُ الصَّمَدُ ‎﴿٢﴾‏ لَمْ يَلِدْ وَلَمْ يُولَدْ ‎﴿٣﴾‏ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ‎﴿٤﴾‏
+
+بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ‎﴿١﴾‏ مِن شَرِّ مَا خَلَقَ ‎﴿٢﴾‏ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ‎﴿٣﴾‏ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ‎﴿٤﴾‏ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ ‎﴿٥﴾‏
+
+بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+قُلْ أَعُوذُ بِرَبِّ النَّاسِ ‎﴿١﴾‏ مَلِكِ النَّاسِ ‎﴿٢﴾‏ إِلَٰهِ النَّاسِ ‎﴿٣﴾‏ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ‎﴿٤﴾‏ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ‎﴿٥﴾‏ مِنَ الْجِنَّةِ وَالنَّاسِ ‎﴿٦﴾‏''',
+            duaTranslation: '''1. Al Kafiroon
+Say, "O disbelievers, (1) I do not worship what you worship. (2) Nor are you
+    worshippers of what I worship. (3) Nor will I be a worshipper of what you
+    worship. (4) Nor will you be worshippers of what I worship. (5) For you is
+    your religion, and for me is my religion." (6)
+
+2. Al Ikhlaas
+Say, "He is Allah, [who is] One, (1) Allah, the Eternal Refuge. (2) He
+    neither begets nor is born, (3) Nor is there to Him any equivalent." (4)
+  
+3. Al Falak
+Say, "I seek refuge in the Lord of daybreak (1) From the evil of that which
+    He created (2) And from the evil of darkness when it settles (3) And from
+    the evil of the blowers in knots (4) And from the evil of an envier when he
+    envies." (5)
+
+4. An Nas
+Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
+    (2) The God of mankind, (3) From the evil of the retreating whisperer - (4)
+    Who whispers [evil] into the breasts of mankind - (5) From among the jinn
+    and mankind." (6)''',
+            bookmarkPosition: 1,
+            duaUrl:
+                "https://bucketsawstest.s3.us-west-1.amazonaws.com/al_ruqyah/The_protection_against_black_magic_and_evil_eye/dua_1.mp3",
+          ),
+        ];
+        Hive.box("myBox").put("bookmarks2", ruqyahbookmark);
       });
       print('Database file copied to documents directory');
     } else {
@@ -261,8 +362,9 @@ class QuranDatabase {
   Future<List<Dua>> getDua(int categoryId) async {
     database = await openDb();
     var duaList = <Dua>[];
-    var cursor = await database!
-        .query(_duaAllTable, where: "category_id = ?", whereArgs: [categoryId]);
+    var cursor = await database!.query(_duaAllTable,
+        where: "category_id = ? AND status = 'active'",
+        whereArgs: [categoryId]);
     for (var maps in cursor) {
       var dua = Dua.fromJson(maps);
       duaList.add(dua);
@@ -478,10 +580,10 @@ class QuranDatabase {
   }
 
   //delete bookmark
-  void removeRduaBookmark(int duaId, int RCategory) async {
+  void removeRduaBookmark(int duaId, int rCategory) async {
     database = await openDb();
     await database!.rawUpdate(
-        "update $_rduaAllTable set is_fav = 0 where ruqyah_id = $duaId AND category_id = $RCategory ");
+        "update $_rduaAllTable set is_fav = 0 where ruqyah_id = $duaId AND category_id = $rCategory ");
     // print('DuaID removed is: $duaId');
   }
 

@@ -20,6 +20,8 @@ class DuaDetail extends StatelessWidget {
     Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
 
     int index = nextDuaData['index'];
+    print(duaProvider.duaList[index - 1].id!);
+
     Dua nextDua = nextDuaData['dua'];
     String duaTitle = nextDua.duaTitle.toString();
     String duaRef = nextDua.duaRef.toString();
