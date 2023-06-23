@@ -111,15 +111,34 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const AlertDialog(
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0.0,
-                                  contentPadding: EdgeInsets.zero,
-                                  content: SizedBox(
-                                    width: double.maxFinite,
-                                    height: 500.0,
-                                    child: VideoPlayerWidget(),
-                                  ),
+                                return Stack(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Container(
+                                        color: Colors.black.withOpacity(
+                                            0.5), // Adjust the opacity to make it darker or lighter
+                                      ),
+                                    ),
+                                    Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      elevation: 0.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      child: const Align(
+                                        alignment: Alignment.topCenter,
+                                        child: FractionallySizedBox(
+                                          widthFactor: 1.12,
+                                          heightFactor: 0.8,
+                                          child: VideoPlayerWidget(),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 );
                               },
                             );
