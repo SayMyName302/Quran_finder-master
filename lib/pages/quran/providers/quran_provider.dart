@@ -34,6 +34,10 @@ class QuranProvider extends ChangeNotifier {
   int? get bookmarkPosition => _bookmarkPosition;
   Surah? _nextSurah;
   Surah? get nextSurah => _nextSurah;
+
+  Surah? _previousSurah;
+  Surah? get previousSurah => _previousSurah;
+
   String? _selectedTranslation;
   String? get selectedTranslation => _selectedTranslation;
 
@@ -83,6 +87,12 @@ class QuranProvider extends ChangeNotifier {
     _surahId = surahId;
     _quranTextList = await QuranDatabase().getQuranSurahText(surahId: surahId);
     _nextSurah = await getSpecificSurah(surahId + 1);
+    if (surahId > 1) {
+      Surah? previousSurah = await getSpecificSurah(surahId - 1);
+      _previousSurah = previousSurah;
+    } else {
+      _previousSurah = null; // Set to null for the first surah
+    }
     notifyListeners();
   }
 

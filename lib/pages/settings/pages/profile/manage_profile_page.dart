@@ -229,18 +229,18 @@ class _ManageProfileState extends State<ManageProfile> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Text("Delete Profile"),
-                                    content: Text(
+                                    title: const Text("Delete Profile"),
+                                    content: const Text(
                                         "Are you sure you want to delete your profile?"),
                                     actions: <Widget>[
                                       TextButton(
-                                        child: Text("Cancel"),
+                                        child: const Text("Cancel"),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
                                       ),
                                       TextButton(
-                                        child: Text("Delete"),
+                                        child: const Text("Delete"),
                                         onPressed: () {
                                           // Call the delete method from the ProfileProvider
                                           Provider.of<ProfileProvider>(context,
@@ -254,6 +254,56 @@ class _ManageProfileState extends State<ManageProfile> {
                               );
                             },
                           ),
+                          Consumer<AppColorsProvider>(
+                              builder: (context, value, child) {
+                            return Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 20.w),
+                                child: InkWell(
+                                  child: Text(
+                                    'Clear User Data',
+                                    style: TextStyle(
+                                        color: value.mainBrandingColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14.sp,
+                                        fontFamily: 'satoshi'),
+                                  ),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text("Clear Data"),
+                                          content: const Text(
+                                              "Are you sure you want to Clear data?"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text("Cancel"),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: const Text("Delete"),
+                                              onPressed: () {
+                                                // Call the delete method from the ProfileProvider
+                                                Provider.of<ProfileProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .clearAppDataAndStorage(
+                                                        context);
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            );
+                          }),
                           SizedBox(
                             height: 40.h,
                           ),
