@@ -12,6 +12,7 @@ class Dua {
   int? _ayahCount;
   int? _isFav;
   String? _status;
+  int? _duaNo;
 
   int? get id => _id;
   int? get duaCategory => _duaCategory;
@@ -23,6 +24,7 @@ class Dua {
   int? get ayahCount => _ayahCount;
   int? get isFav => _isFav;
   String? get status => _status;
+  int? get duaNo => _duaNo;
   set setIsBookmark(int value) => _isFav = value;
 
   Dua({
@@ -36,6 +38,7 @@ class Dua {
     required ayahCount,
     required isFav,
     required status,
+    required duaNo,
   }) {
     _id = id;
     _duaCategory = duaCategory;
@@ -47,6 +50,7 @@ class Dua {
     _ayahCount = ayahCount;
     _isFav = isFav;
     _status = status;
+    _duaNo = duaNo;
   }
 
   Dua.fromJson(Map<String, dynamic> json) {
@@ -61,6 +65,7 @@ class Dua {
     _ayahCount = json['ayah_count'];
     _isFav = json['is_fav'];
     _status = json['status'];
+    _duaNo = json['dua_no'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +80,7 @@ class Dua {
       'ayah_count': _ayahCount,
       'is_fav': _isFav,
       'status': _status,
+      'dua_no': _duaNo,
     };
   }
 

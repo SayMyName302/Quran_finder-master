@@ -69,7 +69,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
               Container(
                 width: double.maxFinite,
                 //decoration: BoxDecoration(border: Border.all(width: 1)),
-                margin: EdgeInsets.only(left: 10.w),
+                margin: EdgeInsets.only(left: 14.w),
                 child: Column(
                   children: [
                     Row(
@@ -111,15 +111,45 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const AlertDialog(
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0.0,
-                                  contentPadding: EdgeInsets.zero,
-                                  content: SizedBox(
-                                    width: double.maxFinite,
-                                    height: 500.0,
-                                    child: VideoPlayerWidget(),
-                                  ),
+                                return Stack(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Container(
+                                        color: Colors.black.withOpacity(0.5),
+                                      ),
+                                    ),
+                                    Dialog(
+                                      alignment: Alignment.topCenter,
+                                      backgroundColor: Colors.transparent,
+                                      elevation: 0.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      child: const FractionallySizedBox(
+                                        widthFactor: 1.12,
+                                        heightFactor: 0.8,
+                                        child: VideoPlayerWidget(),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 10.0,
+                                      right: 10.0,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                          size: 24.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 );
                               },
                             );
@@ -128,9 +158,13 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                             'assets/images/app_icons/info.png',
                             height: 15.h,
                             width: 15.w,
-                            // color: them.isDark ? Colors.white : Colors.black,
                           ),
                         ),
+
+                        // SizedBox(
+                        //   width: 220.h,
+                        // ),
+                        const Spacer(),
                       ],
                     ),
                   ],

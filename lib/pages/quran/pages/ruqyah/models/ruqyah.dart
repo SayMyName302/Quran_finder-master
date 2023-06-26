@@ -11,6 +11,7 @@ class Ruqyah {
   String? _contentUrl;
   int? _ayahCount;
   int? _isFav;
+  int? _duaNo;
 
   int? get id => _id;
   int? get duaCategory => _duaCategory;
@@ -21,6 +22,8 @@ class Ruqyah {
   String? get duaUrl => _contentUrl;
   int? get ayahCount => _ayahCount;
   int? get isFav => _isFav;
+  int? get duaNo => _duaNo;
+
   set setIsBookmark(int value) => _isFav = value;
 
   Ruqyah({
@@ -33,6 +36,7 @@ class Ruqyah {
     required duaUrl,
     required ayahCount,
     required isFav,
+    required duaNo,
   }) {
     _id = id;
     _duaCategory = duaCategory;
@@ -43,6 +47,7 @@ class Ruqyah {
     _contentUrl = duaUrl;
     _ayahCount = ayahCount;
     _isFav = isFav;
+    _duaNo = duaNo;
   }
 
   Ruqyah.fromJson(Map<String, dynamic> json) {
@@ -56,6 +61,7 @@ class Ruqyah {
     _contentUrl = json['content_url'];
     _ayahCount = json['ayah_count'];
     _isFav = json['is_fav'];
+    _duaNo = json['dua_no'];
   }
 
   Map<String, dynamic> toJson() {
@@ -69,6 +75,7 @@ class Ruqyah {
       'content_url': _contentUrl,
       'ayah_count': _ayahCount,
       'is_fav': _isFav,
+      'dua_no': _duaNo,
     };
   }
 

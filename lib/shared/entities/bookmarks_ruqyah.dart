@@ -1,5 +1,7 @@
 class BookmarksRuqyah {
   int? _duaId; // index of dua in a table
+  int? _duaNo;
+
   int? _categoryId; //dua category in a table
   String? _categoryName; //This is for concating the name for Bookmarks only!
   String? _duaTitle; //Title of dua i.e. Dua1/Dua2/Dua3
@@ -11,6 +13,7 @@ class BookmarksRuqyah {
   String? _contentUrl;
 
   int? get duaId => _duaId;
+  int? get duaNo => _duaNo;
   int? get categoryId => _categoryId;
   String? get categoryName => _categoryName;
   String? get duaTitle => _duaTitle;
@@ -23,6 +26,7 @@ class BookmarksRuqyah {
 
   BookmarksRuqyah({
     required duaId,
+    required duaNo,
     required categoryId,
     required categoryName,
     required duaTitle,
@@ -34,6 +38,7 @@ class BookmarksRuqyah {
     required duaUrl,
   }) {
     _duaId = duaId;
+    _duaNo = duaNo;
     _categoryId = categoryId;
     _categoryName = categoryName;
     _duaTitle = duaTitle;
@@ -47,6 +52,7 @@ class BookmarksRuqyah {
 
   BookmarksRuqyah.fromJson(Map<String, dynamic> json) {
     _duaId = json['duaId'];
+    _duaNo = json['duaNo'];
     _categoryId = json['categoryId'];
     _categoryName = json['categoryName'];
     _duaTitle = json['duaTitle'];
@@ -61,6 +67,7 @@ class BookmarksRuqyah {
   Map toJson() {
     return {
       "duaId": _duaId,
+      "duaNo": _duaNo,
       "categoryId": _categoryId,
       "categoryName": _categoryName,
       "duaTitle": _duaTitle,

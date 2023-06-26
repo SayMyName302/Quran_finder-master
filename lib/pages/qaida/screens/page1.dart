@@ -183,7 +183,7 @@ class Page1State extends State<Page1> {
   //                         imagePath,
   //                         width: containerSize.width,
   //                         height: containerSize.height,
-  //                         fit: BoxFit.cover,
+  //                         fit: BoxFit.contain,
   //                       ),
   //                     ),
   //                   ),
@@ -285,7 +285,7 @@ class Page1State extends State<Page1> {
                             children: [
                               Expanded(
                                 child: Container(
-                                  //   key: _getContainerKey(4),
+                                  // key: _getContainerKey(4),
                                   decoration: const BoxDecoration(
                                     border: Border(
                                       left: BorderSide(width: 1),
@@ -315,10 +315,9 @@ class Page1State extends State<Page1> {
                                             await _audioPlayer.stop();
                                             await _audioPlayer
                                                 .setAsset(audioFilePaths[4]);
-                                            //     _audioPlayerManager
-                                            //       .playAudio(4);
+                                            // _audioPlayerManager.playAudio(4);
                                             await _audioPlayer.play();
-                                            //    _hideOverlay();
+                                            // _hideOverlay();
                                           },
                                     child: Stack(
                                       children: [

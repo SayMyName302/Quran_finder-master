@@ -16,8 +16,8 @@ class BookmarkProviderDua extends ChangeNotifier {
     QuranDatabase().removeduaBookmark(duaId, categoryId);
     _bookmarkList.removeWhere((element) =>
         element.duaId == duaId && element.categoryId == categoryId);
-    Hive.box("myBox").put("bookmarks1", _bookmarkList);
     notifyListeners();
+    Hive.box("myBox").put("bookmarks1", _bookmarkList);
   }
 
   void addBookmark(BookmarksDua bookmarks) {
@@ -25,9 +25,8 @@ class BookmarkProviderDua extends ChangeNotifier {
     if (!_bookmarkList.contains(bookmarks)) {
       _bookmarkList.add(bookmarks);
     }
-
-    Hive.box("myBox").put("bookmarks1", _bookmarkList);
     notifyListeners();
+    Hive.box("myBox").put("bookmarks1", _bookmarkList);
   }
 
   void goToAudioPlayer(BookmarksDua bookmarks, BuildContext context) async {

@@ -143,7 +143,8 @@ class QuranDatabase {
         Hive.box("myBox").put("bookmarks", bookmarkList);
         List duaBookmarkList = [
           BookmarksDua(
-            duaId: 1,
+            duaId: 45,
+            duaNo: 1,
             categoryId: 2,
             categoryName: "Prayers_to_Start_Your_Day",
             duaTitle: "Dua 1",
@@ -158,7 +159,8 @@ class QuranDatabase {
                 "https://bucketsawstest.s3.us-west-1.amazonaws.com/Duas/Prayers_to_Start_Your_Day/Dua_1.mp3",
           ),
           BookmarksDua(
-            duaId: 8,
+            duaId: 86,
+            duaNo: 8,
             categoryId: 5,
             categoryName: "Influential_Duas_for_Ruqyah",
             duaTitle: "Dua 8",
@@ -177,7 +179,8 @@ God does not burden a soul beyond capacity. Each will enjoy what (good) he earns
                 "https://bucketsawstest.s3.us-west-1.amazonaws.com/Duas/Influential_Duas_for_Ruqyah/Dua_8.mp3",
           ),
           BookmarksDua(
-            duaId: 1,
+            duaId: 95,
+            duaNo: 1,
             categoryId: 6,
             categoryName: "Bedtime_Prayers",
             duaTitle: "Dua 1",
@@ -197,6 +200,7 @@ God does not burden a soul beyond capacity. Each will enjoy what (good) he earns
         List ruqyahbookmark = [
           BookmarksRuqyah(
             duaId: 4,
+            duaNo: 1,
             categoryId: 4,
             categoryName: "The protection against black magic and evil eye",
             duaTitle: "Dua 1",
@@ -547,7 +551,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     database = await openDb();
     await database!
         .rawUpdate("update $_duaAllTable set is_fav = 1 where dua_id = $duaId");
-    //print('DuaID is: $duaId');
+    //   print('QuranDatabase :::::             added    DuaID is: $duaId');
   }
 
   //delete bookmark
@@ -555,7 +559,8 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     database = await openDb();
     await database!.rawUpdate(
         "update $_duaAllTable set is_fav = 0 where dua_id = $duaId AND category_id = $categoryId");
-    // print('DuaID removed is: $duaId');
+    // print(
+    //     'QuranDatabase :::::            removed     DuaID is: $duaId DuaCat is: $categoryId');
   }
 
   Future<List<Dua>> getduaBookmarks() async {
@@ -585,6 +590,8 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     await database!.rawUpdate(
         "update $_rduaAllTable set is_fav = 0 where ruqyah_id = $duaId AND category_id = $rCategory ");
     // print('DuaID removed is: $duaId');
+    // print(
+    //     'QuranDatabase :::::            removed     DuaID is: $duaId DuaCat is: $rCategory');
   }
 
   Future<List<Ruqyah>> getRduaBookmarks() async {

@@ -8,6 +8,7 @@ class RuqyahBookmarksAdapter extends TypeAdapter<BookmarksRuqyah> {
   @override
   BookmarksRuqyah read(BinaryReader reader) {
     final duaId = reader.read();
+    final duaNo = reader.read();
     final categoryId = reader.read();
     final categoryName = reader.read();
     final duaTitle = reader.read();
@@ -20,6 +21,7 @@ class RuqyahBookmarksAdapter extends TypeAdapter<BookmarksRuqyah> {
 
     return BookmarksRuqyah(
         duaId: duaId,
+        duaNo: duaNo,
         categoryId: categoryId,
         categoryName: categoryName,
         duaTitle: duaTitle,
@@ -34,6 +36,7 @@ class RuqyahBookmarksAdapter extends TypeAdapter<BookmarksRuqyah> {
   @override
   void write(BinaryWriter writer, BookmarksRuqyah obj) {
     writer.write(obj.duaId);
+    writer.write(obj.duaNo);
     writer.write(obj.categoryId);
     writer.write(obj.categoryName);
     writer.write(obj.duaTitle);
