@@ -106,7 +106,7 @@ class QuranDatabase {
 // Initialize and save the database file in the documents directory
   Future<void> initAndSaveDb() async {
     var dbPath = await getDatabasesPath();
-    var path = join(dbPath, 'fullquran.db');
+    var path = join(dbPath, 'masterdb.db');
     // Check if the database file already exists in the documents directory
     var exists = await databaseExists(path);
     if (!exists) {
@@ -115,7 +115,7 @@ class QuranDatabase {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
       // Copy the database file from the assets folder
-      ByteData data = await rootBundle.load(join('assets', 'fullquran.db'));
+      ByteData data = await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       // Write and flush the bytes to the documents directory
@@ -254,7 +254,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
 // Open the database
   Future<Database> openDb() async {
     var dbPath = await getDatabasesPath();
-    var path = join(dbPath, 'fullquran.db');
+    var path = join(dbPath, 'masterdb.db');
     return await openDatabase(path, readOnly: false);
   }
 

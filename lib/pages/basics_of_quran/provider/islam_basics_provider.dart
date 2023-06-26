@@ -26,9 +26,7 @@ class IslamBasicsProvider extends ChangeNotifier {
   }
 
   IslamBasicsProvider() {
-    print("Initializing SharedPreferences...");
     _initSharedPreferences();
-    print("Loading miracles order...");
   }
 
   Future<void> _initSharedPreferences() async {

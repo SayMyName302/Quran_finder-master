@@ -383,49 +383,83 @@ class _QuranTextViewState extends State<QuranTextView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text('Next Surah',
-                            style: TextStyle(
+                        if (quranProvider.previousSurah !=
+                            null) // Conditionally show the "Previous" text
+                          InkWell(
+                            child: Text(
+                              'Previous Surah :',
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14.sp,
                                 fontFamily: 'satoshi',
-                                fontWeight: FontWeight.w700)),
-                        Text('سورة${quranProvider.nextSurah!.arabicName}',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            onTap: () {
+                              context.read<QuranProvider>().setSurahText(
+                                    surahId: _quranProvider.nextSurah!.surahId!,
+                                    title:
+                                        'سورة ${_quranProvider.previousSurah!.arabicName}',
+                                    fromWhere: 1,
+                                  );
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return const QuranTextView();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        if (quranProvider.previousSurah !=
+                            null) // Conditionally show the "سورة ${quranProvider.previousSurah!.arabicName}" text
+                          Text(
+                            'سورة${quranProvider.previousSurah!.arabicName}',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.sp,
-                                fontFamily: 'Al Majeed Quranic Font',
-                                fontWeight: FontWeight.w700)),
+                              color: Colors.white,
+                              fontSize: 24.sp,
+                              fontFamily: 'Al Majeed Quranic Font',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         InkWell(
                           onTap: () {
                             context.read<QuranProvider>().setSurahText(
-                                surahId: _quranProvider.nextSurah!.surahId!,
-                                title:
-                                    'سورة ${_quranProvider.nextSurah!.arabicName}',
-                                fromWhere: 1);
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (context) {
-                                // title: 'سورة ${widget.surah!.arabicName}',fromWhere: 1,
-                                return const QuranTextView();
-                              },
-                            ));
+                                  surahId: _quranProvider.nextSurah!.surahId!,
+                                  title:
+                                      'سورة ${_quranProvider.nextSurah!.arabicName}',
+                                  fromWhere: 1,
+                                );
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const QuranTextView();
+                                },
+                              ),
+                            );
                           },
                           child: Container(
                             padding: EdgeInsets.only(
-                                left: 14.w, right: 14.w, top: 9.h, bottom: 9.h),
+                              left: 14.w,
+                              right: 14.w,
+                              top: 9.h,
+                              bottom: 9.h,
+                            ),
                             decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(17.r)),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(17.r),
+                            ),
                             child: Text(
-                              'Continue to Next Surah',
+                              'Next Surah',
                               style: TextStyle(
-                                  color: appColor.mainBrandingColor,
-                                  fontSize: 12.sp,
-                                  fontFamily: 'satoshi',
-                                  fontWeight: FontWeight.w700),
+                                color: appColor.mainBrandingColor,
+                                fontSize: 12.sp,
+                                fontFamily: 'satoshi',
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   )

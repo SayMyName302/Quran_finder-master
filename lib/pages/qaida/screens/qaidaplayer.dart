@@ -118,17 +118,26 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                         Navigator.of(context).pop();
                                       },
                                       child: Container(
+<<<<<<< HEAD
                                         color: Colors.black.withOpacity(0.5),
                                       ),
                                     ),
                                     Dialog(
                                       alignment: Alignment.topCenter,
+=======
+                                        color: Colors.black.withOpacity(
+                                            0.5), // Adjust the opacity to make it darker or lighter
+                                      ),
+                                    ),
+                                    Dialog(
+>>>>>>> 14ec823b2e2a70f276a35c2599c6591b3b122ecf
                                       backgroundColor: Colors.transparent,
                                       elevation: 0.0,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(20.0),
                                       ),
+<<<<<<< HEAD
                                       child: const FractionallySizedBox(
                                         widthFactor: 1.12,
                                         heightFactor: 0.8,
@@ -146,6 +155,14 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                           Icons.close,
                                           color: Colors.white,
                                           size: 24.0,
+=======
+                                      child: const Align(
+                                        alignment: Alignment.topCenter,
+                                        child: FractionallySizedBox(
+                                          widthFactor: 1.12,
+                                          heightFactor: 0.8,
+                                          child: VideoPlayerWidget(),
+>>>>>>> 14ec823b2e2a70f276a35c2599c6591b3b122ecf
                                         ),
                                       ),
                                     ),

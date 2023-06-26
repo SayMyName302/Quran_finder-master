@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +11,13 @@ import 'package:nour_al_quran/shared/localization/languages.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:restart_app/restart_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import '../../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
+import 'package:flutter/services.dart';
 
 class ProfileProvider extends ChangeNotifier {
   UserProfile? _userProfile = Hive.box(appBoxKey).get(userProfileKey);
@@ -137,5 +143,38 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
     Hive.box(appBoxKey).delete(userProfileKey);
     Hive.box(appBoxKey).put(loginStatusString, 0);
+  }
+
+  void clearAppDataAndStorage(BuildContext context) async {
+    // Clearing preferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+
+    // Clearing cache
+    DefaultCacheManager().emptyCache();
+
+    // Clearing local storage
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    Directory(appDocPath).delete(recursive: true);
+
+    // Show the loading dialog
+    EasyLoadingDialog.show(context: context, radius: 20.r);
+
+    // Delay the restart for a short duration to allow the dialog to display
+    await Future.delayed(const Duration(seconds: 1));
+
+    // Restart the app
+    Restart.restartApp();
+  }
+
+  void restartApp() {
+    // Restarting the app by calling the platform-specific code
+    // This code assumes you are using Flutter's default navigation structure
+    if (Platform.isAndroid) {
+      SystemNavigator.pop();
+    } else if (Platform.isIOS) {
+      exit(0);
+    }
   }
 }

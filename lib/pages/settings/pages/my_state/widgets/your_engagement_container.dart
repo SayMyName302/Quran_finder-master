@@ -129,10 +129,10 @@ class YourEngagementContainer extends StatelessWidget {
                             : Container(
                                 margin: EdgeInsets.only(top: 3.h),
                                 child: Text(
-                                  'Your App Usage Time',
+                                  '0%',
                                   style: TextStyle(
                                       fontFamily: 'satoshi',
-                                      fontSize: 11.sp,
+                                      fontSize: 13.sp,
                                       color: appColor.mainBrandingColor),
                                 ),
                               ),

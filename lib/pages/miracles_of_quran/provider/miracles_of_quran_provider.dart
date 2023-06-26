@@ -44,9 +44,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   }
 
   MiraclesOfQuranProvider() {
-    print("Initializing SharedPreferences...");
     _initSharedPreferences();
-    print("Loading miracles order...");
   }
   Future<void> _initSharedPreferences() async {
     _preferences = await SharedPreferences.getInstance();

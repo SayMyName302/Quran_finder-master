@@ -16,7 +16,7 @@ class MiraclesList extends StatelessWidget {
       builder: (context, miraclesProvider, child) {
         return miraclesProvider.miracles.isNotEmpty
             ? GridView.builder(
-                padding: EdgeInsets.only(left: 20.w, right: 20.w),
+                padding: EdgeInsets.only(left: 10.w, right: 0.w),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),

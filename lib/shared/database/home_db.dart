@@ -17,7 +17,7 @@ class HomeDb {
 
   initDb() async {
     var dbPath = await getDatabasesPath();
-    var path = join(dbPath, 'home.db');
+    var path = join(dbPath, 'masterdb.db');
 
     // Check if the database file already exists in the documents directory
     var exists = await databaseExists(path);
@@ -28,7 +28,7 @@ class HomeDb {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
       // Copy the database file from the assets folder
-      ByteData data = await rootBundle.load(join('assets', 'home.db'));
+      ByteData data = await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       // Write and flush the bytes to the documents directory
@@ -38,7 +38,8 @@ class HomeDb {
       print('Database file already exists in documents directory');
 
       // Check for differences between the existing and assets database files
-      ByteData assetsData = await rootBundle.load(join('assets', 'home.db'));
+      ByteData assetsData =
+          await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> assetsBytes = assetsData.buffer
           .asUint8List(assetsData.offsetInBytes, assetsData.lengthInBytes);
 
@@ -49,7 +50,7 @@ class HomeDb {
         await File(path).delete();
 
         // Copy the updated database file from the assets folder
-        ByteData newData = await rootBundle.load(join('assets', 'home.db'));
+        ByteData newData = await rootBundle.load(join('assets', 'masterdb.db'));
         List<int> newBytes = newData.buffer
             .asUint8List(newData.offsetInBytes, newData.lengthInBytes);
 
@@ -65,7 +66,7 @@ class HomeDb {
 
   Future<Database> openDb() async {
     var dbPath = await getDatabasesPath();
-    var path = join(dbPath, 'home.db');
+    var path = join(dbPath, 'masterdb.db');
     return await openDatabase(path, readOnly: false);
   }
 

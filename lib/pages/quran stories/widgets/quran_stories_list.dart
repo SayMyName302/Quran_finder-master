@@ -18,7 +18,7 @@ class QuranStoriesList extends StatelessWidget {
         builder: (context, storiesProvider, child) {
           return storiesProvider.stories.isNotEmpty
               ? GridView.builder(
-                  padding: EdgeInsets.only(left: 20.w, right: 20.w),
+                  padding: EdgeInsets.only(left: 10.w, right: 0.w),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                   ),
