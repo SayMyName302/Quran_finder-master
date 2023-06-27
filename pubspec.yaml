@@ -83,7 +83,7 @@ dependencies:
   scrollable_positioned_list: ^0.3.8
   share_plus: ^6.3.1
   shared_preferences: ^2.1.2
-  sqflite: ^2.2.8+2
+  sqflite: ^2.2.8+4
   timezone: ^0.9.1
   url_launcher: ^6.1.11
   vibration: ^1.7.6

@@ -633,9 +633,102 @@ class SwipePagesState extends State<SwipePages> {
         await _audioLists[i].playerStateStream.firstWhere((state) =>
             state.processingState == ProcessingState.completed || _isPaused);
 
+        // Check if audio playback is paused
         if (_isPaused) {
+          _currentPlayingIndex = i + 1;
           setState(() {
-            _currentPlayingIndex = i + 1;
+            if (i == _audioLists.length - 1) {
+              bool isLooping = _loop;
+              if (isLooping) {
+                _currentPlayingIndex = 0;
+                if (!_loop) {
+                  setState(() {
+                    _isPlaying = false;
+                  });
+                  if (pageId == 1) {
+                    _page1Key[0].currentState?.clearSelection();
+                  } else if (pageId == 2) {
+                    _page2Key[0].currentState?.clearSelection();
+                  } else if (pageId == 3) {
+                    _page3Key[0].currentState?.clearSelection();
+                  } else if (pageId == 4) {
+                    _page4Key[0].currentState?.clearSelection();
+                  } else if (pageId == 5) {
+                    _page5Key[0].currentState?.clearSelection();
+                  } else if (pageId == 6) {
+                    _page6Key[0].currentState?.clearSelection();
+                  } else if (pageId == 7) {
+                    _page7Key[0].currentState?.clearSelection();
+                  } else if (pageId == 8) {
+                    _page8Key[0].currentState?.clearSelection();
+                  } else if (pageId == 9) {
+                    _page9Key[0].currentState?.clearSelection();
+                  } else if (pageId == 10) {
+                    _page10Key[0].currentState?.clearSelection();
+                  } else if (pageId == 11) {
+                    _page11Key[0].currentState?.clearSelection();
+                  } else if (pageId == 12) {
+                    _page12Key[0].currentState?.clearSelection();
+                  } else if (pageId == 13) {
+                    _page13Key[0].currentState?.clearSelection();
+                  } else if (pageId == 14) {
+                    _page14Key[0].currentState?.clearSelection();
+                  } else if (pageId == 15) {
+                    _page15Key[0].currentState?.clearSelection();
+                  } else if (pageId == 16) {
+                    _page16Key[0].currentState?.clearSelection();
+                  } else if (pageId == 17) {
+                    _page17Key[0].currentState?.clearSelection();
+                  } else if (pageId == 18) {
+                    _page18Key[0].currentState?.clearSelection();
+                  } else if (pageId == 19) {
+                    _page19Key[0].currentState?.clearSelection();
+                  }
+                }
+                _playPageAudios(pageId, audioFiles);
+              } else {
+                _currentPlayingIndex = 0;
+                if (pageId == 1) {
+                  _page1Key[0].currentState?.clearSelection();
+                } else if (pageId == 2) {
+                  _page2Key[0].currentState?.clearSelection();
+                } else if (pageId == 3) {
+                  _page3Key[0].currentState?.clearSelection();
+                } else if (pageId == 4) {
+                  _page4Key[0].currentState?.clearSelection();
+                } else if (pageId == 5) {
+                  _page5Key[0].currentState?.clearSelection();
+                } else if (pageId == 6) {
+                  _page6Key[0].currentState?.clearSelection();
+                } else if (pageId == 7) {
+                  _page7Key[0].currentState?.clearSelection();
+                } else if (pageId == 8) {
+                  _page8Key[0].currentState?.clearSelection();
+                } else if (pageId == 9) {
+                  _page9Key[0].currentState?.clearSelection();
+                } else if (pageId == 10) {
+                  _page10Key[0].currentState?.clearSelection();
+                } else if (pageId == 11) {
+                  _page11Key[0].currentState?.clearSelection();
+                } else if (pageId == 12) {
+                  _page12Key[0].currentState?.clearSelection();
+                } else if (pageId == 13) {
+                  _page13Key[0].currentState?.clearSelection();
+                } else if (pageId == 14) {
+                  _page14Key[0].currentState?.clearSelection();
+                } else if (pageId == 15) {
+                  _page15Key[0].currentState?.clearSelection();
+                } else if (pageId == 16) {
+                  _page16Key[0].currentState?.clearSelection();
+                } else if (pageId == 17) {
+                  _page17Key[0].currentState?.clearSelection();
+                } else if (pageId == 18) {
+                  _page18Key[0].currentState?.clearSelection();
+                } else if (pageId == 19) {
+                  _page19Key[0].currentState?.clearSelection();
+                }
+              }
+            }
           });
           break;
         }
