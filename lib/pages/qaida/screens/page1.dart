@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
-
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 
+// ignore: must_be_immutable
 class Page1 extends StatefulWidget {
   bool isMultipleSelectionEnabled;
   final Function(bool) updateMultipleSelectionEnabled;
@@ -19,11 +21,22 @@ class Page1 extends StatefulWidget {
 }
 
 class Page1State extends State<Page1> {
+  int? _startIndex;
+  int? _endIndex;
+
+  // ignore: prefer_final_fields
   AudioPlayer _audioPlayer = AudioPlayer();
-  OverlayEntry? _overlayEntry;
-  Map<int, GlobalKey> _containerKeys = {};
+  // OverlayEntry? _overlayEntry;
+  // Map<int, GlobalKey> _containerKeys = {};
+  // ignore: prefer_final_fields
   List<String> _selectedAudioFiles = [];
+  // ignore: prefer_final_fields
   Set<int> _selectedContainers = {};
+  List<bool> containerAudioPlayingStates = List.generate(
+    30,
+    (_) => false,
+  );
+  // int currentPlayingIndex = -1;
   List<String> audioFilePaths = [
     'assets/images/qaida/page1/alif.mp3',
     'assets/images/qaida/page1/baa1.mp3',
@@ -56,9 +69,6 @@ class Page1State extends State<Page1> {
     'assets/images/qaida/page1/yaa.mp3',
     'assets/images/qaida/page1/yaah.mp3',
   ];
-  int? _startIndex;
-  int? _endIndex;
-  // bool _isPlaying = false;
 
   void _toggleSelection(int index, String filePath) {
     if (_startIndex != null && _endIndex != null) {
@@ -212,6 +222,9 @@ class Page1State extends State<Page1> {
 
   @override
   Widget build(BuildContext context) {
+    // var appColors = context.read<AppColorsProvider>();
+    // var isDark = context.read<ThemProvider>().isDark;
+
     // AudioPlayerManager _audioPlayerManager = AudioPlayerManager();
     return Scaffold(
       body: Padding(
@@ -286,8 +299,11 @@ class Page1State extends State<Page1> {
                               Expanded(
                                 child: Container(
                                   // key: _getContainerKey(4),
-                                  decoration: const BoxDecoration(
-                                    border: Border(
+                                  decoration: BoxDecoration(
+                                    color: containerAudioPlayingStates[4]
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent,
+                                    border: const Border(
                                       left: BorderSide(width: 1),
                                       right: BorderSide(width: .1),
                                       top: BorderSide(width: 0.5),
@@ -301,23 +317,69 @@ class Page1State extends State<Page1> {
                                                 4, audioFilePaths[4]);
                                           }
                                         : () async {
-                                            // String img =
-                                            //     'assets/images/qaida/page1/jem1.png';
-                                            // RenderBox containerRenderBox =
-                                            //     _getContainerKey(4)
-                                            //             ?.currentContext!
-                                            //             .findRenderObject()
-                                            //         as RenderBox;
+                                            // // String img =
+                                            // //     'assets/images/qaida/page1/jem1.png';
+                                            // // RenderBox containerRenderBox =
+                                            // //     _getContainerKey(4)
+                                            // //             ?.currentContext!
+                                            // //             .findRenderObject()
+                                            // //         as RenderBox;
+                                            // // await _audioPlayer.stop();
+                                            // // _hideOverlay();
+                                            // // _showOverlay(
+                                            // //     img, containerRenderBox);
                                             // await _audioPlayer.stop();
-                                            // _hideOverlay();
-                                            // _showOverlay(
-                                            //     img, containerRenderBox);
-                                            await _audioPlayer.stop();
-                                            await _audioPlayer
-                                                .setAsset(audioFilePaths[4]);
-                                            // _audioPlayerManager.playAudio(4);
-                                            await _audioPlayer.play();
-                                            // _hideOverlay();
+                                            // await _audioPlayer
+                                            //     .setAsset(audioFilePaths[4]);
+                                            // // _audioPlayerManager.playAudio(4);
+                                            // await _audioPlayer.play();
+                                            // // _hideOverlay();
+                                            // setState(() {
+                                            //   isAudioPlaying = true;
+                                            // });
+
+                                            // if (isAudioPlaying) {
+                                            //   await _audioPlayer.stop();
+                                            //   setState(() {
+                                            //     isAudioPlaying = false;
+                                            //   });
+                                            // } else {
+                                            //   await _audioPlayer
+                                            //       .setAsset(audioFilePaths[4]);
+                                            //   await _audioPlayer.play();
+                                            //   setState(() {
+                                            //     isAudioPlaying = true;
+                                            //   });
+                                            // }
+
+                                            if (containerAudioPlayingStates[
+                                                4]) {
+                                              await _audioPlayer.stop();
+                                              setState(() {
+                                                containerAudioPlayingStates[4] =
+                                                    false;
+                                              });
+                                            } else {
+                                              await _audioPlayer
+                                                  .setAsset(audioFilePaths[4]);
+                                              await _audioPlayer.play();
+                                              setState(() {
+                                                containerAudioPlayingStates[4] =
+                                                    true;
+                                              });
+
+                                              _audioPlayer.playerStateStream
+                                                  .listen((playerState) {
+                                                if (playerState
+                                                        .processingState ==
+                                                    ProcessingState.completed) {
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        4] = false;
+                                                  });
+                                                }
+                                              });
+                                            }
                                           },
                                     child: Stack(
                                       children: [
@@ -366,8 +428,11 @@ class Page1State extends State<Page1> {
                               Expanded(
                                 child: Container(
                                     //   key: _getContainerKey(9),
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[9]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
@@ -380,21 +445,50 @@ class Page1State extends State<Page1> {
                                                     9, audioFilePaths[9]);
                                               }
                                             : () async {
-                                                // String img =
-                                                //     'assets/images/qaida/page1/raa1.png';
-                                                // RenderBox containerRenderBox =
-                                                //     _getContainerKey(9)
-                                                //             ?.currentContext!
-                                                //             .findRenderObject()
-                                                //         as RenderBox;
-                                                await _audioPlayer.stop();
-                                                // _hideOverlay();
-                                                // _showOverlay(
-                                                //     img, containerRenderBox);
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[9]);
-                                                await _audioPlayer.play();
-                                                //    _hideOverlay();
+                                                // // String img =
+                                                // //     'assets/images/qaida/page1/raa1.png';
+                                                // // RenderBox containerRenderBox =
+                                                // //     _getContainerKey(9)
+                                                // //             ?.currentContext!
+                                                // //             .findRenderObject()
+                                                // //         as RenderBox;
+                                                // await _audioPlayer.stop();
+                                                // // _hideOverlay();
+                                                // // _showOverlay(
+                                                // //     img, containerRenderBox);
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[9]);
+                                                // await _audioPlayer.play();
+                                                // //    _hideOverlay();
+                                                if (containerAudioPlayingStates[
+                                                    9]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        9] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[9]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        9] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            9] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -439,7 +533,10 @@ class Page1State extends State<Page1> {
                               Expanded(
                                 child: Container(
                                     //     key: _getContainerKey(14),
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[14]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
                                       border: Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
@@ -453,21 +550,50 @@ class Page1State extends State<Page1> {
                                                     14, audioFilePaths[14]);
                                               }
                                             : () async {
-                                                // String img =
-                                                //     'assets/images/qaida/page1/zoa1.png';
-                                                // RenderBox containerRenderBox =
-                                                //     _getContainerKey(14)
-                                                //             ?.currentContext!
-                                                //             .findRenderObject()
-                                                //         as RenderBox;
-                                                await _audioPlayer.stop();
-                                                // _hideOverlay();
-                                                // _showOverlay(
-                                                //     img, containerRenderBox);
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[14]);
-                                                await _audioPlayer.play();
-                                                //       _hideOverlay();
+                                                // // String img =
+                                                // //     'assets/images/qaida/page1/zoa1.png';
+                                                // // RenderBox containerRenderBox =
+                                                // //     _getContainerKey(14)
+                                                // //             ?.currentContext!
+                                                // //             .findRenderObject()
+                                                // //         as RenderBox;
+                                                // await _audioPlayer.stop();
+                                                // // _hideOverlay();
+                                                // // _showOverlay(
+                                                // //     img, containerRenderBox);
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[14]);
+                                                // await _audioPlayer.play();
+                                                // //       _hideOverlay();
+                                                if (containerAudioPlayingStates[
+                                                    14]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        14] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[14]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        14] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            14] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -512,8 +638,11 @@ class Page1State extends State<Page1> {
                               Expanded(
                                 child: Container(
                                     //      key: _getContainerKey(19),
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[19]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
@@ -526,21 +655,50 @@ class Page1State extends State<Page1> {
                                                     19, audioFilePaths[19]);
                                               }
                                             : () async {
-                                                // String img =
-                                                //     'assets/images/qaida/page1/fa1.png';
-                                                // RenderBox containerRenderBox =
-                                                //     _getContainerKey(19)
-                                                //             ?.currentContext!
-                                                //             .findRenderObject()
-                                                //         as RenderBox;
-                                                await _audioPlayer.stop();
-                                                // _hideOverlay();
-                                                // _showOverlay(
-                                                //     img, containerRenderBox);
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[19]);
-                                                await _audioPlayer.play();
-                                                //    _hideOverlay();
+                                                // // String img =
+                                                // //     'assets/images/qaida/page1/fa1.png';
+                                                // // RenderBox containerRenderBox =
+                                                // //     _getContainerKey(19)
+                                                // //             ?.currentContext!
+                                                // //             .findRenderObject()
+                                                // //         as RenderBox;
+                                                // await _audioPlayer.stop();
+                                                // // _hideOverlay();
+                                                // // _showOverlay(
+                                                // //     img, containerRenderBox);
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[19]);
+                                                // await _audioPlayer.play();
+                                                // //    _hideOverlay();
+                                                if (containerAudioPlayingStates[
+                                                    19]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        19] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[19]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        19] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            19] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -585,8 +743,11 @@ class Page1State extends State<Page1> {
                               Expanded(
                                 child: Container(
                                     //     key: _getContainerKey(24),
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[24]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
@@ -599,21 +760,50 @@ class Page1State extends State<Page1> {
                                                     24, audioFilePaths[24]);
                                               }
                                             : () async {
-                                                // String img =
-                                                //     'assets/images/qaida/page1/non1.png';
-                                                // RenderBox containerRenderBox =
-                                                //     _getContainerKey(24)
-                                                //             ?.currentContext!
-                                                //             .findRenderObject()
-                                                //         as RenderBox;
-                                                await _audioPlayer.stop();
-                                                // _hideOverlay();
-                                                // _showOverlay(
-                                                //     img, containerRenderBox);
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[24]);
-                                                await _audioPlayer.play();
-                                                //      _hideOverlay();
+                                                // // String img =
+                                                // //     'assets/images/qaida/page1/non1.png';
+                                                // // RenderBox containerRenderBox =
+                                                // //     _getContainerKey(24)
+                                                // //             ?.currentContext!
+                                                // //             .findRenderObject()
+                                                // //         as RenderBox;
+                                                // await _audioPlayer.stop();
+                                                // // _hideOverlay();
+                                                // // _showOverlay(
+                                                // //     img, containerRenderBox);
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[24]);
+                                                // await _audioPlayer.play();
+                                                // //      _hideOverlay();
+                                                if (containerAudioPlayingStates[
+                                                    24]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        24] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[24]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        24] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            24] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -658,8 +848,11 @@ class Page1State extends State<Page1> {
                               Expanded(
                                 child: Container(
                                     //           key: _getContainerKey(29),
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[29]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 1),
@@ -672,21 +865,50 @@ class Page1State extends State<Page1> {
                                                     29, audioFilePaths[29]);
                                               }
                                             : () async {
-                                                // String img =
-                                                //     'assets/images/qaida/page1/ya1.png';
-                                                // RenderBox containerRenderBox =
-                                                //     _getContainerKey(29)
-                                                //             ?.currentContext!
-                                                //             .findRenderObject()
-                                                //         as RenderBox;
-                                                await _audioPlayer.stop();
-                                                // _hideOverlay();
-                                                // _showOverlay(
-                                                //     img, containerRenderBox);
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[29]);
-                                                await _audioPlayer.play();
-                                                //       _hideOverlay();
+                                                // // String img =
+                                                // //     'assets/images/qaida/page1/ya1.png';
+                                                // // RenderBox containerRenderBox =
+                                                // //     _getContainerKey(29)
+                                                // //             ?.currentContext!
+                                                // //             .findRenderObject()
+                                                // //         as RenderBox;
+                                                // await _audioPlayer.stop();
+                                                // // _hideOverlay();
+                                                // // _showOverlay(
+                                                // //     img, containerRenderBox);
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[29]);
+                                                // await _audioPlayer.play();
+                                                // //       _hideOverlay();
+                                                if (containerAudioPlayingStates[
+                                                    29]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        29] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[29]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        29] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            29] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -737,8 +959,11 @@ class Page1State extends State<Page1> {
                               Expanded(
                                 child: Container(
                                     //         key: _getContainerKey(3),
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[3]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: .5),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: .5),
@@ -752,22 +977,51 @@ class Page1State extends State<Page1> {
                                                   3, audioFilePaths[3]);
                                             }
                                           : () async {
-                                              // String img =
-                                              //     'assets/images/qaida/page1/sa1.png';
-                                              // RenderBox containerRenderBox =
-                                              //     _getContainerKey(3)
-                                              //             ?.currentContext!
-                                              //             .findRenderObject()
-                                              //         as RenderBox;
-                                              await _audioPlayer.stop();
-                                              // _hideOverlay();
-                                              // _showOverlay(
-                                              //     img, containerRenderBox);
-                                              await _audioPlayer.stop();
-                                              await _audioPlayer
-                                                  .setAsset(audioFilePaths[3]);
-                                              await _audioPlayer.play();
-                                              //      _hideOverlay();
+                                              // // String img =
+                                              // //     'assets/images/qaida/page1/sa1.png';
+                                              // // RenderBox containerRenderBox =
+                                              // //     _getContainerKey(3)
+                                              // //             ?.currentContext!
+                                              // //             .findRenderObject()
+                                              // //         as RenderBox;
+                                              // await _audioPlayer.stop();
+                                              // // _hideOverlay();
+                                              // // _showOverlay(
+                                              // //     img, containerRenderBox);
+                                              // await _audioPlayer.stop();
+                                              // await _audioPlayer
+                                              //     .setAsset(audioFilePaths[3]);
+                                              // await _audioPlayer.play();
+                                              // //      _hideOverlay();
+                                              if (containerAudioPlayingStates[
+                                                  3]) {
+                                                await _audioPlayer.stop();
+                                                setState(() {
+                                                  containerAudioPlayingStates[
+                                                      3] = false;
+                                                });
+                                              } else {
+                                                await _audioPlayer.setAsset(
+                                                    audioFilePaths[3]);
+                                                await _audioPlayer.play();
+                                                setState(() {
+                                                  containerAudioPlayingStates[
+                                                      3] = true;
+                                                });
+
+                                                _audioPlayer.playerStateStream
+                                                    .listen((playerState) {
+                                                  if (playerState
+                                                          .processingState ==
+                                                      ProcessingState
+                                                          .completed) {
+                                                    setState(() {
+                                                      containerAudioPlayingStates[
+                                                          3] = false;
+                                                    });
+                                                  }
+                                                });
+                                              }
                                             },
                                       child: Stack(
                                         children: [
@@ -814,8 +1068,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[8]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: .5),
@@ -829,10 +1086,39 @@ class Page1State extends State<Page1> {
                                                     8, audioFilePaths[8]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[8]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[8]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    8]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        8] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[8]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        8] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            8] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -876,8 +1162,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[13]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: .5),
@@ -891,10 +1180,39 @@ class Page1State extends State<Page1> {
                                                     13, audioFilePaths[13]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[13]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[13]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    13]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        13] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[13]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        13] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            13] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -938,8 +1256,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[18]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: .5),
@@ -953,10 +1274,39 @@ class Page1State extends State<Page1> {
                                                     18, audioFilePaths[18]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[18]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[18]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    18]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        18] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[18]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        18] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            18] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1000,8 +1350,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[23]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: .5),
@@ -1015,10 +1368,39 @@ class Page1State extends State<Page1> {
                                                     23, audioFilePaths[23]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[23]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[23]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    23]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        23] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[23]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        23] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            23] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1062,8 +1444,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[28]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: .5),
@@ -1077,10 +1462,39 @@ class Page1State extends State<Page1> {
                                                     28, audioFilePaths[28]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[28]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[28]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    28]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        28] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[28]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        28] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            28] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1130,8 +1544,11 @@ class Page1State extends State<Page1> {
                             children: [
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[2]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         //  left: BorderSide(width: .1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: .5),
@@ -1145,10 +1562,39 @@ class Page1State extends State<Page1> {
                                                   2, audioFilePaths[2]);
                                             }
                                           : () async {
-                                              await _audioPlayer.stop();
-                                              await _audioPlayer
-                                                  .setAsset(audioFilePaths[2]);
-                                              await _audioPlayer.play();
+                                              // await _audioPlayer.stop();
+                                              // await _audioPlayer
+                                              //     .setAsset(audioFilePaths[2]);
+                                              // await _audioPlayer.play();
+                                              if (containerAudioPlayingStates[
+                                                  2]) {
+                                                await _audioPlayer.stop();
+                                                setState(() {
+                                                  containerAudioPlayingStates[
+                                                      2] = false;
+                                                });
+                                              } else {
+                                                await _audioPlayer.setAsset(
+                                                    audioFilePaths[2]);
+                                                await _audioPlayer.play();
+                                                setState(() {
+                                                  containerAudioPlayingStates[
+                                                      2] = true;
+                                                });
+
+                                                _audioPlayer.playerStateStream
+                                                    .listen((playerState) {
+                                                  if (playerState
+                                                          .processingState ==
+                                                      ProcessingState
+                                                          .completed) {
+                                                    setState(() {
+                                                      containerAudioPlayingStates[
+                                                          2] = false;
+                                                    });
+                                                  }
+                                                });
+                                              }
                                             },
                                       child: Stack(
                                         children: [
@@ -1195,8 +1641,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[7]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
                                       ),
@@ -1208,10 +1657,39 @@ class Page1State extends State<Page1> {
                                                     7, audioFilePaths[7]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[7]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[7]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    7]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        7] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[7]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        7] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            7] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1255,8 +1733,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[12]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
                                       ),
@@ -1268,10 +1749,39 @@ class Page1State extends State<Page1> {
                                                     12, audioFilePaths[12]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[12]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[12]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    12]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        12] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[12]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        12] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            12] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1315,8 +1825,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[17]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
                                       ),
@@ -1328,10 +1841,39 @@ class Page1State extends State<Page1> {
                                                     17, audioFilePaths[17]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[17]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[17]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    17]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        17] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[17]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        17] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            17] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1375,8 +1917,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[22]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
                                       ),
@@ -1388,10 +1933,39 @@ class Page1State extends State<Page1> {
                                                     22, audioFilePaths[22]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[22]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[22]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    22]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        22] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[22]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        22] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            22] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1435,8 +2009,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[27]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
                                       ),
@@ -1448,10 +2025,39 @@ class Page1State extends State<Page1> {
                                                     27, audioFilePaths[27]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[27]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[27]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    27]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        27] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[27]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        27] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            27] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1501,8 +2107,11 @@ class Page1State extends State<Page1> {
                             children: [
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[1]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: .1),
                                         top: BorderSide(width: 0.5),
                                         //  right: BorderSide(width: 0.5),
@@ -1516,10 +2125,39 @@ class Page1State extends State<Page1> {
                                                   1, audioFilePaths[1]);
                                             }
                                           : () async {
-                                              await _audioPlayer.stop();
-                                              await _audioPlayer
-                                                  .setAsset(audioFilePaths[1]);
-                                              await _audioPlayer.play();
+                                              // await _audioPlayer.stop();
+                                              // await _audioPlayer
+                                              //     .setAsset(audioFilePaths[1]);
+                                              // await _audioPlayer.play();
+                                              if (containerAudioPlayingStates[
+                                                  1]) {
+                                                await _audioPlayer.stop();
+                                                setState(() {
+                                                  containerAudioPlayingStates[
+                                                      1] = false;
+                                                });
+                                              } else {
+                                                await _audioPlayer.setAsset(
+                                                    audioFilePaths[1]);
+                                                await _audioPlayer.play();
+                                                setState(() {
+                                                  containerAudioPlayingStates[
+                                                      1] = true;
+                                                });
+
+                                                _audioPlayer.playerStateStream
+                                                    .listen((playerState) {
+                                                  if (playerState
+                                                          .processingState ==
+                                                      ProcessingState
+                                                          .completed) {
+                                                    setState(() {
+                                                      containerAudioPlayingStates[
+                                                          1] = false;
+                                                    });
+                                                  }
+                                                });
+                                              }
                                             },
                                       child: Stack(
                                         children: [
@@ -1566,8 +2204,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[6]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: .5),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
@@ -1580,10 +2221,39 @@ class Page1State extends State<Page1> {
                                                     6, audioFilePaths[6]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[6]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[6]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    6]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        6] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[6]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        6] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            6] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1627,8 +2297,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[11]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: .5),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
@@ -1641,10 +2314,39 @@ class Page1State extends State<Page1> {
                                                     11, audioFilePaths[11]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[11]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[11]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    11]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        11] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[11]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        11] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            11] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1688,8 +2390,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[16]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: .5),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
@@ -1702,10 +2407,39 @@ class Page1State extends State<Page1> {
                                                     16, audioFilePaths[16]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[16]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[16]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    16]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        16] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[16]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        16] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            16] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1749,8 +2483,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[21]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: .5),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
@@ -1763,10 +2500,39 @@ class Page1State extends State<Page1> {
                                                     21, audioFilePaths[21]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[21]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[21]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    21]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        21] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[21]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        21] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            21] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1810,8 +2576,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[26]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: .5),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
@@ -1824,10 +2593,39 @@ class Page1State extends State<Page1> {
                                                     26, audioFilePaths[26]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[26]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[26]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    26]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        26] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[26]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        26] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            26] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1877,8 +2675,11 @@ class Page1State extends State<Page1> {
                             children: [
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[0]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         right: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
@@ -1892,10 +2693,39 @@ class Page1State extends State<Page1> {
                                                   0, audioFilePaths[0]);
                                             }
                                           : () async {
-                                              await _audioPlayer.stop();
-                                              await _audioPlayer
-                                                  .setAsset(audioFilePaths[0]);
-                                              await _audioPlayer.play();
+                                              // await _audioPlayer.stop();
+                                              // await _audioPlayer
+                                              //     .setAsset(audioFilePaths[0]);
+                                              // await _audioPlayer.play();
+                                              if (containerAudioPlayingStates[
+                                                  0]) {
+                                                await _audioPlayer.stop();
+                                                setState(() {
+                                                  containerAudioPlayingStates[
+                                                      0] = false;
+                                                });
+                                              } else {
+                                                await _audioPlayer.setAsset(
+                                                    audioFilePaths[0]);
+                                                await _audioPlayer.play();
+                                                setState(() {
+                                                  containerAudioPlayingStates[
+                                                      0] = true;
+                                                });
+
+                                                _audioPlayer.playerStateStream
+                                                    .listen((playerState) {
+                                                  if (playerState
+                                                          .processingState ==
+                                                      ProcessingState
+                                                          .completed) {
+                                                    setState(() {
+                                                      containerAudioPlayingStates[
+                                                          0] = false;
+                                                    });
+                                                  }
+                                                });
+                                              }
                                             },
                                       child: Stack(
                                         children: [
@@ -1942,8 +2772,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[5]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: 1),
@@ -1957,10 +2790,39 @@ class Page1State extends State<Page1> {
                                                     5, audioFilePaths[5]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[5]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[5]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    5]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        5] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[5]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        5] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            5] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2004,8 +2866,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[10]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: 1),
@@ -2019,10 +2884,39 @@ class Page1State extends State<Page1> {
                                                     10, audioFilePaths[10]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[10]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[10]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    10]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        10] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[10]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        10] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            10] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2066,8 +2960,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[15]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: 1),
@@ -2081,10 +2978,39 @@ class Page1State extends State<Page1> {
                                                     15, audioFilePaths[15]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[15]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[15]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    15]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        15] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[15]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        15] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            15] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2128,8 +3054,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[20]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: 1),
@@ -2143,10 +3072,39 @@ class Page1State extends State<Page1> {
                                                     20, audioFilePaths[20]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[20]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[20]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    20]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        20] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[20]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        20] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            20] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2190,8 +3148,11 @@ class Page1State extends State<Page1> {
                               ),
                               Expanded(
                                 child: Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
+                                    decoration: BoxDecoration(
+                                      color: containerAudioPlayingStates[25]
+                                          ? AppColors.lightBrandingColor
+                                          : Colors.transparent,
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         right: BorderSide(width: 1),
@@ -2205,10 +3166,39 @@ class Page1State extends State<Page1> {
                                                     25, audioFilePaths[25]);
                                               }
                                             : () async {
-                                                await _audioPlayer.stop();
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[25]);
-                                                await _audioPlayer.play();
+                                                // await _audioPlayer.stop();
+                                                // await _audioPlayer.setAsset(
+                                                //     audioFilePaths[25]);
+                                                // await _audioPlayer.play();
+                                                if (containerAudioPlayingStates[
+                                                    25]) {
+                                                  await _audioPlayer.stop();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        25] = false;
+                                                  });
+                                                } else {
+                                                  await _audioPlayer.setAsset(
+                                                      audioFilePaths[25]);
+                                                  await _audioPlayer.play();
+                                                  setState(() {
+                                                    containerAudioPlayingStates[
+                                                        25] = true;
+                                                  });
+
+                                                  _audioPlayer.playerStateStream
+                                                      .listen((playerState) {
+                                                    if (playerState
+                                                            .processingState ==
+                                                        ProcessingState
+                                                            .completed) {
+                                                      setState(() {
+                                                        containerAudioPlayingStates[
+                                                            25] = false;
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(

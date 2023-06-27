@@ -198,19 +198,19 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
               padding: EdgeInsets.only(
                   left: 10.w, right: 10.w, top: 15.h, bottom: 15.h),
               decoration: BoxDecoration(
-                  color: localization.locale.languageCode == lang.languageCode
-                      ? isDark
-                          ? AppColors.brandingDark
-                          : AppColors.lightBrandingColor
-                      : Colors.transparent,
-                  border: Border.all(
-                      color:
-                          localization.locale.languageCode == lang.languageCode
-                              ? appColors.mainBrandingColor
-                              : isDark
-                                  ? AppColors.grey3
-                                  : AppColors.grey5),
-                  borderRadius: BorderRadius.circular(6.r)),
+                color: localization.locale.languageCode == lang.languageCode
+                    ? isDark
+                        ? AppColors.brandingDark
+                        : AppColors.lightBrandingColor
+                    : Colors.transparent,
+                border: Border.all(
+                    color: localization.locale.languageCode == lang.languageCode
+                        ? appColors.mainBrandingColor
+                        : isDark
+                            ? AppColors.grey3
+                            : AppColors.grey5),
+                borderRadius: BorderRadius.circular(6.r),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
