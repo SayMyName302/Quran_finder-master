@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
-import 'package:nour_al_quran/pages/featured/featured.dart';
+import 'package:nour_al_quran/pages/featured/pages/featured.dart';
+import 'package:nour_al_quran/pages/home/widgets/featured_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/islam_basics_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_miracles_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_stories_section.dart';
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                         child: Text(
                           localeText(context, 'continue_where_you_left_off'),
                           style: TextStyle(
-                              fontSize: 15.sp,
+                              fontSize: 17.sp,
                               fontFamily: 'satoshi',
                               fontWeight: FontWeight.w900),
                         )),
@@ -61,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             lastSeen != null
                 ? const WhereULeftOffWidget()
                 : const SizedBox.shrink(),
-
+            const FeaturedSection(),
             const VerseOfTheDayContainer(),
 
             /// quran Stories Section

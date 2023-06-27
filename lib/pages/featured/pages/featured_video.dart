@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nour_al_quran/pages/featured/models/featured.dart';
+import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/widgets/miracles_content_text.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/widgets/video_player_container.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/widgets/app_bar.dart';
 import '../../settings/pages/notifications/notification_services.dart';
-import '../models/miracles.dart';
-import '../provider/miracles_of_quran_provider.dart';
 
 class MiraclesDetailsPage extends StatefulWidget {
   const MiraclesDetailsPage({Key? key}) : super(key: key);
@@ -20,17 +20,16 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
   void initState() {
     super.initState();
     //  NotificationServices().showNotification();
-    Provider.of<MiraclesOfQuranProvider>(context, listen: false)
-        .initVideoPlayer();
+    Provider.of<FeatureProvider>(context, listen: false).initVideoPlayer();
   }
 
   @override
   Widget build(BuildContext context) {
-    Miracles miracles =
-        context.read<MiraclesOfQuranProvider>().selectedMiracle!;
+    FeaturedModel featuretitle =
+        context.read<FeatureProvider>().selectedFeatureStory!;
     return WillPopScope(
       onWillPop: () async {
-        Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+        Provider.of<FeatureProvider>(context, listen: false)
             .controller
             .dispose();
         return true;
@@ -38,7 +37,7 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
       child: Scaffold(
         appBar: buildAppBar(
             context: context,
-            title: localeText(context, miracles.title!.toLowerCase())),
+            title: localeText(context, featuretitle.storyTitle!.toLowerCase())),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: const [

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../pages/basics_of_quran/models/islam_basics.dart';
@@ -14,7 +15,7 @@ class HomeDb {
   final String _miraclesOfQuranTb = "miracles_of_quran";
   final String _storiesInQuran = "stories_in_quran";
   final String _islamBasicsTb = "islam_basics";
-
+  final String _featured = "featured_all";
   initDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -78,6 +79,20 @@ class HomeDb {
       stories.add(QuranStories.fromJson(map));
     }
     return stories;
+  }
+
+  Future<List<FeaturedModel>> getFeatured() async {
+    List<FeaturedModel> feature = [];
+    _database = await openDb();
+    var table = await _database!.query(_featured);
+    print(
+        "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      feature.add(FeaturedModel.fromJson(map));
+    }
+    print(
+        "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
+    return feature;
   }
 
   // Future<List<Chapters>> getChapters(int id) async {

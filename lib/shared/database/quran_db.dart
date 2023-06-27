@@ -289,16 +289,19 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   Future<QuranText?> getVerseOfTheDay() async {
     var quranTextList = <QuranText>[];
     database = await openDb();
-    var randomSurahId = Random().nextInt(114) + 1;
-    var table = await database!.query(_quranTextTable,
-        where: "surah_id= ?", whereArgs: [randomSurahId], orderBy: "verse_id");
-    for (var rows in table) {
-      var ayahText = QuranText.fromJson(rows);
+    var rows = await database!.query(
+      'quran_text',
+      where: 'verse_of_the_day = ?',
+      whereArgs: ['yes'],
+      orderBy: 'RANDOM()',
+      limit: 1,
+    );
+    for (var row in rows) {
+      var ayahText = QuranText.fromJson(row);
       quranTextList.add(ayahText);
     }
     if (quranTextList.isNotEmpty) {
-      var randomVerse = Random().nextInt(quranTextList.length);
-      return quranTextList[randomVerse];
+      return quranTextList.first;
     } else {
       return null;
     }

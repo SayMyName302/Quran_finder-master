@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -28,9 +29,15 @@ class StoryAndBasicsAudioPlayer extends StatelessWidget {
             context: context,
             font: 16.sp,
             title: localeText(context, "now_playing")),
-        body: Consumer5<ThemProvider, StoryAndBasicPlayerProvider,
-            AppColorsProvider, QuranStoriesProvider, IslamBasicsProvider>(
-          builder: (context, them, player, appColor, story, basics, child) {
+        body: Consumer6<
+            ThemProvider,
+            StoryAndBasicPlayerProvider,
+            AppColorsProvider,
+            QuranStoriesProvider,
+            IslamBasicsProvider,
+            FeatureProvider>(
+          builder:
+              (context, them, player, appColor, story, basics, feature, child) {
             return Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -54,16 +61,23 @@ class StoryAndBasicsAudioPlayer extends StatelessWidget {
                     ),
                     Text(
                       localeText(
-                          context,
-                          fromWhere == "fromStory"
-                              ? story.selectedQuranStory!.storyTitle!
-                                  .toLowerCase()
-                              : basics.selectedIslamBasics!.title!
-                                  .toLowerCase()),
+                        context,
+                        fromWhere == "fromStory"
+                            ? story.selectedQuranStory!.storyTitle!
+                                .toLowerCase()
+                            : fromWhere == "fromFeature"
+                                ? feature.selectedFeatureStory!.storyTitle!
+                                    .toLowerCase()
+                                : fromWhere == "fromBasic"
+                                    ? basics.selectedIslamBasics!.title!
+                                        .toLowerCase()
+                                    : '', // Add an empty string as a fallback
+                      ),
                       style: TextStyle(
-                          fontFamily: 'satoshi',
-                          fontWeight: FontWeight.w900,
-                          fontSize: 22.sp),
+                        fontFamily: 'satoshi',
+                        fontWeight: FontWeight.w900,
+                        fontSize: 22.sp,
+                      ),
                     )
                   ],
                 ),
@@ -119,7 +133,10 @@ class StoryAndBasicsAudioPlayer extends StatelessWidget {
                               if (fromWhere == "fromStory") {
                                 story.goToStoryContentPage(
                                     story.currentStoryIndex, context);
-                              } else {
+                              } else if (fromWhere == "fromFeature") {
+                                feature.goToFeatureContentPage(
+                                    feature.currentFeatureIndex, context);
+                              } else if (fromWhere == "fromBasic") {
                                 basics.goToBasicsContentPage(
                                     basics.currentIslamBasics, context);
                               }

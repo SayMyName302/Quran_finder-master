@@ -129,12 +129,23 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                         borderRadius:
                                             BorderRadius.circular(20.0),
                                       ),
-                                      child: const Align(
-                                        alignment: Alignment.topCenter,
-                                        child: FractionallySizedBox(
-                                          widthFactor: 1.12,
-                                          heightFactor: 0.8,
-                                          child: VideoPlayerWidget(),
+                                      child: const FractionallySizedBox(
+                                        widthFactor: 1.12,
+                                        heightFactor: 0.8,
+                                        child: VideoPlayerWidget(),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 10.0,
+                                      right: 10.0,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                          size: 24.0,
                                         ),
                                       ),
                                     ),
