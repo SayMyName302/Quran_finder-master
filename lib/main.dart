@@ -50,11 +50,13 @@ import 'package:nour_al_quran/shared/utills/app_them.dart';
 import 'package:nour_al_quran/shared/utills/dimensions.dart';
 import 'package:provider/provider.dart';
 
+import 'pages/featured/provider/featured_provider.dart';
 import 'pages/paywall/paywal_provider.dart';
 
 void main() async {
   await Global.init();
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => FeatureProvider()),
     ChangeNotifierProvider(create: (_) => PremiumScreenProvider()),
     ChangeNotifierProvider(create: (_) => recentProvider()),
     ChangeNotifierProvider(create: (_) => LastReadProvider()),

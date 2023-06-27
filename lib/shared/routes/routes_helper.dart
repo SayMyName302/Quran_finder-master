@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:nour_al_quran/pages/featured/pages/featured.dart';
+import 'package:nour_al_quran/pages/featured/pages/featured_content_page.dart';
+import 'package:nour_al_quran/pages/featured/widgets/featured_list.dart';
 import 'package:nour_al_quran/pages/more/pages/names_of_allah/name_of_allah_page.dart';
 import 'package:nour_al_quran/pages/more/pages/qibla_direction/qibla_direction.dart';
 import 'package:nour_al_quran/pages/more/pages/salah_timer/salah_timer_page.dart';
@@ -56,6 +59,8 @@ class RouteHelper {
   static const String setFavReciter = "/setFavReciter";
   static const String paywallscreen = "/paywall";
   static const String paywallscreen2 = "/paywall2";
+  static const String featured = "/featuredList";
+  static const String featureDetails = "/featuredDetailPage";
   static late BuildContext currentContext;
   static bool paywallVisibility = true;
 
@@ -148,6 +153,10 @@ class RouteHelper {
         currentContext = context;
         return const DuaCategoriesMain();
       },
+      featured: (context) {
+        currentContext = context;
+        return const FeaturedPage();
+      },
       duaDetailed: (context) {
         currentContext = context;
         return const DuaDetail();
@@ -158,7 +167,10 @@ class RouteHelper {
           selectedIndex: 0,
         );
       },
-
+      featureDetails: (context) {
+        currentContext = context;
+        return const FeaturedDetailsPage();
+      },
       ruqyahDetailed: (context) {
         currentContext = context;
         return const RuqyahDetail();

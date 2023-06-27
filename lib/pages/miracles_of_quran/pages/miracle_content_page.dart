@@ -16,25 +16,29 @@ class MiraclesDetailsPage extends StatefulWidget {
 }
 
 class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
-
   @override
   void initState() {
     super.initState();
-    NotificationServices().showNotification();
-    Provider.of<MiraclesOfQuranProvider>(context,listen: false).initVideoPlayer();
+    //  NotificationServices().showNotification();
+    Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+        .initVideoPlayer();
   }
-
 
   @override
   Widget build(BuildContext context) {
-    Miracles miracles = context.read<MiraclesOfQuranProvider>().selectedMiracle!;
+    Miracles miracles =
+        context.read<MiraclesOfQuranProvider>().selectedMiracle!;
     return WillPopScope(
-      onWillPop: ()async{
-        Provider.of<MiraclesOfQuranProvider>(context,listen: false).controller.dispose();
+      onWillPop: () async {
+        Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+            .controller
+            .dispose();
         return true;
       },
       child: Scaffold(
-        appBar: buildAppBar(context: context,title: localeText(context, miracles.title!.toLowerCase())),
+        appBar: buildAppBar(
+            context: context,
+            title: localeText(context, miracles.title!.toLowerCase())),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: const [
@@ -45,7 +49,6 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
       ),
     );
   }
-
 
   // checkNetwork() async{
   //   final Connectivity connectivity = Connectivity();

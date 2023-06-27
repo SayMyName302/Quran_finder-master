@@ -1,8 +1,4 @@
-import 'package:hive/hive.dart';
-
-import '../../../shared/utills/app_constants.dart';
-
-class QuranStories{
+class QuranStories {
   int? _storyId;
   String? _storyTitle;
   String? _image;
@@ -16,7 +12,12 @@ class QuranStories{
   String? get audioUrl => _audioUrl;
   String? get text => _text;
 
-  QuranStories({required storyId, required storyTitle, required image,required audio,required text}){
+  QuranStories(
+      {required storyId,
+      required storyTitle,
+      required image,
+      required audio,
+      required text}) {
     _storyId = storyId;
     _storyTitle = storyTitle;
     _image = image;
@@ -24,13 +25,11 @@ class QuranStories{
     _text = text;
   }
 
-  QuranStories.fromJson(Map<String,dynamic> json){
+  QuranStories.fromJson(Map<String, dynamic> json) {
     _storyId = json['story_id'];
     _storyTitle = json['story_title'];
     _image = json['app_image_url'];
     _audioUrl = json['content_url'];
     _text = json['text'];
   }
-
-
 }

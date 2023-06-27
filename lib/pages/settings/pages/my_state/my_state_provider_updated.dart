@@ -83,7 +83,7 @@ class MyStateProvider extends ChangeNotifier {
   /// that db where we have 4 tables for each section
   initUserDb() async {
     var dbPath = await getDatabasesPath();
-    var path = join(dbPath, 'user_data.db');
+    var path = join(dbPath, 'masterdb.db');
 
     /// Check if the database file already exists in the documents directory
     var exists = await databaseExists(path);
@@ -93,7 +93,7 @@ class MyStateProvider extends ChangeNotifier {
       } catch (_) {}
 
       /// Copy the database file from the assets folder
-      ByteData data = await rootBundle.load(join('assets', 'user_data.db'));
+      ByteData data = await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
@@ -105,7 +105,7 @@ class MyStateProvider extends ChangeNotifier {
   /// this method is used to open db to perform operation
   Future<Database> _openDb() async {
     var dbPath = await getDatabasesPath();
-    var path = join(dbPath, 'user_data.db');
+    var path = join(dbPath, 'masterdb.db');
     return await openDatabase(path, readOnly: false);
   }
 
