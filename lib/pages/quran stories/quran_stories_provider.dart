@@ -31,9 +31,10 @@ class QuranStoriesProvider extends ChangeNotifier {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  goToStoryContentPage(int index, BuildContext context) {
+  void goToStoryContentPage(int index, BuildContext context) {
     _currentStoryIndex = index;
-    _selectedQuranStory = _stories[index];
+    _selectedQuranStory =
+        _stories[index]; // Move the selected story to the end of the list
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.storyDetails);
   }

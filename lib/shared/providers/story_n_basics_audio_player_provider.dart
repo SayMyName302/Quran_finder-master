@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
-class StoryAndBasicPlayerProvider extends ChangeNotifier{
+class StoryAndBasicPlayerProvider extends ChangeNotifier {
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
   double? _dragValue;
@@ -23,22 +23,33 @@ class StoryAndBasicPlayerProvider extends ChangeNotifier{
   double get speed => _speed;
   Duration? _lastPosition;
 
-  setImage(String image){
+  setImage(String image) {
     _image = image;
     notifyListeners();
   }
-  void initAudioPlayer(String url,String image,BuildContext context) async {
+
+  void initAudioPlayer(String url, String image, BuildContext context) async {
     setImage(image);
-    if(_audioPlayer == null){
-      _init(url,context);
-    }else{
+    if (_audioPlayer == null) {
+      _init(url, context);
+    } else {
       _audioPlayer!.stop();
       _audioPlayer = null;
-      _init(url,context);
+      _init(url, context);
     }
   }
 
-  setInitData(String url){
+  void initAudioPlayer2(String url, BuildContext context) async {
+    if (_audioPlayer == null) {
+      _init(url, context);
+    } else {
+      _audioPlayer!.stop();
+      _audioPlayer = null;
+      _init(url, context);
+    }
+  }
+
+  setInitData(String url) {
     _audioUrl = url;
     isLoading = true;
     _position = Duration.zero;
@@ -46,48 +57,54 @@ class StoryAndBasicPlayerProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void _init(String url,BuildContext context) async{
+  void _init(String url, BuildContext context) async {
     /// to reset all the previous position and data
     setInitData(url);
+
     /// init audio player
     _audioPlayer = AudioPlayer();
-      try{
-        await _audioPlayer!.setUrl(url);
-      }on PlatformException catch(e){
-        ScaffoldMessenger.of(context)..removeCurrentSnackBar()..showSnackBar(SnackBar(content: Text(e.message!)));
-      } catch (e){
-        ScaffoldMessenger.of(context)..removeCurrentSnackBar()..showSnackBar(const SnackBar(content: Text('Error Occur')));
+    try {
+      await _audioPlayer!.setUrl(url);
+    } on PlatformException catch (e) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(e.message!)));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(const SnackBar(content: Text('Error Occur')));
+    }
+    _audioPlayer!.playerStateStream.listen((event) {
+      setIsPlaying(event.playing);
+      if (event.processingState == ProcessingState.buffering) {
+        _lastPosition = _position;
+        isLoading = true;
+        _isPlaying = false;
+        notifyListeners();
+      } else if (event.processingState == ProcessingState.loading) {
+        isLoading = true;
+        notifyListeners();
+      } else if (event.processingState == ProcessingState.ready) {
+        isLoading = false;
+        notifyListeners();
+      } else if (event.processingState == ProcessingState.completed) {
+        _audioPlayer!.seek(Duration.zero);
+        _audioPlayer!.pause();
       }
-      _audioPlayer!.playerStateStream.listen((event) {
-        setIsPlaying(event.playing);
-        if(event.processingState == ProcessingState.buffering){
-          _lastPosition = _position;
-          isLoading = true;
-          _isPlaying = false;
-          notifyListeners();
-        }else if(event.processingState == ProcessingState.loading){
-          isLoading = true;
-          notifyListeners();
-        } else if (event.processingState == ProcessingState.ready) {
-          isLoading = false;
-          notifyListeners();
-        }else if (event.processingState == ProcessingState.completed) {
-          _audioPlayer!.seek(Duration.zero);
-          _audioPlayer!.pause();
-        }
-      });
+    });
 
-      _audioPlayer!.durationStream.listen((duration) {
-        if(duration != null){
-          setDuration(duration);
-        }
-      });
-      _audioPlayer!.positionStream.listen((position) {
-        setPosition(position);
-      });
+    _audioPlayer!.durationStream.listen((duration) {
+      if (duration != null) {
+        setDuration(duration);
+      }
+    });
+    _audioPlayer!.positionStream.listen((position) {
+      setPosition(position);
+    });
     // await _audioPlayer!.setFilePath(file);
     // Catching errors during playback (e.g. lost network connection)
-    _audioPlayer!.playbackEventStream.listen((state) {}, onError: (Object e, StackTrace st) {
+    _audioPlayer!.playbackEventStream.listen((state) {},
+        onError: (Object e, StackTrace st) {
       if (e is PlayerException) {
         // ScaffoldMessenger.of(RouteHelper.currentContext).showSnackBar(SnackBar(content: Text(e.message!)));
         // print('Error --> ${e.message}');
@@ -97,15 +114,17 @@ class StoryAndBasicPlayerProvider extends ChangeNotifier{
         print('An error occurred: $e');
       }
     });
-
   }
 
-  checkNetwork() async{
+  checkNetwork() async {
     final Connectivity connectivity = Connectivity();
-    ConnectivityResult connectivityResult = await connectivity.checkConnectivity();
-    connectivity.onConnectivityChanged.listen((ConnectivityResult result) async{
+    ConnectivityResult connectivityResult =
+        await connectivity.checkConnectivity();
+    connectivity.onConnectivityChanged
+        .listen((ConnectivityResult result) async {
       connectivityResult = result;
-      if(connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi){
+      if (connectivityResult == ConnectivityResult.mobile ||
+          connectivityResult == ConnectivityResult.wifi) {
         await _audioPlayer!.setUrl(_audioUrl);
         _audioPlayer!.seek(_lastPosition);
         await _audioPlayer!.play();
@@ -113,10 +132,10 @@ class StoryAndBasicPlayerProvider extends ChangeNotifier{
     });
   }
 
-  setSpeed(){
+  setSpeed() {
     _speed = _speed + 0.5;
     _audioPlayer!.setSpeed(_speed);
-    if(_speed > 2.0){
+    if (_speed > 2.0) {
       _speed = 0.5;
       _audioPlayer!.setSpeed(1.0);
     }
@@ -138,12 +157,12 @@ class StoryAndBasicPlayerProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setDuration(Duration duration){
+  void setDuration(Duration duration) {
     _duration = duration;
     notifyListeners();
   }
 
-  void setPosition(Duration position){
+  void setPosition(Duration position) {
     _position = position;
     notifyListeners();
   }
@@ -153,8 +172,8 @@ class StoryAndBasicPlayerProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void closePlayer(){
-    if(_isPlaying){
+  void closePlayer() {
+    if (_isPlaying) {
       _isPlaying = false;
       notifyListeners();
       _audioPlayer!.stop();
