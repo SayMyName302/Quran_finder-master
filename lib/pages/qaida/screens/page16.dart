@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
+import '../../../shared/utills/app_colors.dart';
+
 class Page16 extends StatefulWidget {
   bool isMultipleSelectionEnabled;
   final Function(bool) updateMultipleSelectionEnabled;
@@ -38,6 +40,44 @@ class Page16State extends State<Page16> {
   int? _startIndex;
   int? _endIndex;
   bool _isPlaying = false;
+
+  List<bool> containerAudioPlayingStates = List.generate(14, (_) => false);
+  int currentlyPlayingIndex = -1;
+
+  void playSingleAudio(int index) async {
+    if (containerAudioPlayingStates[index]) {
+      await _audioPlayer.stop();
+      setState(() {
+        containerAudioPlayingStates[index] = false;
+      });
+    } else {
+      final String audioPath = audioFilePaths[index];
+
+      if (_audioPlayer.playing) {
+        await _audioPlayer.stop();
+      }
+
+      await _audioPlayer.setAsset(audioPath);
+
+      _audioPlayer.playerStateStream.listen((state) {
+        if (state.processingState == ProcessingState.completed) {
+          setState(() {
+            containerAudioPlayingStates[index] = false;
+          });
+        }
+      });
+
+      setState(() {
+        if (currentlyPlayingIndex != -1) {
+          containerAudioPlayingStates[currentlyPlayingIndex] = false;
+        }
+        containerAudioPlayingStates[index] = true;
+        currentlyPlayingIndex = index;
+      });
+
+      await _audioPlayer.play();
+    }
+  }
 
   void _toggleSelection(int index, String filePath) {
     if (_startIndex != null && _endIndex != null) {
@@ -139,8 +179,11 @@ class Page16State extends State<Page16> {
                       children: [
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[1]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
@@ -152,10 +195,7 @@ class Page16State extends State<Page16> {
                                               1, audioFilePaths[1]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[1]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(1);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -199,8 +239,11 @@ class Page16State extends State<Page16> {
                         ),
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[0]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
                               ),
@@ -211,10 +254,7 @@ class Page16State extends State<Page16> {
                                               0, audioFilePaths[0]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[0]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(0);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -265,8 +305,11 @@ class Page16State extends State<Page16> {
                       children: [
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[3]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
@@ -278,10 +321,7 @@ class Page16State extends State<Page16> {
                                               3, audioFilePaths[3]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[3]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(3);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -325,8 +365,11 @@ class Page16State extends State<Page16> {
                         ),
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[2]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
                               ),
@@ -337,10 +380,7 @@ class Page16State extends State<Page16> {
                                               2, audioFilePaths[2]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[2]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(2);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -391,8 +431,11 @@ class Page16State extends State<Page16> {
                       children: [
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[5]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1)),
                               ),
@@ -403,10 +446,7 @@ class Page16State extends State<Page16> {
                                               5, audioFilePaths[5]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[5]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(5);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -450,8 +490,12 @@ class Page16State extends State<Page16> {
                         ),
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(right: BorderSide(width: 1)),
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[4]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border:
+                                    const Border(right: BorderSide(width: 1)),
                               ),
                               child: InkWell(
                                   onTap: widget.isMultipleSelectionEnabled
@@ -460,10 +504,7 @@ class Page16State extends State<Page16> {
                                               4, audioFilePaths[4]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[4]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(4);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -514,8 +555,11 @@ class Page16State extends State<Page16> {
                       children: [
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[7]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     top: BorderSide(width: 1),
                                     left: BorderSide(width: 1)),
@@ -527,10 +571,7 @@ class Page16State extends State<Page16> {
                                               7, audioFilePaths[7]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[7]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(7);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -574,8 +615,11 @@ class Page16State extends State<Page16> {
                         ),
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[6]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                   right: BorderSide(width: 1),
                                   top: BorderSide(width: 1),
                                 ),
@@ -587,10 +631,7 @@ class Page16State extends State<Page16> {
                                               6, audioFilePaths[6]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[6]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(6);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -667,8 +708,11 @@ class Page16State extends State<Page16> {
                       children: [
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[10]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
@@ -680,10 +724,7 @@ class Page16State extends State<Page16> {
                                               10, audioFilePaths[10]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[10]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(10);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -727,8 +768,11 @@ class Page16State extends State<Page16> {
                         ),
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[9]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
                               ),
@@ -739,10 +783,7 @@ class Page16State extends State<Page16> {
                                               9, audioFilePaths[9]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[9]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(9);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -786,8 +827,11 @@ class Page16State extends State<Page16> {
                         ),
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[8]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
                               ),
@@ -798,10 +842,7 @@ class Page16State extends State<Page16> {
                                               8, audioFilePaths[8]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[8]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(8);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -852,8 +893,11 @@ class Page16State extends State<Page16> {
                       children: [
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[13]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
@@ -865,10 +909,7 @@ class Page16State extends State<Page16> {
                                               13, audioFilePaths[13]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[13]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(13);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -912,8 +953,11 @@ class Page16State extends State<Page16> {
                         ),
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[12]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
                               ),
@@ -924,10 +968,7 @@ class Page16State extends State<Page16> {
                                               12, audioFilePaths[12]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[12]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(12);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(
@@ -971,8 +1012,11 @@ class Page16State extends State<Page16> {
                         ),
                         Expanded(
                           child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
+                              decoration: BoxDecoration(
+                                color: containerAudioPlayingStates[11]
+                                    ? AppColors.lightBrandingColor
+                                    : Colors.transparent,
+                                border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
                               ),
@@ -983,10 +1027,7 @@ class Page16State extends State<Page16> {
                                               11, audioFilePaths[11]);
                                         }
                                       : () async {
-                                          await _audioPlayer.stop();
-                                          await _audioPlayer
-                                              .setAsset(audioFilePaths[11]);
-                                          await _audioPlayer.play();
+                                          playSingleAudio(11);
                                         },
                                   child: Stack(children: [
                                     FractionallySizedBox(

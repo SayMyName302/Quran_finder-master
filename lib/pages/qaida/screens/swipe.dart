@@ -23,7 +23,6 @@ import 'package:nour_al_quran/pages/qaida/screens/pageindex.dart';
 import 'package:nour_al_quran/pages/qaida/screens/qaidaplayer.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 
-import '../../../shared/routes/routes_helper.dart';
 import '../../../shared/widgets/app_bar.dart';
 
 class SwipePages extends StatefulWidget {
