@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -32,11 +31,10 @@ class Page1State extends State<Page1> {
   List<String> _selectedAudioFiles = [];
   // ignore: prefer_final_fields
   Set<int> _selectedContainers = {};
-  List<bool> containerAudioPlayingStates = List.generate(
-    30,
-    (_) => false,
-  );
-  // int currentPlayingIndex = -1;
+
+  List<bool> containerAudioPlayingStates = List.generate(30, (_) => false);
+  int currentlyPlayingIndex = -1;
+
   List<String> audioFilePaths = [
     'assets/images/qaida/page1/alif.mp3',
     'assets/images/qaida/page1/baa1.mp3',
@@ -142,6 +140,41 @@ class Page1State extends State<Page1> {
     }
   }
 
+  void playSingleAudio(int index) async {
+    if (containerAudioPlayingStates[index]) {
+      await _audioPlayer.stop();
+      setState(() {
+        containerAudioPlayingStates[index] = false;
+      });
+    } else {
+      final String audioPath = audioFilePaths[index];
+
+      if (_audioPlayer.playing) {
+        await _audioPlayer.stop();
+      }
+
+      await _audioPlayer.setAsset(audioPath);
+
+      _audioPlayer.playerStateStream.listen((state) {
+        if (state.processingState == ProcessingState.completed) {
+          setState(() {
+            containerAudioPlayingStates[index] = false;
+          });
+        }
+      });
+
+      setState(() {
+        if (currentlyPlayingIndex != -1) {
+          containerAudioPlayingStates[currentlyPlayingIndex] = false;
+        }
+        containerAudioPlayingStates[index] = true;
+        currentlyPlayingIndex = index;
+      });
+
+      await _audioPlayer.play();
+    }
+  }
+
   // void _showOverlay(String imagePath, RenderBox containerRenderBox) {
   //   setState(() {
   //     if (_overlayEntry != null) {
@@ -224,7 +257,6 @@ class Page1State extends State<Page1> {
   Widget build(BuildContext context) {
     // var appColors = context.read<AppColorsProvider>();
     // var isDark = context.read<ThemProvider>().isDark;
-
     // AudioPlayerManager _audioPlayerManager = AudioPlayerManager();
     return Scaffold(
       body: Padding(
@@ -351,35 +383,7 @@ class Page1State extends State<Page1> {
                                             //     isAudioPlaying = true;
                                             //   });
                                             // }
-
-                                            if (containerAudioPlayingStates[
-                                                4]) {
-                                              await _audioPlayer.stop();
-                                              setState(() {
-                                                containerAudioPlayingStates[4] =
-                                                    false;
-                                              });
-                                            } else {
-                                              await _audioPlayer
-                                                  .setAsset(audioFilePaths[4]);
-                                              await _audioPlayer.play();
-                                              setState(() {
-                                                containerAudioPlayingStates[4] =
-                                                    true;
-                                              });
-
-                                              _audioPlayer.playerStateStream
-                                                  .listen((playerState) {
-                                                if (playerState
-                                                        .processingState ==
-                                                    ProcessingState.completed) {
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        4] = false;
-                                                  });
-                                                }
-                                              });
-                                            }
+                                            playSingleAudio(4);
                                           },
                                     child: Stack(
                                       children: [
@@ -460,35 +464,7 @@ class Page1State extends State<Page1> {
                                                 //     audioFilePaths[9]);
                                                 // await _audioPlayer.play();
                                                 // //    _hideOverlay();
-                                                if (containerAudioPlayingStates[
-                                                    9]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        9] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[9]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        9] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            9] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(9);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -537,7 +513,7 @@ class Page1State extends State<Page1> {
                                       color: containerAudioPlayingStates[14]
                                           ? AppColors.lightBrandingColor
                                           : Colors.transparent,
-                                      border: Border(
+                                      border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 0.5),
                                         bottom: BorderSide(width: 0.5),
@@ -565,35 +541,7 @@ class Page1State extends State<Page1> {
                                                 //     audioFilePaths[14]);
                                                 // await _audioPlayer.play();
                                                 // //       _hideOverlay();
-                                                if (containerAudioPlayingStates[
-                                                    14]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        14] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[14]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        14] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            14] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(14);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -670,35 +618,7 @@ class Page1State extends State<Page1> {
                                                 //     audioFilePaths[19]);
                                                 // await _audioPlayer.play();
                                                 // //    _hideOverlay();
-                                                if (containerAudioPlayingStates[
-                                                    19]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        19] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[19]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        19] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            19] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(19);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -775,35 +695,7 @@ class Page1State extends State<Page1> {
                                                 //     audioFilePaths[24]);
                                                 // await _audioPlayer.play();
                                                 // //      _hideOverlay();
-                                                if (containerAudioPlayingStates[
-                                                    24]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        24] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[24]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        24] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            24] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(24);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -880,35 +772,7 @@ class Page1State extends State<Page1> {
                                                 //     audioFilePaths[29]);
                                                 // await _audioPlayer.play();
                                                 // //       _hideOverlay();
-                                                if (containerAudioPlayingStates[
-                                                    29]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        29] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[29]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        29] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            29] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(29);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -993,35 +857,7 @@ class Page1State extends State<Page1> {
                                               //     .setAsset(audioFilePaths[3]);
                                               // await _audioPlayer.play();
                                               // //      _hideOverlay();
-                                              if (containerAudioPlayingStates[
-                                                  3]) {
-                                                await _audioPlayer.stop();
-                                                setState(() {
-                                                  containerAudioPlayingStates[
-                                                      3] = false;
-                                                });
-                                              } else {
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[3]);
-                                                await _audioPlayer.play();
-                                                setState(() {
-                                                  containerAudioPlayingStates[
-                                                      3] = true;
-                                                });
-
-                                                _audioPlayer.playerStateStream
-                                                    .listen((playerState) {
-                                                  if (playerState
-                                                          .processingState ==
-                                                      ProcessingState
-                                                          .completed) {
-                                                    setState(() {
-                                                      containerAudioPlayingStates[
-                                                          3] = false;
-                                                    });
-                                                  }
-                                                });
-                                              }
+                                              playSingleAudio(3);
                                             },
                                       child: Stack(
                                         children: [
@@ -1090,35 +926,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[8]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    8]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        8] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[8]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        8] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            8] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(8);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1184,35 +992,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[13]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    13]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        13] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[13]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        13] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            13] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(13);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1278,35 +1058,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[18]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    18]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        18] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[18]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        18] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            18] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(18);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1372,35 +1124,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[23]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    23]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        23] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[23]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        23] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            23] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(23);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1466,35 +1190,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[28]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    28]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        28] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[28]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        28] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            28] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(28);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1566,35 +1262,7 @@ class Page1State extends State<Page1> {
                                               // await _audioPlayer
                                               //     .setAsset(audioFilePaths[2]);
                                               // await _audioPlayer.play();
-                                              if (containerAudioPlayingStates[
-                                                  2]) {
-                                                await _audioPlayer.stop();
-                                                setState(() {
-                                                  containerAudioPlayingStates[
-                                                      2] = false;
-                                                });
-                                              } else {
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[2]);
-                                                await _audioPlayer.play();
-                                                setState(() {
-                                                  containerAudioPlayingStates[
-                                                      2] = true;
-                                                });
-
-                                                _audioPlayer.playerStateStream
-                                                    .listen((playerState) {
-                                                  if (playerState
-                                                          .processingState ==
-                                                      ProcessingState
-                                                          .completed) {
-                                                    setState(() {
-                                                      containerAudioPlayingStates[
-                                                          2] = false;
-                                                    });
-                                                  }
-                                                });
-                                              }
+                                              playSingleAudio(2);
                                             },
                                       child: Stack(
                                         children: [
@@ -1661,35 +1329,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[7]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    7]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        7] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[7]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        7] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            7] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(7);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1753,35 +1393,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[12]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    12]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        12] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[12]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        12] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            12] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(12);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1845,35 +1457,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[17]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    17]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        17] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[17]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        17] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            17] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(17);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -1937,35 +1521,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[22]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    22]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        22] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[22]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        22] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            22] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(22);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2029,35 +1585,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[27]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    27]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        27] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[27]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        27] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            27] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(27);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2129,35 +1657,7 @@ class Page1State extends State<Page1> {
                                               // await _audioPlayer
                                               //     .setAsset(audioFilePaths[1]);
                                               // await _audioPlayer.play();
-                                              if (containerAudioPlayingStates[
-                                                  1]) {
-                                                await _audioPlayer.stop();
-                                                setState(() {
-                                                  containerAudioPlayingStates[
-                                                      1] = false;
-                                                });
-                                              } else {
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[1]);
-                                                await _audioPlayer.play();
-                                                setState(() {
-                                                  containerAudioPlayingStates[
-                                                      1] = true;
-                                                });
-
-                                                _audioPlayer.playerStateStream
-                                                    .listen((playerState) {
-                                                  if (playerState
-                                                          .processingState ==
-                                                      ProcessingState
-                                                          .completed) {
-                                                    setState(() {
-                                                      containerAudioPlayingStates[
-                                                          1] = false;
-                                                    });
-                                                  }
-                                                });
-                                              }
+                                              playSingleAudio(1);
                                             },
                                       child: Stack(
                                         children: [
@@ -2225,35 +1725,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[6]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    6]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        6] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[6]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        6] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            6] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(6);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2318,35 +1790,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[11]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    11]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        11] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[11]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        11] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            11] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(11);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2411,35 +1855,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[16]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    16]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        16] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[16]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        16] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            16] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(16);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2504,35 +1920,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[21]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    21]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        21] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[21]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        21] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            21] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(21);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2597,35 +1985,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[26]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    26]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        26] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[26]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        26] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            26] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(26);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2697,35 +2057,7 @@ class Page1State extends State<Page1> {
                                               // await _audioPlayer
                                               //     .setAsset(audioFilePaths[0]);
                                               // await _audioPlayer.play();
-                                              if (containerAudioPlayingStates[
-                                                  0]) {
-                                                await _audioPlayer.stop();
-                                                setState(() {
-                                                  containerAudioPlayingStates[
-                                                      0] = false;
-                                                });
-                                              } else {
-                                                await _audioPlayer.setAsset(
-                                                    audioFilePaths[0]);
-                                                await _audioPlayer.play();
-                                                setState(() {
-                                                  containerAudioPlayingStates[
-                                                      0] = true;
-                                                });
-
-                                                _audioPlayer.playerStateStream
-                                                    .listen((playerState) {
-                                                  if (playerState
-                                                          .processingState ==
-                                                      ProcessingState
-                                                          .completed) {
-                                                    setState(() {
-                                                      containerAudioPlayingStates[
-                                                          0] = false;
-                                                    });
-                                                  }
-                                                });
-                                              }
+                                              playSingleAudio(0);
                                             },
                                       child: Stack(
                                         children: [
@@ -2794,35 +2126,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[5]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    5]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        5] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[5]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        5] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            5] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(5);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2888,35 +2192,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[10]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    10]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        10] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[10]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        10] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            10] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(10);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -2982,35 +2258,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[15]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    15]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        15] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[15]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        15] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            15] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(15);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -3076,35 +2324,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[20]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    20]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        20] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[20]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        20] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            20] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(20);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
@@ -3170,35 +2390,7 @@ class Page1State extends State<Page1> {
                                                 // await _audioPlayer.setAsset(
                                                 //     audioFilePaths[25]);
                                                 // await _audioPlayer.play();
-                                                if (containerAudioPlayingStates[
-                                                    25]) {
-                                                  await _audioPlayer.stop();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        25] = false;
-                                                  });
-                                                } else {
-                                                  await _audioPlayer.setAsset(
-                                                      audioFilePaths[25]);
-                                                  await _audioPlayer.play();
-                                                  setState(() {
-                                                    containerAudioPlayingStates[
-                                                        25] = true;
-                                                  });
-
-                                                  _audioPlayer.playerStateStream
-                                                      .listen((playerState) {
-                                                    if (playerState
-                                                            .processingState ==
-                                                        ProcessingState
-                                                            .completed) {
-                                                      setState(() {
-                                                        containerAudioPlayingStates[
-                                                            25] = false;
-                                                      });
-                                                    }
-                                                  });
-                                                }
+                                                playSingleAudio(25);
                                               },
                                         child: Stack(children: [
                                           FractionallySizedBox(
