@@ -25,7 +25,7 @@ class FeatureProvider extends ChangeNotifier {
   SharedPreferences? _preferences;
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
-    _loadStoriesOrder();
+    // _loadStoriesOrder();
     notifyListeners();
   }
 
@@ -49,6 +49,7 @@ class FeatureProvider extends ChangeNotifier {
     _selectedFeatureStory = _feature[index];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.featureDetails);
+    _moveStoryToEnd(index);
   }
 
   gotoFeaturePlayerPage(int storyId, BuildContext context, int index) {
@@ -58,11 +59,10 @@ class FeatureProvider extends ChangeNotifier {
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(
             _selectedFeatureStory!.audioUrl!,
-            "assets/images/quran_stories/${selectedFeatureStory!.image}",
+            "assets/images/quran_feature/${selectedFeatureStory!.image}",
             context);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
-    _moveStoryToEnd(index);
   }
 
   void _moveStoryToEnd(int index) {
@@ -80,24 +80,24 @@ class FeatureProvider extends ChangeNotifier {
     _preferences?.setStringList('feature_order', order);
   }
 
-  void _loadStoriesOrder() async {
-    final List<String>? order = _preferences?.getStringList('feature_order');
+  // void _loadStoriesOrder() async {
+  //   final List<String>? order = _preferences?.getStringList('feature_order');
 
-    if (order != null && order.isNotEmpty) {
-      // Add a check for non-empty order
-      final List<FeaturedModel> sortedStories = [];
-      for (final storyTitle in order) {
-        final story = _feature.firstWhere(
-          (m) => m.storyTitle == storyTitle,
-        );
-        if (story != null) {
-          sortedStories.add(story);
-        }
-      }
-      _feature = sortedStories;
-      notifyListeners();
-    }
-  }
+  //   if (order != null && order.isNotEmpty) {
+  //     // Add a check for non-empty order
+  //     final List<FeaturedModel> sortedStories = [];
+  //     for (final storyTitle in order) {
+  //       final story = _feature.firstWhere(
+  //         (m) => m.storyTitle == storyTitle,
+  //       );
+  //       if (story != null) {
+  //         sortedStories.add(story);
+  //       }
+  //     }
+  //     _feature = sortedStories;
+  //     notifyListeners();
+  //   }
+  // }
 
   void setVideoFile(File video) {
     _videoUrl = video;

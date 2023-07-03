@@ -30,9 +30,7 @@
   "reading_bookmarks": "Reading Bookmarks",
   "favorite_reciters": "Favorite Reciters",
   "more": "More",
-  "dashboard": "Dashboard",
-  "library": "Library",
-  "history": "History",
+
   "featured": "Featured",
   "trending": "Trending",
   "hajjandumrah": "Hajj & Umrah",
@@ -135,7 +133,7 @@
   "abdul_rahman_al-sudais": "Abdul Rahman Al-Sudais",
   "saad_el_ghamidi": "Saad El Ghamidi",
   "abdul_basit": "Abdul Basit",
-  "delete_profile": "Delete Profile",
+
   "abdullah_awad_al_juhany": "Abdullah Awad Al-Juhany",
   "yaseen": "Yaseen",
   "alkahf": "Alkahf",
@@ -277,7 +275,7 @@
   "km": "km",
   "px": "px",
   "unlimted_access_for_15_days": "Unlimted Access for 15 Days",
-  "qibla_degrees": "Qibla :",
+
   "arabic_font": "Arabic Font",
   "login_to_get_started": "Login to Get Started",
   "enter_your_email": "Enter Your Email",
@@ -402,5 +400,16 @@
   "gender_of_a_newborn_child": "Gender of a newborn child",
   "embryo": "Embryo",
   "fetal_development": "Fetal Development",
-  "miscarriage_linked_to_stress": "Miscarriage Linked to Stress"
+  "miscarriage_linked_to_stress": "Miscarriage Linked to Stress",
+
+  "dashboard": "Dashboard",
+  "library": "Library",
+  "history": "History",
+  "delete_profile": "Delete Profile",
+  "clear_userdata": "Clear User Data",
+
+  "compass": "Compass",
+  "arrow": "Arrow",
+  "map": "Map",
+  "qibla_degrees": "Qibla :"
 }

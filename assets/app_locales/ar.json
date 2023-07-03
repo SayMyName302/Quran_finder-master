@@ -358,5 +358,15 @@
   "genderofnewbornchild": "جنس المولود الجديد",
   "embryo": "الجنين",
   "fetal_development": "نمو الجنين",
-  "miscarriage_linked_to_stress": "الإجهاض المرتبط بالتوتر"
+  "miscarriage_linked_to_stress": "الإجهاض المرتبط بالتوتر",
+
+  "dashboard": "لوحة القيادة",
+  "library": "مكتبة",
+  "history": "تاريخ",
+  "delete_profile": "حذف الملف الشخصي",
+  "clear_userdata": "امسح بيانات المستخدم",
+  "compass": "بوصلة",
+  "arrow": "سهم",
+  "map": "خريطة",
+  "qibla_degrees": "القبلة:"
 }

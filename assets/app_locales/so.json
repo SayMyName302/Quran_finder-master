@@ -357,5 +357,15 @@
   "genderofnewbornchild": "Jinsiga ilmaha hadda dhashay",
   "Embryo": "Embriyo",
   "Fetal_Development": "Koritaanka uurjiifka",
-  "Miscarriage_Linked_to_Stress": "Dhicis oo ku xidhan Cadaadiska"
+  "Miscarriage_Linked_to_Stress": "Dhicis oo ku xidhan Cadaadiska",
+  "dashboard": "dashboard",
+  "library": "maktabad",
+  "history": "taariikhda",
+  "delete_profile": "delete profile",
+  "clear_userdata": "Nadiifi Xogta Isticmaalaha",
+
+  "compass": "kombuyuutar",
+  "arrow": "fallaadho",
+  "map": "khariidad",
+  "qibla_degrees": "Qibla :"
 }

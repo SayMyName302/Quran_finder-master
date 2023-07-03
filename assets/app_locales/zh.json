@@ -357,5 +357,15 @@
   "genderofnewbornchild": "新生儿性别",
   "embryo": "胚胎",
   "fetal_development": "胎儿发育",
-  "miscarriage_Linked_to_stress": "与压力有关的流产"
+  "miscarriage_Linked_to_stress": "与压力有关的流产",
+  "dashboard": "仪表板",
+  "library": "图书馆",
+  "history": "历史",
+  "delete_profile": "删除个人资料",
+  "clear_userdata": "清除效果数据",
+
+  "compass": "罗盘",
+  "arrow": "罗盘",
+  "map": "地图",
+  "qibla_degrees": "朝拜："
 }

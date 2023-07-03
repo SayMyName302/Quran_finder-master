@@ -357,5 +357,16 @@
   "genderofnewbornchild": "Geschlecht eines Neugeborenen",
   "embryo": "Embryo",
   "fetal_development": "Entwicklung des Fötus",
-  "miscarriage_linked_to_stress": "Fehlgeburten im Zusammenhang mit Stress"
+  "miscarriage_linked_to_stress": "Fehlgeburten im Zusammenhang mit Stress",
+
+  "dashboard": "Armaturenbrett",
+  "library": "Bibliothek",
+  "history": "Geschichte",
+  "delete_profile": "Profil löschen",
+  "clear_userdata": "Benutzerdaten löschen",
+
+  "compass": "Kompass",
+  "arrow": "Pfeil",
+  "map": "Karte",
+  "qibla_degrees": "Qibla:"
 }

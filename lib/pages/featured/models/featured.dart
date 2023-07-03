@@ -5,26 +5,31 @@ class FeaturedModel {
   String? _audioUrl;
   String? _text;
   String? _videoUrl;
+  String? _contentType; // New field: content_type
   int? get storyId => _storyId;
   String? get storyTitle => _storyTitle;
   String? get image => _image;
   String? get videoUrl => _videoUrl;
   String? get audioUrl => _audioUrl;
   String? get text => _text;
+  String? get contentType => _contentType; // Getter for content_type
 
-  FeaturedModel(
-      {required storyId,
-      required storyTitle,
-      required image,
-      required audio,
-      required text,
-      required video}) {
+  FeaturedModel({
+    required storyId,
+    required storyTitle,
+    required image,
+    required audio,
+    required text,
+    required video,
+    required contentType, // New parameter: content_type
+  }) {
     _storyId = storyId;
     _storyTitle = storyTitle;
     _image = image;
     _audioUrl = audio;
     _text = text;
     _videoUrl = video;
+    _contentType = contentType; // Assign the value to the content_type field
   }
 
   FeaturedModel.fromJson(Map<String, dynamic> json) {
@@ -34,5 +39,7 @@ class FeaturedModel {
     _audioUrl = json['content_url'];
     _text = json['text'];
     _videoUrl = json['content_url'];
+    _contentType =
+        json['content_type']; // Assign the value to the content_type field
   }
 }

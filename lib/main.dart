@@ -51,6 +51,7 @@ import 'package:nour_al_quran/shared/utills/dimensions.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/featured/provider/featured_provider.dart';
+import 'pages/featured/provider/featurevideoProvider.dart';
 import 'pages/paywall/paywal_provider.dart';
 
 void main() async {
@@ -97,6 +98,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => OneSignalProvider()),
     ChangeNotifierProvider(create: (_) => BookmarkProviderDua()),
     ChangeNotifierProvider(create: (_) => BookmarkProviderRuqyah()),
+    ChangeNotifierProvider(create: (_) => FeatureVideoProvider()),
     StreamProvider<int>(
         create: (context) => NetworkProvider().streamController.stream,
         initialData: 0),

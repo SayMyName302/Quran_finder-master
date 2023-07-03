@@ -357,5 +357,15 @@
   "genderofnewbornchild": "नवजात शिशु का लिंग",
   "embryo": "भ्रूण",
   "fetal_development": "भ्रूण विकास",
-  "miscarriage_linked_to_stress": "गर्भपात तनाव से जुड़ा हुआ है"
+  "miscarriage_linked_to_stress": "गर्भपात तनाव से जुड़ा हुआ है",
+  "dashboard": "डैशबोर्ड",
+  "library": "पुस्तकालय",
+  "history": "इतिहास",
+  "delete_profile": "प्रोफ़ाइल हटाएं",
+  "clear_userdata": "उपयोगकर्ता डेटा साफ़ करें",
+
+  "compass": "दिशा सूचक यंत्र",
+  "arrow": "तीर",
+  "map": "नक्शा",
+  "qibla_degrees": "किबला :"
 }

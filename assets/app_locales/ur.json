@@ -357,5 +357,15 @@
   "genderofnewbornchild": "نوزائیدہ بچے کی جنس",
   "embryo": "جنین",
   "fetal_development": "جنین کی نشوونما",
-  "miscarriage_linked_to_stress": "تناؤ سے اسقاط حمل"
+  "miscarriage_linked_to_stress": "تناؤ سے اسقاط حمل",
+  "dashboard": "ڈیش بورڈ",
+  "library": "کتب خانہ",
+  "history": "تاریخ",
+  "delete_profile": "پروفائل حذف کریں",
+  "clear_userdata": "صارف کا ڈیٹا صاف کریں۔",
+
+  "compass": "کمپاس",
+  "arrow": "تیر",
+  "map": "نقشہ",
+  "qibla_degrees": "قبلہ:"
 }

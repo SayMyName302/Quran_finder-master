@@ -7,8 +7,8 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provide
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:provider/provider.dart';
 
-class MiraclesContentText extends StatelessWidget {
-  const MiraclesContentText({Key? key}) : super(key: key);
+class FeaturedMiraclesContentText extends StatelessWidget {
+  const FeaturedMiraclesContentText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

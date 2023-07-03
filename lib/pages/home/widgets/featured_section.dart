@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
+import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
+import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
@@ -33,8 +35,8 @@ class FeaturedSection extends StatelessWidget {
           builder: (context, language, child) {
             return SizedBox(
               height: 150.h,
-              child: Consumer<FeatureProvider>(
-                builder: (context, storiesProvider, child) {
+              child: Consumer2<FeatureProvider, FeatureVideoProvider>(
+                builder: (context, storiesProvider, miraclesProvider, child) {
                   return ListView.builder(
                     itemCount: storiesProvider.feature.length,
                     padding:
@@ -51,8 +53,15 @@ class FeaturedSection extends StatelessWidget {
                                   () => context
                                       .read<RecitationPlayerProvider>()
                                       .pause(context));
-                              storiesProvider.gotoFeaturePlayerPage(
-                                  model.storyId!, context, index);
+                              if (model.contentType == "audio") {
+                                storiesProvider.gotoFeaturePlayerPage(
+                                    model.storyId!, context, index);
+                              } else if (model.contentType == "Video") {
+                                miraclesProvider.goToFeatureMiracleDetailsPage(
+                                    model.storyTitle!, context, index);
+                              }
+                              // storiesProvider.gotoFeaturePlayerPage(
+                              //     model.storyId!, context, index);
                             } else {
                               ScaffoldMessenger.of(context)
                                 ..removeCurrentSnackBar()
@@ -68,7 +77,7 @@ class FeaturedSection extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8.r),
                                 image: DecorationImage(
                                     image: AssetImage(
-                                        "assets/images/quran_stories/${model.image!}"),
+                                        "assets/images/quran_feature/${model.image!}"),
                                     fit: BoxFit.cover)),
                             child: Container(
                               decoration: BoxDecoration(

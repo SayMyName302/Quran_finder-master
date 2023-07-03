@@ -146,6 +146,8 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     }
   }
 
+  void favoriteMiraclesDetailsPage(String s, BuildContext context, int index) {}
+
   /// login to download Video From Internet
 // Future<void> checkVideoAvailable(String miracleTitle,BuildContext context) async {
 //   currentMiracle = _miracles.indexWhere((element) => element.title == miracleTitle);

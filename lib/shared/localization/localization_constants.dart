@@ -3,9 +3,7 @@ import 'localization_demo.dart';
 
 String localeText(BuildContext context, String key) {
   final localizationDemo = LocalizationDemo.of(context);
-  return localizationDemo != null
-      ? localizationDemo.getTranslatedValue(key)!
-      : '';
+  return localizationDemo?.getTranslatedValue(key) ?? '';
 }
 
 const supportedLocales = [

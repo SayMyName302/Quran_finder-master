@@ -357,5 +357,15 @@
   "genderofnewbornchild": "Sexe d'un nouveau-né",
   "embryo": "Embryon",
   "fetal_development": "Développement fœtal",
-  "miscarriage_linked_to_stress": "Fausse couche liée au stress"
+  "miscarriage_linked_to_stress": "Fausse couche liée au stress",
+  "dashboard": "tableau de bord",
+  "library": "bibliothèque",
+  "history": "histoire",
+  "delete_profile": "Supprimer le profil",
+  "clear_userdata": "Effacer les données utilisateur",
+
+  "compass": "boussole",
+  "arrow": "flèche",
+  "map": "carte",
+  "qibla_degrees": "Qibla :"
 }

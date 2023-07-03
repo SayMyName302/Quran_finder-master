@@ -45,15 +45,7 @@ class _ManageProfileState extends State<ManageProfile> {
       // localeText(context, "duas"),
       // localeText(context, "favorites")
     ];
-    var pages = [
-      const RecitationPage(),
-      const SurahIndexPage(),
-      const JuzIndexPage(),
-      // const ResumePage(),
-      // const BookmarkPage(),
-      //     const DuaCategoriesPage(),
-      // const FavoritesRecitersPage(),
-    ];
+
     var them = context.read<ThemProvider>().isDark;
     var style12 = TextStyle(
         fontFamily: 'satoshi',
@@ -262,12 +254,13 @@ class _ManageProfileState extends State<ManageProfile> {
                                 padding: EdgeInsets.only(top: 20.w),
                                 child: InkWell(
                                   child: Text(
-                                    'Clear User Data',
+                                    localeText(context, "clear_userdata"),
                                     style: TextStyle(
-                                        color: value.mainBrandingColor,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14.sp,
-                                        fontFamily: 'satoshi'),
+                                      color: value.mainBrandingColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14.sp,
+                                      fontFamily: 'satoshi',
+                                    ),
                                   ),
                                   onTap: () {
                                     showDialog(

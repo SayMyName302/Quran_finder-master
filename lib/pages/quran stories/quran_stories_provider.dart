@@ -37,6 +37,7 @@ class QuranStoriesProvider extends ChangeNotifier {
         _stories[index]; // Move the selected story to the end of the list
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.storyDetails);
+    _moveStoryToEnd(index);
   }
 
   gotoStoryPlayerPage(int storyId, BuildContext context, int index) {
@@ -50,7 +51,6 @@ class QuranStoriesProvider extends ChangeNotifier {
             context);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromStory');
-    _moveStoryToEnd(index);
   }
 
   void _moveStoryToEnd(int index) {

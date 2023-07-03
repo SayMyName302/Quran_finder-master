@@ -37,6 +37,7 @@ class IslamBasicsProvider extends ChangeNotifier {
     _selectedIslamBasics = _islamBasics[index];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.basicsOfIslamDetails);
+    _moveBasicsToEnd(index);
   }
 
   gotoBasicsPlayerPage(
@@ -49,11 +50,10 @@ class IslamBasicsProvider extends ChangeNotifier {
             _selectedIslamBasics!.image!, context);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromBasic');
-    _moveBasicsToEnd(index);
   }
 
   void _moveBasicsToEnd(int index) {
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       _islamBasics.removeAt(index);
       _islamBasics.add(_selectedIslamBasics!);
       notifyListeners();

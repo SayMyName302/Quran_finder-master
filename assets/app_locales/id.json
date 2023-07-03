@@ -357,5 +357,15 @@
   "genderofnewbornchild": "Jenis kelamin anak yang baru lahir",
   "embryo": "Embrio",
   "fetal_development": "Perkembangan Janin",
-  "miscarriage_linked_to_stress": "Keguguran Terkait dengan Stres"
+  "miscarriage_linked_to_stress": "Keguguran Terkait dengan Stres",
+  "dashboard": "dasbor",
+  "library": "perpustakaan",
+  "history": "sejarah",
+  "delete_profile": "hapus_profil",
+  "clear_userdata": "Hapus Data Pengguna",
+
+  "compass": "kompas",
+  "arrow": "anak panah",
+  "map": "peta",
+  "qibla_degrees": "Kiblat :"
 }

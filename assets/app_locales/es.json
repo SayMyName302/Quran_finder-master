@@ -358,5 +358,16 @@
   "genderofnewbornchild": "Género de un niño recién nacido",
   "embryo": "Embrión",
   "fetal_development": "Desarrollo Fetal",
-  "miscarriage_linked_to_stress": "Aborto espontáneo relacionado con el estrés"
+  "miscarriage_linked_to_stress": "Aborto espontáneo relacionado con el estrés",
+
+  "dashboard": "panel",
+  "library": "biblioteca",
+  "history": "historia",
+  "delete_profile": "Borrar perfil",
+  "clear_userdata": "Borrar datos de usuario",
+
+  "compass": "Brújula",
+  "arrow": "flecha",
+  "map": "mapa",
+  "qibla_degrees": "Quibla:"
 }

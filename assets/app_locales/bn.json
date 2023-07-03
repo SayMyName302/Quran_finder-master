@@ -357,5 +357,16 @@
   "genderofnewbornchild": "নবজাতক শিশুর লিঙ্গ",
   "embryo": "ভ্রূণ",
   "fetal_development": "ভ্রূণের বিকাশ",
-  "miscarriage_linked_to_stress": "গর্ভপাত স্ট্রেসের সাথে যুক্ত"
+  "miscarriage_linked_to_stress": "গর্ভপাত স্ট্রেসের সাথে যুক্ত",
+
+  "dashboard": "ড্যাশবোর্ড",
+  "library": "লাইব্রেরি",
+  "history": "ইতিহাস",
+  "delete_profile": "ডিলিট_প্রোফাইল",
+  "clear_userdata": "ব্যবহারকারীর ডেটা সাফ করুন",
+
+  "compass": "কম্পাস",
+  "arrow": "তীর",
+  "map": "মানচিত্র",
+  "qibla_degrees": "কিবলা:"
 }

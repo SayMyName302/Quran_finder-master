@@ -194,80 +194,86 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () =>
-                                _showQiblaImage(appColors.mainBrandingColor),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _qiblabutton,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(18.r),
-                                  bottomLeft: Radius.circular(18.r),
+                              onPressed: () =>
+                                  _showQiblaImage(appColors.mainBrandingColor),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: _qiblabutton,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(18.r),
+                                    bottomLeft: Radius.circular(18.r),
+                                  ),
+                                  side: BorderSide(
+                                      color: appColors.mainBrandingColor),
                                 ),
-                                side: BorderSide(
-                                    color: appColors.mainBrandingColor),
                               ),
-                            ),
-                            child: Text(
-                              'Compass',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'satoshi',
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
+                              child: Text(
+                                localeText(
+                                  context,
+                                  "compass",
+                                ),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'satoshi',
+                                  fontSize: 14.sp,
+                                ),
+                              )),
                         ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () =>
-                                _showArrowimage(appColors.mainBrandingColor),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _arrowbutton,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                                side: BorderSide(
-                                    color: appColors.mainBrandingColor),
+                              onPressed: () =>
+                                  _showArrowimage(appColors.mainBrandingColor),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: _arrowbutton,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero,
+                                  side: BorderSide(
+                                      color: appColors.mainBrandingColor),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              'Arrow',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'satoshi',
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
+                              child: Text(
+                                localeText(
+                                  context,
+                                  "arrow",
+                                ),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'satoshi',
+                                  fontSize: 14.sp,
+                                ),
+                              )),
                         ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () => _showCustomWidgetFunction(
-                                appColors.mainBrandingColor),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _mapbutton,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(18.r),
-                                  topRight: Radius.circular(18.r),
+                              onPressed: () => _showCustomWidgetFunction(
+                                  appColors.mainBrandingColor),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: _mapbutton,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(18.r),
+                                    topRight: Radius.circular(18.r),
+                                  ),
+                                  side: BorderSide(
+                                      color: appColors.mainBrandingColor),
                                 ),
-                                side: BorderSide(
-                                    color: appColors.mainBrandingColor),
                               ),
-                            ),
-                            child: Text(
-                              'Map',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'satoshi',
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
+                              child: Text(
+                                localeText(
+                                  context,
+                                  "map",
+                                ),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'satoshi',
+                                  fontSize: 14.sp,
+                                ),
+                              )),
                         ),
                       ],
                     ),
