@@ -3,7 +3,7 @@
     {
       "id": 1,
       "arabictext": "الرَّحْمَنُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name1.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name1.mp3",
       "english": "Ar-Rahman",
       "urduMeaning": "بہت مہربان",
       "englishMeaning": "The Merciful",
@@ -20,7 +20,7 @@
     {
       "id": 2,
       "arabictext": "الرَّحِيمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name2.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name2.mp3",
       "english": "Ar-Rahim",
       "urduMeaning": "رحم فرمانے والا",
       "englishMeaning": "The Most Merciful",
@@ -37,7 +37,7 @@
     {
       "id": 3,
       "arabictext": "الْمَلِكُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name3.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name3.mp3",
       "english": "Al-Malik",
       "urduMeaning": "حاکم و مالک",
       "englishMeaning": "The Sovereign Lord",
@@ -54,7 +54,7 @@
     {
       "id": 4,
       "arabictext": "الْقُدُّوسُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name4.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name4.mp3",
       "english": "Al-Quddus",
       "urduMeaning": "پاک",
       "englishMeaning": "The Holy One",
@@ -71,7 +71,7 @@
     {
       "id": 5,
       "arabictext": "السَّلاَمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name5.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name5.mp3",
       "english": "As-Salam",
       "urduMeaning": "سلامتی کا سرچشمہ",
       "englishMeaning": "The Source of Peace",
@@ -88,8 +88,8 @@
     {
       "id": 6,
       "arabictext": "الْمُؤْمِنُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name6.mp3']",
-      "english": "Al-Mu'min",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name6.mp3",
+      "english": "Al-Mu min",
       "urduMeaning": "ایمان والا",
       "englishMeaning": "The Guardian of Faith",
       "arabicMeaning": "المؤمن",
@@ -105,7 +105,7 @@
     {
       "id": 7,
       "arabictext": "الْمُهَيْمِنُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name7.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name7.mp3",
       "english": "Al-Muhaymin",
       "urduMeaning": "حافظ",
       "englishMeaning": "The Protector",
@@ -122,8 +122,8 @@
     {
       "id": 8,
       "arabictext": "الْعَزِيزُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name8.mp3']",
-      "english": "Al-'Aziz",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name8.mp3",
+      "english": "Al- Aziz",
       "urduMeaning": "طاقتور",
       "englishMeaning": "The Mighty",
       "arabicMeaning": "العزيز",
@@ -139,7 +139,7 @@
     {
       "id": 9,
       "arabictext": "الْجَبَّارُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name9.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name9.mp3",
       "english": "Al-Jabbar",
       "urduMeaning": "زبردست",
       "englishMeaning": "The Compeller",
@@ -156,7 +156,7 @@
     {
       "id": 10,
       "arabictext": "الْمُتَكَبِّرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name10.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name10.mp3",
       "english": "Al-Mutakabbir",
       "urduMeaning": "عظیم الشان",
       "englishMeaning": "The Majestic",
@@ -173,7 +173,7 @@
     {
       "id": 11,
       "arabictext": "الْخَالِقُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name11.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name11.mp3",
       "english": "Al-Khaliq",
       "urduMeaning": "خالق",
       "englishMeaning": "The Creator",
@@ -190,7 +190,7 @@
     {
       "id": 12,
       "arabictext": "الْبَارِئُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name12.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name12.mp3",
       "english": "Al-Bari",
       "urduMeaning": "بنانے والا",
       "englishMeaning": "The Maker",
@@ -207,7 +207,7 @@
     {
       "id": 13,
       "arabictext": "الْمُصَوِّرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name13.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name13.mp3",
       "english": "Al-Musawwir",
       "urduMeaning": "صورت دینے والا",
       "englishMeaning": "The Fashioner",
@@ -224,7 +224,7 @@
     {
       "id": 14,
       "arabictext": "الْغَفَّارُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name14.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name14.mp3",
       "english": "Al-Ghaffar",
       "urduMeaning": "بخشنے والا",
       "englishMeaning": "The Forgiver",
@@ -241,7 +241,7 @@
     {
       "id": 15,
       "arabictext": "الْقَهَّارُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name15.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name15.mp3",
       "english": "Al-Qahhar",
       "urduMeaning": "غالب",
       "englishMeaning": "The Subduer",
@@ -258,7 +258,7 @@
     {
       "id": 16,
       "arabictext": "الْوَهَّابُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name16.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name16.mp3",
       "english": "Al-Wahab",
       "urduMeaning": "عطا کرنے والا",
       "englishMeaning": "The Bestower",
@@ -275,7 +275,7 @@
     {
       "id": 17,
       "arabictext": "الرَّزَّاقُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name17.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name17.mp3",
       "english": "Ar-Razzaq",
       "urduMeaning": "رزق دینے والا",
       "englishMeaning": "The Provider",
@@ -292,7 +292,7 @@
     {
       "id": 18,
       "arabictext": "الْفَتَّاحُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name18.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name18.mp3",
       "english": "Al-Fattah",
       "urduMeaning": "کھولنے والا",
       "englishMeaning": "The Opener",
@@ -309,8 +309,8 @@
     {
       "id": 19,
       "arabictext": "الْعَلِيمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name19.mp3']",
-      "english": "Al-'Alim",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name19.mp3",
+      "english": "Al- Alim",
       "urduMeaning": "سب کچھ جاننے والا",
       "englishMeaning": "The All-Knowing",
       "arabicMeaning": "العليم",
@@ -326,7 +326,7 @@
     {
       "id": 20,
       "arabictext": "الْقَابِضُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name20.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name20.mp3",
       "english": "Al-Qabid",
       "urduMeaning": "قابض",
       "englishMeaning": "The Withholder",
@@ -343,7 +343,7 @@
     {
       "id": 21,
       "arabictext": "الْبَاسِطُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name21.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name21.mp3",
       "english": "Al-Basit",
       "urduMeaning": "فراخ کرنے والا",
       "englishMeaning": "The Enlarger",
@@ -360,7 +360,7 @@
     {
       "id": 22,
       "arabictext": "الْخَافِضُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name22.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name22.mp3",
       "english": "Al-Khafid",
       "urduMeaning": "نیچے لانے والا",
       "englishMeaning": "The Abaser",
@@ -377,7 +377,7 @@
     {
       "id": 23,
       "arabictext": "الرَّافِعُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name23.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name23.mp3",
       "english": "Ar-Rafi",
       "urduMeaning": "بلند کرنے والا",
       "englishMeaning": "The Exalter",
@@ -394,8 +394,8 @@
     {
       "id": 24,
       "arabictext": "الْمُعِزُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name24.mp3']",
-      "english": "Al-Mu'izz",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name24.mp3",
+      "english": "Al-Mu izz",
       "urduMeaning": "عزت دینے والا",
       "englishMeaning": "The Bestower of Honor",
       "arabicMeaning": "المعز",
@@ -411,7 +411,7 @@
     {
       "id": 25,
       "arabictext": "المُذِلُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name25.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name25.mp3",
       "english": "Al-Mudhill",
       "urduMeaning": "ذلیل کرنے والا",
       "englishMeaning": "The Humiliator",
@@ -428,7 +428,7 @@
     {
       "id": 26,
       "arabictext": "السَّمِيعُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name26.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name26.mp3",
       "english": "As-Sami",
       "urduMeaning": "سننے والا",
       "englishMeaning": "The All-Hearing",
@@ -445,7 +445,7 @@
     {
       "id": 27,
       "arabictext": "الْبَصِيرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name27.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name27.mp3",
       "english": "Al-Basir",
       "urduMeaning": "دیکھنے والا",
       "englishMeaning": "The All-Seeing",
@@ -455,14 +455,14 @@
       "bengalimeaning": "আল-বসীর",
       "frenchmeaning": "Celui qui voit tout",
       "chinesemeaning": "全知者",
-      "somalimeaning": "Kan wax walba ku arka araggiisa daa'imka ah",
+      "somalimeaning": "Kan wax walba ku arka araggiisa daa imka ah",
       "germanmeaning": "Der Allsehende",
       "spanishmeaning": "El Que Todo Lo Ve"
     },
     {
       "id": 28,
       "arabictext": "الْحَكَمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name28.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name28.mp3",
       "english": "Al-Hakam",
       "urduMeaning": "قاضی",
       "englishMeaning": "The Judge",
@@ -479,8 +479,8 @@
     {
       "id": 29,
       "arabictext": "الْعَدْلُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name29.mp3']",
-      "english": "Al-'Adl",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name29.mp3",
+      "english": "Al- Adl",
       "urduMeaning": "عادل",
       "englishMeaning": "The Just",
       "arabicMeaning": "العدل",
@@ -496,7 +496,7 @@
     {
       "id": 30,
       "arabictext": "اللَّطِيفُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name30.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name30.mp3",
       "english": "Al-Latif",
       "urduMeaning": "نرم دل",
       "englishMeaning": "The Gentle",
@@ -513,7 +513,7 @@
     {
       "id": 31,
       "arabictext": "الْخَبِيرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name31.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name31.mp3",
       "english": "Al-Khabir",
       "urduMeaning": "سب کچھ جاننے والا",
       "englishMeaning": "The All-Aware",
@@ -530,7 +530,7 @@
     {
       "id": 32,
       "arabictext": "الْحَلِيمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name32.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name32.mp3",
       "english": "Al-Halim",
       "urduMeaning": "بردبار",
       "englishMeaning": "The Forbearing",
@@ -547,8 +547,8 @@
     {
       "id": 33,
       "arabictext": "الْعَظِيمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name33.mp3']",
-      "english": "Al-'Azim",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name33.mp3",
+      "english": "Al- Azim",
       "urduMeaning": "بزرگ",
       "englishMeaning": "The Magnificent",
       "arabicMeaning": "العظیم",
@@ -564,7 +564,7 @@
     {
       "id": 34,
       "arabictext": "الْغَفُورُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name34.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name34.mp3",
       "english": "Al-Ghafur",
       "urduMeaning": "بخشنے والا",
       "englishMeaning": "The All-Forgiving",
@@ -581,7 +581,7 @@
     {
       "id": 35,
       "arabictext": "الشَّكُورُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name35.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name35.mp3",
       "english": "Ash-Shakur",
       "urduMeaning": "تعریف کرنے والا",
       "englishMeaning": "The Appreciative",
@@ -598,8 +598,8 @@
     {
       "id": 36,
       "arabictext": "الْعَلِيُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name36.mp3']",
-      "english": "Al-'Aliyy",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name36.mp3",
+      "english": "Al- Aliyy",
       "urduMeaning": "سب سے بلند",
       "englishMeaning": "The Most High",
       "arabicMeaning": "العلی",
@@ -615,7 +615,7 @@
     {
       "id": 37,
       "arabictext": "الْكَبِيرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name37.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name37.mp3",
       "english": "Al-Kabir",
       "urduMeaning": "سب سے بڑا",
       "englishMeaning": "The Greatest",
@@ -632,7 +632,7 @@
     {
       "id": 38,
       "arabictext": "الْحَفِيظُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name38.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name38.mp3",
       "english": "Al-Hafiz",
       "urduMeaning": "حفاظت کرنے والا",
       "englishMeaning": "The Preserver",
@@ -649,7 +649,7 @@
     {
       "id": 39,
       "arabictext": "المُقِيتُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name39.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name39.mp3",
       "english": "Al-Muqit",
       "urduMeaning": "نگرانی کرنے والا",
       "englishMeaning": "The Sustainer",
@@ -666,7 +666,7 @@
     {
       "id": 40,
       "arabictext": "الْحسِيبُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name40.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name40.mp3",
       "english": "Al-Hasib",
       "urduMeaning": "حساب کرنے والا",
       "englishMeaning": "The Reckoner",
@@ -683,7 +683,7 @@
     {
       "id": 41,
       "arabictext": "الْجَلِيلُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name41.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name41.mp3",
       "english": "Al-Jalil",
       "urduMeaning": "عظیم الشان",
       "englishMeaning": "The Majestic",
@@ -700,7 +700,7 @@
     {
       "id": 42,
       "arabictext": "الْكَرِيمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name42.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name42.mp3",
       "english": "Al-Karim",
       "urduMeaning": "عطا کرنے والا ہے",
       "englishMeaning": "The Generous",
@@ -717,7 +717,7 @@
     {
       "id": 43,
       "arabictext": "الرَّقِيبُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name43.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name43.mp3",
       "english": "Ar-Raqib",
       "urduMeaning": "نگران",
       "englishMeaning": "The Watchful",
@@ -725,7 +725,7 @@
       "Indonesianmeaning": "Yang Maha Mengawasi",
       "hindiMeaning": "नजर रखने वाला",
       "bengalimeaning": "আর-রাকিব",
-      "frenchmeaning": "L'Observateur vigilant",
+      "frenchmeaning": "L Observateur vigilant",
       "chinesemeaning": "监视者",
       "somalimeaning": "kii arka waxa qarsoon",
       "germanmeaning": "Der Wachsamer",
@@ -734,7 +734,7 @@
     {
       "id": 44,
       "arabictext": "الْمُجِيبُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name44.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name44.mp3",
       "english": "Al-Mujib",
       "urduMeaning": "جواب دینے والا",
       "englishMeaning": "The Responsive",
@@ -751,7 +751,7 @@
     {
       "id": 45,
       "arabictext": "الْوَاسِعُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name45.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name45.mp3",
       "english": "Al-Wasi",
       "urduMeaning": "کثرت والا",
       "englishMeaning": "The All-Encompassing",
@@ -768,7 +768,7 @@
     {
       "id": 46,
       "arabictext": "الْحَكِيمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name46.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name46.mp3",
       "english": "Al-Hakim",
       "urduMeaning": "دانا",
       "englishMeaning": "The Wise",
@@ -785,7 +785,7 @@
     {
       "id": 47,
       "arabictext": "الْوَدُودُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name47.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name47.mp3",
       "english": "Al-Wadud",
       "urduMeaning": "پیار کرنے والا",
       "englishMeaning": "The Loving",
@@ -802,7 +802,7 @@
     {
       "id": 48,
       "arabictext": "الْمَجِيدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name48.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name48.mp3",
       "english": "Al-Majid",
       "urduMeaning": "جلال والا",
       "englishMeaning": "The Glorious",
@@ -819,8 +819,8 @@
     {
       "id": 49,
       "arabictext": "الْبَاعِثُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name49.mp3']",
-      "english": "Al-Ba'ith",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name49.mp3",
+      "english": "Al-Ba ith",
       "urduMeaning": "زندہ کرنے والا",
       "englishMeaning": "The Resurrector",
       "arabicMeaning": "الباعث",
@@ -836,7 +836,7 @@
     {
       "id": 50,
       "arabictext": "الشَّهِيدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name50.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name50.mp3",
       "english": "Ash-Shahid",
       "urduMeaning": "جو دیکھ رہا ہے",
       "englishMeaning": "who bears witness",
@@ -853,7 +853,7 @@
     {
       "id": 51,
       "arabictext": "الْحَقُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name51.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name51.mp3",
       "english": "Al-Haqq",
       "urduMeaning": "وہ جو سچا ہے",
       "englishMeaning": "The One who is true",
@@ -870,7 +870,7 @@
     {
       "id": 52,
       "arabictext": "الْوَكِيلُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name52.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name52.mp3",
       "english": "Al-Wakil",
       "urduMeaning": "عهددار",
       "englishMeaning": "The Trustee",
@@ -887,7 +887,7 @@
     {
       "id": 53,
       "arabictext": "الْقَوِيُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name53.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name53.mp3",
       "english": "Al-Qawiyy",
       "urduMeaning": "وہ جو طاقتور ہے",
       "englishMeaning": "The One who is powerful",
@@ -904,7 +904,7 @@
     {
       "id": 54,
       "arabictext": "الْمَتِينُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name54.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name54.mp3",
       "english": "Al-Matin",
       "urduMeaning": "جو بہترین ہے",
       "englishMeaning": "The One who is firm",
@@ -921,7 +921,7 @@
     {
       "id": 55,
       "arabictext": "الْوَلِيُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name55.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name55.mp3",
       "english": "Al-Waliyy",
       "urduMeaning": "جومحافظ ہے",
       "englishMeaning": "One who is the owner",
@@ -938,7 +938,7 @@
     {
       "id": 56,
       "arabictext": "الْحَمِيدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name56.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name56.mp3",
       "english": "Al-Hamid",
       "urduMeaning": "جو تعریف و تمجید کے لائق ہے",
       "englishMeaning": "The Praiseworthy",
@@ -955,7 +955,7 @@
     {
       "id": 57,
       "arabictext": "الْمُحْصِي",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name57.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name57.mp3",
       "english": "Al-Muhsi",
       "urduMeaning": "حساب کرنے والا",
       "englishMeaning": "The Accounter",
@@ -972,7 +972,7 @@
     {
       "id": 58,
       "arabictext": "الْمُبْدِئُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name58.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name58.mp3",
       "english": "Al-Mubdi",
       "urduMeaning": "بنانے والا",
       "englishMeaning": "The Originator",
@@ -989,8 +989,8 @@
     {
       "id": 59,
       "arabictext": "الْمُعِيدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name59.mp3']",
-      "english": "Al-Mu'id",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name59.mp3",
+      "english": "Al-Mu id",
       "urduMeaning": "دوبارہ آنے والا",
       "englishMeaning": "The Restorer",
       "arabicMeaning": "المعید",
@@ -1006,7 +1006,7 @@
     {
       "id": 60,
       "arabictext": "المُحْيِي",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name60.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name60.mp3",
       "english": "Al-Muhyi",
       "urduMeaning": "جان دینے والا",
       "englishMeaning": "The Giver of Life",
@@ -1023,7 +1023,7 @@
     {
       "id": 61,
       "arabictext": "المُمِيتُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name61.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name61.mp3",
       "english": "Al-Mumit",
       "urduMeaning": "موت دینے والا",
       "englishMeaning": "The Bringer of Death",
@@ -1040,7 +1040,7 @@
     {
       "id": 62,
       "arabictext": "الْحَيُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name62.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name62.mp3",
       "english": "Al-Hayy",
       "urduMeaning": "وہ جو ہمیشہ زندہ رہتا ہے",
       "englishMeaning": "The Ever-Living",
@@ -1057,7 +1057,7 @@
     {
       "id": 63,
       "arabictext": "الْقَيُّومُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name63.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name63.mp3",
       "english": "Al-Qayyum",
       "urduMeaning": "وہ جو اپنے آپ پر قائم ہے",
       "englishMeaning": "The Self-Subsisting Sustainer of All",
@@ -1074,7 +1074,7 @@
     {
       "id": 64,
       "arabictext": "الْوَاجِدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name64.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name64.mp3",
       "english": "Al-Wajid",
       "urduMeaning": "تلاش کرنے والا",
       "englishMeaning": "The Finder",
@@ -1091,7 +1091,7 @@
     {
       "id": 65,
       "arabictext": "الْمَاجِدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name65.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name65.mp3",
       "english": "Al-Majid",
       "urduMeaning": "جلال والا",
       "englishMeaning": "The Glorious",
@@ -1108,7 +1108,7 @@
     {
       "id": 66,
       "arabictext": "الْوَاحِدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name66.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name66.mp3",
       "english": "Al-Wahid",
       "urduMeaning": "وہ جو واحد ہے",
       "englishMeaning": "The One and Only",
@@ -1116,7 +1116,7 @@
       "Indonesianmeaning": "Yang Maha Tunggal",
       "hindiMeaning": "एकमात्र",
       "bengalimeaning": "আল-ওয়াহিদ",
-      "frenchmeaning": "L'Unique",
+      "frenchmeaning": "L Unique",
       "chinesemeaning": "绝对唯一者",
       "somalimeaning": "Ilaaha keligiis ah",
       "germanmeaning": "Der Einzige",
@@ -1125,7 +1125,7 @@
     {
       "id": 67,
       "arabictext": "الْأَحَدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name67.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name67.mp3",
       "english": "Al-Ahad",
       "urduMeaning": "واحد",
       "englishMeaning": "The Unique",
@@ -1133,7 +1133,7 @@
       "Indonesianmeaning": "Yang Maha Esa",
       "hindiMeaning": "अद्वितीय",
       "bengalimeaning": "আল-আহাদ",
-      "frenchmeaning": "L'Indivisible",
+      "frenchmeaning": "L Indivisible",
       "chinesemeaning": "绝对独一无二者",
       "somalimeaning": "Kan jiray, jira, oo weligiis ahaan doona keligiis",
       "germanmeaning": "Der Einzigartige",
@@ -1142,7 +1142,7 @@
     {
       "id": 68,
       "arabictext": "الصَّمَدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name68.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name68.mp3",
       "english": "As-Samad",
       "urduMeaning": "بے نیاز",
       "englishMeaning": "The Eternal",
@@ -1150,7 +1150,7 @@
       "Indonesianmeaning": "Yang Maha Dibutuhkan",
       "hindiMeaning": "अनंत",
       "bengalimeaning": "আস-সমদ",
-      "frenchmeaning": "L'Éternel,Le Refuge",
+      "frenchmeaning": "L Éternel,Le Refuge",
       "chinesemeaning": "绝对独立、非生不可的",
       "somalimeaning": "Waa kan la magan galo marka ay dhibaato jirto",
       "germanmeaning": "Der Allgenügende",
@@ -1159,7 +1159,7 @@
     {
       "id": 69,
       "arabictext": "الْقَادِرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name69.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name69.mp3",
       "english": "Al-Qadir",
       "urduMeaning": "جو کچھ بھی کر سکتا ہے",
       "englishMeaning": "The All-Powerful",
@@ -1176,7 +1176,7 @@
     {
       "id": 70,
       "arabictext": "الْمُقْتَدِرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name70.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name70.mp3",
       "english": "Al-Muqtadir",
       "urduMeaning": "وہ جو تمام طاقتوں کا خالق ہے",
       "englishMeaning": "The Creator of All Power",
@@ -1193,7 +1193,7 @@
     {
       "id": 71,
       "arabictext": "الْمُقَدِّمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name71.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name71.mp3",
       "english": "Al-Muqaddim",
       "urduMeaning": "کام پیش کرنے والا",
       "englishMeaning": "The Expeditious",
@@ -1210,8 +1210,8 @@
     {
       "id": 72,
       "arabictext": "الْمُؤَخِّرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name72.mp3']",
-      "english": "Al-Mu'akhkhir",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name72.mp3",
+      "english": "Al-Mu akhkhir",
       "urduMeaning": "کام ملتوی کرنے والا",
       "englishMeaning": "The Delayer",
       "arabicMeaning": "المؤخر",
@@ -1227,7 +1227,7 @@
     {
       "id": 73,
       "arabictext": "الأَوَّلُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name73.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name73.mp3",
       "english": "Al-Awwal",
       "urduMeaning": "سب سے پہلا",
       "englishMeaning": "The First",
@@ -1244,7 +1244,7 @@
     {
       "id": 74,
       "arabictext": "الْآخِرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name74.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name74.mp3",
       "english": "Al-Akhir",
       "urduMeaning": "سب سے آخری",
       "englishMeaning": "The Last",
@@ -1261,7 +1261,7 @@
     {
       "id": 75,
       "arabictext": "الظَّاهِرُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name75.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name75.mp3",
       "english": "Az-Zahir",
       "urduMeaning": "ظاہِر",
       "englishMeaning": "The Manifest",
@@ -1278,7 +1278,7 @@
     {
       "id": 76,
       "arabictext": "الْبَاطِنُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name76.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name76.mp3",
       "english": "Al-Batin",
       "urduMeaning": "پوشیدہ",
       "englishMeaning": "The Hidden",
@@ -1295,7 +1295,7 @@
     {
       "id": 77,
       "arabictext": "الْوَالِي",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name77.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name77.mp3",
       "english": "Al-Wali",
       "urduMeaning": "حفاظت کرنے والا",
       "englishMeaning": "The Patron",
@@ -1312,14 +1312,14 @@
     {
       "id": 78,
       "arabictext": "الْمُتَعَالِي",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name78.mp3']",
-      "english": "Al-Muta'ali",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name78.mp3",
+      "english": "Al-Muta ali",
       "urduMeaning": "بلند درجہ والا",
       "englishMeaning": "The Supreme",
       "arabicMeaning": "المتعالی",
       "Indonesianmeaning": "Yang Maha Tinggi",
       "hindiMeaning": "उच्चतम",
-      "bengalimeaning": "আল-মুতা'আলী",
+      "bengalimeaning": "আল-মুতা আলী",
       "frenchmeaning": "Le Très-Haut",
       "chinesemeaning": "绝对至高者",
       "somalimeaning": "Kan ugu sarreeya, oo ka sarreeya uunka oo dhan",
@@ -1329,7 +1329,7 @@
     {
       "id": 79,
       "arabictext": "الْبَرُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name79.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name79.mp3",
       "english": "Al-Barr",
       "urduMeaning": "بھلائی کرنے والا",
       "englishMeaning": "The Most Kind",
@@ -1346,7 +1346,7 @@
     {
       "id": 80,
       "arabictext": "التَّوَابُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name80.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name80.mp3",
       "english": "At-Tawwab",
       "urduMeaning": "توبہ قبول کرنے والا",
       "englishMeaning": "The Acceptor of Repentance",
@@ -1356,14 +1356,14 @@
       "bengalimeaning": "আত-তাওয়াব",
       "frenchmeaning": "Le Repentant",
       "chinesemeaning": "绝对悔悟者",
-      "somalimeaning": "Si isdaba joog ah ayuu bini'aadamka ugu soo jeedinayaa towbad keen haddii ay si ku meel gaar ah u maraan waddo qaldan",
+      "somalimeaning": "Si isdaba joog ah ayuu bini aadamka ugu soo jeedinayaa towbad keen haddii ay si ku meel gaar ah u maraan waddo qaldan",
       "germanmeaning": "Der Reue-Annehmende",
       "spanishmeaning": "Aceptar el arrepentimiento"
     },
     {
       "id": 81,
       "arabictext": "الْمُنْتَقِمُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name81.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name81.mp3",
       "english": "Al-Muntaqim",
       "urduMeaning": "انتقام لینے والا",
       "englishMeaning": "The Avenger",
@@ -1380,14 +1380,14 @@
     {
       "id": 82,
       "arabictext": "العَفُوُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name82.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name82.mp3",
       "english": "Al-Afuww",
       "urduMeaning": "معاف کر دینے والا",
       "englishMeaning": "The Pardoner",
       "arabicMeaning": "العفو",
       "Indonesianmeaning": "Yang Maha Pemaaf",
       "hindiMeaning": "क्षमा",
-      "bengalimeaning": "আল-আ'ফু",
+      "bengalimeaning": "আল-আ ফু",
       "frenchmeaning": "Celui qui pardonne",
       "chinesemeaning": "绝对宽恕者",
       "somalimeaning": "Kan danbiga dhaafa",
@@ -1397,8 +1397,8 @@
     {
       "id": 83,
       "arabictext": "الرَّؤُوفُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name83.mp3']",
-      "english": "Ar-Ra'uf",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name83.mp3",
+      "english": "Ar-Ra uf",
       "urduMeaning": "بہت نرم دل",
       "englishMeaning": "The Compassionate",
       "arabicMeaning": "الرؤوف",
@@ -1414,7 +1414,7 @@
     {
       "id": 84,
       "arabictext": "مَالِكُ الْمُلْكِ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name84.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name84.mp3",
       "english": "Malik-al-Mulk",
       "urduMeaning": "حاکمِ کائنات",
       "englishMeaning": "The Owner of All Sovereignty",
@@ -1431,8 +1431,8 @@
     {
       "id": 85,
       "arabictext": "ذُو الْجَلاَلِ وَالْإِكْرَامِ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name85.mp3']",
-      "english": "Dhul-Jalal wa'l-Ikram",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name85.mp3",
+      "english": "Dhul-Jalal wa l-Ikram",
       "urduMeaning": "جلال و کرامت والا",
       "englishMeaning": "The Lord of Majesty and Bounty",
       "arabicMeaning": "ذو الجلال والإكرام",
@@ -1448,7 +1448,7 @@
     {
       "id": 86,
       "arabictext": "الْمُقْسِطُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name86.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name86.mp3",
       "english": "Al-Muqsit",
       "urduMeaning": "انصاف کرنے والا",
       "englishMeaning": "The Equitable",
@@ -1465,8 +1465,8 @@
     {
       "id": 87,
       "arabictext": "الْجَامِعُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name87.mp3']",
-      "english": "Al-Jami'",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name87.mp3",
+      "english": "Al-Jami ",
       "urduMeaning": "جمع کرنے والا",
       "englishMeaning": "The Gatherer",
       "arabicMeaning": "الجامع",
@@ -1482,7 +1482,7 @@
     {
       "id": 88,
       "arabictext": "الْغَنِيُّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name88.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name88.mp3",
       "english": "Al-Ghani",
       "urduMeaning": "خود بخود روزی دینے والا، لا محتاج",
       "englishMeaning": "The Self-Sufficient",
@@ -1499,7 +1499,7 @@
     {
       "id": 89,
       "arabictext": "الْمُغْنِي",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name89.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name89.mp3",
       "english": "Al-Mughni",
       "urduMeaning": "غنی بنانے والا",
       "englishMeaning": "The Enricher",
@@ -1516,7 +1516,7 @@
     {
       "id": 90,
       "arabictext": "الْمَانِعُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name90.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name90.mp3",
       "english": "Al-Mani",
       "urduMeaning": "روکنے والا",
       "englishMeaning": "The Withholder",
@@ -1533,7 +1533,7 @@
     {
       "id": 91,
       "arabictext": "الضَّارَّ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name91.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name91.mp3",
       "english": "Ad-Darr",
       "urduMeaning": "نقصان پہنچانے والا",
       "englishMeaning": "The Distressor",
@@ -1543,14 +1543,14 @@
       "bengalimeaning": "আদ-দার",
       "frenchmeaning": "Celui qui fait du tort",
       "chinesemeaning": "绝对危害者",
-      "somalimeaning": "Kani waa kan raba inuu wax yeelo ama faa'iido sameeyo",
+      "somalimeaning": "Kani waa kan raba inuu wax yeelo ama faa iido sameeyo",
       "germanmeaning": "Der Schädiger",
       "spanishmeaning": "El Dañino"
     },
     {
       "id": 92,
       "arabictext": "النَّافِعُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name92.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name92.mp3",
       "english": "An-Nafi",
       "urduMeaning": "فائدہ دینے والا",
       "englishMeaning": "The Bestower of Benefits",
@@ -1567,7 +1567,7 @@
     {
       "id": 93,
       "arabictext": "النُّورُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name93.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name93.mp3",
       "english": "An-Nur",
       "urduMeaning": "روشن کرنے والا",
       "englishMeaning": "The Prime Light",
@@ -1584,7 +1584,7 @@
     {
       "id": 94,
       "arabictext": "الْهَادِي",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name94.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name94.mp3",
       "english": "Al-Hadi",
       "urduMeaning": "راہنمائی کرنے والا",
       "englishMeaning": "The Guide",
@@ -1601,8 +1601,8 @@
     {
       "id": 95,
       "arabictext": "الْبَدِيعُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name95.mp3']",
-      "english": "Al-Badi'",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name95.mp3",
+      "english": "Al-Badi ",
       "urduMeaning": "پیدا کرنے والا",
       "englishMeaning": "The Originator",
       "arabicMeaning": "البدیع",
@@ -1618,7 +1618,7 @@
     {
       "id": 96,
       "arabictext": "الْبَاقِي",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name96.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name96.mp3",
       "english": "Al-Baqi",
       "urduMeaning": "ابدی",
       "englishMeaning": "The Everlasting",
@@ -1626,7 +1626,7 @@
       "Indonesianmeaning": "Yang Maha Kekal",
       "hindiMeaning": "सदा बना रहने वाला",
       "bengalimeaning": "আল-বাকী",
-      "frenchmeaning": "L'Éternel",
+      "frenchmeaning": "L Éternel",
       "chinesemeaning": "绝对常存者",
       "somalimeaning": "Kan waara",
       "germanmeaning": "Der Ewige",
@@ -1635,7 +1635,7 @@
     {
       "id": 97,
       "arabictext": "الْوَارِثُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name97.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name97.mp3",
       "english": "Al-Warith",
       "urduMeaning": "ہر شے کا مالک، جو بقایا رہ جائے گا",
       "englishMeaning": "The One who inherits all, The One who will remain",
@@ -1643,7 +1643,7 @@
       "Indonesianmeaning": "Yang Maha Pewaris",
       "hindiMeaning": "वारसा देने वाला",
       "bengalimeaning": "আল-ওয়ারিস",
-      "frenchmeaning": "L'Héritier",
+      "frenchmeaning": "L Héritier",
       "chinesemeaning": "绝对继承者",
       "somalimeaning": "Kan dhaxalka u ah dhammaan",
       "germanmeaning": "Der Erbe",
@@ -1652,7 +1652,7 @@
     {
       "id": 98,
       "arabictext": "الرَّشِيدُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name98.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name98.mp3",
       "english": "Ar-Rashid",
       "urduMeaning": "سیدھی راہ دکھانے والا",
       "englishMeaning": "The Guide to the Right Path",
@@ -1670,7 +1670,7 @@
     {
       "id": 99,
       "arabictext": "الصَّبُورُ",
-      "audio_url": "['https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name99.mp3']",
+      "audio_url": "https://bucketsawstest.s3.us-west-1.amazonaws.com/allahnames/audio/name99.mp3",
       "english": "As-Sabur",
       "urduMeaning": "صبر کرنے والا، صبر کا انعام دینے والا",
       "englishMeaning": "The Patient",
