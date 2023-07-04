@@ -103,6 +103,7 @@ class SwipePagesState extends State<SwipePages> {
   AudioPlayer _audioPlayer = AudioPlayer();
   List<AudioPlayer> _audioLists = [];
   int _currentPageIndex = 0;
+  int _currentlyPlayingIndex = -1;
 
   @override
   void initState() {
@@ -134,7 +135,6 @@ class SwipePagesState extends State<SwipePages> {
       _isMultipleSelectionEnabled = value;
     });
     _updateList();
-    //print('Button Value received: $value');
   }
 
   void fetchstop() {
@@ -147,12 +147,17 @@ class SwipePagesState extends State<SwipePages> {
     if (!_isPlaying && !_isPaused) {
       List<String> audioFiles = [];
       int pageId = -1;
+      List<int?> audioIndex = [];
       if (_curr == 0) {
         audioFiles = AudioListHolder1.audioList;
         pageId = AudioListHolder1.pageId;
+        audioIndex = AudioListHolder1.audioIndexes;
+        print('Audio Index>>>>>>>>>>>: $audioIndex');
       } else if (_curr == 1) {
         audioFiles = AudioListHolder2.audioList;
         pageId = AudioListHolder2.pageId;
+        audioIndex = AudioListHolder2.audioIndexes;
+        print('Audio Index>>>>>>>>>>>: $audioIndex');
       } else if (_curr == 2) {
         audioFiles = AudioListHolder3.audioList;
         pageId = AudioListHolder3.pageId;
@@ -626,11 +631,26 @@ class SwipePagesState extends State<SwipePages> {
 
       for (int i = _currentPlayingIndex; i < _audioLists.length; i++) {
         if (_isPlaying && !_isPaused) {
-          await _audioLists[i].play();
+          if (_currentPageIndex == 0) {
+            int audioIndex0 = AudioListHolder1.audioIndexes[i] ?? -1;
+            _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
+            await _audioLists[i].play();
+          } else if (_currentPageIndex == 1) {
+            int audioIndex1 = AudioListHolder2.audioIndexes[i] ?? -1;
+            _page2Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+            await _audioLists[i].play();
+          }
+          //await _audioLists[i].play();
         }
-
         await _audioLists[i].playerStateStream.firstWhere((state) =>
             state.processingState == ProcessingState.completed || _isPaused);
+        if (i == _audioLists.length - 1) {
+          if (_currentPageIndex == 0) {
+            _page1Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          } else if (_currentPageIndex == 1) {
+            _page2Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          }
+        }
 
         // Check if audio playback is paused
         if (_isPaused) {
@@ -878,6 +898,7 @@ class SwipePagesState extends State<SwipePages> {
       _stopPageAudios();
       _isMultipleSelectionEnabled = false;
       _currentPageIndex = page;
+      _currentlyPlayingIndex = -1;
       print('current page index selected is $_currentPageIndex');
     });
   }
