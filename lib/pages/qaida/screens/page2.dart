@@ -27,6 +27,28 @@ class Page2State extends State<Page2> {
   List<bool> containerAudioPlayingStates = List.generate(20, (_) => false);
   int currentlyPlayingIndex = -1;
 
+  Map<String, int> audioIndexMap = {
+    'assets/images/qaida/page1/alif.mp3': 0,
+    'assets/images/qaida/page2/a01.mp3': 1,
+    'assets/images/qaida/page2/a02.mp3': 2,
+    'assets/images/qaida/page2/a03.mp3': 3,
+    'assets/images/qaida/page2/a04.mp3': 4,
+    'assets/images/qaida/page1/baa1.mp3': 5,
+    'assets/images/qaida/page2/b01.mp3': 6,
+    'assets/images/qaida/page2/b02.mp3': 7,
+    'assets/images/qaida/page2/b03.mp3': 8,
+    'assets/images/qaida/page2/b04.mp3': 9,
+    'assets/images/qaida/page1/taaah.mp3': 10,
+    'assets/images/qaida/page2/t01.mp3': 11,
+    'assets/images/qaida/page2/t02.mp3': 12,
+    'assets/images/qaida/page2/t03.mp3': 13,
+    'assets/images/qaida/page2/t04.mp3': 14,
+    'assets/images/qaida/page1/saa.mp3': 15,
+    'assets/images/qaida/page2/s01.mp3': 16,
+    'assets/images/qaida/page2/s02.mp3': 17,
+    'assets/images/qaida/page2/s03.mp3': 18,
+    'assets/images/qaida/page2/s04.mp3': 19,
+  };
   List<String> audioFilePaths = [
     'assets/images/qaida/page1/alif.mp3',
     'assets/images/qaida/page2/a01.mp3',
@@ -76,9 +98,17 @@ class Page2State extends State<Page2> {
       List<String> selectedAudioFiles = [];
       for (int i = start; i <= end; i++) {
         selectedAudioFiles.add(audioFilePaths[i]);
-        print('_selectedAudioFiles: $selectedAudioFiles');
+        // print('_selectedAudioFiles: $selectedAudioFiles');
       }
+
+      List<int?> audioIndexes = selectedAudioFiles
+          .map((filePath) => audioIndexMap[filePath])
+          .toList();
+
       AudioListHolder2.audioList = selectedAudioFiles;
+      AudioListHolder2.audioIndexes = audioIndexes;
+      print(audioIndexes);
+
       widget.isMultipleSelectionEnabled = true;
     }
     setState(() {});
@@ -103,6 +133,9 @@ class Page2State extends State<Page2> {
         if (state.processingState == ProcessingState.completed) {
           setState(() {
             containerAudioPlayingStates[index] = false;
+            if (currentlyPlayingIndex == index) {
+              currentlyPlayingIndex = -1;
+            }
           });
         }
       });
@@ -117,6 +150,12 @@ class Page2State extends State<Page2> {
 
       await _audioPlayer.play();
     }
+  }
+
+  void updateCurrentlyPlayingIndex(int index) {
+    setState(() {
+      currentlyPlayingIndex = index;
+    });
   }
 
   @override
@@ -216,7 +255,9 @@ class Page2State extends State<Page2> {
                                     decoration: BoxDecoration(
                                       color: containerAudioPlayingStates[2]
                                           ? AppColors.lightBrandingColor
-                                          : Colors.transparent,
+                                          : (currentlyPlayingIndex == 2
+                                              ? AppColors.lightBrandingColor
+                                              : Colors.transparent),
                                       border: const Border(
                                         left: BorderSide(width: 1),
                                         top: BorderSide(width: 1),
@@ -687,7 +728,9 @@ class Page2State extends State<Page2> {
                                     decoration: BoxDecoration(
                                       color: containerAudioPlayingStates[1]
                                           ? AppColors.lightBrandingColor
-                                          : Colors.transparent,
+                                          : (currentlyPlayingIndex == 1
+                                              ? AppColors.lightBrandingColor
+                                              : Colors.transparent),
                                       border: const Border(
                                           left: BorderSide(width: 1),
                                           top: BorderSide(width: 1),
@@ -1407,5 +1450,6 @@ class Page2State extends State<Page2> {
 
 class AudioListHolder2 {
   static List<String> audioList = [];
+  static List<int?> audioIndexes = [];
   static int pageId = 2;
 }
