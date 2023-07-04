@@ -631,14 +631,16 @@ class SwipePagesState extends State<SwipePages> {
 
       for (int i = _currentPlayingIndex; i < _audioLists.length; i++) {
         if (_isPlaying && !_isPaused) {
-          int audioIndex0 = AudioListHolder1.audioIndexes[i] ?? -1;
-          // int audioIndex1 = AudioListHolder2.audioIndexes[i] ?? -1;
           if (_currentPageIndex == 0) {
+            int audioIndex0 = AudioListHolder1.audioIndexes[i] ?? -1;
             _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
+            await _audioLists[i].play();
           } else if (_currentPageIndex == 1) {
-            //    _page2Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+            int audioIndex1 = AudioListHolder2.audioIndexes[i] ?? -1;
+            _page2Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+            await _audioLists[i].play();
           }
-          await _audioLists[i].play();
+          //await _audioLists[i].play();
         }
         await _audioLists[i].playerStateStream.firstWhere((state) =>
             state.processingState == ProcessingState.completed || _isPaused);
@@ -646,7 +648,7 @@ class SwipePagesState extends State<SwipePages> {
           if (_currentPageIndex == 0) {
             _page1Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
           } else if (_currentPageIndex == 1) {
-            //   _page2Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+            _page2Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
           }
         }
 
