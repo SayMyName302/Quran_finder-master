@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
@@ -15,9 +16,10 @@ class VideoPlayerContainer extends StatelessWidget {
     int network = Provider.of<int>(context);
 
     return Consumer<MiraclesOfQuranProvider>(
-      builder: (context, miraclesOfQuranProvider, child) {
-        bool isPlaying = miraclesOfQuranProvider.controller.value.isPlaying;
-        print(miraclesOfQuranProvider.isNetworkError);
+      builder: (context, featuremiraclesOfQuranProvider, child) {
+        bool isPlaying =
+            featuremiraclesOfQuranProvider.controller.value.isPlaying;
+        print(featuremiraclesOfQuranProvider.isNetworkError);
         return Column(
           children: [
             network != 1
@@ -32,10 +34,10 @@ class VideoPlayerContainer extends StatelessWidget {
                     ),
                   )
                 : const SizedBox.shrink(),
-            miraclesOfQuranProvider.controller.value.isInitialized
+            featuremiraclesOfQuranProvider.controller.value.isInitialized
                 ? InkWell(
                     onTap: () {
-                      miraclesOfQuranProvider.playVideo();
+                      featuremiraclesOfQuranProvider.playVideo();
                     },
                     child: Stack(
                       alignment: Alignment.center,
@@ -47,10 +49,10 @@ class VideoPlayerContainer extends StatelessWidget {
                             width: double.maxFinite,
                             // color: Colors.red,
                             child: AspectRatio(
-                              aspectRatio: miraclesOfQuranProvider
+                              aspectRatio: featuremiraclesOfQuranProvider
                                   .controller.value.aspectRatio,
                               child: VideoPlayer(
-                                  miraclesOfQuranProvider.controller),
+                                  featuremiraclesOfQuranProvider.controller),
                             )),
                         Positioned(
                             left: 0,
@@ -61,7 +63,7 @@ class VideoPlayerContainer extends StatelessWidget {
                                 margin:
                                     EdgeInsets.only(left: 20.w, right: 20.w),
                                 child: VideoProgressIndicator(
-                                    miraclesOfQuranProvider.controller,
+                                    featuremiraclesOfQuranProvider.controller,
                                     allowScrubbing: true))),
                         Positioned(
                             left: 0,
@@ -82,8 +84,8 @@ class VideoPlayerContainer extends StatelessWidget {
                                   builder: (context) => LandScapePlayer(
                                     //  controller: miraclesOfQuranProvider.controller,
                                     //video: miraclesOfQuranProvider.controller.value.isPlaying,
-                                    miraclesOfQuranProvider:
-                                        miraclesOfQuranProvider,
+                                    featuremiraclesOfQuranProvider:
+                                        featuremiraclesOfQuranProvider,
                                     isPlaying: isPlaying,
                                   ),
                                 ));
@@ -102,12 +104,13 @@ class VideoPlayerContainer extends StatelessWidget {
                     margin: EdgeInsets.only(left: 20.w, right: 20.w),
                     color: Colors.black,
                     alignment: Alignment.center,
-                    child: !miraclesOfQuranProvider.isNetworkError
+                    child: !featuremiraclesOfQuranProvider.isNetworkError
                         ? const CircularProgressIndicator()
                         : InkWell(
                             onTap: () {
-                              miraclesOfQuranProvider.setNetworkError(false);
-                              miraclesOfQuranProvider.initVideoPlayer();
+                              featuremiraclesOfQuranProvider
+                                  .setNetworkError(false);
+                              featuremiraclesOfQuranProvider.initVideoPlayer();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -139,13 +142,13 @@ class LandScapePlayer extends StatefulWidget {
     //  required this.controller,
     //required this.video,
     required this.isPlaying,
-    required this.miraclesOfQuranProvider,
+    required this.featuremiraclesOfQuranProvider,
   }) : super(key: key);
 
   // final VideoPlayerController controller;
   // final video;
   final bool isPlaying;
-  final MiraclesOfQuranProvider miraclesOfQuranProvider;
+  final MiraclesOfQuranProvider featuremiraclesOfQuranProvider;
 
   @override
   State<LandScapePlayer> createState() => _LandScapePlayerState();
@@ -187,12 +190,12 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
             isPlaying = !isPlaying;
           });
 
-          widget.miraclesOfQuranProvider!.playVideo();
+          widget.featuremiraclesOfQuranProvider!.playVideo();
         },
         child: Stack(
           alignment: Alignment.center,
           children: [
-            VideoPlayer(widget.miraclesOfQuranProvider.controller),
+            VideoPlayer(widget.featuremiraclesOfQuranProvider.controller),
             Positioned(
                 left: 0,
                 right: 0,
@@ -201,7 +204,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
                     height: 15.h,
                     margin: EdgeInsets.only(left: 20.w, right: 20.w),
                     child: VideoProgressIndicator(
-                        widget.miraclesOfQuranProvider!.controller!,
+                        widget.featuremiraclesOfQuranProvider!.controller!,
                         allowScrubbing: true))),
             Positioned(
                 left: 0,

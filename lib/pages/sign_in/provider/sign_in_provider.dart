@@ -340,7 +340,8 @@ class SignInProvider extends ChangeNotifier {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: email)
           .then((value) {
-        showErrorSnackBar("An Email is sent to You Check your Gmail", context);
+        showErrorSnackBar(
+            "An Email is sent to you, Please check your mail", context);
         EasyLoadingDialog.dismiss(context);
         Navigator.of(context).pop();
       });

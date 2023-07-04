@@ -1,3 +1,6 @@
+import 'package:hive_flutter/adapters.dart';
+import 'package:nour_al_quran/shared/utills/app_constants.dart';
+
 class FeaturedModel {
   int? _storyId;
   String? _storyTitle;
@@ -12,9 +15,16 @@ class FeaturedModel {
   String? get videoUrl => _videoUrl;
   String? get audioUrl => _audioUrl;
   String? get text => _text;
-  String? get contentType => _contentType; // Getter for content_type
+  String? get contentType => _contentType;
+
+  String? _title;
+
+  String? get title => _title;
+
+  // Getter for content_type
 
   FeaturedModel({
+    required title,
     required storyId,
     required storyTitle,
     required image,
@@ -23,6 +33,7 @@ class FeaturedModel {
     required video,
     required contentType, // New parameter: content_type
   }) {
+    _title = title;
     _storyId = storyId;
     _storyTitle = storyTitle;
     _image = image;
@@ -33,10 +44,12 @@ class FeaturedModel {
   }
 
   FeaturedModel.fromJson(Map<String, dynamic> json) {
+    _title = json['miracle_title'];
     _storyId = json['story_id'];
     _storyTitle = json['story_title'];
     _image = json['app_image_url'];
     _audioUrl = json['content_url'];
+    _text = json[Hive.box(appBoxKey).get(miraclesTranslationKey) ?? 'text'];
     _text = json['text'];
     _videoUrl = json['content_url'];
     _contentType =
