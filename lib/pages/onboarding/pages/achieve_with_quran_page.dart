@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../../../shared/utills/app_colors.dart';
 import '../../settings/pages/app_them/them_provider.dart';
 
-
 class AchieveWithQuranPage extends StatelessWidget {
   const AchieveWithQuranPage({Key? key}) : super(key: key);
 
@@ -45,11 +44,12 @@ class AchieveWithQuranPage extends StatelessWidget {
                           if (achieve.selectAchieveWithQuranList.length < 3) {
                             ScaffoldMessenger.of(context)
                               ..removeCurrentSnackBar()
-                              ..showSnackBar(const SnackBar(
-                                content:
-                                    Text("Please Select At Least Three Goals"),
-                                duration: Duration(milliseconds: 500),
-                              ));
+                              ..showSnackBar(SnackBar(
+                                  duration: const Duration(milliseconds: 500),
+                                  content: Text(
+                                    localeText(context,
+                                        "please_select_at_least_three_goals"),
+                                  )));
                           } else {
                             Navigator.of(context)
                                 .pushNamed(RouteHelper.setFavReciter);
@@ -72,7 +72,8 @@ class AchieveWithQuranPage extends StatelessWidget {
     );
   }
 
-  _buildAchievementsList(BuildContext context, OnBoardingProvider achieve, bool isDark, AppColorsProvider appColors) {
+  _buildAchievementsList(BuildContext context, OnBoardingProvider achieve,
+      bool isDark, AppColorsProvider appColors) {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -84,26 +85,52 @@ class AchieveWithQuranPage extends StatelessWidget {
         itemBuilder: (context, index) {
           String achieveText = achieve.achieveWithQuranList[index];
           return InkWell(
-            onTap: (){
-              achieve.addAchieveItem(achieveText, index,context);
+            onTap: () {
+              achieve.addAchieveItem(achieveText, index, context);
             },
             child: Container(
-              margin: EdgeInsets.only(bottom: 15.h,),
-              padding: EdgeInsets.only(left: 10.w,right: 10.w,top: 15.h,bottom: 15.h),
-              decoration: BoxDecoration(
-                  color: achieve.selectAchieveWithQuranList.contains(achieveText) ? isDark ? AppColors.brandingDark :AppColors.lightBrandingColor : Colors.transparent,
-                  border: Border.all(color: achieve.selectAchieveWithQuranList.contains(achieveText) ? appColors.mainBrandingColor : isDark ? AppColors.grey3 : AppColors.grey5),
-                  borderRadius: BorderRadius.circular(6.r)
+              margin: EdgeInsets.only(
+                bottom: 15.h,
               ),
+              padding: EdgeInsets.only(
+                  left: 10.w, right: 10.w, top: 15.h, bottom: 15.h),
+              decoration: BoxDecoration(
+                  color:
+                      achieve.selectAchieveWithQuranList.contains(achieveText)
+                          ? isDark
+                              ? AppColors.brandingDark
+                              : AppColors.lightBrandingColor
+                          : Colors.transparent,
+                  border: Border.all(
+                      color: achieve.selectAchieveWithQuranList
+                              .contains(achieveText)
+                          ? appColors.mainBrandingColor
+                          : isDark
+                              ? AppColors.grey3
+                              : AppColors.grey5),
+                  borderRadius: BorderRadius.circular(6.r)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(localeText(context, achieveText),style: TextStyle(
-                      fontFamily: 'satoshi',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500
-                  ),),
-                  Icon(achieve.selectAchieveWithQuranList.contains(achieveText) ? Icons.check_circle : Icons.circle,size: 23.h,color: achieve.selectAchieveWithQuranList.contains(achieveText) ? isDark ? Colors.white :appColors.mainBrandingColor : AppColors.grey5,)
+                  Text(
+                    localeText(context, achieveText),
+                    style: TextStyle(
+                        fontFamily: 'satoshi',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Icon(
+                    achieve.selectAchieveWithQuranList.contains(achieveText)
+                        ? Icons.check_circle
+                        : Icons.circle,
+                    size: 23.h,
+                    color:
+                        achieve.selectAchieveWithQuranList.contains(achieveText)
+                            ? isDark
+                                ? Colors.white
+                                : appColors.mainBrandingColor
+                            : AppColors.grey5,
+                  )
                 ],
               ),
             ),

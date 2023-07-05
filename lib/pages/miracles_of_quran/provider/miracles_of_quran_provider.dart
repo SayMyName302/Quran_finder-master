@@ -42,7 +42,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   Future<void> getMiracles() async {
     _miracles = await HomeDb().getMiracles();
     _featureMiraclesList = await HomeDb().getFeatured3();
-    _loadMiraclesOrder();
+    // _loadMiraclesOrder();
     notifyListeners();
   }
 
@@ -57,15 +57,17 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     _selectedMiracle = _miracles[index];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
-    _moveMiracleToEnd(index);
+    //_moveMiracleToEnd(index);
   }
 
-  void goToMiracleDetailsPageFromFeatured(String title, BuildContext context, int index) {
-    int miracleIndex = _featureMiraclesList.indexWhere((element) => element.title == title);
+  void goToMiracleDetailsPageFromFeatured(
+      String title, BuildContext context, int index) {
+    int miracleIndex =
+        _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
-    _moveMiracleToEnd(index);
+    //_moveMiracleToEnd(index);
   }
 
   void setVideoFile(File video) {
@@ -125,7 +127,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   }
 
   void _moveMiracleToEnd(int index) {
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       _miracles.removeAt(index);
       _miracles.add(_selectedMiracle!);
       notifyListeners();
@@ -139,23 +141,23 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     _preferences?.setStringList('miracles_order', order);
   }
 
-  void _loadMiraclesOrder() {
-    final List<String>? order = _preferences?.getStringList('miracles_order');
-    if (order != null && order.isNotEmpty) {
-      // Add a check for non-empty order
-      final List<Miracles> sortedMiracles = [];
-      for (final title in order) {
-        final miracle = _miracles.firstWhere(
-          (m) => m.title == title,
-        );
-        if (miracle != null) {
-          sortedMiracles.add(miracle);
-        }
-      }
-      _miracles = sortedMiracles;
-      notifyListeners();
-    }
-  }
+  // void _loadMiraclesOrder() {
+  //   final List<String>? order = _preferences?.getStringList('miracles_order');
+  //   if (order != null && order.isNotEmpty) {
+  //     // Add a check for non-empty order
+  //     final List<Miracles> sortedMiracles = [];
+  //     for (final title in order) {
+  //       final miracle = _miracles.firstWhere(
+  //         (m) => m.title == title,
+  //       );
+  //       if (miracle != null) {
+  //         sortedMiracles.add(miracle);
+  //       }
+  //     }
+  //     _miracles = sortedMiracles;
+  //     notifyListeners();
+  //   }
+  // }
 
   void favoriteMiraclesDetailsPage(String s, BuildContext context, int index) {}
 

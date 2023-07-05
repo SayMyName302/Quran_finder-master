@@ -103,7 +103,7 @@ class paywallpage2 extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(
-                                'Unlimited free access for 7 days, then $perYearPrice per year ($perMonthPrice )',
+                                'unlimited free access for 7 days then $perYearPrice  per year ($perMonthPrice )',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: 'satoshi',
@@ -116,17 +116,19 @@ class paywallpage2 extends StatelessWidget {
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Text(
-                                      'View All Plans',
-                                      style: TextStyle(
-                                        color: AppColors.mainBrandingColor,
-                                        fontFamily: 'satoshi',
-                                        fontSize: 15.sp,
-                                      ),
-                                    ),
-                                  ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: Text(
+                                        localeText(
+                                          context,
+                                          'view_all_plans',
+                                        ),
+                                        style: TextStyle(
+                                          color: AppColors.mainBrandingColor,
+                                          fontFamily: 'satoshi',
+                                          fontSize: 15.sp,
+                                        ),
+                                      )),
                                 ),
                               ),
                             ],
@@ -152,28 +154,30 @@ class paywallpage2 extends StatelessWidget {
                   child: Column(
                     children: [
                       Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Today',
-                          style: TextStyle(
-                            fontFamily: 'satoshi',
-                            fontSize: 19.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            localeText(
+                              context,
+                              'today',
+                            ),
+                            style: TextStyle(
+                              fontFamily: 'satoshi',
+                              fontSize: 19.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            'Start your full access to all the sections of the App.',
-                            style: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                        ),
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Text(
+                              localeText(context,
+                                  'start_your_full_access_to_all_the_sections_of_app'),
+                              style: TextStyle(
+                                fontFamily: 'satoshi',
+                                fontSize: 12.sp,
+                              ),
+                            )),
                       ),
                     ],
                   ),
@@ -185,28 +189,27 @@ class paywallpage2 extends StatelessWidget {
                     child: Column(
                       children: [
                         Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Day 5',
-                            style: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontSize: 19.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              localeText(context, 'day_5'),
+                              style: TextStyle(
+                                fontFamily: 'satoshi',
+                                fontSize: 19.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                              'You will get a reminder about when your trial will end.',
-                              style: TextStyle(
-                                fontFamily: 'satoshi',
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          ),
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: Text(
+                                localeText(context,
+                                    'you_will_get_a_reminder_about_when_your_trial_will_end'),
+                                style: TextStyle(
+                                  fontFamily: 'satoshi',
+                                  fontSize: 12.sp,
+                                ),
+                              )),
                         ),
                       ],
                     ),
@@ -219,28 +222,30 @@ class paywallpage2 extends StatelessWidget {
                     child: Column(
                       children: [
                         Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Day 7',
-                            style: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontSize: 19.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              localeText(
+                                context,
+                                'day_7',
+                              ),
+                              style: TextStyle(
+                                fontFamily: 'satoshi',
+                                fontSize: 19.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                              'You will be charged.Cancel anytime before this.',
-                              style: TextStyle(
-                                fontFamily: 'satoshi',
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          ),
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: Text(
+                                localeText(context,
+                                    'you_will_be_charged_cancel_anytime_before_this'),
+                                style: TextStyle(
+                                  fontFamily: 'satoshi',
+                                  fontSize: 12.sp,
+                                ),
+                              )),
                         ),
                       ],
                     ),

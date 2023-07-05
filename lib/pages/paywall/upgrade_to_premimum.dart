@@ -27,16 +27,18 @@ class paywall extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
-              child: Text(
-                'Get the premium today and enjoy unlimited access to the Quran App',
-                style: TextStyle(
-                    fontFamily: 'satoshi',
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
+                child: Text(
+                  localeText(
+                    context,
+                    'get_the_premium_today_and_enjoy_unlimited_access_to_the_quran_pro_app',
+                  ),
+                  style: TextStyle(
+                      fontFamily: 'satoshi',
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500),
+                )),
             SizedBox(
               height: 15.h,
             ),
@@ -45,22 +47,24 @@ class paywall extends StatelessWidget {
               height: 15.h,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Text(
-                'Plans specially curated for you',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'satoshi',
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Text(
+                  localeText(
+                    context,
+                    'plans_specially_curated_for_you',
+                  ),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'satoshi',
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.bold),
+                )),
             const pricetile(),
             const PrimePlanContainer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Recurring billing , Cancel Anytime',
+                Text(localeText(context, 'recurring_billing_cancel_anytime'),
                     style: TextStyle(
                       color: AppColors.grey3,
                       fontFamily: 'satoshi',
@@ -76,41 +80,44 @@ class paywall extends StatelessWidget {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(
-                        'Your subscription will automatically renew for the same purchasing program at the same time',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.grey3,
-                          fontFamily: 'satoshi',
-                          fontSize: 12.sp,
-                        )),
-                  ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                          localeText(
+                            context,
+                            'your_subscription_will_automatically_renew_for_the_same_purchasing_program_at_the_same_time',
+                          ),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColors.grey3,
+                            fontFamily: 'satoshi',
+                            fontSize: 12.sp,
+                          ))),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Success Stories',
-                style: TextStyle(
-                    fontFamily: 'satoshi',
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            SuccessStoriesList(),
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  localeText(
+                    context,
+                    'success_stories',
+                  ),
+                  style: TextStyle(
+                      fontFamily: 'satoshi',
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.bold),
+                )),
+            SuccessStoriesList(context: context),
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Frequently Asked Questions',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'satoshi',
-                    fontSize: 17.sp,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  localeText(context, 'frequently_asked_questions'),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'satoshi',
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.bold),
+                )),
             const FAQList(),
           ],
         ),
@@ -352,7 +359,10 @@ class CardSection extends StatelessWidget {
                 children: [
                   Center(
                     child: Text(
-                      'Limited Time Offer for Unlimited Perks & ',
+                      localeText(
+                        context,
+                        'limited_time_offer_for_unlimited_perks_&',
+                      ),
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'satoshi',
@@ -362,7 +372,10 @@ class CardSection extends StatelessWidget {
                   ),
                   Center(
                     child: Text(
-                      'Benefits',
+                      localeText(
+                        context,
+                        'benefits',
+                      ),
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'satoshi',
@@ -380,12 +393,30 @@ class CardSection extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Center(
-                        child: Text(
-                          'Ends in 3:00',
-                          style: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w500),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              localeText(
+                                context,
+                                'ends_in',
+                              ),
+                              style: TextStyle(
+                                fontFamily: 'satoshi',
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "3:00",
+                              style: TextStyle(
+                                fontFamily: 'satoshi',
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -424,14 +455,16 @@ class PrimePlanContainer extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: Center(
-                child: Text(
-                  'Prime Plan',
-                  style: TextStyle(
-                      fontFamily: 'satoshi',
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500),
+                  child: Text(
+                localeText(
+                  context,
+                  'prime_plan',
                 ),
-              ),
+                style: TextStyle(
+                    fontFamily: 'satoshi',
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500),
+              )),
             ),
             Container(
               padding: const EdgeInsets.all(16),
@@ -445,15 +478,17 @@ class PrimePlanContainer extends StatelessWidget {
                           color: AppColors.googleColor),
                       SizedBox(width: 8.w),
                       Flexible(
-                        child: Text(
-                          'No ads',
-                          style: TextStyle(
-                            fontFamily: 'satoshi',
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          child: Text(
+                        localeText(
+                          context,
+                          'no_ads',
                         ),
-                      ),
+                        style: TextStyle(
+                          fontFamily: 'satoshi',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
                     ],
                   ),
                   SizedBox(height: 10.h),
@@ -463,15 +498,17 @@ class PrimePlanContainer extends StatelessWidget {
                           color: AppColors.googleColor),
                       SizedBox(width: 8.w),
                       Flexible(
-                        child: Text(
-                          'Unlock bedtime Quran stories to cleanse your thoughts',
-                          style: TextStyle(
-                            fontFamily: 'satoshi',
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          child: Text(
+                        localeText(
+                          context,
+                          'unlock_bedtime_quran_stories_to_cleanse_your_thoughts',
                         ),
-                      ),
+                        style: TextStyle(
+                          fontFamily: 'satoshi',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
                     ],
                   ),
                   SizedBox(height: 10.h),
@@ -481,15 +518,17 @@ class PrimePlanContainer extends StatelessWidget {
                           color: AppColors.googleColor),
                       SizedBox(width: 8.w),
                       Flexible(
-                        child: Text(
-                          'Unlock soothing recitation of the Quran to calm your mind',
-                          style: TextStyle(
-                            fontFamily: 'satoshi',
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          child: Text(
+                        localeText(
+                          context,
+                          'unlock_soothing_recitation_of_the_quran_to_calm_your_mind',
                         ),
-                      ),
+                        style: TextStyle(
+                          fontFamily: 'satoshi',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
                     ],
                   ),
                   SizedBox(height: 10.h),
@@ -499,15 +538,17 @@ class PrimePlanContainer extends StatelessWidget {
                           color: AppColors.googleColor),
                       SizedBox(width: 8.w),
                       Flexible(
-                        child: Text(
-                          'Unlock 1000 du’a to protect you from Jahannum',
-                          style: TextStyle(
-                            fontFamily: 'satoshi',
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          child: Text(
+                        localeText(
+                          context,
+                          'unlock_1000_ duas_to_protect_you_from_jahannum',
                         ),
-                      ),
+                        style: TextStyle(
+                          fontFamily: 'satoshi',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
                     ],
                   ),
                 ],
@@ -534,36 +575,37 @@ class PrimePlanContainer extends StatelessWidget {
 }
 
 class SuccessStoriesList extends StatelessWidget {
-  final List<UserModel> successStories = [
-    UserModel(
-      name: 'Ali Muhammad',
-      rating: '4.5',
-      avatarUrl: 'assets/images/app_icons/male1.png',
-      description:
-          'Love it! This app has helped me calm myself. The recitation of the Quran captivates me and makes me want to put down my work and listen to the whole chapter. Every time I feel depressed or restless I come back here to listen to the recitations.',
-    ),
-    UserModel(
-      name: 'Usman Mirza',
-      rating: '4.9',
-      avatarUrl: 'assets/images/app_icons/male2.png',
-      description:
-          'This app was referred by a friend. He told me that listening to recitations on this app will help cure my insomnia. When I opened this app and saw the huge library of Quran recitations and stories, I was blown away. I think it might have a different story for each day of the month.',
-    ),
-    UserModel(
-      name: 'Nadir Ahmed',
-      rating: '4.5',
-      avatarUrl: 'assets/images/app_icons/male3.png',
-      description:
-          'The prime plan is awesome! It has no ads and unlocks hundreds of extra stories. I can listen to the recitations and stories from the Quran here, all day and not get tired.',
-    ),
-    // UserModel(
-    //   name: 'Jane Smith',
-    //   rating: '4.0',
-    //   avatarUrl: 'assets/images/app_icons/avatar.png',
-    //   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    // ),
-    // Add more success stories here
-  ];
+  final BuildContext context; // Add this line
+  final List<UserModel> successStories;
+  SuccessStoriesList({required this.context})
+      : successStories = [
+          UserModel(
+              name: 'Ali Muhammad',
+              rating: '4.5',
+              avatarUrl: 'assets/images/app_icons/male1.png',
+              description: localeText(context,
+                  'love_it!_this_app_has_helped_me_calm_myself._the_recitation_of_the_quran_captivates_me_and_makes_me_want_to_put_down_my_work_and_listen_to_the_whole_chapter._every_time_i_feel_depressed_or_restless_i_come_back_here_to_listen_to_the_recitations.')),
+          UserModel(
+              name: 'Usman Mirza',
+              rating: '4.9',
+              avatarUrl: 'assets/images/app_icons/male2.png',
+              description: localeText(context,
+                  'this_app_was_referred_by_a_friend._he_told_me_that_listening_to_recitations_on_this_app_will_help_cure_insomnia._when_i_opened_this_app_and_saw_the_huge_library_of_quran_recitations_and_stories,_ i_was_blown_away._i think_it_might_have_a_different_story_for_each_day_of_the_month.')),
+
+          UserModel(
+              name: 'Nadir Ahmed',
+              rating: '4.5',
+              avatarUrl: 'assets/images/app_icons/male3.png',
+              description: localeText(context,
+                  'the_prime_plan_is_awesome!_it_has_no_ads_and_unlocks_hundreds_of_extra_stories._i_can_listen_to_the_recitations_and_stories_from_the_quran_here,_all_day_and_not_get_tired.')),
+          // UserModel(
+          //   name: 'Jane Smith',
+          //   rating: '4.0',
+          //   avatarUrl: 'assets/images/app_icons/avatar.png',
+          //   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          // ),
+          // Add more success stories here
+        ];
 
   @override
   Widget build(BuildContext context) {
@@ -584,7 +626,7 @@ class SuccessStoriesList extends StatelessWidget {
 class SuccessStoryCard extends StatelessWidget {
   final UserModel user;
 
-  const SuccessStoryCard({super.key, required this.user});
+  const SuccessStoryCard({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -621,9 +663,10 @@ class SuccessStoryCard extends StatelessWidget {
                     Row(
                       children: [
                         SvgPicture.asset(
-                            width: 20.w,
-                            height: 20.h,
-                            'assets/images/app_icons/Star.svg'),
+                          'assets/images/app_icons/Star.svg',
+                          width: 20.w,
+                          height: 20.h,
+                        ),
                         Text(user.rating),
                       ],
                     ),
@@ -632,7 +675,13 @@ class SuccessStoryCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Text(user.description),
+            Flexible(
+              // or Expanded
+              child: Text(
+                user.description,
+                overflow: TextOverflow.fade, // or TextOverflow.ellipsis
+              ),
+            ),
           ],
         ),
       ),
@@ -646,31 +695,30 @@ class FAQList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
+      children: [
         FAQItem(
-            question: '"I downloaded the app, am I going to be charged?"',
-            answer:
-                '''We provide our users with a free version, as well as a paid version. The paid version unlocks more stories and recitations of the Quran.'''),
+            question: localeText(
+                context, 'i_downloaded_the_app,_am_i_going_to_be_charged?'),
+            answer: localeText(context,
+                '''we_provide_our_users_wtih_a_free_versions,_as_well_as_a_paid_version._the_paid_version_unlocks_more_stories_and_recitations_of_the_quran.''')),
         FAQItem(
-            question: '"How can I cancel my subscription?"',
-            answer:
-                '''• If you downloaded the app through an iOS device: Cancel the subscription via Apple 
-                
-• If you downloaded the app via an Android device: Cancel the subscription from Google'''),
+            question: localeText(context, 'how_can_i_cancel_my_subscription?'),
+            answer: localeText(context,
+                '''if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple_and_if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google''')),
         FAQItem(
-            question: '"How can I access Premium Plan on multiple devices?"',
-            answer:
-                '''We advise you to make an account to access the premium plan on multiple devices. Open the app. Go to the link that says "Enter your email". Input your email.
-Once you have entered your email address, click "Next" to continue. You will get an email with a login link. Please be sure that you have access to this email address on the device you plan to use.
-Tap on the link, and you will be redirected to the app and logged into your existing account.'''),
+            question: localeText(
+                context, 'how_can_i_access_premium_plan_on_multiple_devices?'),
+            answer: localeText(context,
+                '''we_advise_you_to_make_an_account_to_access_the_premium_plan_on_multiple_devices._open_the_app._go_to_the_link_that_says_enter_your_email._input_your_email._once_you_have_entered_your_email_address,_click_next_to_continue._you_will_get_an_email_with_a_login_link._please_be_sure_that_you_have_access_to_this_email_address_on_the_device_you_plan_to_use._tap_on_the_link,_and_you_will_be_redirected_to_the_app_and_logged_into_your_existing_account,''')),
         FAQItem(
-            question: '"Will I get a refund?"',
-            answer:
-                "If you have purchased our subscription via Google Play Store, Google will process refunds only if it’s less than 48 hours after signing up or making an in-app purchase."),
+            question: localeText(context, 'will_i_get_a_refund?'),
+            answer: localeText(context,
+                "if_you_have_purchased_our_subscription_via_google_play_store,_google_will_process_refunds_only_if_it's_less_than_48_hours_after_signing_up_or_making_an_in-app_purchase.")),
         FAQItem(
-            question: '"How can I unsubscribe from promotional emails?"',
-            answer:
-                "You can unsubscribe from our promotional emails whenever you want by scrolling down to the bottom of the email and clicking on the “Unsubscribe” link. We will not send you any promotional emails once you have unsubscribed yourself.")
+            question: localeText(
+                context, 'how_can_i_unsubscribe_from_promotional_emails?'),
+            answer: localeText(context,
+                "you_can_unsubscribe_from_our_promotional_emails_whenever_you_want_by_scrolling_down_to_the_bottom_of_the_email_and_clicking_on _the_unsubscribe_link._we_will_not_send_you_any_promotional_emails_once_you_have_unsubscribed_yourself."))
         // Add more FAQ items here
       ],
     );
