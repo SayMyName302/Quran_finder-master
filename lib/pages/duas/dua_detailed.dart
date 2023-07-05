@@ -175,7 +175,7 @@ class DuaDetail extends StatelessWidget {
                                   textDirection: TextDirection.rtl,
                                   //  textAlign: TextAlign.end,
                                   style: TextStyle(
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w400,
                                     fontSize: fontProvider.fontSizeArabic.sp,
                                     fontFamily: 'satoshi',
                                   ),
@@ -200,8 +200,9 @@ class DuaDetail extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 17.sp,
-                                    fontFamily: fontProvider.finalFont,
+                                    fontSize:
+                                        fontProvider.fontSizeTranslation.sp,
+                                    fontFamily: 'satoshi',
                                   ),
                                 ),
                               ),
@@ -283,8 +284,9 @@ class DuaDetail extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 17.sp,
-                                    fontFamily: fontProvider.finalFont,
+                                    fontSize:
+                                        fontProvider.fontSizeTranslation.sp,
+                                    fontFamily: 'satoshi',
                                   ),
                                 ),
                               ),

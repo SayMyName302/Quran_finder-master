@@ -74,12 +74,13 @@ class QaidaPageIndex extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6.0),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
                   listData[index],
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontFamily: "satoshi",
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),

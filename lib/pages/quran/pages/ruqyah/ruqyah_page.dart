@@ -136,7 +136,10 @@ class RuqyahPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                margin: EdgeInsets.only(left: 10.w),
+                                margin:
+                                    EdgeInsets.only(left: 10.w, right: 10.w),
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
                                 child: Row(
                                   children: [
                                     Padding(
@@ -168,12 +171,20 @@ class RuqyahPage extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          capitalize(dua.duaTitle.toString()),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12.sp,
-                                            fontFamily: "satoshi",
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.6,
+                                          child: Text(
+                                            capitalize(dua.duaTitle.toString()),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15.sp,
+                                              fontFamily: "satoshi",
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                         SizedBox(height: 2.h),
@@ -185,7 +196,7 @@ class RuqyahPage extends StatelessWidget {
                                           child: Text(
                                             dua.duaRef.toString(),
                                             style: TextStyle(
-                                              fontSize: 10.sp,
+                                              fontSize: 12.sp,
                                               fontFamily: "satoshi",
                                               color: AppColors.grey4,
                                             ),

@@ -38,6 +38,24 @@ class Page15State extends State<Page15> {
     'assets/images/qaida/page15/14.mp3',
     'assets/images/qaida/page15/15.mp3',
   ];
+  Map<String, int> audioIndexMap = {
+    'assets/images/qaida/page15/00.mp3': 0,
+    'assets/images/qaida/page15/01.mp3': 1,
+    'assets/images/qaida/page15/02.mp3': 2,
+    'assets/images/qaida/page15/03.mp3': 3,
+    'assets/images/qaida/page15/04.mp3': 4,
+    'assets/images/qaida/page15/05.mp3': 5,
+    'assets/images/qaida/page15/06.mp3': 6,
+    'assets/images/qaida/page15/07.mp3': 7,
+    'assets/images/qaida/page15/08.mp3': 8,
+    'assets/images/qaida/page15/09.mp3': 9,
+    'assets/images/qaida/page15/10.mp3': 10,
+    'assets/images/qaida/page15/11.mp3': 11,
+    'assets/images/qaida/page15/12.mp3': 12,
+    'assets/images/qaida/page15/13.mp3': 13,
+    'assets/images/qaida/page15/14.mp3': 14,
+    'assets/images/qaida/page15/15.mp3': 15,
+  };
 
   int? _startIndex;
   int? _endIndex;
@@ -65,6 +83,9 @@ class Page15State extends State<Page15> {
         if (state.processingState == ProcessingState.completed) {
           setState(() {
             containerAudioPlayingStates[index] = false;
+            if (currentlyPlayingIndex == index) {
+              currentlyPlayingIndex = -1;
+            }
           });
         }
       });
@@ -79,6 +100,12 @@ class Page15State extends State<Page15> {
 
       await _audioPlayer.play();
     }
+  }
+
+  void updateCurrentlyPlayingIndex(int index) {
+    setState(() {
+      currentlyPlayingIndex = index;
+    });
   }
 
   void _toggleSelection(int index, String filePath) {
@@ -108,9 +135,14 @@ class Page15State extends State<Page15> {
       List<String> selectedAudioFiles = [];
       for (int i = start; i <= end; i++) {
         selectedAudioFiles.add(audioFilePaths[i]);
-        print('_selectedAudioFiles: $selectedAudioFiles');
+        // print('_selectedAudioFiles: $selectedAudioFiles');
       }
+      List<int?> audioIndexes = selectedAudioFiles
+          .map((filePath) => audioIndexMap[filePath])
+          .toList();
       AudioListHolder15.audioList = selectedAudioFiles;
+      AudioListHolder15.audioIndexes = audioIndexes;
+
       widget.isMultipleSelectionEnabled = true;
     }
     setState(() {});
@@ -166,7 +198,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[1]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 1
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     top: BorderSide(width: 1),
@@ -227,7 +261,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[0]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 0
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     top: BorderSide(width: 1),
@@ -294,7 +330,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[4]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 4
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                   right: BorderSide(width: 1),
                                   left: BorderSide(width: 1),
@@ -354,7 +392,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[3]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 3
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                   right: BorderSide(width: 1),
                                 ),
@@ -413,7 +453,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[2]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 2
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                   right: BorderSide(width: 1),
                                 ),
@@ -505,7 +547,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[7]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 7
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1),
@@ -565,7 +609,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[6]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 6
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
@@ -624,7 +670,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[5]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 5
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
@@ -691,7 +739,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[9]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 9
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1),
@@ -752,7 +802,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[8]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 8
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
@@ -818,7 +870,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[11]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 11
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1),
@@ -878,7 +932,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[10]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 10
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
@@ -944,7 +1000,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[13]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 13
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1),
@@ -1004,7 +1062,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[12]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 12
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     bottom: BorderSide(width: 1)),
@@ -1070,7 +1130,9 @@ class Page15State extends State<Page15> {
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[15]
                                     ? AppColors.lightBrandingColor
-                                    : Colors.transparent,
+                                    : (currentlyPlayingIndex == 15
+                                        ? AppColors.lightBrandingColor
+                                        : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
                                     left: BorderSide(width: 1),
@@ -1130,7 +1192,9 @@ class Page15State extends State<Page15> {
                             decoration: BoxDecoration(
                               color: containerAudioPlayingStates[14]
                                   ? AppColors.lightBrandingColor
-                                  : Colors.transparent,
+                                  : (currentlyPlayingIndex == 14
+                                      ? AppColors.lightBrandingColor
+                                      : Colors.transparent),
                               border: const Border(
                                   right: BorderSide(width: 1),
                                   bottom: BorderSide(width: 1)),
@@ -1202,5 +1266,7 @@ class Page15State extends State<Page15> {
 
 class AudioListHolder15 {
   static List<String> audioList = [];
+  static List<int?> audioIndexes = [];
+
   static int pageId = 15;
 }

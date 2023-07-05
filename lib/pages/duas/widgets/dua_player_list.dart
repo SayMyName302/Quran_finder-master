@@ -80,6 +80,8 @@ class DuaPlayList extends StatelessWidget {
                               Container(
                                 margin:
                                     EdgeInsets.only(left: 10.w, right: 10.w),
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
                                 child: Row(
                                   children: [
                                     Padding(
@@ -111,15 +113,23 @@ class DuaPlayList extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          capitalize(dua.duaTitle.toString()),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12.sp,
-                                            fontFamily: "satoshi",
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.6,
+                                          child: Text(
+                                            capitalize(dua.duaTitle.toString()),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15.sp,
+                                              fontFamily: "satoshi",
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
-                                        SizedBox(height: 5.h),
+                                        SizedBox(height: 2.h),
                                         SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
@@ -130,7 +140,7 @@ class DuaPlayList extends StatelessWidget {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                              fontSize: 10.sp,
+                                              fontSize: 12.sp,
                                               fontFamily: "satoshi",
                                               color: AppColors.grey4,
                                             ),
