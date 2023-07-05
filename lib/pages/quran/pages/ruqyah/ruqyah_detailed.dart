@@ -180,7 +180,7 @@ class RuqyahDetail extends StatelessWidget {
                                   // textAlign: TextAlign.end,
                                   textDirection: TextDirection.rtl,
                                   style: TextStyle(
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w400,
                                     fontSize: fontProvider.fontSizeArabic.sp,
                                     fontFamily: 'satoshi',
                                   ),
@@ -205,8 +205,9 @@ class RuqyahDetail extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 17.sp,
-                                    fontFamily: fontProvider.finalFont,
+                                    fontSize:
+                                        fontProvider.fontSizeTranslation.sp,
+                                    fontFamily: 'satoshi',
                                   ),
                                 ),
                               ),
@@ -247,8 +248,9 @@ class RuqyahDetail extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 17.sp,
-                                    fontFamily: fontProvider.finalFont,
+                                    fontSize:
+                                        fontProvider.fontSizeTranslation.sp,
+                                    fontFamily: 'satoshi',
                                   ),
                                 ),
                               ),

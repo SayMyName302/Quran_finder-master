@@ -61,6 +61,7 @@ class DuaAudioPlayer extends StatelessWidget {
                           child: Center(
                             child: Text(
                               duaTitle,
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'satoshi',
                                 fontWeight: FontWeight.w700,
@@ -152,8 +153,8 @@ class DuaAudioPlayer extends StatelessWidget {
                         'Dua $index  (Total $part7)',
                         style: const TextStyle(
                           fontFamily: 'satoshi',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14.0,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 19.0,
                         ),
                       ),
                     ],
