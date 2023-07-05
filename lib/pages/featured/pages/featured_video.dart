@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
+import 'package:nour_al_quran/pages/featured/models/miracles.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
+import 'package:nour_al_quran/pages/featured/widgets/feature_video_player_container.dart';
+
 import 'package:nour_al_quran/pages/featured/widgets/feature_videocontent.dart';
+import 'package:nour_al_quran/pages/miracles_of_quran/models/miracles.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/widgets/miracles_content_text.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/widgets/video_player_container.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -10,30 +14,30 @@ import 'package:provider/provider.dart';
 import '../../../shared/widgets/app_bar.dart';
 import '../../settings/pages/notifications/notification_services.dart';
 
-class favoriteMiraclesDetailsPage extends StatefulWidget {
-  const favoriteMiraclesDetailsPage({Key? key}) : super(key: key);
+class FavoriteMiraclesDetailsPage extends StatefulWidget {
+  const FavoriteMiraclesDetailsPage({Key? key}) : super(key: key);
 
   @override
-  State<favoriteMiraclesDetailsPage> createState() =>
-      _favoriteMiraclesDetailsPageState();
+  State<FavoriteMiraclesDetailsPage> createState() =>
+      _FavoriteMiraclesDetailsPageState();
 }
 
-class _favoriteMiraclesDetailsPageState
-    extends State<favoriteMiraclesDetailsPage> {
+class _FavoriteMiraclesDetailsPageState
+    extends State<FavoriteMiraclesDetailsPage> {
   @override
   void initState() {
     super.initState();
     //  NotificationServices().showNotification();
-    Provider.of<FeatureVideoProvider>(context, listen: false).initVideoPlayer();
+    Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false)
+        .initVideoPlayer();
   }
 
   @override
   Widget build(BuildContext context) {
-    FeaturedModel featuretitle =
-        context.read<FeatureVideoProvider>().selectedFeatureStory!;
+    Miracles2 featuretitle = context.read<FeaturedMiraclesOfQuranProvider>().selectedMiracle!;
     return WillPopScope(
       onWillPop: () async {
-        Provider.of<FeatureVideoProvider>(context, listen: false)
+        Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false)
             .controller
             .dispose();
         return true;
@@ -41,11 +45,11 @@ class _favoriteMiraclesDetailsPageState
       child: Scaffold(
         appBar: buildAppBar(
             context: context,
-            title: localeText(context, featuretitle.storyTitle!.toLowerCase())),
+            title: localeText(context, featuretitle.title!.toLowerCase())),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: const [
-            VideoPlayerContainer(),
+            FeatureVideoPlayerContainer(),
             FeaturedMiraclesContentText(),
           ],
         ),

@@ -1,31 +1,29 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nour_al_quran/pages/featured/models/featured.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:nour_al_quran/pages/featured/pages/featured_video.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:nour_al_quran/shared/database/home_db.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/localization/localization_provider.dart';
+
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 
-class FeatureVideoProvider extends ChangeNotifier {
-  List<FeaturedModel> _feature = [];
+import '../models/miracles.dart';
+
+class FeaturedMiraclesOfQuranProvider extends ChangeNotifier {
+  List<Miracles2> _miracles = [];
   SharedPreferences? _preferences;
-  List<FeaturedModel> get feature => _feature;
-  FeaturedModel? _selectedFeatureStory;
-  FeaturedModel? get selectedFeatureStory => _selectedFeatureStory;
+  List<Miracles2> get miracles => _miracles;
+  Miracles2? _selectedMiracle;
+  Miracles2? get selectedMiracle => _selectedMiracle;
   File? _videoUrl;
   File? get videoUrl => _videoUrl;
-  int _currentFeatureIndex = 0;
+  int currentMiracle = 0;
   bool _isPlaying = false;
 
   bool get isPlaying => _isPlaying;
@@ -37,24 +35,30 @@ class FeatureVideoProvider extends ChangeNotifier {
 
   /// this method will get miracles from home.db
   Future<void> getMiracles() async {
-    _feature = await HomeDb().getFeatured();
-    _loadMiraclesOrder();
+    _miracles = await HomeDb().getFeatured2();
+    // _loadMiraclesOrder();
     notifyListeners();
   }
 
-  FeatureVideoProvider() {
+  FeaturedMiraclesOfQuranProvider() {
     _initSharedPreferences();
   }
   Future<void> _initSharedPreferences() async {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  void goToFeatureMiracleDetailsPage(
-      String title, BuildContext context, int index) {
-    _selectedFeatureStory = _feature[index];
+  void goToMiracleDetailsPage(String title, BuildContext context, int index) {
+    /// i did changes here please check properly
+    print(miracles.length);
+    int miracleIndex = _miracles.indexWhere((element) => element.title == title);
+    print(miracleIndex);
+    _selectedMiracle = _miracles[miracleIndex];
     notifyListeners();
-    Navigator.of(context).pushNamed(RouteHelper.favortiesmiraclesDetails);
-    _moveMiracleToEnd(index);
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return const FavoriteMiraclesDetailsPage();
+    },));
+    // Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
+    // _moveMiracleToEnd(index);
   }
 
   void setVideoFile(File video) {
@@ -71,7 +75,7 @@ class FeatureVideoProvider extends ChangeNotifier {
   void initVideoPlayer() async {
     try {
       controller = VideoPlayerController.network(
-        _selectedFeatureStory!.videoUrl!,
+        _selectedMiracle!.videoUrl!,
       )
         ..initialize().then((_) {
           setNetworkError(false);
@@ -115,8 +119,8 @@ class FeatureVideoProvider extends ChangeNotifier {
 
   void _moveMiracleToEnd(int index) {
     Future.delayed(Duration(milliseconds: 300), () {
-      _feature.removeAt(index);
-      _feature.add(_selectedFeatureStory!);
+      _miracles.removeAt(index);
+      _miracles.add(_selectedMiracle!);
       notifyListeners();
       _saveMiraclesOrder();
     });
@@ -124,7 +128,7 @@ class FeatureVideoProvider extends ChangeNotifier {
 
   void _saveMiraclesOrder() {
     final List<String> order =
-        _feature.map((feature) => feature.storyTitle!).toList();
+        _miracles.map((miracle) => miracle.title!).toList();
     _preferences?.setStringList('miracles_order', order);
   }
 
@@ -132,19 +136,21 @@ class FeatureVideoProvider extends ChangeNotifier {
     final List<String>? order = _preferences?.getStringList('miracles_order');
     if (order != null && order.isNotEmpty) {
       // Add a check for non-empty order
-      final List<FeaturedModel> sortedMiracles = [];
+      final List<Miracles2> sortedMiracles = [];
       for (final title in order) {
-        final miracle = _feature.firstWhere(
-          (m) => m.storyTitle == title,
+        final miracle = _miracles.firstWhere(
+          (m) => m.title == title,
         );
         if (miracle != null) {
           sortedMiracles.add(miracle);
         }
       }
-      _feature = sortedMiracles;
+      _miracles = sortedMiracles;
       notifyListeners();
     }
   }
+
+  void favoriteMiraclesDetailsPage(String s, BuildContext context, int index) {}
 
   /// login to download Video From Internet
 // Future<void> checkVideoAvailable(String miracleTitle,BuildContext context) async {

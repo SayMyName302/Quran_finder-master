@@ -98,7 +98,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => OneSignalProvider()),
     ChangeNotifierProvider(create: (_) => BookmarkProviderDua()),
     ChangeNotifierProvider(create: (_) => BookmarkProviderRuqyah()),
-    ChangeNotifierProvider(create: (_) => FeatureVideoProvider()),
+    ChangeNotifierProvider(create: (_) => FeaturedMiraclesOfQuranProvider()),
     StreamProvider<int>(
         create: (context) => NetworkProvider().streamController.stream,
         initialData: 0),

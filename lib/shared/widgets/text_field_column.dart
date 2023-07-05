@@ -8,12 +8,13 @@ class TextFieldColumn extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final bool? isPasswordField;
-  const TextFieldColumn({Key? key,
-    required this.titleText,
-    required this.controller,
-    required this.hintText,
-    this.isPasswordField = false
-  }) : super(key: key);
+  const TextFieldColumn(
+      {Key? key,
+      required this.titleText,
+      required this.controller,
+      required this.hintText,
+      this.isPasswordField = false})
+      : super(key: key);
 
   @override
   State<TextFieldColumn> createState() => _TextFieldColumnState();
@@ -24,16 +25,16 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
   @override
   Widget build(BuildContext context) {
     var style14 = TextStyle(
-        fontFamily: 'satoshi',
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w400
-    );
+        fontFamily: 'satoshi', fontSize: 14.sp, fontWeight: FontWeight.w400);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
             margin: EdgeInsets.only(bottom: 7.h),
-            child: Text(widget.titleText,style: style14,)),
+            child: Text(
+              widget.titleText,
+              style: style14,
+            )),
         TextFormField(
           controller: widget.controller,
           decoration: InputDecoration(
@@ -42,8 +43,7 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
             hintStyle: style14,
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(6.r),
-                borderSide: const BorderSide(color: AppColors.grey5)
-            ),
+                borderSide: const BorderSide(color: AppColors.grey5)),
             // focusedBorder: OutlineInputBorder(
             //     borderRadius: BorderRadius.circular(6.r),
             //     borderSide: const BorderSide(color: AppColors.grey5)
@@ -52,25 +52,29 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
             //     borderRadius: BorderRadius.circular(6.r),
             //     borderSide: const BorderSide(color: AppColors.grey5)
             // ),
-            suffixIcon: widget.isPasswordField! ? IconButton(
-              onPressed: (){
-                setState(() {
-                  isHide = !isHide;
-                });
-              },
-              icon: Icon(isHide ? Icons.visibility_off : Icons.visibility),
-            ) : const SizedBox.shrink(),
+            suffixIcon: widget.isPasswordField!
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isHide = !isHide;
+                      });
+                    },
+                    icon:
+                        Icon(isHide ? Icons.visibility_off : Icons.visibility),
+                  )
+                : const SizedBox.shrink(),
           ),
           obscureText: widget.isPasswordField! ? isHide : false,
-          validator: (value){
-            if(widget.isPasswordField!){
-              return validatePassword();
-            }if(!widget.isPasswordField!){
+          validator: (value) {
+            // if(widget.isPasswordField!){
+            //   return validatePassword();
+            // }
+
+            if (!widget.isPasswordField!) {
               return validateEmail();
-            }else{
+            } else {
               return null;
             }
-
           },
         ),
 
@@ -123,27 +127,29 @@ class _TextFieldColumnState extends State<TextFieldColumn> {
     );
   }
 
-
-  validateEmail(){
-    final bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(widget.controller.text);
-    if(widget.controller.text.isEmpty){
+  validateEmail() {
+    final bool emailValid = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(widget.controller.text);
+    if (widget.controller.text.isEmpty) {
       return "Required";
-    }else if(!emailValid){
+    } else if (!emailValid) {
       return "Not a Valid Email";
-    }else{
+    } else {
       return null;
     }
   }
 
-  validatePassword(){
-    RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-    if(widget.controller.text.isEmpty){
+  validatePassword() {
+    RegExp regex =
+        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    if (widget.controller.text.isEmpty) {
       return "Required";
-    }else if(widget.controller.text.length < 8){
-      return "8 character Required";
-    }else if(!regex.hasMatch(widget.controller.text)){
+    } else if (widget.controller.text.length < 8) {
+      return "Password can't be less than 8 characters";
+    } else if (!regex.hasMatch(widget.controller.text)) {
       return "Password Should Contain uppercase, lowercase , digit ,  special character";
-    }else{
+    } else {
       return null;
     }
   }

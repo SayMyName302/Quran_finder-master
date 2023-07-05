@@ -3,15 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
+import 'package:nour_al_quran/pages/miracles_of_quran/models/miracles.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
+
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_constants.dart';
 import '../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
-import '../../quran stories/models/quran_stories.dart';
-import '../../quran stories/quran_stories_provider.dart';
+
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import 'home_row_widget.dart';
 
@@ -35,8 +36,10 @@ class FeaturedSection extends StatelessWidget {
           builder: (context, language, child) {
             return SizedBox(
               height: 150.h,
-              child: Consumer2<FeatureProvider, FeatureVideoProvider>(
-                builder: (context, storiesProvider, miraclesProvider, child) {
+              child:
+                  Consumer2<FeatureProvider, FeaturedMiraclesOfQuranProvider>(
+                builder:
+                    (context, storiesProvider, featuremiraclesProvider, child) {
                   return ListView.builder(
                     itemCount: storiesProvider.feature.length,
                     padding:
@@ -45,6 +48,7 @@ class FeaturedSection extends StatelessWidget {
                     itemBuilder: (context, index) {
                       try {
                         FeaturedModel model = storiesProvider.feature[index];
+
                         return InkWell(
                           onTap: () {
                             if (network == 1) {
@@ -57,8 +61,17 @@ class FeaturedSection extends StatelessWidget {
                                 storiesProvider.gotoFeaturePlayerPage(
                                     model.storyId!, context, index);
                               } else if (model.contentType == "Video") {
-                                miraclesProvider.goToFeatureMiracleDetailsPage(
-                                    model.storyTitle!, context, index);
+                                print(index);
+                                print(model.storyTitle!);
+                                /// two ways without creating any separate provider
+                                /// directly using MiraclesOfQuranProvider
+                                Provider.of<MiraclesOfQuranProvider>(context,listen: false)
+                                    .goToMiracleDetailsPageFromFeatured(model.storyTitle!, context, index);
+                                /// else u can use your own provider as u create both work fine u can check and give me some
+                                /// feedback tomorrow
+                                /// u can un comment this and commit out MiraclesOfQuranProvider this provider line to check both
+                                // featuremiraclesProvider.goToMiracleDetailsPage(
+                                //     model.title!, context, index);
                               }
                               // storiesProvider.gotoFeaturePlayerPage(
                               //     model.storyId!, context, index);

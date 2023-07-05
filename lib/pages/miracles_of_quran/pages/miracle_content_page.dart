@@ -26,8 +26,7 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    Miracles miracles =
-        context.read<MiraclesOfQuranProvider>().selectedMiracle!;
+    Miracles miracles = context.read<MiraclesOfQuranProvider>().selectedMiracle!;
     return WillPopScope(
       onWillPop: () async {
         Provider.of<MiraclesOfQuranProvider>(context, listen: false)

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
+import 'package:nour_al_quran/pages/featured/models/miracles.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../provider/featurevideoProvider.dart';
 
 class FeaturedMiraclesContentText extends StatelessWidget {
   const FeaturedMiraclesContentText({Key? key}) : super(key: key);
@@ -13,8 +16,9 @@ class FeaturedMiraclesContentText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FontProvider fontProvider = Provider.of<FontProvider>(context);
-    FeaturedModel miracles =
-        context.read<FeatureProvider>().selectedFeatureStory!;
+    /// as u r dealing with miracle so no need of feature model
+    // FeaturedModel miracles = context.read<FeatureProvider>().selectedFeatureStory!;
+    Miracles2 miracles = context.read<FeaturedMiraclesOfQuranProvider>().selectedMiracle!;
     try {
       return Expanded(
         child: SingleChildScrollView(
