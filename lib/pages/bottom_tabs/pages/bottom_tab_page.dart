@@ -40,8 +40,7 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     context.read<MiraclesOfQuranProvider>().getMiracles();
     context.read<IslamBasicsProvider>().getIslamBasics();
     context.read<FeatureProvider>().getStories();
-    Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false)
-        .getMiracles();
+    Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false).getMiracles();
 
     /// this is app usage state provider which is used to stop and start timers
     var provider = context.read<MyStateProvider>();

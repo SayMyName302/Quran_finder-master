@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nour_al_quran/pages/featured/pages/featured_video.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -35,7 +36,7 @@ class FeaturedMiraclesOfQuranProvider extends ChangeNotifier {
   /// this method will get miracles from home.db
   Future<void> getMiracles() async {
     _miracles = await HomeDb().getFeatured2();
-    _loadMiraclesOrder();
+    // _loadMiraclesOrder();
     notifyListeners();
   }
 
@@ -47,13 +48,17 @@ class FeaturedMiraclesOfQuranProvider extends ChangeNotifier {
   }
 
   void goToMiracleDetailsPage(String title, BuildContext context, int index) {
+    /// i did changes here please check properly
     print(miracles.length);
-    if (index > _miracles.length) {
-      _selectedMiracle = _miracles[index];
-      notifyListeners();
-      Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
-      _moveMiracleToEnd(index);
-    }
+    int miracleIndex = _miracles.indexWhere((element) => element.title == title);
+    print(miracleIndex);
+    _selectedMiracle = _miracles[miracleIndex];
+    notifyListeners();
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return const FavoriteMiraclesDetailsPage();
+    },));
+    // Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
+    // _moveMiracleToEnd(index);
   }
 
   void setVideoFile(File video) {

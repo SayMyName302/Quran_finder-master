@@ -357,7 +357,7 @@ class RouteHelper {
       },
       favortiesmiraclesDetails: (context) {
         currentContext = context;
-        return const favoriteMiraclesDetailsPage();
+        return const FavoriteMiraclesDetailsPage();
       },
       // chapterList: (context) {
       //   currentContext = context;

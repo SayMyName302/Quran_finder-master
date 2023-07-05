@@ -31,17 +31,20 @@ class FeaturedList extends StatelessWidget {
                       onTap: () {
                         if (network == 1) {
                           /// if recitation player is on So this line is used to pause the player
-                          Future.delayed(
-                              Duration.zero,
-                              () => context
-                                  .read<RecitationPlayerProvider>()
-                                  .pause(context));
+                          Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
                           if (model.contentType == "audio") {
                             featureProvider.gotoFeaturePlayerPage(
                                 model.storyId!, context, index);
                           } else if (model.contentType == "Video") {
                             print(index);
                             print(model.storyTitle!);
+                            /// two ways without creating any separate provider
+                            /// directly using MiraclesOfQuranProvider
+                            Provider.of<MiraclesOfQuranProvider>(context,listen: false)
+                                .goToMiracleDetailsPageFromFeatured(model.storyTitle!, context, index);
+                            /// else u can use your own provider as u create both work fine u can check and give me some
+                            /// feedback tomorrow
+                            /// u can un comment this and commit out MiraclesOfQuranProvider this provider line to check both
                             // featuremiraclesProvider.goToMiracleDetailsPage(
                             //     model.storyTitle!, context, index);
                           }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
@@ -20,6 +21,7 @@ import '../models/miracles.dart';
 
 class MiraclesOfQuranProvider extends ChangeNotifier {
   List<Miracles> _miracles = [];
+  List<Miracles> _featureMiraclesList = [];
   SharedPreferences? _preferences;
   List<Miracles> get miracles => _miracles;
   Miracles? _selectedMiracle;
@@ -39,6 +41,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   /// this method will get miracles from home.db
   Future<void> getMiracles() async {
     _miracles = await HomeDb().getMiracles();
+    _featureMiraclesList = await HomeDb().getFeatured3();
     _loadMiraclesOrder();
     notifyListeners();
   }
@@ -52,6 +55,14 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void goToMiracleDetailsPage(String title, BuildContext context, int index) {
     _selectedMiracle = _miracles[index];
+    notifyListeners();
+    Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
+    _moveMiracleToEnd(index);
+  }
+
+  void goToMiracleDetailsPageFromFeatured(String title, BuildContext context, int index) {
+    int miracleIndex = _featureMiraclesList.indexWhere((element) => element.title == title);
+    _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
     _moveMiracleToEnd(index);

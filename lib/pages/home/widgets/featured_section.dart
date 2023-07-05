@@ -63,8 +63,15 @@ class FeaturedSection extends StatelessWidget {
                               } else if (model.contentType == "Video") {
                                 print(index);
                                 print(model.storyTitle!);
-                                featuremiraclesProvider.goToMiracleDetailsPage(
-                                    model.title!, context, index);
+                                /// two ways without creating any separate provider
+                                /// directly using MiraclesOfQuranProvider
+                                Provider.of<MiraclesOfQuranProvider>(context,listen: false)
+                                    .goToMiracleDetailsPageFromFeatured(model.storyTitle!, context, index);
+                                /// else u can use your own provider as u create both work fine u can check and give me some
+                                /// feedback tomorrow
+                                /// u can un comment this and commit out MiraclesOfQuranProvider this provider line to check both
+                                // featuremiraclesProvider.goToMiracleDetailsPage(
+                                //     model.title!, context, index);
                               }
                               // storiesProvider.gotoFeaturePlayerPage(
                               //     model.storyId!, context, index);

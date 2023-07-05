@@ -99,11 +99,27 @@ class HomeDb {
   Future<List<Miracles2>> getFeatured2() async {
     List<Miracles2> feature = [];
     _database = await openDb();
-    var table = await _database!.query(_featured);
+    var table = await _database!.query(_featured,where: "content_type = ?",whereArgs: ["Video"]);
     print(
         "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       feature.add(Miracles2.fromJson(map));
+    }
+    print(
+        "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
+    return feature;
+  }
+
+  // by waqas
+  /// i create this for getting only videos
+  Future<List<Miracles>> getFeatured3() async {
+    List<Miracles> feature = [];
+    _database = await openDb();
+    var table = await _database!.query(_featured,where: "content_type = ?",whereArgs: ["Video"]);
+    print(
+        "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      feature.add(Miracles.fromJson(map));
     }
     print(
         "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
