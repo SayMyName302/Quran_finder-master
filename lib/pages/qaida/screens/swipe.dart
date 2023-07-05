@@ -1036,60 +1036,79 @@ class SwipePagesState extends State<SwipePages> {
       switch (pageIndex) {
         case 0:
           _page1Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page1Key[0].currentState?.clearSelection();
           break;
         case 1:
           _page2Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page2Key[0].currentState?.clearSelection();
           break;
         case 2:
           _page3Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page3Key[0].currentState?.clearSelection();
           break;
         case 3:
           _page4Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page4Key[0].currentState?.clearSelection();
           break;
         case 4:
           _page5Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page5Key[0].currentState?.clearSelection();
           break;
         case 5:
           _page6Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page6Key[0].currentState?.clearSelection();
           break;
         case 6:
           _page7Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page7Key[0].currentState?.clearSelection();
           break;
         case 7:
           _page8Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page8Key[0].currentState?.clearSelection();
           break;
         case 8:
           _page9Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page9Key[0].currentState?.clearSelection();
           break;
         case 9:
           _page10Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page10Key[0].currentState?.clearSelection();
           break;
         case 10:
           _page11Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page11Key[0].currentState?.clearSelection();
           break;
         case 11:
           _page12Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page12Key[0].currentState?.clearSelection();
           break;
         case 12:
           _page13Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page13Key[0].currentState?.clearSelection();
           break;
         case 13:
           _page14Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page14Key[0].currentState?.clearSelection();
           break;
         case 14:
           _page15Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page15Key[0].currentState?.clearSelection();
           break;
         case 15:
           _page16Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page16Key[0].currentState?.clearSelection();
           break;
         case 16:
           _page17Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page17Key[0].currentState?.clearSelection();
           break;
         case 17:
           _page18Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page18Key[0].currentState?.clearSelection();
           break;
         case 18:
           _page19Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+          _page19Key[0].currentState?.clearSelection();
           break;
       }
     }
