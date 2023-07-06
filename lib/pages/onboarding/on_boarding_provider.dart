@@ -10,7 +10,7 @@ class OnBoardingProvider extends ChangeNotifier {
   // achieve functionality
 
   final List<String> _achieveWithQuranList = [
-    "stream/download_reciters",
+    "stream_download_reciters",
     "read_offline_quran",
     "set_quran_goals",
     "explore_the_quran",

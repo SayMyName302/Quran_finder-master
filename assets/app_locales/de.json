@@ -160,7 +160,7 @@
   "audio_is_downloading": "Audio wird heruntergeladen",
   "we_will_provide_custom_recommendations_to_fit_your_individual_goals": "Wir werden maßgeschneiderte Empfehlungen geben, die Ihren individuellen Zielen entsprechen",
   "choose_upto_3_goals_for_precise_personalization": "Wählen Sie bis zu 3 Ziele für eine präzise Personalisierung",
-  "stream/download_reciters": "Rezitator zum Streamen herunterladen",
+  "stream_download_reciters": "Rezitator zum Streamen herunterladen",
   "read_offline_quran": "Lesen Sie den Koran offline",
   "set_quran_goals": "Koran-Ziele setzen",
   "explore_the_quran": "Erkunde den Koran",
@@ -393,5 +393,5 @@
   "unlimited_free_access_for_7_days_then_": "Unbegrenzter kostenloser Zugang für 7 Tage danach 20",
   "unlimited_access_for_15_days": "Unbegrenzter Zugang für 15 Tage",
   "limited_time_offer_for_unlimited_perks_&": "zeitlich begrenztes Angebot für unbegrenzte Vergünstigungen und Vorteile",
-  "benefits": "Vorteile"
+  "if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple_and_if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google": "Wenn Sie die App über ein iOS-Gerät heruntergeladen haben: Kündigen Sie das Abonnement über Apple. Wenn Sie die App über ein Android-Gerät heruntergeladen haben: Kündigen Sie das Abonnement über Google"
 }

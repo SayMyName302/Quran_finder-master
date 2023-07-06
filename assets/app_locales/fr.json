@@ -160,7 +160,7 @@
   "audio_is_downloading": "l'audio est en cours de téléchargement",
   "we_will_provide_custom_recommendations_to_fit_your_individual_goals": "nous fournirons des recommandations personnalisées pour répondre à vos objectifs individuels",
   "choose_upto_3_goals_for_precise_personalization": "choisissez jusqu'à 3 objectifs pour une personnalisation précise",
-  "stream/download_reciters": "stream télécharger des récitants",
+  "stream_download_reciters": "stream télécharger des récitants",
   "read_offline_quran": "lire le coran hors ligne",
   "set_quran_goals": "fixer des objectifs de coran",
   "explore_the_quran": "explorer le coran",
@@ -391,6 +391,6 @@
   "you_can_unsubscribe_from_our_promotional_emails_whenever_you_want_by_scrolling_down_to_the_bottom_of_the_email_and_clicking_on _the_unsubscribe_link._we_will_not_send_you_any_promotional_emails_once_you_have_unsubscribed_yourself.": "Vous pouvez vous désabonner de nos e-mails promotionnels quand vous le souhaitez en faisant défiler l'e-mail jusqu'en bas et en cliquant sur le lien de désabonnement. Nous ne vous enverrons aucun e-mail promotionnel une fois que vous vous serez désabonné.",
   "unlimited_free_access_for_7_days_then_": "Accès gratuit illimité pendant 7 jours",
   "unlimited_access_for_15_days": "Accès illimité pendant 15 jours",
-  "limited_time_offer_for_unlimited_perks_&": "offre à durée limitée pour des avantages et avantages illimités",
-  "benefits": "avantages"
+  "limited_time_offer_for_unlimited_perks_&": "offre à durée limitée pour des avantages et avantages illimités avantages",
+  "if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple_and_if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google": "si vous avez téléchargé l'application via un appareil ios : annulez l'abonnement via apple et si vous avez téléchargé l'application via un appareil android : annulez l'abonnement depuis google"
 }

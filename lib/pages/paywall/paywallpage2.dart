@@ -240,7 +240,7 @@ class paywallpage2 extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: Text(
                                 localeText(context,
-                                    'you_will_be_charged_cancel_anytime_before_this'),
+                                    'you_will_be_charged_cancel_anytime_before_this.'),
                                 style: TextStyle(
                                   fontFamily: 'satoshi',
                                   fontSize: 12.sp,

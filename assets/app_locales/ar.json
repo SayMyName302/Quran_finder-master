@@ -160,7 +160,7 @@
   "audio_is_downloading": "يتم تنزيل الصوت",
   "we_will_provide_custom_recommendations_to_fit_your_individual_goals": "سنقدم توصيات مخصصة لتناسب أهدافك الفردية",
   "choose_upto_3_goals_for_precise_personalization": "اختر ما يصل إلى 3 أهداف للتخصيص الدقيق",
-  "stream/download_reciters": "تيار تنزيل القراء",
+  "stream_download_reciters": "تيار تنزيل القراء",
   "read_offline_quran": "قراءة القرآن حاليا",
   "set_quran_goals": "وضع أهداف القرآن",
   "explore_the_quran": "اكتشف القرآن",
@@ -392,6 +392,6 @@
   "you_can_unsubscribe_from_our_promotional_emails_whenever_you_want_by_scrolling_down_to_the_bottom_of_the_email_and_clicking_on _the_unsubscribe_link._we_will_not_send_you_any_promotional_emails_once_you_have_unsubscribed_yourself.": "يمكنك إلغاء الاشتراك من رسائل البريد الإلكتروني الترويجية الخاصة بنا متى شئت عن طريق التمرير لأسفل إلى أسفل البريد الإلكتروني والنقر على رابط إلغاء الاشتراك. لن نرسل لك أي رسائل بريد إلكتروني ترويجية بمجرد إلغاء اشتراكك بنفسك.",
   "unlimited_free_access_for_7_days_then_": "دخول مجاني غير محدود لمدة 7 أيام",
   "unlimited_access_for_15_days": "دخول غير محدود لمدة 15 يومًا",
-  "limited_time_offer_for_unlimited_perks_&": "عرض لفترة محدودة للحصول على امتيازات ومزايا غير محدودة",
-  "benefits": "فوائد"
+  "limited_time_offer_for_unlimited_perks_&": "عرض لفترة محدودة للحصول على امتيازات ومزايا غير محدودة فوائد",
+  "if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple_and_if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google": "إذا قمت بتنزيل التطبيق من خلال جهاز iOS: قم بإلغاء الاشتراك عبر Apple وإذا قمت بتنزيل التطبيق عبر جهاز android: قم بإلغاء الاشتراك من google"
 }

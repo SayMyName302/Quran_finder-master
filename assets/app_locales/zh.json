@@ -160,7 +160,7 @@
   "audio_is_downloading": "正在下载音频",
   "we_will_provide_custom_recommendations_to_fit_your_individual_goals": "我们将提供定制建议以满足您的个人目标",
   "choose_upto_3_goals_for_precise_personalization": "选择最多 3 个目标以实现精确个性化",
-  "stream/download_reciters": "流下载朗诵者",
+  "stream_download_reciters": "流下载朗诵者",
   "read_offline_quran": "离线阅读古兰经",
   "set_quran_goals": "设定古兰经目标",
   "explore_the_quran": "探索古兰经",
@@ -267,7 +267,11 @@
   "you_will_be_charged_cancel_anytime_before_this.": "你会被收费古兰经专业版应用程序",
   "unlimited_free_access_for_days_then_us_per_year_us_per_month)": "7 天无限制免费访问，然后每年 15.49 美元（每月 1.29 美元）",
   "view_all_plans": "查看所有计划",
-
+  "Luqman_the_wise": "",
+  "Prophet_Musa_and_children_of_Israel": "",
+  "Martyrdom_of_Hazrat_Hussain": "",
+  "Ideal_cure_against_illness": "",
+  "Surah_Ya-sin": "",
   "ends_in": "结束于",
   "plans_specially_curated_for_you": "专为您策划的计划",
   "monthly": "每月",
@@ -375,15 +379,13 @@
   "unlock_1000_ duas_to_protect_you_from_jahannum": "解锁 1000 个 duas 来保护您免受 jahannum 的侵害",
   "success_stories": "成功的故事",
   "love_it!_this_app_has_helped_me_calm_myself._the_recitation_of_the_quran_captivates_me_and_makes_me_want_to_put_down_my_work_and_listen_to_the_whole_chapter._every_time_i_feel_depressed_or_restless_i_come_back_here_to_listen_to_the_recitations.": "爱它！ 这个应用程序帮助我让自己平静下来。 《古兰经》的背诵让我着迷，让我想放下手边的工作来听整章。 每当我感到沮丧或不安时，我都会回到这里听诵经。",
-  "this_app_was_referred_by_a_friend._he_told_me_that_listening_to_recitations_on_this_app_will_help_cure_insomnia._when_i_opened_this_app_and_saw_the_huge_library_of_quran_recitations_and_stories,_ i_was_blown_away._i think_it_might_have_a_different_story_for_each_day_of_the_month.": "",
+  "this_app_was_referred_by_a_friend._he_told_me_that_listening_to_recitations_on_this_app_will_help_cure_insomnia._when_i_opened_this_app_and_saw_the_huge_library_of_quran_recitations_and_stories,_ i_was_blown_away._i think_it_might_have_a_different_story_for_each_day_of_the_month.": "这个应用程序是由朋友推荐的。 他告诉我，在这个应用程序上听诵经有助于治疗失眠。 当我打开这个应用程序并看到巨大的古兰经背诵和故事库时，我被震撼了。 我认为每个月的每一天可能都有不同的故事。",
   "the_prime_plan_is_awesome!_it_has_no_ads_and_unlocks_hundreds_of_extra_stories._i_can_listen_to_the_recitations_and_stories_from_the_quran_here,_all_day_and_not_get_tired.": "首要计划太棒了！ 它没有广告并解锁数百个额外的故事。 我可以在这里听一整天《古兰经》的朗诵和故事而不会感到疲倦。",
   "frequently_asked_questions": "经常问的问题",
   "i_downloaded_the_app,_am_i_going_to_be_charged?": "我下载了该应用程序，需要付费吗？",
   "we_provide_our_users_wtih_a_free_versions,_as_well_as_a_paid_version._the_paid_version_unlocks_more_stories_and_recitations_of_the_quran.": "我们为用户提供免费版本和付费版本，付费版本可以解锁更多古兰经的故事和背诵",
   "how_can_i_cancel_my_subscription?": "我如何取消我的订阅？",
-  "limited_time_offer_for_unlimited_perks_&": "限时优惠古兰经专业版应用程序",
-  "benefits": "好处",
-  "if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple_and_if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google": "如果您通过 iOS 设备下载该应用程序，请通过 Apple 取消订阅 如果您通过 Android 设备下载该应用程序，请取消 Google 的订阅",
+  "limited_time_offer_for_unlimited_perks_&": " 限时优惠古兰经专业版应用程序好处",
 
   "how_can_i_access_premium_plan_on_multiple_devices?": "我如何在多个设备上访问高级计划？",
   "we_advise_you_to_make_an_account_to_access_the_premium_plan_on_multiple_devices._open_the_app._go_to_the_link_that_says_enter_your_email._input_your_email._once_you_have_entered_your_email_address,_click_next_to_continue._you_will_get_an_email_with_a_login_link._please_be_sure_that_you_have_access_to_this_email_address_on_the_device_you_plan_to_use._tap_on_the_link,_and_you_will_be_redirected_to_the_app_and_logged_into_your_existing_account,": "我们建议您创建一个帐户以在多个设备上访问高级计划。 打开应用程序。 转到显示输入您的电子邮件的链接。 输入您的电子邮件。 输入电子邮件地址后，单击“下一步”继续。 您将收到一封包含登录链接的电子邮件。 请确保您可以在计划使用的设备上访问此电子邮件地址。点击链接，您将被重定向到该应用程序并登录到您现有的帐户",
@@ -392,5 +394,6 @@
   "how_can_i_unsubscribe_from_promotional_emails?": "我如何取消订阅我们的促销电子邮件？",
   "you_can_unsubscribe_from_our_promotional_emails_whenever_you_want_by_scrolling_down_to_the_bottom_of_the_email_and_clicking_on _the_unsubscribe_link._we_will_not_send_you_any_promotional_emails_once_you_have_unsubscribed_yourself.": "您可以随时通过向下滚动到电子邮件底部并单击取消订阅链接来取消订阅我们的促销电子邮件。 一旦您取消订阅，我们将不会向您发送任何促销电子邮件。",
   "unlimited_free_access_for_7_days_then_": "7 天无限制免费访问，然后每年 20.45 美元（每月 1.29 美元）",
-  "unlimited_access_for_15_days": "15 天内无限次访问"
+  "unlimited_access_for_15_days": "15 天内无限次访问",
+  "if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple_and_if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google": "如果您通过 iOS 设备下载应用程序：通过 Apple 取消订阅 如果您通过 Android 设备下载应用程序：通过 Google 取消订阅"
 }

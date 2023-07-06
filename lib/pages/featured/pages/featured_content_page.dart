@@ -32,15 +32,56 @@ class FeaturedDetailsPage extends StatelessWidget {
                     margin: EdgeInsets.only(
                         left: 20.w, right: 20.w, top: 16.h, bottom: 16.h),
                     child: story.selectedFeatureStory!.text != null
-                        ? HtmlWidget(
-                            story.selectedFeatureStory!.text!,
-                            textStyle: TextStyle(
-                              fontFamily: 'satoshi',
-                              fontSize: fontProvider.fontSizeTranslation.sp,
-                            ),
+                        ? checkIfArabic(story.selectedFeatureStory!.text!)
+                            ? Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: HtmlWidget(
+                                  story.selectedFeatureStory!.text!,
+                                  textStyle: TextStyle(
+                                    fontFamily: 'satoshi',
+                                    fontSize:
+                                        fontProvider.fontSizeTranslation.sp,
+                                  ),
+                                ),
+                              )
+                            : HtmlWidget(
+                                story.selectedFeatureStory!.text!,
+                                textStyle: TextStyle(
+                                  fontFamily: 'satoshi',
+                                  fontSize: fontProvider.fontSizeTranslation.sp,
+                                ),
+                                customStylesBuilder: (element) {
+                                  // Check if the element is <em>
+                                  if (element.localName == 'strong') {
+                                    final appColorsProvider =
+                                        Provider.of<AppColorsProvider>(context);
+                                    final brandingColor =
+                                        appColorsProvider.mainBrandingColor;
+                                    final colorValue =
+                                        '#${brandingColor.value.toRadixString(16).substring(2)}';
 
-                            /// pending means data not added in db by data entry person
-                          )
+                                    return {
+                                      'color': colorValue,
+                                    }; // Apply mainBrandingColor to the text color
+                                  }
+                                  if (element.localName == 'em') {
+                                    final appColorsProvider =
+                                        Provider.of<AppColorsProvider>(context);
+
+                                    final brandingColor =
+                                        appColorsProvider.mainBrandingColor;
+
+                                    final colorValue =
+                                        '#${brandingColor.value.toRadixString(16).substring(2)}';
+
+                                    return {
+                                      'color': colorValue
+                                    }; // Apply mainBrandingColor to the text color
+                                  }
+
+                                  return null; // Return null for other elements to apply default style
+                                },
+                              )
                         : const Center(
                             child: Text('pending'),
                           ),
@@ -53,4 +94,10 @@ class FeaturedDetailsPage extends StatelessWidget {
       },
     );
   }
+}
+
+bool checkIfArabic(String text) {
+  final arabicPattern = RegExp(
+      r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFBC1\uFE70-\uFEFF]');
+  return arabicPattern.hasMatch(text);
 }

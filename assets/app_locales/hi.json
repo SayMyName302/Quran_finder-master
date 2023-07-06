@@ -160,7 +160,7 @@
   "audio_is_downloading": "ऑडियो डाउनलोड हो रहा है",
   "we_will_provide_custom_recommendations_to_fit_your_individual_goals": "हम आपके व्यक्तिगत लक्ष्यों को पूरा करने के लिए कस्टम अनुशंसाएँ प्रदान करेंगे",
   "choose_upto_3_goals_for_precise_personalization": "सटीक वैयक्तिकरण के लिए 3 लक्ष्य तक चुनें",
-  "stream/download_reciters": "स्ट्रीम डाउनलोड पाठक",
+  "stream_download_reciters": "स्ट्रीम डाउनलोड पाठक",
   "read_offline_quran": "ऑफ़लाइन कुरान पढ़ें",
   "set_quran_goals": "कुरान लक्ष्य निर्धारित करें",
   "explore_the_quran": "कुरान का अन्वेषण करें",
@@ -391,6 +391,6 @@
   "you_can_unsubscribe_from_our_promotional_emails_whenever_you_want_by_scrolling_down_to_the_bottom_of_the_email_and_clicking_on _the_unsubscribe_link._we_will_not_send_you_any_promotional_emails_once_you_have_unsubscribed_yourself.": "आप जब चाहें ईमेल के नीचे स्क्रॉल करके और अनसब्सक्राइब लिंक पर क्लिक करके हमारे प्रचार ईमेल से सदस्यता समाप्त कर सकते हैं। आपके द्वारा सदस्यता समाप्त करने के बाद हम आपको कोई प्रचारात्मक ईमेल नहीं भेजेंगे।",
   "unlimited_free_access_for_7_days_then_": "7 दिनों के लिए असीमित निःशुल्क पहुंच, ",
   "unlimited_access_for_15_days": "15 दिनों के लिए असीमित प्रवेश",
-  "limited_time_offer_for_unlimited_perks_&": "असीमित भत्तों और लाभों के लिए सीमित समय की पेशकश",
-  "benefits": "फ़ायदे"
+  "limited_time_offer_for_unlimited_perks_&": "असीमित भत्तों और लाभों के लिए सीमित समय की पेशकश फ़ायदे",
+  "if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple_and_if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google": "यदि आपने आईओएस डिवाइस के माध्यम से ऐप डाउनलोड किया है: ऐप्पल के माध्यम से सदस्यता रद्द करें और यदि आपने एंड्रॉइड डिवाइस के माध्यम से ऐप डाउनलोड किया है: Google से सदस्यता रद्द करें"
 }

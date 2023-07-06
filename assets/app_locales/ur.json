@@ -160,7 +160,7 @@
   "audio_is_downloading": "آڈیو ڈاؤن لوڈ ہو رہا ہے۔",
   "we_will_provide_custom_recommendations_to_fit_your_individual_goals": "ہم آپ کے انفرادی اہداف کو پورا کرنے کے لیے حسب ضرورت سفارشات فراہم کریں گے۔",
   "choose_upto_3_goals_for_precise_personalization": "قطعی ذاتی نوعیت کے لیے 3 اہداف تک کا انتخاب کریں۔",
-  "stream/download_reciters": "سٹریم ڈاؤن لوڈ قاریوں",
+  "stream_download_reciters": "سٹریم ڈاؤن لوڈ قاریوں",
   "read_offline_quran": "آف لائن قرآن پڑھیں",
   "set_quran_goals": "قرآن کے اہداف مقرر کریں۔",
   "explore_the_quran": "قرآن کو دریافت کریں۔",
@@ -264,7 +264,7 @@
   "day_5": "دن 5",
   "you_will_get_a_reminder_about_when_your_trial_will_end": "آپ کو ایک یاد دہانی ملے گی کہ آپ کا ٹرائل کب ختم ہوگا۔",
   "day_7": "دن 7",
-  "you_will_be_charged_cancel_anytime_before_this.": "تم پر الزام آئے گا، جرمانہ ہو گا؛ وغیرہ. اس سے پہلے کسی بھی وقت منسوخ کریں۔",
+  "you_will_be_charged_cancel_anytime_before_this.": "رقم چارج کی جائے گی ، اس سے پہلے کسی بھی وقت منسوخ کریں",
 
   "view_all_plans": "تمام منصوبوں کو دیکھیں",
 
@@ -381,8 +381,8 @@
   "i_downloaded_the_app,_am_i_going_to_be_charged?": "میں نے ایپ ڈاؤن لوڈ کی ہے کیا مجھ سے چارج لیا جائے گا؟",
   "we_provide_our_users_wtih_a_free_versions,_as_well_as_a_paid_version._the_paid_version_unlocks_more_stories_and_recitations_of_the_quran.": "ہم اپنے صارفین کو مفت ورژن کے ساتھ ساتھ ایک ادا شدہ ورژن بھی فراہم کرتے ہیں جو ادا شدہ ورژن قرآن کی مزید کہانیوں اور تلاوتوں کو کھولتا ہے۔",
   "how_can_i_cancel_my_subscription?": "میں اپنی رکنیت کیسے منسوخ کر سکتا ہوں؟",
-  "if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple": "اگر آپ نے ios ڈیوائس کے ذریعے ایپ ڈاؤن لوڈ کی ہے تو ایپل کے ذریعے سبسکرپشن منسوخ کر دیں۔",
-  "if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google": "اگر آپ نے اینڈرائیڈ ڈیوائس کے ذریعے ایپ ڈاؤن لوڈ کی ہے تو گوگل سے سبسکرپشن منسوخ کر دیں۔",
+  "if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple_and_if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google": "اگر آپ نے آئی او ایس ڈیوائس کے ذریعے ایپ ڈاؤن لوڈ کی ہے: ایپل کے ذریعے سبسکرپشن منسوخ کریں اور اگر آپ نے اینڈرائیڈ ڈیوائس کے ذریعے ایپ ڈاؤن لوڈ کی ہے: گوگل سے سبسکرپشن منسوخ کریں۔",
+
   "how_can_i_access_premium_plan_on_multiple_devices?": "میں متعدد آلات پر پریمیم پلان تک کیسے رسائی حاصل کر سکتا ہوں؟",
   "we_advise_you_to_make_an_account_to_access_the_premium_plan_on_multiple_devices._open_the_app._go_to_the_link_that_says_enter_your_email._input_your_email._once_you_have_entered_your_email_address,_click_next_to_continue._you_will_get_an_email_with_a_login_link._please_be_sure_that_you_have_access_to_this_email_address_on_the_device_you_plan_to_use._tap_on_the_link,_and_you_will_be_redirected_to_the_app_and_logged_into_your_existing_account,": "ہم آپ کو مشورہ دیتے ہیں کہ ایک سے زیادہ آلات پر پریمیم پلان تک رسائی کے لیے ایک اکاؤنٹ بنائیں۔ ایپ کھولیں۔ اس لنک پر جائیں جو کہتا ہے کہ اپنا ای میل درج کریں۔ اپنا ای میل داخل کریں۔ اپنا ای میل ایڈریس درج کرنے کے بعد، جاری رکھنے کے لیے اگلا پر کلک کریں۔ آپ کو لاگ ان لنک کے ساتھ ایک ای میل ملے گا۔ براہ کرم یقینی بنائیں کہ آپ جس ڈیوائس کو استعمال کرنے کا ارادہ رکھتے ہیں اس پر آپ کو اس ای میل ایڈریس تک رسائی حاصل ہے۔ لنک پر ٹیپ کریں، اور آپ کو ایپ پر بھیج دیا جائے گا اور آپ اپنے موجودہ اکاؤنٹ میں لاگ ان ہو جائیں گے۔",
   "will_i_get_a_refund?": "کیا مجھے رقم کی واپسی ملے گی؟",
@@ -391,7 +391,7 @@
   "you_can_unsubscribe_from_our_promotional_emails_whenever_you_want_by_scrolling_down_to_the_bottom_of_the_email_and_clicking_on _the_unsubscribe_link._we_will_not_send_you_any_promotional_emails_once_you_have_unsubscribed_yourself.": "آپ جب چاہیں ای میل کے نیچے تک سکرول کرکے اور اَن سبسکرائب لنک پر کلک کرکے ہماری پروموشنل ای میلز سے اَن سبسکرائب کرسکتے ہیں۔ ایک بار جب آپ خود ان سبسکرائب کر لیں تو ہم آپ کو کوئی پروموشنل ای میل نہیں بھیجیں گے۔",
   "unlimited_free_access_for_7_days_then_": "۔ 7 دنوں کے لیے لامحدود مفت رسائی۔",
   "unlimited_access_for_15_days": "15 دن تک لامحدود رسائی",
-  "limited_time_offer_for_unlimited_perks_&": "لامحدود فوائد اور فوائد کے لیے محدود وقت کی ",
-  "benefits": "پیشکش",
+  "limited_time_offer_for_unlimited_perks_&": "لامحدود فوائد اور فوائد کے لیے محدود وقت کی پیشکش ",
+
   "_per_year_": "سالانہ"
 }

@@ -160,7 +160,7 @@
   "audio_is_downloading": "maqalku waa soo dejinaysaa",
   "we_will_provide_custom_recommendations_to_fit_your_individual_goals": "waxaanu ku siin doonaa talooyin ku haboon yoolalkaaga gaarka ah",
   "choose_upto_3_goals_for_precise_personalization": "dooro ilaa 3 gool shakhsiyaynta saxda ah",
-  "stream/download_reciters": "stream download reciters",
+  "stream_download_reciters": "stream download reciters",
   "read_offline_quran": "akhri quraanka offline",
   "set_quran_goals": "yoolal quraanka deji",
   "explore_the_quran": "baadh quraanka",
@@ -391,6 +391,6 @@
   "you_can_unsubscribe_from_our_promotional_emails_whenever_you_want_by_scrolling_down_to_the_bottom_of_the_email_and_clicking_on _the_unsubscribe_link._we_will_not_send_you_any_promotional_emails_once_you_have_unsubscribed_yourself.": "Waxaad ka bixi kartaa iimayladayada xayaysiis mar kasta oo aad rabto adiga oo hoos ugu dhaadhacaya iimaylka hoose oo gujinaya xidhiidhka ka bixida Kuuma soo diri doono wax iimayl xayaysiis ah mar marka aad adigu iska noqoto.",
   "unlimited_free_access_for_7_days_then_": "Helitaanka bilaashka ah ee aan xadidnayn 7 maalmood",
   "unlimited_access_for_15_days": "Helitaanka aan xadidnayn ee 15 maalmood",
-  "limited_time_offer_for_unlimited_perks_&": "waqti xaddidan oo loogu talagalay faa'iidooyinka & faa'iidooyinka aan xadidnayn",
-  "benefits": "faa'iidooyinka"
+  "limited_time_offer_for_unlimited_perks_&": "waqti xaddidan oo loogu talagalay faa'iidooyinka & faa'iidooyinka aan xadidnayn faa'iidooyinka",
+  "if_you_downloaded_the_app_through_an_ios_device:_cancel_the_subscription_via_apple_and_if_you_downloaded_the_app_via_an_andriod_device:_cancel_the_subscription_from_google": "Haddii aad app-ka ku soo dejisay aaladda ios: jooji rukunka adiga oo isticmaalaya tufaax iyo haddii aad app-ka ku soo dejisay aaladda android: ka jooji rukunka google-ka"
 }

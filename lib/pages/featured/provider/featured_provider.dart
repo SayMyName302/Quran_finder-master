@@ -41,7 +41,7 @@ class FeatureProvider extends ChangeNotifier {
     _selectedFeatureStory = _feature[index];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
-    _moveStoryToEnd(index);
+    // _moveStoryToEnd(index);
   }
 
   goToFeatureContentPage(int index, BuildContext context) {
@@ -49,7 +49,7 @@ class FeatureProvider extends ChangeNotifier {
     _selectedFeatureStory = _feature[index];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.featureDetails);
-    _moveStoryToEnd(index);
+    // _moveStoryToEnd(index);
   }
 
   gotoFeaturePlayerPage(int storyId, BuildContext context, int index) {
