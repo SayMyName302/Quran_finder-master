@@ -387,7 +387,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                             null) // Conditionally show the "Previous" text
                           InkWell(
                             child: Text(
-                              'Previous Surah :',
+                              'Previous Surah',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14.sp,
@@ -411,17 +411,17 @@ class _QuranTextViewState extends State<QuranTextView> {
                               );
                             },
                           ),
-                        if (quranProvider.previousSurah !=
-                            null) // Conditionally show the "سورة ${quranProvider.previousSurah!.arabicName}" text
-                          Text(
-                            'سورة${quranProvider.previousSurah!.arabicName}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24.sp,
-                              fontFamily: 'Al Majeed Quranic Font',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                        // if (quranProvider.previousSurah !=
+                        //     null) // Conditionally show the "سورة ${quranProvider.previousSurah!.arabicName}" text
+                        //   Text(
+                        //     'سورة${quranProvider.previousSurah!.arabicName}',
+                        //     style: TextStyle(
+                        //       color: Colors.white,
+                        //       fontSize: 24.sp,
+                        //       fontFamily: 'Al Majeed Quranic Font',
+                        //       fontWeight: FontWeight.w700,
+                        //     ),
+                        //   ),
                         InkWell(
                           onTap: () {
                             context.read<QuranProvider>().setSurahText(
