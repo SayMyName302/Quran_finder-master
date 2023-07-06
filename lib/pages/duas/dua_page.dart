@@ -165,9 +165,10 @@ class DuaPage extends StatelessWidget {
                                                   "${index + 1}",
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
-                                                    fontSize: 11,
-                                                    color: Colors.white,
-                                                  ),
+                                                      fontSize: 11,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                               ),
                                             ),
