@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/qaida/screens/tutorial_player.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
+import '../../../shared/localization/localization_constants.dart';
 import '../../../shared/routes/routes_helper.dart';
 import '../../../shared/widgets/circle_button.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
@@ -16,6 +16,8 @@ class QaidaPlayer extends StatefulWidget {
   final Function(bool) toggleLoop;
   final void Function() playButton;
   final VoidCallback onIndexPressed;
+  final void Function() skipPrevious;
+  final void Function() skipNext;
   final bool updateMultipleSelectionEnabled;
   final void Function(bool value) selectWords;
   final int selectedIndex; // Added argument for selected index
@@ -30,6 +32,8 @@ class QaidaPlayer extends StatefulWidget {
     required this.toggleLoop, // Passing val from this screen to swipe
     required this.updateLoopVal, //Receiving val from swipe to this screen
     required this.onIndexPressed, // Added callback for index pressed
+    required this.skipPrevious,
+    required this.skipNext,
     required this.updateMultipleSelectionEnabled, //To Disable Select Words After the Audio is played/OnPage Changed
     required this.selectedIndex,
     required this.clearstate, // To clear Start/End Index Icon when Multi-Play is tapped
@@ -100,7 +104,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                 },
                                 visualDensity: VisualDensity.compact,
                               ),
-                              Text(localeText(context, "multi_play")),
+                              Text(
+                                localeText(context, 'multi_play'),
+                              ),
                             ],
                           ),
                         ),
@@ -199,6 +205,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                     onPressed: () async {
                       // Provider.of<DuaProvider>(context, listen: false)
                       //     .playPreviousDuaInCategory(context);
+                      widget.skipPrevious();
                     },
                     icon: Image.asset(
                       'assets/images/app_icons/previous.png',
@@ -234,6 +241,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                     onPressed: () async {
                       // Provider.of<DuaProvider>(context, listen: false)
                       //     .playNextDuaInCategory(context);
+                      widget.skipNext();
                     },
                     icon: Image.asset(
                       'assets/images/app_icons/next.png',
