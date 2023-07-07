@@ -117,7 +117,8 @@ class _ManageProfileState extends State<ManageProfile> {
                         child: Container(
                           margin: EdgeInsets.only(
                               left: 20.w, right: 20.w, top: 200.h),
-                          child: Text("Sign-in to get Started!",
+                          child: Text(
+                              localeText(context, "sign-in_to_get_started"),
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontFamily: 'satoshi',
@@ -221,9 +222,10 @@ class _ManageProfileState extends State<ManageProfile> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text("Delete Profile"),
-                                    content: const Text(
-                                        "Are you sure you want to delete your profile?"),
+                                    title: Text(
+                                        localeText(context, "delete_profile")),
+                                    content: Text(localeText(context,
+                                        "are_you_sure_you_want_to_delete_your_profile?")),
                                     actions: <Widget>[
                                       TextButton(
                                         child: const Text("Cancel"),
@@ -232,7 +234,8 @@ class _ManageProfileState extends State<ManageProfile> {
                                         },
                                       ),
                                       TextButton(
-                                        child: const Text("Delete"),
+                                        child: Text(localeText(
+                                            context, "delete_profile")),
                                         onPressed: () {
                                           // Call the delete method from the ProfileProvider
                                           Provider.of<ProfileProvider>(context,
@@ -272,13 +275,15 @@ class _ManageProfileState extends State<ManageProfile> {
                                               "Are you sure you want to Clear data?"),
                                           actions: <Widget>[
                                             TextButton(
-                                              child: const Text("Cancel"),
+                                              child: Text(localeText(
+                                                  context, "cancel")),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
                                             ),
                                             TextButton(
-                                              child: const Text("Delete"),
+                                              child: Text(localeText(
+                                                  context, "delete")),
                                               onPressed: () {
                                                 // Call the delete method from the ProfileProvider
                                                 Provider.of<ProfileProvider>(

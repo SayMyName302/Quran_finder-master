@@ -24,43 +24,41 @@ class QiblaProvider extends ChangeNotifier {
   int get qiblaDistance => _qiblaDistance;
 
   Future getLocationPermission(BuildContext context) async {
-    if (await Permission.location.request().isDenied) {
+    var permissionStatus = await Permission.location.request();
+
+    if (permissionStatus.isDenied) {
+      Future.delayed(Duration.zero, () => getQiblaPageData(context));
+    } else if (permissionStatus.isGranted) {
       Future.delayed(Duration.zero, () => getQiblaPageData(context));
     } else {
-      await Permission.location.request().then((value) {
-        if (value.isGranted) {
-          Future.delayed(Duration.zero, () => getQiblaPageData(context));
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Please Enable Location Services')));
-        }
-      });
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please Enable Location Services')));
     }
   }
 
   Future<void> getLocationPermissionIOS(BuildContext context) async {
-    final status = await Permission.locationWhenInUse.request();
-    if (status.isDenied || status.isPermanentlyDenied) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Enable Location Services'),
-            content: const Text(
-                'Location services are required for this app. Please enable location services in the device settings.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Open Settings'),
-                onPressed: () {
-                  openDeviceSettings();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
+    // final status = await Permission.locationWhenInUse.request();
+    // if (status.isDenied || status.isPermanentlyDenied) {
+    //   showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         title: const Text('Enable Location Services'),
+    //         content: const Text(
+    //             'Location services are required for this app. Please enable location services in the device settings.'),
+    //         actions: <Widget>[
+    //           TextButton(
+    //             child: const Text('Open Settings'),
+    //             onPressed: () {
+    //               openDeviceSettings();
+    //               Navigator.of(context).pop();
+    //             },
+    //           ),
+    //         ],
+    //       );
+    //     },
+    //   );
+    // }
   }
 
   Future<void> openDeviceSettings() async {
@@ -74,6 +72,7 @@ class QiblaProvider extends ChangeNotifier {
 
   Future<void> getQiblaPageData(BuildContext context) async {
     EasyLoadingDialog.show(context: context, radius: 20.r);
+
     try {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low,

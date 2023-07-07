@@ -7,6 +7,7 @@ import 'package:nour_al_quran/pages/more/pages/qibla_direction/provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
+import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -187,7 +188,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                     ),
                   ),
 
-//compass , arrow , google map code
+                  //compass , arrow , google map code
                   Container(
                     height: 60.h, // Set height of the tab buttons
                     child: Row(
@@ -200,8 +201,38 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                                 backgroundColor: _qiblabutton,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(18.r),
-                                    bottomLeft: Radius.circular(18.r),
+                                    topRight: Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ur' ||
+                                            Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ar'
+                                        ? Radius.circular(18.r)
+                                        : Radius.zero,
+                                    topLeft: Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ur' ||
+                                            Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ar'
+                                        ? Radius.zero
+                                        : Radius.circular(18.r),
+                                    bottomRight: Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ur' ||
+                                            Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ar'
+                                        ? Radius.circular(18.r)
+                                        : Radius.zero,
+                                    bottomLeft: Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ur' ||
+                                            Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ar'
+                                        ? Radius.zero
+                                        : Radius.circular(18.r),
                                   ),
                                   side: BorderSide(
                                       color: appColors.mainBrandingColor),
@@ -255,8 +286,38 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                                 backgroundColor: _mapbutton,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
-                                    bottomRight: Radius.circular(18.r),
-                                    topRight: Radius.circular(18.r),
+                                    topLeft: Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ur' ||
+                                            Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ar'
+                                        ? Radius.circular(18.r)
+                                        : Radius.zero,
+                                    topRight: Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ur' ||
+                                            Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ar'
+                                        ? Radius.zero
+                                        : Radius.circular(18.r),
+                                    bottomLeft: Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ur' ||
+                                            Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ar'
+                                        ? Radius.circular(18.r)
+                                        : Radius.zero,
+                                    bottomRight: Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ur' ||
+                                            Localizations.localeOf(context)
+                                                    .languageCode ==
+                                                'ar'
+                                        ? Radius.zero
+                                        : Radius.circular(18.r),
                                   ),
                                   side: BorderSide(
                                       color: appColors.mainBrandingColor),
@@ -285,7 +346,9 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                   StreamBuilder(
                       stream: FlutterQiblah.qiblahStream,
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
+                        if (snapshot.connectionState ==
+                                ConnectionState.active &&
+                            snapshot.hasData) {
                           final qiblaDirection = snapshot.data;
                           int degree = qiblaDirection!.offset.toInt();
                           animation = Tween(

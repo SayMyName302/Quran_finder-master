@@ -314,7 +314,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                       );
               },
             ),
-          )
+          ),
         ],
       ),
     );

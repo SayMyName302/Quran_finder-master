@@ -11,6 +11,7 @@ import 'package:nour_al_quran/pages/settings/settings_page.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
+import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';

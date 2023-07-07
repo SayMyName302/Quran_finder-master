@@ -6,6 +6,8 @@ import 'package:nour_al_quran/pages/featured/pages/featured.dart';
 import 'package:nour_al_quran/pages/featured/pages/featured_content_page.dart';
 import 'package:nour_al_quran/pages/featured/pages/featured_video.dart';
 import 'package:nour_al_quran/pages/featured/widgets/featured_list.dart';
+import 'package:nour_al_quran/pages/home/pages/home_page.dart';
+import 'package:nour_al_quran/pages/more/more_page.dart';
 import 'package:nour_al_quran/pages/more/pages/names_of_allah/name_of_allah_page.dart';
 import 'package:nour_al_quran/pages/more/pages/qibla_direction/qibla_direction.dart';
 import 'package:nour_al_quran/pages/more/pages/salah_timer/salah_timer_page.dart';
@@ -96,6 +98,7 @@ class RouteHelper {
   static const String audioPlayer = "/audioPlayer";
   static const String miraclesOfQuran = "/miracles";
   static const String miraclesDetails = "/miraclesDetail";
+  static const String more = "/more";
   // static const String chapterList = "/chapterList";
   static const String storyPlayer = "/storyPlayer";
   static const String storyDetails = "/storyDetail";
@@ -119,6 +122,7 @@ class RouteHelper {
   static const String ruqyahPlayList = "/ruqyahPlayList";
   static const String quranstoriespage = "/quranStoriesPage";
   static const String qaidapageindex = "/qaidapageindex";
+  static const String home = "/home";
   static const String favortiesmiraclesDetails = "/favortiesmiraclesDetails";
   // static late BuildContext currentContext;
   static bool signInSkipped = false;
@@ -180,6 +184,14 @@ class RouteHelper {
       duaPlayList: (context) {
         currentContext = context;
         return const DuaPlayList();
+      },
+      home: (context) {
+        currentContext = context;
+        return const HomePage();
+      },
+      more: (context) {
+        currentContext = context;
+        return const MorePage();
       },
       quranstoriespage: (context) {
         currentContext = context;
