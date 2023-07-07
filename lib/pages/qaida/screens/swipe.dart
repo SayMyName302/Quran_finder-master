@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page1.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page2.dart';
@@ -22,8 +23,11 @@ import 'package:nour_al_quran/pages/qaida/screens/page19.dart';
 import 'package:nour_al_quran/pages/qaida/screens/pageindex.dart';
 import 'package:nour_al_quran/pages/qaida/screens/qaidaplayer.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
+import 'package:provider/provider.dart';
 
 import '../../../shared/widgets/app_bar.dart';
+import '../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
+import '../../home/pages/home_page.dart';
 
 class SwipePages extends StatefulWidget {
   final int initialPage;
@@ -104,11 +108,24 @@ class SwipePagesState extends State<SwipePages> {
   List<AudioPlayer> _audioLists = [];
   int _currentPageIndex = 0;
 
+  List<String> audioFiles = [];
+  int pageId = -1;
+  List<int?> audioIndex = [];
+
+  bool _skipButton = false;
+  bool _skipPrevious = false;
+
   @override
   Widget build(BuildContext context) {
+    final bottomTabProvider = Provider.of<BottomTabsPageProvider>(context);
+
     return Scaffold(
-      appBar:
-          buildAppBar(context: context, title: localeText(context, 'qaida')),
+      appBar: buildQaidaAppBar(
+        context: context,
+        title: localeText(context, 'qaida'),
+        showBackButton: true,
+        bottomTabProvider: bottomTabProvider,
+      ),
       body: Stack(
         children: [
           Builder(
@@ -132,8 +149,8 @@ class SwipePagesState extends State<SwipePages> {
           playButton: fetchList,
           toggleLoop: toggleLoop,
           selectWords: selectWords,
-          skipNext: onTapSkipNext,
-          skipPrevious: onTapSkipPrevious,
+          skipNext: onSkipButtonPressed,
+          skipPrevious: onPreviousButtonPressed,
           isAudioPlaying: _isPlaying && !_isPaused,
           updateMultipleSelectionEnabled: _isMultipleSelectionEnabled,
           selectedIndex: _currentPageIndex,
@@ -155,348 +172,337 @@ class SwipePagesState extends State<SwipePages> {
     );
   }
 
-  void skipToNextAudio() {
-    bool isLooping = _loop;
-    if (_currentPlayingIndex < _audioLists.length - 1) {
-      _audioLists[_currentPlayingIndex].stop();
-      _audioLists[_currentPlayingIndex].seek(Duration.zero);
+  // void skipToNextAudio() async {
+  //   bool isLooping = _loop;
+  //   if (_currentPlayingIndex < _audioLists.length - 1) {
+  //     _audioLists[_currentPlayingIndex].stop();
+  //     _audioLists[_currentPlayingIndex].seek(Duration.zero);
+  //     _currentPlayingIndex++;
+  //     _audioLists[_currentPlayingIndex].play();
+  //     if (_currentPageIndex == 0) {
+  //       int audioIndex0 =
+  //           AudioListHolder1.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
+  //     } else if (_currentPageIndex == 1) {
+  //       int audioIndex1 =
+  //           AudioListHolder2.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page2Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 2) {
+  //       int audioIndex1 =
+  //           AudioListHolder3.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page3Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 3) {
+  //       int audioIndex1 =
+  //           AudioListHolder4.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page4Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 4) {
+  //       int audioIndex1 =
+  //           AudioListHolder5.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page5Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 5) {
+  //       int audioIndex1 =
+  //           AudioListHolder6.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page6Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 6) {
+  //       int audioIndex1 =
+  //           AudioListHolder7.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page7Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 7) {
+  //       int audioIndex1 =
+  //           AudioListHolder8.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page8Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 8) {
+  //       int audioIndex1 =
+  //           AudioListHolder9.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page9Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 9) {
+  //       int audioIndex1 =
+  //           AudioListHolder10.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page10Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 10) {
+  //       int audioIndex1 =
+  //           AudioListHolder11.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page11Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 11) {
+  //       int audioIndex1 =
+  //           AudioListHolder12.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page12Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 12) {
+  //       int audioIndex1 =
+  //           AudioListHolder13.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page13Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 13) {
+  //       int audioIndex1 =
+  //           AudioListHolder14.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page14Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 14) {
+  //       int audioIndex1 =
+  //           AudioListHolder15.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page15Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 15) {
+  //       int audioIndex1 =
+  //           AudioListHolder16.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page16Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 16) {
+  //       int audioIndex1 =
+  //           AudioListHolder17.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page17Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 17) {
+  //       int audioIndex1 =
+  //           AudioListHolder18.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page18Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     } else if (_currentPageIndex == 18) {
+  //       int audioIndex1 =
+  //           AudioListHolder19.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page19Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //     }
+  //     // Auto increment to play the next audio
+  //     await _audioLists[_currentPlayingIndex]
+  //         .playerStateStream
+  //         .firstWhere((state) =>
+  //             state.processingState == ProcessingState.completed || _isPaused)
+  //         .then((_) {
+  //       if (!_isPaused) {
+  //         skipToNextAudio();
+  //       }
+  //     });
+  //   } else {
+  //     if (isLooping) {
+  //       _audioLists[_currentPlayingIndex].stop();
+  //       _audioLists[_currentPlayingIndex].seek(Duration.zero);
+  //       _currentPlayingIndex = 0;
+  //       _audioLists[_currentPlayingIndex].play();
+  //       if (_currentPageIndex == 0) {
+  //         int audioIndex0 =
+  //             AudioListHolder1.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
+  //       } else if (_currentPageIndex == 1) {
+  //         int audioIndex1 =
+  //             AudioListHolder2.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page2Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 2) {
+  //         int audioIndex1 =
+  //             AudioListHolder3.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page3Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 3) {
+  //         int audioIndex1 =
+  //             AudioListHolder4.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page4Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 4) {
+  //         int audioIndex1 =
+  //             AudioListHolder5.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page5Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 5) {
+  //         int audioIndex1 =
+  //             AudioListHolder6.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page6Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 6) {
+  //         int audioIndex1 =
+  //             AudioListHolder7.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page7Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 7) {
+  //         int audioIndex1 =
+  //             AudioListHolder8.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page8Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 8) {
+  //         int audioIndex1 =
+  //             AudioListHolder9.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page9Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 9) {
+  //         int audioIndex1 =
+  //             AudioListHolder10.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page10Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 10) {
+  //         int audioIndex1 =
+  //             AudioListHolder11.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page11Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 11) {
+  //         int audioIndex1 =
+  //             AudioListHolder12.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page12Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 12) {
+  //         int audioIndex1 =
+  //             AudioListHolder13.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page13Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 13) {
+  //         int audioIndex1 =
+  //             AudioListHolder14.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page14Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 14) {
+  //         int audioIndex1 =
+  //             AudioListHolder15.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page15Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 15) {
+  //         int audioIndex1 =
+  //             AudioListHolder16.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page16Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 16) {
+  //         int audioIndex1 =
+  //             AudioListHolder17.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page17Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 17) {
+  //         int audioIndex1 =
+  //             AudioListHolder18.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page18Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       } else if (_currentPageIndex == 18) {
+  //         int audioIndex1 =
+  //             AudioListHolder19.audioIndexes[_currentPlayingIndex] ?? -1;
+  //         _page19Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
+  //       }
+  //       await _audioLists[_currentPlayingIndex]
+  //           .playerStateStream
+  //           .firstWhere((state) =>
+  //               state.processingState == ProcessingState.completed || _isPaused)
+  //           .then((_) {
+  //         if (!_isPaused) {
+  //           skipToNextAudio();
+  //         }
+  //       });
+  //     } else {
+  //       if (_currentPageIndex == 0) {
+  //         _page1Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         await _stopPageAudios();
+  //       } else if (_currentPageIndex == 1) {
+  //         _page2Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 2) {
+  //         _page3Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 3) {
+  //         _page4Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 4) {
+  //         _page5Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 5) {
+  //         _page6Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 6) {
+  //         _page7Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 7) {
+  //         _page8Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 8) {
+  //         _page9Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 9) {
+  //         _page10Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 10) {
+  //         _page11Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 11) {
+  //         _page12Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 12) {
+  //         _page13Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 13) {
+  //         _page14Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 14) {
+  //         _currentPlayingIndex = 0;
+  //         _page15Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 15) {
+  //         _page16Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 16) {
+  //         _page17Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 17) {
+  //         _page18Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       } else if (_currentPageIndex == 18) {
+  //         _page19Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //         _currentPlayingIndex = 0;
+  //         _stopPageAudios();
+  //       }
+  //     }
+  //   }
+  // }
 
-      _currentPlayingIndex++;
-      _audioLists[_currentPlayingIndex].play();
-      if (_currentPageIndex == 0) {
-        int audioIndex0 =
-            AudioListHolder1.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
-      } else if (_currentPageIndex == 1) {
-        int audioIndex1 =
-            AudioListHolder2.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page2Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 2) {
-        int audioIndex1 =
-            AudioListHolder3.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page3Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 3) {
-        int audioIndex1 =
-            AudioListHolder4.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page4Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 4) {
-        int audioIndex1 =
-            AudioListHolder5.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page5Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 5) {
-        int audioIndex1 =
-            AudioListHolder6.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page6Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 6) {
-        int audioIndex1 =
-            AudioListHolder7.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page7Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 7) {
-        int audioIndex1 =
-            AudioListHolder8.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page8Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 8) {
-        int audioIndex1 =
-            AudioListHolder9.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page9Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 9) {
-        int audioIndex1 =
-            AudioListHolder10.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page10Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 10) {
-        int audioIndex1 =
-            AudioListHolder11.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page11Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 11) {
-        int audioIndex1 =
-            AudioListHolder12.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page12Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 12) {
-        int audioIndex1 =
-            AudioListHolder13.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page13Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 13) {
-        int audioIndex1 =
-            AudioListHolder14.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page14Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 14) {
-        int audioIndex1 =
-            AudioListHolder15.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page15Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 15) {
-        int audioIndex1 =
-            AudioListHolder16.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page16Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 16) {
-        int audioIndex1 =
-            AudioListHolder17.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page17Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 17) {
-        int audioIndex1 =
-            AudioListHolder18.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page18Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 18) {
-        int audioIndex1 =
-            AudioListHolder19.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page19Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      }
-      // Auto increment to play the next audio
-      _audioLists[_currentPlayingIndex]
-          .playerStateStream
-          .firstWhere((state) =>
-              state.processingState == ProcessingState.completed || _isPaused)
-          .then((_) {
-        if (!_isPaused) {
-          skipToNextAudio();
-        }
-      });
-    } else if (isLooping) {
-      _audioLists[_currentPlayingIndex].stop();
-      _audioLists[_currentPlayingIndex].seek(Duration.zero);
+  // void skipToPreviousAudioo() {
+  //   bool isLooping = _loop;
+  //   if (_currentPlayingIndex > 0) {
+  //     _audioLists[_currentPlayingIndex].stop();
+  //     _audioLists[_currentPlayingIndex].seek(Duration.zero);
+  //     _currentPlayingIndex--;
+  //     _audioLists[_currentPlayingIndex].play();
+  //     if (_currentPageIndex == 0) {
+  //       int audioIndex0 =
+  //           AudioListHolder1.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
+  //     }
+  //     _audioLists[_currentPlayingIndex]
+  //         .playerStateStream
+  //         .firstWhere((state) =>
+  //             state.processingState == ProcessingState.completed || _isPaused)
+  //         .then((_) {
+  //       if (!_isPaused) {
+  //         skipToPreviousAudio();
+  //       }
+  //     });
+  //   } else if (isLooping) {
+  //     _audioLists[_currentPlayingIndex].stop();
+  //     _audioLists[_currentPlayingIndex].seek(Duration.zero);
+  //     _currentPlayingIndex = _audioLists.length - 1;
+  //     _audioLists[_currentPlayingIndex].play();
+  //     if (_currentPageIndex == 0) {
+  //       int audioIndex0 =
+  //           AudioListHolder1.audioIndexes[_currentPlayingIndex] ?? -1;
+  //       _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
+  //     }
+  //     _audioLists[_currentPlayingIndex]
+  //         .playerStateStream
+  //         .firstWhere((state) =>
+  //             state.processingState == ProcessingState.completed || _isPaused)
+  //         .then((_) {
+  //       if (!_isPaused) {
+  //         skipToPreviousAudio();
+  //       }
+  //     });
+  //   } else {
+  //     if (_currentPageIndex == 0) {
+  //       _page1Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
+  //       _currentPlayingIndex = 0;
+  //       _audioLists[_currentPlayingIndex].play();
+  //     }
+  //   }
+  // }
 
-      _currentPlayingIndex = 0;
-      _audioLists[_currentPlayingIndex].play();
+  // void onTapSkipNext() {
+  //   if (_isPlaying && !_isPaused) {
+  //     // skipToNextAudio();
+  //   }
+  // }
 
-      if (_currentPageIndex == 0) {
-        int audioIndex0 =
-            AudioListHolder1.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
-      } else if (_currentPageIndex == 1) {
-        int audioIndex1 =
-            AudioListHolder2.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page2Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 2) {
-        int audioIndex1 =
-            AudioListHolder3.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page3Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 3) {
-        int audioIndex1 =
-            AudioListHolder4.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page4Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 4) {
-        int audioIndex1 =
-            AudioListHolder5.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page5Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 5) {
-        int audioIndex1 =
-            AudioListHolder6.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page6Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 6) {
-        int audioIndex1 =
-            AudioListHolder7.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page7Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 7) {
-        int audioIndex1 =
-            AudioListHolder8.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page8Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 8) {
-        int audioIndex1 =
-            AudioListHolder9.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page9Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 9) {
-        int audioIndex1 =
-            AudioListHolder10.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page10Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 10) {
-        int audioIndex1 =
-            AudioListHolder11.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page11Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 11) {
-        int audioIndex1 =
-            AudioListHolder12.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page12Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 12) {
-        int audioIndex1 =
-            AudioListHolder13.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page13Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 13) {
-        int audioIndex1 =
-            AudioListHolder14.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page14Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 14) {
-        int audioIndex1 =
-            AudioListHolder15.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page15Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 15) {
-        int audioIndex1 =
-            AudioListHolder16.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page16Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 16) {
-        int audioIndex1 =
-            AudioListHolder17.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page17Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 17) {
-        int audioIndex1 =
-            AudioListHolder18.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page18Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      } else if (_currentPageIndex == 18) {
-        int audioIndex1 =
-            AudioListHolder19.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page19Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex1);
-      }
-
-      _audioLists[_currentPlayingIndex]
-          .playerStateStream
-          .firstWhere((state) =>
-              state.processingState == ProcessingState.completed || _isPaused)
-          .then((_) {
-        if (!_isPaused) {
-          skipToNextAudio();
-        }
-      });
-    } else {
-      if (_currentPageIndex == 0) {
-        _page1Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 1) {
-        _page2Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 2) {
-        _page3Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 3) {
-        _page4Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 4) {
-        _page5Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 5) {
-        _page6Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 6) {
-        _page7Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 7) {
-        _page8Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 8) {
-        _page9Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 9) {
-        _page10Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 10) {
-        _page11Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 11) {
-        _page12Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 12) {
-        _page13Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 13) {
-        _page14Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 14) {
-        _page15Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 15) {
-        _page16Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 16) {
-        _page17Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 17) {
-        _page18Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      } else if (_currentPageIndex == 18) {
-        _page19Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _stopPageAudios();
-      }
-    }
-  }
-
-  void skipToPreviousAudio() {
-    bool isLooping = _loop;
-    if (_currentPlayingIndex > 0) {
-      _audioLists[_currentPlayingIndex].stop();
-      _audioLists[_currentPlayingIndex].seek(Duration.zero);
-
-      _currentPlayingIndex--;
-      _audioLists[_currentPlayingIndex].play();
-
-      if (_currentPageIndex == 0) {
-        int audioIndex0 =
-            AudioListHolder1.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
-      }
-
-      _audioLists[_currentPlayingIndex]
-          .playerStateStream
-          .firstWhere((state) =>
-              state.processingState == ProcessingState.completed || _isPaused)
-          .then((_) {
-        if (!_isPaused) {
-          skipToPreviousAudio();
-        }
-      });
-    } else if (isLooping) {
-      _audioLists[_currentPlayingIndex].stop();
-      _audioLists[_currentPlayingIndex].seek(Duration.zero);
-
-      _currentPlayingIndex = _audioLists.length - 1;
-      _audioLists[_currentPlayingIndex].play();
-
-      if (_currentPageIndex == 0) {
-        int audioIndex0 =
-            AudioListHolder1.audioIndexes[_currentPlayingIndex] ?? -1;
-        _page1Key[0].currentState?.updateCurrentlyPlayingIndex(audioIndex0);
-      }
-
-      _audioLists[_currentPlayingIndex]
-          .playerStateStream
-          .firstWhere((state) =>
-              state.processingState == ProcessingState.completed || _isPaused)
-          .then((_) {
-        if (!_isPaused) {
-          skipToPreviousAudio();
-        }
-      });
-    } else {
-      if (_currentPageIndex == 0) {
-        _page1Key[0].currentState?.updateCurrentlyPlayingIndex(-1);
-        _currentPlayingIndex = 0;
-        _audioLists[_currentPlayingIndex].play();
-      }
-    }
-  }
-
-  void onTapSkipNext() {
-    if (_isPlaying && !_isPaused) {
-      skipToNextAudio();
-    }
-  }
-
-  void onTapSkipPrevious() {
-    if (_isPlaying && !_isPaused) {
-      skipToPreviousAudio();
-    }
-  }
+  // void onTapSkipPrevious() {
+  //   if (_isPlaying && !_isPaused) {
+  //     // skipToPreviousAudio();
+  //   }
+  // }
 
   void fetchList() {
     if (!_isPlaying && !_isPaused) {
-      List<String> audioFiles = [];
-      int pageId = -1;
-      List<int?> audioIndex = [];
       if (_curr == 0) {
         audioFiles = AudioListHolder1.audioList;
         pageId = AudioListHolder1.pageId;
@@ -591,25 +597,48 @@ class SwipePagesState extends State<SwipePages> {
       setState(() {
         _isPaused = true;
       });
-    } else if (_isPaused) {
-      _audioLists[_currentPlayingIndex].play();
-      setState(() {
-        _isPaused = false; // Set it to false to resume playback
-      });
-
-      // Auto increment to play the next audio
-      _audioLists[_currentPlayingIndex]
-          .playerStateStream
-          .firstWhere(
-            (state) =>
-                state.processingState == ProcessingState.completed || _isPaused,
-          )
-          .then((_) {
-        if (!_isPaused) {
-          skipToNextAudio();
-        }
-      });
     }
+    // else if (_isPaused) {
+    //   _audioLists[_currentPlayingIndex].play();
+    //   setState(() {
+    //     _isPaused = false; // Set it to false to resume playback
+    //   });
+
+    //   // Auto increment to play the next audio
+    //   _audioLists[_currentPlayingIndex]
+    //       .playerStateStream
+    //       .firstWhere(
+    //         (state) =>
+    //             state.processingState == ProcessingState.completed || _isPaused,
+    //       )
+    //       .then((_) {
+    //     if (!_isPaused) {
+    //       skipToNextAudio();
+    //     }
+    //   });
+    // }
+  }
+
+  void skipCurrentAudio() {
+    if (_isPlaying && !_isPaused) {
+      _audioLists[_currentPlayingIndex].stop();
+      _skipButton = true;
+    }
+  }
+
+  void skipToPreviousAudio() {
+    if (_isPlaying && !_isPaused && _currentPlayingIndex > 0) {
+      _skipPrevious = true;
+      _currentPlayingIndex--;
+    }
+  }
+
+  void onPreviousButtonPressed() {
+    skipToPreviousAudio();
+  }
+
+  void onSkipButtonPressed() {
+    skipCurrentAudio();
   }
 
   Future<void> _playPageAudios(int pageId, List<String> audioFiles) async {
@@ -753,6 +782,14 @@ class SwipePagesState extends State<SwipePages> {
 
       //--- Logic For Audio Play + Highlighting the Container
       for (int i = _currentPlayingIndex; i < _audioLists.length; i++) {
+        if (_skipButton) {
+          _currentPlayingIndex = i + 1;
+          _skipButton = false;
+        } else if (_skipPrevious) {
+          _currentPlayingIndex = i - 1;
+          _skipPrevious = false;
+          break;
+        }
         if (_isPlaying && !_isPaused) {
           if (_currentPageIndex == 0) {
             int audioIndex0 = AudioListHolder1.audioIndexes[i] ?? -1;
@@ -854,7 +891,20 @@ class SwipePagesState extends State<SwipePages> {
         }
 
         await _audioLists[i].playerStateStream.firstWhere((state) =>
-            state.processingState == ProcessingState.completed || _isPaused);
+            state.processingState == ProcessingState.completed ||
+            _isPaused ||
+            _skipButton ||
+            _skipPrevious);
+
+        if (_skipButton) {
+          _currentPlayingIndex = i + 1;
+          _skipButton = false;
+        }
+        if (_skipPrevious) {
+          _currentPlayingIndex = i - 1;
+          _skipPrevious = false;
+          break;
+        }
 
         if (i == _audioLists.length - 1) {
           if (_currentPageIndex == 0) {
@@ -1113,7 +1163,7 @@ class SwipePagesState extends State<SwipePages> {
     controller = PageController(initialPage: widget.initialPage);
     _curr = widget.initialPage;
     _initList();
-    print('current page index selected is $_currentPageIndex');
+    // print('current page index selected is $_currentPageIndex');
   }
 
   @override

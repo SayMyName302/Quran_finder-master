@@ -9,6 +9,9 @@ import '../../quran/quran_page.dart';
 class BottomTabsPageProvider extends ChangeNotifier {
   int _currentPage = 0;
   int get currentPage => _currentPage;
+  bool _showBottomTab = true;
+
+  bool get showBottomTab => _showBottomTab;
 
   var page = [
     const HomePage(),
@@ -20,6 +23,11 @@ class BottomTabsPageProvider extends ChangeNotifier {
 
   void setCurrentPage(int page) {
     _currentPage = page;
+    notifyListeners();
+  }
+
+  void setBottomTabVisibility(bool isVisible) {
+    _showBottomTab = isVisible;
     notifyListeners();
   }
 }
