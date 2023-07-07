@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/qaida/screens/tutorial_player.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
+import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/routes/routes_helper.dart';
 import '../../../shared/widgets/circle_button.dart';
@@ -99,7 +100,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                 },
                                 visualDensity: VisualDensity.compact,
                               ),
-                              const Text('Multi-Play'),
+                              Text(localeText(context, "multi_play")),
                             ],
                           ),
                         ),
