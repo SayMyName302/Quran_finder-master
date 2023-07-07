@@ -157,7 +157,7 @@ class RuqyahPage extends StatelessWidget {
                                             "${index + 1}",
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
-                                                fontSize: 11,
+                                                fontSize: 12,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -226,9 +226,9 @@ class RuqyahPage extends StatelessWidget {
                                       duaCount,
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.black,
-                                      ),
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ),

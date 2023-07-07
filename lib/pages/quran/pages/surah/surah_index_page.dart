@@ -298,7 +298,8 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                                   },
                                 ));
                               },
-                              child: DetailsContainerWidget(
+                              child: DetailsContainerWidget1(
+                                index: index + 1,
                                 title: LocalizationProvider().checkIsArOrUr()
                                     ? surah.arabicName!
                                     : surah.surahName!,
@@ -314,7 +315,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                       );
               },
             ),
-          ),
+          )
         ],
       ),
     );

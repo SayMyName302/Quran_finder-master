@@ -81,8 +81,9 @@ class RuqyahDetail extends StatelessWidget {
                                               '$index',
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
-                                                  fontSize: 11,
-                                                  color: Colors.white),
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ),
@@ -96,16 +97,22 @@ class RuqyahDetail extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            capitalize(duaTitle),
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 12.sp,
-                                              fontFamily: "satoshi",
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.6,
+                                            child: Text(
+                                              capitalize(duaTitle),
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 15.sp,
+                                                fontFamily: "satoshi",
+                                              ),
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 5.h,
+                                            height: 2.h,
                                           ),
                                           SizedBox(
                                             width: MediaQuery.of(context)
@@ -115,7 +122,7 @@ class RuqyahDetail extends StatelessWidget {
                                             child: Text(
                                               duaRef,
                                               style: TextStyle(
-                                                  fontSize: 10.sp,
+                                                  fontSize: 12.sp,
                                                   fontFamily: "satoshi",
                                                   color: AppColors.grey4),
                                             ),
@@ -130,7 +137,7 @@ class RuqyahDetail extends StatelessWidget {
                                           left: 10.w,
                                         ),
                                         child: CircleAvatar(
-                                          radius: 16.h,
+                                          radius: 17.h,
                                           backgroundColor: Colors.grey[300],
                                           child: Container(
                                             width: 21.h,
@@ -140,9 +147,9 @@ class RuqyahDetail extends StatelessWidget {
                                               duaCount.toString(),
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
-                                                fontSize: 11,
-                                                color: Colors.black,
-                                              ),
+                                                  fontSize: 12,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ),

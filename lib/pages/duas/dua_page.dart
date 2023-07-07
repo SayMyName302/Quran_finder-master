@@ -165,7 +165,7 @@ class DuaPage extends StatelessWidget {
                                                   "${index + 1}",
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
-                                                      fontSize: 11,
+                                                      fontSize: 12,
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold),
@@ -226,7 +226,7 @@ class DuaPage extends StatelessWidget {
                                         bottom: 5.h,
                                       ),
                                       child: CircleAvatar(
-                                        radius: 16.h,
+                                        radius: 17.h,
                                         backgroundColor: Colors.grey[300],
                                         child: Container(
                                           width: 21.h,
@@ -236,9 +236,9 @@ class DuaPage extends StatelessWidget {
                                             duaCount,
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
-                                              fontSize: 11,
-                                              color: Colors.black,
-                                            ),
+                                                fontSize: 12,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ),
