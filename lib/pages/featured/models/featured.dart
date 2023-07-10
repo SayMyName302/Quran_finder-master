@@ -8,7 +8,9 @@ class FeaturedModel {
   String? _audioUrl;
   String? _text;
   String? _videoUrl;
-  String? _contentType; // New field: content_type
+  String? _contentType;
+  String? _status; // New field: status
+
   int? get storyId => _storyId;
   String? get storyTitle => _storyTitle;
   String? get image => _image;
@@ -16,12 +18,10 @@ class FeaturedModel {
   String? get audioUrl => _audioUrl;
   String? get text => _text;
   String? get contentType => _contentType;
+  String? get status => _status; // New getter for status
 
   String? _title;
-
   String? get title => _title;
-
-  // Getter for content_type
 
   FeaturedModel({
     required title,
@@ -31,7 +31,8 @@ class FeaturedModel {
     required audio,
     required text,
     required video,
-    required contentType, // New parameter: content_type
+    required contentType,
+    required status, // New parameter: status
   }) {
     _title = title;
     _storyId = storyId;
@@ -40,7 +41,8 @@ class FeaturedModel {
     _audioUrl = audio;
     _text = text;
     _videoUrl = video;
-    _contentType = contentType; // Assign the value to the content_type field
+    _contentType = contentType;
+    _status = status; // Assign the value to the status field
   }
 
   FeaturedModel.fromJson(Map<String, dynamic> json) {
@@ -52,7 +54,7 @@ class FeaturedModel {
     _text = json[Hive.box(appBoxKey).get(miraclesTranslationKey) ?? 'text'];
     _text = json['text'];
     _videoUrl = json['content_url'];
-    _contentType =
-        json['content_type']; // Assign the value to the content_type field
+    _contentType = json['content_type'];
+    _status = json['status']; // Assign the value to the status field
   }
 }

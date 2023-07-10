@@ -29,48 +29,50 @@ class _MorePageState extends State<MorePage> {
     // var them = context.read<ThemProvider>().isDark;
     List<More> pages = [
       More(
-          name: localeText(context, "99_names_of_allah"),
-          image: 'assets/images/app_icons/names_99.png'),
-      More(
           name: localeText(context, 'qibla_direction'),
           image: 'assets/images/app_icons/qibla_direction.png'),
-      More(
-          name: localeText(context, 'step_by_step_salah'),
-          image: 'assets/images/app_icons/step_by_step_salah.png'),
       More(
           name: localeText(context, 'salah_timer'),
           image: 'assets/images/app_icons/salah_timer.png'),
       More(
-          name: localeText(context, 'shahada'),
-          image: 'assets/images/app_icons/shahadah.png'),
+          name: localeText(context, "duas"),
+          image: 'assets/images/app_icons/duas.png'),
       More(
           name: localeText(context, 'tasbeeh'),
           image: 'assets/images/app_icons/tasbeeh.png'),
       More(
-          name: localeText(context, "quran_miracles"),
-          image: 'assets/images/app_icons/miracles.png'),
+          name: localeText(context, 'step_by_step_salah'),
+          image: 'assets/images/app_icons/step_by_step_salah.png'),
+      More(
+          name: localeText(context, 'shahada'),
+          image: 'assets/images/app_icons/shahadah.png'),
       More(
           name: localeText(context, "islam_basics"),
           image: 'assets/images/app_icons/islam_basics.png'),
       More(
-          name: localeText(context, "duas"),
-          image: 'assets/images/app_icons/duas.png'),
+          name: localeText(context, "99_names_of_allah"),
+          image: 'assets/images/app_icons/names_99.png'),
+      More(
+          name: localeText(context, "quran_miracles"),
+          image: 'assets/images/app_icons/miracles.png'),
       More(
           name: localeText(context, "hajjandumrah"),
           image: 'assets/images/app_icons/hajjandumrah.png'),
     ];
     List routes = [
-      RouteHelper.namesOfALLAH,
       RouteHelper.qiblaDirection,
-      RouteHelper.stepsOFPrayer,
       RouteHelper.salahTimer,
-      RouteHelper.shahada,
-      RouteHelper.tasbeeh,
-      RouteHelper.miraclesOfQuran,
-      RouteHelper.basicsOfQuran,
-//RouteHelper.swipe,
       RouteHelper.duaMain,
+
+      RouteHelper.tasbeeh,
+      RouteHelper.stepsOFPrayer,
+      RouteHelper.shahada,
+      RouteHelper.basicsOfQuran,
+      RouteHelper.namesOfALLAH,
+//RouteHelper.swipe,
+      RouteHelper.miraclesOfQuran,
     ];
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +124,7 @@ class _MorePageState extends State<MorePage> {
                             () => context
                                 .read<RecitationPlayerProvider>()
                                 .pause(context));
-                        if (index == 1) {
+                        if (index == 0) {
                           if (mounted) {
                             if (Platform.isAndroid) {
                               bool? value = await FlutterQiblah
@@ -143,7 +145,7 @@ class _MorePageState extends State<MorePage> {
                             }
                           }
                         } else {
-                          if (index == 5) {
+                          if (index == 3) {
                             Provider.of<TasbeehProvider>(context, listen: false)
                                 .reset();
                           }

@@ -75,7 +75,10 @@ class HomeDb {
   Future<List<QuranStories>> getQuranStories() async {
     List<QuranStories> stories = [];
     _database = await openDb();
-    var table = await _database!.query(_storiesInQuran);
+    var table = await _database!.query(
+      _storiesInQuran,
+      orderBy: 'view_order_by', // Add the 'ORDER BY' clause here
+    );
     for (var map in table) {
       stories.add(QuranStories.fromJson(map));
     }
@@ -99,7 +102,8 @@ class HomeDb {
   Future<List<Miracles2>> getFeatured2() async {
     List<Miracles2> feature = [];
     _database = await openDb();
-    var table = await _database!.query(_featured,where: "content_type = ?",whereArgs: ["Video"]);
+    var table = await _database!
+        .query(_featured, where: "content_type = ?", whereArgs: ["Video"]);
     print(
         "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
@@ -115,14 +119,15 @@ class HomeDb {
   Future<List<Miracles>> getFeatured3() async {
     List<Miracles> feature = [];
     _database = await openDb();
-    var table = await _database!.query(_featured,where: "content_type = ?",whereArgs: ["Video"]);
-    print(
-        "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+    var table = await _database!.query(_featured,
+        where: "content_type = ?",
+        whereArgs: ["Video"],
+        orderBy: 'view_order_by');
+    print("Table Length: ${table.length}");
     for (var map in table) {
       feature.add(Miracles.fromJson(map));
     }
-    print(
-        "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
+    print("Feature Length: ${feature.length}");
     return feature;
   }
 
@@ -139,7 +144,8 @@ class HomeDb {
   Future<List<Miracles>> getMiracles() async {
     List<Miracles> miracles = [];
     _database = await openDb();
-    var table = await _database!.query(_miraclesOfQuranTb);
+    var table =
+        await _database!.query(_miraclesOfQuranTb, orderBy: 'view_order_by');
     for (var map in table) {
       miracles.add(Miracles.fromJson(map));
     }
@@ -149,7 +155,8 @@ class HomeDb {
   Future<List<IslamBasics>> getIslamBasics() async {
     List<IslamBasics> islamBasics = [];
     _database = await openDb();
-    var table = await _database!.query(_islamBasicsTb);
+    var table =
+        await _database!.query(_islamBasicsTb, orderBy: 'view_order_by');
     for (var map in table) {
       islamBasics.add(IslamBasics.fromJson(map));
     }

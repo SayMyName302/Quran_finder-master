@@ -16,6 +16,7 @@ class IslamBasicsProvider extends ChangeNotifier {
   IslamBasics? _selectedIslamBasics;
   IslamBasics? get selectedIslamBasics => _selectedIslamBasics;
   int _currentIslamBasics = 0;
+  int? _tappedItemIndex; // Store the index of the tapped item
 
   int get currentIslamBasics => _currentIslamBasics;
 
@@ -35,9 +36,11 @@ class IslamBasicsProvider extends ChangeNotifier {
 
   void goToBasicsContentPage(int index, BuildContext context) {
     _selectedIslamBasics = _islamBasics[index];
+    _tappedItemIndex = index; // Store the tapped item index
     notifyListeners();
-    Navigator.of(context).pushNamed(RouteHelper.basicsOfIslamDetails);
-    _moveBasicsToEnd(index);
+    Navigator.of(context)
+        .pushNamed(RouteHelper.basicsOfIslamDetails)
+        .then((_) => _resetTappedItemIndex());
   }
 
   gotoBasicsPlayerPage(
@@ -52,13 +55,18 @@ class IslamBasicsProvider extends ChangeNotifier {
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromBasic');
   }
 
-  void _moveBasicsToEnd(int index) {
-    Future.delayed(const Duration(milliseconds: 300), () {
-      _islamBasics.removeAt(index);
-      _islamBasics.add(_selectedIslamBasics!);
-      notifyListeners();
+  void _moveBasicsToEnd() {
+    if (_tappedItemIndex != null) {
+      final selectedBasics = _islamBasics[_tappedItemIndex!];
+      _islamBasics.removeAt(_tappedItemIndex!);
+      _islamBasics.add(selectedBasics);
+      _tappedItemIndex = null; // Reset the tapped item index
       _saveBasicsOrder();
-    });
+    }
+  }
+
+  void _resetTappedItemIndex() {
+    _tappedItemIndex = null;
   }
 
   void _saveBasicsOrder() {
@@ -70,17 +78,22 @@ class IslamBasicsProvider extends ChangeNotifier {
   void _loadBasicsOrder() {
     final List<String>? order = _preferences?.getStringList('basics_order');
     if (order != null && order.isNotEmpty) {
-      // Add a check for non-empty order
       final List<IslamBasics> sortedBasics = [];
       for (final title in order) {
-        final basics = _islamBasics.firstWhere(
-          (m) => m.title == title,
-        );
+        final basics = _islamBasics.firstWhere((m) => m.title == title,
+            orElse: () => throw Exception('Basics not found'));
         if (basics != null) {
           sortedBasics.add(basics);
         }
       }
-      _islamBasics = sortedBasics;
+      if (sortedBasics.length != _islamBasics.length) {
+        _islamBasics = sortedBasics;
+        _saveBasicsOrder();
+      } else {
+        for (int i = 0; i < sortedBasics.length; i++) {
+          _islamBasics[i] = sortedBasics[i];
+        }
+      }
       notifyListeners();
     }
   }

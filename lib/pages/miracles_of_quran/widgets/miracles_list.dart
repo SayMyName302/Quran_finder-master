@@ -23,6 +23,9 @@ class MiraclesList extends StatelessWidget {
                 itemCount: miraclesProvider.miracles.length,
                 itemBuilder: (context, index) {
                   Miracles model = miraclesProvider.miracles[index];
+                  if (model.status != 'active') {
+                    return Container(); // Skip inactive items
+                  }
                   return InkWell(
                     onTap: () {
                       miraclesProvider.goToMiracleDetailsPage(

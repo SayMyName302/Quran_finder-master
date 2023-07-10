@@ -48,7 +48,9 @@ class FeaturedSection extends StatelessWidget {
                     itemBuilder: (context, index) {
                       try {
                         FeaturedModel model = storiesProvider.feature[index];
-
+                        if (model.status != 'active') {
+                          return Container(); // Skip inactive items
+                        }
                         return InkWell(
                           onTap: () {
                             if (network == 1) {
@@ -63,10 +65,14 @@ class FeaturedSection extends StatelessWidget {
                               } else if (model.contentType == "Video") {
                                 print(index);
                                 print(model.storyTitle!);
+
                                 /// two ways without creating any separate provider
                                 /// directly using MiraclesOfQuranProvider
-                                Provider.of<MiraclesOfQuranProvider>(context,listen: false)
-                                    .goToMiracleDetailsPageFromFeatured(model.storyTitle!, context, index);
+                                Provider.of<MiraclesOfQuranProvider>(context,
+                                        listen: false)
+                                    .goToMiracleDetailsPageFromFeatured(
+                                        model.storyTitle!, context, index);
+
                                 /// else u can use your own provider as u create both work fine u can check and give me some
                                 /// feedback tomorrow
                                 /// u can un comment this and commit out MiraclesOfQuranProvider this provider line to check both

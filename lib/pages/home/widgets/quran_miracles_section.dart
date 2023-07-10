@@ -37,6 +37,9 @@ class QuranMiraclesSection extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       Miracles model = miraclesProvider.miracles[index];
+                      if (model.status != 'active') {
+                        return Container(); // Skip inactive items
+                      }
                       return InkWell(
                         onTap: () {
                           // miraclesProvider.checkVideoAvailable(model.title!, context);
@@ -47,7 +50,6 @@ class QuranMiraclesSection extends StatelessWidget {
                                   .pause(context));
                           miraclesProvider.goToMiracleDetailsPage(
                               model.title!, context, index);
-                         
                         },
                         child: Container(
                           width: 287.w,

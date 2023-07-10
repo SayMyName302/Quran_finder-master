@@ -42,7 +42,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   Future<void> getMiracles() async {
     _miracles = await HomeDb().getMiracles();
     _featureMiraclesList = await HomeDb().getFeatured3();
-    // _loadMiraclesOrder();
+    _loadMiraclesOrder();
     notifyListeners();
   }
 
@@ -57,7 +57,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     _selectedMiracle = _miracles[index];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
-    //_moveMiracleToEnd(index);
+    _moveMiracleToEnd(index);
   }
 
   void goToMiracleDetailsPageFromFeatured(
@@ -128,8 +128,8 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void _moveMiracleToEnd(int index) {
     Future.delayed(const Duration(milliseconds: 300), () {
-      _miracles.removeAt(index);
-      _miracles.add(_selectedMiracle!);
+      final selectedMiracle = _miracles.removeAt(index);
+      _miracles.add(selectedMiracle);
       notifyListeners();
       _saveMiraclesOrder();
     });
@@ -141,23 +141,23 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     _preferences?.setStringList('miracles_order', order);
   }
 
-  // void _loadMiraclesOrder() {
-  //   final List<String>? order = _preferences?.getStringList('miracles_order');
-  //   if (order != null && order.isNotEmpty) {
-  //     // Add a check for non-empty order
-  //     final List<Miracles> sortedMiracles = [];
-  //     for (final title in order) {
-  //       final miracle = _miracles.firstWhere(
-  //         (m) => m.title == title,
-  //       );
-  //       if (miracle != null) {
-  //         sortedMiracles.add(miracle);
-  //       }
-  //     }
-  //     _miracles = sortedMiracles;
-  //     notifyListeners();
-  //   }
-  // }
+  void _loadMiraclesOrder() {
+    final List<String>? order = _preferences?.getStringList('miracles_order');
+    if (order != null && order.isNotEmpty) {
+      // Add a check for non-empty order
+      final List<Miracles> sortedMiracles = [];
+      for (final title in order) {
+        final miracle = _miracles.firstWhere(
+          (m) => m.title == title,
+        );
+        if (miracle != null) {
+          sortedMiracles.add(miracle);
+        }
+      }
+      _miracles = sortedMiracles;
+      notifyListeners();
+    }
+  }
 
   void favoriteMiraclesDetailsPage(String s, BuildContext context, int index) {}
 

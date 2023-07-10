@@ -42,6 +42,9 @@ class IslamBasicsSection extends StatelessWidget {
                     itemBuilder: (context, index) {
                       IslamBasics islamBasics =
                           islamBasicProvider.islamBasics[index];
+                      if (islamBasics.status != 'active') {
+                        return Container(); // Skip inactive items
+                      }
                       return InkWell(
                         onTap: () async {
                           if (network == 1) {

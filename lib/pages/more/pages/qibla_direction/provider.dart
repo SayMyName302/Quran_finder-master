@@ -23,8 +23,18 @@ class QiblaProvider extends ChangeNotifier {
   int _qiblaDistance = 0;
   int get qiblaDistance => _qiblaDistance;
 
+  bool isRequestingPermission = false;
+
   Future getLocationPermission(BuildContext context) async {
+    if (isRequestingPermission) {
+      return;
+    }
+
+    isRequestingPermission = true;
+
     var permissionStatus = await Permission.location.request();
+
+    isRequestingPermission = false;
 
     if (permissionStatus.isDenied) {
       Future.delayed(Duration.zero, () => getQiblaPageData(context));

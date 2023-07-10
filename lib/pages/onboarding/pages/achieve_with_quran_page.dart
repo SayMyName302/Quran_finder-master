@@ -58,10 +58,12 @@ class AchieveWithQuranPage extends StatelessWidget {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SkipButton(onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(RouteHelper.setFavReciter);
-                    })
+                    SkipButton(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(RouteHelper.setFavReciter);
+                      },
+                    ),
                   ],
                 );
               },
