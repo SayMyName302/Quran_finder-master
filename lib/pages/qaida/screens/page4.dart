@@ -148,6 +148,12 @@ class Page4State extends State<Page4> {
     });
   }
 
+  void clearAudioList() {
+    setState(() {
+      AudioListHolder4.audioList.clear();
+    });
+  }
+
   void playSingleAudio(int index) async {
     if (containerAudioPlayingStates[index]) {
       await _audioPlayer.stop();
@@ -1794,4 +1800,63 @@ class AudioListHolder4 {
   static List<String> audioList = [];
   static List<int?> audioIndexes = [];
   static int pageId = 4;
+  static void page4Audios() {
+    if (audioList.isEmpty) {
+      audioList.addAll([
+        'assets/images/qaida/page1/raaa.mp3',
+        'assets/images/qaida/page4/r01.mp3',
+        'assets/images/qaida/page4/r02.mp3',
+        'assets/images/qaida/page4/r03.mp3',
+        'assets/images/qaida/page4/r04.mp3',
+        'assets/images/qaida/page1/zaaa.mp3',
+        'assets/images/qaida/page4/z01.mp3',
+        'assets/images/qaida/page4/z02.mp3',
+        'assets/images/qaida/page4/z03.mp3',
+        'assets/images/qaida/page4/z04.mp3',
+        'assets/images/qaida/page1/seen.mp3',
+        'assets/images/qaida/page4/s01.mp3',
+        'assets/images/qaida/page4/s02.mp3',
+        'assets/images/qaida/page4/s03.mp3',
+        'assets/images/qaida/page4/s04.mp3',
+        'assets/images/qaida/page1/sheen.mp3',
+        'assets/images/qaida/page4/sh01.mp3',
+        'assets/images/qaida/page4/sh02.mp3',
+        'assets/images/qaida/page4/sh03.mp3',
+        'assets/images/qaida/page4/sh04.mp3',
+        'assets/images/qaida/page1/suaad.mp3',
+        'assets/images/qaida/page4/sad01.mp3',
+        'assets/images/qaida/page4/sad02.mp3',
+        'assets/images/qaida/page4/sad03.mp3',
+        'assets/images/qaida/page4/sad04.mp3',
+      ]);
+
+      audioIndexes = [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+      ];
+    }
+  }
 }

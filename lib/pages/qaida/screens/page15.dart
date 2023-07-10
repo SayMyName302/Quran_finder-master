@@ -178,6 +178,12 @@ class Page15State extends State<Page15> {
     });
   }
 
+  void clearAudioList() {
+    setState(() {
+      AudioListHolder15.audioList.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1267,6 +1273,29 @@ class Page15State extends State<Page15> {
 class AudioListHolder15 {
   static List<String> audioList = [];
   static List<int?> audioIndexes = [];
-
   static int pageId = 15;
+  static void page15Audios() {
+    if (audioList.isEmpty) {
+      audioList.addAll([
+        'assets/images/qaida/page15/00.mp3',
+        'assets/images/qaida/page15/01.mp3',
+        'assets/images/qaida/page15/02.mp3',
+        'assets/images/qaida/page15/03.mp3',
+        'assets/images/qaida/page15/04.mp3',
+        'assets/images/qaida/page15/05.mp3',
+        'assets/images/qaida/page15/06.mp3',
+        'assets/images/qaida/page15/07.mp3',
+        'assets/images/qaida/page15/08.mp3',
+        'assets/images/qaida/page15/09.mp3',
+        'assets/images/qaida/page15/10.mp3',
+        'assets/images/qaida/page15/11.mp3',
+        'assets/images/qaida/page15/12.mp3',
+        'assets/images/qaida/page15/13.mp3',
+        'assets/images/qaida/page15/14.mp3',
+        'assets/images/qaida/page15/15.mp3',
+      ]);
+
+      audioIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+    }
+  }
 }

@@ -194,6 +194,12 @@ class Page6State extends State<Page6> {
     });
   }
 
+  void clearAudioList() {
+    setState(() {
+      AudioListHolder6.audioList.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1796,4 +1802,63 @@ class AudioListHolder6 {
   static List<String> audioList = [];
   static List<int?> audioIndexes = [];
   static int pageId = 6;
+  static void page6Audios() {
+    if (audioList.isEmpty) {
+      audioList.addAll([
+        'assets/images/qaida/page1/faa.mp3',
+        'assets/images/qaida/page6/fa1.mp3',
+        'assets/images/qaida/page6/fa2.mp3',
+        'assets/images/qaida/page6/fa3.mp3',
+        'assets/images/qaida/page6/fa4.mp3',
+        'assets/images/qaida/page1/qaaf.mp3',
+        'assets/images/qaida/page6/qa1.mp3',
+        'assets/images/qaida/page6/qa2.mp3',
+        'assets/images/qaida/page6/qa3.mp3',
+        'assets/images/qaida/page6/qa4.mp3',
+        'assets/images/qaida/page1/kaaf.mp3',
+        'assets/images/qaida/page6/ka1.mp3',
+        'assets/images/qaida/page6/ka2.mp3',
+        'assets/images/qaida/page6/ka3.mp3',
+        'assets/images/qaida/page6/ka4.mp3',
+        'assets/images/qaida/page1/laam.mp3',
+        'assets/images/qaida/page6/la1.mp3',
+        'assets/images/qaida/page6/la2.mp3',
+        'assets/images/qaida/page6/la3.mp3',
+        'assets/images/qaida/page6/la4.mp3',
+        'assets/images/qaida/page1/meem.mp3',
+        'assets/images/qaida/page6/ma1.mp3',
+        'assets/images/qaida/page6/ma2.mp3',
+        'assets/images/qaida/page6/ma3.mp3',
+        'assets/images/qaida/page6/ma4.mp3',
+      ]);
+
+      audioIndexes = [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ];
+    }
+  }
 }
