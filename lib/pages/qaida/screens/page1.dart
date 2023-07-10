@@ -141,7 +141,7 @@ class Page1State extends State<Page1> {
       List<int?> audioIndexes = selectedAudioFiles
           .map((filePath) => audioIndexMap[filePath])
           .toList();
-      print('Audio Indexes: $audioIndexes');
+      // print('Audio Indexes: $audioIndexes');
 
       AudioListHolder1.audioList = selectedAudioFiles;
       AudioListHolder1.audioIndexes = audioIndexes;
@@ -160,6 +160,12 @@ class Page1State extends State<Page1> {
       AudioListHolder1.audioList.clear();
       widget.isMultipleSelectionEnabled = false;
       widget.updateMultipleSelectionEnabled(false);
+    });
+  }
+
+  void clearAudioList() {
+    setState(() {
+      AudioListHolder1.audioList.clear();
     });
   }
 
@@ -2487,6 +2493,76 @@ class AudioListHolder1 {
   static List<String> audioList = [];
   static List<int?> audioIndexes = [];
   static int pageId = 1;
+
+  static void page1Audios() {
+    if (audioList.isEmpty) {
+      audioList.addAll([
+        'assets/images/qaida/page1/alif.mp3',
+        'assets/images/qaida/page1/baa1.mp3',
+        'assets/images/qaida/page1/taaah.mp3',
+        'assets/images/qaida/page1/saa.mp3',
+        'assets/images/qaida/page1/geem.mp3',
+        'assets/images/qaida/page1/haa.mp3',
+        'assets/images/qaida/page1/khaa.mp3',
+        'assets/images/qaida/page1/daal.mp3',
+        'assets/images/qaida/page1/zaal.mp3',
+        'assets/images/qaida/page1/raaa.mp3',
+        'assets/images/qaida/page1/zaaa.mp3',
+        'assets/images/qaida/page1/seen.mp3',
+        'assets/images/qaida/page1/sheen.mp3',
+        'assets/images/qaida/page1/suaad.mp3',
+        'assets/images/qaida/page1/zaad.mp3',
+        'assets/images/qaida/page1/taaah.mp3',
+        'assets/images/qaida/page1/zaaah.mp3',
+        'assets/images/qaida/page1/aaen.mp3',
+        'assets/images/qaida/page1/gaen.mp3',
+        'assets/images/qaida/page1/faa.mp3',
+        'assets/images/qaida/page1/qaaf.mp3',
+        'assets/images/qaida/page1/kaaf.mp3',
+        'assets/images/qaida/page1/laam.mp3',
+        'assets/images/qaida/page1/meem.mp3',
+        'assets/images/qaida/page1/noon.mp3',
+        'assets/images/qaida/page1/wahoo.mp3',
+        'assets/images/qaida/page1/haah.mp3',
+        'assets/images/qaida/page1/hamza.mp3',
+        'assets/images/qaida/page1/yaa.mp3',
+        'assets/images/qaida/page1/yaah.mp3',
+      ]);
+
+      audioIndexes = [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ];
+    }
+  }
 }
 
 class AudioPlayerManager {

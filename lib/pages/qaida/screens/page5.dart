@@ -193,6 +193,12 @@ class Page5State extends State<Page5> {
     });
   }
 
+  void clearAudioList() {
+    setState(() {
+      AudioListHolder5.audioList.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1794,4 +1800,63 @@ class AudioListHolder5 {
   static List<String> audioList = [];
   static List<int?> audioIndexes = [];
   static int pageId = 5;
+  static void page5Audios() {
+    if (audioList.isEmpty) {
+      audioList.addAll([
+        'assets/images/qaida/page1/zaad.mp3',
+        'assets/images/qaida/page5/zad1.mp3',
+        'assets/images/qaida/page5/zad2.mp3',
+        'assets/images/qaida/page5/zad3.mp3',
+        'assets/images/qaida/page5/zad4.mp3',
+        'assets/images/qaida/page1/taaah.mp3',
+        'assets/images/qaida/page5/ta01.mp3',
+        'assets/images/qaida/page5/ta02.mp3',
+        'assets/images/qaida/page5/ta03.mp3',
+        'assets/images/qaida/page5/ta04.mp3',
+        'assets/images/qaida/page1/zaaah.mp3',
+        'assets/images/qaida/page5/zoad1.mp3',
+        'assets/images/qaida/page5/zoad2.mp3',
+        'assets/images/qaida/page5/zoad3.mp3',
+        'assets/images/qaida/page5/zoad4.mp3',
+        'assets/images/qaida/page1/aaen.mp3',
+        'assets/images/qaida/page5/aa1.mp3',
+        'assets/images/qaida/page5/aa2.mp3',
+        'assets/images/qaida/page5/aa3.mp3',
+        'assets/images/qaida/page5/aa4.mp3',
+        'assets/images/qaida/page1/gaen.mp3',
+        'assets/images/qaida/page5/gha1.mp3',
+        'assets/images/qaida/page5/gha2.mp3',
+        'assets/images/qaida/page5/gha3.mp3',
+        'assets/images/qaida/page5/gha4.mp3',
+      ]);
+
+      audioIndexes = [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+      ];
+    }
+  }
 }
