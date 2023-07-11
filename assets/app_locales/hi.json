@@ -423,5 +423,9 @@
   "sign-in_to_get_started": "आरंभ करने के लिए साइन इन करें",
   "are_you_sure_you_want_to_delete_your_profile?": "क्या आप वाकई अपनी प्रोफ़ाइल हटाना चाहते हैं?",
   "cancel": "रद्द करना",
-  "delete": "मिटाना"
+  "delete": "मिटाना",
+  "hajj_&_umrah": "हज और उमरा",
+  "last_read": "अंतिम पढ़ा",
+  "no_last_read": "कोई अंतिम पढ़ा नहीं",
+  "quick_links": "त्वरित सम्पक"
 }

@@ -426,5 +426,9 @@
   "sign-in_to_get_started": "登录即可开始",
   "are_you_sure_you_want_to_delete_your_profile?": "您确定要删除您的个人资料吗?",
   "cancel": "取消",
-  "delete": "删除"
+  "delete": "删除",
+  "hajj_&_umrah": "朝觐和副朝",
+  "last_read": "最后阅读",
+  "no_last_read": "没有上次阅读",
+  "quick_links": "快速链接"
 }

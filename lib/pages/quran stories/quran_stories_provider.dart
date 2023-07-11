@@ -17,6 +17,8 @@ class QuranStoriesProvider extends ChangeNotifier {
   QuranStories? _selectedQuranStory;
   QuranStories? get selectedQuranStory => _selectedQuranStory;
   SharedPreferences? _preferences;
+  int _lastTappedIndex = -1;
+
   Future<void> getStories() async {
     _stories = await HomeDb().getQuranStories();
     _loadStoriesOrder();
@@ -33,11 +35,12 @@ class QuranStoriesProvider extends ChangeNotifier {
 
   void goToStoryContentPage(int index, BuildContext context) {
     _currentStoryIndex = index;
-    _selectedQuranStory =
-        _stories[index]; // Move the selected story to the end of the list
+    _selectedQuranStory = _stories[index];
     notifyListeners();
-    Navigator.of(context).pushNamed(RouteHelper.storyDetails);
+
     _moveStoryToEnd(index);
+
+    Navigator.of(context).pushNamed(RouteHelper.storyDetails);
   }
 
   gotoStoryPlayerPage(int storyId, BuildContext context, int index) {
@@ -54,11 +57,19 @@ class QuranStoriesProvider extends ChangeNotifier {
   }
 
   void _moveStoryToEnd(int index) {
-    Future.delayed(Duration(milliseconds: 300), () {
+    _selectedQuranStory =
+        _stories[index]; // Set the selected story to the one being moved
+    notifyListeners();
+
+    Future.delayed(const Duration(milliseconds: 300), () {
       _stories.removeAt(index);
       _stories.add(_selectedQuranStory!);
       notifyListeners();
       _saveStoriesOrder();
+
+      // Find the new index of the selected story after it has been moved
+      _currentStoryIndex = _stories.indexOf(_selectedQuranStory!);
+      notifyListeners();
     });
   }
 

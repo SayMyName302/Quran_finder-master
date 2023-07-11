@@ -97,7 +97,7 @@ class _SignInPageState extends State<SignInPage> {
                                     fontFamily: 'satoshi',
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13.sp,
-                                    color: AppColors.mainBrandingColor),
+                                    color: color),
                               ),
                             ),
                           ),
@@ -142,7 +142,7 @@ class _SignInPageState extends State<SignInPage> {
                                       .read<SignInProvider>()
                                       .signInWithApple();
                                 })
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
                         ],
                       ),
                     ),

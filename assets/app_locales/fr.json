@@ -423,5 +423,9 @@
   "sign-in_to_get_started": "connectez-vous pour commencer",
   "are_you_sure_you_want_to_delete_your_profile?": "Êtes-vous sûr de vouloir supprimer votre profil ?",
   "cancel": "Annuler",
-  "delete": "supprimer"
+  "delete": "supprimer",
+  "hajj_&_umrah": "Hajj et Omra",
+  "last_read": "dernière lecture",
+  "no_last_read": "pas de dernière lecture",
+  "quick_links": "Liens rapides"
 }

@@ -424,5 +424,9 @@
   "sign-in_to_get_started": "قم بتسجيل الدخول لتبدأ",
   "are_you_sure_you_want_to_delete_your_profile?": "هل أنت متأكد أنك تريد حذف ملف التعريف الخاص بك؟",
   "cancel": "يلغي",
-  "delete": "يمسح"
+  "delete": "يمسح",
+  "hajj_&_umrah": "الحج والعمرة",
+  "last_read": "آخر قراءة",
+  "no_last_read": "لا آخر قراءة",
+  "quick_links": "روابط سريعة"
 }

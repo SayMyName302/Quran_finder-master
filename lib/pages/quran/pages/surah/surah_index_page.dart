@@ -62,7 +62,10 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                 padding: const EdgeInsets.only(
                     left: 20.0, right: 20.0, bottom: 14.0, top: 10),
                 child: Text(
-                  'Last Read',
+                  localeText(
+                    context,
+                    'last_read',
+                  ),
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontFamily: 'satoshi',
@@ -79,7 +82,10 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Center(
                   child: Text(
-                    'No last read', // Your desired message
+                    localeText(
+                      context,
+                      'no_last_read',
+                    ), // Your desired message
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontFamily: 'satoshi',
@@ -159,17 +165,19 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
               color: value.mainBrandingColor.withOpacity(0.15),
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 20.0, right: 20.0, bottom: 14.0, top: 10),
-                child: Text(
-                  'Quick Links',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'satoshi',
-                    fontSize: 15.sp,
-                  ),
-                ),
-              ),
+                  padding: const EdgeInsets.only(
+                      left: 20.0, right: 20.0, bottom: 14.0, top: 10),
+                  child: Text(
+                    localeText(
+                      context,
+                      'quick_links',
+                    ),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'satoshi',
+                      fontSize: 15.sp,
+                    ),
+                  )),
             );
           }),
           Padding(

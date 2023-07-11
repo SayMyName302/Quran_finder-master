@@ -424,5 +424,9 @@
   "sign-in_to_get_started": "সাইন ইন শুরু করতে",
   "are_you_sure_you_want_to_delete_your_profile?": "আপনি কি নিশ্চিত যে আপনি আপনার প্রোফাইল মুছতে চান?",
   "cancel": "বাতিল",
-  "delete": "মুছে ফেলা"
+  "delete": "মুছে ফেলা",
+  "hajj_&_umrah": "হজ ও ওমরাহ",
+  "last_read": "শেষ পড়া",
+  "no_last_read": "শেষ পড়া নেই",
+  "quick_links": "দ্রুত লিঙ্ক"
 }

@@ -21,7 +21,7 @@ class TextFieldColumn extends StatefulWidget {
 }
 
 class _TextFieldColumnState extends State<TextFieldColumn> {
-  bool isHide = false;
+  bool isHide = true;
   @override
   Widget build(BuildContext context) {
     var style14 = TextStyle(
