@@ -48,6 +48,9 @@ class FeatureProvider extends ChangeNotifier {
     _currentFeatureIndex = index;
     _selectedFeatureStory = _feature[index];
     notifyListeners();
+
+    _moveStoryToEnd(index);
+
     Navigator.of(context).pushNamed(RouteHelper.featureDetails);
     // _moveStoryToEnd(index);
   }
@@ -66,11 +69,19 @@ class FeatureProvider extends ChangeNotifier {
   }
 
   void _moveStoryToEnd(int index) {
-    Future.delayed(Duration(milliseconds: 300), () {
+    _selectedFeatureStory =
+        _feature[index]; // Set the selected story to the one being moved
+    notifyListeners();
+
+    Future.delayed(const Duration(milliseconds: 300), () {
       _feature.removeAt(index);
       _feature.add(_selectedFeatureStory!);
       notifyListeners();
       _saveStoriesOrder();
+
+      // Find the new index of the selected story after it has been moved
+      _currentFeatureIndex = _feature.indexOf(_selectedFeatureStory!);
+      notifyListeners();
     });
   }
 
