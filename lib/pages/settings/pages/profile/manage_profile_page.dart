@@ -115,15 +115,16 @@ class _ManageProfileState extends State<ManageProfile> {
                     if (profile.userProfile == null) {
                       return Center(
                         child: Container(
-                          margin: EdgeInsets.only(
-                              left: 20.w, right: 20.w, top: 200.h),
-                          child: Text(
-                              localeText(context, "sign-in_to_get_started"),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: 'satoshi',
-                                  fontSize: 17.sp)),
-                        ),
+                            margin: EdgeInsets.only(
+                                left: 20.w, right: 20.w, top: 200.h),
+                            child: BrandButton(
+                              text:
+                                  localeText(context, "sign-in_to_get_started"),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteHelper.signIn);
+                              },
+                            )),
                       );
                     }
                     return Container(

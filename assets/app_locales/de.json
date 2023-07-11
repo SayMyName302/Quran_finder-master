@@ -424,5 +424,9 @@
   "sign-in_to_get_started": "Anmelden, um loszulegen",
   "are_you_sure_you_want_to_delete_your_profile?": "Sind Sie sicher, dass Sie Ihr Profil löschen möchten?",
   "cancel": "stornieren",
-  "delete": "löschen"
+  "delete": "löschen",
+  "hajj_&_umrah": "Hadsch und Umrah",
+  "last_read": "zuletzt gelesen",
+  "no_last_read": "keine letzte Lektüre",
+  "quick_links": "Quicklinks"
 }

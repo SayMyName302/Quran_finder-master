@@ -470,5 +470,9 @@
   "sign-in_to_get_started": "sign-in to get started",
   "are_you_sure_you_want_to_delete_your_profile?": "Are you sure you want to delete your profile?",
   "cancel": "Cancel",
-  "delete": "Delete"
+  "delete": "Delete",
+  "hajj_&_umrah": "Hajj & Umrah",
+  "last_read": "Last Read",
+  "no_last_read": "No last read",
+  "quick_links": "Quick Links"
 }

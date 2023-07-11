@@ -35,12 +35,13 @@ class IslamBasicsProvider extends ChangeNotifier {
   }
 
   void goToBasicsContentPage(int index, BuildContext context) {
+    _currentIslamBasics = index;
     _selectedIslamBasics = _islamBasics[index];
-    _tappedItemIndex = index; // Store the tapped item index
     notifyListeners();
-    Navigator.of(context)
-        .pushNamed(RouteHelper.basicsOfIslamDetails)
-        .then((_) => _resetTappedItemIndex());
+
+    _moveBasicToEnd(index);
+
+    Navigator.of(context).pushNamed(RouteHelper.basicsOfIslamDetails);
   }
 
   gotoBasicsPlayerPage(
@@ -55,14 +56,21 @@ class IslamBasicsProvider extends ChangeNotifier {
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromBasic');
   }
 
-  void _moveBasicsToEnd() {
-    if (_tappedItemIndex != null) {
-      final selectedBasics = _islamBasics[_tappedItemIndex!];
-      _islamBasics.removeAt(_tappedItemIndex!);
-      _islamBasics.add(selectedBasics);
-      _tappedItemIndex = null; // Reset the tapped item index
+  void _moveBasicToEnd(int index) {
+    _selectedIslamBasics =
+        _islamBasics[index]; // Set the selected story to the one being moved
+    notifyListeners();
+
+    Future.delayed(const Duration(milliseconds: 300), () {
+      _islamBasics.removeAt(index);
+      _islamBasics.add(_selectedIslamBasics!);
+      notifyListeners();
       _saveBasicsOrder();
-    }
+
+      // Find the new index of the selected story after it has been moved
+      _currentIslamBasics = _islamBasics.indexOf(_selectedIslamBasics!);
+      notifyListeners();
+    });
   }
 
   void _resetTappedItemIndex() {
