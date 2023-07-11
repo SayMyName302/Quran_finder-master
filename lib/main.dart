@@ -15,6 +15,7 @@ import 'package:nour_al_quran/pages/quran%20stories/quran_stories_provider.dart'
 import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/lastreadprovider.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/about_the_app/provider/about_provider.dart';
 import 'package:nour_al_quran/shared/providers/dua_audio_player_provider.dart';
 import 'package:nour_al_quran/shared/providers/story_n_basics_audio_player_provider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
@@ -53,8 +54,10 @@ import 'package:provider/provider.dart';
 import 'pages/featured/provider/featured_provider.dart';
 import 'pages/featured/provider/featurevideoProvider.dart';
 import 'pages/paywall/paywal_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
+  await dotenv.load(fileName: '.env');
   await Global.init();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => FeatureProvider()),
@@ -99,6 +102,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => BookmarkProviderDua()),
     ChangeNotifierProvider(create: (_) => BookmarkProviderRuqyah()),
     ChangeNotifierProvider(create: (_) => FeaturedMiraclesOfQuranProvider()),
+    ChangeNotifierProvider(create: (_) => AboutProvider()),
     StreamProvider<int>(
         create: (context) => NetworkProvider().streamController.stream,
         initialData: 0),

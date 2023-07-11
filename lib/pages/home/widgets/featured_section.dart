@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
-import 'package:nour_al_quran/pages/miracles_of_quran/models/miracles.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
@@ -11,7 +10,6 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_constants.dart';
-import '../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import 'home_row_widget.dart';

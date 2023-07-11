@@ -268,7 +268,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       size: 12.h,
                     ),
                     onTap: () async {
-                      await Share.share("app Url");
+                      await Share.share(
+                          "https://play.google.com/store/apps/details?id=com.nouralquran.nouralquran&hl=en&gl=US");
                     },
                   ),
                   Consumer2<SignInProvider, ProfileProvider>(

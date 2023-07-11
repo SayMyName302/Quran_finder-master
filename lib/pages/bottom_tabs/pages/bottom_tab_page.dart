@@ -3,6 +3,7 @@ import 'package:nour_al_quran/pages/bottom_tabs/widgets/bottom_nav_widget.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/about_the_app/provider/about_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,9 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     context.read<MiraclesOfQuranProvider>().getMiracles();
     context.read<IslamBasicsProvider>().getIslamBasics();
     context.read<FeatureProvider>().getStories();
-    Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false).getMiracles();
+    context.read<AboutProvider>().getInfo();
+    Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false)
+        .getMiracles();
 
     /// this is app usage state provider which is used to stop and start timers
     var provider = context.read<MyStateProvider>();
