@@ -19,6 +19,7 @@ class HomeDb {
   final String _storiesInQuran = "stories_in_quran";
   final String _islamBasicsTb = "islam_basics";
   final String _featured = "featured_all";
+  final String _appinfo = "app_info";
   initDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -105,14 +106,28 @@ class HomeDb {
     List<FeaturedModel> feature = [];
     _database = await openDb();
     var table = await _database!.query(_featured);
-    print(
-        "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+    // print(
+    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       feature.add(FeaturedModel.fromJson(map));
     }
-    print(
-        "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
+  }
+
+  Future<List<AboutModel>> getAppInfo() async {
+    List<AboutModel> appinfo = [];
+    _database = await openDb();
+    var table = await _database!.query(_appinfo);
+    print(
+        "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      appinfo.add(AboutModel.fromJson(map));
+    }
+    print(
+        "App info Length: ${appinfo.length}"); // Print the number of FeaturedModel objects added to the list
+    return appinfo;
   }
 
   Future<List<Miracles2>> getFeatured2() async {
@@ -120,13 +135,13 @@ class HomeDb {
     _database = await openDb();
     var table = await _database!
         .query(_featured, where: "content_type = ?", whereArgs: ["Video"]);
-    print(
-        "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+    // print(
+    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       feature.add(Miracles2.fromJson(map));
     }
-    print(
-        "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
   }
 
@@ -139,11 +154,11 @@ class HomeDb {
         where: "content_type = ?",
         whereArgs: ["Video"],
         orderBy: 'view_order_by');
-    print("Table Length: ${table.length}");
+    // print("Table Length: ${table.length}");
     for (var map in table) {
       feature.add(Miracles.fromJson(map));
     }
-    print("Feature Length: ${feature.length}");
+    // print("Feature Length: ${feature.length}");
     return feature;
   }
 

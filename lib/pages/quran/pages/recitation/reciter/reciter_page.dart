@@ -223,39 +223,64 @@ class ReciterPage extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  margin:
-                                      EdgeInsets.only(left: 10.w, right: 10.w),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // color: AppColors.grey2
-                                      Text(
-                                        "Surah ${surah.surahName}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16.sp,
-                                          fontFamily: "satoshi",
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 5, bottom: 5, left: 10),
+                                  child: CircleAvatar(
+                                    radius: 17,
+                                    backgroundColor:
+                                        AppColors.mainBrandingColor,
+                                    child: Container(
+                                      width: 25,
+                                      height: 25,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        (index + 1).toString(),
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        left: 10.w, right: 10.w),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // color: AppColors.grey2
+                                        Text(
+                                          "Surah ${surah.surahName}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16.sp,
+                                            fontFamily: "satoshi",
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 2.h,
-                                      ),
-                                      SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.6,
-                                          child: Text(
-                                            surah.englishName!,
-                                            style: TextStyle(
-                                                fontSize: 14.sp,
-                                                fontFamily: "satoshi",
-                                                color: AppColors.grey4),
-                                          ))
-                                    ],
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.6,
+                                            child: Text(
+                                              surah.englishName!,
+                                              style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  fontFamily: "satoshi",
+                                                  color: AppColors.grey4),
+                                            ))
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Container(
