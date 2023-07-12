@@ -24,13 +24,11 @@ class DownloadProvider with ChangeNotifier {
 
   setDownloadProgress(double value) {
     _downloadProgress = value;
-    print('download progress in download provider$_downloadProgress');
     notifyListeners();
   }
 
   setDownLoadText(String text) {
     _downloadText = text;
-    print('download text in download provider$_downloadText');
     notifyListeners();
   }
 }
