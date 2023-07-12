@@ -64,6 +64,7 @@ class FeatureProvider extends ChangeNotifier {
             _selectedFeatureStory!.audioUrl!,
             "assets/images/quran_feature/${selectedFeatureStory!.image}",
             context);
+    _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
   }

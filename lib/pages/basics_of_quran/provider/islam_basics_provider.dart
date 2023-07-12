@@ -52,6 +52,7 @@ class IslamBasicsProvider extends ChangeNotifier {
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedIslamBasics!.audioUrl!,
             _selectedIslamBasics!.image!, context);
+    _moveBasicToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromBasic');
   }
