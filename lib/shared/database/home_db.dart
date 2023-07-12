@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/models/miracles.dart';
+import 'package:nour_al_quran/pages/settings/pages/about_the_app/model/about_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../pages/basics_of_quran/models/islam_basics.dart';
@@ -12,6 +13,7 @@ import '../../pages/quran stories/models/quran_stories.dart';
 
 class HomeDb {
   Database? _database;
+  final String _appInfo = "app_info";
   //tables
   final String _miraclesOfQuranTb = "miracles_of_quran";
   final String _storiesInQuran = "stories_in_quran";
@@ -70,6 +72,20 @@ class HomeDb {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
     return await openDatabase(path, readOnly: false);
+  }
+
+  Future<List<AboutModel>> getAppInfo() async {
+    List<AboutModel> appinfo = [];
+    _database = await openDb();
+    var table = await _database!.query(_appInfo);
+    // print(
+    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      appinfo.add(AboutModel.fromJson(map));
+    }
+    // print(
+    //     "App info Length: ${appinfo.length}"); // Print the number of FeaturedModel objects added to the list
+    return appinfo;
   }
 
   Future<List<QuranStories>> getQuranStories() async {
