@@ -6,7 +6,9 @@ import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:async';
 
 import '../../../../shared/widgets/app_bar.dart';
 
@@ -144,8 +146,6 @@ class ReportIssuePage extends StatelessWidget {
     final String? gmailPassword = dotenv.env['GMAIL_PASSWORD'];
 
     if (gmailUsername != null && gmailPassword != null) {
-      print('Gmail Username: $gmailUsername');
-      print('Gmail Password: $gmailPassword');
       final smtpServer = SmtpServer(
         'smtp.gmail.com',
         username: gmailUsername,
@@ -156,16 +156,22 @@ class ReportIssuePage extends StatelessWidget {
 
       final message = Message()
         ..from = Address(gmailUsername)
-        ..recipients.add(
-            "new8bollytchannel@gmail.com") // Replace with the recipient's email address
+        ..recipients.add("sohaila.tabusum@gmail.com")
         ..subject = subject
         ..text = body;
 
-      try {
-        final sendReport = await send(message, smtpServer);
-        print('Message sent: ${sendReport.toString()}');
-      } on MailerException catch (e) {
-        print('Message not sent. Error: ${e.toString()}');
+      final connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult == ConnectivityResult.none) {
+        Fluttertoast.showToast(msg: 'No internet connection');
+      } else {
+        try {
+          final sendReport = await send(message, smtpServer);
+          print('Message sent: ${sendReport.toString()}');
+          Fluttertoast.showToast(msg: 'Response submitted successfully');
+        } on MailerException catch (e) {
+          print('Message not sent. Error: ${e.toString()}');
+          Fluttertoast.showToast(msg: 'Failed to send email');
+        }
       }
     } else {
       print('Error: Gmail credentials not found or incomplete.');

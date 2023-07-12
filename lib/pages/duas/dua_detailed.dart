@@ -6,10 +6,14 @@ import '../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../../shared/utills/app_colors.dart';
 import '../../../../shared/widgets/app_bar.dart';
 import '../../../../shared/widgets/dua_player.dart';
+import '../../shared/entities/bookmarks_dua.dart';
 import '../settings/pages/app_colors/app_colors_provider.dart';
+import '../settings/pages/app_them/them_provider.dart';
 import '../settings/pages/fonts/font_provider.dart';
+import 'dua_bookmarks_provider.dart';
 import 'dua_provider.dart';
 import 'models/dua.dart';
+import 'models/dua_category.dart';
 
 class DuaDetail extends StatelessWidget {
   const DuaDetail({Key? key}) : super(key: key);
@@ -24,8 +28,11 @@ class DuaDetail extends StatelessWidget {
     String duaTitle = nextDua.duaTitle.toString();
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
-    String duaCount = nextDua.ayahCount.toString();
+    int? duaCount = nextDua.ayahCount;
     String duaTranslation = nextDua.translations.toString();
+    int? fav = nextDua.isFav;
+    int favindex = index - 1;
+    String duaUrl = nextDua.duaUrl.toString();
 
     return WillPopScope(
       onWillPop: () async {
@@ -36,8 +43,9 @@ class DuaDetail extends StatelessWidget {
         appBar:
             buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
-          child:
-              Consumer<AppColorsProvider>(builder: (context, appColors, child) {
+          child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
+                  DuaProvider>(
+              builder: (context, them, player, appColor, duaProv, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -67,7 +75,7 @@ class DuaDetail extends StatelessWidget {
                                         child: CircleAvatar(
                                           radius: 17,
                                           backgroundColor:
-                                              appColors.mainBrandingColor,
+                                              appColor.mainBrandingColor,
                                           child: Container(
                                             width: 25,
                                             height: 25,
@@ -124,31 +132,114 @@ class DuaDetail extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          right: 7.h,
-                                          top: 5.h,
-                                          bottom: 5.h,
-                                          left: 10.w,
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 17.h,
-                                          backgroundColor: Colors.grey[300],
-                                          child: Container(
-                                            width: 21.h,
-                                            height: 21.h,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              duaCount.toString(),
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
+                                      // Container(
+                                      //   margin: EdgeInsets.only(
+                                      //     right: 7.h,
+                                      //     top: 5.h,
+                                      //     bottom: 5.h,
+                                      //     left: 10.w,
+                                      //   ),
+                                      //   child: CircleAvatar(
+                                      //     radius: 17.h,
+                                      //     backgroundColor: Colors.grey[300],
+                                      //     child: Container(
+                                      //       width: 21.h,
+                                      //       height: 21.h,
+                                      //       alignment: Alignment.center,
+                                      //       child: Text(
+                                      //         duaCount.toString(),
+                                      //         textAlign: TextAlign.center,
+                                      //         style: const TextStyle(
+                                      //             fontSize: 12,
+                                      //             color: Colors.black,
+                                      //             fontWeight: FontWeight.bold),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      InkWell(
+                                        onTap: () async {
+                                          int duaIndex = duaProv.duaList
+                                              .indexWhere((element) =>
+                                                  element.duaText == duaText);
+                                          int indx =
+                                              duaProv.duaList[duaIndex].id!;
+                                          int? categoryId = duaProv
+                                              .duaList[duaIndex].duaCategory;
+                                          String categoryName =
+                                              getCategoryNameById(categoryId!,
+                                                  duaProv.duaCategoryList);
+                                          int duaNo =
+                                              duaProv.duaList[duaIndex].duaNo!;
+                                          if (fav == 0) {
+                                            duaProv.bookmark(duaIndex, 1);
+                                            BookmarksDua bookmark =
+                                                BookmarksDua(
+                                                    duaId: indx,
+                                                    duaNo: duaNo,
+                                                    categoryId: categoryId,
+                                                    categoryName: categoryName,
+                                                    duaTitle: duaTitle,
+                                                    duaRef: duaRef,
+                                                    ayahCount: duaCount,
+                                                    duaText: duaText,
+                                                    duaTranslation:
+                                                        duaTranslation,
+                                                    bookmarkPosition: favindex,
+                                                    duaUrl: duaUrl);
+                                            context
+                                                .read<BookmarkProviderDua>()
+                                                .addBookmark(bookmark);
+                                          } else {
+                                            // to change state
+                                            duaProv.bookmark(duaIndex, 0);
+                                            context
+                                                .read<BookmarkProviderDua>()
+                                                .removeBookmark(
+                                                    duaProvider
+                                                        .duaList[duaIndex].id!,
+                                                    duaProvider
+                                                        .duaList[duaIndex]
+                                                        .duaCategory!);
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 20.h,
+                                          width: 20.w,
+                                          margin: EdgeInsets.only(
+                                              bottom: 7.h, top: 8.h),
+                                          child: CircleAvatar(
+                                            backgroundColor:
+                                                appColor.mainBrandingColor,
+                                            child: SizedBox(
+                                              height: 16.h,
+                                              width: 16.w,
+                                              child: CircleAvatar(
+                                                backgroundColor:
+                                                    appColor.mainBrandingColor,
+                                                child: SizedBox(
+                                                  height: 21.h,
+                                                  width: 21.w,
+                                                  child: CircleAvatar(
+                                                    backgroundColor: fav == 1
+                                                        ? appColor
+                                                            .mainBrandingColor
+                                                        : Colors.white,
+                                                    child: Icon(
+                                                      Icons.favorite,
+                                                      color: fav == 1
+                                                          ? Colors.white
+                                                          : appColor
+                                                              .mainBrandingColor,
+                                                      size: 13.h,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
+                                      )
                                     ],
                                   ),
                                 ],
@@ -328,7 +419,7 @@ class DuaDetail extends StatelessWidget {
           }),
         ),
         bottomNavigationBar: const SizedBox(
-          height: 275,
+          height: 128,
           child: DuaAudioPlayer(),
         ),
       ),
@@ -340,5 +431,14 @@ class DuaDetail extends StatelessWidget {
       return text;
     }
     return text[0].toUpperCase() + text.substring(1);
+  }
+
+  String getCategoryNameById(int categoryId, List<DuaCategory> categoryList) {
+    for (DuaCategory category in categoryList) {
+      if (category.categoryId == categoryId) {
+        return category.categoryName!;
+      }
+    }
+    return '';
   }
 }

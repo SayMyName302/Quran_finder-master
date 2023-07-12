@@ -25,7 +25,7 @@ class RuqyahCategoriesPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                   // top: 10.h,
                   left: 20.w,
-                  right: 20.w,
+                  right: 10.w,
                   // bottom: 10.h
                 ),
                 itemCount: duaValue.duaCategoryList.length,

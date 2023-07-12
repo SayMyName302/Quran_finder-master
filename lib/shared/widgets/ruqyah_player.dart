@@ -3,12 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
-import '../../pages/duas/widgets/ruqyah_bookmark_provider.dart';
-import '../../pages/quran/pages/ruqyah/models/ruqyah.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah_category.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah_provider.dart';
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
-import '../entities/bookmarks_ruqyah.dart';
 import '../providers/dua_audio_player_provider.dart';
 import '../routes/routes_helper.dart';
 import '../utills/app_colors.dart';
@@ -24,26 +21,15 @@ class RuqyahAudioPlayer extends StatelessWidget {
     RuqyahProvider ruqyahProvider = Provider.of<RuqyahProvider>(context);
     Map<String, dynamic> nextDuaData = ruqyahProvider.getNextDua();
     int index = nextDuaData['index'];
-    int favindex = index - 1;
-    Ruqyah ruqyah = nextDuaData['dua'];
-    int? fav = ruqyah.isFav;
-    int part7 = ruqyahProvider.duaList.length;
-    String duaTitle = ruqyah.duaTitle.toString();
-    String duaRef = ruqyah.duaRef.toString();
-    String duaText = ruqyah.duaText.toString();
-    int? duaCount = ruqyah.ayahCount;
-    String duaTranslation = ruqyah.translations.toString();
-    String duaUrl = ruqyah.duaUrl.toString();
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     // ignore: unused_local_variable
     bool isLoopMore = false;
     return Column(
       mainAxisSize: MainAxisSize.max,
-      //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 15.h),
+          margin: EdgeInsets.only(left: 20.w, right: 20.w),
           width: double.maxFinite,
           child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
               RuqyahProvider>(
@@ -53,112 +39,8 @@ class RuqyahAudioPlayer extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 50.w, right: 35.w, top: 10.h),
                     child: Row(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              duaTitle,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'satoshi',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 19.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            int duaIndex = ruqyahProvider.duaList.indexWhere(
-                                (element) => element.duaText == duaText);
-                            int? categoryId =
-                                ruqyahProvider.duaList[duaIndex].duaCategory;
-                            String categoryName = getCategoryNameById(
-                                categoryId!, ruqyahProvider.duaCategoryList);
-                            int indx = ruqyahProvider.duaList[duaIndex].id!;
-                            int duaNo = ruqyahProvider.duaList[duaIndex].duaNo!;
-
-                            if (fav == 0) {
-                              ruqyahProvider.bookmark(duaIndex, 1);
-                              BookmarksRuqyah bookmark = BookmarksRuqyah(
-                                  duaId: indx,
-                                  duaNo: duaNo,
-                                  categoryId: categoryId,
-                                  categoryName: categoryName,
-                                  duaTitle: duaTitle,
-                                  duaRef: duaRef,
-                                  ayahCount: duaCount,
-                                  duaText: duaText,
-                                  duaTranslation: duaTranslation,
-                                  bookmarkPosition: favindex,
-                                  duaUrl: duaUrl);
-                              context
-                                  .read<BookmarkProviderRuqyah>()
-                                  .addBookmark(bookmark);
-                            } else {
-                              ruqyahProvider.bookmark(duaIndex, 0);
-                              context
-                                  .read<BookmarkProviderRuqyah>()
-                                  .removeBookmark(
-                                      ruqyahProvider.duaList[duaIndex].id!,
-                                      ruqyahProvider
-                                          .duaList[duaIndex].duaCategory!);
-                            }
-                            // }
-                          },
-                          child: Container(
-                            height: 20.h,
-                            width: 20.w,
-                            margin: EdgeInsets.only(bottom: 7.h, top: 8.h),
-                            child: CircleAvatar(
-                              backgroundColor: appColor.mainBrandingColor,
-                              child: SizedBox(
-                                height: 16.h,
-                                width: 16.w,
-                                child: CircleAvatar(
-                                  backgroundColor: appColor.mainBrandingColor,
-                                  child: SizedBox(
-                                    height: 21.h,
-                                    width: 21.w,
-                                    child: CircleAvatar(
-                                      backgroundColor: fav == 1
-                                          ? appColor.mainBrandingColor
-                                          : Colors.white,
-                                      child: Icon(
-                                        Icons.favorite,
-                                        color: fav == 1
-                                            ? Colors.white
-                                            : appColor.mainBrandingColor,
-                                        size: 13.h,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+                      children: const [],
                     ),
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Dua $index  (Total $part7)',
-                        style: const TextStyle(
-                          fontFamily: 'satoshi',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 19.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 70.h,
                   ),
                   Row(
                     children: [

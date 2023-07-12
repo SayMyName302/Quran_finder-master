@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:nour_al_quran/pages/settings/pages/translation_manager/translations.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/quran_text.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
-import 'package:nour_al_quran/shared/utills/app_constants.dart';
 
 class QuranProvider extends ChangeNotifier {
   int _currentPage = 0;

@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/mini_player.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';

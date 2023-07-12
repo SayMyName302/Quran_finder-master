@@ -4,8 +4,8 @@ class DownloadProvider with ChangeNotifier {
   bool _isDownloading = false;
   double _downloadProgress = 0;
   String _downloadText = "";
-  String get downloadText => _downloadText;
 
+  String get downloadText => _downloadText;
   bool get isDownloading => _isDownloading;
   double get downloadProgress => _downloadProgress;
 
@@ -19,7 +19,7 @@ class DownloadProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  setDownLoadText(String text){
+  setDownLoadText(String text) {
     _downloadText = text;
     notifyListeners();
   }

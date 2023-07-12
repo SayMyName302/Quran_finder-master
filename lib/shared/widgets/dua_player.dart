@@ -4,12 +4,9 @@ import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/duas/models/dua_category.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
-import '../../pages/duas/dua_bookmarks_provider.dart';
-import '../../pages/duas/models/dua.dart';
 import '../../pages/duas/dua_provider.dart';
 // import '../../pages/duas/models/dua_category.dart';
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
-import '../entities/bookmarks_dua.dart';
 import '../providers/dua_audio_player_provider.dart';
 import '../routes/routes_helper.dart';
 import '../utills/app_colors.dart';
@@ -25,16 +22,6 @@ class DuaAudioPlayer extends StatelessWidget {
     DuaProvider duaProvider = Provider.of<DuaProvider>(context);
     Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
     int index = nextDuaData['index'];
-    int favindex = index - 1;
-    Dua dua = nextDuaData['dua'];
-    int? fav = dua.isFav;
-    int part7 = duaProvider.duaList.length;
-    String duaTitle = dua.duaTitle.toString();
-    String duaRef = dua.duaRef.toString();
-    String duaText = dua.duaText.toString();
-    int? duaCount = dua.ayahCount;
-    String duaTranslation = dua.translations.toString();
-    String duaUrl = dua.duaUrl.toString();
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     // ignore: unused_local_variable
@@ -45,7 +32,7 @@ class DuaAudioPlayer extends StatelessWidget {
       //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 15.h),
+          margin: EdgeInsets.only(left: 20.w, right: 20.w),
           width: double.maxFinite,
           child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
               DuaProvider>(
@@ -56,111 +43,8 @@ class DuaAudioPlayer extends StatelessWidget {
                     margin: EdgeInsets.only(left: 50.w, right: 35.w, top: 10.h),
                     //decoration: BoxDecoration(border: Border.all(width: 1)),
                     child: Row(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              duaTitle,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'satoshi',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 19.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            int duaIndex = duaProv.duaList.indexWhere(
-                                (element) => element.duaText == duaText);
-                            int indx = duaProv.duaList[duaIndex].id!;
-                            int? categoryId =
-                                duaProv.duaList[duaIndex].duaCategory;
-                            String categoryName = getCategoryNameById(
-                                categoryId!, duaProv.duaCategoryList);
-                            int duaNo = duaProv.duaList[duaIndex].duaNo!;
-                            if (fav == 0) {
-                              duaProv.bookmark(duaIndex, 1);
-                              BookmarksDua bookmark = BookmarksDua(
-                                  duaId: indx,
-                                  duaNo: duaNo,
-                                  categoryId: categoryId,
-                                  categoryName: categoryName,
-                                  duaTitle: duaTitle,
-                                  duaRef: duaRef,
-                                  ayahCount: duaCount,
-                                  duaText: duaText,
-                                  duaTranslation: duaTranslation,
-                                  bookmarkPosition: favindex,
-                                  duaUrl: duaUrl);
-                              context
-                                  .read<BookmarkProviderDua>()
-                                  .addBookmark(bookmark);
-                            } else {
-                              // to change state
-                              duaProv.bookmark(duaIndex, 0);
-                              context
-                                  .read<BookmarkProviderDua>()
-                                  .removeBookmark(
-                                      duaProvider.duaList[duaIndex].id!,
-                                      duaProvider
-                                          .duaList[duaIndex].duaCategory!);
-                            }
-                          },
-                          child: Container(
-                            height: 20.h,
-                            width: 20.w,
-                            margin: EdgeInsets.only(bottom: 7.h, top: 8.h),
-                            child: CircleAvatar(
-                              backgroundColor: appColor.mainBrandingColor,
-                              child: SizedBox(
-                                height: 16.h,
-                                width: 16.w,
-                                child: CircleAvatar(
-                                  backgroundColor: appColor.mainBrandingColor,
-                                  child: SizedBox(
-                                    height: 21.h,
-                                    width: 21.w,
-                                    child: CircleAvatar(
-                                      backgroundColor: fav == 1
-                                          ? appColor.mainBrandingColor
-                                          : Colors.white,
-                                      child: Icon(
-                                        Icons.favorite,
-                                        color: fav == 1
-                                            ? Colors.white
-                                            : appColor.mainBrandingColor,
-                                        size: 13.h,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+                      children: const [],
                     ),
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Dua $index  (Total $part7)',
-                        style: const TextStyle(
-                          fontFamily: 'satoshi',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 19.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 70.h,
                   ),
                   Row(
                     children: [

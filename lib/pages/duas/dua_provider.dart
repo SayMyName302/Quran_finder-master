@@ -18,6 +18,14 @@ class DuaProvider extends ChangeNotifier {
   Dua? _selectedDua;
   Dua? get selectedDua => _selectedDua;
 
+  int _currentPage = 0;
+  int get currentPage => _currentPage;
+
+  void setCurrentPage(int page) {
+    _currentPage = page;
+    notifyListeners();
+  }
+
   void printDuaList() {
     for (var dua in _duaList) {
       print('Dua ${dua.id}: ${dua.duaCategory}: ${dua.status} ');

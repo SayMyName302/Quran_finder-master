@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../../../shared/entities/bookmarks_ruqyah.dart';
 import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../../shared/utills/app_colors.dart';
 import '../../../../shared/widgets/app_bar.dart';
 import '../../../../shared/widgets/ruqyah_player.dart';
+import '../../../duas/dua_provider.dart';
+import '../../../duas/widgets/ruqyah_bookmark_provider.dart';
 import '../../../settings/pages/app_colors/app_colors_provider.dart';
+import '../../../settings/pages/app_them/them_provider.dart';
 import '../../../settings/pages/fonts/font_provider.dart';
 import 'models/ruqyah.dart';
+import 'models/ruqyah_category.dart';
 import 'models/ruqyah_provider.dart';
 
 class RuqyahDetail extends StatelessWidget {
@@ -25,11 +30,11 @@ class RuqyahDetail extends StatelessWidget {
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
 
-    // Ruqyah dua = duaProvider.duaList[index];
-    // String duaCount = dua.ayahCount.toString();
-
-    String duaCount = nextDua.ayahCount.toString();
+    int? duaCount = nextDua.ayahCount;
     String duaTranslation = nextDua.translations.toString();
+    int? fav = nextDua.isFav;
+    int favindex = index - 1;
+    String duaUrl = nextDua.duaUrl.toString();
 
     return WillPopScope(
       onWillPop: () async {
@@ -40,8 +45,10 @@ class RuqyahDetail extends StatelessWidget {
         appBar:
             buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
-          child: Consumer2<RuqyahProvider, AppColorsProvider>(
-              builder: (context, duaProvider, appColors, child) {
+          child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
+                  RuqyahProvider>(
+              builder:
+                  (context, them, player, appColor, ruqyahProvider, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,7 +79,7 @@ class RuqyahDetail extends StatelessWidget {
                                         child: CircleAvatar(
                                           radius: 17,
                                           backgroundColor:
-                                              appColors.mainBrandingColor,
+                                              appColor.mainBrandingColor,
                                           child: Container(
                                             width: 25,
                                             height: 25,
@@ -129,31 +136,119 @@ class RuqyahDetail extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          right: 7.h,
-                                          top: 5.h,
-                                          bottom: 5.h,
-                                          left: 10.w,
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 17.h,
-                                          backgroundColor: Colors.grey[300],
-                                          child: Container(
-                                            width: 21.h,
-                                            height: 21.h,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              duaCount.toString(),
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
+                                      // Container(
+                                      //   margin: EdgeInsets.only(
+                                      //     right: 7.h,
+                                      //     top: 5.h,
+                                      //     bottom: 5.h,
+                                      //     left: 10.w,
+                                      //   ),
+                                      //   child: CircleAvatar(
+                                      //     radius: 17.h,
+                                      //     backgroundColor: Colors.grey[300],
+                                      //     child: Container(
+                                      //       width: 21.h,
+                                      //       height: 21.h,
+                                      //       alignment: Alignment.center,
+                                      //       child: Text(
+                                      //         duaCount.toString(),
+                                      //         textAlign: TextAlign.center,
+                                      //         style: const TextStyle(
+                                      //             fontSize: 12,
+                                      //             color: Colors.black,
+                                      //             fontWeight: FontWeight.bold),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      InkWell(
+                                        onTap: () async {
+                                          int duaIndex = ruqyahProvider.duaList
+                                              .indexWhere((element) =>
+                                                  element.duaText == duaText);
+                                          int? categoryId = ruqyahProvider
+                                              .duaList[duaIndex].duaCategory;
+                                          String categoryName =
+                                              getCategoryNameById(
+                                                  categoryId!,
+                                                  ruqyahProvider
+                                                      .duaCategoryList);
+                                          int indx = ruqyahProvider
+                                              .duaList[duaIndex].id!;
+                                          int duaNo = ruqyahProvider
+                                              .duaList[duaIndex].duaNo!;
+
+                                          if (fav == 0) {
+                                            ruqyahProvider.bookmark(
+                                                duaIndex, 1);
+                                            BookmarksRuqyah bookmark =
+                                                BookmarksRuqyah(
+                                                    duaId: indx,
+                                                    duaNo: duaNo,
+                                                    categoryId: categoryId,
+                                                    categoryName: categoryName,
+                                                    duaTitle: duaTitle,
+                                                    duaRef: duaRef,
+                                                    ayahCount: duaCount,
+                                                    duaText: duaText,
+                                                    duaTranslation:
+                                                        duaTranslation,
+                                                    bookmarkPosition: favindex,
+                                                    duaUrl: duaUrl);
+                                            context
+                                                .read<BookmarkProviderRuqyah>()
+                                                .addBookmark(bookmark);
+                                          } else {
+                                            ruqyahProvider.bookmark(
+                                                duaIndex, 0);
+                                            context
+                                                .read<BookmarkProviderRuqyah>()
+                                                .removeBookmark(
+                                                    ruqyahProvider
+                                                        .duaList[duaIndex].id!,
+                                                    ruqyahProvider
+                                                        .duaList[duaIndex]
+                                                        .duaCategory!);
+                                          }
+                                          // }
+                                        },
+                                        child: Container(
+                                          height: 20.h,
+                                          width: 20.w,
+                                          margin: EdgeInsets.only(
+                                              bottom: 7.h, top: 8.h),
+                                          child: CircleAvatar(
+                                            backgroundColor:
+                                                appColor.mainBrandingColor,
+                                            child: SizedBox(
+                                              height: 16.h,
+                                              width: 16.w,
+                                              child: CircleAvatar(
+                                                backgroundColor:
+                                                    appColor.mainBrandingColor,
+                                                child: SizedBox(
+                                                  height: 21.h,
+                                                  width: 21.w,
+                                                  child: CircleAvatar(
+                                                    backgroundColor: fav == 1
+                                                        ? appColor
+                                                            .mainBrandingColor
+                                                        : Colors.white,
+                                                    child: Icon(
+                                                      Icons.favorite,
+                                                      color: fav == 1
+                                                          ? Colors.white
+                                                          : appColor
+                                                              .mainBrandingColor,
+                                                      size: 13.h,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
+                                      )
                                     ],
                                   ),
                                 ],
@@ -292,7 +387,7 @@ class RuqyahDetail extends StatelessWidget {
           }),
         ),
         bottomNavigationBar: const SizedBox(
-          height: 275,
+          height: 128,
           child: RuqyahAudioPlayer(),
         ),
       ),
@@ -304,5 +399,15 @@ class RuqyahDetail extends StatelessWidget {
       return text;
     }
     return text[0].toUpperCase() + text.substring(1);
+  }
+
+  String getCategoryNameById(
+      int categoryId, List<RuqyahCategory> categoryList) {
+    for (RuqyahCategory category in categoryList) {
+      if (category.categoryId == categoryId) {
+        return category.categoryName!;
+      }
+    }
+    return ''; // Return an empty string or handle the case when category is not found
   }
 }
