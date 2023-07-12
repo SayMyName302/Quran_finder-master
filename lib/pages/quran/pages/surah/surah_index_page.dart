@@ -60,7 +60,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 20.0, right: 20.0, bottom: 14.0, top: 10),
+                    left: 20.0, right: 20.0, bottom: 5.0, top: 5),
                 child: Text(
                   localeText(
                     context,
@@ -69,7 +69,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontFamily: 'satoshi',
-                    fontSize: 15.sp,
+                    fontSize: 13.sp,
                   ),
                 ),
               ),
@@ -89,7 +89,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontFamily: 'satoshi',
-                      fontSize: 15.sp,
+                      fontSize: 13.sp,
                       color: AppColors.grey3,
                       // Your desir
                       //ed style
@@ -166,7 +166,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
               width: double.infinity,
               child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 20.0, right: 20.0, bottom: 14.0, top: 10),
+                      left: 20.0, right: 20.0, bottom: 5.0, top: 5.0),
                   child: Text(
                     localeText(
                       context,
@@ -175,7 +175,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> {
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontFamily: 'satoshi',
-                      fontSize: 15.sp,
+                      fontSize: 13.sp,
                     ),
                   )),
             );
