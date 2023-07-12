@@ -52,6 +52,7 @@ class QuranStoriesProvider extends ChangeNotifier {
             _selectedQuranStory!.audioUrl!,
             "assets/images/quran_stories/${selectedQuranStory!.image}",
             context);
+    _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromStory');
   }

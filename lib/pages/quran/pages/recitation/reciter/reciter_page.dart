@@ -81,9 +81,13 @@ class ReciterPage extends StatelessWidget {
                                               "ar"
                                       ? 8.w
                                       : 0),
-                              child: CircleAvatar(
-                                backgroundImage: CachedNetworkImageProvider(
-                                  reciters.imageUrl!,
+                              child: Container(
+                                height: 60, // Set the desired height
+                                width: 60, // Set the desired width
+                                child: CircleAvatar(
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    reciters.imageUrl!,
+                                  ),
                                 ),
                               ),
                             ),

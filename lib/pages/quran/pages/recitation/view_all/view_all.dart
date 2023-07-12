@@ -12,8 +12,35 @@ import 'package:provider/provider.dart';
 
 import '../../../../../shared/widgets/app_bar.dart';
 
-class AllReciters extends StatelessWidget {
+class AllReciters extends StatefulWidget {
   const AllReciters({Key? key}) : super(key: key);
+
+  @override
+  _AllRecitersState createState() => _AllRecitersState();
+}
+
+class _AllRecitersState extends State<AllReciters> {
+  bool _isImagesLoaded = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImages();
+  }
+
+  Future<void> precacheImages() async {
+    final recitersValue =
+        Provider.of<RecitationProvider>(context, listen: false);
+    await Future.wait(
+      recitersValue.recitersList.map((reciter) {
+        return precacheImage(
+            CachedNetworkImageProvider(reciter.imageUrl!), context);
+      }),
+    );
+    setState(() {
+      _isImagesLoaded = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,34 +50,41 @@ class AllReciters extends StatelessWidget {
         title: localeText(context, "all_reciters"),
         font: 16.sp,
       ),
-      body: Consumer<RecitationProvider>(
-        builder: (context, recitersValue, child) {
-          return GridView.builder(
-            padding: EdgeInsets.only(left: 20.w, right: 20.w),
-            itemCount: recitersValue.recitersList.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                mainAxisExtent: 116.87.h,
-                mainAxisSpacing: 10.h,
-                crossAxisSpacing: 5.w),
-            itemBuilder: (BuildContext context, int index) {
-              Reciters reciter = recitersValue.recitersList[index];
-              return InkWell(
-                onTap: () async {
-                  recitersValue.getSurahName();
-                  // context.read<ReciterProvider>().resetDownloadSurahList();
-                  context
-                      .read<ReciterProvider>()
-                      .setReciterList(reciter.downloadSurahList!);
-                  Navigator.of(context)
-                      .pushNamed(RouteHelper.reciter, arguments: reciter);
-                },
-                child: buildReciterDetailsContainer(reciter),
-              );
-            },
-          );
-        },
-      ),
+      body: _isImagesLoaded
+          ? Consumer<RecitationProvider>(
+              builder: (context, recitersValue, child) {
+                return GridView.builder(
+                  padding: EdgeInsets.only(left: 20.w, right: 20.w),
+                  itemCount: recitersValue.recitersList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisExtent: 116.87.h,
+                    mainAxisSpacing: 10.h,
+                    crossAxisSpacing: 5.w,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    Reciters reciter = recitersValue.recitersList[index];
+                    return InkWell(
+                      onTap: () async {
+                        recitersValue.getSurahName();
+                        // context.read<ReciterProvider>().resetDownloadSurahList();
+                        context
+                            .read<ReciterProvider>()
+                            .setReciterList(reciter.downloadSurahList!);
+                        Navigator.of(context)
+                            .pushNamed(RouteHelper.reciter, arguments: reciter);
+                      },
+                      child: buildReciterDetailsContainer(reciter),
+                    );
+                  },
+                );
+              },
+            )
+          : const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.mainBrandingColor,
+              ),
+            ),
     );
   }
 
@@ -83,12 +117,13 @@ class AllReciters extends StatelessWidget {
             softWrap: true,
             maxLines: 3,
             style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 11.sp,
-                height: 1.3.h,
-                fontFamily: "satoshi"),
+              fontWeight: FontWeight.w500,
+              fontSize: 11.sp,
+              height: 1.3.h,
+              fontFamily: "satoshi",
+            ),
             textAlign: TextAlign.center,
-          )
+          ),
         ],
       ),
     );
