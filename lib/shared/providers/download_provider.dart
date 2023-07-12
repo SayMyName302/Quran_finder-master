@@ -8,6 +8,14 @@ class DownloadProvider with ChangeNotifier {
   String get downloadText => _downloadText;
   bool get isDownloading => _isDownloading;
   double get downloadProgress => _downloadProgress;
+  bool _audioDownloaded = false;
+
+  bool get audioDownloaded => _audioDownloaded;
+
+  void setAudioDownloaded(bool value) {
+    _audioDownloaded = value;
+    notifyListeners();
+  }
 
   setDownloading(bool value) {
     _isDownloading = value;

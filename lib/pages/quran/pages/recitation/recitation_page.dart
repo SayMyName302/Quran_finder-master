@@ -13,13 +13,23 @@ import 'package:provider/provider.dart';
 
 import '../../widgets/details_container_widget.dart';
 
-class RecitationPage extends StatelessWidget {
+class RecitationPage extends StatefulWidget {
   const RecitationPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  _RecitationPageState createState() => _RecitationPageState();
+}
+
+class _RecitationPageState extends State<RecitationPage> {
+  @override
+  void initState() {
+    super.initState();
     context.read<RecitationProvider>().getReciters();
     context.read<RecitationProvider>().getFavReciter();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var appColor = context.read<AppColorsProvider>().mainBrandingColor;
     return Scaffold(
       body: SingleChildScrollView(
@@ -35,15 +45,16 @@ class RecitationPage extends StatelessWidget {
                     Navigator.of(context).pushNamed(RouteHelper.allReciters);
                   },
                   child: Container(
-                      margin: EdgeInsets.only(
-                          bottom: 10.h, right: 20.w, left: 20.w),
-                      child: Text(
-                        localeText(context, "view_all"),
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w900,
-                            color: appColor),
-                      )),
+                    margin:
+                        EdgeInsets.only(bottom: 10.h, right: 20.w, left: 20.w),
+                    child: Text(
+                      localeText(context, "view_all"),
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w900,
+                          color: appColor),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -131,12 +142,12 @@ class RecitationPage extends StatelessWidget {
 
   Container buildTitleContainer(String title) {
     return Container(
-        margin:
-            EdgeInsets.only(bottom: 10.h, left: 20.w, top: 2.h, right: 20.w),
-        child: Text(
-          title,
-          style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold),
-        ));
+      margin: EdgeInsets.only(bottom: 10.h, left: 20.w, top: 2.h, right: 20.w),
+      child: Text(
+        title,
+        style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold),
+      ),
+    );
   }
 
   Container buildReciterDetailsContainer(Reciters reciter) {
