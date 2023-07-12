@@ -116,20 +116,6 @@ class HomeDb {
     return feature;
   }
 
-  Future<List<AboutModel>> getAppInfo() async {
-    List<AboutModel> appinfo = [];
-    _database = await openDb();
-    var table = await _database!.query(_appinfo);
-    // print(
-    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
-    for (var map in table) {
-      appinfo.add(AboutModel.fromJson(map));
-    }
-    // print(
-    //     "App info Length: ${appinfo.length}"); // Print the number of FeaturedModel objects added to the list
-    return appinfo;
-  }
-
   Future<List<Miracles2>> getFeatured2() async {
     List<Miracles2> feature = [];
     _database = await openDb();

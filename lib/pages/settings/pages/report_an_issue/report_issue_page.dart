@@ -8,7 +8,6 @@ import 'package:mailer/smtp_server.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'dart:async';
 
 import '../../../../shared/widgets/app_bar.dart';
 
@@ -140,6 +139,7 @@ class ReportIssuePage extends StatelessWidget {
       ),
     );
   }
+
 
   void sendEmail(String subject, String body) async {
     final String? gmailUsername = dotenv.env['GMAIL_USERNAME'];
