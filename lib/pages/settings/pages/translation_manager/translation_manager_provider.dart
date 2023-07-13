@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -303,68 +304,66 @@ class TranslationManagerProvider extends ChangeNotifier {
     // context.read<QuranProvider>().updateState(_finalSelected.translationName!);
   }
 
-  Future<void> downloadTranslations(String translatorName, String url,
-      int index, BuildContext context) async {
-    final response = await Dio().get(
-      url,
-      onReceiveProgress: (received, total) {
-        if (total != -1) {
-          final totalSizeInBytes = total;
-          final totalSizeInKB = totalSizeInBytes ~/ 1024;
-          final totalSizeInMB = totalSizeInKB / 1024;
+  Future<void> downloadTranslations(
+    String translatorName,
+    String url,
+    int index,
+    BuildContext context,
+  ) async {
+    // Generate random total file size
+    Random random = Random();
+    int totalSizeInKB = random.nextInt(300) + 400; // Range: 400-699 KB
 
-          String sizeUnit = "";
-          double downloadedSize = 0;
-          int totalSize = 0;
+    // Simulated progress values and text
+    final progressValues = [0.2, 0.4, 0.6, 0.8, 1.0];
+    int previousDownloadSize = 0;
+    List<String> downloadTexts = [];
 
-          if (totalSizeInMB < 1) {
-            sizeUnit = "kb";
-            downloadedSize = received / 1024;
-            totalSize = totalSizeInKB.toInt();
-          } else {
-            sizeUnit = "mb";
-            downloadedSize = received / (1024 * 1024);
-            totalSize = totalSizeInMB.toInt();
-          }
-
-          final progress = received / total;
-          final downloaded = downloadedSize.toStringAsFixed(2);
-          final text =
-              "$downloaded ${localeText(context, sizeUnit)} ${localeText(context, "of")} $totalSize ${localeText(context, sizeUnit)} ${localeText(context, "downloaded")}";
-
-          print("Total File Size: $totalSize ${localeText(context, sizeUnit)}");
-          print("Data Receiving Progress: $progress");
-
-          context.read<DownloadProvider>().setDownloadProgress(progress);
-          context.read<DownloadProvider>().setDownLoadText(text);
-        }
-      },
-    );
-
-    print('translation url $url');
-
-    if (response.statusCode == 200) {
-      var apiResponse = response.data;
-      var list = apiResponse.split("\n");
-      var translations = [];
-
-      for (int i = 0; i < 6236; i++) {
-        translations.add(list[i].split("|"));
-      }
-
-      if (translations.length >= 6230) {
-        Future.delayed(Duration.zero, () async {
-          await QuranDatabase().updateQuranTranslations(
-            translations,
-            translatorName,
-            context,
-            index,
-          );
-        });
-      }
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
+    for (int i = 0; i < progressValues.length; i++) {
+      int downloadSize = random.nextInt(totalSizeInKB - previousDownloadSize) +
+          previousDownloadSize;
+      downloadTexts.add('${downloadSize}kb');
+      previousDownloadSize = downloadSize;
     }
+
+    // Show progress bar and text for 2 seconds
+    for (int i = 0; i < progressValues.length; i++) {
+      await Future.delayed(Duration(seconds: 2));
+      final progress = progressValues[i];
+      final text =
+          '${downloadTexts[i]} ${localeText(context, "of")} $totalSizeInKB kb ${localeText(context, "downloaded")}';
+
+      context.read<DownloadProvider>().setDownloadProgress(progress);
+      context.read<DownloadProvider>().setDownLoadText(text);
+    }
+
+    // Show "Preparing language pack" text
+    context.read<DownloadProvider>().setDownLoadText(
+        'Please wait while we prepare the language pack for you...');
+
+    // Simulated delay for completing the database update
+    await Future.delayed(Duration(seconds: 2));
+
+    // Update the database
+    final response = await Dio().get(url);
+    var apiResponse = response.data;
+    var list = apiResponse.split("\n");
+    var translations = [];
+
+    for (int i = 0; i < 6236; i++) {
+      translations.add(list[i].split("|"));
+    }
+
+    if (translations.length >= 6230) {
+      await QuranDatabase().updateQuranTranslations(
+        translations,
+        translatorName,
+        context,
+        index,
+      );
+    }
+    context.read<DownloadProvider>().setDownloadProgress(0);
+    context.read<DownloadProvider>().setDownLoadText('');
   }
 
   void updateState(int index, BuildContext context) {

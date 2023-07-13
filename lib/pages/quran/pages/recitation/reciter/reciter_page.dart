@@ -343,6 +343,11 @@ class ReciterPage extends StatelessWidget {
         reciterProvider.downloadSurah(surah, context, reciters);
         await buildDownloadingDialog(context, surah);
         reciterProvider.setIsDownloading(false);
+        context.read<RecitationPlayerProvider>().initAudioPlayer(
+            reciters,
+            reciters.downloadSurahList!
+                .indexWhere((element) => element == surah.surahId));
+        Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
       }, onError: () {
         reciterProvider.setIsDownloading(false);
         ScaffoldMessenger.of(context)
