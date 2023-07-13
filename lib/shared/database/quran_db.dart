@@ -455,8 +455,41 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   //   });
   // }
 
-  Future<void> updateQuranTranslations(List translations,
-      String translationName, BuildContext context, int index) async {
+  // Future<void> updateQuranTranslations(List translations,
+  //     String translationName, BuildContext context, int index) async {
+  //   database = await openDb();
+
+  //   // create indexes on surah_id and verse_id columns
+  //   await database!.execute(
+  //       "CREATE INDEX IF NOT EXISTS surah_id_idx ON $_quranTextTable (surah_id)");
+  //   await database!.execute(
+  //       "CREATE INDEX IF NOT EXISTS verse_id_idx ON $_quranTextTable (verse_id)");
+
+  //   await database!.transaction((txn) async {
+  //     for (int k = 0; k < translations.length; k++) {
+  //       await txn.execute(
+  //         "update $_quranTextTable set $translationName = ? where surah_id = ? and verse_id = ?",
+  //         [
+  //           translations[k][2],
+  //           int.parse(translations[k][0]),
+  //           int.parse(translations[k][1])
+  //         ],
+  //       );
+  //     }
+  //   }).then((value) {
+  //     Future.delayed(
+  //         Duration.zero,
+  //         () => context
+  //             .read<TranslationManagerProvider>()
+  //             .updateState(index, context));
+  //   });
+  // }
+  Future<void> updateQuranTranslations(
+    List<List<String>> translations,
+    String translationName,
+    BuildContext context,
+    int index,
+  ) async {
     database = await openDb();
 
     // create indexes on surah_id and verse_id columns
@@ -465,23 +498,36 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     await database!.execute(
         "CREATE INDEX IF NOT EXISTS verse_id_idx ON $_quranTextTable (verse_id)");
 
+    final batchSize = 100; // Number of updates per batch
+    int batchCount = 0;
+
     await database!.transaction((txn) async {
       for (int k = 0; k < translations.length; k++) {
-        await txn.execute(
-          "update $_quranTextTable set $translationName = ? where surah_id = ? and verse_id = ?",
-          [
-            translations[k][2],
+        txn.update(
+          _quranTextTable,
+          {
+            translationName: translations[k][2],
+          },
+          where: "surah_id = ? AND verse_id = ?",
+          whereArgs: [
             int.parse(translations[k][0]),
-            int.parse(translations[k][1])
+            int.parse(translations[k][1]),
           ],
         );
+
+        batchCount++;
+
+        if (batchCount == batchSize) {
+          batchCount = 0;
+        }
       }
     }).then((value) {
       Future.delayed(
-          Duration.zero,
-          () => context
-              .read<TranslationManagerProvider>()
-              .updateState(index, context));
+        Duration.zero,
+        () => context
+            .read<TranslationManagerProvider>()
+            .updateState(index, context),
+      );
     });
   }
 

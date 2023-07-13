@@ -22,6 +22,7 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/custom_track_shape.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import '../../../shared/routes/routes_helper.dart';
 import '../../settings/pages/my_state/my_state_provider_updated.dart';
 
 class QuranTextView extends StatefulWidget {
@@ -569,8 +570,20 @@ class _QuranTextViewState extends State<QuranTextView> {
                                 element.title ==
                                 transProvider.defaultSelectedTranslation.title),
                         onChanged: (int? index) {
-                          transProvider.selectTranslation(
-                              transProvider.defaultTranslations[index!]);
+                          // transProvider.selectTranslation(
+                          //     transProvider.defaultTranslations[index!]);
+                          if (index ==
+                              transProvider.defaultTranslations.length - 1) {
+                            Navigator.of(context)
+                                .pushNamed(RouteHelper.translationManager);
+                          } else {
+                            if (index != -1) {
+                              transProvider.selectTranslation(
+                                context,
+                                transProvider.defaultTranslations[index!],
+                              );
+                            }
+                          }
                         },
                         underline: const SizedBox.shrink(),
                         alignment: Alignment.topRight,

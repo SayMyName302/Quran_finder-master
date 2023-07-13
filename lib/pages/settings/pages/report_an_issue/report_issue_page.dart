@@ -140,7 +140,6 @@ class ReportIssuePage extends StatelessWidget {
     );
   }
 
-
   void sendEmail(String subject, String body) async {
     final String? gmailUsername = dotenv.env['GMAIL_USERNAME'];
     final String? gmailPassword = dotenv.env['GMAIL_PASSWORD'];

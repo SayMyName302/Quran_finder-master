@@ -49,6 +49,7 @@ import '../../pages/quran stories/pages/story_content_page.dart';
 import '../../pages/quran/pages/ruqyah/ruqyah_detailed.dart';
 import '../../pages/quran/pages/ruqyah/ruqyah_page.dart';
 import '../../pages/quran/pages/ruqyah/ruqyah_play_list.dart';
+import '../../pages/settings/pages/translation_manager/translations_manager_page.dart';
 import '../utills/app_constants.dart';
 import '../widgets/story_n_basics_player.dart';
 import '../../pages/miracles_of_quran/pages/miracle_content_page.dart';
@@ -124,6 +125,7 @@ class RouteHelper {
   static const String qaidapageindex = "/qaidapageindex";
   static const String home = "/home";
   static const String favortiesmiraclesDetails = "/favortiesmiraclesDetails";
+  static const String translationManager = "/translationManager";
   // static late BuildContext currentContext;
   static bool signInSkipped = false;
   static bool isLoggedIn = false;
@@ -161,6 +163,11 @@ class RouteHelper {
       featured: (context) {
         currentContext = context;
         return const FeaturedPage();
+      },
+      //translationManager
+      translationManager: (context) {
+        currentContext = context;
+        return const TranslationManagerPage();
       },
       duaDetailed: (context) {
         currentContext = context;

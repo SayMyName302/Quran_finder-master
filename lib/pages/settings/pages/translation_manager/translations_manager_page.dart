@@ -50,7 +50,7 @@ class TranslationManagerPage extends StatelessWidget {
                                 element.title ==
                                 transProvider.defaultSelectedTranslation.title),
                         onChanged: (int? index) {
-                          transProvider.selectTranslation(
+                          transProvider.selectTranslation(context,
                               transProvider.defaultTranslations[index!]);
                         },
                         underline: const SizedBox.shrink(),

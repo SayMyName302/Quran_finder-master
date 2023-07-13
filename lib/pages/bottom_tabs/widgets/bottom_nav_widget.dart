@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../shared/localization/localization_constants.dart';
 import '../../../shared/utills/app_colors.dart';
 import '../../quran/pages/recitation/reciter/player/mini_player.dart';
+import '../../quran/providers/quran_provider.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 import '../provider/bottom_tabs_page_provider.dart';
 
@@ -72,6 +73,7 @@ class BottomNavWidget extends StatelessWidget {
                       TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
                   onTap: (page) async {
                     bottomTabProvider.setCurrentPage(page);
+                    context.read<QuranProvider>().setCurrentPage(0);
                   },
                 ),
               )

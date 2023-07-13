@@ -7,7 +7,6 @@ import '../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../../shared/utills/app_colors.dart';
 import '../../../../shared/widgets/app_bar.dart';
 import '../../../../shared/widgets/ruqyah_player.dart';
-import '../../../duas/dua_provider.dart';
 import '../../../duas/widgets/ruqyah_bookmark_provider.dart';
 import '../../../settings/pages/app_colors/app_colors_provider.dart';
 import '../../../settings/pages/app_them/them_provider.dart';
@@ -270,7 +269,7 @@ class RuqyahDetail extends StatelessWidget {
                               Container(
                                 margin: EdgeInsets.only(
                                   left: 20.w,
-                                  right: 20.w,
+                                  right: 30.w,
                                 ),
                                 padding: EdgeInsets.only(
                                   left: 22.w,
