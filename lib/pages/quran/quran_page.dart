@@ -20,8 +20,8 @@ class QuranPage extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
     var pageNames = [
       localeText(context, "recitation"),
-      localeText(context, "surah"),
-      localeText(context, "juz"),
+      localeText(context, "read_quran"),
+      // localeText(context, "juz"),
       // localeText(context, "resume"),
       localeText(context, "bookmarks"),
       // localeText(context, "duas"),

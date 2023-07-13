@@ -206,7 +206,7 @@
 
   "collection_of_duas": "Collection of Duas",
   "audio_is_downloading": "Audio is Downloading",
-  "is_downloading":"is downloading",
+  "is_downloading": "is downloading",
   "we_will_provide_custom_recommendations_to_fit_your_individual_goals": "We will provide custom recommendations to fit your individual goals",
   "choose_upto_3_goals_for_precise_personalization": "Choose upto 3 goals for precise personalization",
   "stream_download_reciters": "Stream/Download Reciters",
@@ -475,5 +475,6 @@
   "hajj_&_umrah": "Hajj & Umrah",
   "last_read": "Last Read",
   "no_last_read": "No last read",
-  "quick_links": "Quick Links"
+  "quick_links": "Quick Links",
+  "read_quran": "Read Quran"
 }

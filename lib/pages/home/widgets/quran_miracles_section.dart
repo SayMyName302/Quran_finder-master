@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
@@ -15,6 +16,7 @@ class QuranMiraclesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     return Column(
       children: [
         HomeRowWidget(
@@ -50,6 +52,10 @@ class QuranMiraclesSection extends StatelessWidget {
                                   .pause(context));
                           miraclesProvider.goToMiracleDetailsPage(
                               model.title!, context, index);
+                          analytics.logEvent(
+                            name: 'quran_miracles',
+                            parameters: {'title': model.title},
+                          );
                         },
                         child: Container(
                           width: 287.w,

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
@@ -20,6 +21,7 @@ class FeaturedSection extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     int network = Provider.of<int>(context);
     return Column(
       children: [
@@ -60,6 +62,10 @@ class FeaturedSection extends StatelessWidget {
                               if (model.contentType == "audio") {
                                 storiesProvider.gotoFeaturePlayerPage(
                                     model.storyId!, context, index);
+                                analytics.logEvent(
+                                  name: 'Featured_section',
+                                  parameters: {'title': model.title},
+                                );
                               } else if (model.contentType == "Video") {
                                 print(index);
                                 print(model.storyTitle!);
@@ -70,6 +76,10 @@ class FeaturedSection extends StatelessWidget {
                                         listen: false)
                                     .goToMiracleDetailsPageFromFeatured(
                                         model.storyTitle!, context, index);
+                                analytics.logEvent(
+                                  name: 'Featured_section',
+                                  parameters: {'title': model.title},
+                                );
 
                                 /// else u can use your own provider as u create both work fine u can check and give me some
                                 /// feedback tomorrow

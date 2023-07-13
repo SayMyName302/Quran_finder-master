@@ -39,14 +39,14 @@ class _JuzIndexPageState extends State<JuzIndexPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SubTitleText(title: localeText(context, "juz_index")),
-        SearchWidget(
-          hintText: localeText(context, "search_juz_name"),
-          searchController: searchController,
-          onChange: (value) {
-            context.read<JuzProvider>().searchJuz(value);
-          },
-        ),
+        // SubTitleText(title: localeText(context, "juz_index")),
+        // SearchWidget(
+        //   hintText: localeText(context, "search_juz_name"),
+        //   searchController: searchController,
+        //   onChange: (value) {
+        //     context.read<JuzProvider>().searchJuz(value);
+        //   },
+        // ),
         Consumer<JuzProvider>(
           builder: (context, juzValue, child) {
             return juzValue.juzNameList.isNotEmpty
