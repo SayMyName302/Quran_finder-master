@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
@@ -47,6 +48,13 @@ class QuranStoriesSection extends StatelessWidget {
                                 () => context
                                     .read<RecitationPlayerProvider>()
                                     .pause(context));
+
+                            FirebaseAnalytics.instance.logEvent(
+                              name: 'quran_stories',
+                              parameters: {
+                                'story_title': model.storyTitle,
+                              },
+                            );
                             storiesProvider.gotoStoryPlayerPage(
                                 model.storyId!, context, index);
                           } else {
