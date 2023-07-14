@@ -574,16 +574,17 @@ class _QuranTextViewState extends State<QuranTextView> {
                         value:
                             getSelectedIndex(transProvider, sortedTranslations),
                         onChanged: (int? index) {
-                          if (index != null &&
-                              index ==
-                                  transProvider.defaultTranslations.length) {
-                            Navigator.of(context)
-                                .pushNamed(RouteHelper.translationManager);
-                          } else if (index != null && index != -1) {
-                            transProvider.selectTranslation(
-                              context,
-                              transProvider.defaultTranslations[index],
-                            );
+                          if (index != null) {
+                            if (index ==
+                                transProvider.defaultTranslations.length) {
+                              Navigator.of(context)
+                                  .pushNamed(RouteHelper.translationManager);
+                            } else if (index != -1) {
+                              transProvider.selectTranslation(
+                                context,
+                                sortedTranslations[index],
+                              );
+                            }
                           }
                         },
                         underline: const SizedBox.shrink(),
