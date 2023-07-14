@@ -16,6 +16,7 @@ import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah_provider.da
 import 'package:nour_al_quran/pages/quran/pages/surah/lastreadprovider.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/provider/about_provider.dart';
+
 import 'package:nour_al_quran/shared/providers/dua_audio_player_provider.dart';
 import 'package:nour_al_quran/shared/providers/story_n_basics_audio_player_provider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
@@ -139,7 +140,7 @@ class MyApp extends StatelessWidget {
               darkTheme: AppThem.dark,
               initialRoute: RouteHelper.initRoute,
               routes: RouteHelper.routes(context),
-              // home: const TestingQuran(),
+              // home: const SplashScreen(),
             );
           },
         );
