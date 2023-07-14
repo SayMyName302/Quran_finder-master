@@ -3,10 +3,8 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
-import 'package:nour_al_quran/pages/quran/providers/quran_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/translation_manager/translations.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
@@ -15,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/providers/download_provider.dart';
+import '../../../../shared/routes/routes_helper.dart';
 
 class TranslationManagerProvider extends ChangeNotifier {
   final List<Translations> _translations = Hive.box(appBoxKey)
@@ -206,6 +205,13 @@ class TranslationManagerProvider extends ChangeNotifier {
               .toList()
           : [
               Translations(
+                  title: "Arabic - Jalalayn",
+                  image: "assets/images/flags/ar.png",
+                  url: "https://tanzil.net/trans/ar.jalalayn",
+                  translationName: "translation_arabic_jalalayn",
+                  bis: "«بسم الله الرحمن الرحيم»",
+                  duaTrans: "arabic"),
+              Translations(
                   title: "English - Hilali",
                   image: "assets/images/flags/en.png",
                   url: "https://tanzil.net/trans/en.hilali",
@@ -213,13 +219,6 @@ class TranslationManagerProvider extends ChangeNotifier {
                   bis:
                       "In the Name of Allah, the Most Beneficent, the Most Merciful",
                   duaTrans: "english"),
-              Translations(
-                  title: "Urdu - Ahmedali",
-                  image: "assets/images/flags/pk.png",
-                  url: "https://tanzil.net/trans/ur.ahmedali",
-                  translationName: "translation_urdu_ahmedali",
-                  bis: "شروع الله کا نام لے کر جو بڑا مہربان نہایت رحم والا ہے",
-                  duaTrans: "urdu"),
               Translations(
                   title: "Hindi - Farooq",
                   image: "assets/images/flags/in.png",
@@ -236,12 +235,12 @@ class TranslationManagerProvider extends ChangeNotifier {
                       "Dialah Pemilik rahmah (sifat kasih) yang tak habis-habisnya, Yang menganugerahkan segala macam kenikmatan, baik besar maupun kecil",
                   duaTrans: "indonesian"),
               Translations(
-                  title: "Arabic - Jalalayn",
-                  image: "assets/images/flags/ar.png",
-                  url: "https://tanzil.net/trans/ar.jalalayn",
-                  translationName: "translation_arabic_jalalayn",
-                  bis: "«بسم الله الرحمن الرحيم»",
-                  duaTrans: "arabic"),
+                  title: "Urdu - Ahmedali",
+                  image: "assets/images/flags/pk.png",
+                  url: "https://tanzil.net/trans/ur.ahmedali",
+                  translationName: "translation_urdu_ahmedali",
+                  bis: "شروع الله کا نام لے کر جو بڑا مہربان نہایت رحم والا ہے",
+                  duaTrans: "urdu"),
             ];
 
   List<Translations> get defaultTranslations => _defaultTranslations;
@@ -283,7 +282,11 @@ class TranslationManagerProvider extends ChangeNotifier {
         _translations[index].url!, index, context);
   }
 
-  void selectTranslation(Translations trans) {
+  void selectTranslation(BuildContext context, Translations trans) {
+    if (trans.title == 'Download more...') {
+      Navigator.of(context).pushNamed(RouteHelper.translationManager);
+      return;
+    }
     _defaultSelectedTranslation = trans;
     notifyListeners();
   }
@@ -310,12 +313,16 @@ class TranslationManagerProvider extends ChangeNotifier {
     int index,
     BuildContext context,
   ) async {
-    // Generate random total file size
     Random random = Random();
-    int totalSizeInKB = random.nextInt(300) + 400; // Range: 400-699 KB
+    int totalSizeInKB = random.nextInt(300) + 400;
 
-    // Simulated progress values and text
-    final progressValues = [0.2, 0.4, 0.6, 0.8, 1.0];
+    final progressValues = [
+      random.nextDouble() * 0.4 + 0.6,
+      random.nextDouble() * 0.2 + 0.8,
+      random.nextDouble() * 0.1 + 0.9,
+      1.0
+    ];
+
     int previousDownloadSize = 0;
     List<String> downloadTexts = [];
 
@@ -326,9 +333,8 @@ class TranslationManagerProvider extends ChangeNotifier {
       previousDownloadSize = downloadSize;
     }
 
-    // Show progress bar and text for 2 seconds
     for (int i = 0; i < progressValues.length; i++) {
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(milliseconds: 500));
       final progress = progressValues[i];
       final text =
           '${downloadTexts[i]} ${localeText(context, "of")} $totalSizeInKB kb ${localeText(context, "downloaded")}';
@@ -337,31 +343,34 @@ class TranslationManagerProvider extends ChangeNotifier {
       context.read<DownloadProvider>().setDownLoadText(text);
     }
 
-    // Show "Preparing language pack" text
     context.read<DownloadProvider>().setDownLoadText(
         'Please wait while we prepare the language pack for you...');
 
-    // Simulated delay for completing the database update
-    await Future.delayed(Duration(seconds: 2));
-
-    // Update the database
     final response = await Dio().get(url);
-    var apiResponse = response.data;
-    var list = apiResponse.split("\n");
-    var translations = [];
 
-    for (int i = 0; i < 6236; i++) {
-      translations.add(list[i].split("|"));
-    }
+    if (response.statusCode == 200) {
+      var apiResponse = response.data;
+      var list = apiResponse.split("\n");
+      List<List<String>> translations = [];
 
-    if (translations.length >= 6230) {
-      await QuranDatabase().updateQuranTranslations(
-        translations,
-        translatorName,
-        context,
-        index,
+      await Future.wait(
+        List.generate(6236, (i) async {
+          translations.add(list[i].split("|"));
+        }),
       );
+
+      if (translations.length >= 6230) {
+        await QuranDatabase().updateQuranTranslations(
+          translations,
+          translatorName,
+          context,
+          index,
+        );
+      }
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
     }
+
     context.read<DownloadProvider>().setDownloadProgress(0);
     context.read<DownloadProvider>().setDownLoadText('');
   }

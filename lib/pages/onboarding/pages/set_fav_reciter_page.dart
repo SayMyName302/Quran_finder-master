@@ -64,8 +64,12 @@ class SetFavReciter extends StatelessWidget {
                 BrandButton(
                     text: localeText(context, "continue"),
                     onTap: () async {
-                      var selectedReciterIds = context.read<OnBoardingProvider>().reciterList.where((reciter) => reciter.title ==
-                          context.read<OnBoardingProvider>().favReciter)
+                      var selectedReciterIds = context
+                          .read<OnBoardingProvider>()
+                          .reciterList
+                          .where((reciter) =>
+                              reciter.title ==
+                              context.read<OnBoardingProvider>().favReciter)
                           .map((reciter) => reciter.reciterId)
                           .toList();
                       // Assuming you have access to the DBHelper instance
@@ -85,7 +89,8 @@ class SetFavReciter extends StatelessWidget {
                   height: 16.h,
                 ),
                 SkipButton(onTap: () {
-                  Navigator.of(context).pushNamed(RouteHelper.notificationSetup);
+                  Navigator.of(context)
+                      .pushNamed(RouteHelper.notificationSetup);
                   // Navigator.of(context).pushNamed(RouteHelper.quranReminder);
                 })
               ],

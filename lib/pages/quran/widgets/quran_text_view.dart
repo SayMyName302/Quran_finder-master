@@ -22,7 +22,9 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/custom_track_shape.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import '../../../shared/routes/routes_helper.dart';
 import '../../settings/pages/my_state/my_state_provider_updated.dart';
+import '../../settings/pages/translation_manager/translations.dart';
 
 class QuranTextView extends StatefulWidget {
   const QuranTextView({
@@ -101,6 +103,7 @@ class _QuranTextViewState extends State<QuranTextView> {
   Widget build(BuildContext context) {
     // i was not able to wrap appbar in consumer that's why i did like this
     Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
+    final transProvider = Provider.of<TranslationManagerProvider>(context);
     String title = _quranProvider.title!;
     return WillPopScope(
       onWillPop: () async {
@@ -489,6 +492,10 @@ class _QuranTextViewState extends State<QuranTextView> {
           content: Consumer3<AppColorsProvider, FontProvider,
               TranslationManagerProvider>(
             builder: (context, value, font, transProvider, child) {
+              var isDark = context.read<ThemProvider>().isDark;
+              List<Translations> sortedTranslations =
+                  List.of(transProvider.defaultTranslations);
+              sortedTranslations.sort((a, b) => a.title!.compareTo(b.title!));
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -564,26 +571,75 @@ class _QuranTextViewState extends State<QuranTextView> {
                             style: style,
                           )),
                       DropdownButton<int>(
-                        value: transProvider.defaultTranslations.indexWhere(
-                            (element) =>
-                                element.title ==
-                                transProvider.defaultSelectedTranslation.title),
+                        value:
+                            getSelectedIndex(transProvider, sortedTranslations),
                         onChanged: (int? index) {
-                          transProvider.selectTranslation(
-                              transProvider.defaultTranslations[index!]);
+                          if (index != null &&
+                              index ==
+                                  transProvider.defaultTranslations.length) {
+                            Navigator.of(context)
+                                .pushNamed(RouteHelper.translationManager);
+                          } else if (index != null && index != -1) {
+                            transProvider.selectTranslation(
+                              context,
+                              transProvider.defaultTranslations[index],
+                            );
+                          }
                         },
                         underline: const SizedBox.shrink(),
                         alignment: Alignment.topRight,
-                        items: transProvider.defaultTranslations
+                        items: sortedTranslations
+                            .asMap()
+                            .entries
                             .map<DropdownMenuItem<int>>(
-                              (e) => DropdownMenuItem<int>(
-                                value: transProvider.defaultTranslations
-                                    .indexOf(e),
-                                child: Text(e.title!),
+                              (entry) => DropdownMenuItem<int>(
+                                value: entry.key,
+                                child: IntrinsicWidth(
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(entry.value.title!),
+                                      ),
+                                      if (entry.key ==
+                                          getSelectedIndex(transProvider,
+                                              sortedTranslations))
+                                        Stack(
+                                          children: [
+                                            Icon(
+                                              Icons.circle,
+                                              size: 17,
+                                              color: isDark
+                                                  ? Colors.white
+                                                  : value.mainBrandingColor,
+                                            ),
+                                            Positioned(
+                                              left: 0,
+                                              right: 0,
+                                              top: 0,
+                                              bottom: 0,
+                                              child: Icon(
+                                                Icons.circle,
+                                                size: 9,
+                                                color: isDark
+                                                    ? value.mainBrandingColor
+                                                    : Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             )
-                            .toList(),
-                      )
+                            .toList()
+                          ..add(
+                            DropdownMenuItem<int>(
+                              value: transProvider.defaultTranslations.length,
+                              child: const Text('Download more...'),
+                            ),
+                          ),
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -770,6 +826,17 @@ class _QuranTextViewState extends State<QuranTextView> {
 //     return '$hours:$minutes';
 //   }
 // }
+
+int getSelectedIndex(TranslationManagerProvider transProvider,
+    List<Translations> sortedTranslations) {
+  if (transProvider.defaultSelectedTranslation.title == 'Download more...') {
+    return transProvider.defaultTranslations.length;
+  } else {
+    final sortedIndex = sortedTranslations.indexWhere((element) =>
+        element.title == transProvider.defaultSelectedTranslation.title);
+    return sortedIndex != -1 ? sortedIndex : -1;
+  }
+}
 
 String convertToArabicNumber(int? verseId) {
   if (verseId == null) {

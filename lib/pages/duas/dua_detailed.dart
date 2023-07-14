@@ -58,6 +58,12 @@ class DuaDetail extends StatelessWidget {
                           right: 20.w,
                           bottom: 8.h,
                         ),
+                        // decoration: BoxDecoration(
+                        //   borderRadius: BorderRadius.circular(6.r),
+                        //   border: Border.all(
+                        //     color: AppColors.brandingDark,
+                        //   ),
+                        // ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -261,12 +267,18 @@ class DuaDetail extends StatelessWidget {
                               Container(
                                 margin: EdgeInsets.only(
                                   left: 20.w,
-                                  right: 20.w,
+                                  right: 30.w,
                                 ),
                                 padding: EdgeInsets.only(
                                   left: 22.w,
                                   right: 22.w,
                                 ),
+                                // decoration: BoxDecoration(
+                                //   borderRadius: BorderRadius.circular(6.r),
+                                //   border: Border.all(
+                                //     color: AppColors.brandingDark,
+                                //   ),
+                                // ),
                                 alignment: Alignment.centerRight,
                                 child: Text(
                                   duaText,
