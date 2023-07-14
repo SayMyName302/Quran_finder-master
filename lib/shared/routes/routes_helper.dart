@@ -21,6 +21,9 @@ import 'package:nour_al_quran/pages/quran%20stories/pages/quran_stories_page.dar
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/view_all/view_all.dart';
+import 'package:nour_al_quran/pages/recitation_category/pages/recitation_all_category.dart';
+import 'package:nour_al_quran/pages/recitation_category/pages/recitation_category.dart';
+import 'package:nour_al_quran/pages/recitation_category/pages/recitation_player.dart';
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/about_the_app_page.dart';
 import 'package:nour_al_quran/pages/settings/pages/download_manager/reciter_download_surahs_page.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/fonts_page.dart';
@@ -67,7 +70,9 @@ class RouteHelper {
   static const String featureDetails = "/featuredDetailPage";
   static late BuildContext currentContext;
   static bool paywallVisibility = true;
-
+  static const String recitationAudioPlayer = "/recitationAudioPlayer";
+  static const String recitationallcategory = "/recitationAllCategory";
+  static const String recitationPageList = "/recitationCategoryPageList";
   // Variable to control visibility of paywallpage1
   //static bool showPaywallPage2 = true; // Variable to control visibility of paywallpage2
   //code to get paywall visibility bool true or false
@@ -169,6 +174,14 @@ class RouteHelper {
         currentContext = context;
         return const TranslationManagerPage();
       },
+      recitationPageList: (context) {
+        currentContext = context;
+        return const RecitationCategoryPage1();
+      },
+      recitationallcategory: (context) {
+        currentContext = context;
+        return const RecitationAllCategory();
+      },
       duaDetailed: (context) {
         currentContext = context;
         return const DuaDetail();
@@ -265,6 +278,10 @@ class RouteHelper {
       setFavReciter: (context) {
         currentContext = context;
         return const SetFavReciter();
+      },
+      recitationAudioPlayer: (context) {
+        currentContext = context;
+        return const RecitationAudioPlayer();
       },
       // whenToRecite: (context) {
       //   currentContext = context;

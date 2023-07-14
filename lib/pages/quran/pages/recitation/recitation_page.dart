@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
+import 'package:nour_al_quran/pages/recitation_category/pages/recitation_category_page.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
@@ -58,6 +59,7 @@ class _RecitationPageState extends State<RecitationPage> {
                 ),
               ],
             ),
+            // const RecitationCategorySection(),
             Consumer<RecitationProvider>(
               builder: (context, recitersValue, child) {
                 return recitersValue.recitersList.isNotEmpty
