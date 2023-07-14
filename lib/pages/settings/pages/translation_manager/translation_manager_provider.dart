@@ -205,6 +205,13 @@ class TranslationManagerProvider extends ChangeNotifier {
               .toList()
           : [
               Translations(
+                  title: "Arabic - Jalalayn",
+                  image: "assets/images/flags/ar.png",
+                  url: "https://tanzil.net/trans/ar.jalalayn",
+                  translationName: "translation_arabic_jalalayn",
+                  bis: "«بسم الله الرحمن الرحيم»",
+                  duaTrans: "arabic"),
+              Translations(
                   title: "English - Hilali",
                   image: "assets/images/flags/en.png",
                   url: "https://tanzil.net/trans/en.hilali",
@@ -212,13 +219,6 @@ class TranslationManagerProvider extends ChangeNotifier {
                   bis:
                       "In the Name of Allah, the Most Beneficent, the Most Merciful",
                   duaTrans: "english"),
-              Translations(
-                  title: "Urdu - Ahmedali",
-                  image: "assets/images/flags/pk.png",
-                  url: "https://tanzil.net/trans/ur.ahmedali",
-                  translationName: "translation_urdu_ahmedali",
-                  bis: "شروع الله کا نام لے کر جو بڑا مہربان نہایت رحم والا ہے",
-                  duaTrans: "urdu"),
               Translations(
                   title: "Hindi - Farooq",
                   image: "assets/images/flags/in.png",
@@ -235,19 +235,12 @@ class TranslationManagerProvider extends ChangeNotifier {
                       "Dialah Pemilik rahmah (sifat kasih) yang tak habis-habisnya, Yang menganugerahkan segala macam kenikmatan, baik besar maupun kecil",
                   duaTrans: "indonesian"),
               Translations(
-                  title: "Arabic - Jalalayn",
-                  image: "assets/images/flags/ar.png",
-                  url: "https://tanzil.net/trans/ar.jalalayn",
-                  translationName: "translation_arabic_jalalayn",
-                  bis: "«بسم الله الرحمن الرحيم»",
-                  duaTrans: "arabic"),
-              Translations(
-                  title: "Download more...",
-                  image: "",
-                  url: "",
-                  translationName: "",
-                  bis: "",
-                  duaTrans: ""),
+                  title: "Urdu - Ahmedali",
+                  image: "assets/images/flags/pk.png",
+                  url: "https://tanzil.net/trans/ur.ahmedali",
+                  translationName: "translation_urdu_ahmedali",
+                  bis: "شروع الله کا نام لے کر جو بڑا مہربان نہایت رحم والا ہے",
+                  duaTrans: "urdu"),
             ];
 
   List<Translations> get defaultTranslations => _defaultTranslations;
