@@ -57,6 +57,8 @@ import 'pages/featured/provider/featurevideoProvider.dart';
 import 'pages/paywall/paywal_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'pages/recitation_category/provider/recitation_category_provider.dart';
+
 void main() async {
   await dotenv.load(fileName: '.env');
   await Global.init();
@@ -104,6 +106,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => BookmarkProviderRuqyah()),
     ChangeNotifierProvider(create: (_) => FeaturedMiraclesOfQuranProvider()),
     ChangeNotifierProvider(create: (_) => AboutProvider()),
+    ChangeNotifierProvider(create: (_) => RecitationCategoryProvider()),
     StreamProvider<int>(
         create: (context) => NetworkProvider().streamController.stream,
         initialData: 0),

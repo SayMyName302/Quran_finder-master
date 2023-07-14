@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/models/miracles.dart';
+import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
+import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/model/about_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -20,6 +22,9 @@ class HomeDb {
   final String _islamBasicsTb = "islam_basics";
   final String _featured = "featured_all";
   final String _appinfo = "app_info";
+  final String _recitationCategoryTb = "recitation_category";
+  final String _recitationAllTb = "recitation_all";
+
   initDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -75,6 +80,19 @@ class HomeDb {
     return await openDatabase(path, readOnly: false);
   }
 
+  Future<List<RecitationAllCategoryModel>> getSelectedAll(
+      int categoryId) async {
+    _database = await openDb();
+    List<RecitationAllCategoryModel> selectedRecitationAll = [];
+    var cursor = await _database!.query(_recitationAllTb,
+        where: "category_id = ? AND status = 'active'",
+        whereArgs: [categoryId]);
+    for (var map in cursor) {
+      selectedRecitationAll.add(RecitationAllCategoryModel.fromJson(map));
+    }
+    return selectedRecitationAll;
+  }
+
   Future<List<AboutModel>> getAppInfo() async {
     List<AboutModel> appinfo = [];
     _database = await openDb();
@@ -114,6 +132,34 @@ class HomeDb {
     // print(
     //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
+  }
+
+  Future<List<RecitationCategoryModel>> getRecitationCategory() async {
+    List<RecitationCategoryModel> recitationCategory = [];
+    _database = await openDb();
+    var table = await _database!.query(_recitationCategoryTb);
+    print(
+        "Table Length of recitation Category: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      recitationCategory.add(RecitationCategoryModel.fromJson(map));
+    }
+    print(
+        "Recitation Category Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    return recitationCategory;
+  }
+
+  Future<List<RecitationAllCategoryModel>> getRecitationAll() async {
+    List<RecitationAllCategoryModel> recitationAll = [];
+    _database = await openDb();
+    var table = await _database!.query(_recitationAllTb);
+    print(
+        "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      recitationAll.add(RecitationAllCategoryModel.fromJson(map));
+    }
+    print(
+        "Recitation All Length: ${recitationAll.length}"); // Print the number of FeaturedModel objects added to the list
+    return recitationAll;
   }
 
   Future<List<Miracles2>> getFeatured2() async {
