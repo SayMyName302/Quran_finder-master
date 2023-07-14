@@ -34,7 +34,7 @@ class _SurahIndexPageState extends State<SurahIndexPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   var searchController = TextEditingController();
-
+  bool _isSurahSelected = true;
   @override
   void initState() {
     super.initState();
@@ -313,71 +313,63 @@ class _SurahIndexPageState extends State<SurahIndexPage>
       //   },
       // ),
       _sizedBoxForSearchWidget(_tabController.index),
-      SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
-        width: double.infinity,
-        child: IndexedStack(
-          index: _tabController.index,
-          children: [
-            Consumer<SurahProvider>(
-              builder: (context, surahValue, child) {
-                List<Surah> surahNamesList = surahValue.surahNamesList;
-                return surahValue.surahNamesList.isNotEmpty
-                    ? MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: surahValue.surahNamesList.length,
-                          itemBuilder: (context, index) {
-                            Surah surah = surahValue.surahNamesList[index];
-                            return InkWell(
-                              onTap: () async {
-                                // to clear search field
-                                searchController.text = "";
-                                context.read<QuranProvider>().setSurahText(
-                                      surahId: surah.surahId!,
-                                      title: 'سورة ${surah.arabicName}',
-                                      fromWhere: 1,
-                                    );
-                                Future.delayed(
-                                  Duration.zero,
-                                  () => context
-                                      .read<RecitationPlayerProvider>()
-                                      .pause(context),
+      IndexedStack(
+        index: _tabController.index,
+        children: [
+          Consumer<SurahProvider>(
+            builder: (context, surahValue, child) {
+              return surahValue.surahNamesList.isNotEmpty
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: surahValue.surahNamesList.length,
+                      itemBuilder: (context, index) {
+                        Surah surah = surahValue.surahNamesList[index];
+                        return InkWell(
+                          onTap: () async {
+                            // to clear search field
+                            searchController.text = "";
+                            context.read<QuranProvider>().setSurahText(
+                                  surahId: surah.surahId!,
+                                  title: 'سورة ${surah.arabicName}',
+                                  fromWhere: 1,
                                 );
-                                tappedSurahNames.add(surah.surahName!);
-                                context
-                                    .read<LastReadProvider>()
-                                    .addTappedSurahName(surah.surahName!);
-                                saveTappedSurahNames(context);
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) {
-                                    return const QuranTextView();
-                                  },
-                                ));
-                              },
-                              child: DetailsContainerWidget1(
-                                index: index + 1,
-                                title: LocalizationProvider().checkIsArOrUr()
-                                    ? surah.arabicName!
-                                    : surah.surahName!,
-                                subTitle: surah.englishName!,
-                                icon: Icons.remove_red_eye_outlined,
-                                imageIcon: "assets/images/app_icons/view.png",
-                              ),
+                            Future.delayed(
+                              Duration.zero,
+                              () => context
+                                  .read<RecitationPlayerProvider>()
+                                  .pause(context),
                             );
+                            tappedSurahNames.add(surah.surahName!);
+                            context
+                                .read<LastReadProvider>()
+                                .addTappedSurahName(surah.surahName!);
+                            saveTappedSurahNames(context);
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return const QuranTextView();
+                              },
+                            ));
                           },
-                        ),
-                      )
-                    : const Center(
-                        child: Text('No Result Found'),
-                      );
-              },
-            ),
-            const JuzIndexPage(), // Replace this with your implementation of JuzIndexPage
-          ],
-        ),
+                          child: DetailsContainerWidget1(
+                            index: index + 1,
+                            title: LocalizationProvider().checkIsArOrUr()
+                                ? surah.arabicName!
+                                : surah.surahName!,
+                            subTitle: surah.englishName!,
+                            icon: Icons.remove_red_eye_outlined,
+                            imageIcon: "assets/images/app_icons/view.png",
+                          ),
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: Text('No Result Found'),
+                    );
+            },
+          ),
+          const JuzIndexPage(), // Replace this with your implementation of JuzIndexPage
+        ],
       ),
       const SizedBox(height: 50),
     ]));
