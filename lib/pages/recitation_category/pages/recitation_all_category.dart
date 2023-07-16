@@ -5,10 +5,6 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provide
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
-import '../../../../shared/routes/routes_helper.dart';
-import '../../duas/dua_provider.dart';
-import '../../duas/models/dua.dart';
-import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import '../provider/recitation_category_provider.dart';
 
 class RecitationAllCategory extends StatelessWidget {
@@ -61,8 +57,7 @@ class RecitationAllCategory extends StatelessWidget {
                           color: Colors.amberAccent,
                           borderRadius: BorderRadius.circular(22),
                           image: DecorationImage(
-                            image: AssetImage(
-                                "assets/images/recitation_category_images/${imageURl!}"),
+                            image: NetworkImage(imageURl),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -129,16 +124,20 @@ class RecitationAllCategory extends StatelessWidget {
 
                             return InkWell(
                               onTap: () {
-                              /*  Navigator.of(context).pushNamed(
+                                /*  Navigator.of(context).pushNamed(
                                   RouteHelper.recitationAllDetailedPlayer,
                                 );*/
                                 // duaProvider.gotoDuaPlayerPage(recitationModels.surahId!, recitationModels.title!, context);
                                 //  recitationProvider.gotoRecitationPlayerPage(recitationModels.surahId!, recitationModels.title!, context);
-                               // Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
-                                recitationProvider.gotoRecitationAudioPlayerPage(recitationModels.surahNo!,imageURl, context, index);
-
+                                // Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
+                                recitationProvider
+                                    .gotoRecitationAudioPlayerPage(
+                                        recitationModels.surahNo!,
+                                        imageURl,
+                                        context,
+                                        index);
+                                        
                               },
-
                               child: Container(
                                 margin: EdgeInsets.only(
                                   left: 20.w,

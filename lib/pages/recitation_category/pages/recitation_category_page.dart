@@ -11,46 +11,44 @@ import '../../../shared/localization/localization_constants.dart';
 import '../../home/widgets/home_row_widget.dart';
 import '../provider/recitation_category_provider.dart';
 
-
 class RecitationCategorySection extends StatelessWidget {
   const RecitationCategorySection({Key? key}) : super(key: key);
 
   @override
   @override
   Widget build(BuildContext context) {
-    int network = Provider.of<int>(context);
-    final recition = Provider.of<RecitationCategoryProvider>(context);
+    // int network = Provider.of<int>(context);
+    // final recition = Provider.of<RecitationCategoryProvider>(context);
     return Column(
       children: [
         HomeRowWidget(
           text: localeText(context, 'Recitation_Category'),
           buttonText: localeText(context, "view_all"),
           onTap: () {
-           Navigator.of(context).pushNamed(RouteHelper.recitationPageList);
-
+            Navigator.of(context).pushNamed(RouteHelper.recitationPageList);
           },
         ),
         Consumer<LocalizationProvider>(
           builder: (context, language, child) {
             return SizedBox(
               height: 150.h,
-              child:
-              Consumer<RecitationCategoryProvider>(
-                builder:
-                    (context, recitationProvider, child) {
+              child: Consumer<RecitationCategoryProvider>(
+                builder: (context, recitationProvider, child) {
                   return ListView.builder(
-                    itemCount: recitationProvider.recitationCategory!.length,
+                    itemCount: recitationProvider.recitationCategory.length,
                     padding:
-                    EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
+                        EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       try {
-                        RecitationCategoryModel model = recitationProvider.recitationCategory[index];
+                        RecitationCategoryModel model =
+                            recitationProvider.recitationCategory[index];
                         print(model.categoryName);
                         print(model.imageURl);
                         return InkWell(
                           onTap: () {
-                            recitationProvider.getSelectedRecitationAll(model.categoryId as int);
+                            recitationProvider.getSelectedRecitationAll(
+                                model.categoryId as int);
                             Navigator.of(context).pushNamed(
                               RouteHelper.recitationallcategory,
                               arguments: [
@@ -62,20 +60,20 @@ class RecitationCategorySection extends StatelessWidget {
                                 model.categoryId!,
                               ],
                             );
-
                           },
                           child: Container(
                             width: 209.w,
                             margin: EdgeInsets.only(right: 10.w),
                             decoration: BoxDecoration(
-                                color: Colors.amberAccent,
-                                borderRadius: BorderRadius.circular(8.r),
-                                image:  DecorationImage(
-                                    image: AssetImage(
-                                        "assets/images/recitation_category_images/${model.imageURl!}"
-                                     // "assets/images/recitation_category_images/Morning_Pearls.jpg",
+                              color: Colors.amberAccent,
+                              borderRadius: BorderRadius.circular(8.r),
+                              image: DecorationImage(
+                                image: NetworkImage(model.imageURl!
+                                    // Replace "https://example.com/path/to/image.jpg" with your actual image URL
                                     ),
-                                    fit: BoxFit.cover)),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.r),
@@ -92,10 +90,10 @@ class RecitationCategorySection extends StatelessWidget {
                                 margin: EdgeInsets.only(
                                     left: 6.w, bottom: 8.h, right: 6.w),
                                 alignment:
-                                language.locale.languageCode == "ur" ||
-                                    language.locale.languageCode == "ar"
-                                    ? Alignment.bottomRight
-                                    : Alignment.bottomLeft,
+                                    language.locale.languageCode == "ur" ||
+                                            language.locale.languageCode == "ar"
+                                        ? Alignment.bottomRight
+                                        : Alignment.bottomLeft,
                                 child: Text(
                                   localeText(context, model.categoryName!),
                                   textAlign: TextAlign.left,
@@ -108,7 +106,6 @@ class RecitationCategorySection extends StatelessWidget {
                               ),
                             ),
                           ),
-
                         );
                       } catch (error) {
                         print("Error: $error");

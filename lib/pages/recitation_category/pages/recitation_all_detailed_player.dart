@@ -8,9 +8,6 @@ import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../../shared/utills/app_colors.dart';
 import '../../../../shared/widgets/app_bar.dart';
-import '../../../../shared/widgets/dua_player.dart';
-import '../../duas/dua_provider.dart';
-import '../../duas/models/dua.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 import '../../settings/pages/fonts/font_provider.dart';
 

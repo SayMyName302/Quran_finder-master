@@ -37,6 +37,7 @@ class _RecitationPageState extends State<RecitationPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const RecitationCategorySection(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

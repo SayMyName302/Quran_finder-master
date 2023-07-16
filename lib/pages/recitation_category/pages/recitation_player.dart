@@ -15,11 +15,8 @@ import '../../../shared/widgets/app_bar.dart';
 import '../../basics_of_quran/provider/islam_basics_provider.dart';
 import '../../quran stories/quran_stories_provider.dart';
 
-
 class RecitationAudioPlayer extends StatelessWidget {
-  const
-  RecitationAudioPlayer({Key? key}) : super(key: key);
-
+  const RecitationAudioPlayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +43,7 @@ class RecitationAudioPlayer extends StatelessWidget {
             FeatureProvider>(
           builder:
               (context, them, player, appColor, story, basics, feature, child) {
+            print(recitationProv.selectedRecitationStory!.title!);
             return Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -60,22 +58,21 @@ class RecitationAudioPlayer extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24.r),
                           image: DecorationImage(
-                              image: Image.asset(
+                              image: NetworkImage(
                                 player.image,
-                              ).image,
+                              ),
                               fit: BoxFit.cover)),
                       margin: EdgeInsets.only(
                           left: 20.w, right: 20.w, bottom: 25.h),
                     ),
 
-
                     Text(
                       localeText(
-                        context,
-                        fromWhere == "fromRecitation"
-                          ?recitationProv.selectedRecitationStory!.title!
-                            :''
-                           /* ? story.selectedQuranStory!.storyTitle!
+                          context,
+                          fromWhere == "fromRecitation"
+                              ? recitationProv.selectedRecitationStory!.title!
+                              : ''
+                          /* ? story.selectedQuranStory!.storyTitle!
                             .toLowerCase()
                             : fromWhere == "fromFeature"
                             ? feature.selectedFeatureStory!.storyTitle!
@@ -86,15 +83,14 @@ class RecitationAudioPlayer extends StatelessWidget {
                             : fromWhere == "fromRecitation"
                             ? recitationProv.selectedRecitationStory!.title!
                             : '', // Add an empty string as a fallback*/
-                      ),
+                          ),
                       style: TextStyle(
                         fontFamily: 'satoshi',
                         fontWeight: FontWeight.w900,
                         fontSize: 22.sp,
                       ),
                     ),
-                   //Text(recitationProv.selectedRecitationStory!.reference!)
-
+                    //Text(recitationProv.selectedRecitationStory!.reference!)
                   ],
                 ),
                 Container(
@@ -127,7 +123,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   value: player.position.inSeconds.toDouble(),
                                   onChanged: (value) {
                                     final position =
-                                    Duration(seconds: value.toInt());
+                                        Duration(seconds: value.toInt());
                                     player.audioPlayer.seek(position);
                                   },
                                 ),
@@ -150,14 +146,14 @@ class RecitationAudioPlayer extends StatelessWidget {
                                 isLoopMoreNotifier.value = true;
                                 player.audioPlayer.setLoopMode(LoopMode.one);
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content:
-                                    Text('Loop Mode On For ${recitationProv.selectedRecitationStory!.surahNo!}')));
+                                    content: Text(
+                                        'Loop Mode On For ${recitationProv.selectedRecitationStory!.surahNo!}')));
                               } else {
                                 isLoopMoreNotifier.value = false;
                                 player.audioPlayer.setLoopMode(LoopMode.off);
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content:
-                                    Text('Loop Mode Off For ${recitationProv.selectedRecitationStory!.surahNo!}')));
+                                    content: Text(
+                                        'Loop Mode Off For ${recitationProv.selectedRecitationStory!.surahNo!}')));
                               }
                             },
                             icon: ValueListenableBuilder<bool>(
@@ -170,9 +166,9 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   color: isLoopMore
                                       ? appColor.mainBrandingColor
                                       : Theme.of(context).brightness ==
-                                      Brightness.dark
-                                      ? Colors.white
-                                      : Colors.black,
+                                              Brightness.dark
+                                          ? Colors.white
+                                          : Colors.black,
                                 );
                               },
                             ),
@@ -191,24 +187,24 @@ class RecitationAudioPlayer extends StatelessWidget {
                                 },
                                 child: player.isLoading
                                     ? SizedBox(
-                                  height: 63.h,
-                                  width: 63.w,
-                                  child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<
-                                          Color>(
-                                          appColor.mainBrandingColor)),
-                                )
+                                        height: 63.h,
+                                        width: 63.w,
+                                        child: CircularProgressIndicator(
+                                            valueColor: AlwaysStoppedAnimation<
+                                                    Color>(
+                                                appColor.mainBrandingColor)),
+                                      )
                                     : CircleButton(
-                                  height: 63.h,
-                                  width: 63.h,
-                                  icon: Icon(
-                                    player.isPlaying
-                                        ? Icons.pause_rounded
-                                        : Icons.play_arrow_rounded,
-                                    size: 40.h,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                        height: 63.h,
+                                        width: 63.h,
+                                        icon: Icon(
+                                          player.isPlaying
+                                              ? Icons.pause_rounded
+                                              : Icons.play_arrow_rounded,
+                                          size: 40.h,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                               ),
                             ],
                           ),
@@ -223,7 +219,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   height: 15.h,
                                   width: 18.75.w,
                                   color:
-                                  them.isDark ? Colors.white : Colors.black,
+                                      them.isDark ? Colors.white : Colors.black,
                                 ),
                                 SizedBox(
                                   width: 5.w,
