@@ -123,7 +123,7 @@ class HomeDb {
   Future<List<FeaturedModel>> getFeatured() async {
     List<FeaturedModel> feature = [];
     _database = await openDb();
-    var table = await _database!.query(_featured);
+    var table = await _database!.query(_featured, orderBy: 'view_order_by');
     // print(
     //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {

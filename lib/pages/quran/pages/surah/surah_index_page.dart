@@ -6,7 +6,6 @@ import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player
 import 'package:nour_al_quran/pages/quran/pages/surah/lastreadprovider.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/surah_provider.dart';
-import 'package:nour_al_quran/pages/quran/pages/surah/widget/customTabBar.dart';
 
 import 'package:nour_al_quran/pages/quran/widgets/search_widget.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
@@ -19,7 +18,6 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../shared/database/quran_db.dart';
 

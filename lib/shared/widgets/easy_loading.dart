@@ -4,20 +4,24 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provide
 import 'package:provider/provider.dart';
 
 class EasyLoadingDialog {
-  static Future<void> show(
-      {required BuildContext context,
-      double? radius = 15.0,
-      Widget? indicator = const CircularProgressIndicator(
-        strokeWidth: 2,
-        color: Colors.white,
-      )}) async {
+  static bool _isDialogShown = false;
+
+  static Future<void> show({
+    required BuildContext context,
+    double? radius = 15.0,
+    Widget? indicator = const CircularProgressIndicator(
+      strokeWidth: 2,
+      color: Colors.white,
+    ),
+  }) async {
+    _isDialogShown = true;
     await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
         var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
         return WillPopScope(
-          onWillPop: ()async{
+          onWillPop: () async {
             return false;
           },
           child: AlertDialog(
@@ -27,9 +31,10 @@ class EasyLoadingDialog {
             backgroundColor: appColors,
             shape: const CircleBorder(),
             content: CircleAvatar(
-                backgroundColor: appColors,
-                radius: radius,
-                child: SizedBox(height: 30.h, width: 30.w, child: indicator)),
+              backgroundColor: appColors,
+              radius: radius,
+              child: SizedBox(height: 30.h, width: 30.w, child: indicator),
+            ),
           ),
         );
       },
@@ -37,9 +42,12 @@ class EasyLoadingDialog {
   }
 
   static void dismiss(BuildContext context) {
-    Navigator.of(context).pop();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Navigator.of(context).pop();
+    });
   }
 }
+
 
 // EasyLoadingDialog.show(context: context,radius: 20.r,);
 // Future.delayed(const Duration(seconds: 5),(){

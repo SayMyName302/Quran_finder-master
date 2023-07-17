@@ -159,9 +159,7 @@ class ReciterPage extends StatelessWidget {
                                 height: 23.h,
                                 width: 23.w,
                                 margin: EdgeInsets.only(
-                                  top: 29.4.h,
-                                  bottom: 25.h,
-                                ),
+                                    top: 29.4.h, bottom: 25.h, right: 9.5.h),
                                 child: CircleAvatar(
                                   backgroundColor: appColors.mainBrandingColor,
                                   child: SizedBox(
