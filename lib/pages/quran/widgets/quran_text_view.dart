@@ -49,6 +49,7 @@ class _QuranTextViewState extends State<QuranTextView> {
 
   // quran text
   List<QuranText> _quranText = [];
+
   @override
   void initState() {
     super.initState();
@@ -103,7 +104,7 @@ class _QuranTextViewState extends State<QuranTextView> {
   Widget build(BuildContext context) {
     // i was not able to wrap appbar in consumer that's why i did like this
     Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
-    final transProvider = Provider.of<TranslationManagerProvider>(context);
+    // final transProvider = Provider.of<TranslationManagerProvider>(context);
     String title = _quranProvider.title!;
     return WillPopScope(
       onWillPop: () async {
@@ -175,7 +176,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                       QuranText quranText = value.quranTextList[index];
                       // saving quran text in upper declare variable
                       _quranText = value.quranTextList;
-                      bool isFirstVerse = (index == 0);
+                      // bool isFirstVerse = (index == 0);
                       return Container(
                         margin:
                             EdgeInsets.only(top: 13.h, left: 5.w, right: 5.w),
@@ -492,7 +493,10 @@ class _QuranTextViewState extends State<QuranTextView> {
           content: Consumer3<AppColorsProvider, FontProvider,
               TranslationManagerProvider>(
             builder: (context, value, font, transProvider, child) {
-              var isDark = context.read<ThemProvider>().isDark;
+              // var isDark = context.read<ThemProvider>().isDark;
+              Color appColor =
+                  context.read<AppColorsProvider>().mainBrandingColor;
+
               List<Translations> sortedTranslations =
                   List.of(transProvider.defaultTranslations);
               sortedTranslations.sort((a, b) => a.title!.compareTo(b.title!));
@@ -595,40 +599,22 @@ class _QuranTextViewState extends State<QuranTextView> {
                             .map<DropdownMenuItem<int>>(
                               (entry) => DropdownMenuItem<int>(
                                 value: entry.key,
-                                child: IntrinsicWidth(
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(entry.value.title!),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Container(
+                                    color: entry.key ==
+                                            getSelectedIndex(transProvider,
+                                                sortedTranslations)
+                                        ? appColor.withOpacity(0.3)
+                                        : null,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Text(entry.value.title!),
+                                        ],
                                       ),
-                                      if (entry.key ==
-                                          getSelectedIndex(transProvider,
-                                              sortedTranslations))
-                                        Stack(
-                                          children: [
-                                            Icon(
-                                              Icons.circle,
-                                              size: 17,
-                                              color: isDark
-                                                  ? Colors.white
-                                                  : value.mainBrandingColor,
-                                            ),
-                                            Positioned(
-                                              left: 0,
-                                              right: 0,
-                                              top: 0,
-                                              bottom: 0,
-                                              child: Icon(
-                                                Icons.circle,
-                                                size: 9,
-                                                color: isDark
-                                                    ? value.mainBrandingColor
-                                                    : Colors.white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -637,10 +623,13 @@ class _QuranTextViewState extends State<QuranTextView> {
                           ..add(
                             DropdownMenuItem<int>(
                               value: transProvider.defaultTranslations.length,
-                              child: const Text('Download more...'),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Download more...'),
+                              ),
                             ),
                           ),
-                      ),
+                      )
                     ],
                   ),
                   SizedBox(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page1.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page2.dart';
@@ -27,7 +26,6 @@ import 'package:provider/provider.dart';
 
 import '../../../shared/widgets/app_bar.dart';
 import '../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
-import '../../home/pages/home_page.dart';
 
 class SwipePages extends StatefulWidget {
   final int initialPage;
