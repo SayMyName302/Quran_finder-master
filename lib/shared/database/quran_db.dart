@@ -396,7 +396,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     // await initDb();
     database = await openDb();
     var reciterList = <Reciters>[];
-    var cursor = await database!.query(_reciterTable);
+    var cursor = await database!.query(_reciterTable, orderBy: 'order_by');
     for (var maps in cursor) {
       var reciter = Reciters.fromJson(maps);
       reciterList.add(reciter);

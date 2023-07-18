@@ -14,15 +14,18 @@ class MiraclesList extends StatelessWidget {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     return Consumer<MiraclesOfQuranProvider>(
       builder: (context, miraclesProvider, child) {
+        List<Miracles> activeStories = miraclesProvider.miracles
+            .where((model) => model.status == 'active')
+            .toList();
         return miraclesProvider.miracles.isNotEmpty
             ? GridView.builder(
                 padding: EdgeInsets.only(left: 10.w, right: 0.w),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
-                itemCount: miraclesProvider.miracles.length,
+                itemCount: activeStories.length,
                 itemBuilder: (context, index) {
-                  Miracles model = miraclesProvider.miracles[index];
+                  Miracles model = activeStories[index];
                   if (model.status != 'active') {
                     return Container(); // Skip inactive items
                   }

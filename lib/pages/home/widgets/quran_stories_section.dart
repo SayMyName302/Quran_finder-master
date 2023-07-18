@@ -40,6 +40,9 @@ class QuranStoriesSection extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       QuranStories model = storiesProvider.stories[index];
+                      if (model.status != 'active') {
+                        return Container(); // Skip inactive items
+                      }
                       return InkWell(
                         onTap: () {
                           if (network == 1) {

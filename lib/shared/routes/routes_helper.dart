@@ -14,6 +14,7 @@ import 'package:nour_al_quran/pages/more/pages/salah_timer/salah_timer_page.dart
 import 'package:nour_al_quran/pages/more/pages/shahada/pages/shahada_page.dart';
 import 'package:nour_al_quran/pages/more/pages/step_by_step_salah/steps_by_step_salah_page.dart';
 import 'package:nour_al_quran/pages/more/pages/tasbeeh/pages/tasbeeh_page.dart';
+import 'package:nour_al_quran/pages/onboarding/pages/fonts_settins.dart';
 import 'package:nour_al_quran/pages/onboarding/pages/index.dart';
 import 'package:nour_al_quran/pages/paywall/paywallpage2.dart';
 import 'package:nour_al_quran/pages/paywall/upgrade_to_premimum.dart';
@@ -104,6 +105,7 @@ class RouteHelper {
   static const String audioPlayer = "/audioPlayer";
   static const String miraclesOfQuran = "/miracles";
   static const String miraclesDetails = "/miraclesDetail";
+  static const String fontSettingsOnboarding = "/fontSettingsOnboarding";
   static const String more = "/more";
   // static const String chapterList = "/chapterList";
   static const String storyPlayer = "/storyPlayer";
@@ -168,6 +170,10 @@ class RouteHelper {
       featured: (context) {
         currentContext = context;
         return const FeaturedPage();
+      },
+      fontSettingsOnboarding: (context) {
+        currentContext = context;
+        return const FontPageOnBoarding();
       },
       //translationManager
       translationManager: (context) {

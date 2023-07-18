@@ -135,10 +135,10 @@ class _MorePageState extends State<MorePage> {
                               }
                             }
                             if (Platform.isIOS) {
-                              Future.delayed(
-                                  Duration.zero,
-                                  () =>
-                                      qibla.getLocationPermissionIOS(context));
+                              // Future.delayed(
+                              //     Duration.zero,
+                              //     () =>
+                              //         qibla.getLocationPermissionIOS(context));
                             } else {
                               Future.delayed(Duration.zero,
                                   () => qibla.getLocationPermission(context));

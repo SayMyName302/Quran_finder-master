@@ -33,7 +33,8 @@ class NotificationSetup extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(bottom: 4.h, top: 28.h),
                 child: Text(
-                  localeText(context, "turn_on_notifications_to_get_the_most_out_of_quran_pro?"),
+                  localeText(context,
+                      "turn_on_notifications_to_get_the_most_out_of_quran_pro?"),
                   style: TextStyle(
                       fontFamily: "satoshi",
                       fontSize: 20.sp,
@@ -42,14 +43,16 @@ class NotificationSetup extends StatelessWidget {
                 ),
               ),
               OnBoardingSubTitleText(
-                title: localeText(context, "receive_personalized_recommedations,_hadiths,_athan,_duas_and_other_reminders_to_enhance_your_spirtual_journey._you_can_opt_out_anytime"),
+                title: localeText(context,
+                    "receive_personalized_recommedations,_hadiths,_athan,_duas_and_other_reminders_to_enhance_your_spirtual_journey._you_can_opt_out_anytime"),
               ),
               _buildNotificationList(),
               BrandButton(
                   text: localeText(context, "finish_setup"),
                   onTap: () {
                     saveOnBoarding();
-                    Navigator.of(context).pushNamedAndRemoveUntil(RouteHelper.reviewOne, (route) => false);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        RouteHelper.fontSettingsOnboarding, (route) => false);
                   })
             ],
           ),
@@ -95,7 +98,6 @@ class NotificationSetup extends StatelessWidget {
     );
   }
 
-
   void saveOnBoarding() {
     print("saved On Board");
     LocalizationProvider localization = LocalizationProvider();
@@ -104,10 +106,10 @@ class NotificationSetup extends StatelessWidget {
         purposeOfQuran: provider.selectAchieveWithQuranList,
         favReciter: provider.favReciter,
         preferredLanguage: localization.locale
-      // whenToReciterQuran: provider.selectTimeLikeToRecite,
-      // recitationReminder: provider.recitationReminderTime,
-      // dailyQuranReadTime: provider.selectedDailyTime,
-    );
+        // whenToReciterQuran: provider.selectTimeLikeToRecite,
+        // recitationReminder: provider.recitationReminderTime,
+        // dailyQuranReadTime: provider.selectedDailyTime,
+        );
     Hive.box(appBoxKey).put(onBoardingInformationKey, onBoardingInfo);
   }
 }

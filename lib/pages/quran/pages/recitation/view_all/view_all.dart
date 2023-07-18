@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 //import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
@@ -44,48 +45,62 @@ class _AllRecitersState extends State<AllReciters> {
 
   @override
   Widget build(BuildContext context) {
+    var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
     return Scaffold(
-      appBar: buildAppBar(
-        context: context,
-        title: localeText(context, "all_reciters"),
-        font: 16.sp,
-      ),
-      body: _isImagesLoaded
-          ? Consumer<RecitationProvider>(
-              builder: (context, recitersValue, child) {
-                return GridView.builder(
-                  padding: EdgeInsets.only(left: 20.w, right: 20.w),
-                  itemCount: recitersValue.recitersList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    mainAxisExtent: 116.87.h,
-                    mainAxisSpacing: 10.h,
-                    crossAxisSpacing: 5.w,
+        appBar: buildAppBar(
+          context: context,
+          title: localeText(context, "all_reciters"),
+          font: 16.sp,
+        ),
+        body: _isImagesLoaded
+            ? Consumer<RecitationProvider>(
+                builder: (context, recitersValue, child) {
+                  return GridView.builder(
+                    padding: EdgeInsets.only(left: 20.w, right: 20.w),
+                    itemCount: recitersValue.recitersList.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      mainAxisExtent: 116.87.h,
+                      mainAxisSpacing: 10.h,
+                      crossAxisSpacing: 5.w,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      Reciters reciter = recitersValue.recitersList[index];
+                      return InkWell(
+                        onTap: () async {
+                          recitersValue.getSurahName();
+                          // context.read<ReciterProvider>().resetDownloadSurahList();
+                          context
+                              .read<ReciterProvider>()
+                              .setReciterList(reciter.downloadSurahList!);
+                          Navigator.of(context).pushNamed(RouteHelper.reciter,
+                              arguments: reciter);
+                        },
+                        child: buildReciterDetailsContainer(reciter),
+                      );
+                    },
+                  );
+                },
+              )
+            : Center(
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: appColors,
                   ),
-                  itemBuilder: (BuildContext context, int index) {
-                    Reciters reciter = recitersValue.recitersList[index];
-                    return InkWell(
-                      onTap: () async {
-                        recitersValue.getSurahName();
-                        // context.read<ReciterProvider>().resetDownloadSurahList();
-                        context
-                            .read<ReciterProvider>()
-                            .setReciterList(reciter.downloadSurahList!);
-                        Navigator.of(context)
-                            .pushNamed(RouteHelper.reciter, arguments: reciter);
-                      },
-                      child: buildReciterDetailsContainer(reciter),
-                    );
-                  },
-                );
-              },
-            )
-          : const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.mainBrandingColor,
-              ),
-            ),
-    );
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          const AlwaysStoppedAnimation<Color>(Colors.white),
+                      backgroundColor: appColors,
+                      strokeWidth: 2,
+                    ),
+                  ),
+                ),
+              ));
   }
 
   Container buildReciterDetailsContainer(Reciters reciter) {

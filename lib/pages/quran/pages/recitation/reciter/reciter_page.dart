@@ -415,7 +415,8 @@ class ReciterPage extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(2.5.r),
                           child: LinearProgressIndicator(
-                            value: value.downloadProgress,
+                            value: value.downloadProgress
+                                .toDouble(), // Convert int to double
                             backgroundColor: AppColors.lightBrandingColor,
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 appColors.mainBrandingColor),

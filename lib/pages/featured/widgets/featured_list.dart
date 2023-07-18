@@ -18,15 +18,18 @@ class FeaturedList extends StatelessWidget {
     return Expanded(
       child: Consumer2<FeatureProvider, FeaturedMiraclesOfQuranProvider>(
         builder: (context, featureProvider, featuremiraclesProvider, child) {
+          List<FeaturedModel> activeStories = featureProvider.feature
+              .where((model) => model.status == 'active')
+              .toList();
           return featureProvider.feature.isNotEmpty
               ? GridView.builder(
                   padding: EdgeInsets.only(left: 10.w, right: 0.w),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                   ),
-                  itemCount: featureProvider.feature.length,
+                  itemCount: activeStories.length,
                   itemBuilder: (context, index) {
-                    FeaturedModel model = featureProvider.feature[index];
+                    FeaturedModel model = activeStories[index];
                     if (model.status != 'active') {
                       return Container(); // Skip inactive items
                     }

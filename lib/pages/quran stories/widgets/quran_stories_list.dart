@@ -16,15 +16,21 @@ class QuranStoriesList extends StatelessWidget {
     return Expanded(
       child: Consumer<QuranStoriesProvider>(
         builder: (context, storiesProvider, child) {
+          List<QuranStories> activeStories = storiesProvider.stories
+              .where((model) => model.status == 'active')
+              .toList();
           return storiesProvider.stories.isNotEmpty
               ? GridView.builder(
                   padding: EdgeInsets.only(left: 10.w, right: 0.w),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                   ),
-                  itemCount: storiesProvider.stories.length,
+                  itemCount: activeStories.length,
                   itemBuilder: (context, index) {
-                    QuranStories model = storiesProvider.stories[index];
+                    QuranStories model = activeStories[index];
+                    if (model.status != 'active') {
+                      return Container(); // Skip inactive items
+                    }
                     return InkWell(
                       onTap: () {
                         if (network == 1) {

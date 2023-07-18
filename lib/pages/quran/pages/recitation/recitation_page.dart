@@ -92,7 +92,9 @@ class _RecitationPageState extends State<RecitationPage> {
                           );
                         },
                       )
-                    : const CircularProgressIndicator();
+                    : CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(appColor),
+                      );
               },
             ),
             buildTitleContainer(localeText(context, "favorites")),
@@ -154,6 +156,7 @@ class _RecitationPageState extends State<RecitationPage> {
   }
 
   Container buildReciterDetailsContainer(Reciters reciter) {
+    var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
     return Container(
       margin: EdgeInsets.only(right: 7.w),
       child: Column(
@@ -167,8 +170,8 @@ class _RecitationPageState extends State<RecitationPage> {
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
                 imageUrl: reciter.imageUrl!,
-                placeholder: (context, url) => const CircularProgressIndicator(
-                  color: AppColors.mainBrandingColor,
+                placeholder: (context, url) => CircularProgressIndicator(
+                  color: appColors,
                 ),
                 errorWidget: (context, url, error) => const Icon(Icons.person),
               ),

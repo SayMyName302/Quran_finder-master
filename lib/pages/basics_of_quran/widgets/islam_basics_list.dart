@@ -14,15 +14,18 @@ class IslamBasicList extends StatelessWidget {
     int network = Provider.of<int>(context);
     return Consumer<IslamBasicsProvider>(
       builder: (context, islamBasicProvider, child) {
+        List<IslamBasics> activeStories = islamBasicProvider.islamBasics
+            .where((model) => model.status == 'active')
+            .toList();
         return islamBasicProvider.islamBasics.isNotEmpty
             ? GridView.builder(
                 padding: EdgeInsets.only(left: 10.w, right: 0.w),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
-                itemCount: islamBasicProvider.islamBasics.length,
+                itemCount: activeStories.length,
                 itemBuilder: (context, index) {
-                  IslamBasics model = islamBasicProvider.islamBasics[index];
+                  IslamBasics model = activeStories[index];
                   if (model.status != 'active') {
                     return Container(); // Skip inactive items
                   }
