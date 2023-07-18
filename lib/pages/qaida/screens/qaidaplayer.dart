@@ -92,6 +92,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                           child: Row(
                             children: [
                               Checkbox(
+                                activeColor: appColor.withOpacity(0.6),
                                 value: isActive,
                                 onChanged: (value) {
                                   setState(() {
