@@ -39,6 +39,7 @@ class QaidaPageIndex extends StatelessWidget {
   Widget build(BuildContext context) {
     var appColors = context.read<AppColorsProvider>();
     var isDark = context.read<ThemProvider>().isDark;
+    Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
 
     return Scaffold(
       appBar: buildAppBar(
@@ -61,8 +62,8 @@ class QaidaPageIndex extends StatelessWidget {
               decoration: BoxDecoration(
                 color: selectedIndex == index
                     ? isDark
-                        ? AppColors.brandingDark
-                        : AppColors.lightBrandingColor
+                        ? appColor.withOpacity(0.3)
+                        : appColor.withOpacity(0.3)
                     : Colors.transparent,
                 border: Border.all(
                   color: selectedIndex == index

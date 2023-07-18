@@ -67,8 +67,8 @@ class FeaturedSection extends StatelessWidget {
                                   parameters: {'title': model.title},
                                 );
                               } else if (model.contentType == "Video") {
-                                print(index);
-                                print(model.storyTitle!);
+                                // print(index);
+                                // print(model.storyTitle!);
 
                                 /// two ways without creating any separate provider
                                 /// directly using MiraclesOfQuranProvider

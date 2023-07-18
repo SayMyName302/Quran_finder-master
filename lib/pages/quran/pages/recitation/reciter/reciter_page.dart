@@ -23,6 +23,8 @@ class ReciterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Reciters? reciters = ModalRoute.of(context)!.settings.arguments as Reciters;
+    final appcolor = Provider.of<AppColorsProvider>(context);
+
     return WillPopScope(
       onWillPop: () async {
         context.read<RecitationProvider>().getFavReciter();
@@ -224,8 +226,7 @@ class ReciterPage extends StatelessWidget {
                                       top: 5, bottom: 5, left: 10),
                                   child: CircleAvatar(
                                     radius: 17,
-                                    backgroundColor:
-                                        AppColors.mainBrandingColor,
+                                    backgroundColor: appcolor.mainBrandingColor,
                                     child: Container(
                                       width: 25,
                                       height: 25,

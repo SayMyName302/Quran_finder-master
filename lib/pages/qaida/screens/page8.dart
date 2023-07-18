@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
 
 import '../../../shared/utills/app_colors.dart';
+import '../../settings/pages/app_colors/app_colors_provider.dart';
 
 class Page8 extends StatefulWidget {
   bool isMultipleSelectionEnabled;
@@ -202,6 +204,8 @@ class Page8State extends State<Page8> {
 
   @override
   Widget build(BuildContext context) {
+    Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -244,9 +248,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[3]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 3
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     left: BorderSide(width: 1),
@@ -300,9 +304,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[2]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 2
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -353,9 +357,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[1]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 1
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -406,9 +410,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[0]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 0
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -466,9 +470,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[6]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 6
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -520,9 +524,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[5]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 5
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -573,9 +577,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[4]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 4
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -634,9 +638,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[9]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 9
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -688,9 +692,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[8]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 8
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -741,9 +745,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[7]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 7
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -801,9 +805,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[13]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 13
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -855,9 +859,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[12]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 12
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -908,9 +912,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[11]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 11
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -961,9 +965,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[10]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 10
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1021,9 +1025,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[17]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 17
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1075,9 +1079,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[16]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 16
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1128,9 +1132,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[15]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 15
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1181,9 +1185,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[14]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 14
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1242,9 +1246,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[20]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 20
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1296,9 +1300,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[19]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 19
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1349,9 +1353,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[18]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 18
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1409,9 +1413,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[24]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 24
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1.5),
@@ -1463,9 +1467,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[23]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 23
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1516,9 +1520,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[22]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 22
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),
@@ -1569,9 +1573,9 @@ class Page8State extends State<Page8> {
                           child: Container(
                               decoration: BoxDecoration(
                                 color: containerAudioPlayingStates[21]
-                                    ? AppColors.lightBrandingColor
+                                    ? appColor.withOpacity(0.3)
                                     : (currentlyPlayingIndex == 21
-                                        ? AppColors.lightBrandingColor
+                                        ? appColor.withOpacity(0.3)
                                         : Colors.transparent),
                                 border: const Border(
                                     right: BorderSide(width: 1),

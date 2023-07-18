@@ -92,6 +92,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                           child: Row(
                             children: [
                               Checkbox(
+                                activeColor: appColor,
                                 value: isActive,
                                 onChanged: (value) {
                                   setState(() {
@@ -205,7 +206,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                     onPressed: () async {
                       // Provider.of<DuaProvider>(context, listen: false)
                       //     .playPreviousDuaInCategory(context);
-                      widget.skipPrevious();
+                      widget.skipNext();
                     },
                     icon: Image.asset(
                       'assets/images/app_icons/previous.png',
@@ -239,9 +240,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                   ),
                   IconButton(
                     onPressed: () async {
-                      // Provider.of<DuaProvider>(context, listen: false)
-                      //     .playNextDuaInCategory(context);
-                      widget.skipNext();
+                      widget.skipPrevious();
                     },
                     icon: Image.asset(
                       'assets/images/app_icons/next.png',
