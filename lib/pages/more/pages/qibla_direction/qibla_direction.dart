@@ -117,11 +117,11 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
       // Replace with the desired image paths for this color
     } else if (brandingColor == Color(0xFF27AE60)) {
       setState(() {
-        _imagePath = 'assets/images/app_icons/lightgreen3Compass1.png';
+        _imagePath = 'assets/images/app_icons/lightGreen3Compass1.png';
       });
     } else if (brandingColor == Color(0xFF228B22)) {
       setState(() {
-        _imagePath = 'assets/images/app_icons/lightgreen4Compass1.png';
+        _imagePath = 'assets/images/app_icons/lightGreen4Compass1.png';
       });
     } else if (brandingColor == Color(0xFF4E91FD)) {
       setState(() {
