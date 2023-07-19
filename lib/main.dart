@@ -58,6 +58,7 @@ import 'pages/paywall/paywal_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'pages/recitation_category/provider/recitation_category_provider.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -120,6 +121,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //onsignal notification code :
     final oneSignalProvider = Provider.of<OneSignalProvider>(context);
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    final FirebaseAnalyticsObserver observer =
+        FirebaseAnalyticsObserver(analytics: analytics);
     // Initialize OneSignal
     oneSignalProvider.initializeOneSignal();
     return ScreenUtilInit(
@@ -143,6 +147,7 @@ class MyApp extends StatelessWidget {
               darkTheme: AppThem.dark,
               initialRoute: RouteHelper.initRoute,
               routes: RouteHelper.routes(context),
+              navigatorObservers: <NavigatorObserver>[observer],
               // home: const SplashScreen(),
             );
           },
