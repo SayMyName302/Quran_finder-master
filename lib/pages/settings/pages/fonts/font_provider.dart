@@ -19,7 +19,12 @@ class FontProvider extends ChangeNotifier {
   final List<String> _fonts = [
     'Al Majeed Quranic Font',
     'PDMS Saleem Quran Font',
-    "Scheherazade Font"
+    "Scheherazade Font",
+    "KFGQPC Uthmanic Script HAFS Regular",
+    "W_qalam Regular",
+    "Naskh-Nastaleeq-IndoPak-QWBW",
+    "AlQalamQuran",
+    "Al Mushaf Arabic Font"
   ];
   List<String> get fonts => _fonts;
   String _currentFont = 'Al Majeed Quranic Font';

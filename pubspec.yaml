@@ -178,6 +178,9 @@ flutter:
     - family: Noto Sans Arabic
       fonts:
         - asset: assets/fonts/notosansarabic_regular.ttf
+    - family: KFGQPC Uthmanic Script HAFS Regular
+      fonts:
+        - asset: assets/fonts/KFGQPC.otf
     - family: Al Majeed Quranic Font
       fonts:
         - asset: assets/fonts/al_majeed_regular.ttf
@@ -190,5 +193,18 @@ flutter:
     - family: Scheherazade Font
       fonts:
         - asset: assets/fonts/scheherazade.ttf
+    - family: W_qalam Regular
+      fonts:
+        - asset: assets/fonts/w_qalam_regular.ttf
+    - family: Naskh-Nastaleeq-IndoPak-QWBW
+      fonts:
+        - asset: assets/fonts/Naskh.ttf
+    - family: AlQalamQuran
+      fonts:
+        - asset: assets/fonts/AlQalamQuran.ttf
+    - family: Al Mushaf Arabic Font
+      fonts:
+        - asset: assets/fonts/AlQalamQuran.ttf
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

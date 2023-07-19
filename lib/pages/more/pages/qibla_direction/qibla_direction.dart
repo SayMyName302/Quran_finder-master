@@ -42,7 +42,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
   Color _qiblabutton = AppColors.mainBrandingColor;
   Color _arrowbutton = Colors.white;
   Color _mapbutton = Colors.white;
-  String _imagePath = 'assets/images/app_icons/qibla_campass.png';
+  String _imagePath = '';
 
   bool _showCustomWidget = false;
   void _showArrowimage(Color mainBrandingColor) {
@@ -97,6 +97,54 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
         degree = direction.offset.toInt();
       });
     });
+    final appColorsProvider =
+        Provider.of<AppColorsProvider>(context, listen: false);
+    final brandingColor = appColorsProvider.mainBrandingColor;
+    // Initialize the image based on the brandingColor
+    _updateImagePath(brandingColor);
+  }
+
+  void _updateImagePath(Color brandingColor) {
+    if (brandingColor == Color(0xFF90EE90)) {
+      setState(() {
+        _imagePath = 'assets/images/app_icons/lightGreenCompass.png';
+      });
+    } else if (brandingColor == Color(0xFF0BDA51)) {
+      setState(() {
+        _imagePath = 'assets/images/app_icons/lightgreen2Compass1.png';
+      });
+
+      // Replace with the desired image paths for this color
+    } else if (brandingColor == Color(0xFF27AE60)) {
+      setState(() {
+        _imagePath = 'assets/images/app_icons/lightgreen3Compass1.png';
+      });
+    } else if (brandingColor == Color(0xFF228B22)) {
+      setState(() {
+        _imagePath = 'assets/images/app_icons/lightgreen4Compass1.png';
+      });
+    } else if (brandingColor == Color(0xFF4E91FD)) {
+      setState(() {
+        _imagePath = 'assets/images/app_icons/blue1.png';
+      });
+    } else if (brandingColor == Color(0xFF2C2CFF)) {
+      setState(() {
+        _imagePath = 'assets/images/app_icons/darkblue1.png';
+      });
+    } else if (brandingColor == Color(0xFF0229BF)) {
+      setState(() {
+        _imagePath = 'assets/images/app_icons/darkerblue1.png';
+      });
+    } else if (brandingColor == Color(0xFF2745AE)) {
+      setState(() {
+        _imagePath = 'assets/images/app_icons/darkestblue1.png';
+      });
+    } else {
+      // Default case, set the compassImages to a default list of images if none of the above conditions match.
+      setState(() {
+        _imagePath = 'assets/images/app_icons/lightgreen2Compass1.png';
+      });
+    }
   }
 
   @override
@@ -109,6 +157,84 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
 
   @override
   Widget build(BuildContext context) {
+    final appColorsProvider = Provider.of<AppColorsProvider>(context);
+    final brandingColor = appColorsProvider.mainBrandingColor;
+    print(brandingColor);
+    if (brandingColor == Color(0xFF90EE90)) {
+      compassImages = [
+        'assets/images/app_icons/lightGreenCompass1.png',
+        'assets/images/app_icons/lightGreenCompass3.png',
+        'assets/images/app_icons/lightGreenCompass4.png',
+        'assets/images/app_icons/lightGreenCompass5.png',
+      ];
+    } else if (brandingColor == Color(0xFF0BDA51)) {
+      compassImages = [
+        'assets/images/app_icons/lightgreen2Compass1.png',
+        'assets/images/app_icons/lightgreen2Compass3.png',
+        'assets/images/app_icons/lightgreen2Compass4.png',
+        'assets/images/app_icons/lightgreen2Compass5.png',
+        // Replace with the desired image paths for this color
+      ];
+    } else if (brandingColor == Color(0xFF27AE60)) {
+      compassImages = [
+        'assets/images/app_icons/lightGreen3Compass1.png',
+        'assets/images/app_icons/lightGreen3Compass3.png',
+        'assets/images/app_icons/lightGreen3Compass4.png',
+        'assets/images/app_icons/lightGreen3Compass5.png',
+        // Replace with the desired image paths for this color
+      ];
+    } else if (brandingColor == Color(0xFF228B22)) {
+      compassImages = [
+        'assets/images/app_icons/lightGreen4Compass1.png',
+        'assets/images/app_icons/lightGreen4Compass3.png',
+        'assets/images/app_icons/lightGreen4Compass4.png',
+        'assets/images/app_icons/lightGreen4Compass5.png',
+        // Replace with the desired image paths for this color
+      ];
+    } else if (brandingColor == Color(0xFF4E91FD)) {
+      compassImages = [
+        'assets/images/app_icons/blue1.png',
+        'assets/images/app_icons/blue2.png',
+        'assets/images/app_icons/blue3.png',
+        'assets/images/app_icons/blue4.png',
+        // Replace with the desired image paths for this color
+      ];
+    } else if (brandingColor == Color(0xFF2C2CFF)) {
+      compassImages = [
+        'assets/images/app_icons/darkblue1.png',
+        'assets/images/app_icons/darkblue2.png',
+        'assets/images/app_icons/darkblue3.png',
+        'assets/images/app_icons/darkblue4.png',
+        // Replace with the desired image paths for this color
+      ];
+    } else if (brandingColor == Color(0xFF0229BF)) {
+      compassImages = [
+        'assets/images/app_icons/darkerblue1.png',
+        'assets/images/app_icons/darkerblue2.png',
+        'assets/images/app_icons/darkerblue3.png',
+        'assets/images/app_icons/darkerblue4.png',
+        // Replace with the desired image paths for this color
+      ];
+    } else if (brandingColor == Color(0xFF2745AE)) {
+      compassImages = [
+        'assets/images/app_icons/darkestblue1.png',
+        'assets/images/app_icons/darkestblue2.png',
+        'assets/images/app_icons/darkestblue3.png',
+        'assets/images/app_icons/darkestblue4.png',
+        // Replace with the desired image paths for this color
+      ];
+    } else {
+      // Default case, set the compassImages to a default list of images if none of the above conditions match.
+      compassImages = [
+        'assets/images/app_icons/qibla_campass.png',
+        'assets/images/app_icons/compass_design_4.png',
+        'assets/images/app_icons/compass_design_1.png',
+        'assets/images/app_icons/compass_design_2.png',
+        'assets/images/app_icons/compass_design_3.png',
+        // Default image paths
+      ];
+    }
+
     return Scaffold(
       appBar: showdegree(
           context: context,

@@ -37,12 +37,19 @@ class QiblaProvider extends ChangeNotifier {
     isRequestingPermission = false;
 
     if (permissionStatus.isDenied) {
-      Future.delayed(Duration.zero, () => getQiblaPageData(context));
+      Future.delayed(
+          Duration.zero,
+          () => showError(
+              context: context,
+              msg: 'Please Allow Quran Pro to Use Location Services'));
+      // Future.delayed(Duration.zero, () => getQiblaPageData(context));
     } else if (permissionStatus.isGranted) {
       Future.delayed(Duration.zero, () => getQiblaPageData(context));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please Enable Location Services')));
+      Future.delayed(
+          Duration.zero,
+          () => showError(
+              context: context, msg: 'Please Enable Location Services'));
     }
   }
 
@@ -86,7 +93,7 @@ class QiblaProvider extends ChangeNotifier {
     try {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low,
-      ).timeout(const Duration(seconds: 5));
+      ).timeout(const Duration(seconds: 15));
       _lat = position.latitude;
       _lng = position.longitude;
       _qiblaDistance = calculateQiblaDistance(_lat, _lng).toInt();
@@ -99,29 +106,26 @@ class QiblaProvider extends ChangeNotifier {
         notifyListeners();
       }
       Future.delayed(Duration.zero, () {
-        EasyLoadingDialog.dismiss(context);
-        Navigator.of(context).pushNamed(
-          RouteHelper.qiblaDirection,
-        );
+        Navigator.of(context).pushReplacementNamed(RouteHelper.qiblaDirection);
       });
     } on PlatformException catch (e) {
       EasyLoadingDialog.dismiss(context);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
+      showError(context: context, msg: e.message.toString());
     } on TimeoutException catch (e) {
       EasyLoadingDialog.dismiss(context);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content:
-              Text('please restart your location services or check network')));
+      showError(
+          context: context,
+          msg: 'please restart your location services or check network');
     } catch (e) {
       if (e.toString() ==
           "User denied permissions to access the device's location.") {
         openAppSettingsPermissionSection();
+        showError(
+            context: context,
+            msg:
+                'Please Go to Settings and allow application to use Your Location');
       }
       EasyLoadingDialog.dismiss(context);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Please Go to Settings and allow application to use Your Location')));
     }
   }
 
@@ -170,5 +174,11 @@ class QiblaProvider extends ChangeNotifier {
             earthRadius;
 
     return distance;
+  }
+
+  showError({required BuildContext context, required String msg}) {
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(msg)));
   }
 }

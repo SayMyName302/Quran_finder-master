@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
@@ -136,7 +137,6 @@ class RecitationAllCategory extends StatelessWidget {
                                         imageURl,
                                         context,
                                         index);
-                                        
                               },
                               child: Container(
                                 margin: EdgeInsets.only(
@@ -191,24 +191,27 @@ class RecitationAllCategory extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.6,
-                                                child: Text(
-                                                  capitalize(recitationModels
-                                                      .title
-                                                      .toString()),
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15.sp,
-                                                    fontFamily: "satoshi",
-                                                  ),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.6,
+                                                  child: Text(
+                                                    localeText(
+                                                        context,
+                                                        capitalize(
+                                                            recitationModels
+                                                                .title
+                                                                .toString())),
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 15.sp,
+                                                      fontFamily: "satoshi",
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  )),
                                               SizedBox(height: 2.h),
                                               SizedBox(
                                                 width: MediaQuery.of(context)
