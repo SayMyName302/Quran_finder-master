@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/quran/pages/juz/juz_Index_page.dart';
@@ -48,6 +49,8 @@ class _SurahIndexPageState extends State<SurahIndexPage>
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     final appColorsProvider = Provider.of<AppColorsProvider>(context);
     List<String> tappedSurahNames =
         context.watch<LastReadProvider>().tappedSurahNames;
@@ -343,6 +346,13 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                                 .read<LastReadProvider>()
                                 .addTappedSurahName(surah.surahName!);
                             saveTappedSurahNames(context);
+                            analytics.logEvent(
+                              name: 'read_quran_surah_index',
+                              parameters: {
+                                'Name': surah.surahName,
+                                'index': surah.surahId
+                              },
+                            );
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {
                                 return const QuranTextView();

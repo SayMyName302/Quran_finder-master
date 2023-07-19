@@ -23,7 +23,7 @@ class DuaCategoriesPage extends StatelessWidget {
       builder: (context, duaValue, child) {
         return duaValue.duaCategoryList.isNotEmpty
             ? GridView.builder(
-                padding: EdgeInsets.only(left: 20.w, right: 10.w),
+                padding: EdgeInsets.only(left: 10.w, right: 0.w),
                 itemCount: duaValue.duaCategoryList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

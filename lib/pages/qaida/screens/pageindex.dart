@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class QaidaPageIndex extends StatelessWidget {
     var appColors = context.read<AppColorsProvider>();
     var isDark = context.read<ThemProvider>().isDark;
     Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return Scaffold(
       appBar: buildAppBar(
@@ -52,6 +54,13 @@ class QaidaPageIndex extends StatelessWidget {
           return InkWell(
             onTap: () {
               Navigator.pop(context, index);
+              analytics.logEvent(
+                name: 'qaida_index_page',
+                parameters: {
+                  'Name': listData[index].toString(),
+                  'index': index,
+                },
+              );
             },
             child: Container(
               margin: EdgeInsets.only(

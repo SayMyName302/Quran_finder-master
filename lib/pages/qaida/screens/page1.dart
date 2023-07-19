@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:nour_al_quran/shared/utills/app_colors.dart';
+// import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 
@@ -172,7 +172,7 @@ class Page1State extends State<Page1> {
   @override
   void initState() {
     super.initState();
-    loadAudioFiles();
+    // loadAudioFiles();
   }
 
   @override
@@ -2566,70 +2566,6 @@ class AudioListHolder1 {
     }
   }
 }
-
-class AudioPlayerManager {
-  AudioPlayer _audioPlayer = AudioPlayer();
-  List<String> audioFilePaths = [
-    'assets/images/qaida/page1/alif.mp3',
-    'assets/images/qaida/page1/baa1.mp3',
-    'assets/images/qaida/page1/taaah.mp3',
-    'assets/images/qaida/page1/saa.mp3',
-    'assets/images/qaida/page1/geem.mp3',
-    'assets/images/qaida/page1/haa.mp3',
-    'assets/images/qaida/page1/khaa.mp3',
-    'assets/images/qaida/page1/daal.mp3',
-    'assets/images/qaida/page1/zaal.mp3',
-    'assets/images/qaida/page1/raaa.mp3',
-    'assets/images/qaida/page1/zaaa.mp3',
-    'assets/images/qaida/page1/seen.mp3',
-    'assets/images/qaida/page1/sheen.mp3',
-    'assets/images/qaida/page1/suaad.mp3',
-    'assets/images/qaida/page1/zaad.mp3',
-    'assets/images/qaida/page1/taaah.mp3',
-    'assets/images/qaida/page1/zaaah.mp3',
-    'assets/images/qaida/page1/aaen.mp3',
-    'assets/images/qaida/page1/gaen.mp3',
-    'assets/images/qaida/page1/faa.mp3',
-    'assets/images/qaida/page1/qaaf.mp3',
-    'assets/images/qaida/page1/kaaf.mp3',
-    'assets/images/qaida/page1/laam.mp3',
-    'assets/images/qaida/page1/meem.mp3',
-    'assets/images/qaida/page1/noon.mp3',
-    'assets/images/qaida/page1/wahoo.mp3',
-    'assets/images/qaida/page1/haah.mp3',
-    'assets/images/qaida/page1/hamza.mp3',
-    'assets/images/qaida/page1/yaa.mp3',
-    'assets/images/qaida/page1/yaah.mp3',
-    // Add more audio file paths
-  ];
-
-  Future<void> playAudio(int index) async {
-    if (index < 0 || index >= audioFilePaths.length) {
-      // Handle invalid index
-      return;
-    }
-
-    final filePath = audioFilePaths[index];
-
-    if (_audioPlayer != null) {
-      await _audioPlayer.stop();
-      await _audioPlayer.dispose();
-    }
-
-    _audioPlayer = AudioPlayer();
-    await _audioPlayer.setAsset(filePath);
-    await _audioPlayer.play();
-  }
-
-  Future<void> stopAudio() async {
-    if (_audioPlayer != null) {
-      await _audioPlayer.stop();
-      await _audioPlayer.dispose();
-    }
-  }
-}
-
-
 
 //-> TESTS CLEARED
 //-> ~ Single AudioPlay working

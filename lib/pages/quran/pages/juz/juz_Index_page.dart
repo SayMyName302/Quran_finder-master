@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:nour_al_quran/pages/quran/pages/juz/juz_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
@@ -36,6 +37,8 @@ class _JuzIndexPageState extends State<JuzIndexPage> {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -72,6 +75,13 @@ class _JuzIndexPageState extends State<JuzIndexPage> {
                                 () => context
                                     .read<RecitationPlayerProvider>()
                                     .pause(context));
+                            analytics.logEvent(
+                              name: 'read_quran_juzz_index',
+                              parameters: {
+                                'Name': juz.juzEnglish,
+                                'index': juz.juzId.toString()
+                              },
+                            );
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {
                                 // title: juz.juzArabic!,fromWhere: 1,isJuz: true,juzId: index+1
@@ -95,7 +105,7 @@ class _JuzIndexPageState extends State<JuzIndexPage> {
                     ),
                   )
                 : const Center(
-                child: Text('No Result Found'),
+                    child: Text('No Result Found'),
                   );
           },
         ),
