@@ -24,8 +24,8 @@ class RuqyahCategoriesPage extends StatelessWidget {
             ? GridView.builder(
                 padding: EdgeInsets.only(
                   // top: 10.h,
-                  left: 20.w,
-                  right: 10.w,
+                  left: 10.w,
+                  right: 0.w,
                   // bottom: 10.h
                 ),
                 itemCount: duaValue.duaCategoryList.length,

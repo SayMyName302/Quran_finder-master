@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
@@ -19,6 +20,8 @@ class RecitationCategorySection extends StatelessWidget {
   Widget build(BuildContext context) {
     // int network = Provider.of<int>(context);
     // final recition = Provider.of<RecitationCategoryProvider>(context);
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     return Column(
       children: [
         HomeRowWidget(
@@ -26,6 +29,9 @@ class RecitationCategorySection extends StatelessWidget {
           buttonText: localeText(context, "view_all"),
           onTap: () {
             Navigator.of(context).pushNamed(RouteHelper.recitationPageList);
+            analytics.logEvent(
+              name: 'recitation_all_button',
+            );
           },
         ),
         Consumer<LocalizationProvider>(
@@ -49,6 +55,12 @@ class RecitationCategorySection extends StatelessWidget {
                           onTap: () {
                             recitationProvider.getSelectedRecitationAll(
                                 model.categoryId as int);
+                            analytics.logEvent(
+                              name: 'recitation_section',
+                              parameters: {
+                                'title': model.categoryName.toString()
+                              },
+                            );
                             Navigator.of(context).pushNamed(
                               RouteHelper.recitationallcategory,
                               arguments: [

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/qaida/screens/tutorial_player.dart';
@@ -55,6 +56,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
     isActive = widget.updateMultipleSelectionEnabled;
     loop = widget.updateLoopVal;
     Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     ThemProvider them = Provider.of<ThemProvider>(context);
     Future.delayed(
       Duration.zero,
@@ -88,6 +90,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                             if (!isActive) {
                               widget.clearstate();
                             }
+                            analytics.logEvent(
+                              name: 'qaida_checkbox_tap',
+                            );
                           },
                           child: Row(
                             children: [
@@ -102,6 +107,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                   if (!isActive) {
                                     widget.clearstate();
                                   }
+                                  analytics.logEvent(
+                                    name: 'qaida_checkbox_tap',
+                                  );
                                 },
                                 visualDensity: VisualDensity.compact,
                               ),
@@ -161,6 +169,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                                 );
                               },
                             );
+                            analytics.logEvent(
+                              name: 'qaida_tutorialbutton_tap',
+                            );
                           },
                           child: Image.asset(
                             'assets/images/app_icons/info.png',
@@ -188,6 +199,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                       });
                       widget.toggleLoop(loop);
                       //  print('value of loop is : $loop');
+                      analytics.logEvent(
+                        name: 'qaida_loopmore_tap',
+                      );
                     },
                     icon: Image.asset(
                       'assets/images/app_icons/repeat.png',
@@ -207,6 +221,9 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                       // Provider.of<DuaProvider>(context, listen: false)
                       //     .playPreviousDuaInCategory(context);
                       widget.skipNext();
+                      analytics.logEvent(
+                        name: 'qaida_skipNext_tap',
+                      );
                     },
                     icon: Image.asset(
                       'assets/images/app_icons/previous.png',
@@ -223,6 +240,10 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                         onTap: () {
                           widget.playButton();
                           // print('play button tapped');
+
+                          analytics.logEvent(
+                            name: 'qaida_playButton_tap',
+                          );
                         },
                         child: CircleButton(
                           height: 63.h,
@@ -241,6 +262,10 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                   IconButton(
                     onPressed: () async {
                       widget.skipPrevious();
+
+                      analytics.logEvent(
+                        name: 'qaida_skipPrevious_tap',
+                      );
                     },
                     icon: Image.asset(
                       'assets/images/app_icons/next.png',

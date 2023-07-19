@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
@@ -24,6 +25,7 @@ class RuqyahPage extends StatelessWidget {
     List<String> splitText = collectionOfDua.split(' ');
     String duaCount = splitText[0];
     String duasText = splitText.sublist(1).join(' ');
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return Scaffold(
       body: SafeArea(
@@ -114,6 +116,14 @@ class RuqyahPage extends StatelessWidget {
 
                       return InkWell(
                         onTap: () {
+                          analytics.logEvent(
+                            name: 'ruqyah_category_listview',
+                            parameters: {
+                              'index': index + 1,
+                              'Name': dua.duaTitle.toString(),
+                              'Category': title
+                            },
+                          );
                           Navigator.of(context).pushNamed(
                             RouteHelper.ruqyahDetailed,
                           );

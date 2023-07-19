@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
@@ -26,6 +27,8 @@ class RecitationAllCategory extends StatelessWidget {
     List<String> splitText = collectionOfDua.split(' ');
     String duaCount = splitText[0];
     String duasText = splitText.sublist(1).join(' ');
+
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return Scaffold(
       body: SafeArea(
@@ -136,7 +139,13 @@ class RecitationAllCategory extends StatelessWidget {
                                         imageURl,
                                         context,
                                         index);
-                                        
+                                analytics.logEvent(
+                                  name: 'recitation_category_listview',
+                                  parameters: {
+                                    'index': index + 1,
+                                    'Name': recitationModels.title.toString()
+                                  },
+                                );
                               },
                               child: Container(
                                 margin: EdgeInsets.only(

@@ -163,7 +163,7 @@ class Page2State extends State<Page2> {
   @override
   void initState() {
     super.initState();
-    loadAudioFiles();
+    // loadAudioFiles();
   }
 
   @override
