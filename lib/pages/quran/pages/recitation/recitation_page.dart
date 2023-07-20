@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
@@ -32,6 +33,8 @@ class _RecitationPageState extends State<RecitationPage> {
   @override
   Widget build(BuildContext context) {
     var appColor = context.read<AppColorsProvider>().mainBrandingColor;
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -45,6 +48,10 @@ class _RecitationPageState extends State<RecitationPage> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).pushNamed(RouteHelper.allReciters);
+                    analytics.logEvent(
+                      name: 'reciters_section_viewall_button',
+                      parameters: {'title': 'reciters_viewall'},
+                    );
                   },
                   child: Container(
                     margin:

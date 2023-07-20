@@ -30,6 +30,10 @@ class FeaturedSection extends StatelessWidget {
           buttonText: localeText(context, "view_all"),
           onTap: () {
             Navigator.of(context).pushNamed(RouteHelper.featured);
+            analytics.logEvent(
+              name: 'featured_section_viewall_button',
+              parameters: {'title': 'featured_viewall'},
+            );
           },
         ),
         Consumer<LocalizationProvider>(
@@ -63,7 +67,7 @@ class FeaturedSection extends StatelessWidget {
                                 storiesProvider.gotoFeaturePlayerPage(
                                     model.storyId!, context, index);
                                 analytics.logEvent(
-                                  name: 'Featured_section',
+                                  name: 'featured_section_tile_homescreen',
                                   parameters: {'title': model.title},
                                 );
                               } else if (model.contentType == "Video") {
@@ -77,7 +81,8 @@ class FeaturedSection extends StatelessWidget {
                                     .goToMiracleDetailsPageFromFeatured(
                                         model.storyTitle!, context, index);
                                 analytics.logEvent(
-                                  name: 'Featured_section',
+                                  name:
+                                      'featured_section_miracle_tile_homescreen',
                                   parameters: {'title': model.title},
                                 );
 

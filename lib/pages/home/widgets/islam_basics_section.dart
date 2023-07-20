@@ -26,6 +26,10 @@ class IslamBasicsSection extends StatelessWidget {
           buttonText: localeText(context, "view_all"),
           onTap: () {
             Navigator.of(context).pushNamed(RouteHelper.basicsOfQuran);
+            analytics.logEvent(
+              name: 'Islam_basics_viewall_button',
+              parameters: {'title': 'Ibasics_viewall'},
+            );
           },
         ),
         Consumer<LocalizationProvider>(

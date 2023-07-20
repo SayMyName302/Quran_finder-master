@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
@@ -38,6 +39,8 @@ class QuranProvider extends ChangeNotifier {
   String? _selectedTranslation;
   String? get selectedTranslation => _selectedTranslation;
 
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   void updateState(String name) {
     for (int i = 0; i < _quranTextList.length; i++) {
       QuranText quranText = _quranTextList[i];
@@ -50,6 +53,25 @@ class QuranProvider extends ChangeNotifier {
 
   void setCurrentPage(int page) {
     _currentPage = page;
+    String eventName;
+    switch (page) {
+      case 0:
+        eventName = 'recitation';
+        break;
+      case 1:
+        eventName = 'read_quran';
+        break;
+      case 2:
+        eventName = 'bookmarks';
+        break;
+      default:
+        eventName = 'unknown_page_view';
+        break;
+    }
+    analytics.logEvent(
+      name: eventName,
+      parameters: {'page_index': page},
+    );
     notifyListeners();
   }
 

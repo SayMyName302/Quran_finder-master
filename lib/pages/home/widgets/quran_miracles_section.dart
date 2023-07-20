@@ -24,6 +24,10 @@ class QuranMiraclesSection extends StatelessWidget {
           buttonText: localeText(context, "view_all"),
           onTap: () {
             Navigator.of(context).pushNamed(RouteHelper.miraclesOfQuran);
+            analytics.logEvent(
+              name: 'quran_miracles_viewall_button',
+              parameters: {'title': 'qmicracles_viewall'},
+            );
           },
         ),
         Consumer<LocalizationProvider>(

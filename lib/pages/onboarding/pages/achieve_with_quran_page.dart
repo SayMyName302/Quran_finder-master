@@ -10,6 +10,7 @@ import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/utills/app_colors.dart';
 import '../../settings/pages/app_them/them_provider.dart';
+import '../models/app_download_count_provider.dart';
 
 class AchieveWithQuranPage extends StatelessWidget {
   const AchieveWithQuranPage({Key? key}) : super(key: key);
@@ -18,6 +19,8 @@ class AchieveWithQuranPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appColors = context.read<AppColorsProvider>();
     var isDark = context.read<ThemProvider>().isDark;
+    final downloadCountModel = Provider.of<DownloadCountModel>(context);
+    downloadCountModel.initializePreferences();
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

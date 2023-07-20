@@ -8,6 +8,7 @@ import 'package:nour_al_quran/pages/duas/dua_bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/duas/dua_provider.dart';
 import 'package:nour_al_quran/pages/duas/widgets/ruqyah_bookmark_provider.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
+import 'package:nour_al_quran/pages/onboarding/models/app_download_count_provider.dart';
 import 'package:nour_al_quran/pages/onesginalnotify/provider.dart';
 
 import 'package:nour_al_quran/pages/qaida/providers/audiolist_provider.dart';
@@ -108,6 +109,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => FeaturedMiraclesOfQuranProvider()),
     ChangeNotifierProvider(create: (_) => AboutProvider()),
     ChangeNotifierProvider(create: (_) => RecitationCategoryProvider()),
+    ChangeNotifierProvider(create: (_) => DownloadCountModel()),
     StreamProvider<int>(
         create: (context) => NetworkProvider().streamController.stream,
         initialData: 0),
@@ -119,12 +121,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //onsignal notification code :
     final oneSignalProvider = Provider.of<OneSignalProvider>(context);
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     final FirebaseAnalyticsObserver observer =
         FirebaseAnalyticsObserver(analytics: analytics);
-    // Initialize OneSignal
     oneSignalProvider.initializeOneSignal();
     return ScreenUtilInit(
       designSize: Size(Dimensions.width, Dimensions.height),

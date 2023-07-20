@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,8 @@ class IslamBasicList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int network = Provider.of<int>(context);
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     return Consumer<IslamBasicsProvider>(
       builder: (context, islamBasicProvider, child) {
         List<IslamBasics> activeStories = islamBasicProvider.islamBasics
@@ -39,6 +42,10 @@ class IslamBasicList extends StatelessWidget {
                                 .pause(context));
                         islamBasicProvider.gotoBasicsPlayerPage(
                             model.title!, context, index);
+                        analytics.logEvent(
+                          name: 'Islam_basics_section',
+                          parameters: {'title': model.title},
+                        );
                       } else {
                         ScaffoldMessenger.of(context)
                           ..removeCurrentSnackBar()

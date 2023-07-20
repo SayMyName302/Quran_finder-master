@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
@@ -46,6 +47,8 @@ class _AllRecitersState extends State<AllReciters> {
   @override
   Widget build(BuildContext context) {
     var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     return Scaffold(
         appBar: buildAppBar(
           context: context,
@@ -75,6 +78,11 @@ class _AllRecitersState extends State<AllReciters> {
                               .setReciterList(reciter.downloadSurahList!);
                           Navigator.of(context).pushNamed(RouteHelper.reciter,
                               arguments: reciter);
+                          analytics
+                              .logEvent(name: 'all_reciters_page', parameters: {
+                            'reciterId': reciter.reciterId,
+                            'reciter_name': reciter.reciterName.toString(),
+                          });
                         },
                         child: buildReciterDetailsContainer(reciter),
                       );

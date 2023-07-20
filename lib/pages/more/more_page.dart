@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/more/models/more.dart';
@@ -23,6 +24,8 @@ class MorePage extends StatefulWidget {
 class _MorePageState extends State<MorePage> {
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     // var them = context.read<ThemProvider>().isDark;
     List<More> pages = [
       More(
@@ -68,6 +71,18 @@ class _MorePageState extends State<MorePage> {
       RouteHelper.namesOfALLAH,
 //RouteHelper.swipe,
       RouteHelper.miraclesOfQuran,
+    ];
+
+    List analyticsroutes = [
+      'Qibla Direction',
+      'Salah Timer',
+      'Dua',
+      'Tasbeeh',
+      'Steps of Prayer',
+      'Shahada',
+      'Basics of Quran',
+      'Names of Allah',
+      'Miracles of Quran',
     ];
 
     return Scaffold(
@@ -141,11 +156,17 @@ class _MorePageState extends State<MorePage> {
                                   () => qibla.getLocationPermission(context));
                             }
                           }
+                          analytics.logEvent(name: 'qibla_direction_page');
                         } else {
                           if (index == 3) {
                             Provider.of<TasbeehProvider>(context, listen: false)
                                 .reset();
                           }
+                          String screenName = analyticsroutes[index];
+                          analytics.logEvent(
+                              name: 'discover_page',
+                              parameters: {'screen_name': screenName});
+                          // Perform navigation
                           Navigator.of(context).pushNamed(routes[index]);
                         }
                       },

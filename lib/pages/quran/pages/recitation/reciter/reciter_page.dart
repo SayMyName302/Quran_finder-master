@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/mini_player.dart';
@@ -24,6 +25,7 @@ class ReciterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Reciters? reciters = ModalRoute.of(context)!.settings.arguments as Reciters;
     final appcolor = Provider.of<AppColorsProvider>(context);
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return WillPopScope(
       onWillPop: () async {
@@ -152,6 +154,13 @@ class ReciterPage extends StatelessWidget {
                                 if (reciters.isFav == 0) {
                                   recitationProvider
                                       .addFav(reciters.reciterId!);
+                                  analytics.logEvent(
+                                    name: 'add_favorite_reciter',
+                                    parameters: {
+                                      'reciterId': reciters.reciterId!,
+                                      'reciter_name': reciters.reciterName!,
+                                    },
+                                  );
                                 } else {
                                   recitationProvider
                                       .removeFavReciter(reciters.reciterId!);
@@ -203,6 +212,13 @@ class ReciterPage extends StatelessWidget {
                               ? () {
                                   downloadOrPlayAudio(reciterProvider, surah,
                                       context, reciters);
+                                  analytics.logEvent(
+                                    name: 'reciters_listview',
+                                    parameters: {
+                                      'index': index.toString(),
+                                      'reciter_name': reciters.reciterName!,
+                                    },
+                                  );
                                 }
                               : null,
                           child: Container(

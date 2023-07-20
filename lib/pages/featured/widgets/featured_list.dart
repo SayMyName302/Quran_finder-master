@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
@@ -15,6 +16,8 @@ class FeaturedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int network = Provider.of<int>(context);
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     return Expanded(
       child: Consumer2<FeatureProvider, FeaturedMiraclesOfQuranProvider>(
         builder: (context, featureProvider, featuremiraclesProvider, child) {
@@ -45,9 +48,13 @@ class FeaturedList extends StatelessWidget {
                           if (model.contentType == "audio") {
                             featureProvider.gotoFeaturePlayerPage(
                                 model.storyId!, context, index);
+                            analytics.logEvent(
+                              name: 'featured_section_audiotiles',
+                              parameters: {'title': model.title},
+                            );
                           } else if (model.contentType == "Video") {
-                            print(index);
-                            print(model.storyTitle!);
+                            // print(index);
+                            // print(model.storyTitle!);
 
                             /// two ways without creating any separate provider
                             /// directly using MiraclesOfQuranProvider
@@ -55,6 +62,10 @@ class FeaturedList extends StatelessWidget {
                                     listen: false)
                                 .goToMiracleDetailsPageFromFeatured(
                                     model.storyTitle!, context, index);
+                            analytics.logEvent(
+                              name: 'featured_section_videotiles',
+                              parameters: {'title': model.title},
+                            );
 
                             /// else u can use your own provider as u create both work fine u can check and give me some
                             /// feedback tomorrow
