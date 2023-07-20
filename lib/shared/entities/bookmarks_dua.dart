@@ -79,8 +79,8 @@ class BookmarksDua {
     };
   }
 
-  @override
-  String toString() {
-    return 'InsideDuaBookmarks: duaId=$duaId,categoryID=$categoryId ,duaTitle=$duaTitle,categoryName=$categoryName';
-  }
+  // @override
+  // String toString() {
+  //   return 'InsideDuaBookmarks: duaId=$duaId,categoryID=$categoryId ,duaTitle=$duaTitle,categoryName=$categoryName';
+  // }
 }

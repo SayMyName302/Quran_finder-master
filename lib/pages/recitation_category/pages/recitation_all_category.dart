@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
+import '../../../shared/localization/localization_constants.dart';
 import '../provider/recitation_category_provider.dart';
 
 class RecitationAllCategory extends StatelessWidget {
@@ -20,15 +20,14 @@ class RecitationAllCategory extends StatelessWidget {
     String title = arguments[0];
     String imageURl = arguments[1];
     String collectionOfDua = arguments[2];
-    print(title);
-    print(collectionOfDua);
-    print(imageURl);
+    // print(title);
+    // print(collectionOfDua);
+    // print(imageURl);
 
     //Split Collection
     List<String> splitText = collectionOfDua.split(' ');
     String duaCount = splitText[0];
     String duasText = splitText.sublist(1).join(' ');
-
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return Scaffold(
@@ -38,7 +37,6 @@ class RecitationAllCategory extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // const Text("Farhan Test reciitation all category page needed"),
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -128,16 +126,11 @@ class RecitationAllCategory extends StatelessWidget {
 
                             return InkWell(
                               onTap: () {
-                                /*  Navigator.of(context).pushNamed(
-                                  RouteHelper.recitationAllDetailedPlayer,
-                                );*/
-                                // duaProvider.gotoDuaPlayerPage(recitationModels.surahId!, recitationModels.title!, context);
-                                //  recitationProvider.gotoRecitationPlayerPage(recitationModels.surahId!, recitationModels.title!, context);
-                                // Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
                                 recitationProvider
                                     .gotoRecitationAudioPlayerPage(
                                         recitationModels.surahNo!,
                                         imageURl,
+                                        title,
                                         context,
                                         index);
                                 analytics.logEvent(
@@ -201,27 +194,25 @@ class RecitationAllCategory extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.6,
-                                                  child: Text(
-                                                    localeText(
-                                                        context,
-                                                        capitalize(
-                                                            recitationModels
-                                                                .title
-                                                                .toString())),
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 15.sp,
-                                                      fontFamily: "satoshi",
-                                                    ),
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  )),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.6,
+                                                child: Text(
+                                                  localeText(
+                                                      context,
+                                                      recitationModels.title
+                                                          .toString()),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 15.sp,
+                                                    fontFamily: "satoshi",
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
                                               SizedBox(height: 2.h),
                                               SizedBox(
                                                 width: MediaQuery.of(context)

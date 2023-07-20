@@ -49,8 +49,8 @@ class RecitationCategorySection extends StatelessWidget {
                       try {
                         RecitationCategoryModel model =
                             recitationProvider.recitationCategory[index];
-                        print(model.categoryName);
-                        print(model.imageURl);
+                        // print(model.categoryName);
+                        // print(model.imageURl);
                         return InkWell(
                           onTap: () {
                             recitationProvider.getSelectedRecitationAll(

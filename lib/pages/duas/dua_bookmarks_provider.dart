@@ -30,16 +30,7 @@ class BookmarkProviderDua extends ChangeNotifier {
   }
 
   void goToAudioPlayer(BookmarksDua bookmarks, BuildContext context) async {
-    // context.read<QuranProvider>().setJuzText(
-    //     juzId: bookmarks.juzId!,
-    //     title: bookmarks.juzName!,
-    //     fromWhere: 2,
-    //     isJuz: true,
-    //     bookmarkPosition: bookmarks.bookmarkPosition);
-
     Provider.of<DuaProvider>(context, listen: false);
-
-    /// if recitation player is on So this line is used to pause the player
     Future.delayed(Duration.zero,
         () => context.read<RecitationPlayerProvider>().pause(context));
     Navigator.of(context).push(MaterialPageRoute(
@@ -49,8 +40,3 @@ class BookmarkProviderDua extends ChangeNotifier {
     ));
   }
 }
-
-// Navigator.of(context).pushNamed(
-//                             RouteHelper.duaDetailed,
-//                           );
-//                           duaProvider.gotoDuaPlayerPage(dua.id!, context);
