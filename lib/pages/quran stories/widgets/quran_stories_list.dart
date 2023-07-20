@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,8 @@ class QuranStoriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int network = Provider.of<int>(context);
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     return Expanded(
       child: Consumer<QuranStoriesProvider>(
         builder: (context, storiesProvider, child) {
@@ -42,6 +45,12 @@ class QuranStoriesList extends StatelessWidget {
                                   .pause(context));
                           storiesProvider.gotoStoryPlayerPage(
                               model.storyId!, context, index);
+                          analytics.logEvent(
+                            name: 'quran_stories_section',
+                            parameters: {
+                              'story_title': model.storyTitle,
+                            },
+                          );
                         } else {
                           ScaffoldMessenger.of(context)
                             ..removeCurrentSnackBar()

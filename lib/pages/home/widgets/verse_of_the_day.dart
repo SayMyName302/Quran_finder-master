@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,8 @@ class VerseOfTheDayContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     return Consumer<HomeProvider>(
       builder: (context, value, child) {
         final Surah? surahNamea = Provider.of<HomeProvider>(context).surahName;
@@ -26,6 +29,10 @@ class VerseOfTheDayContainer extends StatelessWidget {
                     "${value.verseOfTheDay.translationText}\n"
                     "\u{200E}-- ${value.verseOfTheDay.surahId}:${value.verseOfTheDay.verseId} --\n"
                     "https://play.google.com/store/apps/details?id=com.fanzetech.holyquran");
+                analytics.logEvent(
+                  name: 'verseofday_share_button',
+                  parameters: {'title': 'votd_button'},
+                );
               },
             ),
             DuaContainer(

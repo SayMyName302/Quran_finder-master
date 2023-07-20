@@ -13,6 +13,7 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
 import 'package:provider/provider.dart';
 import '../../recitation_category/pages/recitation_category_page.dart';
+import '../widgets/total_app_downloads.dart';
 import '../widgets/verse_of_the_day.dart';
 
 class HomePage extends StatefulWidget {
@@ -77,6 +78,8 @@ class _HomePageState extends State<HomePage> {
 
             /// Islam Basics Section
             const IslamBasicsSection(),
+
+            const AppDownloadsSection(),
 
             // const RecitationCategorySection(),
           ],

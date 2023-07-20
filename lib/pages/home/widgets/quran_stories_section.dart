@@ -18,6 +18,8 @@ class QuranStoriesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int network = Provider.of<int>(context);
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     return Column(
       children: [
         HomeRowWidget(
@@ -25,6 +27,10 @@ class QuranStoriesSection extends StatelessWidget {
           buttonText: localeText(context, "view_all"),
           onTap: () {
             Navigator.of(context).pushNamed(RouteHelper.quranstoriespage);
+            analytics.logEvent(
+              name: 'quran_stories_viewall_button',
+              parameters: {'story_title': 'quranstories_viewall'},
+            );
           },
         ),
         Consumer<LocalizationProvider>(
@@ -52,7 +58,7 @@ class QuranStoriesSection extends StatelessWidget {
                                     .read<RecitationPlayerProvider>()
                                     .pause(context));
 
-                            FirebaseAnalytics.instance.logEvent(
+                            analytics.logEvent(
                               name: 'quran_stories',
                               parameters: {
                                 'story_title': model.storyTitle,
