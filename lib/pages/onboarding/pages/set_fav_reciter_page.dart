@@ -14,9 +14,14 @@ import 'package:provider/provider.dart';
 
 import '../models/fav_reciter.dart';
 
-class SetFavReciter extends StatelessWidget {
+class SetFavReciter extends StatefulWidget {
   const SetFavReciter({Key? key}) : super(key: key);
 
+  @override
+  State<SetFavReciter> createState() => _SetFavReciterState();
+}
+
+class _SetFavReciterState extends State<SetFavReciter> {
   @override
   Widget build(BuildContext context) {
     var isDark = context.read<ThemProvider>().isDark;
@@ -129,11 +134,23 @@ class SetFavReciter extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50.r),
+            child: Image.asset(
+              reciter.imageUrl ?? "",
+              width: 48.w,
+              height: 48.h,
+              fit: BoxFit.cover,
+
+              errorBuilder: (context, error, stackTrace) => const Icon(Icons
+                  .error), // Display an error icon if the image fails to load
+            ),
+          ),
           Text(
             reciter.title!,
             style: TextStyle(
                 fontFamily: 'satoshi',
-                fontSize: 12.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500),
           ),
           reciter.title == setReciter.favReciter

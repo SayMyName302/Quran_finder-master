@@ -71,40 +71,59 @@ class _RecitationPageState extends State<RecitationPage> {
             Consumer<RecitationProvider>(
               builder: (context, recitersValue, child) {
                 return recitersValue.recitersList.isNotEmpty
-                    ? GridView.builder(
-                        padding: EdgeInsets.only(left: 20.w, right: 20.w),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 4,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            mainAxisExtent: 116.87.h,
-                            mainAxisSpacing: 10.h,
-                            crossAxisSpacing: 5.w),
-                        itemBuilder: (BuildContext context, int index) {
-                          Reciters reciter = recitersValue.recitersList[index];
-                          return InkWell(
-                            onTap: () async {
-                              recitersValue.getSurahName();
-                              // context.read<ReciterProvider>().resetDownloadSurahList();
-                              context
-                                  .read<ReciterProvider>()
-                                  .setReciterList(reciter.downloadSurahList!);
-                              // context.read<ReciterProvider>().getAvailableDownloadAudioFilesFromLocal(reciter.reciterName!);
-                              Navigator.of(context).pushNamed(
-                                  RouteHelper.reciter,
-                                  arguments: reciter);
-                            },
-                            child: buildReciterDetailsContainer(reciter),
-                          );
-                        },
+                    ? SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 6 * (116.87.h) +
+                                  3 * 5.w, // Adjust the width based on the item width and spacing
+                              child: GridView.builder(
+                                padding:
+                                    EdgeInsets.only(left: 20.w, right: 20.w),
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 8,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 8,
+                                  mainAxisExtent: 116.87.h,
+                                  crossAxisSpacing: 5.w,
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  Reciters reciter =
+                                      recitersValue.recitersList[index];
+                                  return InkWell(
+                                    onTap: () async {
+                                      recitersValue.getSurahName();
+                                      context
+                                          .read<ReciterProvider>()
+                                          .setReciterList(
+                                              reciter.downloadSurahList!);
+                                      Navigator.of(context).pushNamed(
+                                        RouteHelper.reciter,
+                                        arguments: reciter,
+                                      );
+                                    },
+                                    child:
+                                        buildReciterDetailsContainer(reciter),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       )
                     : CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(appColor),
                       );
               },
             ),
-            buildTitleContainer(localeText(context, "favorites")),
+
+            Container(
+                margin: EdgeInsets.only(top: 20.h),
+                child: buildTitleContainer(localeText(context, "favorites"))),
             Consumer<RecitationProvider>(
               builder: (context, recitation, child) {
                 return recitation.favReciters.isNotEmpty
