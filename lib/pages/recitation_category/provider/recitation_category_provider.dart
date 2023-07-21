@@ -43,30 +43,27 @@ class RecitationCategoryProvider extends ChangeNotifier {
   }
 
   Future<void> getSelectedRecitationAll(int categoryId) async {
-    //fetches all the dua in current category list
     _selectedRecitationAll = await HomeDb().getSelectedAll(categoryId);
     notifyListeners();
   }
 
-  gotoRecitationPlayerPage(
-      int duaCategoryId, String duaText, BuildContext context) async {
-    _selectedRecitationAll = [];
-    _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
-    if (_selectedRecitationAll.isNotEmpty) {
-      _currentRecitationIndex = _selectedRecitationAll
-          .indexWhere((element) => element.title == duaText);
-      if (currentRecitationIndex != -1) {
-        _selectedRecitationStory =
-            _selectedRecitationAll[_currentRecitationIndex];
-        // ignore: use_build_context_synchronously
-        Provider.of<DuaPlayerProvider>(context, listen: false)
-            .initAudioPlayer(_selectedRecitationStory!.contentUrl!, context);
-        // print("content check by url");
-        // print(_selectedRecitationStory!.contentUrl!);
-        notifyListeners();
-      }
-    }
-  }
+  // gotoRecitationPlayerPage(
+  //     int duaCategoryId,imageUrl, String duaText, BuildContext context) async {
+  //   _selectedRecitationAll = [];
+  //   _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
+  //   if (_selectedRecitationAll.isNotEmpty) {
+  //     _currentRecitationIndex = _selectedRecitationAll
+  //         .indexWhere((element) => element.title == duaText);
+  //     if (currentRecitationIndex != -1) {
+  //       _selectedRecitationStory =
+  //           _selectedRecitationAll[_currentRecitationIndex];
+  //       // ignore: use_build_context_synchronously
+  //       Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
+  //           .initAudioPlayer(_selectedRecitationStory!.contentUrl!,imageUrl, context);
+  //       notifyListeners();
+  //     }
+  //   }
+  // }
 
   Map<String, dynamic> getNextDuaRecitation() {
     return {
@@ -76,36 +73,37 @@ class RecitationCategoryProvider extends ChangeNotifier {
   }
 
   gotoRecitationAudioPlayerPage(
-      int surahNo, imageUrl, String title, BuildContext context, int index) {
+      int surahNo, imageUrl, String title, BuildContext context) {
     _currentRecitationIndex = _selectedRecitationAll
         .indexWhere((element) => element.surahNo == surahNo);
     _selectedRecitationStory = _selectedRecitationAll[_currentRecitationIndex];
-    // print("content url check by farhan");
-    // print(_selectedRecitationStory!.contentUrl);
-    // print(_selectedRecitationStory!.title);
-    // print(imageUrl);
-    // print(index);
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(
-            _selectedRecitationStory!.contentUrl!, imageUrl, context);
+            _selectedRecitationStory!.contentUrl!, imageUrl!, context);
     Navigator.of(context).pushNamed(RouteHelper.recitationAudioPlayer,
         arguments: [title, surahNo]);
+    notifyListeners();
   }
 
-  // void removeBookmark(int duaId, int categoryId) {
-  //   QuranDatabase().removeduaBookmark(duaId, categoryId);
-  //   _bookmarkList.removeWhere((element) =>
-  //       element.duaId == duaId && element.categoryId == categoryId);
-  //   notifyListeners();
-  //   Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
-  // }
+  void removeBookmark(int duaId, int categoryId) {
+    QuranDatabase().removeRecitatioBookmark(duaId, categoryId);
+    _bookmarkList.removeWhere((element) =>
+        element.recitationIndex == duaId && element.catID == categoryId);
+    notifyListeners();
+    Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
+  }
 
-  // void addBookmark(BookmarksRecitation bookmarks) {
-  //   QuranDatabase().adduaBookmark(bookmarks.recitationIndex!);
-  //   if (!_bookmarkList.contains(bookmarks)) {
-  //     _bookmarkList.add(bookmarks);
-  //   }
-  //   notifyListeners();
-  //   Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
-  // }
+  void addBookmark(BookmarksRecitation bookmarks) {
+    QuranDatabase().addRecitationBookmark(bookmarks.recitationIndex!);
+    if (!_bookmarkList.contains(bookmarks)) {
+      _bookmarkList.add(bookmarks);
+    }
+    notifyListeners();
+    Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
+  }
+
+  void bookmark(int duaId, int value) {
+    _selectedRecitationStory!.setIsBookmark = value;
+    notifyListeners();
+  }
 }

@@ -3,22 +3,29 @@ class BookmarksRecitation {
   String? _recitationRef;
   int? _recitationIndex;
   String? _contentUrl;
+  int? _catID;
+  String? _imageUrl;
 
   String? get recitationName => _recitationName;
   String? get recitationRef => _recitationRef;
   int? get recitationIndex => _recitationIndex;
   String? get contentUrl => _contentUrl;
+  int? get catID => _catID;
+  String? get imageUrl => _imageUrl;
 
-  BookmarksRecitation({
-    required recitationName,
-    required recitationTitle,
-    required recitationIndex,
-    required contentUrl,
-  }) {
+  BookmarksRecitation(
+      {required recitationName,
+      required recitationRef,
+      required recitationIndex,
+      required contentUrl,
+      required catID,
+      required imageUrl}) {
     _recitationName = recitationName;
-    _recitationRef = recitationTitle;
+    _recitationRef = recitationRef;
     _recitationIndex = recitationIndex;
     _contentUrl = contentUrl;
+    _catID = catID;
+    _imageUrl = imageUrl;
   }
 
   BookmarksRecitation.fromJson(Map<String, dynamic> json) {
@@ -26,6 +33,8 @@ class BookmarksRecitation {
     _recitationRef = json['recitationRef'];
     _recitationIndex = json['recitationIndex'];
     _contentUrl = json['contenturl'];
+    _catID = json['categoryId'];
+    _imageUrl = json['imageUrl'];
   }
 
   Map toJson() {
@@ -34,6 +43,13 @@ class BookmarksRecitation {
       "recitationRef": _recitationRef,
       "recitationIndex": _recitationIndex,
       "contenturl": _contentUrl,
+      "categoryId": _catID,
+      "imageUrl": _imageUrl,
     };
+  }
+
+  @override
+  String toString() {
+    return 'BookmarkRecitation $_imageUrl,';
   }
 }

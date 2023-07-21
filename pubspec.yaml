@@ -136,6 +136,7 @@ flutter:
     - assets/images/flags/
     - assets/images/basics_of_islam/
     - assets/images/splash/
+    - assets/images/recitation/
     - assets/data/
     - assets/audios/fav_reciters/
     - assets/images/qaida/

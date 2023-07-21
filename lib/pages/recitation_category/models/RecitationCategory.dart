@@ -8,15 +8,11 @@ class RecitationCategoryModel {
   String? _numberOfPrayers;
   int? _viewOrderBy;
 
-
-
-
   int? get categoryId => _categoryId;
   String? get categoryName => _categoryName;
   String? get imageURl => _imageURl;
   String? get numberOfPrayers => _numberOfPrayers;
   int? get viewOrderBy => _viewOrderBy;
-
 
   // Getter for content_type
 
@@ -41,6 +37,6 @@ class RecitationCategoryModel {
     _numberOfPrayers = json['number_of_prayers'];
     _viewOrderBy = json['view_order_by'];
 
-     // Assign the value to the content_type field
+    // Assign the value to the content_type field
   }
 }

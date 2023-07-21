@@ -128,11 +128,11 @@ class RecitationAllCategory extends StatelessWidget {
                               onTap: () {
                                 recitationProvider
                                     .gotoRecitationAudioPlayerPage(
-                                        recitationModels.surahNo!,
-                                        imageURl,
-                                        title,
-                                        context,
-                                        index);
+                                  recitationModels.surahNo!,
+                                  imageURl,
+                                  title,
+                                  context,
+                                );
                                 analytics.logEvent(
                                   name: 'recitation_category_listview',
                                   parameters: {

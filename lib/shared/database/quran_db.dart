@@ -19,6 +19,7 @@ import '../../pages/duas/models/dua.dart';
 import '../../pages/duas/models/dua_category.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah_category.dart';
+import '../../pages/recitation_category/models/recitation_all_category_model.dart';
 
 class QuranDatabase {
   Database? database;
@@ -33,6 +34,9 @@ class QuranDatabase {
 
   final String _rduaAllTable = "al_ruqyah_all";
   final String _rduaCatergoryTable = "ruqyah_category";
+
+  final String _reciteAllTable = "recitation_all";
+  final String _reciteCategoryTable = "recitation_category";
 
   // to load all Ruqyah duas category names
   Future<List<Ruqyah>> getRDua(int categoryId) async {
@@ -654,6 +658,39 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     }
     return quranTextList;
   }
+
+  //----------
+  //Recitation Bookmarks
+  void addRecitationBookmark(int reciteId) async {
+    database = await openDb();
+    await database!.rawUpdate(
+        "update $_reciteAllTable set is_favorite = 1 where surah_id = $reciteId");
+    print('reciter Added Index is>>: $reciteId');
+  }
+
+  //delete bookmark
+  void removeRecitatioBookmark(int reciteId, int reciteCategory) async {
+    database = await openDb();
+    await database!.rawUpdate(
+        "update $_reciteAllTable set is_favorite = 0 where surah_id = $reciteId AND category_id = $reciteCategory");
+    print('reciter Removed Index is>>: $reciteId ,cat ID >> $reciteCategory');
+    // print(
+    //     'QuranDatabase :::::            removed     DuaID is: $reciteId DuaCat is: $reciteCategory');
+  }
+
+  Future<List<RecitationAllCategoryModel>> getRecitationBookmarks() async {
+    database = await openDb();
+    List<RecitationAllCategoryModel> quranTextList = [];
+    var table = await database!
+        .query(_reciteAllTable, where: "is_favorite= ?", whereArgs: [1]);
+    for (var rows in table) {
+      var ayahText = RecitationAllCategoryModel.fromJson(rows);
+      quranTextList.add(ayahText);
+    }
+    // print('getAllRecitersFavFromDATABASE${quranTextList.toString()}');
+    return quranTextList;
+  }
+  //----------
 
   // List<String> words = normalizedText.trim().split(RegExp(r'\s+'));
 

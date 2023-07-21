@@ -138,31 +138,6 @@ class DuaDetail extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      // Container(
-                                      //   margin: EdgeInsets.only(
-                                      //     right: 7.h,
-                                      //     top: 5.h,
-                                      //     bottom: 5.h,
-                                      //     left: 10.w,
-                                      //   ),
-                                      //   child: CircleAvatar(
-                                      //     radius: 17.h,
-                                      //     backgroundColor: Colors.grey[300],
-                                      //     child: Container(
-                                      //       width: 21.h,
-                                      //       height: 21.h,
-                                      //       alignment: Alignment.center,
-                                      //       child: Text(
-                                      //         duaCount.toString(),
-                                      //         textAlign: TextAlign.center,
-                                      //         style: const TextStyle(
-                                      //             fontSize: 12,
-                                      //             color: Colors.black,
-                                      //             fontWeight: FontWeight.bold),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
                                       InkWell(
                                         onTap: () async {
                                           int duaIndex = duaProv.duaList

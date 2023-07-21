@@ -14,6 +14,8 @@ import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
 import '../../../shared/widgets/app_bar.dart';
 import '../../basics_of_quran/provider/islam_basics_provider.dart';
 import '../../quran stories/quran_stories_provider.dart';
+import '../models/recitation_all_category_model.dart';
+import 'bookmarks_recitation.dart';
 
 class RecitationAudioPlayer extends StatelessWidget {
   const RecitationAudioPlayer({Key? key}) : super(key: key);
@@ -23,10 +25,13 @@ class RecitationAudioPlayer extends StatelessWidget {
     var recitationProv = Provider.of<RecitationCategoryProvider>(context);
     List arguments = ModalRoute.of(context)!.settings.arguments! as List;
     String title = arguments[0];
-    // int surahNo = arguments[1];
-    // print("This title checked by farhan");
-    // print(title);
-    // print(surahNo);
+
+    RecitationCategoryProvider rcp =
+        Provider.of<RecitationCategoryProvider>(context);
+    Map<String, dynamic> nextDuaData = rcp.getNextDuaRecitation();
+    RecitationAllCategoryModel nextDua = nextDuaData['dua'];
+    int? fav = nextDua.isFav;
+    String duaUrl = nextDua.contentUrl.toString();
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     return WillPopScope(
@@ -39,9 +44,9 @@ class RecitationAudioPlayer extends StatelessWidget {
             context: context,
             font: 16.sp,
             title: localeText(context, "now_playing")),
-        body: Consumer3<ThemProvider, StoryAndBasicPlayerProvider,
-            AppColorsProvider>(
-          builder: (context, them, player, appColor, child) {
+        body: Consumer4<ThemProvider, StoryAndBasicPlayerProvider,
+            AppColorsProvider, RecitationCategoryProvider>(
+          builder: (context, them, player, appColor, rprovider, child) {
             return SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -66,6 +71,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                       ),
                       Text(
                         localeText(context, title),
+                        // title,
                         style: TextStyle(
                             fontSize: 18.sp,
                             color:
@@ -116,13 +122,52 @@ class RecitationAudioPlayer extends StatelessWidget {
                           const Text(""),
                           InkWell(
                             onTap: () {
-                              // if (recitationProv.selectedRecitationStory!.isFav == 0) {
-                              //   recitationProv.addFav(surahNo);
-                              //   print("Add fav surah number $surahNo");
-                              // } else {
-                              //   recitationProv.removeFavReciter(surahNo);
-                              //   print("Remove fav surah number $surahNo");
-                              // }
+                              //
+                              //
+                              //   print('Player Image is >>>>${player.image}');
+                              if (fav == 0) {
+                                rprovider.bookmark(
+                                    recitationProv
+                                        .selectedRecitationStory!.surahNo!,
+                                    1);
+                                BookmarksRecitation bookmark =
+                                    BookmarksRecitation(
+                                        recitationIndex: recitationProv
+                                            .selectedRecitationStory!.surahNo!,
+                                        catID: recitationProv
+                                            .selectedRecitationStory!
+                                            .categoryId!,
+                                        recitationName: title,
+                                        recitationRef: recitationProv
+                                            .selectedRecitationStory!.title!,
+                                        contentUrl: duaUrl,
+                                        imageUrl: player.image);
+
+                                print(
+                                    'Player Index is >>>>${recitationProv.selectedRecitationStory!.surahNo!}');
+                                print('recitationName is >>>>${title}');
+
+                                print(
+                                    'Player Ref is >>>>${recitationProv.selectedRecitationStory!.title!}');
+                                print('Player Image is >>>>${player.image}');
+
+                                context
+                                    .read<RecitationCategoryProvider>()
+                                    .addBookmark(bookmark);
+                              } else {
+                                // to change state
+                                rprovider.bookmark(
+                                    recitationProv
+                                        .selectedRecitationStory!.surahNo!,
+                                    0);
+                                context
+                                    .read<RecitationCategoryProvider>()
+                                    .removeBookmark(
+                                        recitationProv
+                                            .selectedRecitationStory!.surahNo!,
+                                        recitationProv.selectedRecitationStory!
+                                            .categoryId!);
+                              }
                             },
                             child: Container(
                               height: 23.h,
@@ -137,16 +182,12 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   height: 21.h,
                                   width: 21.w,
                                   child: CircleAvatar(
-                                    backgroundColor: recitationProv
-                                                .selectedRecitationStory ==
-                                            1
+                                    backgroundColor: fav == 1
                                         ? appColor.mainBrandingColor
                                         : Colors.white,
                                     child: Icon(
                                       Icons.favorite,
-                                      color: recitationProv
-                                                  .selectedRecitationStory! ==
-                                              1
+                                      color: fav == 1
                                           ? Colors.white
                                           : appColor.mainBrandingColor,
                                       size: 13.h,

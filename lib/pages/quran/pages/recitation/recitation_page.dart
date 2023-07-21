@@ -13,6 +13,8 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 
+import '../../../recitation_category/pages/bookmarks_recitation.dart';
+import '../../../recitation_category/provider/recitation_category_provider.dart';
 import '../../widgets/details_container_widget.dart';
 
 class RecitationPage extends StatefulWidget {
@@ -124,37 +126,90 @@ class _RecitationPageState extends State<RecitationPage> {
             Container(
                 margin: EdgeInsets.only(top: 20.h),
                 child: buildTitleContainer(localeText(context, "favorites"))),
-            Consumer<RecitationProvider>(
-              builder: (context, recitation, child) {
-                return recitation.favReciters.isNotEmpty
+            Consumer2<RecitationProvider, RecitationCategoryProvider>(
+              builder: (context, recitation, rcp, child) {
+                final bookmarkListReciter = recitation.favReciters;
+                final bookmarkListRecitation = rcp.bookmarkList;
+
+                final combinedBookmarkList = [
+                  ...bookmarkListReciter,
+                  ...bookmarkListRecitation
+                ];
+
+                return combinedBookmarkList.isNotEmpty
                     ? MediaQuery.removePadding(
                         context: context,
                         removeTop: true,
                         child: ListView.builder(
-                          itemCount: recitation.favReciters.length,
+                          itemCount: combinedBookmarkList.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            Reciters reciter = recitation.favReciters[index];
+                            final bookmark = combinedBookmarkList[index];
+
+                            String title;
+                            String subTitle;
+                            IconData icon;
+                            String imageIcon;
+
+                            if (bookmark is Reciters) {
+                              title = bookmark.reciterName ?? '';
+                              subTitle = localeText(context, "reciters");
+                              icon = Icons.bookmark;
+                              imageIcon =
+                                  "assets/images/app_icons/bookmark.png";
+                            } else if (bookmark is BookmarksRecitation) {
+                              final recitationBookmark = bookmark;
+                              title = recitationBookmark.recitationName ?? '';
+                              subTitle = localeText(context, "recitation");
+                              icon = Icons.bookmark;
+                              imageIcon =
+                                  "assets/images/app_icons/bookmark.png";
+                            } else {
+                              title = '';
+                              subTitle = '';
+                              icon = Icons.error;
+                              imageIcon = '';
+                            }
+
                             return InkWell(
                               onTap: () {
-                                recitation.getSurahName();
-                                // context.read<ReciterProvider>().resetDownloadSurahList();
-                                context
-                                    .read<ReciterProvider>()
-                                    .setReciterList(reciter.downloadSurahList!);
-                                Navigator.of(context).pushNamed(
+                                if (bookmark is Reciters) {
+                                  recitation.getSurahName();
+                                  context
+                                      .read<ReciterProvider>()
+                                      .setReciterList(
+                                          bookmark.downloadSurahList!);
+                                  Navigator.of(context).pushNamed(
                                     RouteHelper.reciter,
-                                    arguments: reciter);
+                                    arguments: bookmark,
+                                  );
+                                } else if (bookmark is BookmarksRecitation) {
+                                  Provider.of<RecitationCategoryProvider>(
+                                          context,
+                                          listen: false)
+                                      .gotoRecitationAudioPlayerPage(
+                                    bookmark.recitationIndex!,
+                                    bookmark.imageUrl!,
+                                    bookmark.recitationName!,
+                                    context,
+                                  );
+                                }
                               },
                               child: DetailsContainerWidget(
-                                title: reciter.reciterName!,
-                                subTitle: localeText(context, "reciters"),
-                                icon: Icons.bookmark,
-                                imageIcon: "assets/images/app_icons/heart.png",
+                                title: title,
+                                subTitle: subTitle,
+                                icon: icon,
+                                imageIcon: imageIcon,
                                 onTapIcon: () {
-                                  recitation
-                                      .removeFavReciter(reciter.reciterId!);
+                                  if (bookmark is Reciters) {
+                                    recitation
+                                        .removeFavReciter(bookmark.reciterId!);
+                                  } else if (bookmark is BookmarksRecitation) {
+                                    rcp.removeBookmark(
+                                        bookmark.recitationIndex!,
+                                        bookmark.catID!);
+                                  }
                                 },
                               ),
                             );
