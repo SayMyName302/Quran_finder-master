@@ -18,6 +18,7 @@ import 'package:nour_al_quran/pages/onboarding/pages/fonts_settins.dart';
 import 'package:nour_al_quran/pages/onboarding/pages/index.dart';
 import 'package:nour_al_quran/pages/paywall/paywallpage2.dart';
 import 'package:nour_al_quran/pages/paywall/upgrade_to_premimum.dart';
+import 'package:nour_al_quran/pages/popular_section/popular.dart';
 import 'package:nour_al_quran/pages/quran%20stories/pages/quran_stories_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
@@ -68,6 +69,7 @@ class RouteHelper {
   static const String paywallscreen = "/paywall";
   static const String paywallscreen2 = "/paywall2";
   static const String featured = "/featuredList";
+  static const String popular = "/popularList";
   static const String featureDetails = "/featuredDetailPage";
   static late BuildContext currentContext;
   static bool paywallVisibility = true;
@@ -183,6 +185,10 @@ class RouteHelper {
       recitationPageList: (context) {
         currentContext = context;
         return const RecitationCategoryPage1();
+      },
+      popular: (context) {
+        currentContext = context;
+        return const PopularPage();
       },
       recitationallcategory: (context) {
         currentContext = context;

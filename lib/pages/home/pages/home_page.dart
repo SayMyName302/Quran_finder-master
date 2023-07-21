@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/home/widgets/featured_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/islam_basics_section.dart';
+import 'package:nour_al_quran/pages/home/widgets/popular_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_miracles_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_stories_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/user_picture.dart';
@@ -67,6 +68,7 @@ class _HomePageState extends State<HomePage> {
                 : const SizedBox.shrink(),
             const FeaturedSection(),
             const VerseOfTheDayContainer(),
+            const PopularSection(),
 
             /// quran Stories Section
             const QuranStoriesSection(),

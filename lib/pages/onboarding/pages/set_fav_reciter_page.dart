@@ -171,34 +171,11 @@ class _SetFavReciterState extends State<SetFavReciter> {
                             },
                             child: Image.asset(
                               "assets/images/app_icons/play_mainplayer.png",
-                              height: 17.h,
-                              width: 17.w,
+                              height: 20.h,
+                              width: 20.w,
                             )),
                     SizedBox(
                       width: 9.w,
-                    ),
-                    Stack(
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          size: 17.h,
-                          color: isDark
-                              ? Colors.white
-                              : appColors.mainBrandingColor,
-                        ),
-                        Positioned(
-                            left: 0,
-                            right: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: Icon(
-                              Icons.circle,
-                              size: 9.h,
-                              color: isDark
-                                  ? appColors.mainBrandingColor
-                                  : Colors.white,
-                            ))
-                      ],
                     ),
                   ],
                 )
@@ -206,16 +183,8 @@ class _SetFavReciterState extends State<SetFavReciter> {
                   children: [
                     Image.asset(
                       "assets/images/app_icons/play_mainplayer.png",
-                      height: 17.h,
-                      width: 17.w,
-                    ),
-                    SizedBox(
-                      width: 9.w,
-                    ),
-                    Icon(
-                      Icons.circle,
-                      size: 17.h,
-                      color: AppColors.grey5,
+                      height: 20.h,
+                      width: 20.w,
                     ),
                   ],
                 )

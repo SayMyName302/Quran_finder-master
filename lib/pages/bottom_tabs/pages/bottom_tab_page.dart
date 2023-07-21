@@ -3,6 +3,7 @@ import 'package:nour_al_quran/pages/bottom_tabs/widgets/bottom_nav_widget.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
+import 'package:nour_al_quran/pages/popular_section/provider/popular_provider.dart';
 import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/provider/about_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
@@ -43,6 +44,7 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     context.read<IslamBasicsProvider>().getIslamBasics();
     context.read<FeatureProvider>().getStories();
     context.read<AboutProvider>().getInfo();
+    context.read<PopularProvider>().getStories();
     context.read<RecitationCategoryProvider>().getRecitationCategoryStories();
     Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false)
         .getMiracles();

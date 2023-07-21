@@ -33,7 +33,7 @@ class QuranMiraclesSection extends StatelessWidget {
         Consumer<LocalizationProvider>(
           builder: (context, language, child) {
             return SizedBox(
-              height: 136.h,
+              height: 150.h,
               child: Consumer<MiraclesOfQuranProvider>(
                 builder: (context, miraclesProvider, child) {
                   return ListView.builder(

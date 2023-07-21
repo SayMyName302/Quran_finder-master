@@ -70,6 +70,16 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     //_moveMiracleToEnd(index);
   }
 
+  void goToMiracleDetailsPageFromPopular(
+      String title, BuildContext context, int index) {
+    int miracleIndex =
+        _featureMiraclesList.indexWhere((element) => element.title == title);
+    _selectedMiracle = _featureMiraclesList[miracleIndex];
+    notifyListeners();
+    Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
+    //_moveMiracleToEnd(index);
+  }
+
   void setVideoFile(File video) {
     _videoUrl = video;
     notifyListeners();

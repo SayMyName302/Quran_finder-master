@@ -60,22 +60,6 @@ class FontPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10.h),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      'رَبَّنَآ ءَاتِنَا فِى ٱلدُّنْيَا حَسَنَةً وَفِى ٱلْءَاخِرَةِ حَسَنَةً وَقِنَا عَذَابَ ٱلنَّارِ',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: fontProvider.currentFont,
-                        fontSize: fontProvider.fontSizeAr,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
                   SizedBox(height: 16.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,6 +81,23 @@ class FontPage extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(height: 16.h),
+                  Container(
+                    padding: EdgeInsets.all(10.h),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      'رَبَّنَآ ءَاتِنَا فِى ٱلدُّنْيَا حَسَنَةً وَفِى ٱلْءَاخِرَةِ حَسَنَةً وَقِنَا عَذَابَ ٱلنَّارِ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: fontProvider.currentFont,
+                        fontSize: fontProvider.fontSizeAr,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
                   SizedBox(height: 16.h),
                   SliderTheme(
