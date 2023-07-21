@@ -225,7 +225,7 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
                     localization.locale.languageCode == lang.languageCode
                         ? Icons.check_circle
                         : Icons.circle,
-                    size: 17.h,
+                    size: 23.h,
                     color: localization.locale.languageCode == lang.languageCode
                         ? isDark
                             ? Colors.white

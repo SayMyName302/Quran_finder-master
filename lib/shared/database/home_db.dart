@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/models/miracles.dart';
+import 'package:nour_al_quran/pages/popular_section/models/PopularModel';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/model/about_model.dart';
@@ -24,6 +25,7 @@ class HomeDb {
   final String _appinfo = "app_info";
   final String _recitationCategoryTb = "recitation_category";
   final String _recitationAllTb = "recitation_all";
+  final String _popular = "popular_recitation";
 
   initDb() async {
     var dbPath = await getDatabasesPath();
@@ -128,6 +130,20 @@ class HomeDb {
     //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       feature.add(FeaturedModel.fromJson(map));
+    }
+    // print(
+    //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
+    return feature;
+  }
+
+  Future<List<PopularModelClass>> getPopular() async {
+    List<PopularModelClass> feature = [];
+    _database = await openDb();
+    var table = await _database!.query(_popular, orderBy: 'order_by');
+    // print(
+    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      feature.add(PopularModelClass.fromJson(map));
     }
     // print(
     //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list

@@ -1,0 +1,60 @@
+import 'package:hive_flutter/adapters.dart';
+import 'package:nour_al_quran/shared/utills/app_constants.dart';
+
+class PopularModelClass {
+  int? _surahId;
+  String? _title;
+  String? _image;
+  String? _audioUrl;
+  String? _text;
+  String? _videoUrl;
+  String? _contentType;
+  String? _status; // New field: status
+  String? _reference; // New field: reference
+
+  int? get surahId => _surahId;
+  String? get title => _title;
+  String? get image => _image;
+  String? get videoUrl => _videoUrl;
+  String? get audioUrl => _audioUrl;
+  String? get text => _text;
+  String? get contentType => _contentType;
+  String? get status => _status; // New getter for status
+  String? get reference => _reference; // New getter for reference
+
+  PopularModelClass({
+    required title,
+    required surahId,
+    required storyTitle,
+    required image,
+    required audio,
+    required text,
+    required video,
+    required contentType,
+    required status, // New parameter: status
+    required reference, // New parameter: reference
+  }) {
+    _title = title;
+    _surahId = surahId;
+    _image = image;
+    _audioUrl = audio;
+    _text = text;
+    _videoUrl = video;
+    _contentType = contentType;
+    _status = status; // Assign the value to the status field
+    _reference = reference; // Assign the value to the reference field
+  }
+
+  PopularModelClass.fromJson(Map<String, dynamic> json) {
+    _title = json['title'];
+    _surahId = json['surah_id'];
+    _image = json['image_url'];
+    _audioUrl = json['content_url'];
+    _text = json[Hive.box(appBoxKey).get(miraclesTranslationKey) ?? 'text'];
+    _text = json['text'];
+    _videoUrl = json['content_url'];
+    _contentType = json['content_type'];
+    _status = json['status']; // Assign the value to the status field
+    _reference = json['reference']; // Assign the value to the reference field
+  }
+}

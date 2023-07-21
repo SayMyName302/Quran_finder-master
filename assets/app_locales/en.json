@@ -21,7 +21,7 @@
   "arabic": "Arabic",
   "translation": "Translation",
   "translation_language": "Translation Language",
-  "quran_text_size": "Quran Text Size",
+  "quran_text_size": "Arabic Font Preview",
   "translation_text_size": "Translation Text Size",
   "save_settings": "SAVE SETTINGS",
   "dua_categories": "Dua Categories",
@@ -477,8 +477,17 @@
   "sheikh_yasser_al-dosari": "Sheikh Yasser Al-Dosari",
   "customize_fonts": "Customize Font",
   "sheikh_abdullah_kamel": "Sheikh Abdullah Kamel",
-  "raad_muhammad_al-kurdi":"Raad Muhammad Al-Kurdi",
+  "raad_muhammad_al-kurdi": "Raad Muhammad Al-Kurdi",
   "fares_abbad": "Fares Abbad",
   "sheikh_nasser_al_qatami": "Sheikh Nasser Al Qatami",
-  "islam_sobhi": "Islam Sobhi"
+  "islam_sobhi": "Islam Sobhi",
+  "popular": "Popular Recitations",
+  "sheikh_mishary_rashid_alafasy": "Sheikh Mishary Rashid Alafsay",
+  "sheikh_saad_al-ghamdi": "Sheikh Saad Al Ghamdi",
+  "sheikh_abdul_rahman_al-sudais": "Sheikh Abdul Rahman Al-Sudais",
+  "surah_al_balad": "Surah Al-Balad",
+  "surah_ash_shams": "Surah Ash Shams",
+  "surah_ad_duha": "Surah Ad Duha",
+  "surah_ar_rehman": "Surah Ar Rehman",
+  "surah_al_mulk": "Surah Al Mulk"
 }

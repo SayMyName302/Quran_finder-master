@@ -60,7 +60,7 @@ class OnBoardingProvider extends ChangeNotifier {
       isPlaying: false,
       audioUrl: "assets/audios/fav_reciters/Mishary Al Afsay.mp3",
       reciterId: 10,
-      imageUrl: "assets/images/app_icons/qari3.jpg",
+      imageUrl: "assets/images/app_icons/qari3.webp",
     ),
     FavReciter(
       title: "Sheikh Maher Muaqily",

@@ -35,7 +35,7 @@ class IslamBasicsSection extends StatelessWidget {
         Consumer<LocalizationProvider>(
           builder: (context, language, child) {
             return SizedBox(
-              height: 136.h,
+              height: 150.h,
               child: Consumer<IslamBasicsProvider>(
                 builder: (context, islamBasicProvider, child) {
                   return ListView.builder(
