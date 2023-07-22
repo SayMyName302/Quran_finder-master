@@ -10,7 +10,6 @@ import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
-import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../recitation_category/pages/bookmarks_recitation.dart';
@@ -189,11 +188,14 @@ class _RecitationPageState extends State<RecitationPage> {
                                           context,
                                           listen: false)
                                       .gotoRecitationAudioPlayerPage(
+                                    bookmark.catID!,
                                     bookmark.recitationIndex!,
                                     bookmark.imageUrl!,
-                                    bookmark.recitationName!,
                                     context,
                                   );
+                                  Navigator.of(context).pushNamed(
+                                      RouteHelper.recitationAudioPlayer,
+                                      arguments: [title]);
                                 }
                               },
                               child: DetailsContainerWidget(

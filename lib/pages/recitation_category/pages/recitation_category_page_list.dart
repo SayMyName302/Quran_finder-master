@@ -13,8 +13,8 @@ class RecitationCategoryPageList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int network = Provider.of<int>(context);
-    print("Test By Farhan");
+    // int network = Provider.of<int>(context);
+    // print("Test By Farhan");
     return Expanded(
       child: Consumer<RecitationCategoryProvider>(
         builder: (context, recitationProvider, child) {
@@ -28,11 +28,12 @@ class RecitationCategoryPageList extends StatelessWidget {
                   itemBuilder: (context, index) {
                     RecitationCategoryModel model =
                         recitationProvider.recitationCategory[index];
-                    print(recitationProvider.recitationCategory.length);
+                    print(
+                        'list length ${recitationProvider.selectedRecitationAll.length}');
                     return InkWell(
                       onTap: () {
                         recitationProvider
-                            .getSelectedRecitationAll(model.categoryId as int);
+                            .getSelectedRecitationAll(model.categoryId!);
                         Navigator.of(context).pushNamed(
                           RouteHelper.recitationallcategory,
                           arguments: [

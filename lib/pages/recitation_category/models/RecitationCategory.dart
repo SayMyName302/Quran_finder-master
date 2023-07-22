@@ -1,6 +1,3 @@
-import 'package:hive_flutter/adapters.dart';
-import 'package:nour_al_quran/shared/utills/app_constants.dart';
-
 class RecitationCategoryModel {
   int? _categoryId;
   String? _categoryName;

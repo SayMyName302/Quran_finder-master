@@ -118,7 +118,7 @@ class DuaPage extends StatelessWidget {
                           itemCount: duaProvider.duaList.length,
                           itemBuilder: (context, index) {
                             Dua dua = duaProvider.duaList[index];
-                            duaProvider.duaList[index].translations.toString();
+                           // duaProvider.duaList[index].translations.toString();
                             String duaCount = dua.ayahCount.toString();
 
                             return InkWell(

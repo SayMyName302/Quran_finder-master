@@ -7,6 +7,7 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/localization/localization_constants.dart';
+import '../../../shared/routes/routes_helper.dart';
 import '../provider/recitation_category_provider.dart';
 
 class RecitationAllCategory extends StatelessWidget {
@@ -123,16 +124,20 @@ class RecitationAllCategory extends StatelessWidget {
                           itemBuilder: (context, index) {
                             RecitationAllCategoryModel recitationModels =
                                 recitationProvider.selectedRecitationAll[index];
+                                
 
                             return InkWell(
                               onTap: () {
                                 recitationProvider
                                     .gotoRecitationAudioPlayerPage(
+                                      recitationModels.categoryId!,
                                   recitationModels.surahNo!,
                                   imageURl,
-                                  title,
                                   context,
                                 );
+                                Navigator.of(context).pushNamed(
+                                    RouteHelper.recitationAudioPlayer,
+                                    arguments: [title]);
                                 analytics.logEvent(
                                   name: 'recitation_category_listview',
                                   parameters: {

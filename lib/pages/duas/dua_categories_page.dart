@@ -28,8 +28,8 @@ class DuaCategoriesPage extends StatelessWidget {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   //  mainAxisSpacing:
-                  //      4.0, // Adjust the main axis spacing as desired
-                  // crossAxisSpacing: 4.0, // Add cross axis spacing if needed
+                  //      4.0,
+                  // crossAxisSpacing: 4.0,
                 ),
                 itemBuilder: (context, index) {
                   DuaCategory duaCategory = duaValue.duaCategoryList[index];

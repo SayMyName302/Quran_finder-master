@@ -6,9 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../shared/database/home_db.dart';
 import '../../../shared/database/quran_db.dart';
-import '../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
-import '../../../shared/routes/routes_helper.dart';
 import '../pages/bookmarks_recitation.dart';
 
 class RecitationCategoryProvider extends ChangeNotifier {
@@ -73,15 +71,15 @@ class RecitationCategoryProvider extends ChangeNotifier {
   }
 
   gotoRecitationAudioPlayerPage(
-      int surahNo, imageUrl, String title, BuildContext context) {
+      int duaCategoryId,int surahNo, imageUrl,BuildContext context) async{
+  _selectedRecitationAll = [];
+    _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
     _currentRecitationIndex = _selectedRecitationAll
         .indexWhere((element) => element.surahNo == surahNo);
     _selectedRecitationStory = _selectedRecitationAll[_currentRecitationIndex];
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(
             _selectedRecitationStory!.contentUrl!, imageUrl!, context);
-    Navigator.of(context).pushNamed(RouteHelper.recitationAudioPlayer,
-        arguments: [title, surahNo]);
     notifyListeners();
   }
 

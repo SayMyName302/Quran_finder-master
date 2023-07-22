@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
@@ -12,8 +11,6 @@ import 'package:provider/provider.dart';
 
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
 import '../../../shared/widgets/app_bar.dart';
-import '../../basics_of_quran/provider/islam_basics_provider.dart';
-import '../../quran stories/quran_stories_provider.dart';
 import '../models/recitation_all_category_model.dart';
 import 'bookmarks_recitation.dart';
 
@@ -123,39 +120,47 @@ class RecitationAudioPlayer extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               //
+                              int duaIndex = recitationProv
+                                  .selectedRecitationAll
+                                  .indexWhere((element) =>
+                                      element.contentUrl == duaUrl);
+                              int indx = recitationProv
+                                  .selectedRecitationAll[duaIndex].surahNo!;
+                              int? categoryId = recitationProv
+                                  .selectedRecitationAll[duaIndex].categoryId;
+                              print('testing recIndex >>>> $duaIndex');
+                              print('testing Ind >>>> $indx');
+                              print('testing categoryID >>>> $categoryId');
                               //
-                              //   print('Player Image is >>>>${player.image}');
-                              if (fav == 0) {
+                              //
+                              if (fav == 0 || fav == null) {
                                 rprovider.bookmark(
                                     recitationProv
                                         .selectedRecitationStory!.surahNo!,
                                     1);
                                 BookmarksRecitation bookmark =
                                     BookmarksRecitation(
-                                        recitationIndex: recitationProv
-                                            .selectedRecitationStory!.surahNo!,
-                                        catID: recitationProv
-                                            .selectedRecitationStory!
-                                            .categoryId!,
+                                        recitationIndex: indx,
+                                        catID: categoryId,
                                         recitationName: title,
+                                        //recitationProv.selectedRecitationStory!.reference!
                                         recitationRef: recitationProv
-                                            .selectedRecitationStory!.title!,
+                                            .selectedRecitationStory!
+                                            .reference!,
                                         contentUrl: duaUrl,
                                         imageUrl: player.image);
 
                                 print(
-                                    'Player Index is >>>>${recitationProv.selectedRecitationStory!.surahNo!}');
-                                print('recitationName is >>>>${title}');
-
+                                    'Recitation Index is >>>>${recitationProv.selectedRecitationStory!.surahNo!}');
                                 print(
-                                    'Player Ref is >>>>${recitationProv.selectedRecitationStory!.title!}');
-                                print('Player Image is >>>>${player.image}');
-
+                                    'Recitation CatID is >>>>${recitationProv.selectedRecitationStory!.categoryId!}');
+                                print('recitationName is >>>>$title');
+                                print(
+                                    'RecitationRef is >>>>${recitationProv.selectedRecitationStory!.reference!}');
                                 context
                                     .read<RecitationCategoryProvider>()
                                     .addBookmark(bookmark);
                               } else {
-                                // to change state
                                 rprovider.bookmark(
                                     recitationProv
                                         .selectedRecitationStory!.surahNo!,
