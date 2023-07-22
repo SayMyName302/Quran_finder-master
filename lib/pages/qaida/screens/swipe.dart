@@ -21,11 +21,6 @@ import 'package:nour_al_quran/pages/qaida/screens/page18.dart';
 import 'package:nour_al_quran/pages/qaida/screens/page19.dart';
 import 'package:nour_al_quran/pages/qaida/screens/pageindex.dart';
 import 'package:nour_al_quran/pages/qaida/screens/qaidaplayer.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:provider/provider.dart';
-
-import '../../../shared/widgets/app_bar.dart';
-import '../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 
 class SwipePages extends StatefulWidget {
   final int initialPage;
@@ -115,7 +110,7 @@ class SwipePagesState extends State<SwipePages> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomTabProvider = Provider.of<BottomTabsPageProvider>(context);
+    // final bottomTabProvider = Provider.of<BottomTabsPageProvider>(context);
     final isRTL =
         ['ar', 'ur'].contains(Localizations.localeOf(context).languageCode);
 
@@ -129,12 +124,12 @@ class SwipePagesState extends State<SwipePages> {
     );
 
     return Scaffold(
-      appBar: buildQaidaAppBar(
-        context: context,
-        title: localeText(context, 'qaida'),
-        showBackButton: true,
-        bottomTabProvider: bottomTabProvider,
-      ),
+      // appBar: buildQaidaAppBar(
+      //   context: context,
+      //   title: localeText(context, 'qaida'),
+      //   showBackButton: true,
+      //   bottomTabProvider: bottomTabProvider,
+      // ),
       body: isRTL
           ? Directionality(textDirection: TextDirection.ltr, child: pageView)
           : pageView,

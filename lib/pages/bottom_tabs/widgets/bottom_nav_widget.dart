@@ -32,50 +32,48 @@ class BottomNavWidget extends StatelessWidget {
                 visible: currentPage != 2,
                 child: const MiniPlayer(),
               ),
-              Visibility(
-                visible: currentPage != 2,
-                child: BottomNavigationBar(
-                  items: [
-                    BottomNavigationBarItem(
-                        label: localeText(context, 'home'),
-                        icon: _buildIcon('assets/images/app_icons/home.png')),
-                    BottomNavigationBarItem(
-                        label: localeText(context, 'quran'),
-                        icon: _buildIcon(
-                            'assets/images/app_icons/quran_icon.png')),
-                    BottomNavigationBarItem(
-                        label: localeText(context, 'qaida'),
-                        icon: _buildIcon(
-                            'assets/images/app_icons/qaidaiconnew.png')),
-                    BottomNavigationBarItem(
-                        label: localeText(context, 'discover'),
-                        icon:
-                            _buildIcon('assets/images/app_icons/explore.png')),
-                    // BottomNavigationBarItem(
-                    //     label: "Qaida",
-                    //     icon: buildIcon('assets/images/app_icons/qaida_icon.png')),
-                    BottomNavigationBarItem(
-                        label: localeText(context, 'profile'),
-                        icon:
-                            _buildIcon('assets/images/app_icons/profile.png')),
-                  ],
-                  // backgroundColor: Colors.white,
-                  currentIndex: bottomTabProvider.currentPage,
-                  iconSize: 16.h,
-                  type: BottomNavigationBarType.fixed,
-                  showUnselectedLabels: true,
-                  selectedIconTheme: IconThemeData(size: 18.h),
-                  selectedItemColor: appColors.mainBrandingColor,
-                  unselectedItemColor: AppColors.grey3,
-                  selectedLabelStyle:
-                      TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
-                  unselectedLabelStyle:
-                      TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
-                  onTap: (page) async {
-                    bottomTabProvider.setCurrentPage(page);
-                    context.read<QuranProvider>().setCurrentPage(0);
-                  },
-                ),
+              // Visibility(
+              //   visible: currentPage != 2,
+              //   child: BottomNavigationBar(
+              BottomNavigationBar(
+                items: [
+                  BottomNavigationBarItem(
+                      label: localeText(context, 'home'),
+                      icon: _buildIcon('assets/images/app_icons/home.png')),
+                  BottomNavigationBarItem(
+                      label: localeText(context, 'quran'),
+                      icon:
+                          _buildIcon('assets/images/app_icons/quran_icon.png')),
+                  BottomNavigationBarItem(
+                      label: localeText(context, 'qaida'),
+                      icon: _buildIcon(
+                          'assets/images/app_icons/qaidaiconnew.png')),
+                  BottomNavigationBarItem(
+                      label: localeText(context, 'discover'),
+                      icon: _buildIcon('assets/images/app_icons/explore.png')),
+                  // BottomNavigationBarItem(
+                  //     label: "Qaida",
+                  //     icon: buildIcon('assets/images/app_icons/qaida_icon.png')),
+                  BottomNavigationBarItem(
+                      label: localeText(context, 'profile'),
+                      icon: _buildIcon('assets/images/app_icons/profile.png')),
+                ],
+                // backgroundColor: Colors.white,
+                currentIndex: bottomTabProvider.currentPage,
+                iconSize: 16.h,
+                type: BottomNavigationBarType.fixed,
+                showUnselectedLabels: true,
+                selectedIconTheme: IconThemeData(size: 18.h),
+                selectedItemColor: appColors.mainBrandingColor,
+                unselectedItemColor: AppColors.grey3,
+                selectedLabelStyle:
+                    TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
+                unselectedLabelStyle:
+                    TextStyle(fontFamily: 'satoshi', fontSize: 12.5.sp),
+                onTap: (page) async {
+                  bottomTabProvider.setCurrentPage(page);
+                  context.read<QuranProvider>().setCurrentPage(0);
+                },
               )
             ],
           ),

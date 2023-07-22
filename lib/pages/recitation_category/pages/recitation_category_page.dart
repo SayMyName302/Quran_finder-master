@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../shared/localization/localization_constants.dart';
 
 import '../../home/widgets/home_row_widget.dart';
+import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import '../provider/recitation_category_provider.dart';
 
 class RecitationCategorySection extends StatelessWidget {
@@ -53,6 +54,12 @@ class RecitationCategorySection extends StatelessWidget {
                         // print(model.imageURl);
                         return InkWell(
                           onTap: () {
+                            Future.delayed(
+                              Duration.zero,
+                              () => context
+                                  .read<RecitationPlayerProvider>()
+                                  .pause(context),
+                            );
                             recitationProvider.getSelectedRecitationAll(
                                 model.categoryId as int);
                             analytics.logEvent(
