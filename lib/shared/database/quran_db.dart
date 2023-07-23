@@ -661,7 +661,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     database = await openDb();
     await database!.rawUpdate(
         "update $_reciteAllTable set is_favorite = 1 where surah_id = $reciteId");
-    print('reciter Added Index is>>: $reciteId');
+    // print('reciter Added Index is>>: $reciteId');
   }
 
   //delete bookmark
@@ -669,7 +669,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     database = await openDb();
     await database!.rawUpdate(
         "update $_reciteAllTable set is_favorite = 0 where surah_id = $reciteId AND category_id = $reciteCategory");
-    print('reciter Removed Index is>>: $reciteId ,cat ID >> $reciteCategory');
+    // print('reciter Removed Index is>>: $reciteId ,cat ID >> $reciteCategory');
   }
 
   Future<List<RecitationAllCategoryModel>> getRecitationBookmarks() async {

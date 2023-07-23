@@ -152,7 +152,7 @@ class DuaDetail extends StatelessWidget {
                                                   duaProv.duaCategoryList);
                                           int duaNo =
                                               duaProv.duaList[duaIndex].duaNo!;
-                                          if (fav == 0) {
+                                          if (fav == 0 || fav == null) {
                                             duaProv.bookmark(duaIndex, 1);
                                             BookmarksDua bookmark =
                                                 BookmarksDua(
