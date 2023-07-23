@@ -29,6 +29,7 @@ class RecitationAudioPlayer extends StatelessWidget {
     RecitationAllCategoryModel nextDua = nextDuaData['dua'];
     int? fav = nextDua.isFav;
     String duaUrl = nextDua.contentUrl.toString();
+    String reference = nextDua.reference.toString();
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     return WillPopScope(
@@ -119,57 +120,39 @@ class RecitationAudioPlayer extends StatelessWidget {
                           const Text(""),
                           InkWell(
                             onTap: () {
-                              //
-                              int duaIndex = recitationProv
+                              int recitationIndex = recitationProv
                                   .selectedRecitationAll
                                   .indexWhere((element) =>
-                                      element.contentUrl == duaUrl);
+                                      element.reference == reference);
                               int indx = recitationProv
-                                  .selectedRecitationAll[duaIndex].surahNo!;
+                                  .selectedRecitationAll[recitationIndex]
+                                  .surahId!;
                               int? categoryId = recitationProv
-                                  .selectedRecitationAll[duaIndex].categoryId;
-                              print('testing recIndex >>>> $duaIndex');
-                              print('testing Ind >>>> $indx');
-                              print('testing categoryID >>>> $categoryId');
-                              //
-                              //
+                                  .selectedRecitationAll[recitationIndex]
+                                  .categoryId;
+
                               if (fav == 0 || fav == null) {
-                                rprovider.bookmark(
-                                    recitationProv
-                                        .selectedRecitationStory!.surahNo!,
-                                    1);
+                                rprovider.bookmark(recitationIndex, 1);
                                 BookmarksRecitation bookmark =
                                     BookmarksRecitation(
                                         recitationIndex: indx,
                                         catID: categoryId,
                                         recitationName: title,
-                                        //recitationProv.selectedRecitationStory!.reference!
                                         recitationRef: recitationProv
                                             .selectedRecitationStory!
                                             .reference!,
                                         contentUrl: duaUrl,
                                         imageUrl: player.image);
 
-                                print(
-                                    'Recitation Index is >>>>${recitationProv.selectedRecitationStory!.surahNo!}');
-                                print(
-                                    'Recitation CatID is >>>>${recitationProv.selectedRecitationStory!.categoryId!}');
-                                print('recitationName is >>>>$title');
-                                print(
-                                    'RecitationRef is >>>>${recitationProv.selectedRecitationStory!.reference!}');
                                 context
                                     .read<RecitationCategoryProvider>()
                                     .addBookmark(bookmark);
                               } else {
-                                rprovider.bookmark(
-                                    recitationProv
-                                        .selectedRecitationStory!.surahNo!,
-                                    0);
+                                rprovider.bookmark(recitationIndex, 0);
                                 context
                                     .read<RecitationCategoryProvider>()
                                     .removeBookmark(
-                                        recitationProv
-                                            .selectedRecitationStory!.surahNo!,
+                                        indx,
                                         recitationProv.selectedRecitationStory!
                                             .categoryId!);
                               }

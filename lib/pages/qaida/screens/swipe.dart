@@ -123,43 +123,45 @@ class SwipePagesState extends State<SwipePages> {
       children: _list,
     );
 
-    return Scaffold(
-      // appBar: buildQaidaAppBar(
-      //   context: context,
-      //   title: localeText(context, 'qaida'),
-      //   showBackButton: true,
-      //   bottomTabProvider: bottomTabProvider,
-      // ),
-      body: isRTL
-          ? Directionality(textDirection: TextDirection.ltr, child: pageView)
-          : pageView,
-      bottomNavigationBar: SizedBox(
-        height: 160,
-        child: QaidaPlayer(
-          clearstate: _stopPageAudios,
-          stopAudio: fetchstop,
-          updateLoopVal: _loop,
-          playButton: fetchList,
-          toggleLoop: toggleLoop,
-          selectWords: selectWords,
-          skipNext: onSkipButtonPressed,
-          skipPrevious: onPreviousButtonPressed,
-          isAudioPlaying: _isPlaying && !_isPaused,
-          updateMultipleSelectionEnabled: _isMultipleSelectionEnabled,
-          selectedIndex: _currentPageIndex,
-          onIndexPressed: () async {
-            final selectedPage = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        QaidaPageIndex(selectedIndex: _currentPageIndex)));
+    return SafeArea(
+      child: Scaffold(
+        // appBar: buildQaidaAppBar(
+        //   context: context,
+        //   title: localeText(context, 'qaida'),
+        //   showBackButton: true,
+        //   bottomTabProvider: bottomTabProvider,
+        // ),
+        body: isRTL
+            ? Directionality(textDirection: TextDirection.ltr, child: pageView)
+            : pageView,
+        bottomNavigationBar: SizedBox(
+          height: 160,
+          child: QaidaPlayer(
+            clearstate: _stopPageAudios,
+            stopAudio: fetchstop,
+            updateLoopVal: _loop,
+            playButton: fetchList,
+            toggleLoop: toggleLoop,
+            selectWords: selectWords,
+            skipNext: onSkipButtonPressed,
+            skipPrevious: onPreviousButtonPressed,
+            isAudioPlaying: _isPlaying && !_isPaused,
+            updateMultipleSelectionEnabled: _isMultipleSelectionEnabled,
+            selectedIndex: _currentPageIndex,
+            onIndexPressed: () async {
+              final selectedPage = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          QaidaPageIndex(selectedIndex: _currentPageIndex)));
 
-            // ignore: use_build_context_synchronously
-            Navigator.pop(context);
-            if (selectedPage != null) {
-              controller.jumpToPage(selectedPage);
-            }
-          },
+              // ignore: use_build_context_synchronously
+              Navigator.pop(context);
+              if (selectedPage != null) {
+                controller.jumpToPage(selectedPage);
+              }
+            },
+          ),
         ),
       ),
     );

@@ -120,7 +120,7 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                           ),
                         ),
                         SizedBox(
-                          width: 5.h,
+                          width: 8.h,
                         ),
                         InkWell(
                           onTap: () {
@@ -175,8 +175,8 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                           },
                           child: Image.asset(
                             'assets/images/app_icons/info.png',
-                            height: 15.h,
-                            width: 15.w,
+                            height: 18.h,
+                            width: 18.w,
                           ),
                         ),
 

@@ -45,24 +45,6 @@ class RecitationCategoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // gotoRecitationPlayerPage(
-  //     int duaCategoryId,imageUrl, String duaText, BuildContext context) async {
-  //   _selectedRecitationAll = [];
-  //   _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
-  //   if (_selectedRecitationAll.isNotEmpty) {
-  //     _currentRecitationIndex = _selectedRecitationAll
-  //         .indexWhere((element) => element.title == duaText);
-  //     if (currentRecitationIndex != -1) {
-  //       _selectedRecitationStory =
-  //           _selectedRecitationAll[_currentRecitationIndex];
-  //       // ignore: use_build_context_synchronously
-  //       Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
-  //           .initAudioPlayer(_selectedRecitationStory!.contentUrl!,imageUrl, context);
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
-
   Map<String, dynamic> getNextDuaRecitation() {
     return {
       'index': _currentRecitationIndex + 1,
@@ -71,16 +53,20 @@ class RecitationCategoryProvider extends ChangeNotifier {
   }
 
   gotoRecitationAudioPlayerPage(
-      int duaCategoryId,int surahNo, imageUrl,BuildContext context) async{
-  _selectedRecitationAll = [];
+      int duaCategoryId, int surahId, imageUrl, BuildContext context) async {
+    _selectedRecitationAll = [];
     _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
-    _currentRecitationIndex = _selectedRecitationAll
-        .indexWhere((element) => element.surahNo == surahNo);
-    _selectedRecitationStory = _selectedRecitationAll[_currentRecitationIndex];
-    Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
-        .initAudioPlayer(
-            _selectedRecitationStory!.contentUrl!, imageUrl!, context);
-    notifyListeners();
+    if (_selectedRecitationAll.isNotEmpty) {
+      _currentRecitationIndex = _selectedRecitationAll
+          .indexWhere((element) => element.surahId == surahId);
+      _selectedRecitationStory =
+          _selectedRecitationAll[_currentRecitationIndex];
+      // ignore: use_build_context_synchronously
+      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
+          .initAudioPlayer(
+              _selectedRecitationStory!.contentUrl!, imageUrl!, context);
+      notifyListeners();
+    }
   }
 
   void removeBookmark(int duaId, int categoryId) {
@@ -101,7 +87,9 @@ class RecitationCategoryProvider extends ChangeNotifier {
   }
 
   void bookmark(int duaId, int value) {
-    _selectedRecitationStory!.setIsBookmark = value;
+    _selectedRecitationAll[duaId].setIsBookmark = value;
+    // print(
+    //     'inside Provider adding bookmark:>>>>>>>>>>>>${_selectedRecitationAll[duaId]}');
     notifyListeners();
   }
 }

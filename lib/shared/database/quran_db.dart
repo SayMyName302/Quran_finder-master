@@ -634,7 +634,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     database = await openDb();
     await database!.rawUpdate(
         "update $_rduaAllTable set is_fav = 1 where ruqyah_id = $duaId");
-    //print('DuaID is: $duaId');
   }
 
   //delete bookmark
@@ -642,9 +641,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     database = await openDb();
     await database!.rawUpdate(
         "update $_rduaAllTable set is_fav = 0 where ruqyah_id = $duaId AND category_id = $rCategory ");
-    // print('DuaID removed is: $duaId');
-    // print(
-    //     'QuranDatabase :::::            removed     DuaID is: $duaId DuaCat is: $rCategory');
   }
 
   Future<List<Ruqyah>> getRduaBookmarks() async {
@@ -674,8 +670,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     await database!.rawUpdate(
         "update $_reciteAllTable set is_favorite = 0 where surah_id = $reciteId AND category_id = $reciteCategory");
     print('reciter Removed Index is>>: $reciteId ,cat ID >> $reciteCategory');
-    // print(
-    //     'QuranDatabase :::::            removed     DuaID is: $reciteId DuaCat is: $reciteCategory');
   }
 
   Future<List<RecitationAllCategoryModel>> getRecitationBookmarks() async {
@@ -687,7 +681,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
       var ayahText = RecitationAllCategoryModel.fromJson(rows);
       quranTextList.add(ayahText);
     }
-    // print('getAllRecitersFavFromDATABASE${quranTextList.toString()}');
     return quranTextList;
   }
   //----------

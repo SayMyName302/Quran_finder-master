@@ -124,14 +124,13 @@ class RecitationAllCategory extends StatelessWidget {
                           itemBuilder: (context, index) {
                             RecitationAllCategoryModel recitationModels =
                                 recitationProvider.selectedRecitationAll[index];
-                                
 
                             return InkWell(
                               onTap: () {
                                 recitationProvider
                                     .gotoRecitationAudioPlayerPage(
-                                      recitationModels.categoryId!,
-                                  recitationModels.surahNo!,
+                                  recitationModels.categoryId!,
+                                  recitationModels.surahId!,
                                   imageURl,
                                   context,
                                 );
