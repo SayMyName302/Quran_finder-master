@@ -48,7 +48,7 @@ class RecitationCategorySection extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       try {
-                        RecitationCategoryModel model =
+                        TranquilTalesCategoryModel model =
                             recitationProvider.recitationCategory[index];
                         // print(model.categoryName);
                         // print(model.imageURl);

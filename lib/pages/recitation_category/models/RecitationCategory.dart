@@ -1,4 +1,4 @@
-class RecitationCategoryModel {
+class TranquilTalesCategoryModel {
   int? _categoryId;
   String? _categoryName;
   String? _imageURl;
@@ -13,7 +13,7 @@ class RecitationCategoryModel {
 
   // Getter for content_type
 
-  RecitationCategoryModel({
+  TranquilTalesCategoryModel({
     required categoryId,
     required categoryName,
     required imageURl,
@@ -27,7 +27,7 @@ class RecitationCategoryModel {
     _viewOrderBy = viewOrderBy;
   }
 
-  RecitationCategoryModel.fromJson(Map<String, dynamic> json) {
+  TranquilTalesCategoryModel.fromJson(Map<String, dynamic> json) {
     _categoryId = json['category_id'];
     _categoryName = json['category_name'];
     _imageURl = json['image_url'];

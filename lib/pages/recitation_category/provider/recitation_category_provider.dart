@@ -12,8 +12,9 @@ import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
 import '../pages/bookmarks_recitation.dart';
 
 class RecitationCategoryProvider extends ChangeNotifier {
-  List<RecitationCategoryModel> _recitationCategory = [];
-  List<RecitationCategoryModel> get recitationCategory => _recitationCategory;
+  List<TranquilTalesCategoryModel> _recitationCategory = [];
+  List<TranquilTalesCategoryModel> get recitationCategory =>
+      _recitationCategory;
 
   List<RecitationAllCategoryModel> _recitationAll = [];
   List<RecitationAllCategoryModel> get recitationAll => _recitationAll;

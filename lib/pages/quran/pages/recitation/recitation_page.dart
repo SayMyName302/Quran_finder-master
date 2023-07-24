@@ -68,6 +68,7 @@ class _RecitationPageState extends State<RecitationPage> {
                 ),
               ],
             ),
+
             // const RecitationCategorySection(),
             Consumer<RecitationProvider>(
               builder: (context, recitersValue, child) {

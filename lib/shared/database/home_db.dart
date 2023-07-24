@@ -150,14 +150,14 @@ class HomeDb {
     return feature;
   }
 
-  Future<List<RecitationCategoryModel>> getRecitationCategory() async {
-    List<RecitationCategoryModel> recitationCategory = [];
+  Future<List<TranquilTalesCategoryModel>> getRecitationCategory() async {
+    List<TranquilTalesCategoryModel> recitationCategory = [];
     _database = await openDb();
     var table = await _database!.query(_recitationCategoryTb);
     print(
         "Table Length of recitation Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
-      recitationCategory.add(RecitationCategoryModel.fromJson(map));
+      recitationCategory.add(TranquilTalesCategoryModel.fromJson(map));
     }
     print(
         "Recitation Category Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
