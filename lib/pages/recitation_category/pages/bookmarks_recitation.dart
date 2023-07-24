@@ -48,8 +48,8 @@ class BookmarksRecitation {
     };
   }
 
-  @override
-  String toString() {
-    return 'BookmarkRecitation $_imageUrl,';
-  }
+  // @override
+  // String toString() {
+  //   return 'BookmarkRecitation $_imageUrl,';
+  // }
 }

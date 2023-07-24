@@ -45,11 +45,11 @@ class RecitationCategoryProvider extends ChangeNotifier {
   void addOrRemoveBookmark(BookmarksRecitation bookmarks) {
     if (!_bookmarkListTest.any(
         (element) => element.recitationIndex == bookmarks.recitationIndex)) {
-      print('adding');
+      // print('adding');
       _bookmarkListTest.add(bookmarks);
       Hive.box("myBox").put("bookmarksrecite", jsonEncode(_bookmarkListTest));
     } else {
-      print('removing');
+      // print('removing');
       _bookmarkListTest.removeWhere(
           (element) => element.recitationIndex == bookmarks.recitationIndex);
       Hive.box("myBox").put("bookmarksrecite", jsonEncode(_bookmarkListTest));
@@ -96,27 +96,25 @@ class RecitationCategoryProvider extends ChangeNotifier {
     }
   }
 
-  void removeBookmark(int duaId, int categoryId) {
-    QuranDatabase().removeRecitatioBookmark(duaId, categoryId);
-    _bookmarkList.removeWhere((element) =>
-        element.recitationIndex == duaId && element.catID == categoryId);
-    notifyListeners();
-    Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
-  }
+  // void removeBookmark(int duaId, int categoryId) {
+  //   QuranDatabase().removeRecitatioBookmark(duaId, categoryId);
+  //   _bookmarkList.removeWhere((element) =>
+  //       element.recitationIndex == duaId && element.catID == categoryId);
+  //   notifyListeners();
+  //   Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
+  // }
 
-  void addBookmark(BookmarksRecitation bookmarks) {
-    QuranDatabase().addRecitationBookmark(bookmarks.recitationIndex!);
-    if (!_bookmarkList.contains(bookmarks)) {
-      _bookmarkList.add(bookmarks);
-    }
-    notifyListeners();
-    Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
-  }
+  // void addBookmark(BookmarksRecitation bookmarks) {
+  //   QuranDatabase().addRecitationBookmark(bookmarks.recitationIndex!);
+  //   if (!_bookmarkList.contains(bookmarks)) {
+  //     _bookmarkList.add(bookmarks);
+  //   }
+  //   notifyListeners();
+  //   Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
+  // }
 
   void bookmark(int duaId, int value) {
     _selectedRecitationAll[duaId].setIsBookmark = value;
-    // print(
-    //     'inside Provider adding bookmark:>>>>>>>>>>>>${_selectedRecitationAll[duaId]}');
     notifyListeners();
   }
 }

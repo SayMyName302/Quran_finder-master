@@ -37,7 +37,7 @@ dependencies:
   connectivity_plus: ^3.0.6
   cupertino_icons: ^1.0.2
   day_night_time_picker: ^1.2.0+2
-  device_info_plus: ^8.1.0
+  device_info_plus: ^8.2.2
   dio: ^5.1.2
   firebase_analytics: ^10.4.1
   firebase_auth: ^4.6.0
