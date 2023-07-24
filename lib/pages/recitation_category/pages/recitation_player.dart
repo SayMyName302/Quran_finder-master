@@ -27,7 +27,7 @@ class RecitationAudioPlayer extends StatelessWidget {
         Provider.of<RecitationCategoryProvider>(context);
     Map<String, dynamic> nextDuaData = rcp.getNextDuaRecitation();
     RecitationAllCategoryModel nextDua = nextDuaData['dua'];
-    int? fav = nextDua.isFav;
+    // int? fav = nextDua.isFav;
     String duaUrl = nextDua.contentUrl.toString();
     String reference = nextDua.reference.toString();
 
@@ -42,16 +42,23 @@ class RecitationAudioPlayer extends StatelessWidget {
             context: context,
             font: 16.sp,
             title: localeText(context, "now_playing")),
-        body: Consumer4<ThemProvider, StoryAndBasicPlayerProvider, AppColorsProvider, RecitationCategoryProvider>(
-          builder: (context, them, player, appColor, recitationCategoryProvider, child) {
-            int recitationIndex = recitationProv.selectedRecitationAll.indexWhere((element) =>
-            element.reference == reference);
-            int indx = recitationProv.selectedRecitationAll[recitationIndex].surahId!;
-            int? categoryId = recitationProv.selectedRecitationAll[recitationIndex].categoryId;
+        body: Consumer4<ThemProvider, StoryAndBasicPlayerProvider,
+            AppColorsProvider, RecitationCategoryProvider>(
+          builder: (context, them, player, appColor, recitationCategoryProvider,
+              child) {
+            int recitationIndex = recitationProv.selectedRecitationAll
+                .indexWhere((element) => element.reference == reference);
+            int indx =
+                recitationProv.selectedRecitationAll[recitationIndex].surahId!;
+            int? categoryId = recitationProv
+                .selectedRecitationAll[recitationIndex].categoryId;
 
-            BookmarksRecitation bookmark = BookmarksRecitation(recitationIndex: indx, catID: categoryId, recitationName: title, recitationRef: recitationProv
-                .selectedRecitationStory!
-                .reference!,
+            BookmarksRecitation bookmark = BookmarksRecitation(
+                recitationIndex: indx,
+                catID: categoryId,
+                recitationName: title,
+                recitationRef:
+                    recitationProv.selectedRecitationStory!.reference!,
                 contentUrl: duaUrl,
                 imageUrl: player.image);
             return SingleChildScrollView(
@@ -196,9 +203,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                           // )
                           InkWell(
                             onTap: () {
-
-
-                              recitationCategoryProvider.addOrRemoveBookmark(bookmark);
+                              recitationCategoryProvider
+                                  .addOrRemoveBookmark(bookmark);
                             },
                             child: Container(
                               height: 23.h,
@@ -213,12 +219,20 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   height: 21.h,
                                   width: 21.w,
                                   child: CircleAvatar(
-                                    backgroundColor: recitationCategoryProvider.bookmarkListTest.any((element) => element.recitationIndex == bookmark.recitationIndex)
+                                    backgroundColor: recitationCategoryProvider
+                                            .bookmarkListTest
+                                            .any((element) =>
+                                                element.recitationIndex ==
+                                                bookmark.recitationIndex)
                                         ? appColor.mainBrandingColor
                                         : Colors.white,
                                     child: Icon(
                                       Icons.favorite,
-                                      color: recitationCategoryProvider.bookmarkListTest.any((element) => element.recitationIndex == bookmark.recitationIndex)
+                                      color: recitationCategoryProvider
+                                              .bookmarkListTest
+                                              .any((element) =>
+                                                  element.recitationIndex ==
+                                                  bookmark.recitationIndex)
                                           ? Colors.white
                                           : appColor.mainBrandingColor,
                                       size: 13.h,
@@ -240,7 +254,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text("${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
+                            Text(
+                                "${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
                             SliderTheme(
                               data: SliderThemeData(
                                   overlayShape: SliderComponentShape.noOverlay,

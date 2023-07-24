@@ -33,23 +33,28 @@ class RecitationCategoryProvider extends ChangeNotifier {
   // final List _bookmarkList = Hive.box('myBox').get('bookmarksrecite') ?? [];
   List get bookmarkList => _bookmarkList;
 
-  final List<BookmarksRecitation> _bookmarkListTest = Hive.box('myBox').get('bookmarksrecite') != null ?
-  (jsonDecode(Hive.box('myBox').get('bookmarksrecite')) as List<dynamic>).map((e) => BookmarksRecitation.fromJson(e)).toList(): [];
+  final List<BookmarksRecitation> _bookmarkListTest =
+      Hive.box('myBox').get('bookmarksrecite') != null
+          ? (jsonDecode(Hive.box('myBox').get('bookmarksrecite'))
+                  as List<dynamic>)
+              .map((e) => BookmarksRecitation.fromJson(e))
+              .toList()
+          : [];
   List get bookmarkListTest => _bookmarkListTest;
 
-
   void addOrRemoveBookmark(BookmarksRecitation bookmarks) {
-    if (!_bookmarkListTest.any((element) => element.recitationIndex == bookmarks.recitationIndex)) {
-      print('adding');
+    if (!_bookmarkListTest.any(
+        (element) => element.recitationIndex == bookmarks.recitationIndex)) {
+      // print('adding');
       _bookmarkListTest.add(bookmarks);
       Hive.box("myBox").put("bookmarksrecite", jsonEncode(_bookmarkListTest));
-    }else{
-      print('removing');
-      _bookmarkListTest.removeWhere((element) => element.recitationName == bookmarks.recitationName);
+    } else {
+      // print('removing');
+      _bookmarkListTest.removeWhere(
+          (element) => element.recitationIndex == bookmarks.recitationIndex);
       Hive.box("myBox").put("bookmarksrecite", jsonEncode(_bookmarkListTest));
     }
     notifyListeners();
-
   }
 
   Future<void> getRecitationCategoryStories() async {
@@ -91,26 +96,25 @@ class RecitationCategoryProvider extends ChangeNotifier {
     }
   }
 
-  void removeBookmark(int duaId, int categoryId) {
-    QuranDatabase().removeRecitatioBookmark(duaId, categoryId);
-    _bookmarkList.removeWhere((element) => element.recitationIndex == duaId && element.catID == categoryId);
-    notifyListeners();
-    Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
-  }
+  // void removeBookmark(int duaId, int categoryId) {
+  //   QuranDatabase().removeRecitatioBookmark(duaId, categoryId);
+  //   _bookmarkList.removeWhere((element) =>
+  //       element.recitationIndex == duaId && element.catID == categoryId);
+  //   notifyListeners();
+  //   Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
+  // }
 
-  void addBookmark(BookmarksRecitation bookmarks) {
-    QuranDatabase().addRecitationBookmark(bookmarks.recitationIndex!);
-    if (!_bookmarkList.contains(bookmarks)) {
-      _bookmarkList.add(bookmarks);
-    }
-    notifyListeners();
-    Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
-  }
+  // void addBookmark(BookmarksRecitation bookmarks) {
+  //   QuranDatabase().addRecitationBookmark(bookmarks.recitationIndex!);
+  //   if (!_bookmarkList.contains(bookmarks)) {
+  //     _bookmarkList.add(bookmarks);
+  //   }
+  //   notifyListeners();
+  //   Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
+  // }
 
   void bookmark(int duaId, int value) {
     _selectedRecitationAll[duaId].setIsBookmark = value;
-    // print(
-    //     'inside Provider adding bookmark:>>>>>>>>>>>>${_selectedRecitationAll[duaId]}');
     notifyListeners();
   }
 }

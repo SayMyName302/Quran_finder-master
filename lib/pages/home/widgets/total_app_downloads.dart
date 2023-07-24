@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/localization/localization_constants.dart';
 import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/utills/app_colors.dart';
-import '../../onboarding/models/app_download_count_provider.dart';
-import 'home_row_widget.dart';
 
 class AppDownloadsSection extends StatelessWidget {
   const AppDownloadsSection({Key? key}) : super(key: key);

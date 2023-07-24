@@ -37,74 +37,77 @@ class RecitationPlayerProvider with ChangeNotifier {
   Duration get duration => _duration;
   AudioPlayer get audioPlayer => _audioPlayer!;
 
-  void initAudioPlayer(Reciters reciters,int current) async {
+  void initAudioPlayer(Reciters reciters, int current) async {
     setReciter(reciters);
     List<String> audios = await getAudioFilesFromLocal(reciters.reciterName!);
     _playList = ConcatenatingAudioSource(
       useLazyPreparation: false,
       shuffleOrder: DefaultShuffleOrder(),
-      children: List.generate(audios.length, (index) => AudioSource.file(audios[index].toString())),
+      children: List.generate(
+          audios.length, (index) => AudioSource.file(audios[index].toString())),
     );
     reciters.downloadSurahList!.sort();
     setDownloadSurahListToPlayer(reciters.downloadSurahList!);
     setCurrentIndex(current);
-    if(_audioPlayer == null){
+    if (_audioPlayer == null) {
       _init(playList!);
-    }else{
+    } else {
       _audioPlayer!.stop();
       _audioPlayer = null;
       _init(playList!);
     }
   }
 
-  void _init(ConcatenatingAudioSource file) async{
+  void _init(ConcatenatingAudioSource file) async {
     _audioPlayer = AudioPlayer();
     // await _audioPlayer!.setFilePath(file);
-    await _audioPlayer!.setAudioSource(file,initialIndex: _currentIndex);
+    await _audioPlayer!.setAudioSource(file, initialIndex: _currentIndex);
     _audioPlayer!.currentIndexStream.listen((currentAudio) {
       setCurrentIndex(currentAudio!);
     });
     _audioPlayer!.playerStateStream.listen((event) {
       setIsPlaying(event.playing);
-      if (event.processingState == ProcessingState.completed && _currentIndex == _surahNamesList.length - 1) {
+      if (event.processingState == ProcessingState.completed &&
+          _currentIndex == _surahNamesList.length - 1) {
         _audioPlayer!.seek(Duration.zero);
         _audioPlayer!.pause();
       }
     });
     _audioPlayer!.durationStream.listen((duration) {
-    if(duration != null){
-      setDuration(duration);
-    }
+      if (duration != null) {
+        setDuration(duration);
+      }
     });
     _audioPlayer!.positionStream.listen((position) {
-    setPosition(position);
+      setPosition(position);
     });
   }
 
   Future<void> play(BuildContext context) async {
-    var provider = Provider.of<MyStateProvider>(context,listen: false);
+    var provider = Provider.of<MyStateProvider>(context, listen: false);
     provider.startQuranRecitationTimer("other");
     setIsPlaying(true);
     _isOpen = true;
-   await _audioPlayer!.play();
+    await _audioPlayer!.play();
   }
 
-  void seekToNext(){
+  void seekToNext() {
     _audioPlayer!.seekToNext();
   }
-  void seekToPrevious(){
-  _audioPlayer!.seekToPrevious();
+
+  void seekToPrevious() {
+    _audioPlayer!.seekToPrevious();
   }
 
-  void setLoopMode(bool value){
+  void setLoopMode(bool value) {
     _isLoopMode = value;
     notifyListeners();
   }
 
-
   Future<void> pause(BuildContext context) async {
-    if(_audioPlayer != null){
-      Provider.of<MyStateProvider>(context,listen: false).stopRecitationTimer("other");
+    if (_audioPlayer != null) {
+      Provider.of<MyStateProvider>(context, listen: false)
+          .stopRecitationTimer("other");
       setIsPlaying(false);
       await _audioPlayer!.pause();
     }
@@ -115,30 +118,31 @@ class RecitationPlayerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setDuration(Duration duration){
+  void setDuration(Duration duration) {
     _duration = duration;
     notifyListeners();
   }
 
-  void setPosition(Duration position){
+  void setPosition(Duration position) {
     _position = position;
     notifyListeners();
   }
 
-  void setCurrentIndex(int index){
+  void setCurrentIndex(int index) {
     _currentIndex = index;
-    if(_surahNamesList.isNotEmpty){
+    if (_surahNamesList.isNotEmpty) {
       _surah = _surahNamesList[index];
     }
     notifyListeners();
   }
+
   void seek(Duration position) {
     _dragValue = position.inSeconds.toDouble();
     notifyListeners();
   }
 
-  void closePlayer(){
-    if(_isOpen){
+  void closePlayer() {
+    if (_isOpen) {
       _isOpen = false;
       notifyListeners();
       _audioPlayer!.stop();
@@ -146,16 +150,16 @@ class RecitationPlayerProvider with ChangeNotifier {
     }
   }
 
-  void setReciter(Reciters reciter){
+  void setReciter(Reciters reciter) {
     _reciter = reciter;
     notifyListeners();
   }
 
   Future<void> setDownloadSurahListToPlayer(List downloadList) async {
     _surahNamesList = [];
-    for(int i = 0; i < downloadList.length;i++){
+    for (int i = 0; i < downloadList.length; i++) {
       var surah = await QuranDatabase().getSpecificSurahName(downloadList[i]);
-      if(!_surahNamesList.contains(surah)){
+      if (!_surahNamesList.contains(surah)) {
         _surahNamesList.add(surah!);
         notifyListeners();
       }
@@ -166,9 +170,11 @@ class RecitationPlayerProvider with ChangeNotifier {
   // logic for verse by verse
   Future<List<String>> getAudioFilesFromLocal(String reciterName) async {
     var directory = await getApplicationDocumentsDirectory();
-    final audioFilesPath = '${directory.path}/recitation/$reciterName/fullRecitations';
+    final audioFilesPath =
+        '${directory.path}/recitation/$reciterName/fullRecitations';
     final audioDir = Directory(audioFilesPath);
-    final audioFiles = audioDir.listSync()
+    final audioFiles = audioDir
+        .listSync()
         .where((entity) => entity is File && entity.path.endsWith('.mp3'))
         .map((e) => e.path)
         .toList();
@@ -179,9 +185,14 @@ class RecitationPlayerProvider with ChangeNotifier {
   Future<void> updatePlayList(int item) async {
     var surah = await QuranDatabase().getSpecificSurahName(item);
     _surahNamesList.add(surah!);
-    String surahId = surah.surahId.toString().length == 1 ? "00${surah.surahId}" : surah.surahId.toString().length == 2 ? "0${surah.surahId}":surah.surahId.toString();
+    String surahId = surah.surahId.toString().length == 1
+        ? "00${surah.surahId}"
+        : surah.surahId.toString().length == 2
+            ? "0${surah.surahId}"
+            : surah.surahId.toString();
     var directory = await getApplicationDocumentsDirectory();
-    final audioFilesPath = '${directory.path}/recitation/${_reciter!.reciterName!}/fullRecitations/$surahId.mp3';
+    final audioFilesPath =
+        '${directory.path}/recitation/${_reciter!.reciterName!}/fullRecitations/$surahId.mp3';
     _playList!.add(AudioSource.file(audioFilesPath));
     notifyListeners();
   }
