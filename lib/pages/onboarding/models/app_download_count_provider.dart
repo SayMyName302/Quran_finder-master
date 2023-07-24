@@ -11,7 +11,7 @@ class DownloadCountModel extends ChangeNotifier {
   int _downloadCount = 0;
   bool get isDownloadCountIncremented => _isDownloadCountIncremented;
   int get downloadCount => _downloadCount;
-  String _deviceIdentifier = ""; // Store the device identifier here.
+  String _deviceIdentifier = "";
 
   Future<void> initializePreferences() async {
     _prefs = await SharedPreferences.getInstance();
@@ -21,35 +21,72 @@ class DownloadCountModel extends ChangeNotifier {
         await _generateDeviceIdentifier();
 
     if (!_isDownloadCountIncremented) {
-      final docRef = FirebaseFirestore.instance
-          .collection('app_stats')
-          .doc(_deviceIdentifier);
+      _isDownloadCountIncremented = true;
+      await _prefs.setBool('isDownloadCountIncremented', true);
+      await _prefs.setString('deviceIdentifier', _deviceIdentifier);
 
-      // Get the snapshot of the document with ID vzIEu1gIvltuyDUkhAJO
-      final existingDocRef = FirebaseFirestore.instance
+      final docRef = FirebaseFirestore.instance
           .collection('app_stats')
           .doc('vzIEu1gIvltuyDUkhAJO');
 
       final snapshot = await docRef.get();
-      final existingSnapshot = await existingDocRef.get();
 
       if (!snapshot.exists) {
-        await incrementDownloadCount(); // Make sure to await the incrementDownloadCount method call.
-        _isDownloadCountIncremented = true;
-        await _prefs.setBool('isDownloadCountIncremented', true);
-        await _prefs.setString('deviceIdentifier', _deviceIdentifier);
-      } else {
-        // The document with the device identifier exists; fetch and update the local count.
-        _downloadCount = snapshot.get('download_count');
-        notifyListeners(); // Notify listeners about the state change.
-      }
-
-      if (existingSnapshot.exists) {
-        // Perform the update only if a new document was inserted
-        await existingDocRef.update({
-          'download_count': _downloadCount,
+        // If the document does not exist, create it with download_count = 1 and devices = [_deviceIdentifier].
+        await docRef.set({
+          'download_count': 1,
+          'devices': [_deviceIdentifier]
         });
+        _downloadCount = 1;
+      } else {
+        // If the document exists, check if the 'devices' field exists.
+        if (snapshot.data()!.containsKey('devices')) {
+          // If the 'devices' field exists, check if the device identifier is already in the 'devices' list.
+          List<dynamic> devices = snapshot.get('devices');
+          if (devices.contains(_deviceIdentifier)) {
+            // The device has already been counted, so don't increment the download count.
+            _downloadCount = snapshot.get('download_count');
+          } else {
+            // The device is unique, so increment the download count and add the device to the list.
+            _downloadCount = snapshot.get('download_count') + 1;
+            devices.add(_deviceIdentifier);
+            await docRef
+                .update({'download_count': _downloadCount, 'devices': devices});
+          }
+        } else {
+          // If the 'devices' field does not exist, create it with download_count = 1 and devices = [_deviceIdentifier].
+          await docRef.set({
+            'download_count': 1,
+            'devices': [_deviceIdentifier]
+          });
+          _downloadCount = 1;
+        }
       }
+      notifyListeners();
+    }
+  }
+
+  Future<void> incrementDownloadCount() async {
+    final docRef = FirebaseFirestore.instance
+        .collection('app_stats')
+        .doc(_deviceIdentifier);
+
+    try {
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        final snapshot = await transaction.get(docRef);
+
+        if (!snapshot.exists) {
+          transaction.set(docRef, {'download_count': 1});
+          _downloadCount = 1;
+        } else {
+          _downloadCount = snapshot.get('download_count') + 1;
+          transaction.update(docRef, {'download_count': _downloadCount});
+        }
+      });
+
+      notifyListeners();
+    } catch (e) {
+      print('Error incrementing download count: $e');
     }
   }
 
@@ -64,10 +101,8 @@ class DownloadCountModel extends ChangeNotifier {
         if (defaultTargetPlatform == TargetPlatform.android) {
           AndroidDeviceInfo? androidInfo = await deviceInfo.androidInfo;
           if (androidInfo != null) {
-            // Generate the identifier using available properties.
             identifier = 'android-${androidInfo.brand}-${androidInfo.model}';
           } else {
-            // Fallback: Use a combination of timestamp and UniqueKey.
             identifier =
                 'android-fallback-${DateTime.now().millisecondsSinceEpoch}-${UniqueKey().toString()}';
           }
@@ -86,26 +121,5 @@ class DownloadCountModel extends ChangeNotifier {
     }
 
     return identifier;
-  }
-
-  Future<void> incrementDownloadCount() async {
-    final docRef = FirebaseFirestore.instance
-        .collection('app_stats')
-        .doc(_deviceIdentifier);
-
-    try {
-      final snapshot = await docRef.get();
-
-      if (!snapshot.exists) {
-        await FirebaseFirestore.instance.runTransaction((transaction) async {
-          transaction.set(docRef, {'download_count': 1});
-        });
-        _downloadCount = 1;
-      }
-
-      notifyListeners();
-    } catch (e) {
-      print('Error incrementing download count: $e');
-    }
   }
 }

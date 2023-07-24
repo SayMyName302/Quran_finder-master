@@ -172,6 +172,9 @@ class SwipePagesState extends State<SwipePages> {
       if (_curr == 0) {
         if (AudioListHolder1.audioList.isEmpty) {
           AudioListHolder1.page1Audios();
+          // audioFiles = AudioListHolder1.audioList;
+          // pageId = AudioListHolder1.pageId;
+          // audioIndex = AudioListHolder1.audioIndexes;
         }
         audioFiles = AudioListHolder1.audioList;
         pageId = AudioListHolder1.pageId;
@@ -365,7 +368,7 @@ class SwipePagesState extends State<SwipePages> {
 
   Future<void> _playPageAudios(int pageId, List<String> audioFiles) async {
     try {
-      _audioLists.clear();
+      //    _audioLists.clear();
       //print("Audio Files: $audioFiles"); // Add this print statement
 
       switch (pageId) {
