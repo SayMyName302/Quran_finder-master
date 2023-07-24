@@ -26,14 +26,11 @@ class RecitationCategoryPageList extends StatelessWidget {
                   ),
                   itemCount: recitationProvider.recitationCategory.length,
                   itemBuilder: (context, index) {
-                    RecitationCategoryModel model =
-                        recitationProvider.recitationCategory[index];
-                    print(
-                        'list length ${recitationProvider.selectedRecitationAll.length}');
+                    RecitationCategoryModel model = recitationProvider.recitationCategory[index];
+                    print('list length ${recitationProvider.selectedRecitationAll.length}');
                     return InkWell(
                       onTap: () {
-                        recitationProvider
-                            .getSelectedRecitationAll(model.categoryId!);
+                        recitationProvider.getSelectedRecitationAll(model.categoryId!);
                         Navigator.of(context).pushNamed(
                           RouteHelper.recitationallcategory,
                           arguments: [

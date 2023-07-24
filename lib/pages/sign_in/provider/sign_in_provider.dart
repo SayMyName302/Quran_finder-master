@@ -200,24 +200,19 @@ class SignInProvider extends ChangeNotifier {
   signInWithEmailPassword(
       String email, String password, BuildContext context) async {
     try {
-      Future.delayed(Duration.zero,
-          () => EasyLoadingDialog.show(context: context, radius: 20.r));
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
+      Future.delayed(Duration.zero, () => EasyLoadingDialog.show(context: context, radius: 20.r));
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         var doc = await FirebaseFirestore.instance.collection("users").get();
-        List<UserProfile> usersList =
-            doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
-        int index =
-            usersList.indexWhere((element) => element.uid == value.user!.uid);
+        List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
+        int index = usersList.indexWhere((element) => element.uid == value.user!.uid);
         if (index != -1) {
           Future.delayed(Duration.zero, () {
             /// save user profile in local db
-            Provider.of<ProfileProvider>(context, listen: false)
-                .saveUserProfile(usersList[index]);
+            Provider.of<ProfileProvider>(context, listen: false).saveUserProfile(usersList[index]);
 
             /// close loading dialog
-            EasyLoadingDialog.dismiss(context);
+            // EasyLoadingDialog.dismiss(context);
 
             /// save on boarding done and redirect user to application
             Hive.box(appBoxKey).put(onBoardingDoneKey, "done");

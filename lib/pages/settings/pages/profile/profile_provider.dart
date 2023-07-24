@@ -99,7 +99,7 @@ class ProfileProvider extends ChangeNotifier {
         .doc(uid)
         .set(userProfile.toJson())
         .then((value) {
-      EasyLoadingDialog.dismiss(RouteHelper.currentContext);
+      // EasyLoadingDialog.dismiss(RouteHelper.currentContext);
       saveUserProfile(userProfile);
       Provider.of<BottomTabsPageProvider>(RouteHelper.currentContext,
               listen: false)

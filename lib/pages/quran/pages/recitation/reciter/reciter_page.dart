@@ -29,27 +29,24 @@ class ReciterPage extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () async {
-        context.read<RecitationProvider>().getFavReciter();
+        // context.read<RecitationProvider>().getFavReciter();
         return true;
       },
       child: Scaffold(
         body: SafeArea(
-          child:
-              Consumer3<AppColorsProvider, ReciterProvider, RecitationProvider>(
-            builder: (context, appColors, reciterProvider, recitationProvider,
-                child) {
+          child: Consumer3<AppColorsProvider, ReciterProvider, RecitationProvider>(
+            builder: (context, appColors, reciterProvider, recitationProvider, child) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
                     onPressed: () {
                       // to get fresh data for fav reciter list
-                      context.read<RecitationProvider>().getFavReciter();
+                      // context.read<RecitationProvider>().getFavReciter();
                       Navigator.of(context).pop();
                     },
                     icon: const Icon(Icons.arrow_back_outlined),
-                    padding:
-                        EdgeInsets.only(left: 20.w, top: 13.41.h, right: 20.w),
+                    padding: EdgeInsets.only(left: 20.w, top: 13.41.h, right: 20.w),
                     alignment: Alignment.topLeft,
                   ),
                   Container(
@@ -94,8 +91,7 @@ class ReciterPage extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              margin:
-                                  EdgeInsets.only(top: 21.4.h, bottom: 18.h),
+                              margin: EdgeInsets.only(top: 21.4.h, bottom: 18.h),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -149,22 +145,51 @@ class ReciterPage extends StatelessWidget {
                                     ),
                                   )
                                 : const SizedBox.shrink(),
+                            // InkWell(
+                            //   onTap: () {
+                            //     if (reciters.isFav == 0) {
+                            //       recitationProvider.addFav(reciters.reciterId!);
+                            //       analytics.logEvent(
+                            //         name: 'add_favorite_reciter',
+                            //         parameters: {
+                            //           'reciterId': reciters.reciterId!,
+                            //           'reciter_name': reciters.reciterName!,
+                            //         },
+                            //       );
+                            //     } else {
+                            //       recitationProvider
+                            //           .removeFavReciter(reciters.reciterId!);
+                            //     }
+                            //   },
+                            //   child: Container(
+                            //     height: 23.h,
+                            //     width: 23.w,
+                            //     margin: EdgeInsets.only(
+                            //         top: 29.4.h, bottom: 25.h, right: 9.5.h),
+                            //     child: CircleAvatar(
+                            //       backgroundColor: appColors.mainBrandingColor,
+                            //       child: SizedBox(
+                            //         height: 21.h,
+                            //         width: 21.w,
+                            //         child: CircleAvatar(
+                            //           backgroundColor: reciters.isFav == 1
+                            //               ? appColors.mainBrandingColor
+                            //               : Colors.white,
+                            //           child: Icon(
+                            //             Icons.favorite,
+                            //             color: reciters.isFav == 1
+                            //                 ? Colors.white
+                            //                 : appColors.mainBrandingColor,
+                            //             size: 13.h,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             InkWell(
                               onTap: () {
-                                if (reciters.isFav == 0) {
-                                  recitationProvider
-                                      .addFav(reciters.reciterId!);
-                                  analytics.logEvent(
-                                    name: 'add_favorite_reciter',
-                                    parameters: {
-                                      'reciterId': reciters.reciterId!,
-                                      'reciter_name': reciters.reciterName!,
-                                    },
-                                  );
-                                } else {
-                                  recitationProvider
-                                      .removeFavReciter(reciters.reciterId!);
-                                }
+                                recitationProvider.addReciterFavOrRemove(reciters.reciterId!);
                               },
                               child: Container(
                                 height: 23.h,
@@ -177,12 +202,12 @@ class ReciterPage extends StatelessWidget {
                                     height: 21.h,
                                     width: 21.w,
                                     child: CircleAvatar(
-                                      backgroundColor: reciters.isFav == 1
+                                      backgroundColor: recitationProvider.favRecitersTest.any((element) => element.reciterId == reciters.reciterId)
                                           ? appColors.mainBrandingColor
                                           : Colors.white,
                                       child: Icon(
                                         Icons.favorite,
-                                        color: reciters.isFav == 1
+                                        color: recitationProvider.favRecitersTest.any((element) => element.reciterId == reciters.reciterId)
                                             ? Colors.white
                                             : appColors.mainBrandingColor,
                                         size: 13.h,

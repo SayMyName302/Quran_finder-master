@@ -16,19 +16,19 @@ class FavoritesRecitersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<RecitationProvider>().getFavReciter();
+    // context.read<RecitationProvider>().getFavReciter();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SubTitleText(title: localeText(context, "favorite_reciters")),
       Consumer<RecitationProvider>(
         builder: (context, recitation, child) {
-          return recitation.favReciters.isNotEmpty ? Expanded(
+          return recitation.favRecitersTest.isNotEmpty ? Expanded(
             child: MediaQuery.removePadding(
               context: context,
               removeTop: true,
               child: ListView.builder(
-                itemCount: recitation.favReciters.length,
+                itemCount: recitation.favRecitersTest.length,
                   itemBuilder: (context, index) {
-                  Reciters reciter = recitation.favReciters[index];
+                  Reciters reciter = recitation.favRecitersTest[index];
                     return InkWell(
                       onTap: (){
                         recitation.getSurahName();
@@ -72,7 +72,7 @@ class FavoritesRecitersPage extends StatelessWidget {
                             ),
                             InkWell(
                               onTap:(){
-                                recitation.removeFavReciter(reciter.reciterId!);
+                                recitation.addReciterFavOrRemove(reciter.reciterId!);
                               },
                               child: Container(
                                 margin: EdgeInsets.only(right: 10.w, top: 17.h, bottom: 16.h,left: 10.w),
