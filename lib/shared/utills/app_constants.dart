@@ -53,3 +53,7 @@ const int prayerNotificationId = 2;
 const String streakLevelKey = "streakLevelKey";
 
 const String onBoardingDoneKey = "onBoardingDoneKey";
+
+
+/// fav
+const String favReciterListKey = "favReciterListKey";

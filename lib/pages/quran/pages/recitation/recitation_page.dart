@@ -28,7 +28,7 @@ class _RecitationPageState extends State<RecitationPage> {
   void initState() {
     super.initState();
     context.read<RecitationProvider>().getReciters();
-    context.read<RecitationProvider>().getFavReciter();
+    // context.read<RecitationProvider>().getFavReciter();
   }
 
   @override
@@ -125,101 +125,192 @@ class _RecitationPageState extends State<RecitationPage> {
             Container(
                 margin: EdgeInsets.only(top: 20.h),
                 child: buildTitleContainer(localeText(context, "favorites"))),
+            // Consumer2<RecitationProvider, RecitationCategoryProvider>(
+            //   builder: (context, recitation, rcp, child) {
+            //     final bookmarkListReciter = recitation.favReciters;
+            //     final bookmarkListRecitation = rcp.bookmarkList;
+            //
+            //     final combinedBookmarkList = [
+            //       ...bookmarkListReciter,
+            //       ...bookmarkListRecitation
+            //     ];
+            //
+            //     return combinedBookmarkList.isNotEmpty
+            //         ? MediaQuery.removePadding(
+            //             context: context,
+            //             removeTop: true,
+            //             child: ListView.builder(
+            //               itemCount: combinedBookmarkList.length,
+            //               shrinkWrap: true,
+            //               physics: const NeverScrollableScrollPhysics(),
+            //               itemBuilder: (context, index) {
+            //                 final bookmark = combinedBookmarkList[index];
+            //
+            //                 String title;
+            //                 String subTitle;
+            //                 IconData icon;
+            //                 String imageIcon;
+            //
+            //                 if (bookmark is Reciters) {
+            //                   title = bookmark.reciterName ?? '';
+            //                   subTitle = localeText(context, "reciters");
+            //                   icon = Icons.bookmark;
+            //                   imageIcon =
+            //                       "assets/images/app_icons/bookmark.png";
+            //                 } else if (bookmark is BookmarksRecitation) {
+            //                   final recitationBookmark = bookmark;
+            //                   title = recitationBookmark.recitationName ?? '';
+            //                   subTitle = localeText(context, "recitation");
+            //                   icon = Icons.bookmark;
+            //                   imageIcon =
+            //                       "assets/images/app_icons/bookmark.png";
+            //                 } else {
+            //                   title = '';
+            //                   subTitle = '';
+            //                   icon = Icons.error;
+            //                   imageIcon = '';
+            //                 }
+            //
+            //                 return InkWell(
+            //                   onTap: () {
+            //                     if (bookmark is Reciters) {
+            //                       recitation.getSurahName();
+            //                       context
+            //                           .read<ReciterProvider>()
+            //                           .setReciterList(
+            //                               bookmark.downloadSurahList!);
+            //                       Navigator.of(context).pushNamed(
+            //                         RouteHelper.reciter,
+            //                         arguments: bookmark,
+            //                       );
+            //                     } else if (bookmark is BookmarksRecitation) {
+            //                       Provider.of<RecitationCategoryProvider>(
+            //                               context,
+            //                               listen: false)
+            //                           .gotoRecitationAudioPlayerPage(
+            //                         bookmark.catID!,
+            //                         bookmark.recitationIndex!,
+            //                         bookmark.imageUrl!,
+            //                         context,
+            //                       );
+            //                       Navigator.of(context).pushNamed(
+            //                           RouteHelper.recitationAudioPlayer,
+            //                           arguments: [title]);
+            //                     }
+            //                   },
+            //                   child: DetailsContainerWidget(
+            //                     title: title,
+            //                     subTitle: subTitle,
+            //                     icon: icon,
+            //                     imageIcon: imageIcon,
+            //                     onTapIcon: () {
+            //                       if (bookmark is Reciters) {
+            //                         recitation
+            //                             .removeFavReciter(bookmark.reciterId!);
+            //                       } else if (bookmark is BookmarksRecitation) {
+            //                         rcp.removeBookmark(
+            //                             bookmark.recitationIndex!,
+            //                             bookmark.catID!);
+            //                       }
+            //                     },
+            //                   ),
+            //                 );
+            //               },
+            //             ),
+            //           )
+            //         : messageContainer(
+            //             localeText(context, "no_fav_reciter_added_yet"));
+            //   },
+            // ),
             Consumer2<RecitationProvider, RecitationCategoryProvider>(
               builder: (context, recitation, rcp, child) {
-                final bookmarkListReciter = recitation.favReciters;
-                final bookmarkListRecitation = rcp.bookmarkList;
+                // final bookmarkListReciter = recitation.favReciters;
+                final bookmarkListRecitation = rcp.bookmarkListTest;
+                final favRecitersList = recitation.favRecitersTest;
 
                 final combinedBookmarkList = [
-                  ...bookmarkListReciter,
+                  ...favRecitersList,
                   ...bookmarkListRecitation
                 ];
 
-                return combinedBookmarkList.isNotEmpty
-                    ? MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: ListView.builder(
-                          itemCount: combinedBookmarkList.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            final bookmark = combinedBookmarkList[index];
+                return combinedBookmarkList.isNotEmpty ? MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: ListView.builder(
+                    itemCount: combinedBookmarkList.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final bookmark = combinedBookmarkList[index];
+                      String title;
+                      String subTitle;
+                      IconData icon;
+                      String imageIcon;
 
-                            String title;
-                            String subTitle;
-                            IconData icon;
-                            String imageIcon;
+                      if (bookmark is Reciters) {
+                        title = bookmark.reciterName ?? '';
+                        subTitle = localeText(context, "reciters");
+                        icon = Icons.bookmark;
+                        imageIcon = "assets/images/app_icons/bookmark.png";
+                      } else if (bookmark is BookmarksRecitation) {
+                        final recitationBookmark = bookmark;
+                        title = recitationBookmark.recitationName ?? '';
+                        subTitle = localeText(context, "recitation");
+                        icon = Icons.bookmark;
+                        imageIcon = "assets/images/app_icons/bookmark.png";
+                      } else {
+                        title = '';
+                        subTitle = '';
+                        icon = Icons.error;
+                        imageIcon = '';
+                      }
 
-                            if (bookmark is Reciters) {
-                              title = bookmark.reciterName ?? '';
-                              subTitle = localeText(context, "reciters");
-                              icon = Icons.bookmark;
-                              imageIcon =
-                                  "assets/images/app_icons/bookmark.png";
-                            } else if (bookmark is BookmarksRecitation) {
-                              final recitationBookmark = bookmark;
-                              title = recitationBookmark.recitationName ?? '';
-                              subTitle = localeText(context, "recitation");
-                              icon = Icons.bookmark;
-                              imageIcon =
-                                  "assets/images/app_icons/bookmark.png";
-                            } else {
-                              title = '';
-                              subTitle = '';
-                              icon = Icons.error;
-                              imageIcon = '';
-                            }
-
-                            return InkWell(
-                              onTap: () {
-                                if (bookmark is Reciters) {
-                                  recitation.getSurahName();
-                                  context
-                                      .read<ReciterProvider>()
-                                      .setReciterList(
-                                          bookmark.downloadSurahList!);
-                                  Navigator.of(context).pushNamed(
-                                    RouteHelper.reciter,
-                                    arguments: bookmark,
-                                  );
-                                } else if (bookmark is BookmarksRecitation) {
-                                  Provider.of<RecitationCategoryProvider>(
-                                          context,
-                                          listen: false)
-                                      .gotoRecitationAudioPlayerPage(
-                                    bookmark.catID!,
-                                    bookmark.recitationIndex!,
-                                    bookmark.imageUrl!,
-                                    context,
-                                  );
-                                  Navigator.of(context).pushNamed(
-                                      RouteHelper.recitationAudioPlayer,
-                                      arguments: [title]);
-                                }
-                              },
-                              child: DetailsContainerWidget(
-                                title: title,
-                                subTitle: subTitle,
-                                icon: icon,
-                                imageIcon: imageIcon,
-                                onTapIcon: () {
-                                  if (bookmark is Reciters) {
-                                    recitation
-                                        .removeFavReciter(bookmark.reciterId!);
-                                  } else if (bookmark is BookmarksRecitation) {
-                                    rcp.removeBookmark(
-                                        bookmark.recitationIndex!,
-                                        bookmark.catID!);
-                                  }
-                                },
-                              ),
+                      return InkWell(
+                        onTap: () {
+                          if (bookmark is Reciters) {
+                            recitation.getSurahName();
+                            context.read<ReciterProvider>().setReciterList(
+                                bookmark.downloadSurahList!);
+                            Navigator.of(context).pushNamed(
+                              RouteHelper.reciter,
+                              arguments: bookmark,
                             );
+                          } else if (bookmark is BookmarksRecitation) {
+                            Provider.of<RecitationCategoryProvider>(
+                                context,
+                                listen: false)
+                                .gotoRecitationAudioPlayerPage(
+                              bookmark.catID!,
+                              bookmark.recitationIndex!,
+                              bookmark.imageUrl!,
+                              context,
+                            );
+                            Navigator.of(context).pushNamed(
+                                RouteHelper.recitationAudioPlayer,
+                                arguments: [title]);
+                          }
+                        },
+                        child: DetailsContainerWidget(
+                          title: title,
+                          subTitle: subTitle,
+                          icon: icon,
+                          imageIcon: imageIcon,
+                          onTapIcon: () {
+                            if (bookmark is Reciters) {
+                              recitation.addReciterFavOrRemove(bookmark.reciterId!);
+                            } else if (bookmark is BookmarksRecitation) {
+                              rcp.removeBookmark(
+                                  bookmark.recitationIndex!,
+                                  bookmark.catID!);
+                            }
                           },
                         ),
-                      )
+                      );
+                    },
+                  ),
+                )
                     : messageContainer(
-                        localeText(context, "no_fav_reciter_added_yet"));
+                    localeText(context, "no_fav_reciter_added_yet"));
               },
             ),
           ],

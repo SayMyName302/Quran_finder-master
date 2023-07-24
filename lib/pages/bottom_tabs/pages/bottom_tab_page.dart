@@ -86,7 +86,7 @@ class _BottomTabsPageState extends State<BottomTabsPage>
           return value.page[value.currentPage];
         },
       ),
-      bottomNavigationBar: BottomNavWidget(),
+      bottomNavigationBar: const BottomNavWidget(),
     );
   }
 

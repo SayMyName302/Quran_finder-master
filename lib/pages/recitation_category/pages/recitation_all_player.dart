@@ -69,12 +69,10 @@ class RecitationAllAudioPlayer extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () async {
-                            int duaIndex = rectProv.selectedRecitationAll.indexWhere(
-                                    (element) => element.title == duaText);
+                            int duaIndex = rectProv.selectedRecitationAll.indexWhere((element) => element.title == duaText);
                             int indx = rectProv.selectedRecitationAll[duaIndex].surahNo!;
                             int? categoryId = rectProv.selectedRecitationAll[duaIndex].surahId;
-                            String categoryName = getCategoryNameById(
-                                categoryId!, rectProv.selectedRecitationAll.cast<DuaCategory>());
+                            String categoryName = getCategoryNameById(categoryId!, rectProv.selectedRecitationAll.cast<DuaCategory>());
                             int duaNo = rectProv.selectedRecitationAll[duaIndex].surahId!;
                            /* if (fav == 0) {
                               duaProv.bookmark(duaIndex, 1);
