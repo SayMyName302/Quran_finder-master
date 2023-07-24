@@ -2565,6 +2565,13 @@ class AudioListHolder1 {
       ];
     }
   }
+
+  // Add a method to check if audioList is empty and populate it if needed
+  static void ensurePage1Audios() {
+    if (audioList.isEmpty) {
+      page1Audios();
+    }
+  }
 }
 
 //-> TESTS CLEARED
