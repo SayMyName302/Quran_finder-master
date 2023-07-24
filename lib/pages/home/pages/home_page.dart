@@ -7,13 +7,10 @@ import 'package:nour_al_quran/pages/home/widgets/popular_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_miracles_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_stories_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/user_picture.dart';
-import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/subscriptions/on_board/free_trial.dart';
 import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
-import 'package:provider/provider.dart';
-import '../../recitation_category/pages/recitation_category_page.dart';
 import '../widgets/total_app_downloads.dart';
 import '../widgets/verse_of_the_day.dart';
 
@@ -35,7 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
+    // var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -81,7 +78,7 @@ class _HomePageState extends State<HomePage> {
             /// Islam Basics Section
             const IslamBasicsSection(),
 
-            // const AppDownloadsSection(),
+            const AppDownloadsSection(),
 
             // const RecitationCategorySection(),
           ],
