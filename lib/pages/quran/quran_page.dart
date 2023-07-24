@@ -30,7 +30,7 @@ class QuranPage extends StatelessWidget {
     var pages = [
       const RecitationPage(),
       const SurahIndexPage(),
-      const JuzIndexPage(),
+      // const JuzIndexPage(),
       // const ResumePage(),
       const BookmarkPage(),
       //     const DuaCategoriesPage(),
