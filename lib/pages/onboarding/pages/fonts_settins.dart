@@ -193,6 +193,7 @@ class FontPageOnBoarding extends StatelessWidget {
                             content: Text('Saved'),
                             duration: Duration(milliseconds: 500),
                           ));
+                        Navigator.of(context).pushNamed(RouteHelper.reviewOne);
                       }),
                   SizedBox(
                     height: 20.h,
