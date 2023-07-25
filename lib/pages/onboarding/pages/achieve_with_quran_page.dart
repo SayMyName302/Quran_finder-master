@@ -7,16 +7,21 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provide
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/utills/app_colors.dart';
 import '../../settings/pages/app_them/them_provider.dart';
 import '../models/app_download_count_provider.dart';
 
+// ignore: must_be_immutable
 class AchieveWithQuranPage extends StatelessWidget {
-  const AchieveWithQuranPage({Key? key}) : super(key: key);
-
+  
+  AchieveWithQuranPage({Key? key}) : super(key: key);
+  List<String> tagsList = [];
+    
   @override
   Widget build(BuildContext context) {
+   // List<String> tagsList = [];
     var appColors = context.read<AppColorsProvider>();
     var isDark = context.read<ThemProvider>().isDark;
     final downloadCountModel = Provider.of<DownloadCountModel>(context);
@@ -54,6 +59,9 @@ class AchieveWithQuranPage extends StatelessWidget {
                                         "please_select_at_least_three_goals"),
                                   )));
                           } else {
+                            print("The tags list in final phase arev $tagsList");
+                            OneSignal.shared.sendTags({'App Feature preference': tagsList});
+                            //OneSignal.shared.sendTag("App Feature preference", tagsList);
                             Navigator.of(context)
                                 .pushNamed(RouteHelper.setFavReciter);
                           }
@@ -92,6 +100,35 @@ class AchieveWithQuranPage extends StatelessWidget {
           return InkWell(
             onTap: () {
               achieve.addAchieveItem(achieveText, index, context);
+              if(index == 0)
+              {
+                OneSignal.shared.sendTag("App Feature preference", achieveText);
+              }
+              else if(index == 1)
+              {
+                OneSignal.shared.sendTag("App Feature preference 1", achieveText);
+              }
+              else if(index == 2)
+              {
+                OneSignal.shared.sendTag("App Feature preference 2", achieveText);
+              }
+              else if(index == 3)
+              {
+                OneSignal.shared.sendTag("App Feature preference 3", achieveText);
+              }
+              else if(index == 4)
+              {
+                OneSignal.shared.sendTag("App Feature preference 4", achieveText);
+              }
+              else if(index == 5)
+              {
+                OneSignal.shared.sendTag("App Feature preference 5", achieveText);
+              }
+              else
+              {
+
+              }
+              
             },
             child: Container(
               margin: EdgeInsets.only(

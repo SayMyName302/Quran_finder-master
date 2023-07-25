@@ -151,7 +151,7 @@ class RouteHelper {
       },
       achieveWithQuran: (context) {
         currentContext = context;
-        return const AchieveWithQuranPage();
+        return AchieveWithQuranPage();
       },
 
       reviewOne: (context) {

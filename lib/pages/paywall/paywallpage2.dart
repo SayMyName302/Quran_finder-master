@@ -10,6 +10,7 @@ import '../../../../../shared/routes/routes_helper.dart';
 import '../../../../../shared/localization/localization_constants.dart';
 import '../../../../../shared/widgets/title_row.dart';
 import 'package:provider/provider.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class paywallpage2 extends StatelessWidget {
   const paywallpage2({Key? key}) : super(key: key);
@@ -265,6 +266,7 @@ class paywallpage2 extends StatelessWidget {
                   child: BrandButton(
                       text: localeText(context, "start_free_trial"),
                       onTap: () {
+                        OneSignal.shared.sendTag("Subscription Status", "Free trial users");
                         Navigator.of(context).pushNamed(RouteHelper.signIn);
                       }),
                 ),

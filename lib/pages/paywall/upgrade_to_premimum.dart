@@ -9,6 +9,7 @@ import 'package:nour_al_quran/shared/widgets/app_bar.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:provider/provider.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'package:nour_al_quran/pages/paywall/paywal_provider.dart';
 
@@ -254,8 +255,30 @@ Widget buildContainer(
 
   return GestureDetector(
     onTap: () {
-      Provider.of<PremiumScreenProvider>(context, listen: false)
-          .setFocusedIndex(index);
+      Provider.of<PremiumScreenProvider>(context, listen: false).setFocusedIndex(index);
+      if(index == 0)
+      {
+        OneSignal.shared.sendTag("Subscription type", "Half year subscribers");
+        OneSignal.shared.sendTag("Total Months as a subscriber", "6");
+        
+      }
+      else if(index == 1)
+      {
+        
+        OneSignal.shared.sendTag("Subscription type", "Premium Subscribers (Full year)");
+        OneSignal.shared.sendTag("Total Months as a subscriber", "12");
+
+      }
+      else if(index == 2)
+      {
+        OneSignal.shared.sendTag("Subscription type", "Monthly subscribers");
+        OneSignal.shared.sendTag("Total Months as a subscriber", "1");
+      }
+      else
+      {
+        
+      }
+
     },
     child: AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -562,8 +585,8 @@ class PrimePlanContainer extends StatelessWidget {
                 child: BrandButton(
                     text: localeText(context, "start_free_trial"),
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(RouteHelper.paywallscreen2);
+                      OneSignal.shared.sendTag("Subscription Status", "Free trial users");
+                      Navigator.of(context).pushNamed(RouteHelper.paywallscreen2);
                     }),
               ),
             ),
