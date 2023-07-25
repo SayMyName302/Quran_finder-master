@@ -68,7 +68,6 @@ class _QuranTextViewState extends State<QuranTextView> {
         }
       }
     });
-    // _startTimer();
   }
 
   Future<void> saveLastSeen() async {
@@ -302,8 +301,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                                     onTap: () async {
                                       // this will save bookmark in hive
                                       QuranText quranText = _quranText[index];
-                                      Surah? surah = await value
-                                          .getSpecificSurah(quranText.surahId!);
+                                      Surah? surah = await value.getSpecificSurah(quranText.surahId!);
                                       if (surah != null) {
                                         if (quranText.isBookmark == 0) {
                                           value.bookmark(index, 1);
@@ -756,66 +754,6 @@ class _QuranTextViewState extends State<QuranTextView> {
     );
   }
 }
-
-// String formatTimeSpent(int timeInSeconds) {
-//   Duration duration = Duration(seconds: timeInSeconds);
-//
-//   if (duration.inDays >= 1) {
-//     int days = duration.inDays;
-//     duration -= Duration(days: days);
-//
-//     if (duration.inHours > 0) {
-//       int hours = duration.inHours;
-//       duration -= Duration(hours: hours);
-//
-//       if (duration.inMinutes > 0) {
-//         int minutes = duration.inMinutes;
-//         return '${days}d${hours}h${minutes}m';
-//       } else {
-//         return '${days}d${hours}h';
-//       }
-//     } else {
-//       return '${days}d';
-//     }
-//   } else if (duration.inHours >= 1) {
-//     int hours = duration.inHours;
-//     duration -= Duration(hours: hours);
-//
-//     if (duration.inMinutes > 0) {
-//       int minutes = duration.inMinutes;
-//       return '${hours}h${minutes}m';
-//     } else {
-//       return '${hours}h';
-//     }
-//   } else if (duration.inMinutes >= 1) {
-//     int minutes = duration.inMinutes;
-//     duration -= Duration(minutes: minutes);
-//     if (duration.inSeconds > 0) {
-//       int seconds = duration.inSeconds;
-//       return '${minutes}m${seconds}s';
-//     } else {
-//       return '${minutes}m';
-//     }
-//   } else {
-//     return '${duration.inSeconds}s';
-//   }
-// }
-//
-// String _formatDuration(Duration duration) {
-//   if (duration.inDays > 0) {
-//     final hours = duration.inHours - duration.inDays * 24;
-//     final minutes = duration.inMinutes - duration.inHours * 60;
-//     return '${duration.inDays}d $hours:$minutes';
-//   } else if (duration.inSeconds <= 60) {
-//     return '${duration.inSeconds} sec';
-//   } else if (duration.inSeconds > 60 && duration.inMinutes <= 59) {
-//     return '${duration.inMinutes} min';
-//   } else {
-//     final hours = duration.inHours;
-//     final minutes = duration.inMinutes - duration.inHours * 60;
-//     return '$hours:$minutes';
-//   }
-// }
 
 int getSelectedIndex(TranslationManagerProvider transProvider,
     List<Translations> sortedTranslations) {

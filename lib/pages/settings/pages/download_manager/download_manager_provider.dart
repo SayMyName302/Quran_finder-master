@@ -18,7 +18,7 @@ class DownloadManagerProvider extends ChangeNotifier{
   Reciters? get recitersName => _recitersName;
   List<Surah> _downloadSurahs = [];
   List<Surah> get downloadSurahs => _downloadSurahs;
-  List<int> downloadSurahList = [];
+  List<int> _downloadSurahList = [];
 
   Future<void> getReciters() async {
     _recitersList = await QuranDatabase().getReciter();
@@ -41,7 +41,7 @@ class DownloadManagerProvider extends ChangeNotifier{
     }
   }
 
-  /// get reciters names those have any downloaded surahs available in local
+  /// get reciters names whose folder is create locally
   getAvailableReciters() async {
     var directory = await getApplicationDocumentsDirectory();
     final audioFilesPath = '${directory.path}/recitation';
@@ -58,11 +58,11 @@ class DownloadManagerProvider extends ChangeNotifier{
   void goToDownloadAudios(int index,BuildContext context) async{
     var provider = Provider.of<ReciterProvider>(context,listen: false);
     _recitersName = _whichHaveDownloaded[index];
-    downloadSurahList = await provider.getAvailableDownloadAudiosAsListOfInt(recitersName!.reciterName!);
+    _downloadSurahList = await provider.getAvailableDownloadAudiosAsListOfInt(recitersName!.reciterName!);
     // var downloadSurahList = provider.downloadSurahList;
-    downloadSurahList.sort();
+    _downloadSurahList.sort();
     // getDownloadSurah(_whichHaveDownloaded[index].downloadSurahList!);
-    getDownloadSurah(downloadSurahList);
+    getDownloadSurah(_downloadSurahList);
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.downloadedSurahManager);
   }

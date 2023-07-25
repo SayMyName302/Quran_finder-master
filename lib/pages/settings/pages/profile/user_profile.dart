@@ -1,7 +1,11 @@
+import '../../../../shared/entities/bookmarks.dart';
+import '../../../../shared/entities/reciters.dart';
+import '../../../duas/models/dua.dart';
+
 class UserProfile{
+  String? _fullName;
   String? _email;
   String? _password;
-  String? _fullName;
   String? _image;
   String? _uid;
   List<String>? _purposeOfQuran;
@@ -10,12 +14,15 @@ class UserProfile{
   String? _preferredLanguage;
   List<Devices>? _loginDevices;
   String? _loginType;
+  List<Reciters>? _favReciters;
+  List<Bookmarks>? _quranBookmarks;
+  List<Dua>? _duaBookmarks;
 
 
 
+  String? get fullName => _fullName;
   String? get email => _email;
   String? get password => _password;
-  String? get fullName => _fullName;
   String? get image => _image;
   String? get uid => _uid;
   List<String>? get purposeOfQuran => _purposeOfQuran;

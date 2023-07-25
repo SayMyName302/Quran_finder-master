@@ -300,16 +300,12 @@ class SignInProvider extends ChangeNotifier {
       String? image}) async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print(androidInfo.id);
-    OnBoardingInformation onBoarding =
-        Hive.box(appBoxKey).get(onBoardingInformationKey);
+    OnBoardingInformation onBoarding = Hive.box(appBoxKey).get(onBoardingInformationKey);
     UserProfile userProfile = UserProfile(
         email: loginType == "email" ? email : userCredential.user!.email,
         password: loginType == "email" ? password : "",
-        fullName:
-            loginType == "email" ? name : userCredential.user!.displayName,
-        image:
-            loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
+        fullName: loginType == "email" ? name : userCredential.user!.displayName,
+        image: loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
         uid: userCredential.user!.uid,
         purposeOfQuran: onBoarding.purposeOfQuran,
         favReciter: onBoarding.favReciter,

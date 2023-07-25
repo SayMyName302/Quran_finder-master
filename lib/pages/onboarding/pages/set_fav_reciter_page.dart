@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/skip_button.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
@@ -12,6 +14,7 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
 
+import '../../../shared/entities/reciters.dart';
 import '../models/fav_reciter.dart';
 
 class SetFavReciter extends StatefulWidget {
@@ -22,6 +25,12 @@ class SetFavReciter extends StatefulWidget {
 }
 
 class _SetFavReciterState extends State<SetFavReciter> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<RecitationProvider>().getReciters();
+  }
+
   @override
   Widget build(BuildContext context) {
     var isDark = context.read<ThemProvider>().isDark;
@@ -69,27 +78,24 @@ class _SetFavReciterState extends State<SetFavReciter> {
                 BrandButton(
                     text: localeText(context, "continue"),
                     onTap: () async {
-                      var selectedReciterIds = context
-                          .read<OnBoardingProvider>()
-                          .reciterList
-                          .where((reciter) =>
-                              reciter.title ==
-                              context.read<OnBoardingProvider>().favReciter)
-                          .map((reciter) => reciter.reciterId)
-                          .toList();
+                      var provider = Provider.of<OnBoardingProvider>(context,listen: false);
+                      List<FavReciter> reciterList = provider.reciterList;
+                      int index = reciterList.indexWhere((element) => element.title == provider.favReciter);
+                      Provider.of<RecitationProvider>(context,listen: false).addReciterFavOrRemove(reciterList[index].reciterId!);
+                      // var selectedReciterIds = context.read<OnBoardingProvider>().reciterList.where((reciter) => reciter.title == context.read<OnBoardingProvider>().favReciter).map((reciter) => reciter.reciterId).toList();
                       // Assuming you have access to the DBHelper instance
-                      var dbHelper = QuranDatabase();
+                      // var dbHelper = QuranDatabase();
 
                       // Iterate over the selected reciter IDs and update the is_fav value
-                      for (var reciterId in selectedReciterIds) {
+                      // for (var reciterId in selectedReciterIds) {
                         /// we will update this with hive
+
                         // await dbHelper.updateReciterIsFav(
                         //     reciterId!, 1); // Set the value to 1 for true
-                      }
+                      // }
 
                       // Navigator.of(context).pushNamed(RouteHelper.quranReminder);
-                      Navigator.of(context)
-                          .pushNamed(RouteHelper.notificationSetup);
+                      Navigator.of(context).pushNamed(RouteHelper.notificationSetup);
                     }),
                 SizedBox(
                   height: 16.h,

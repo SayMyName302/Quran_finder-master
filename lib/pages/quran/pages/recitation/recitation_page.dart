@@ -27,7 +27,7 @@ class _RecitationPageState extends State<RecitationPage> {
   @override
   void initState() {
     super.initState();
-    context.read<RecitationProvider>().getReciters();
+    // context.read<RecitationProvider>().getReciters();
     // context.read<RecitationProvider>().getFavReciter();
   }
 
