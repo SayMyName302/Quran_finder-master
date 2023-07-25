@@ -77,7 +77,7 @@ class _RecitationPageState extends State<RecitationPage> {
                         physics: const BouncingScrollPhysics(),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 6 * (116.87.h) +
                                   3 * 5.w, // Adjust the width based on the item width and spacing
                               child: GridView.builder(
@@ -99,16 +99,14 @@ class _RecitationPageState extends State<RecitationPage> {
                                     onTap: () async {
                                       recitersValue.getSurahName();
                                       // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
-                                      /// so that is now an
+                                      /// so that is now another way
                                       context.read<ReciterProvider>().getAvailableDownloadAudioFilesFromLocal(reciter.reciterName!);
-                                      print(reciter.audioUrl);
                                       Navigator.of(context).pushNamed(
                                         RouteHelper.reciter,
                                         arguments: reciter,
                                       );
                                     },
-                                    child:
-                                        buildReciterDetailsContainer(reciter),
+                                    child: buildReciterDetailsContainer(reciter),
                                   );
                                 },
                               ),
