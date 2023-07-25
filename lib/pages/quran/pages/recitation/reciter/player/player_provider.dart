@@ -144,6 +144,7 @@ class RecitationPlayerProvider with ChangeNotifier {
   void closePlayer() {
     if (_isOpen) {
       _isOpen = false;
+      _reciter = null;
       notifyListeners();
       _audioPlayer!.stop();
       _audioPlayer!.dispose();

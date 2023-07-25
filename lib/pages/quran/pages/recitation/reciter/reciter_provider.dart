@@ -22,12 +22,12 @@ class ReciterProvider extends ChangeNotifier {
 
   void setReciterList(List<int> downloadSurah) {
     _downloadSurahList = downloadSurah;
-    print("-------${_downloadSurahList}");
+    print("After Setting a Surah List For Reciter While Going to Reciter Page -------> $_downloadSurahList");
     notifyListeners();
   }
 
   void updateDownloadSurahList(int item, BuildContext context) {
-    print('====update====');
+    print('Updating Playlist if player is played Mode ====> update $item');
     context.read<RecitationPlayerProvider>().updatePlayList(item);
   }
 
@@ -95,18 +95,18 @@ class ReciterProvider extends ChangeNotifier {
           Navigator.of(context).pop();
           if (context.read<RecitationPlayerProvider>().reciter != null) {
             Reciters playerReciter = context.read<RecitationPlayerProvider>().reciter!;
-            // if (reciters.reciterId == playerReciter.reciterId) {
-            //   updateDownloadSurahList(
-            //     surah.surahId!,
-            //     context,
-            //   );
-            // }
+            if (reciters.reciterId == playerReciter.reciterId) {
+              updateDownloadSurahList(
+                surah.surahId!,
+                context,
+              );
+            }
           }
           if (!_downloadSurahList.contains(surah.surahId!)) {
             _downloadSurahList.add(surah.surahId!);
             notifyListeners();
           }
-          print("=====${_downloadSurahList}====");
+          print("After Downloading Surah new Surah Index added =====> $_downloadSurahList");
           reciters.setDownloadSurahList = downloadSurahList;
           QuranDatabase()
               .updateReciterDownloadList(reciters.reciterId!, reciters);

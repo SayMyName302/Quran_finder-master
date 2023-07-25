@@ -330,25 +330,28 @@ class ReciterPage extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: Column(
+      bottomNavigationBar: const Column(
         mainAxisSize: MainAxisSize.min,
-        children: const [
+        children: [
           MiniPlayer(),
         ],
       ),
     );
   }
 
-  void downloadOrPlayAudio(ReciterProvider reciterProvider, Surah surah,
-      BuildContext context, Reciters reciters) {
+  void downloadOrPlayAudio(ReciterProvider reciterProvider, Surah surah, BuildContext context, Reciters reciters) {
     if (!reciterProvider.downloadSurahList.contains(surah.surahId)) {
       reciterProvider.setIsDownloading(true);
       NetworksCheck(onComplete: () async {
         reciterProvider.downloadSurah(surah, context, reciters);
         await buildDownloadingDialog(context, surah);
         reciterProvider.setIsDownloading(false);
-        context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
-        Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+        if(context.read<RecitationPlayerProvider>().reciter == null){
+          print("from db ${reciters.downloadSurahList}");
+          print("from reciter ${reciterProvider.downloadSurahList}");
+          context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
+          Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+        }
       }, onError: () {
         reciterProvider.setIsDownloading(false);
         ScaffoldMessenger.of(context)
@@ -356,10 +359,7 @@ class ReciterPage extends StatelessWidget {
       }).doRequest();
     } else {
       // audio play logic
-      context.read<RecitationPlayerProvider>().initAudioPlayer(
-          reciters,
-          reciters.downloadSurahList!
-              .indexWhere((element) => element == surah.surahId));
+      context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
       Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
     }
   }
