@@ -99,10 +99,10 @@ class _RecitationPageState extends State<RecitationPage> {
                                   return InkWell(
                                     onTap: () async {
                                       recitersValue.getSurahName();
-                                      context
-                                          .read<ReciterProvider>()
-                                          .setReciterList(
-                                              reciter.downloadSurahList!);
+                                      // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
+                                      /// so that is now an
+                                      context.read<ReciterProvider>().getAvailableDownloadAudioFilesFromLocal(reciter.reciterName!);
+                                      print(reciter.audioUrl);
                                       Navigator.of(context).pushNamed(
                                         RouteHelper.reciter,
                                         arguments: reciter,
