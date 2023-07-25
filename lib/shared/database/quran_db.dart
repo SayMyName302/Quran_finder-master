@@ -400,11 +400,41 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     // await initDb();
     database = await openDb();
     var reciterList = <Reciters>[];
-    var cursor = await database!.query(_reciterTable, orderBy: 'order_by');
+
+    // Add the WHERE clause to filter by 'recommended'
+    var cursor = await database!.query(
+      _reciterTable,
+      where: 'categorize = ?',
+      whereArgs: ['recomended'],
+      orderBy: 'order_by',
+    );
+
     for (var maps in cursor) {
       var reciter = Reciters.fromJson(maps);
       reciterList.add(reciter);
     }
+
+    return reciterList;
+  }
+
+  Future<List<Reciters>> getReciter2() async {
+    // await initDb();
+    database = await openDb();
+    var reciterList = <Reciters>[];
+
+    // Add the WHERE clause to filter by 'recommended'
+    var cursor = await database!.query(
+      _reciterTable,
+      where: 'categorize = ?',
+      whereArgs: ['popular'],
+      orderBy: 'order_by',
+    );
+
+    for (var maps in cursor) {
+      var reciter = Reciters.fromJson(maps);
+      reciterList.add(reciter);
+    }
+
     return reciterList;
   }
 
