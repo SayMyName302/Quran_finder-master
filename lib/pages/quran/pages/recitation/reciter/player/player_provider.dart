@@ -37,7 +37,7 @@ class RecitationPlayerProvider with ChangeNotifier {
   Duration get duration => _duration;
   AudioPlayer get audioPlayer => _audioPlayer!;
 
-  void initAudioPlayer(Reciters reciters, int current) async {
+  void initAudioPlayer(Reciters reciters, int current,List reciterDownloadList) async {
     setReciter(reciters);
     List<String> audios = await getAudioFilesFromLocal(reciters.reciterName!);
     _playList = ConcatenatingAudioSource(
@@ -46,8 +46,9 @@ class RecitationPlayerProvider with ChangeNotifier {
       children: List.generate(
           audios.length, (index) => AudioSource.file(audios[index].toString())),
     );
-    reciters.downloadSurahList!.sort();
-    setDownloadSurahListToPlayer(reciters.downloadSurahList!);
+    // reciterDownloadList.sort();
+    // setDownloadSurahListToPlayer(reciters.downloadSurahList!);
+    setDownloadSurahListToPlayer(reciterDownloadList);
     setCurrentIndex(current);
     if (_audioPlayer == null) {
       _init(playList!);
@@ -165,21 +166,26 @@ class RecitationPlayerProvider with ChangeNotifier {
         notifyListeners();
       }
     }
-    print(downloadList);
+    print("$downloadList here is surah list");
   }
 
   // logic for verse by verse
   Future<List<String>> getAudioFilesFromLocal(String reciterName) async {
     var directory = await getApplicationDocumentsDirectory();
-    final audioFilesPath =
-        '${directory.path}/recitation/$reciterName/fullRecitations';
+    final audioFilesPath = '${directory.path}/recitation/$reciterName/fullRecitations';
     final audioDir = Directory(audioFilesPath);
     final audioFiles = audioDir
         .listSync()
         .where((entity) => entity is File && entity.path.endsWith('.mp3'))
         .map((e) => e.path)
         .toList();
-    audioFiles.sort();
+    audioFiles.sort((a, b) {
+      // Extract the numeric part of the file names (e.g., '1.mp3' => 1, '114.mp3' => 114)
+      int aNumber = int.parse(a.split('/').last.replaceAll(RegExp(r'[^0-9]'), ''));
+      int bNumber = int.parse(b.split('/').last.replaceAll(RegExp(r'[^0-9]'), ''));
+      return aNumber.compareTo(bNumber);
+    });
+    debugPrint("$audioFiles here is audios files");
     return audioFiles;
   }
 
