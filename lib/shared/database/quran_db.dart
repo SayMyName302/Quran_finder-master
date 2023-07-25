@@ -657,32 +657,32 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
 
   //----------
   //Recitation Bookmarks
-  void addRecitationBookmark(int reciteId) async {
-    database = await openDb();
-    await database!.rawUpdate(
-        "update $_reciteAllTable set is_favorite = 1 where surah_id = $reciteId");
-    // print('reciter Added Index is>>: $reciteId');
-  }
+  // void addRecitationBookmark(int reciteId) async {
+  //   database = await openDb();
+  //   await database!.rawUpdate(
+  //       "update $_reciteAllTable set is_favorite = 1 where surah_id = $reciteId");
+  //   // print('reciter Added Index is>>: $reciteId');
+  // }
 
-  //delete bookmark
-  void removeRecitatioBookmark(int reciteId, int reciteCategory) async {
-    database = await openDb();
-    await database!.rawUpdate(
-        "update $_reciteAllTable set is_favorite = 0 where surah_id = $reciteId AND category_id = $reciteCategory");
-    // print('reciter Removed Index is>>: $reciteId ,cat ID >> $reciteCategory');
-  }
+  // //delete bookmark
+  // void removeRecitatioBookmark(int reciteId, int reciteCategory) async {
+  //   database = await openDb();
+  //   await database!.rawUpdate(
+  //       "update $_reciteAllTable set is_favorite = 0 where surah_id = $reciteId AND category_id = $reciteCategory");
+  //   // print('reciter Removed Index is>>: $reciteId ,cat ID >> $reciteCategory');
+  // }
 
-  Future<List<RecitationAllCategoryModel>> getRecitationBookmarks() async {
-    database = await openDb();
-    List<RecitationAllCategoryModel> quranTextList = [];
-    var table = await database!
-        .query(_reciteAllTable, where: "is_favorite= ?", whereArgs: [1]);
-    for (var rows in table) {
-      var ayahText = RecitationAllCategoryModel.fromJson(rows);
-      quranTextList.add(ayahText);
-    }
-    return quranTextList;
-  }
+  // Future<List<RecitationAllCategoryModel>> getRecitationBookmarks() async {
+  //   database = await openDb();
+  //   List<RecitationAllCategoryModel> quranTextList = [];
+  //   var table = await database!
+  //       .query(_reciteAllTable, where: "is_favorite= ?", whereArgs: [1]);
+  //   for (var rows in table) {
+  //     var ayahText = RecitationAllCategoryModel.fromJson(rows);
+  //     quranTextList.add(ayahText);
+  //   }
+  //   return quranTextList;
+  // }
   //----------
 
   // List<String> words = normalizedText.trim().split(RegExp(r'\s+'));

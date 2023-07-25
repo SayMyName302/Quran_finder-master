@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:hive/hive.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 
 import 'languages.dart';
 
