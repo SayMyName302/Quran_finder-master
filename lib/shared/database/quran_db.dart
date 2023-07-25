@@ -462,6 +462,12 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   // }
 
   // for bismillah
+  Future<void> updateReciterDownloadList(
+      int reciterId, Reciters reciters) async {
+    database = await openDb();
+    await database!.update(_reciterTable, reciters.toJson(),
+        where: "reciter_id = ?", whereArgs: [reciterId]);
+  }
 
   Future<void> updateBissmillahOfEachTranslation(
       String text, String translationName) async {
@@ -474,8 +480,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     });
   }
 
-
-
   Future<void> updateQuranTranslations(
     List<List<String>> translations,
     String translationName,
@@ -485,8 +489,10 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     database = await openDb();
 
     // create indexes on surah_id and verse_id columns
-    await database!.execute("CREATE INDEX IF NOT EXISTS surah_id_idx ON $_quranTextTable (surah_id)");
-    await database!.execute("CREATE INDEX IF NOT EXISTS verse_id_idx ON $_quranTextTable (verse_id)");
+    await database!.execute(
+        "CREATE INDEX IF NOT EXISTS surah_id_idx ON $_quranTextTable (surah_id)");
+    await database!.execute(
+        "CREATE INDEX IF NOT EXISTS verse_id_idx ON $_quranTextTable (verse_id)");
 
     const batchSize = 100; // Number of updates per batch
     int batchCount = 0;
@@ -512,12 +518,14 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
         }
       }
     }).then((value) {
-      Future.delayed(Duration.zero, () => context.read<TranslationManagerProvider>().updateState(index, context),
+      Future.delayed(
+        Duration.zero,
+        () => context
+            .read<TranslationManagerProvider>()
+            .updateState(index, context),
       );
     });
   }
-
-
 
   // to load all Para Name
   Future<List<Juz>> getJuzNames() async {
@@ -655,7 +663,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   //   }
   //   return quranTextList;
   // }
-
 }
 
 class Translation {
