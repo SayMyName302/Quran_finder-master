@@ -22,12 +22,12 @@ class ReciterProvider extends ChangeNotifier {
 
   void setReciterList(List<int> downloadSurah) {
     _downloadSurahList = downloadSurah;
-    print("-------${_downloadSurahList}");
+    print("After Setting a Surah List For Reciter While Going to Reciter Page -------> $_downloadSurahList");
     notifyListeners();
   }
 
   void updateDownloadSurahList(int item, BuildContext context) {
-    print('====update====');
+    print('Updating Playlist if player is played Mode ====> update $item');
     context.read<RecitationPlayerProvider>().updatePlayList(item);
   }
 
@@ -93,23 +93,23 @@ class ReciterProvider extends ChangeNotifier {
           context.read<DownloadProvider>().setDownloading(false);
           context.read<DownloadProvider>().setDownloadProgress(0);
           Navigator.of(context).pop();
+          /// means player is open and we have to update playlist during player is being playing the surah
           if (context.read<RecitationPlayerProvider>().reciter != null) {
             Reciters playerReciter = context.read<RecitationPlayerProvider>().reciter!;
-            // if (reciters.reciterId == playerReciter.reciterId) {
-            //   updateDownloadSurahList(
-            //     surah.surahId!,
-            //     context,
-            //   );
-            // }
+            if (reciters.reciterId == playerReciter.reciterId) {
+              updateDownloadSurahList(
+                surah.surahId!,
+                context,
+              );
+            }
           }
           if (!_downloadSurahList.contains(surah.surahId!)) {
             _downloadSurahList.add(surah.surahId!);
             notifyListeners();
           }
-          print("=====${_downloadSurahList}====");
+          print("After Downloading Surah new Surah Index added =====> $_downloadSurahList");
           reciters.setDownloadSurahList = downloadSurahList;
-          QuranDatabase()
-              .updateReciterDownloadList(reciters.reciterId!, reciters);
+          // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
         });
       }
     } catch (e) {
@@ -122,24 +122,24 @@ class ReciterProvider extends ChangeNotifier {
   }
 
   void removeDownloadedSurah(int surahId, Reciters reciters) {
-    QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
+    // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
   }
 
-  // get one ayah from local and add to playlist
-  Future<String> getAudioFromLocal(Reciters reciters, Surah surah) async {
-    String surahId = surah.surahId.toString().length == 1
-        ? "00${surah.surahId}"
-        : surah.surahId.toString().length == 2
-            ? "0${surah.surahId}"
-            : surah.surahId.toString();
-    var directory = await getApplicationDocumentsDirectory();
-    return "${directory.path}/recitation/${reciters.reciterName}/fullRecitations/$surahId.mp3";
-  }
+  /// get each surah audio from local and add to playlist
+  // Future<String> getAudioFromLocal(Reciters reciters, Surah surah) async {
+  //   String surahId = surah.surahId.toString().length == 1
+  //       ? "00${surah.surahId}"
+  //       : surah.surahId.toString().length == 2
+  //           ? "0${surah.surahId}"
+  //           : surah.surahId.toString();
+  //   var directory = await getApplicationDocumentsDirectory();
+  //   return "${directory.path}/recitation/${reciters.reciterName}/fullRecitations/${surah.surahId}.mp3";
+  // }
 
   /// this method will check reciter folder with his name
   /// if folder available so go inside and return all the
   /// download recitation as list like this [1,2,4]
-  Future<void> getAvailableDownloadAudioFilesFromLocal(String reciterName) async {
+  Future<List<int>> getAvailableDownloadAudiosAsListOfInt(String reciterName) async {
     var directory = await getApplicationDocumentsDirectory();
     final audioFilesPath = '${directory.path}/recitation/$reciterName/fullRecitations';
     if (await Directory(audioFilesPath).exists()) {
@@ -154,8 +154,10 @@ class ReciterProvider extends ChangeNotifier {
           .toList();
       reciterDownloadList.sort();
       setReciterList(reciterDownloadList);
+      return reciterDownloadList;
     } else {
       setReciterList([]);
+      return [];
     }
   }
 }

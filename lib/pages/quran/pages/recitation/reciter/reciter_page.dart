@@ -94,7 +94,7 @@ class ReciterPage extends StatelessWidget {
                               ? InkWell(
                                   onTap: () {
                                     // audio play logic
-                                    context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, 0);
+                                    context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, 0,reciterProvider.downloadSurahList);
                                     Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
                                   },
                                   child: Container(
@@ -330,25 +330,32 @@ class ReciterPage extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: Column(
+      bottomNavigationBar: const Column(
         mainAxisSize: MainAxisSize.min,
-        children: const [
+        children: [
           MiniPlayer(),
         ],
       ),
     );
   }
 
-  void downloadOrPlayAudio(ReciterProvider reciterProvider, Surah surah,
-      BuildContext context, Reciters reciters) {
+  void downloadOrPlayAudio(ReciterProvider reciterProvider, Surah surah, BuildContext context, Reciters reciters) {
     if (!reciterProvider.downloadSurahList.contains(surah.surahId)) {
       reciterProvider.setIsDownloading(true);
       NetworksCheck(onComplete: () async {
+        Reciters? recitersFromRecitationPlayer = context.read<RecitationPlayerProvider>().reciter;
         reciterProvider.downloadSurah(surah, context, reciters);
         await buildDownloadingDialog(context, surah);
         reciterProvider.setIsDownloading(false);
-        context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
-        Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+        /// after downloading surah directly open player
+        if(recitersFromRecitationPlayer == null){
+          /// it means mini player is not open so we can open recitation player after downloading specific surah
+          // context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
+          Future.delayed(Duration.zero,(){
+            context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciterProvider.downloadSurahList.indexWhere((element) => element == surah.surahId,),reciterProvider.downloadSurahList);
+            Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+          });
+        }
       }, onError: () {
         reciterProvider.setIsDownloading(false);
         ScaffoldMessenger.of(context)
@@ -356,10 +363,10 @@ class ReciterPage extends StatelessWidget {
       }).doRequest();
     } else {
       // audio play logic
-      context.read<RecitationPlayerProvider>().initAudioPlayer(
-          reciters,
-          reciters.downloadSurahList!
-              .indexWhere((element) => element == surah.surahId));
+      print("from db ${reciters.downloadSurahList}");
+      print("from reciter ${reciterProvider.downloadSurahList}");
+      // context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
+      context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciterProvider.downloadSurahList.indexWhere((element) => element == surah.surahId),reciterProvider.downloadSurahList);
       Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
     }
   }

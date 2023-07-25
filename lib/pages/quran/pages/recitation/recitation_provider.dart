@@ -5,7 +5,6 @@ import 'package:hive/hive.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
-
 import '../../../../shared/utills/app_constants.dart';
 
 class RecitationProvider extends ChangeNotifier {

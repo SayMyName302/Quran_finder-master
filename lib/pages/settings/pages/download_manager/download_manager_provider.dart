@@ -6,6 +6,9 @@ import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+
+import '../../../quran/pages/recitation/reciter/reciter_provider.dart';
 
 class DownloadManagerProvider extends ChangeNotifier{
   List<Reciters> _recitersList = [];
@@ -15,24 +18,25 @@ class DownloadManagerProvider extends ChangeNotifier{
   Reciters? get recitersName => _recitersName;
   List<Surah> _downloadSurahs = [];
   List<Surah> get downloadSurahs => _downloadSurahs;
+  List<int> downloadSurahList = [];
 
   Future<void> getReciters() async {
     _recitersList = await QuranDatabase().getReciter();
     notifyListeners();
-    // List<String> reciters = await getAvailableReciters();
+    List<String> reciters = await getAvailableReciters();
     if(_recitersList.isNotEmpty){
       for(var models in _recitersList){
-        // int index = reciters.indexWhere((element) => element == models.reciterName);
-        // if(index != -1){
-        //   if(models.reciterName == reciters[index]){
-        //     _whichHaveDownloaded.add(models);
-        //     notifyListeners();
-        //   }
-        // }
-        if(models.downloadSurahList!.isNotEmpty){
-          _whichHaveDownloaded.add(models);
-          notifyListeners();
+        int index = reciters.indexWhere((element) => element == models.reciterName);
+        if(index != -1){
+          if(models.reciterName == reciters[index]){
+            _whichHaveDownloaded.add(models);
+            notifyListeners();
+          }
         }
+        // if(models.downloadSurahList!.isNotEmpty){
+        //   _whichHaveDownloaded.add(models);
+        //   notifyListeners();
+        // }
       }
     }
   }
@@ -51,9 +55,14 @@ class DownloadManagerProvider extends ChangeNotifier{
   }
 
 
-  void goToDownloadAudios(int index,BuildContext context){
+  void goToDownloadAudios(int index,BuildContext context) async{
+    var provider = Provider.of<ReciterProvider>(context,listen: false);
     _recitersName = _whichHaveDownloaded[index];
-    getDownloadSurah(_whichHaveDownloaded[index].downloadSurahList!);
+    downloadSurahList = await provider.getAvailableDownloadAudiosAsListOfInt(recitersName!.reciterName!);
+    // var downloadSurahList = provider.downloadSurahList;
+    downloadSurahList.sort();
+    // getDownloadSurah(_whichHaveDownloaded[index].downloadSurahList!);
+    getDownloadSurah(downloadSurahList);
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.downloadedSurahManager);
   }
@@ -75,19 +84,18 @@ class DownloadManagerProvider extends ChangeNotifier{
   }
 
   Future<void> deleteDownloadedSurah(String surahID,int index,Reciters reciters) async {
-    print(reciters.downloadSurahList!);
-    String surahId = surahID.length == 1 ? "00$surahID" : surahID.length == 2 ? "0$surahID":surahID;
     var directory = await getApplicationDocumentsDirectory();
-    var path = "${directory.path}/recitation/${_recitersName!.reciterName}/fullRecitations/$surahId.mp3";
+    var path = "${directory.path}/recitation/${_recitersName!.reciterName}/fullRecitations/$surahID.mp3";
     File(path.toString()).deleteSync();
     _downloadSurahs.removeAt(index);
     notifyListeners();
-    reciters.downloadSurahList!.removeWhere((element) => element.toString() == surahID);
-    if(reciters.downloadSurahList!.isEmpty){
-      _whichHaveDownloaded.removeWhere((element) => element.reciterId == reciters.reciterId);
-    }
-    notifyListeners();
-    print(reciters.downloadSurahList!);
-    QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
+    // String surahId = surahID.length == 1 ? "00$surahID" : surahID.length == 2 ? "0$surahID":surahID;
+    // reciters.downloadSurahList!.removeWhere((element) => element.toString() == surahID);
+    // if(downloadSurahList.isEmpty){
+    //   _whichHaveDownloaded.removeWhere((element) => element.reciterId == reciters.reciterId);
+    // }
+    // notifyListeners();
+    // print(reciters.downloadSurahList!);
+    // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
   }
 }
