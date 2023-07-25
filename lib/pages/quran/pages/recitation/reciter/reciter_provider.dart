@@ -122,7 +122,7 @@ class ReciterProvider extends ChangeNotifier {
   }
 
   void removeDownloadedSurah(int surahId, Reciters reciters) {
-    QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
+    // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
   }
 
   /// get each surah audio from local and add to playlist
@@ -139,7 +139,7 @@ class ReciterProvider extends ChangeNotifier {
   /// this method will check reciter folder with his name
   /// if folder available so go inside and return all the
   /// download recitation as list like this [1,2,4]
-  Future<void> getAvailableDownloadAudiosAsListOfInt(String reciterName) async {
+  Future<List<int>> getAvailableDownloadAudiosAsListOfInt(String reciterName) async {
     var directory = await getApplicationDocumentsDirectory();
     final audioFilesPath = '${directory.path}/recitation/$reciterName/fullRecitations';
     if (await Directory(audioFilesPath).exists()) {
@@ -154,8 +154,10 @@ class ReciterProvider extends ChangeNotifier {
           .toList();
       reciterDownloadList.sort();
       setReciterList(reciterDownloadList);
+      return reciterDownloadList;
     } else {
       setReciterList([]);
+      return [];
     }
   }
 }
