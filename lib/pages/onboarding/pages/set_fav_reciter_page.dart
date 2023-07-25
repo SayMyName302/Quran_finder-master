@@ -82,8 +82,9 @@ class _SetFavReciterState extends State<SetFavReciter> {
 
                       // Iterate over the selected reciter IDs and update the is_fav value
                       for (var reciterId in selectedReciterIds) {
-                        await dbHelper.updateReciterIsFav(
-                            reciterId!, 1); // Set the value to 1 for true
+                        /// we will update this with hive
+                        // await dbHelper.updateReciterIsFav(
+                        //     reciterId!, 1); // Set the value to 1 for true
                       }
 
                       // Navigator.of(context).pushNamed(RouteHelper.quranReminder);
