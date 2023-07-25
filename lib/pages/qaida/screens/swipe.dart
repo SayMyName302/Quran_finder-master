@@ -1,24 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page1.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page2.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page3.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page4.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page5.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page6.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page7.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page8.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page9.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page10.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page11.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page12.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page13.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page14.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page15.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page16.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page17.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page18.dart';
-import 'package:nour_al_quran/pages/qaida/screens/page19.dart';
+import 'package:nour_al_quran/pages/qaida/qaida.dart';
 import 'package:nour_al_quran/pages/qaida/screens/pageindex.dart';
 import 'package:nour_al_quran/pages/qaida/screens/qaidaplayer.dart';
 
@@ -323,7 +305,7 @@ class SwipePagesState extends State<SwipePages> {
       setState(() {
         _isPaused = true;
       });
-    } else {}
+    }
     // else if (_isPaused) {
     //   _audioLists[_currentPlayingIndex].play();
     //   setState(() {
@@ -368,8 +350,8 @@ class SwipePagesState extends State<SwipePages> {
 
   Future<void> _playPageAudios(int pageId, List<String> audioFiles) async {
     try {
-      //    _audioLists.clear();
-      //print("Audio Files: $audioFiles"); // Add this print statement
+      _audioLists.clear();
+      print("Audio Files: $audioFiles");
 
       switch (pageId) {
         case 1:

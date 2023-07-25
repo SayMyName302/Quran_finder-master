@@ -13,7 +13,7 @@ class BookmarkProviderRuqyah extends ChangeNotifier {
   List get bookmarkList => _bookmarkList;
 
   void removeBookmark(int duaId, int categoryId) {
-    QuranDatabase().removeRduaBookmark(duaId, categoryId);
+    QuranDatabase().removeRDuaBookmark(duaId, categoryId);
     _bookmarkList.removeWhere((element) =>
         element.duaId == duaId && element.categoryId == categoryId);
     notifyListeners();

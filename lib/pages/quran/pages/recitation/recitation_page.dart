@@ -28,6 +28,7 @@ class _RecitationPageState extends State<RecitationPage> {
   void initState() {
     super.initState();
     context.read<RecitationProvider>().getReciters();
+    context.read<RecitationProvider>().getReciters2();
     // context.read<RecitationProvider>().getFavReciter();
   }
 
@@ -79,7 +80,8 @@ class _RecitationPageState extends State<RecitationPage> {
                         child: Row(
                           children: [
                             Container(
-                              width: 6 * (116.87.h) +
+                              height: 200,
+                              width: 6.5 * (200.87.h) +
                                   3 * 5.w, // Adjust the width based on the item width and spacing
                               child: GridView.builder(
                                 padding:
@@ -90,7 +92,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 8,
-                                  mainAxisExtent: 116.87.h,
+                                  mainAxisExtent: 200.87.h,
                                   crossAxisSpacing: 5.w,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
@@ -99,10 +101,98 @@ class _RecitationPageState extends State<RecitationPage> {
                                   return InkWell(
                                     onTap: () async {
                                       recitersValue.getSurahName();
+                                      // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
+                                      /// so that is now an
                                       context
                                           .read<ReciterProvider>()
-                                          .setReciterList(
-                                              reciter.downloadSurahList!);
+                                          .getAvailableDownloadAudioFilesFromLocal(
+                                              reciter.reciterName!);
+                                      print(reciter.audioUrl);
+                                      Navigator.of(context).pushNamed(
+                                        RouteHelper.reciter,
+                                        arguments: reciter,
+                                      );
+                                    },
+                                    child:
+                                        buildReciterDetailsContainer(reciter),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(appColor),
+                      );
+              },
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SubTitleText(title: localeText(context, "popular_reciter")),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(RouteHelper.allReciters);
+                    analytics.logEvent(
+                      name: 'reciters_section_viewall_button',
+                      parameters: {'title': 'reciters_viewall'},
+                    );
+                  },
+                  child: Container(
+                    margin:
+                        EdgeInsets.only(bottom: 10.h, right: 20.w, left: 20.w),
+                    child: Text(
+                      localeText(context, "view_all"),
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w900,
+                          color: appColor),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // const RecitationCategorySection(),
+            Consumer<RecitationProvider>(
+              builder: (context, recitersValue, child) {
+                return recitersValue.recitersList2.isNotEmpty
+                    ? SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 200,
+                              width: 6.5 * (200.87.h) +
+                                  3 * 5.w, // Adjust the width based on the item width and spacing
+                              child: GridView.builder(
+                                padding:
+                                    EdgeInsets.only(left: 20.w, right: 20.w),
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 8,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 8,
+                                  mainAxisExtent: 200.87.h,
+                                  crossAxisSpacing: 5.w,
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  Reciters reciter =
+                                      recitersValue.recitersList2[index];
+                                  return InkWell(
+                                    onTap: () async {
+                                      recitersValue.getSurahName();
+                                      // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
+                                      /// so that is now an
+                                      context
+                                          .read<ReciterProvider>()
+                                          .getAvailableDownloadAudioFilesFromLocal(
+                                              reciter.reciterName!);
+                                      print(reciter.audioUrl);
                                       Navigator.of(context).pushNamed(
                                         RouteHelper.reciter,
                                         arguments: reciter,
@@ -337,15 +427,17 @@ class _RecitationPageState extends State<RecitationPage> {
   Container buildReciterDetailsContainer(Reciters reciter) {
     var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
     return Container(
+      height: 200,
+      width: 200,
       margin: EdgeInsets.only(right: 7.w),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
           SizedBox(
-            height: 71.18.h,
-            width: 71.18.w,
+            height: 150.h,
+            width: 150.w,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(35.59.r),
+              borderRadius: BorderRadius.circular(100.r),
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
                 imageUrl: reciter.imageUrl!,
@@ -359,16 +451,18 @@ class _RecitationPageState extends State<RecitationPage> {
           SizedBox(
             height: 3.h,
           ),
-          Text(
-            reciter.reciterName!,
-            softWrap: true,
-            maxLines: 3,
-            style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 11.sp,
-                height: 1.3.h,
-                fontFamily: "satoshi"),
-            textAlign: TextAlign.center,
+          Expanded(
+            child: Text(
+              reciter.reciterName!,
+              softWrap: true,
+              maxLines: 3,
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14.sp,
+                  height: 1.3.h,
+                  fontFamily: "satoshi"),
+              textAlign: TextAlign.center,
+            ),
           )
         ],
       ),

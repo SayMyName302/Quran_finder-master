@@ -400,31 +400,68 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     // await initDb();
     database = await openDb();
     var reciterList = <Reciters>[];
-    var cursor = await database!.query(_reciterTable, orderBy: 'order_by');
+
+    // Add the WHERE clause to filter by 'recommended'
+    var cursor = await database!.query(
+      _reciterTable,
+      where: 'categorize = ?',
+      whereArgs: ['recomended'],
+      orderBy: 'order_by',
+    );
+
     for (var maps in cursor) {
       var reciter = Reciters.fromJson(maps);
       reciterList.add(reciter);
     }
+
     return reciterList;
   }
 
-  Future<void> updateReciterIsFav(int reciterId, int value) async {
+  Future<List<Reciters>> getReciter2() async {
+    // await initDb();
     database = await openDb();
-    await database!.execute(
-        "update $_reciterTable set is_fav = $value where reciter_id = $reciterId");
-  }
+    var reciterList = <Reciters>[];
 
-  Future<List<Reciters>> getFavReciters() async {
-    database = await openDb();
-    List<Reciters> reciters = [];
-    var table = await database!
-        .query(_reciterTable, where: "is_fav = ?", whereArgs: [1]);
-    for (var map in table) {
-      reciters.add(Reciters.fromJson(map));
+    // Add the WHERE clause to filter by 'recommended'
+    var cursor = await database!.query(
+      _reciterTable,
+      where: 'categorize = ?',
+      whereArgs: ['popular'],
+      orderBy: 'order_by',
+    );
+
+    for (var maps in cursor) {
+      var reciter = Reciters.fromJson(maps);
+      reciterList.add(reciter);
     }
-    return reciters;
+
+    return reciterList;
   }
 
+  // Future<void> updateReciterIsFav(int reciterId, int value) async {
+  //   database = await openDb();
+  //   await database!.execute(
+  //       "update $_reciterTable set is_fav = $value where reciter_id = $reciterId");
+  // }
+
+  // Future<List<Reciters>> getFavReciters() async {
+  //   database = await openDb();
+  //   List<Reciters> reciters = [];
+  //   var table = await database!
+  //       .query(_reciterTable, where: "is_fav = ?", whereArgs: [1]);
+  //   for (var map in table) {
+  //     reciters.add(Reciters.fromJson(map));
+  //   }
+  //   return reciters;
+  // }
+
+  // Future<void> updateReciterDownloadList(int reciterId, Reciters reciters) async {
+  //   database = await openDb();
+  //   await database!.update(_reciterTable, reciters.toJson(),
+  //       where: "reciter_id = ?", whereArgs: [reciterId]);
+  // }
+
+  // for bismillah
   Future<void> updateReciterDownloadList(
       int reciterId, Reciters reciters) async {
     database = await openDb();
@@ -432,7 +469,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
         where: "reciter_id = ?", whereArgs: [reciterId]);
   }
 
-  // for bismillah
   Future<void> updateBissmillahOfEachTranslation(
       String text, String translationName) async {
     database = await openDb();
@@ -444,50 +480,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     });
   }
 
-  // Future<void> updateQuranTranslations(List translations,String translationName,BuildContext context,int index) async {
-  //   database = await openDb();
-  //   await database!.transaction((txn) async {
-  //     Batch batch1 = txn.batch();
-  //     for(int k = 0; k < translations.length; k++){
-  //       batch1.rawUpdate(
-  //           "update $_quranTextTable set $translationName = ? where surah_id = ? and verse_id = ?",
-  //           [translations[k][2], int.parse(translations[k][0]), int.parse(translations[k][1])]
-  //       );
-  //     }
-  //     await batch1.commit().then((value) =>print("done1"));
-  //     Future.delayed(Duration.zero,()=>context.read<TranslationManagerProvider>().updateState(index, context));
-  //   });
-  // }
-
-  // Future<void> updateQuranTranslations(List translations,
-  //     String translationName, BuildContext context, int index) async {
-  //   database = await openDb();
-
-  //   // create indexes on surah_id and verse_id columns
-  //   await database!.execute(
-  //       "CREATE INDEX IF NOT EXISTS surah_id_idx ON $_quranTextTable (surah_id)");
-  //   await database!.execute(
-  //       "CREATE INDEX IF NOT EXISTS verse_id_idx ON $_quranTextTable (verse_id)");
-
-  //   await database!.transaction((txn) async {
-  //     for (int k = 0; k < translations.length; k++) {
-  //       await txn.execute(
-  //         "update $_quranTextTable set $translationName = ? where surah_id = ? and verse_id = ?",
-  //         [
-  //           translations[k][2],
-  //           int.parse(translations[k][0]),
-  //           int.parse(translations[k][1])
-  //         ],
-  //       );
-  //     }
-  //   }).then((value) {
-  //     Future.delayed(
-  //         Duration.zero,
-  //         () => context
-  //             .read<TranslationManagerProvider>()
-  //             .updateState(index, context));
-  //   });
-  // }
   Future<void> updateQuranTranslations(
     List<List<String>> translations,
     String translationName,
@@ -502,7 +494,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     await database!.execute(
         "CREATE INDEX IF NOT EXISTS verse_id_idx ON $_quranTextTable (verse_id)");
 
-    final batchSize = 100; // Number of updates per batch
+    const batchSize = 100; // Number of updates per batch
     int batchCount = 0;
 
     await database!.transaction((txn) async {
@@ -532,18 +524,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
             .read<TranslationManagerProvider>()
             .updateState(index, context),
       );
-    });
-  }
-
-  Future<void> addNew(List translations, String translationName) async {
-    database = await openDb();
-    await database!.transaction((txn) async {
-      for (int k = 0; k < translations.length; k++) {
-        trans transa = trans(int.parse(translations[k][0]),
-            int.parse(translations[k][1]), translations[k][2]);
-        await txn.insert('testing', transa.toJson());
-        print(k);
-      }
     });
   }
 
@@ -628,7 +608,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     return quranTextList;
   }
 
-  //                 Ruqyah Dua BOOKMARKS
+  // Ruqyah Dua BOOKMARKS
   //add a bookmark
   void addRBookmark(int duaId) async {
     database = await openDb();
@@ -637,13 +617,13 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   }
 
   //delete bookmark
-  void removeRduaBookmark(int duaId, int rCategory) async {
+  void removeRDuaBookmark(int duaId, int rCategory) async {
     database = await openDb();
     await database!.rawUpdate(
         "update $_rduaAllTable set is_fav = 0 where ruqyah_id = $duaId AND category_id = $rCategory ");
   }
 
-  Future<List<Ruqyah>> getRduaBookmarks() async {
+  Future<List<Ruqyah>> getRDuaBookmarks() async {
     database = await openDb();
     List<Ruqyah> quranTextList = [];
     var table = await database!
@@ -657,12 +637,12 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
 
   //----------
   //Recitation Bookmarks
-  void addRecitationBookmark(int reciteId) async {
-    database = await openDb();
-    await database!.rawUpdate(
-        "update $_reciteAllTable set is_favorite = 1 where surah_id = $reciteId");
-    // print('reciter Added Index is>>: $reciteId');
-  }
+  // void addRecitationBookmark(int reciteId) async {
+  //   database = await openDb();
+  //   await database!.rawUpdate(
+  //       "update $_reciteAllTable set is_favorite = 1 where surah_id = $reciteId");
+  //   // print('reciter Added Index is>>: $reciteId');
+  // }
 
   //delete bookmark
   void removeRecitatioBookmark(int reciteId, int reciteCategory) async {
@@ -685,60 +665,91 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   }
   //----------
 
-  // List<String> words = normalizedText.trim().split(RegExp(r'\s+'));
+// Future<void> updateQuranTranslations(List translations,
+//     String translationName, BuildContext context, int index) async {
+//   database = await openDb();
 
-  // Future<List<QuranText>> searchQuranText(String searchTerm) async {
-  //   // Remove Tajweedi marks from the Arabic text
-  //   database = await openDb();
-  //   List<QuranText> fullQuranText = [];
-  //   var table = await database!.query(_quranTextTable);
-  //   for (var map in table) {
-  //     fullQuranText.add(QuranText.fromJson(map));
-  //   }
-  //
-  //   // Filter the Quran text based on the search term
-  //   List<QuranText> filteredQuranText = [];
-  //   if (fullQuranText.isNotEmpty) {
-  //     for (var quranText in fullQuranText) {
-  //       String verseText = quranText.verseText!;
-  //       String normalizedText = verseText.replaceAll(RegExp(r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]'), '');
-  //       List<String> words = normalizedText.trim().split(RegExp(r'\s+'));
-  //
-  //       // Check if the search term matches any word in the verse text
-  //       for (var word in words) {
-  //         if (word.contains(searchTerm)) {
-  //           // Highlight the matching search term in the verse text
-  //           // String highlightedText = verseText.replaceAll(searchTerm, '<b>$searchTerm</b>');
-  //           QuranText filtered = QuranText(surahId: quranText.surahId!, verseId: quranText.verseId, verseText: quranText.verseText, translationText: quranText.translationText, isBookmark: quranText.isBookmark);
-  //           filteredQuranText.add(filtered);
-  //           break;
-  //         }else{
-  //           filteredQuranText = [];
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return filteredQuranText;
-  // }
+//   // create indexes on surah_id and verse_id columns
+//   await database!.execute(
+//       "CREATE INDEX IF NOT EXISTS surah_id_idx ON $_quranTextTable (surah_id)");
+//   await database!.execute(
+//       "CREATE INDEX IF NOT EXISTS verse_id_idx ON $_quranTextTable (verse_id)");
 
-  // do searching in quran
-  // Future<List<QuranText>> searchQuranText(String word) async{
-  //   // Remove Tajweedi marks from the Arabic text
-  //   database = await openDb();
-  //   List<QuranText> fullQuranText = [];
-  //   List<QuranText> filteredQuranText = [];
-  //   var table = await database!.query(_quranTextTable);
-  //   for(var map in table){
-  //     fullQuranText.add(QuranText.fromJson(map));
-  //   }
-  //   if(fullQuranText.isNotEmpty){
-  //     for(var quranText in fullQuranText){
-  //       String normalizedText = quranText.verseText!.replaceAll(RegExp(r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]'), '');
-  //
-  //     }
-  //   }
-  //   return filteredQuranText;
-  // }
+//   await database!.transaction((txn) async {
+//     for (int k = 0; k < translations.length; k++) {
+//       await txn.execute(
+//         "update $_quranTextTable set $translationName = ? where surah_id = ? and verse_id = ?",
+//         [
+//           translations[k][2],
+//           int.parse(translations[k][0]),
+//           int.parse(translations[k][1])
+//         ],
+//       );
+//     }
+//   }).then((value) {
+//     Future.delayed(
+//         Duration.zero,
+//         () => context
+//             .read<TranslationManagerProvider>()
+//             .updateState(index, context));
+//   });
+// }
+
+//----------
+// List<String> words = normalizedText.trim().split(RegExp(r'\s+'));
+
+// Future<List<QuranText>> searchQuranText(String searchTerm) async {
+//   // Remove Tajweedi marks from the Arabic text
+//   database = await openDb();
+//   List<QuranText> fullQuranText = [];
+//   var table = await database!.query(_quranTextTable);
+//   for (var map in table) {
+//     fullQuranText.add(QuranText.fromJson(map));
+//   }
+//
+//   // Filter the Quran text based on the search term
+//   List<QuranText> filteredQuranText = [];
+//   if (fullQuranText.isNotEmpty) {
+//     for (var quranText in fullQuranText) {
+//       String verseText = quranText.verseText!;
+//       String normalizedText = verseText.replaceAll(RegExp(r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]'), '');
+//       List<String> words = normalizedText.trim().split(RegExp(r'\s+'));
+//
+//       // Check if the search term matches any word in the verse text
+//       for (var word in words) {
+//         if (word.contains(searchTerm)) {
+//           // Highlight the matching search term in the verse text
+//           // String highlightedText = verseText.replaceAll(searchTerm, '<b>$searchTerm</b>');
+//           QuranText filtered = QuranText(surahId: quranText.surahId!, verseId: quranText.verseId, verseText: quranText.verseText, translationText: quranText.translationText, isBookmark: quranText.isBookmark);
+//           filteredQuranText.add(filtered);
+//           break;
+//         }else{
+//           filteredQuranText = [];
+//         }
+//       }
+//     }
+//   }
+//   return filteredQuranText;
+// }
+
+// do searching in quran
+// Future<List<QuranText>> searchQuranText(String word) async{
+//   // Remove Tajweedi marks from the Arabic text
+//   database = await openDb();
+//   List<QuranText> fullQuranText = [];
+//   List<QuranText> filteredQuranText = [];
+//   var table = await database!.query(_quranTextTable);
+//   for(var map in table){
+//     fullQuranText.add(QuranText.fromJson(map));
+//   }
+//   if(fullQuranText.isNotEmpty){
+//     for(var quranText in fullQuranText){
+//       String normalizedText = quranText.verseText!.replaceAll(RegExp(r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]'), '');
+//
+//     }
+//   }
+//   return filteredQuranText;
+// }
 }
 
 class trans {
@@ -747,6 +758,18 @@ class trans {
   String text;
 
   trans(this.surahId, this.id2, this.text);
+
+  Map<String, Object?> toJson() {
+    return {"surahId": surahId, "verseId": id2, "text": text};
+  }
+}
+
+class Translation {
+  int surahId;
+  int id2;
+  String text;
+
+  Translation(this.surahId, this.id2, this.text);
 
   Map<String, Object?> toJson() {
     return {"surahId": surahId, "verseId": id2, "text": text};

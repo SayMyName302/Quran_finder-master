@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
 import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
 import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
@@ -52,7 +53,7 @@ class _DownloadManagerPageState extends State<DownloadManagerPage> {
                   child: value.whichHaveDownloaded.isNotEmpty ? ListView.builder(
                     itemCount: value.whichHaveDownloaded.length,
                     itemBuilder: (context, index) {
-                      Reciters reciter = value.whichHaveDownloaded![index];
+                      Reciters reciter = value.whichHaveDownloaded[index];
                       return InkWell(
                         onTap: (){
                           value.goToDownloadAudios(index, context);

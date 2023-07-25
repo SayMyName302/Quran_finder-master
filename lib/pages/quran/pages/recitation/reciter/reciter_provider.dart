@@ -69,7 +69,7 @@ class ReciterProvider extends ChangeNotifier {
             }
 
             final progress = received / total;
-            final downloaded = downloadedSize.round().toString(); // Change here
+            final downloaded = downloadedSize.toStringAsFixed(2);
             final text =
                 "$downloaded ${localeText(context, sizeUnit)} ${localeText(context, "of")} $totalSize ${localeText(context, sizeUnit)} ${localeText(context, "downloaded")}";
             context.read<DownloadProvider>().setDownloadProgress(progress);

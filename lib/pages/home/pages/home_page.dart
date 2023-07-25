@@ -11,6 +11,8 @@ import 'package:nour_al_quran/pages/settings/pages/subscriptions/on_board/free_t
 import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
+import 'package:provider/provider.dart';
+import '../provider/home_provider.dart';
 import '../widgets/total_app_downloads.dart';
 import '../widgets/verse_of_the_day.dart';
 
@@ -27,7 +29,24 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _getLocationPermissionAndRegion();
+
     // Future.delayed(const Duration(seconds: 5),()=>showInAppPurchaseBottomSheet());
+  }
+
+  Future<void> _getLocationPermissionAndRegion() async {
+    HomeProvider getRegion = Provider.of<HomeProvider>(context, listen: false);
+
+    String? userRegion = await getRegion.getUserRegion();
+    if (userRegion != null && userRegion.isNotEmpty) {
+      // Region is already available, handle region-specific tasks
+      // For example, you can directly show content or handle other logic here
+      // print('User region: $userRegion');
+    } else {
+      // ignore: use_build_context_synchronously
+      await getRegion.getLocationPermission(context);
+      // print('Newly retrieved region: ${getRegion.region}');
+    }
   }
 
   @override

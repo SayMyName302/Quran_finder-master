@@ -172,7 +172,7 @@ class Page1State extends State<Page1> {
   @override
   void initState() {
     super.initState();
-    // loadAudioFiles();
+    loadAudioFiles();
   }
 
   @override
@@ -2563,13 +2563,6 @@ class AudioListHolder1 {
         28,
         29
       ];
-    }
-  }
-
-  // Add a method to check if audioList is empty and populate it if needed
-  static void ensurePage1Audios() {
-    if (audioList.isEmpty) {
-      page1Audios();
     }
   }
 }

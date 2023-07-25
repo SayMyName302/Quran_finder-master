@@ -5,26 +5,35 @@ import 'package:hive/hive.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
-
 import '../../../../shared/utills/app_constants.dart';
 
-class RecitationProvider extends ChangeNotifier{
+class RecitationProvider extends ChangeNotifier {
   List<Reciters> _recitersList = [];
   List<Reciters> get recitersList => _recitersList;
   List<Surah> _surahNamesList = [];
   List<Surah> get surahNamesList => _surahNamesList;
+
+  List<Reciters> _recitersList2 = [];
+  List<Reciters> get recitersList2 => _recitersList2;
   // List<Reciters> _favReciters = [];
   // List<Reciters> get favReciters => _favReciters;
-  final List<Reciters> _favRecitersTest = Hive.box(appBoxKey).get(favReciterListKey) != null ? (jsonDecode(Hive.box(appBoxKey).get(favReciterListKey)) as List<dynamic>).map((e) => Reciters.fromJson(e)).toList() : [];
+  final List<Reciters> _favRecitersTest =
+      Hive.box(appBoxKey).get(favReciterListKey) != null
+          ? (jsonDecode(Hive.box(appBoxKey).get(favReciterListKey))
+                  as List<dynamic>)
+              .map((e) => Reciters.fromJson(e))
+              .toList()
+          : [];
   List<Reciters> get favRecitersTest => _favRecitersTest;
 
-  void addReciterFavOrRemove(int reciterId){
-    if(!_favRecitersTest.any((element) => element.reciterId == reciterId)){
-      int index = _recitersList.indexWhere((element) => element.reciterId == reciterId);
+  void addReciterFavOrRemove(int reciterId) {
+    if (!_favRecitersTest.any((element) => element.reciterId == reciterId)) {
+      int index =
+          _recitersList.indexWhere((element) => element.reciterId == reciterId);
       _favRecitersTest.add(_recitersList[index]);
       Hive.box(appBoxKey).put(favReciterListKey, jsonEncode(_favRecitersTest));
       notifyListeners();
-    }else{
+    } else {
       _favRecitersTest.removeWhere((element) => element.reciterId == reciterId);
       Hive.box(appBoxKey).put(favReciterListKey, jsonEncode(_favRecitersTest));
       notifyListeners();
@@ -41,10 +50,15 @@ class RecitationProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-
   Future<void> getReciters() async {
     _recitersList = await QuranDatabase().getReciter();
     notifyListeners();
+  }
+
+  Future<void> getReciters2() async {
+    _recitersList2 = await QuranDatabase().getReciter2();
+    notifyListeners();
+    print(_recitersList2.toString());
   }
 
   // both method are used to change state only
@@ -79,5 +93,4 @@ class RecitationProvider extends ChangeNotifier{
   //     QuranDatabase().updateReciterIsFav(reciterId,0);
   //   }
   // }
-
 }

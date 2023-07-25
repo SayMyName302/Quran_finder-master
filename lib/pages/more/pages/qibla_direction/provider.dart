@@ -53,30 +53,30 @@ class QiblaProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getLocationPermissionIOS(BuildContext context) async {
-    // final status = await Permission.locationWhenInUse.request();
-    // if (status.isDenied || status.isPermanentlyDenied) {
-    //   showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         title: const Text('Enable Location Services'),
-    //         content: const Text(
-    //             'Location services are required for this app. Please enable location services in the device settings.'),
-    //         actions: <Widget>[
-    //           TextButton(
-    //             child: const Text('Open Settings'),
-    //             onPressed: () {
-    //               openDeviceSettings();
-    //               Navigator.of(context).pop();
-    //             },
-    //           ),
-    //         ],
-    //       );
-    //     },
-    //   );
-    // }
-  }
+  // Future<void> getLocationPermissionIOS(BuildContext context) async {
+  //   // final status = await Permission.locationWhenInUse.request();
+  //   // if (status.isDenied || status.isPermanentlyDenied) {
+  //   //   showDialog(
+  //   //     context: context,
+  //   //     builder: (BuildContext context) {
+  //   //       return AlertDialog(
+  //   //         title: const Text('Enable Location Services'),
+  //   //         content: const Text(
+  //   //             'Location services are required for this app. Please enable location services in the device settings.'),
+  //   //         actions: <Widget>[
+  //   //           TextButton(
+  //   //             child: const Text('Open Settings'),
+  //   //             onPressed: () {
+  //   //               openDeviceSettings();
+  //   //               Navigator.of(context).pop();
+  //   //             },
+  //   //           ),
+  //   //         ],
+  //   //       );
+  //   //     },
+  //   //   );
+  //   // }
+  // }
 
   Future<void> openDeviceSettings() async {
     final appSettings = Uri.parse('app-settings:');
