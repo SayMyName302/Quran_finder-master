@@ -343,15 +343,18 @@ class ReciterPage extends StatelessWidget {
     if (!reciterProvider.downloadSurahList.contains(surah.surahId)) {
       reciterProvider.setIsDownloading(true);
       NetworksCheck(onComplete: () async {
+        Reciters? recitersFromRecitationPlayer = context.read<RecitationPlayerProvider>().reciter;
         reciterProvider.downloadSurah(surah, context, reciters);
         await buildDownloadingDialog(context, surah);
         reciterProvider.setIsDownloading(false);
-        if(context.read<RecitationPlayerProvider>().reciter == null){
-          print("from db ${reciters.downloadSurahList}");
-          print("from reciter ${reciterProvider.downloadSurahList}");
+        /// after downloading surah directly open player
+        if(recitersFromRecitationPlayer == null){
+          /// it means mini player is not open so we can open recitation player after downloading specific surah
           // context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
-          context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciterProvider.downloadSurahList.indexWhere((element) => element == surah.surahId,),reciterProvider.downloadSurahList);
-          Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+          Future.delayed(Duration.zero,(){
+            context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciterProvider.downloadSurahList.indexWhere((element) => element == surah.surahId,),reciterProvider.downloadSurahList);
+            Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+          });
         }
       }, onError: () {
         reciterProvider.setIsDownloading(false);

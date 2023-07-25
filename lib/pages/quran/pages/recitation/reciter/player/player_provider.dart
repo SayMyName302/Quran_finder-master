@@ -169,7 +169,7 @@ class RecitationPlayerProvider with ChangeNotifier {
     print("$downloadList here is surah list");
   }
 
-  // logic for verse by verse
+  /// this will get each surah audio from local storage
   Future<List<String>> getAudioFilesFromLocal(String reciterName) async {
     var directory = await getApplicationDocumentsDirectory();
     final audioFilesPath = '${directory.path}/recitation/$reciterName/fullRecitations';
@@ -180,7 +180,7 @@ class RecitationPlayerProvider with ChangeNotifier {
         .map((e) => e.path)
         .toList();
     audioFiles.sort((a, b) {
-      // Extract the numeric part of the file names (e.g., '1.mp3' => 1, '114.mp3' => 114)
+      /// Extract the numeric part of the file names (e.g., '1.mp3' => 1, '114.mp3' => 114)
       int aNumber = int.parse(a.split('/').last.replaceAll(RegExp(r'[^0-9]'), ''));
       int bNumber = int.parse(b.split('/').last.replaceAll(RegExp(r'[^0-9]'), ''));
       return aNumber.compareTo(bNumber);
@@ -192,14 +192,13 @@ class RecitationPlayerProvider with ChangeNotifier {
   Future<void> updatePlayList(int item) async {
     var surah = await QuranDatabase().getSpecificSurahName(item);
     _surahNamesList.add(surah!);
-    String surahId = surah.surahId.toString().length == 1
-        ? "00${surah.surahId}"
-        : surah.surahId.toString().length == 2
-            ? "0${surah.surahId}"
-            : surah.surahId.toString();
+    // String surahId = surah.surahId.toString().length == 1
+    //     ? "00${surah.surahId}"
+    //     : surah.surahId.toString().length == 2
+    //         ? "0${surah.surahId}"
+    //         : surah.surahId.toString();
     var directory = await getApplicationDocumentsDirectory();
-    final audioFilesPath =
-        '${directory.path}/recitation/${_reciter!.reciterName!}/fullRecitations/$surahId.mp3';
+    final audioFilesPath = '${directory.path}/recitation/${_reciter!.reciterName!}/fullRecitations/${surah.surahId}.mp3';
     _playList!.add(AudioSource.file(audioFilesPath));
     notifyListeners();
   }

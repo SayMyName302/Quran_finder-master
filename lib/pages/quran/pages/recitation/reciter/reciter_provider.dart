@@ -93,6 +93,7 @@ class ReciterProvider extends ChangeNotifier {
           context.read<DownloadProvider>().setDownloading(false);
           context.read<DownloadProvider>().setDownloadProgress(0);
           Navigator.of(context).pop();
+          /// means player is open and we have to update playlist during player is being playing the surah
           if (context.read<RecitationPlayerProvider>().reciter != null) {
             Reciters playerReciter = context.read<RecitationPlayerProvider>().reciter!;
             if (reciters.reciterId == playerReciter.reciterId) {
@@ -108,8 +109,7 @@ class ReciterProvider extends ChangeNotifier {
           }
           print("After Downloading Surah new Surah Index added =====> $_downloadSurahList");
           reciters.setDownloadSurahList = downloadSurahList;
-          QuranDatabase()
-              .updateReciterDownloadList(reciters.reciterId!, reciters);
+          // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
         });
       }
     } catch (e) {
@@ -125,21 +125,21 @@ class ReciterProvider extends ChangeNotifier {
     QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
   }
 
-  // get one ayah from local and add to playlist
-  Future<String> getAudioFromLocal(Reciters reciters, Surah surah) async {
-    String surahId = surah.surahId.toString().length == 1
-        ? "00${surah.surahId}"
-        : surah.surahId.toString().length == 2
-            ? "0${surah.surahId}"
-            : surah.surahId.toString();
-    var directory = await getApplicationDocumentsDirectory();
-    return "${directory.path}/recitation/${reciters.reciterName}/fullRecitations/$surahId.mp3";
-  }
+  /// get each surah audio from local and add to playlist
+  // Future<String> getAudioFromLocal(Reciters reciters, Surah surah) async {
+  //   String surahId = surah.surahId.toString().length == 1
+  //       ? "00${surah.surahId}"
+  //       : surah.surahId.toString().length == 2
+  //           ? "0${surah.surahId}"
+  //           : surah.surahId.toString();
+  //   var directory = await getApplicationDocumentsDirectory();
+  //   return "${directory.path}/recitation/${reciters.reciterName}/fullRecitations/${surah.surahId}.mp3";
+  // }
 
   /// this method will check reciter folder with his name
   /// if folder available so go inside and return all the
   /// download recitation as list like this [1,2,4]
-  Future<void> getAvailableDownloadAudioFilesFromLocal(String reciterName) async {
+  Future<void> getAvailableDownloadAudiosAsListOfInt(String reciterName) async {
     var directory = await getApplicationDocumentsDirectory();
     final audioFilesPath = '${directory.path}/recitation/$reciterName/fullRecitations';
     if (await Directory(audioFilesPath).exists()) {

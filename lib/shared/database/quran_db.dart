@@ -425,8 +425,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     return reciters;
   }
 
-  Future<void> updateReciterDownloadList(
-      int reciterId, Reciters reciters) async {
+  Future<void> updateReciterDownloadList(int reciterId, Reciters reciters) async {
     database = await openDb();
     await database!.update(_reciterTable, reciters.toJson(),
         where: "reciter_id = ?", whereArgs: [reciterId]);

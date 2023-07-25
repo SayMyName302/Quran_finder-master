@@ -99,7 +99,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                       recitersValue.getSurahName();
                                       // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
                                       /// so that is now another way
-                                      context.read<ReciterProvider>().getAvailableDownloadAudioFilesFromLocal(reciter.reciterName!);
+                                      context.read<ReciterProvider>().getAvailableDownloadAudiosAsListOfInt(reciter.reciterName!);
                                       Navigator.of(context).pushNamed(
                                         RouteHelper.reciter,
                                         arguments: reciter,
