@@ -28,7 +28,7 @@ class _SetFavReciterState extends State<SetFavReciter> {
   @override
   void initState() {
     super.initState();
-    context.read<RecitationProvider>().getReciters();
+    context.read<RecitationProvider>().getRecommendedReciters();
   }
 
   @override
