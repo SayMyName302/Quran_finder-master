@@ -14,11 +14,13 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../settings/pages/profile/profile_provider.dart';
 
 class SignInProvider extends ChangeNotifier {
-  String? userEmail;
+  String? _userEmail;
+  String? get userEmail => _userEmail;
 
   signInWithGoogle(BuildContext context) async {
     try {
@@ -213,8 +215,13 @@ class SignInProvider extends ChangeNotifier {
         int index =
             usersList.indexWhere((element) => element.uid == value.user!.uid);
         if (index != -1) {
-          userEmail = value
-              .user?.email; // Set the user's email when signed in successfully
+          //storing user email to userEmail variable to check for email you@you.com
+          //storing user email to userEmail variable to check for email you@you.com
+          _userEmail = value.user?.email; // Update the private variable
+          // Save the userEmail to SharedPreferences
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString(
+              'user_email', _userEmail ?? ''); // Use ?? '' to handle null case
           // print('=====UserEmail{$userEmail}======');
 
           Future.delayed(Duration.zero, () {
@@ -244,6 +251,32 @@ class SignInProvider extends ChangeNotifier {
       EasyLoadingDialog.dismiss(context);
     }
   }
+
+//To store and fetch userEmail locally
+  SignInProvider() {
+    initUserEmail();
+  }
+
+  Future<void> initUserEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _userEmail = prefs.getString('user_email');
+    notifyListeners();
+  }
+
+  // Setter to update the userEmail
+  set userEmail(String? email) {
+    _userEmail = email;
+    // Save the userEmail to SharedPreferences
+    saveUserEmail(email);
+    notifyListeners();
+  }
+
+  Future<void> saveUserEmail(String? email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_email', email ?? '');
+  }
+
+  //
 
   signUpWithEmailPassword(
       String email, String password, String name, BuildContext context) async {

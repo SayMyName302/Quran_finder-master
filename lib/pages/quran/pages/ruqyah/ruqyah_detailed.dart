@@ -177,7 +177,7 @@ class RuqyahDetail extends StatelessWidget {
                                           int duaNo = ruqyahProvider
                                               .duaList[duaIndex].duaNo!;
 
-                                          if (fav == 0) {
+                                          if (fav == 0 || fav == null) {
                                             ruqyahProvider.bookmark(
                                                 duaIndex, 1);
                                             BookmarksRuqyah bookmark =

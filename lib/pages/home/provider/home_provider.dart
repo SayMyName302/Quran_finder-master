@@ -34,13 +34,15 @@ class HomeProvider extends ChangeNotifier {
 
   //For Region/Zone
   String _region = "";
-  String _dateTime = "";
+  String _date = "";
+  String _time = "";
   String _hijriMonth = "";
   String _hijriYear = "";
   String _dayName = "";
 
   String get region => _region;
-  String get dateTime => _dateTime;
+  String get date => _date;
+  String get time => _time;
   String get hijriMonth => _hijriMonth;
   String get hijriYear => _hijriYear;
   String get dayName => _dayName;
@@ -118,14 +120,15 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> updateUserData(UserData userData) async {
     _region = userData.region;
-    _dateTime = userData.dateTime;
+    _date = userData.date;
+    _time = userData.time;
     _hijriMonth = userData.hijriMonth;
     _hijriYear = userData.hijriYear;
     _dayName = userData.dayName;
     notifyListeners();
   }
 
-  String getHijriMonthAndYear(int month, int year) {
+  String getHijriMonthAndYear(int month) {
     List<String> hijriMonthNames = [
       "Muharram",
       "Safar",
@@ -142,7 +145,7 @@ class HomeProvider extends ChangeNotifier {
     ];
 
     if (month >= 1 && month <= 12) {
-      return "${hijriMonthNames[month - 1]} $year";
+      return hijriMonthNames[month - 1];
     } else {
       return 'Unknown';
     }
@@ -161,68 +164,38 @@ class HomeProvider extends ChangeNotifier {
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];
-        String region = placeMark.administrativeArea ?? "";
+        String region = placeMark.country ?? "";
         notifyListeners();
 
-        String formattedDateTime =
-            DateFormat('dd/MM/yy HH:mm').format(DateTime.now());
-
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('MMddyy').format(now);
+        String formattedTime = DateFormat('HH:mm').format(now);
         notifyListeners();
 
         String hijriMonthAndYear = getHijriMonthAndYear(
           HijriCalendar.now().hMonth,
-          HijriCalendar.now().hYear,
         );
         String hijriYear = HijriCalendar.now().hYear.toString();
         String dayName = DateFormat('EEEE').format(DateTime.now());
-
         notifyListeners();
 
         return UserData(
           region: region,
-          dateTime: formattedDateTime,
+          date: formattedDate,
+          time: formattedTime,
           hijriMonth: hijriMonthAndYear,
           hijriYear: hijriYear,
           dayName: dayName,
         );
       } else {
-        throw Exception(
-            "PlaceMarks is empty"); // You can throw an exception or return a default value here
+        throw Exception("PlaceMarks is empty");
       }
     } catch (e) {
-      // Handle any exceptions that may occur during the location retrieval
       throw Exception("Error fetching location data: $e");
     } finally {
       EasyLoadingDialog.dismiss(context);
     }
   }
-
-  // Future<void> saveUserRegion(
-  //   String region,
-  //   String dateTime,
-  //   String hijriMonth,
-  // ) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   await prefs.setString('user_region', region);
-  //   await prefs.setString('user_date_time', dateTime);
-  //   await prefs.setString('user_hijri_month', hijriMonth);
-  //   notifyListeners();
-  // }
-
-  // Future<String?> getUserRegion() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   return prefs.getString('user_region');
-  // }
-
-  // Future<String?> getUserDateTime() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   return prefs.getString('user_date_time');
-  // }
-
-  // Future<String?> getUserHijriMonth() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   return prefs.getString('user_hijri_month');
-  // }
 
   Future<void> openAppSettingsPermissionSection() async {
     if (Platform.isAndroid) {
@@ -250,14 +223,16 @@ class HomeProvider extends ChangeNotifier {
 
 class UserData {
   String region;
-  String dateTime;
+  String date;
+  String time;
   String hijriMonth;
   String hijriYear;
   String dayName;
 
   UserData({
     required this.region,
-    required this.dateTime,
+    required this.date,
+    required this.time,
     required this.hijriMonth,
     required this.hijriYear,
     required this.dayName,

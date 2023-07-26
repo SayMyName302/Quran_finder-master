@@ -292,7 +292,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                   profile.resetUserProfile();
                                   await login.signOutFromEmailPassword();
                                 }
-                                login.userEmail = "test@123.com";
+                                //setting email to a blank at Logout
+                                login.userEmail = "";
 
                                 Navigator.of(context).pushNamedAndRemoveUntil(
                                   RouteHelper.signIn,
