@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/utills/app_colors.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 
 class Page5 extends StatefulWidget {
@@ -28,7 +27,7 @@ class Page5State extends State<Page5> {
     'assets/images/qaida/page5/zad2.mp3',
     'assets/images/qaida/page5/zad3.mp3',
     'assets/images/qaida/page5/zad4.mp3',
-    'assets/images/qaida/page1/taaah.mp3',
+    'assets/images/qaida/page1/toah.mp3',
     'assets/images/qaida/page5/ta01.mp3',
     'assets/images/qaida/page5/ta02.mp3',
     'assets/images/qaida/page5/ta03.mp3',
@@ -1812,7 +1811,7 @@ class AudioListHolder5 {
         'assets/images/qaida/page5/zad2.mp3',
         'assets/images/qaida/page5/zad3.mp3',
         'assets/images/qaida/page5/zad4.mp3',
-        'assets/images/qaida/page1/taaah.mp3',
+        'assets/images/qaida/page1/toah.mp3',
         'assets/images/qaida/page5/ta01.mp3',
         'assets/images/qaida/page5/ta02.mp3',
         'assets/images/qaida/page5/ta03.mp3',

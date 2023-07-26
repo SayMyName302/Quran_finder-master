@@ -62,7 +62,7 @@ class Page2State extends State<Page2> {
     'assets/images/qaida/page2/b02.mp3',
     'assets/images/qaida/page2/b03.mp3',
     'assets/images/qaida/page2/b04.mp3',
-    'assets/images/qaida/page1/taaah.mp3',
+    'assets/images/qaida/page1/toah.mp3',
     'assets/images/qaida/page2/t01.mp3',
     'assets/images/qaida/page2/t02.mp3',
     'assets/images/qaida/page2/t03.mp3',

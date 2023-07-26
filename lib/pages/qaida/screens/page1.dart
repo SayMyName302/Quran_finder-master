@@ -84,7 +84,7 @@ class Page1State extends State<Page1> {
     'assets/images/qaida/page1/sheen.mp3',
     'assets/images/qaida/page1/suaad.mp3',
     'assets/images/qaida/page1/zaad.mp3',
-    'assets/images/qaida/page1/taaah.mp3',
+    'assets/images/qaida/page1/toah.mp3',
     'assets/images/qaida/page1/zaaah.mp3',
     'assets/images/qaida/page1/aaen.mp3',
     'assets/images/qaida/page1/gaen.mp3',
@@ -2293,10 +2293,6 @@ class Page1State extends State<Page1> {
                                                     15, audioFilePaths[15]);
                                               }
                                             : () async {
-                                                // await _audioPlayer.stop();
-                                                // await _audioPlayer.setAsset(
-                                                //     audioFilePaths[15]);
-                                                // await _audioPlayer.play();
                                                 playSingleAudio(15);
                                               },
                                         child: Stack(children: [
@@ -2361,10 +2357,6 @@ class Page1State extends State<Page1> {
                                                     20, audioFilePaths[20]);
                                               }
                                             : () async {
-                                                // await _audioPlayer.stop();
-                                                // await _audioPlayer.setAsset(
-                                                //     audioFilePaths[20]);
-                                                // await _audioPlayer.play();
                                                 playSingleAudio(20);
                                               },
                                         child: Stack(children: [
@@ -2429,10 +2421,6 @@ class Page1State extends State<Page1> {
                                                     25, audioFilePaths[25]);
                                               }
                                             : () async {
-                                                // await _audioPlayer.stop();
-                                                // await _audioPlayer.setAsset(
-                                                //     audioFilePaths[25]);
-                                                // await _audioPlayer.play();
                                                 playSingleAudio(25);
                                               },
                                         child: Stack(children: [
@@ -2514,7 +2502,7 @@ class AudioListHolder1 {
         'assets/images/qaida/page1/sheen.mp3',
         'assets/images/qaida/page1/suaad.mp3',
         'assets/images/qaida/page1/zaad.mp3',
-        'assets/images/qaida/page1/taaah.mp3',
+        'assets/images/qaida/page1/toah.mp3',
         'assets/images/qaida/page1/zaaah.mp3',
         'assets/images/qaida/page1/aaen.mp3',
         'assets/images/qaida/page1/gaen.mp3',
