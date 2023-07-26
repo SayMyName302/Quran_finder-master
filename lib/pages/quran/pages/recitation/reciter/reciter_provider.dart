@@ -116,8 +116,8 @@ class ReciterProvider extends ChangeNotifier {
           }
           print("=====${_downloadSurahList}====");
           reciters.setDownloadSurahList = downloadSurahList;
-          QuranDatabase()
-              .updateReciterDownloadList(reciters.reciterId!, reciters);
+          // QuranDatabase()
+          //     .updateReciterDownloadList(reciters.reciterId!, reciters);
         });
       }
     } catch (e) {
@@ -130,7 +130,7 @@ class ReciterProvider extends ChangeNotifier {
   }
 
   void removeDownloadedSurah(int surahId, Reciters reciters) {
-    QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
+    // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
   }
 
   // get one ayah from local and add to playlist
