@@ -109,7 +109,12 @@ class ReciterProvider extends ChangeNotifier {
           }
           print("After Downloading Surah new Surah Index added =====> $_downloadSurahList");
           reciters.setDownloadSurahList = downloadSurahList;
+<<<<<<< HEAD
+          // QuranDatabase()
+          //     .updateReciterDownloadList(reciters.reciterId!, reciters);
+=======
           // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
+>>>>>>> 229866c3da80375d13bd2bf4225bf7c380d48782
         });
       }
     } catch (e) {
@@ -120,6 +125,12 @@ class ReciterProvider extends ChangeNotifier {
     }
   }
 
+<<<<<<< HEAD
+  void removeDownloadedSurah(int surahId, Reciters reciters) {
+    // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
+  }
+=======
+>>>>>>> 229866c3da80375d13bd2bf4225bf7c380d48782
 
   /// this method will check reciter folder with his name
   /// if folder available so go inside and return all the
