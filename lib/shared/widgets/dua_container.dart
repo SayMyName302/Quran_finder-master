@@ -48,7 +48,7 @@ class DuaContainer extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                    'Surah ' + (surahName?.surahName ?? '') + ' ($ref) ',
+                    'Surah ${surahName?.surahName ?? ''} ($ref) ',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: appColors.mainBrandingColor,

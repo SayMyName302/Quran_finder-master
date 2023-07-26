@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/more/pages/salah_timer/salah_timer_settings.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 
 class TitleRow extends StatelessWidget {

@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import '../../../../../../shared/utills/app_colors.dart';
 import '../../../../../../shared/widgets/circle_button.dart';
 import '../../../../../settings/pages/app_them/them_provider.dart';
-import 'audio_player_page.dart';
 
 class MiniPlayer extends StatelessWidget {
   const MiniPlayer({Key? key}) : super(key: key);

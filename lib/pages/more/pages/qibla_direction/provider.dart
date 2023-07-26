@@ -111,7 +111,7 @@ class QiblaProvider extends ChangeNotifier {
     } on PlatformException catch (e) {
       EasyLoadingDialog.dismiss(context);
       showError(context: context, msg: e.message.toString());
-    } on TimeoutException catch (e) {
+    } on TimeoutException {
       EasyLoadingDialog.dismiss(context);
       showError(
           context: context,

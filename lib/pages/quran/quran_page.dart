@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmark_page.dart';
 //import 'package:nour_al_quran/pages/quran/pages/duas/dua_categories_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/juz/juz_Index_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/surah_index_page.dart';
 import 'package:nour_al_quran/pages/quran/providers/quran_provider.dart';

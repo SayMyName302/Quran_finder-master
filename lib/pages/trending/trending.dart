@@ -10,7 +10,6 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 
 import '../../../shared/localization/localization_constants.dart';
 
-import 'package:nour_al_quran/pages/bottom_tabs/provider/bottom_tabs_page_provider.dart';
 
 import 'package:nour_al_quran/pages/quran stories/models/quran_stories.dart';
 

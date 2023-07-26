@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmarks_provider.dart';
-import 'package:nour_al_quran/pages/quran/pages/surah/lastreadprovider.dart';
 import 'package:nour_al_quran/pages/quran/providers/quran_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/translation_manager/translation_manager_provider.dart';

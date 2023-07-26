@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/models/miracles.dart';
-import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
 import 'package:nour_al_quran/pages/featured/widgets/feature_video_player_container.dart';
 
 import 'package:nour_al_quran/pages/featured/widgets/feature_videocontent.dart';
-import 'package:nour_al_quran/pages/miracles_of_quran/models/miracles.dart';
-import 'package:nour_al_quran/pages/miracles_of_quran/widgets/miracles_content_text.dart';
-import 'package:nour_al_quran/pages/miracles_of_quran/widgets/video_player_container.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/widgets/app_bar.dart';
-import '../../settings/pages/notifications/notification_services.dart';
 
 class FavoriteMiraclesDetailsPage extends StatefulWidget {
   const FavoriteMiraclesDetailsPage({Key? key}) : super(key: key);
@@ -46,9 +40,9 @@ class _FavoriteMiraclesDetailsPageState
         appBar: buildAppBar(
             context: context,
             title: localeText(context, featuretitle.title!.toLowerCase())),
-        body: Column(
+        body: const Column(
           mainAxisSize: MainAxisSize.max,
-          children: const [
+          children: [
             FeatureVideoPlayerContainer(),
             FeaturedMiraclesContentText(),
           ],

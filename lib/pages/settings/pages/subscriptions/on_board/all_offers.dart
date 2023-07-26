@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
@@ -166,25 +165,25 @@ class AllOffers extends StatelessWidget {
                   Text("Prime Plan",style: TextStyle(fontFamily: 'satoshi',fontWeight: FontWeight.w400,fontSize: 14.sp),),
                   Row(
                     children: [
-                      Icon(Icons.check_circle,color: AppColors.primeBlue,),
+                      const Icon(Icons.check_circle,color: AppColors.primeBlue,),
                       Text('No ads',style: style12,)
                     ],
                   ),
                   Row(
                     children: [
-                      Icon(Icons.check_circle,color: AppColors.primeBlue,),
+                      const Icon(Icons.check_circle,color: AppColors.primeBlue,),
                       Text('No ads',style: style12,)
                     ],
                   ),
                   Row(
                     children: [
-                      Icon(Icons.check_circle,color: AppColors.primeBlue,),
+                      const Icon(Icons.check_circle,color: AppColors.primeBlue,),
                       Text('No ads',style: style12,)
                     ],
                   ),
                   Row(
                     children: [
-                      Icon(Icons.check_circle,color: AppColors.primeBlue,),
+                      const Icon(Icons.check_circle,color: AppColors.primeBlue,),
                       Text('No ads',style: style12,)
                     ],
                   ),

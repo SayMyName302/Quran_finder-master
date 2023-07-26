@@ -7,7 +7,6 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/app_bar.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:provider/provider.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
@@ -600,7 +599,7 @@ class PrimePlanContainer extends StatelessWidget {
 class SuccessStoriesList extends StatelessWidget {
   final BuildContext context; // Add this line
   final List<UserModel> successStories;
-  SuccessStoriesList({required this.context})
+  SuccessStoriesList({super.key, required this.context})
       : successStories = [
           UserModel(
               name: 'Ali Muhammad',

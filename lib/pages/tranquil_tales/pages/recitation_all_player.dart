@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/duas/models/dua_category.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../shared/routes/routes_helper.dart';
@@ -11,7 +12,7 @@ import '../../../shared/utills/app_colors.dart';
 import '../../../shared/widgets/circle_button.dart';
 import '../../duas/dua_provider.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
-import '../provider/recitation_category_provider.dart';
+import '../provider/tranquil_tales_provider.dart';
 
 class RecitationAllAudioPlayer extends StatelessWidget {
   const RecitationAllAudioPlayer({
@@ -20,19 +21,21 @@ class RecitationAllAudioPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RecitationCategoryProvider recitationProvider = Provider.of<RecitationCategoryProvider>(context);
-    Map<String, dynamic> nextRecitationData = recitationProvider.getNextDuaRecitation();
+    TranquilCategoryProvider recitationProvider =
+        Provider.of<TranquilCategoryProvider>(context);
+    Map<String, dynamic> nextRecitationData =
+        recitationProvider.getNextDuaRecitation();
     int index = nextRecitationData['index'];
     int favindex = index - 1;
-    RecitationAllCategoryModel dua = nextRecitationData['dua'];
-   //int? fav = dua.isFav;
+    TranquilTalesModel dua = nextRecitationData['dua'];
+    //int? fav = dua.isFav;
     int part7 = recitationProvider.selectedRecitationAll.length;
     String duaTitle = dua.title.toString();
     String duaRef = dua.reference.toString();
     String duaText = dua.title.toString();
     int? duaCount = dua.ayahCount;
     //String duaTranslation = dua.translations.toString();
-   // String duaUrl = dua.duaUrl.toString();
+    // String duaUrl = dua.duaUrl.toString();
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     // ignore: unused_local_variable
@@ -45,7 +48,8 @@ class RecitationAllAudioPlayer extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 15.h),
           width: double.maxFinite,
-          child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider, RecitationCategoryProvider>(
+          child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
+              TranquilCategoryProvider>(
             builder: (context, them, player, appColor, rectProv, child) {
               return Column(
                 children: [
@@ -69,12 +73,20 @@ class RecitationAllAudioPlayer extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () async {
-                            int duaIndex = rectProv.selectedRecitationAll.indexWhere((element) => element.title == duaText);
-                            int indx = rectProv.selectedRecitationAll[duaIndex].surahNo!;
-                            int? categoryId = rectProv.selectedRecitationAll[duaIndex].surahId;
-                            String categoryName = getCategoryNameById(categoryId!, rectProv.selectedRecitationAll.cast<DuaCategory>());
-                            int duaNo = rectProv.selectedRecitationAll[duaIndex].surahId!;
-                           /* if (fav == 0) {
+                            int duaIndex = rectProv.selectedRecitationAll
+                                .indexWhere(
+                                    (element) => element.title == duaText);
+                            int indx = rectProv
+                                .selectedRecitationAll[duaIndex].surahNo!;
+                            int? categoryId = rectProv
+                                .selectedRecitationAll[duaIndex].surahId;
+                            String categoryName = getCategoryNameById(
+                                categoryId!,
+                                rectProv.selectedRecitationAll
+                                    .cast<DuaCategory>());
+                            int duaNo = rectProv
+                                .selectedRecitationAll[duaIndex].surahId!;
+                            /* if (fav == 0) {
                               duaProv.bookmark(duaIndex, 1);
                               BookmarksDua bookmark = BookmarksDua(
                                   duaId: indx,
@@ -180,7 +192,7 @@ class RecitationAllAudioPlayer extends StatelessWidget {
                               value: player.position.inSeconds.toDouble(),
                               onChanged: (value) {
                                 final position =
-                                Duration(seconds: value.toInt());
+                                    Duration(seconds: value.toInt());
                                 player.audioPlayer.seek(position);
                               },
                             ),
@@ -204,13 +216,13 @@ class RecitationAllAudioPlayer extends StatelessWidget {
                             player.audioPlayer.setLoopMode(LoopMode.one);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content:
-                                Text('Loop More On For ${'Dua $index'}')));
+                                    Text('Loop More On For ${'Dua $index'}')));
                           } else {
                             isLoopMoreNotifier.value = false;
                             player.audioPlayer.setLoopMode(LoopMode.off);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content:
-                                Text('Loop More Off For ${'Dua $index'}')));
+                                    Text('Loop More Off For ${'Dua $index'}')));
                           }
                         },
                         icon: ValueListenableBuilder<bool>(
@@ -223,9 +235,9 @@ class RecitationAllAudioPlayer extends StatelessWidget {
                               color: isLoopMore
                                   ? appColor.mainBrandingColor
                                   : Theme.of(context).brightness ==
-                                  Brightness.dark
-                                  ? Colors.white
-                                  : Colors.black,
+                                          Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black,
                             );
                           },
                         ),
@@ -258,24 +270,24 @@ class RecitationAllAudioPlayer extends StatelessWidget {
                             },
                             child: player.isLoading
                                 ? SizedBox(
-                              height: 63.h,
-                              width: 63.w,
-                              child: CircularProgressIndicator(
-                                  valueColor:
-                                  AlwaysStoppedAnimation<Color>(
-                                      appColor.mainBrandingColor)),
-                            )
+                                    height: 63.h,
+                                    width: 63.w,
+                                    child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                appColor.mainBrandingColor)),
+                                  )
                                 : CircleButton(
-                              height: 63.h,
-                              width: 63.h,
-                              icon: Icon(
-                                player.isPlaying
-                                    ? Icons.pause_rounded
-                                    : Icons.play_arrow_rounded,
-                                size: 40.h,
-                                color: Colors.white,
-                              ),
-                            ),
+                                    height: 63.h,
+                                    width: 63.h,
+                                    icon: Icon(
+                                      player.isPlaying
+                                          ? Icons.pause_rounded
+                                          : Icons.play_arrow_rounded,
+                                      size: 40.h,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                           ),
                         ],
                       ),

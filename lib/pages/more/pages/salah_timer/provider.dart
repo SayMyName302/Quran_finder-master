@@ -11,8 +11,6 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:nour_al_quran/pages/more/pages/salah_timer/salah.dart';
-import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
-import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/network/network_check.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:nour_al_quran/shared/widgets/easy_loading.dart';

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
-import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +10,8 @@ import 'package:provider/provider.dart';
 import '../../../../shared/widgets/app_bar.dart';
 
 class EditProfilepage extends StatefulWidget {
+  const EditProfilepage({super.key});
+
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }

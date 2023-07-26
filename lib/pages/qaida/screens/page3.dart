@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/utills/app_colors.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 
 class Page3 extends StatefulWidget {
@@ -21,8 +20,8 @@ class Page3 extends StatefulWidget {
 
 class Page3State extends State<Page3> {
   final AudioPlayer _audioPlayer = AudioPlayer();
-  List<String> _selectedAudioFiles = [];
-  Set<int> _selectedContainers = {};
+  final List<String> _selectedAudioFiles = [];
+  final Set<int> _selectedContainers = {};
   Map<String, int> audioIndexMap = {
     'assets/images/qaida/page1/geem.mp3': 0,
     'assets/images/qaida/page3/j01.mp3': 1,

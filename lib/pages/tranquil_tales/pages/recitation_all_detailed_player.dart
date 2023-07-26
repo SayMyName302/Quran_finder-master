@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:nour_al_quran/pages/recitation_category/pages/recitation_all_player.dart';
 import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
 import 'package:provider/provider.dart';
 import '../../../../shared/localization/localization_constants.dart';
 import '../../../../shared/providers/dua_audio_player_provider.dart';
@@ -11,16 +12,18 @@ import '../../../../shared/widgets/app_bar.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 import '../../settings/pages/fonts/font_provider.dart';
 
-class RecitationAllDetailPlayer extends StatelessWidget {
-  const RecitationAllDetailPlayer({Key? key}) : super(key: key);
+class TranquilTalesDetailPlayer extends StatelessWidget {
+  const TranquilTalesDetailPlayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    RecitationCategoryProvider recitationProvider = Provider.of<RecitationCategoryProvider>(context);
-    Map<String, dynamic> nextRecitationData = recitationProvider.getNextDuaRecitation();
+    RecitationCategoryProvider recitationProvider =
+        Provider.of<RecitationCategoryProvider>(context);
+    Map<String, dynamic> nextRecitationData =
+        recitationProvider.getNextDuaRecitation();
 
     int index = nextRecitationData['index'];
-    RecitationAllCategoryModel nextRecitation = nextRecitationData['dua'];
+    TranquilTalesModel nextRecitation = nextRecitationData['dua'];
     String duaTitle = nextRecitation.title.toString();
     String duaRef = nextRecitation.reference.toString();
     String duaText = nextRecitation.title.toString();
@@ -34,10 +37,10 @@ class RecitationAllDetailPlayer extends StatelessWidget {
       },
       child: Scaffold(
         appBar:
-        buildAppBar(context: context, title: localeText(context, "dua")),
+            buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
           child:
-          Consumer<AppColorsProvider>(builder: (context, appColors, child) {
+              Consumer<AppColorsProvider>(builder: (context, appColors, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -67,7 +70,7 @@ class RecitationAllDetailPlayer extends StatelessWidget {
                                         child: CircleAvatar(
                                           radius: 17,
                                           backgroundColor:
-                                          appColors.mainBrandingColor,
+                                              appColors.mainBrandingColor,
                                           child: Container(
                                             width: 25,
                                             height: 25,
@@ -88,14 +91,14 @@ class RecitationAllDetailPlayer extends StatelessWidget {
                                       ),
                                       Column(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             width: MediaQuery.of(context)
-                                                .size
-                                                .width *
+                                                    .size
+                                                    .width *
                                                 0.6,
                                             child: Text(
                                               capitalize(duaTitle),
@@ -111,8 +114,8 @@ class RecitationAllDetailPlayer extends StatelessWidget {
                                           ),
                                           SizedBox(
                                             width: MediaQuery.of(context)
-                                                .size
-                                                .width *
+                                                    .size
+                                                    .width *
                                                 0.6,
                                             child: Text(
                                               duaRef,
@@ -163,58 +166,58 @@ class RecitationAllDetailPlayer extends StatelessWidget {
                     children: [
                       Consumer<FontProvider>(
                           builder: (context, fontProvider, child) {
-                            return Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      left: 20.w,
-                                      right: 20.w,
-                                    ),
-                                    padding: EdgeInsets.only(
-                                      left: 22.w,
-                                      right: 22.w,
-                                    ),
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      duaText,
-                                      textDirection: TextDirection.rtl,
-                                      //  textAlign: TextAlign.end,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: fontProvider.fontSizeArabic.sp,
-                                        fontFamily: 'satoshi',
-                                      ),
-                                    ),
+                        return Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 20.w,
+                                  right: 20.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: 22.w,
+                                  right: 22.w,
+                                ),
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  duaText,
+                                  textDirection: TextDirection.rtl,
+                                  //  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: fontProvider.fontSizeArabic.sp,
+                                    fontFamily: 'satoshi',
                                   ),
-                                  // DuaContainer1(
-                                  //   translation: duaTranslation,
-                                  //   ref: duaRef,
-                                  // ),
-                                  const SizedBox(height: 7),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      left: 20.w,
-                                      right: 20.w,
-                                    ),
-                                    padding: EdgeInsets.only(
-                                      left: 22.w,
-                                      right: 22.w,
-                                    ),
-                                    child: Text(
-                                      "Translation",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize:
+                                ),
+                              ),
+                              // DuaContainer1(
+                              //   translation: duaTranslation,
+                              //   ref: duaRef,
+                              // ),
+                              const SizedBox(height: 7),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 20.w,
+                                  right: 20.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: 22.w,
+                                  right: 22.w,
+                                ),
+                                child: Text(
+                                  "Translation",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize:
                                         fontProvider.fontSizeTranslation.sp,
-                                        fontFamily: 'satoshi',
-                                      ),
-                                    ),
+                                    fontFamily: 'satoshi',
                                   ),
-                                  const SizedBox(height: 7),
-                                  /*Container(
+                                ),
+                              ),
+                              const SizedBox(height: 7),
+                              /*Container(
                                     margin: EdgeInsets.only(
                                       left: 20.w,
                                       right: 20.w,
@@ -234,94 +237,94 @@ class RecitationAllDetailPlayer extends StatelessWidget {
                                       ),
                                     ),
                                   ),*/
-                                  const SizedBox(height: 7),
-                                  // const SizedBox(height: 7),
-                                  // Container(
-                                  //   margin: EdgeInsets.only(
-                                  //     left: 20.w,
-                                  //     right: 20.w,
-                                  //   ),
-                                  //   padding: EdgeInsets.only(
-                                  //     left: 22.w,
-                                  //     right: 22.w,
-                                  //   ),
-                                  //   child: Text(
-                                  //     "Benefit",
-                                  //     textAlign: TextAlign.start,
-                                  //     style: TextStyle(
-                                  //       fontWeight: FontWeight.w700,
-                                  //       fontSize: 17.sp,
-                                  //       fontFamily: fontProvider.finalFont,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // const SizedBox(height: 7),
-                                  // Container(
-                                  //   margin: EdgeInsets.only(
-                                  //     left: 20.w,
-                                  //     right: 20.w,
-                                  //   ),
-                                  //   padding: EdgeInsets.only(
-                                  //     left: 22.w,
-                                  //     right: 22.w,
-                                  //   ),
-                                  //   child: Text(
-                                  //     duaTranslation,
-                                  //     textAlign: TextAlign.start,
-                                  //     style: TextStyle(
-                                  //       fontWeight: FontWeight.w400,
-                                  //       fontFamily: 'satoshi',
-                                  //       fontSize:
-                                  //           fontProvider.fontSizeTranslation.sp,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // const SizedBox(height: 7),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      left: 20.w,
-                                      right: 20.w,
-                                    ),
-                                    padding: EdgeInsets.only(
-                                      left: 22.w,
-                                      right: 22.w,
-                                    ),
-                                    child: Text(
-                                      "Reference",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize:
+                              const SizedBox(height: 7),
+                              // const SizedBox(height: 7),
+                              // Container(
+                              //   margin: EdgeInsets.only(
+                              //     left: 20.w,
+                              //     right: 20.w,
+                              //   ),
+                              //   padding: EdgeInsets.only(
+                              //     left: 22.w,
+                              //     right: 22.w,
+                              //   ),
+                              //   child: Text(
+                              //     "Benefit",
+                              //     textAlign: TextAlign.start,
+                              //     style: TextStyle(
+                              //       fontWeight: FontWeight.w700,
+                              //       fontSize: 17.sp,
+                              //       fontFamily: fontProvider.finalFont,
+                              //     ),
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 7),
+                              // Container(
+                              //   margin: EdgeInsets.only(
+                              //     left: 20.w,
+                              //     right: 20.w,
+                              //   ),
+                              //   padding: EdgeInsets.only(
+                              //     left: 22.w,
+                              //     right: 22.w,
+                              //   ),
+                              //   child: Text(
+                              //     duaTranslation,
+                              //     textAlign: TextAlign.start,
+                              //     style: TextStyle(
+                              //       fontWeight: FontWeight.w400,
+                              //       fontFamily: 'satoshi',
+                              //       fontSize:
+                              //           fontProvider.fontSizeTranslation.sp,
+                              //     ),
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 7),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 20.w,
+                                  right: 20.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: 22.w,
+                                  right: 22.w,
+                                ),
+                                child: Text(
+                                  "Reference",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize:
                                         fontProvider.fontSizeTranslation.sp,
-                                        fontFamily: 'satoshi',
-                                      ),
-                                    ),
+                                    fontFamily: 'satoshi',
                                   ),
-                                  const SizedBox(height: 7),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                      left: 20.w,
-                                      right: 20.w,
-                                    ),
-                                    padding: EdgeInsets.only(
-                                      left: 22.w,
-                                      right: 22.w,
-                                    ),
-                                    child: Text(
-                                      duaRef,
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'satoshi',
-                                        fontSize:
-                                        fontProvider.fontSizeTranslation.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            );
-                          }),
+                              const SizedBox(height: 7),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 20.w,
+                                  right: 20.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: 22.w,
+                                  right: 22.w,
+                                ),
+                                child: Text(
+                                  duaRef,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'satoshi',
+                                    fontSize:
+                                        fontProvider.fontSizeTranslation.sp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
                     ],
                   ),
                 ]);

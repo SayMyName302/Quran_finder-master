@@ -7,14 +7,12 @@ import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_ca
 import 'package:provider/provider.dart';
 
 import '../../../shared/database/home_db.dart';
-import '../../../shared/database/quran_db.dart';
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
 import '../pages/bookmarks_recitation.dart';
 
 class RecitationCategoryProvider extends ChangeNotifier {
-  List<TranquilTalesCategoryModel> _recitationCategory = [];
-  List<TranquilTalesCategoryModel> get recitationCategory =>
-      _recitationCategory;
+  List<RecitationCategoryModel> _recitationCategory = [];
+  List<RecitationCategoryModel> get recitationCategory => _recitationCategory;
 
   List<RecitationAllCategoryModel> _recitationAll = [];
   List<RecitationAllCategoryModel> get recitationAll => _recitationAll;

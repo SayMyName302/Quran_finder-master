@@ -1,39 +1,45 @@
-class RecitationCategoryModel {
+class TranquilTalesCategoryModel {
   int? _categoryId;
   String? _categoryName;
   String? _imageURl;
   String? _numberOfPrayers;
   int? _viewOrderBy;
+  int? _surahId;
+  String? _contentType;
 
   int? get categoryId => _categoryId;
   String? get categoryName => _categoryName;
   String? get imageURl => _imageURl;
   String? get numberOfPrayers => _numberOfPrayers;
   int? get viewOrderBy => _viewOrderBy;
+  int? get surahId => _surahId;
+  String? get contentType => _contentType;
 
-  // Getter for content_type
-
-  RecitationCategoryModel({
-    required categoryId,
-    required categoryName,
-    required imageURl,
-    required numberOfPrayers,
-    required viewOrderBy,
+  TranquilTalesCategoryModel({
+    required int categoryId,
+    required String categoryName,
+    required String imageURl,
+    required String numberOfPrayers,
+    required int viewOrderBy,
+    required int surahId,
+    required String contentType,
   }) {
     _categoryId = categoryId;
     _categoryName = categoryName;
     _imageURl = imageURl;
     _numberOfPrayers = numberOfPrayers;
     _viewOrderBy = viewOrderBy;
+    _surahId = surahId;
+    _contentType = contentType;
   }
 
-  RecitationCategoryModel.fromJson(Map<String, dynamic> json) {
+  TranquilTalesCategoryModel.fromJson(Map<String, dynamic> json) {
     _categoryId = json['category_id'];
     _categoryName = json['category_name'];
     _imageURl = json['image_url'];
     _numberOfPrayers = json['number_of_prayers'];
     _viewOrderBy = json['view_order_by'];
-
-    // Assign the value to the content_type field
+    _surahId = json['surah_id'];
+    _contentType = json['content_type'];
   }
 }

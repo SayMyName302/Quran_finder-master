@@ -5,7 +5,6 @@ import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/featured/pages/featured.dart';
 import 'package:nour_al_quran/pages/featured/pages/featured_content_page.dart';
 import 'package:nour_al_quran/pages/featured/pages/featured_video.dart';
-import 'package:nour_al_quran/pages/featured/widgets/featured_list.dart';
 import 'package:nour_al_quran/pages/home/pages/home_page.dart';
 import 'package:nour_al_quran/pages/more/more_page.dart';
 import 'package:nour_al_quran/pages/more/pages/names_of_allah/name_of_allah_page.dart';
@@ -41,6 +40,9 @@ import 'package:nour_al_quran/pages/settings/pages/terms_of_service/terms_of_ser
 import 'package:nour_al_quran/pages/sign_in/pages/forgot_password_screen.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sign_up_page.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_all_category.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_category.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_player.dart';
 //import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import '../../pages/basics_of_quran/pages/basics_content_page.dart';
 import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';
@@ -74,7 +76,9 @@ class RouteHelper {
   static late BuildContext currentContext;
   static bool paywallVisibility = true;
   static const String recitationAudioPlayer = "/recitationAudioPlayer";
+  static const String tranquilAudioPlayer = "/tranquilAudioPlayer";
   static const String recitationallcategory = "/recitationAllCategory";
+  static const String tranquil_tales = "/tranquiltales";
   static const String recitationPageList = "/recitationCategoryPageList";
   // Variable to control visibility of paywallpage1
   //static bool showPaywallPage2 = true; // Variable to control visibility of paywallpage2
@@ -109,6 +113,7 @@ class RouteHelper {
   static const String miraclesDetails = "/miraclesDetail";
   static const String fontSettingsOnboarding = "/fontSettingsOnboarding";
   static const String more = "/more";
+  static const String tranquildstoriesviewall = "/tranquildstoriesviewall";
   // static const String chapterList = "/chapterList";
   static const String storyPlayer = "/storyPlayer";
   static const String storyDetails = "/storyDetail";
@@ -182,9 +187,17 @@ class RouteHelper {
         currentContext = context;
         return const TranslationManagerPage();
       },
+      tranquilAudioPlayer: (context) {
+        currentContext = context;
+        return const TranquilAudioPlayer();
+      },
       recitationPageList: (context) {
         currentContext = context;
         return const RecitationCategoryPage1();
+      },
+      tranquildstoriesviewall: (context) {
+        currentContext = context;
+        return const TranquilStoriesViewAll();
       },
       popular: (context) {
         currentContext = context;
@@ -193,6 +206,11 @@ class RouteHelper {
       recitationallcategory: (context) {
         currentContext = context;
         return const RecitationAllCategory();
+      },
+
+      tranquil_tales: (context) {
+        currentContext = context;
+        return const TranquilStories();
       },
       duaDetailed: (context) {
         currentContext = context;
@@ -272,7 +290,7 @@ class RouteHelper {
             } else {
               final paywallVisibility = snapshot.data ?? true;
               if (paywallVisibility) {
-                return paywall();
+                return const paywall();
               } else {
                 Future.delayed(Duration.zero, () {
                   Navigator.of(context).pushReplacementNamed('/signIn');
@@ -377,7 +395,7 @@ class RouteHelper {
       },
       editProfile: (context) {
         currentContext = context;
-        return EditProfilepage();
+        return const EditProfilepage();
       },
       manageProfile: (context) {
         currentContext = context;

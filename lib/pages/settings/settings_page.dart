@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/app_them_page.dart';
@@ -12,7 +11,6 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_bottom_
 import 'package:nour_al_quran/pages/settings/widgets/setting_options.dart';
 import 'package:nour_al_quran/pages/sign_in/provider/sign_in_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
-import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:share_plus/share_plus.dart';

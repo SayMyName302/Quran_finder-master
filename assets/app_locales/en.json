@@ -129,7 +129,7 @@
   "ramzan": "Ramzan",
   "resume": "Resume",
   "genderofnewbornchild": "Gender of a new born child",
-  "reciters_page": "Recommended Recitors",
+  "reciters_page": "Recommended Reciters",
   "abdul_rahman_al-sudais": "Abdul Rahman Al-Sudais",
   "saad_el_ghamidi": "Saad El Ghamidi",
   "abdul_basit": "Abdul Basit",
@@ -491,5 +491,8 @@
   "surah_ar_rehman": "Surah Ar Rehman",
   "surah_al_mulk": "Surah Al Mulk",
   "tranquil_tales": "Tranquil Tales",
-  "popular_reciter": "Popular Reciter"
+  "popular_reciter": "Popular Reciters",
+  "sleep": "Sleep",
+  "stress_and_anxiety": "Stress and Anxiety",
+  "sheikh_ahmed_al-ajmi": "Sheikh Ahmed Al-Ajmi"
 }

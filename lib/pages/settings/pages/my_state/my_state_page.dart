@@ -4,11 +4,8 @@ import 'package:nour_al_quran/pages/settings/pages/my_state/widgets/achievement_
 import 'package:nour_al_quran/pages/settings/pages/my_state/widgets/average_stats_section.dart';
 import 'package:nour_al_quran/pages/settings/pages/my_state/widgets/weekly_engagement_section.dart';
 import 'package:nour_al_quran/pages/settings/pages/my_state/widgets/your_engagement_container.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../shared/widgets/app_bar.dart';
 import 'my_state_provider_updated.dart';
 
 class MyStatePage extends StatefulWidget {
@@ -55,16 +52,16 @@ class _MyStatePageState extends State<MyStatePage> {
                         fontFamily: 'satoshi')),
 
                 /// your engagement
-                YourEngagementContainer(),
+                const YourEngagementContainer(),
 
                 /// average stats section
-                AverageStatsSection(),
+                const AverageStatsSection(),
 
                 /// weekly Engagement Section
-                WeeklyEngagementSection(),
+                const WeeklyEngagementSection(),
 
                 /// achievement Section
-                AchievementSection(),
+                const AchievementSection(),
               ],
             ),
           ),

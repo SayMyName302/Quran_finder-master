@@ -2,33 +2,32 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
-import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
+
+import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/database/home_db.dart';
-import '../../../shared/database/quran_db.dart';
+
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
 import '../pages/bookmarks_recitation.dart';
 
-class RecitationCategoryProvider extends ChangeNotifier {
+class TranquilCategoryProvider extends ChangeNotifier {
   List<TranquilTalesCategoryModel> _recitationCategory = [];
   List<TranquilTalesCategoryModel> get recitationCategory =>
       _recitationCategory;
 
-  List<RecitationAllCategoryModel> _recitationAll = [];
-  List<RecitationAllCategoryModel> get recitationAll => _recitationAll;
+  List<TranquilTalesModel> _recitationAll = [];
+  List<TranquilTalesModel> get recitationAll => _recitationAll;
 
-  List<RecitationAllCategoryModel> _selectedRecitationAll = [];
-  List<RecitationAllCategoryModel> get selectedRecitationAll =>
-      _selectedRecitationAll;
+  List<TranquilTalesModel> _selectedRecitationAll = [];
+  List<TranquilTalesModel> get selectedRecitationAll => _selectedRecitationAll;
 
   int _currentRecitationIndex = 0;
   int get currentRecitationIndex => _currentRecitationIndex;
 
-  RecitationAllCategoryModel? _selectedRecitationStory;
-  RecitationAllCategoryModel? get selectedRecitationStory =>
-      _selectedRecitationStory;
+  TranquilTalesModel? _selectedRecitationStory;
+  TranquilTalesModel? get selectedRecitationStory => _selectedRecitationStory;
 
   final List _bookmarkList = [];
   // final List _bookmarkList = Hive.box('myBox').get('bookmarksrecite') ?? [];
@@ -59,17 +58,17 @@ class RecitationCategoryProvider extends ChangeNotifier {
   }
 
   Future<void> getRecitationCategoryStories() async {
-    _recitationCategory = await HomeDb().getRecitationCategory();
+    _recitationCategory = await HomeDb().getTranquilCategory();
     notifyListeners();
   }
 
   Future<void> getRecitationAllCategoryStories() async {
-    _recitationAll = await HomeDb().getRecitationAll();
+    _recitationAll = await HomeDb().getTranquilAll();
     notifyListeners();
   }
 
   Future<void> getSelectedRecitationAll(int categoryId) async {
-    _selectedRecitationAll = await HomeDb().getSelectedAll(categoryId);
+    _selectedRecitationAll = await HomeDb().getSelectedAllTranquil(categoryId);
     notifyListeners();
   }
 
@@ -83,7 +82,8 @@ class RecitationCategoryProvider extends ChangeNotifier {
   gotoRecitationAudioPlayerPage(
       int duaCategoryId, int surahId, imageUrl, BuildContext context) async {
     _selectedRecitationAll = [];
-    _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
+    _selectedRecitationAll =
+        await HomeDb().getSelectedAllTranquil(duaCategoryId);
     if (_selectedRecitationAll.isNotEmpty) {
       _currentRecitationIndex = _selectedRecitationAll
           .indexWhere((element) => element.surahId == surahId);
@@ -92,7 +92,7 @@ class RecitationCategoryProvider extends ChangeNotifier {
       // ignore: use_build_context_synchronously
       Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
           .initAudioPlayer(
-              _selectedRecitationStory!.contentUrl!, imageUrl!, context);
+              _selectedRecitationStory!.contentType!, imageUrl!, context);
       notifyListeners();
     }
   }
@@ -114,8 +114,8 @@ class RecitationCategoryProvider extends ChangeNotifier {
   //   Hive.box("myBox").put("bookmarksrecite", _bookmarkList);
   // }
 
-  void bookmark(int duaId, int value) {
-    _selectedRecitationAll[duaId].setIsBookmark = value;
-    notifyListeners();
-  }
+  // void bookmark(int duaId, int value) {
+  //   _selectedRecitationAll[duaId].setIsBookmark = value;
+  //   notifyListeners();
+  // }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';

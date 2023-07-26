@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/localization/localization_constants.dart';
 import '../../../shared/routes/routes_helper.dart';
-import '../provider/recitation_category_provider.dart';
+import '../provider/tranquil_tales_provider.dart';
 
-class RecitationAllCategory extends StatelessWidget {
-  const RecitationAllCategory({
+class TranquilStories extends StatelessWidget {
+  const TranquilStories({
     Key? key,
   }) : super(key: key);
 
@@ -33,7 +34,7 @@ class RecitationAllCategory extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Consumer2<AppColorsProvider, RecitationCategoryProvider>(
+        child: Consumer2<AppColorsProvider, TranquilCategoryProvider>(
           builder: (context, appColors, recitationProvider, child) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +123,7 @@ class RecitationAllCategory extends StatelessWidget {
                           itemCount:
                               recitationProvider.selectedRecitationAll.length,
                           itemBuilder: (context, index) {
-                            RecitationAllCategoryModel recitationModels =
+                            TranquilTalesModel recitationModels =
                                 recitationProvider.selectedRecitationAll[index];
 
                             return InkWell(
@@ -135,7 +136,7 @@ class RecitationAllCategory extends StatelessWidget {
                                   context,
                                 );
                                 Navigator.of(context).pushNamed(
-                                    RouteHelper.recitationAudioPlayer,
+                                    RouteHelper.tranquilAudioPlayer,
                                     arguments: [title]);
                                 analytics.logEvent(
                                   name: 'recitation_category_listview',

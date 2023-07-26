@@ -91,9 +91,7 @@ class IslamBasicsProvider extends ChangeNotifier {
       for (final title in order) {
         final basics = _islamBasics.firstWhere((m) => m.title == title,
             orElse: () => throw Exception('Basics not found'));
-        if (basics != null) {
-          sortedBasics.add(basics);
-        }
+        sortedBasics.add(basics);
       }
       if (sortedBasics.length != _islamBasics.length) {
         _islamBasics = sortedBasics;

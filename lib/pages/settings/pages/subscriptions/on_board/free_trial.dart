@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
@@ -158,7 +157,7 @@ class FreeTrial extends StatelessWidget {
      await showModalBottomSheet(
         context: context,
         builder: (context) {
-          return Center(child: Text("In App Purchase"),);
+          return const Center(child: Text("In App Purchase"),);
         },);
   }
 }

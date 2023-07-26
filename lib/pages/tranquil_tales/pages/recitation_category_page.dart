@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
 
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
@@ -11,7 +11,7 @@ import '../../../shared/localization/localization_constants.dart';
 
 import '../../home/widgets/home_row_widget.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
-import '../provider/recitation_category_provider.dart';
+import '../provider/tranquil_tales_provider.dart';
 
 class tranquil_talesSection extends StatelessWidget {
   const tranquil_talesSection({Key? key}) : super(key: key);
@@ -29,7 +29,8 @@ class tranquil_talesSection extends StatelessWidget {
           text: localeText(context, 'tranquil_tales'),
           buttonText: localeText(context, "view_all"),
           onTap: () {
-            Navigator.of(context).pushNamed(RouteHelper.recitationPageList);
+            Navigator.of(context)
+                .pushNamed(RouteHelper.tranquildstoriesviewall);
             analytics.logEvent(
               name: 'recitation_all_button',
             );
@@ -39,7 +40,7 @@ class tranquil_talesSection extends StatelessWidget {
           builder: (context, language, child) {
             return SizedBox(
               height: 150.h,
-              child: Consumer<RecitationCategoryProvider>(
+              child: Consumer<TranquilCategoryProvider>(
                 builder: (context, recitationProvider, child) {
                   return ListView.builder(
                     itemCount: recitationProvider.recitationCategory.length,
@@ -69,7 +70,7 @@ class tranquil_talesSection extends StatelessWidget {
                               },
                             );
                             Navigator.of(context).pushNamed(
-                              RouteHelper.recitationallcategory,
+                              RouteHelper.tranquil_tales,
                               arguments: [
                                 localeText(context, model.categoryName!),
                                 model.imageURl!,

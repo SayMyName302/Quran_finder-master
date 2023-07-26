@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/provider/tranquil_tales_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_constants.dart';
 import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/routes/routes_helper.dart';
 
-class RecitationCategoryPageList extends StatelessWidget {
-  const RecitationCategoryPageList({Key? key}) : super(key: key);
+class TranquilPageList extends StatelessWidget {
+  const TranquilPageList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // int network = Provider.of<int>(context);
     // print("Test By Farhan");
     return Expanded(
-      child: Consumer<RecitationCategoryProvider>(
+      child: Consumer<TranquilCategoryProvider>(
         builder: (context, recitationProvider, child) {
           return recitationProvider.recitationCategory.isNotEmpty
               ? GridView.builder(
