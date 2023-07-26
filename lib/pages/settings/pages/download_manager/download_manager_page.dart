@@ -9,8 +9,6 @@ import 'package:nour_al_quran/pages/settings/pages/download_manager/download_man
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
-import 'package:nour_al_quran/shared/widgets/brand_button.dart';
-import 'package:nour_al_quran/shared/widgets/circle_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/widgets/app_bar.dart';

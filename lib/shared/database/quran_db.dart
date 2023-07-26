@@ -108,6 +108,7 @@ class QuranDatabase {
   // }
 
 // Initialize and save the database file in the documents directory
+
   Future<void> initAndSaveDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -384,7 +385,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   }
 
   // to load all the duas in the table
-  Future<List<Dua>> getallDua() async {
+  Future<List<Dua>> getAllDua() async {
     database = await openDb();
     var duaList = <Dua>[];
     var cursor = await database!.query(_duaAllTable);
@@ -396,7 +397,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   }
 
   // to load all Reciter names
-  Future<List<Reciters>> getReciter() async {
+  Future<List<Reciters>> getRecommendedReciters() async {
     // await initDb();
     database = await openDb();
     var reciterList = <Reciters>[];
@@ -417,7 +418,24 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     return reciterList;
   }
 
-  Future<List<Reciters>> getReciter2() async {
+  // to load all Reciter names
+  Future<List<Reciters>> getAllReciter() async {
+    // await initDb();
+    database = await openDb();
+    var reciterList = <Reciters>[];
+
+    // Add the WHERE clause to filter by 'recommended'
+    var cursor = await database!.query(
+      _reciterTable,
+    );
+    for (var maps in cursor) {
+      var reciter = Reciters.fromJson(maps);
+      reciterList.add(reciter);
+    }
+    return reciterList;
+  }
+
+  Future<List<Reciters>> getPopularReciters() async {
     // await initDb();
     database = await openDb();
     var reciterList = <Reciters>[];
@@ -645,24 +663,24 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   // }
 
   //delete bookmark
-  void removeRecitatioBookmark(int reciteId, int reciteCategory) async {
-    database = await openDb();
-    await database!.rawUpdate(
-        "update $_reciteAllTable set is_favorite = 0 where surah_id = $reciteId AND category_id = $reciteCategory");
-    // print('reciter Removed Index is>>: $reciteId ,cat ID >> $reciteCategory');
-  }
+  // void removeRecitatioBookmark(int reciteId, int reciteCategory) async {
+  //   database = await openDb();
+  //   await database!.rawUpdate(
+  //       "update $_reciteAllTable set is_favorite = 0 where surah_id = $reciteId AND category_id = $reciteCategory");
+  //   // print('reciter Removed Index is>>: $reciteId ,cat ID >> $reciteCategory');
+  // }
 
-  Future<List<RecitationAllCategoryModel>> getRecitationBookmarks() async {
-    database = await openDb();
-    List<RecitationAllCategoryModel> quranTextList = [];
-    var table = await database!
-        .query(_reciteAllTable, where: "is_favorite= ?", whereArgs: [1]);
-    for (var rows in table) {
-      var ayahText = RecitationAllCategoryModel.fromJson(rows);
-      quranTextList.add(ayahText);
-    }
-    return quranTextList;
-  }
+  // Future<List<RecitationAllCategoryModel>> getRecitationBookmarks() async {
+  //   database = await openDb();
+  //   List<RecitationAllCategoryModel> quranTextList = [];
+  //   var table = await database!
+  //       .query(_reciteAllTable, where: "is_favorite= ?", whereArgs: [1]);
+  //   for (var rows in table) {
+  //     var ayahText = RecitationAllCategoryModel.fromJson(rows);
+  //     quranTextList.add(ayahText);
+  //   }
+  //   return quranTextList;
+  // }
   //----------
 
 // Future<void> updateQuranTranslations(List translations,

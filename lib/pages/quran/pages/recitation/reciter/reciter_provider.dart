@@ -22,12 +22,12 @@ class ReciterProvider extends ChangeNotifier {
 
   void setReciterList(List<int> downloadSurah) {
     _downloadSurahList = downloadSurah;
-    print("-------${_downloadSurahList}");
+    print("After Setting a Surah List For Reciter While Going to Reciter Page -------> $_downloadSurahList");
     notifyListeners();
   }
 
   void updateDownloadSurahList(int item, BuildContext context) {
-    print('====update====');
+    print('Updating Playlist if player is played Mode ====> update $item');
     context.read<RecitationPlayerProvider>().updatePlayList(item);
   }
 
@@ -36,18 +36,21 @@ class ReciterProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void downloadSurah(
-      Surah surah, BuildContext context, Reciters reciters) async {
-    String surahId = surah.surahId.toString().length == 1
-        ? "00${surah.surahId}"
-        : surah.surahId.toString().length == 2
-            ? "0${surah.surahId}"
-            : surah.surahId.toString();
+  void downloadSurah(Surah surah, BuildContext context, Reciters reciters) async {
+    String surahId = "";
+    if(!reciters.audioUrl!.contains("cdn.islamic.network")){
+      surahId = surah.surahId.toString().length == 1
+          ? "00${surah.surahId}"
+          : surah.surahId.toString().length == 2
+          ? "0${surah.surahId}"
+          : surah.surahId.toString();
+    }else{
+      surahId = surah.surahId.toString();
+    }
     try {
       context.read<DownloadProvider>().setDownloading(true);
       Dio dio = Dio();
-      final response = await dio.get(
-        "${reciters.audioUrl}/$surahId.mp3",
+      final response = await dio.get("${reciters.audioUrl}/$surahId.mp3",
         onReceiveProgress: (received, total) {
           if (total != -1) {
             final totalSizeInBytes = total;
@@ -82,27 +85,17 @@ class ReciterProvider extends ChangeNotifier {
         var file = <int>[];
         file.addAll(response.data);
         var directory = await getApplicationDocumentsDirectory();
-        var audioDirectory = "${directory.path}/recitation";
-        if (!Directory(audioDirectory).existsSync()) {
-          Directory(audioDirectory).createSync();
+        var audioDirectory = "${directory.path}/recitation/${reciters.reciterName}/fullRecitations";
+        if (!await Directory(audioDirectory).exists()) {
+          await Directory(audioDirectory).create(recursive: true);
         }
-        var reciterDirectory = "$audioDirectory/${reciters.reciterName}";
-        if (!Directory(reciterDirectory).existsSync()) {
-          Directory(reciterDirectory).createSync();
-        }
-        var fullRecitationsDirectory =
-            "$audioDirectory/${reciters.reciterName}/fullRecitations";
-        if (!Directory(fullRecitationsDirectory).existsSync()) {
-          Directory(fullRecitationsDirectory).createSync();
-        }
-        String filePath = "$fullRecitationsDirectory/$surahId.mp3";
+        String filePath = "$audioDirectory/${surah.surahId}.mp3";
         File(filePath).writeAsBytes(file).then((value) {
           context.read<DownloadProvider>().setDownloading(false);
           context.read<DownloadProvider>().setDownloadProgress(0);
           Navigator.of(context).pop();
           if (context.read<RecitationPlayerProvider>().reciter != null) {
-            Reciters playerReciter =
-                context.read<RecitationPlayerProvider>().reciter!;
+            Reciters playerReciter = context.read<RecitationPlayerProvider>().reciter!;
             if (reciters.reciterId == playerReciter.reciterId) {
               updateDownloadSurahList(
                 surah.surahId!,
@@ -114,52 +107,48 @@ class ReciterProvider extends ChangeNotifier {
             _downloadSurahList.add(surah.surahId!);
             notifyListeners();
           }
-          print("=====${_downloadSurahList}====");
+          print("After Downloading Surah new Surah Index added =====> $_downloadSurahList");
           reciters.setDownloadSurahList = downloadSurahList;
+<<<<<<< HEAD
           // QuranDatabase()
           //     .updateReciterDownloadList(reciters.reciterId!, reciters);
+=======
+          // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
+>>>>>>> 229866c3da80375d13bd2bf4225bf7c380d48782
         });
       }
     } catch (e) {
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('No Internet')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No Internet')));
       });
     }
   }
 
+<<<<<<< HEAD
   void removeDownloadedSurah(int surahId, Reciters reciters) {
     // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
   }
+=======
+>>>>>>> 229866c3da80375d13bd2bf4225bf7c380d48782
 
-  // get one ayah from local and add to playlist
-  Future<String> getAudioFromLocal(Reciters reciters, Surah surah) async {
-    String surahId = surah.surahId.toString().length == 1
-        ? "00${surah.surahId}"
-        : surah.surahId.toString().length == 2
-            ? "0${surah.surahId}"
-            : surah.surahId.toString();
+  /// this method will check reciter folder with his name
+  /// if folder available so go inside and return all the
+  /// download recitation as list like this [1,2,4]
+  Future<List<int>> getAvailableDownloadAudiosAsListOfInt(String reciterName) async {
     var directory = await getApplicationDocumentsDirectory();
-    return "${directory.path}/recitation/${reciters.reciterName}/fullRecitations/$surahId.mp3";
-  }
-
-  Future<List<int>> getAvailableDownloadAudioFilesFromLocal(
-      String reciterName) async {
-    var directory = await getApplicationDocumentsDirectory();
-    final audioFilesPath =
-        '${directory.path}/recitation/$reciterName/fullRecitations';
-    if (Directory(audioFilesPath).existsSync()) {
+    final audioFilesPath = '${directory.path}/recitation/$reciterName/fullRecitations';
+    if (await Directory(audioFilesPath).exists()) {
       final audioDir = Directory(audioFilesPath);
       final audioFiles = audioDir
           .listSync()
           .where((entity) => entity is File && entity.path.endsWith('.mp3'))
           .map((e) => e.path)
           .toList();
-      var regex = RegExp(r'(\d+)\.mp3$');
       var reciterDownloadList = audioFiles
-          .map((str) => int.parse(regex.firstMatch(str)?.group(1) ?? ''))
+          .map((str) => int.tryParse(str.split('/').last.split('.').first) ?? 0)
           .toList();
+      reciterDownloadList.sort();
       setReciterList(reciterDownloadList);
       return reciterDownloadList;
     } else {
@@ -168,3 +157,19 @@ class ReciterProvider extends ChangeNotifier {
     }
   }
 }
+
+
+// void removeDownloadedSurah(int surahId, Reciters reciters) {
+// QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
+// }
+
+// get one ayah from local and add to playlist
+// Future<String> getAudioFromLocal(Reciters reciters, Surah surah) async {
+//   String surahId = surah.surahId.toString().length == 1
+//       ? "00${surah.surahId}"
+//       : surah.surahId.toString().length == 2
+//           ? "0${surah.surahId}"
+//           : surah.surahId.toString();
+//   var directory = await getApplicationDocumentsDirectory();
+//   return "${directory.path}/recitation/${reciters.reciterName}/fullRecitations/$surahId.mp3";
+// }

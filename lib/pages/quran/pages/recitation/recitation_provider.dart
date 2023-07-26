@@ -50,15 +50,15 @@ class RecitationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getReciters() async {
-    _recitersList = await QuranDatabase().getReciter();
+  Future<void> getRecommendedReciters() async {
+    _recitersList = await QuranDatabase().getRecommendedReciters();
     notifyListeners();
   }
 
-  Future<void> getReciters2() async {
-    _recitersList2 = await QuranDatabase().getReciter2();
+  Future<void> getPopularReciters() async {
+    _recitersList2 = await QuranDatabase().getPopularReciters();
     notifyListeners();
-    print(_recitersList2.toString());
+    // print(_recitersList2.toString());
   }
 
   // both method are used to change state only
