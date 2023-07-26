@@ -37,15 +37,17 @@ class _HomePageState extends State<HomePage> {
   Future<void> _getLocationPermissionAndRegion() async {
     HomeProvider getRegion = Provider.of<HomeProvider>(context, listen: false);
 
-    String? userRegion = await getRegion.getUserRegion();
-    if (userRegion != null && userRegion.isNotEmpty) {
-      // Region is already available, handle region-specific tasks
-      // For example, you can directly show content or handle other logic here
-      // print('User region: $userRegion');
-    } else {
-      // ignore: use_build_context_synchronously
-      await getRegion.getLocationPermission(context);
-      // print('Newly retrieved region: ${getRegion.region}');
+    try {
+      String userRegion = getRegion.region;
+      if (userRegion.isNotEmpty) {
+        // Region is already available, handle region-specific tasks
+        // For example, you can directly show content or handle other logic here
+        // print('User region: $userRegion');
+      } else {
+        await getRegion.getLocationPermission(context);
+      }
+    } catch (e) {
+      print('Error: $e');
     }
   }
 

@@ -12,7 +12,6 @@ import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/quran_text.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../shared/utills/app_constants.dart';
@@ -35,7 +34,16 @@ class HomeProvider extends ChangeNotifier {
 
   //For Region/Zone
   String _region = "";
+  String _dateTime = "";
+  String _hijriMonth = "";
+  String _hijriYear = "";
+  String _dayName = "";
+
   String get region => _region;
+  String get dateTime => _dateTime;
+  String get hijriMonth => _hijriMonth;
+  String get hijriYear => _hijriYear;
+  String get dayName => _dayName;
 
   bool isRequestingPermission = false;
 
@@ -94,18 +102,9 @@ class HomeProvider extends ChangeNotifier {
         ),
       );
     } else if (permissionStatus.isGranted) {
-      // Check if the user's region is already available in shared preferences
-      String? userRegion = await getUserRegion();
-      if (userRegion != null && userRegion.isNotEmpty) {
-        // Region is available, skip showing the dialog and directly call getRegionAndShowContent
-        getRegionAndShowContent(context);
-      } else {
-        // Region is not available, show the dialog
-        Future.delayed(
-          Duration.zero,
-          () => getRegionAndShowContent(context),
-        );
-      }
+      UserData userData = await getRegionAndShowContent(context);
+      updateUserData(userData);
+      notifyListeners();
     } else {
       Future.delayed(
         Duration.zero,
@@ -117,30 +116,39 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-  String getHijriMonthName(int month) {
+  Future<void> updateUserData(UserData userData) async {
+    _region = userData.region;
+    _dateTime = userData.dateTime;
+    _hijriMonth = userData.hijriMonth;
+    _hijriYear = userData.hijriYear;
+    _dayName = userData.dayName;
+    notifyListeners();
+  }
+
+  String getHijriMonthAndYear(int month, int year) {
     List<String> hijriMonthNames = [
       "Muharram",
       "Safar",
       "Rabi al-Awwal",
       "Rabi al-Thani",
-      "Jumada al-Ula",
+      "Jumada al-Awwal",
       "Jumada al-Thani",
       "Rajab",
       "Sha'ban",
       "Ramadan",
       "Shawwal",
-      "Dhu al-Qi'dah",
+      "Dhu al-Qa'dah",
       "Dhu al-Hijjah"
     ];
 
     if (month >= 1 && month <= 12) {
-      return hijriMonthNames[month - 1];
+      return "${hijriMonthNames[month - 1]} $year";
     } else {
       return 'Unknown';
     }
   }
 
-  Future<void> getRegionAndShowContent(BuildContext context) async {
+  Future<UserData> getRegionAndShowContent(BuildContext context) async {
     EasyLoadingDialog.show(context: context, radius: 20.r);
 
     try {
@@ -153,66 +161,68 @@ class HomeProvider extends ChangeNotifier {
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];
-        _region = placeMark.administrativeArea ?? "";
+        String region = placeMark.administrativeArea ?? "";
         notifyListeners();
 
-        // Get the current date/time in the desired format (dd/mm/yy HH:mm)
         String formattedDateTime =
             DateFormat('dd/MM/yy HH:mm').format(DateTime.now());
 
         notifyListeners();
 
-        // Get the current Hijri month name
-        String hijriMonthName = getHijriMonthName(HijriCalendar.now().hMonth);
+        String hijriMonthAndYear = getHijriMonthAndYear(
+          HijriCalendar.now().hMonth,
+          HijriCalendar.now().hYear,
+        );
+        String hijriYear = HijriCalendar.now().hYear.toString();
+        String dayName = DateFormat('EEEE').format(DateTime.now());
 
         notifyListeners();
 
-        // Now you have the region, date/time, and the Hijri month.
-        // Save them to shared preferences
-        await saveUserRegion(
-          _region,
-          formattedDateTime, // Convert DateTime to ISO 8601 format
-          hijriMonthName,
+        return UserData(
+          region: region,
+          dateTime: formattedDateTime,
+          hijriMonth: hijriMonthAndYear,
+          hijriYear: hijriYear,
+          dayName: dayName,
         );
+      } else {
+        throw Exception(
+            "PlaceMarks is empty"); // You can throw an exception or return a default value here
       }
-
-      // Existing error handling code...
+    } catch (e) {
+      // Handle any exceptions that may occur during the location retrieval
+      throw Exception("Error fetching location data: $e");
     } finally {
       EasyLoadingDialog.dismiss(context);
     }
   }
 
-  // Method to save user's region, date/time, and Hijri month to shared preferences
-  Future<void> saveUserRegion(
-    String region,
-    String dateTime,
-    String hijriMonth,
-  ) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_region', region);
-    await prefs.setString('user_date_time', dateTime);
-    await prefs.setString('user_hijri_month', hijriMonth);
-    // Notify listeners after saving the data
-    notifyListeners();
-  }
+  // Future<void> saveUserRegion(
+  //   String region,
+  //   String dateTime,
+  //   String hijriMonth,
+  // ) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString('user_region', region);
+  //   await prefs.setString('user_date_time', dateTime);
+  //   await prefs.setString('user_hijri_month', hijriMonth);
+  //   notifyListeners();
+  // }
 
-  // Method to retrieve user's region from shared preferences
-  Future<String?> getUserRegion() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_region');
-  }
+  // Future<String?> getUserRegion() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString('user_region');
+  // }
 
-  // Method to retrieve user's date/time from shared preferences
-  Future<String?> getUserDateTime() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_date_time');
-  }
+  // Future<String?> getUserDateTime() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString('user_date_time');
+  // }
 
-  // Method to retrieve user's Hijri month from shared preferences
-  Future<String?> getUserHijriMonth() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_hijri_month');
-  }
+  // Future<String?> getUserHijriMonth() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString('user_hijri_month');
+  // }
 
   Future<void> openAppSettingsPermissionSection() async {
     if (Platform.isAndroid) {
@@ -236,4 +246,20 @@ class HomeProvider extends ChangeNotifier {
       ..removeCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(msg)));
   }
+}
+
+class UserData {
+  String region;
+  String dateTime;
+  String hijriMonth;
+  String hijriYear;
+  String dayName;
+
+  UserData({
+    required this.region,
+    required this.dateTime,
+    required this.hijriMonth,
+    required this.hijriYear,
+    required this.dayName,
+  });
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/utills/app_colors.dart';
+import '../../sign_in/provider/sign_in_provider.dart';
 import '../provider/home_provider.dart';
 
 class AppDownloadsSection extends StatelessWidget {
@@ -12,15 +13,25 @@ class AppDownloadsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final downloadCountModel = Provider.of<DownloadCountModel>(context);
-    // downloadCountModel.initializePreferences();
-    final qiblaProvider = Provider.of<HomeProvider>(context);
+    final userData = Provider.of<HomeProvider>(context);
+
+    //test
+    final authProvider = Provider.of<SignInProvider>(context);
+
+    // Get the user's email from the SignInProvider
+    final userEmail = authProvider.userEmail;
+    // Check if the user is logged in as "you@you.com"
+    final isUserYou = userEmail == "you@you.com";
+
+    print('=====UserEmail{$userEmail}======');
+
+    // Return null if the user is not "you@you.com" to hide the widget
+    if (!isUserYou) {
+      return SizedBox.shrink();
+    }
 
     return Column(
       children: [
-        // DownloadRowWidget(
-        //   text: localeText(context, 'islam_basics'),
-        // ),
         Consumer<LocalizationProvider>(builder: (context, language, child) {
           return Container(
             width: MediaQuery.of(context).size.width * 0.95,
@@ -65,90 +76,11 @@ class AppDownloadsSection extends StatelessWidget {
                     },
                   ),
                 ),
-                Center(
-                  child: FutureBuilder<String?>(
-                    future: qiblaProvider.getUserRegion(),
-                    builder: (context, regionSnapshot) {
-                      if (regionSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else if (regionSnapshot.hasData) {
-                        String? userRegion = regionSnapshot.data;
-                        if (userRegion != null) {
-                          return Text(
-                            'Region: $userRegion',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17.sp,
-                              fontFamily: "satoshi",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          );
-                        } else {
-                          return const Text('User region not available.');
-                        }
-                      } else {
-                        return const Text('Error retrieving user region.');
-                      }
-                    },
-                  ),
-                ),
-                Center(
-                  child: FutureBuilder<String?>(
-                    future: qiblaProvider.getUserDateTime(),
-                    builder: (context, dateTimeSnapshot) {
-                      if (dateTimeSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else if (dateTimeSnapshot.hasData) {
-                        String? userDateTime = dateTimeSnapshot.data;
-                        if (userDateTime != null) {
-                          return Text(
-                            'Date/Time: $userDateTime',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17.sp,
-                              fontFamily: "satoshi",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          );
-                        } else {
-                          return const Text('User date/time not available.');
-                        }
-                      } else {
-                        return const Text('Error retrieving user date/time.');
-                      }
-                    },
-                  ),
-                ),
-                Center(
-                  child: FutureBuilder<String?>(
-                    future: qiblaProvider.getUserHijriMonth(),
-                    builder: (context, hijriMonthSnapshot) {
-                      if (hijriMonthSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else if (hijriMonthSnapshot.hasData) {
-                        String? userHijriMonth = hijriMonthSnapshot.data;
-                        if (userHijriMonth != null) {
-                          return Text(
-                            'Hijri month: $userHijriMonth',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17.sp,
-                              fontFamily: "satoshi",
-                              fontWeight: FontWeight.w600,
-                            ),
-                          );
-                        } else {
-                          return const Text('User Hijri month not available.');
-                        }
-                      } else {
-                        return const Text('Error retrieving user Hijri month.');
-                      }
-                    },
-                  ),
-                ),
+                Text("Region: ${userData.region}"),
+                Text("Date and Time: ${userData.dateTime}"),
+                Text("Hijri Month: ${userData.hijriMonth}"),
+                Text("Hijri Year: ${userData.hijriYear}"),
+                Text("Day Name: ${userData.dayName}"),
               ],
             ),
           );

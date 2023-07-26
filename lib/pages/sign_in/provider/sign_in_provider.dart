@@ -18,6 +18,8 @@ import 'package:provider/provider.dart';
 import '../../settings/pages/profile/profile_provider.dart';
 
 class SignInProvider extends ChangeNotifier {
+  String? userEmail;
+
   signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignInAccount? googleUser =
@@ -200,16 +202,25 @@ class SignInProvider extends ChangeNotifier {
   signInWithEmailPassword(
       String email, String password, BuildContext context) async {
     try {
-      Future.delayed(Duration.zero, () => EasyLoadingDialog.show(context: context, radius: 20.r));
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)
+      Future.delayed(Duration.zero,
+          () => EasyLoadingDialog.show(context: context, radius: 20.r));
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         var doc = await FirebaseFirestore.instance.collection("users").get();
-        List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
-        int index = usersList.indexWhere((element) => element.uid == value.user!.uid);
+        List<UserProfile> usersList =
+            doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
+        int index =
+            usersList.indexWhere((element) => element.uid == value.user!.uid);
         if (index != -1) {
+          userEmail = value
+              .user?.email; // Set the user's email when signed in successfully
+          // print('=====UserEmail{$userEmail}======');
+
           Future.delayed(Duration.zero, () {
             /// save user profile in local db
-            Provider.of<ProfileProvider>(context, listen: false).saveUserProfile(usersList[index]);
+            Provider.of<ProfileProvider>(context, listen: false)
+                .saveUserProfile(usersList[index]);
 
             /// close loading dialog
             // EasyLoadingDialog.dismiss(context);
@@ -300,12 +311,15 @@ class SignInProvider extends ChangeNotifier {
       String? image}) async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    OnBoardingInformation onBoarding = Hive.box(appBoxKey).get(onBoardingInformationKey);
+    OnBoardingInformation onBoarding =
+        Hive.box(appBoxKey).get(onBoardingInformationKey);
     UserProfile userProfile = UserProfile(
         email: loginType == "email" ? email : userCredential.user!.email,
         password: loginType == "email" ? password : "",
-        fullName: loginType == "email" ? name : userCredential.user!.displayName,
-        image: loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
+        fullName:
+            loginType == "email" ? name : userCredential.user!.displayName,
+        image:
+            loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
         uid: userCredential.user!.uid,
         purposeOfQuran: onBoarding.purposeOfQuran,
         favReciter: onBoarding.favReciter,
