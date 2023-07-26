@@ -129,7 +129,7 @@
   "ramzan": "Ramzan",
   "resume": "Resume",
   "genderofnewbornchild": "Gender of a new born child",
-  "reciters_page": "Reciters Page",
+  "reciters_page": "Recommended Recitors",
   "abdul_rahman_al-sudais": "Abdul Rahman Al-Sudais",
   "saad_el_ghamidi": "Saad El Ghamidi",
   "abdul_basit": "Abdul Basit",
@@ -490,5 +490,6 @@
   "surah_ad_duha": "Surah Ad Duha",
   "surah_ar_rehman": "Surah Ar Rehman",
   "surah_al_mulk": "Surah Al Mulk",
-  "tranquil_tales": "Tranquil Tales"
+  "tranquil_tales": "Tranquil Tales",
+  "popular_reciter": "Popular Reciter"
 }

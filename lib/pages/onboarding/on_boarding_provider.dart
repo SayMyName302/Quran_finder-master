@@ -25,6 +25,7 @@ class OnBoardingProvider extends ChangeNotifier {
     if (!_selectAchieveWithQuranList.contains(item)) {
       if (selectAchieveWithQuranList.length < 3) {
         _selectAchieveWithQuranList.add(item);
+        print("items $item");
       } else {
         ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()

@@ -305,7 +305,7 @@ class SwipePagesState extends State<SwipePages> {
       setState(() {
         _isPaused = true;
       });
-    } else {}
+    }
     // else if (_isPaused) {
     //   _audioLists[_currentPlayingIndex].play();
     //   setState(() {
@@ -350,8 +350,8 @@ class SwipePagesState extends State<SwipePages> {
 
   Future<void> _playPageAudios(int pageId, List<String> audioFiles) async {
     try {
-      //    _audioLists.clear();
-      //print("Audio Files: $audioFiles"); // Add this print statement
+      _audioLists.clear();
+      print("Audio Files: $audioFiles");
 
       switch (pageId) {
         case 1:

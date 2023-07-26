@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../../quran/pages/recitation/reciter/reciter_provider.dart';
 
-class DownloadManagerProvider extends ChangeNotifier{
+class DownloadManagerProvider extends ChangeNotifier {
   List<Reciters> _recitersList = [];
   List<Reciters> _whichHaveDownloaded = [];
   List<Reciters> get whichHaveDownloaded => _whichHaveDownloaded;
@@ -24,11 +25,12 @@ class DownloadManagerProvider extends ChangeNotifier{
     _recitersList = await QuranDatabase().getReciter();
     notifyListeners();
     List<String> reciters = await getAvailableReciters();
-    if(_recitersList.isNotEmpty){
-      for(var models in _recitersList){
-        int index = reciters.indexWhere((element) => element == models.reciterName);
-        if(index != -1){
-          if(models.reciterName == reciters[index]){
+    if (_recitersList.isNotEmpty) {
+      for (var models in _recitersList) {
+        int index =
+            reciters.indexWhere((element) => element == models.reciterName);
+        if (index != -1) {
+          if (models.reciterName == reciters[index]) {
             _whichHaveDownloaded.add(models);
             notifyListeners();
           }
@@ -47,45 +49,46 @@ class DownloadManagerProvider extends ChangeNotifier{
     final audioFilesPath = '${directory.path}/recitation';
     if (Directory(audioFilesPath).existsSync()) {
       final audioDir = Directory(audioFilesPath);
-      final recitersNames = audioDir.listSync()
-          .map((dir) => dir.path.split('/').last)
-          .toList();
+      final recitersNames =
+          audioDir.listSync().map((dir) => dir.path.split('/').last).toList();
       return recitersNames;
     }
   }
 
-
-  void goToDownloadAudios(int index,BuildContext context) async{
+  void goToDownloadAudios(int index, BuildContext context) async{
     var provider = Provider.of<ReciterProvider>(context,listen: false);
     _recitersName = _whichHaveDownloaded[index];
-    _downloadSurahList = await provider.getAvailableDownloadAudiosAsListOfInt(recitersName!.reciterName!);
+    _downloadSurahList = await provider.getAvailableDownloadAudioFilesFromLocal(recitersName!.reciterName!);
     // var downloadSurahList = provider.downloadSurahList;
     _downloadSurahList.sort();
     // getDownloadSurah(_whichHaveDownloaded[index].downloadSurahList!);
     getDownloadSurah(_downloadSurahList);
+    getDownloadSurah(_whichHaveDownloaded[index].downloadSurahList!);
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.downloadedSurahManager);
   }
 
-  void resetReciters(){
+  void resetReciters() {
     _whichHaveDownloaded = [];
     notifyListeners();
   }
 
   Future<void> getDownloadSurah(List surahs) async {
     _downloadSurahs = [];
-    for(var values in surahs){
+    for (var values in surahs) {
       var surah = await QuranDatabase().getSpecificSurahName(values);
-      if(!_downloadSurahs.contains(surah)){
+      if (!_downloadSurahs.contains(surah)) {
         _downloadSurahs.add(surah!);
         notifyListeners();
       }
     }
   }
 
-  Future<void> deleteDownloadedSurah(String surahID,int index,Reciters reciters) async {
+  Future<void> deleteDownloadedSurah(
+      String surahID, int index, Reciters reciters) async {
     var directory = await getApplicationDocumentsDirectory();
-    var path = "${directory.path}/recitation/${_recitersName!.reciterName}/fullRecitations/$surahID.mp3";
+    var path =
+        "${directory.path}/recitation/${_recitersName!.reciterName}/fullRecitations/$surahID.mp3";
     File(path.toString()).deleteSync();
     _downloadSurahs.removeAt(index);
     notifyListeners();
