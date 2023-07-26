@@ -38,6 +38,7 @@ class RecitationPlayerProvider with ChangeNotifier {
   AudioPlayer get audioPlayer => _audioPlayer!;
 
   void initAudioPlayer(Reciters reciters, int current,List reciterDownloadList) async {
+    print(current);
     setReciter(reciters);
     List<String> audios = await getAudioFilesFromLocal(reciters.reciterName!);
     _playList = ConcatenatingAudioSource(
@@ -46,7 +47,6 @@ class RecitationPlayerProvider with ChangeNotifier {
       children: List.generate(
           audios.length, (index) => AudioSource.file(audios[index].toString())),
     );
-    // reciterDownloadList.sort();
     // setDownloadSurahListToPlayer(reciters.downloadSurahList!);
     setDownloadSurahListToPlayer(reciterDownloadList);
     setCurrentIndex(current);
@@ -131,6 +131,7 @@ class RecitationPlayerProvider with ChangeNotifier {
 
   void setCurrentIndex(int index) {
     _currentIndex = index;
+    print("-----curren index $index");
     if (_surahNamesList.isNotEmpty) {
       _surah = _surahNamesList[index];
     }
@@ -158,6 +159,7 @@ class RecitationPlayerProvider with ChangeNotifier {
   }
 
   Future<void> setDownloadSurahListToPlayer(List downloadList) async {
+    downloadList.sort();
     _surahNamesList = [];
     for (int i = 0; i < downloadList.length; i++) {
       var surah = await QuranDatabase().getSpecificSurahName(downloadList[i]);

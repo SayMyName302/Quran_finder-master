@@ -27,8 +27,8 @@ class _RecitationPageState extends State<RecitationPage> {
   @override
   void initState() {
     super.initState();
-    context.read<RecitationProvider>().getReciters();
-    context.read<RecitationProvider>().getReciters2();
+    context.read<RecitationProvider>().getRecommendedReciters();
+    context.read<RecitationProvider>().getPopularReciters();
     // context.read<RecitationProvider>().getFavReciter();
   }
 
@@ -102,7 +102,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                       recitersValue.getSurahName();
                                       // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
                                       /// so that is now an other way
-                                      context.read<ReciterProvider>().getAvailableDownloadAudioFilesFromLocal(reciter.reciterName!);
+                                      context.read<ReciterProvider>().getAvailableDownloadAudiosAsListOfInt(reciter.reciterName!);
                                       Navigator.of(context).pushNamed(
                                         RouteHelper.reciter,
                                         arguments: reciter,
@@ -182,7 +182,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                       recitersValue.getSurahName();
                                       // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
                                       /// so that is now an other way
-                                      context.read<ReciterProvider>().getAvailableDownloadAudioFilesFromLocal(reciter.reciterName!);
+                                      context.read<ReciterProvider>().getAvailableDownloadAudiosAsListOfInt(reciter.reciterName!);
                                       Navigator.of(context).pushNamed(
                                         RouteHelper.reciter,
                                         arguments: reciter,

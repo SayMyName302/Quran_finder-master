@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
@@ -22,13 +20,12 @@ class DownloadManagerProvider extends ChangeNotifier {
   List<int> _downloadSurahList = [];
 
   Future<void> getReciters() async {
-    _recitersList = await QuranDatabase().getReciter();
+    _recitersList = await QuranDatabase().getAllReciter();
     notifyListeners();
     List<String> reciters = await getAvailableReciters();
     if (_recitersList.isNotEmpty) {
       for (var models in _recitersList) {
-        int index =
-            reciters.indexWhere((element) => element == models.reciterName);
+        int index = reciters.indexWhere((element) => element == models.reciterName);
         if (index != -1) {
           if (models.reciterName == reciters[index]) {
             _whichHaveDownloaded.add(models);
@@ -58,12 +55,11 @@ class DownloadManagerProvider extends ChangeNotifier {
   void goToDownloadAudios(int index, BuildContext context) async{
     var provider = Provider.of<ReciterProvider>(context,listen: false);
     _recitersName = _whichHaveDownloaded[index];
-    _downloadSurahList = await provider.getAvailableDownloadAudioFilesFromLocal(recitersName!.reciterName!);
+    _downloadSurahList = await provider.getAvailableDownloadAudiosAsListOfInt(recitersName!.reciterName!);
     // var downloadSurahList = provider.downloadSurahList;
     _downloadSurahList.sort();
     // getDownloadSurah(_whichHaveDownloaded[index].downloadSurahList!);
     getDownloadSurah(_downloadSurahList);
-    getDownloadSurah(_whichHaveDownloaded[index].downloadSurahList!);
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.downloadedSurahManager);
   }
@@ -87,8 +83,7 @@ class DownloadManagerProvider extends ChangeNotifier {
   Future<void> deleteDownloadedSurah(
       String surahID, int index, Reciters reciters) async {
     var directory = await getApplicationDocumentsDirectory();
-    var path =
-        "${directory.path}/recitation/${_recitersName!.reciterName}/fullRecitations/$surahID.mp3";
+    var path = "${directory.path}/recitation/${_recitersName!.reciterName}/fullRecitations/$surahID.mp3";
     File(path.toString()).deleteSync();
     _downloadSurahs.removeAt(index);
     notifyListeners();

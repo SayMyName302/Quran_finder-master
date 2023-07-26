@@ -352,7 +352,9 @@ class ReciterPage extends StatelessWidget {
           /// it means mini player is not open so we can open recitation player after downloading specific surah
           // context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
           Future.delayed(Duration.zero,(){
-            context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciterProvider.downloadSurahList.indexWhere((element) => element == surah.surahId,),reciterProvider.downloadSurahList);
+            var list = reciterProvider.downloadSurahList;
+            list.sort();
+            context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, list.indexWhere((element) => element == surah.surahId,),reciterProvider.downloadSurahList);
             Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
           });
         }

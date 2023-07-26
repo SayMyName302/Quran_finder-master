@@ -37,7 +37,7 @@ class DuaProvider extends ChangeNotifier {
   }
 
   Future<void> getAllDuas() async {
-    _duaList = await QuranDatabase().getallDua();
+    _duaList = await QuranDatabase().getAllDua();
     notifyListeners();
   }
 
