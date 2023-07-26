@@ -115,6 +115,9 @@ class ReciterProvider extends ChangeNotifier {
               "After Downloading Surah new Surah Index added =====> $_downloadSurahList");
           reciters.setDownloadSurahList = downloadSurahList;
 
+          // QuranDatabase()
+          //     .updateReciterDownloadList(reciters.reciterId!, reciters);
+
           // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
         });
       }
