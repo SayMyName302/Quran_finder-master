@@ -61,8 +61,7 @@ class HomeProvider extends ChangeNotifier {
     verseId = _verseOfTheDay.verseId;
     surahId = _verseOfTheDay.surahId;
     if (_verseOfTheDay.surahId != null) {
-      surahName =
-          await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
+      surahName = await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
     }
     notifyListeners();
     Future.delayed(Duration.zero, () {
@@ -159,8 +158,7 @@ class HomeProvider extends ChangeNotifier {
         desiredAccuracy: LocationAccuracy.low,
       ).timeout(const Duration(seconds: 15));
 
-      List<Placemark> placeMarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placeMarks = await placemarkFromCoordinates(position.latitude, position.longitude);
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];

@@ -33,8 +33,7 @@ class SurahIndexPage extends StatefulWidget {
 class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProviderStateMixin{
   late TabController _tabController;
   var searchController = TextEditingController();
-  // Declare the GlobalKey as a global variable
-  GlobalKey<_SurahIndexPageState> myWidgetKey = GlobalKey<_SurahIndexPageState>();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   final additionalSurahNames = [
     'Al-Mulk',
     'Al-Baqara',
@@ -61,10 +60,9 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     final appColorsProvider = Provider.of<AppColorsProvider>(context);
     List<String> tappedSurahNames = context.watch<LastReadProvider>().tappedSurahNames;
-    loadTappedSurahNames(context);
+    // loadTappedSurahNames(context);
     return Scaffold(
       body: CustomScrollView(
         // crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,17 +203,6 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Consumer<recentProvider>(
                     builder: (context, surahValue, child) {
-                      // Modify the logic to display the specific surahs you want
-                      final additionalSurahNames = [
-                        'Al-Mulk',
-                        'Al-Baqara',
-                        'As-Sajda',
-                        'Yaseen',
-                        'Ar-Rahmaan',
-                        'Al-Waaqia',
-                        'Al-Kahf'
-                      ];
-
                       return Container(
                         height: 23.h,
                         margin: EdgeInsets.only(bottom: 15.h),
@@ -225,12 +212,10 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             final surahName = additionalSurahNames[index];
-
                             return GestureDetector(
                               onTap: () async {
                                 var surahList = await QuranDatabase().getSurahName();
-                                int surahIndex = surahList.indexWhere(
-                                        (element) => element.surahName == surahName);
+                                int surahIndex = surahList.indexWhere((element) => element.surahName == surahName);
                                 Surah surah = surahList[surahIndex];
                                 context.read<QuranProvider>().setSurahText(
                                   surahId: surah.surahId!,
@@ -238,10 +223,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
                                   fromWhere: 1,
                                 );
                                 tappedSurahNames.add(surah.surahName!);
-                                context
-                                    .read<LastReadProvider>()
-                                    .addTappedSurahName(surah.surahName!);
-
+                                context.read<LastReadProvider>().addTappedSurahName(surah.surahName!);
                                 saveTappedSurahNames(context);
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) {
@@ -250,26 +232,7 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
                                 ));
                                 // Handle the onTap logic for additional surahs
                               },
-                              child: Container(
-                                height: 23.h,
-                                padding: EdgeInsets.only(left: 9.w, right: 9.w),
-                                margin: EdgeInsets.only(right: 7.w),
-                                decoration: BoxDecoration(
-                                  color: AppColors.grey6,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    surahName,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: 'satoshi',
-                                      fontSize: 15.sp,
-                                      color: AppColors.grey3,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              child: buildQuickLinkContainer(surahName),
                             );
                           },
                         ),
@@ -283,6 +246,11 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
                   indicatorColor: appColorsProvider.mainBrandingColor,
                   labelColor: appColorsProvider.mainBrandingColor,
                   unselectedLabelColor: Colors.grey,
+                  onTap: (current){
+                    setState(() {
+                      _tabController.index = current;
+                    });
+                  },
                   tabs: [
                     Tab(
                       child: Text(
@@ -503,68 +471,68 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
   }
 
 
-  buildJuzIndex(){
-    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    return Consumer<JuzProvider>(
-      builder: (context, juzValue, child) {
-        return juzValue.juzNameList.isNotEmpty
-            ? MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: juzValue.juzNameList.length,
-            itemBuilder: (context, index) {
-              Juz juz = juzValue.juzNameList[index];
-              return InkWell(
-                onTap: () async {
-                  context.read<QuranProvider>().setJuzText(
-                    juzId: juz.juzId!,
-                    title: juz.juzArabic!,
-                    fromWhere: 1,
-                    isJuz: true,
-                  );
-                  Future.delayed(
-                      Duration.zero,
-                          () => context
-                          .read<RecitationPlayerProvider>()
-                          .pause(context));
-                  analytics.logEvent(
-                    name: 'read_quran_juzz_index',
-                    parameters: {
-                      'Name': juz.juzEnglish,
-                      'index': juz.juzId.toString()
-                    },
-                  );
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      // title: juz.juzArabic!,fromWhere: 1,isJuz: true,juzId: index+1
-                      return const QuranTextView();
-                    },
-                  ));
-                },
-                child: DetailsContainerWidget1(
-                  index: index + 1,
-                  title: LocalizationProvider().checkIsArOrUr()
-                      ? juz.juzArabic!
-                      : juz.juzEnglish!,
-                  subTitle: LocalizationProvider().checkIsArOrUr()
-                      ? "${localeText(context, "juz")} ${index + 1}"
-                      : "${localeText(context, "juz")} ${index + 1} | ${juz.juzArabic}",
-                  icon: Icons.remove_red_eye_outlined,
-                  imageIcon: "assets/images/app_icons/view.png",
-                ),
-              );
-            },
-          ),
-        )
-            : const Center(
-          child: Text('No Result Found'),
-        );
-      },
-    );
-  }
+  // buildJuzIndex(){
+  //   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  //   return Consumer<JuzProvider>(
+  //     builder: (context, juzValue, child) {
+  //       return juzValue.juzNameList.isNotEmpty
+  //           ? MediaQuery.removePadding(
+  //         context: context,
+  //         removeTop: true,
+  //         child: ListView.builder(
+  //           shrinkWrap: true,
+  //           physics: const NeverScrollableScrollPhysics(),
+  //           itemCount: juzValue.juzNameList.length,
+  //           itemBuilder: (context, index) {
+  //             Juz juz = juzValue.juzNameList[index];
+  //             return InkWell(
+  //               onTap: () async {
+  //                 context.read<QuranProvider>().setJuzText(
+  //                   juzId: juz.juzId!,
+  //                   title: juz.juzArabic!,
+  //                   fromWhere: 1,
+  //                   isJuz: true,
+  //                 );
+  //                 Future.delayed(
+  //                     Duration.zero,
+  //                         () => context
+  //                         .read<RecitationPlayerProvider>()
+  //                         .pause(context));
+  //                 analytics.logEvent(
+  //                   name: 'read_quran_juzz_index',
+  //                   parameters: {
+  //                     'Name': juz.juzEnglish,
+  //                     'index': juz.juzId.toString()
+  //                   },
+  //                 );
+  //                 Navigator.of(context).push(MaterialPageRoute(
+  //                   builder: (context) {
+  //                     // title: juz.juzArabic!,fromWhere: 1,isJuz: true,juzId: index+1
+  //                     return const QuranTextView();
+  //                   },
+  //                 ));
+  //               },
+  //               child: DetailsContainerWidget1(
+  //                 index: index + 1,
+  //                 title: LocalizationProvider().checkIsArOrUr()
+  //                     ? juz.juzArabic!
+  //                     : juz.juzEnglish!,
+  //                 subTitle: LocalizationProvider().checkIsArOrUr()
+  //                     ? "${localeText(context, "juz")} ${index + 1}"
+  //                     : "${localeText(context, "juz")} ${index + 1} | ${juz.juzArabic}",
+  //                 icon: Icons.remove_red_eye_outlined,
+  //                 imageIcon: "assets/images/app_icons/view.png",
+  //               ),
+  //             );
+  //           },
+  //         ),
+  //       )
+  //           : const Center(
+  //         child: Text('No Result Found'),
+  //       );
+  //     },
+  //   );
+  // }
 
 
   buildQuickLinkContainer(String surahName){
