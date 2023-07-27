@@ -14,10 +14,10 @@ class AppDownloadsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<HomeProvider>(context); //Object
-    final authProvider = Provider.of<SignInProvider>(context); //Object
-    final userEmail = authProvider.userEmail; //fetching userEmail
-    final isUserYou = userEmail == "you@you.com"; //Comparing Email
+    final user = Provider.of<HomeProvider>(context);
+    final authProvider = Provider.of<SignInProvider>(context);
+    final userEmail = authProvider.userEmail;
+    final isUserYou = userEmail == "you@you.com";
     //TextField Controllers
     final region = TextEditingController();
     final hijriMonth = TextEditingController();
@@ -26,7 +26,6 @@ class AppDownloadsSection extends StatelessWidget {
     final hijriYear = TextEditingController();
     final dayName = TextEditingController();
 
-    //print('=====UserEmail{$userEmail}======');
     if (!isUserYou) {
       return const SizedBox.shrink();
     }
