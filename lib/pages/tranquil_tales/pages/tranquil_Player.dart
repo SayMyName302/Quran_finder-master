@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
+
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/provider/tranquil_tales_provider.dart';
@@ -31,7 +31,7 @@ class TranquilAudioPlayer extends StatelessWidget {
     // int? fav = nextDua.isFav;
     String duaUrl = nextDua.contentUrl.toString();
     String reference = nextDua.reference.toString();
-
+    print(duaUrl);
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     return WillPopScope(
       onWillPop: () async {

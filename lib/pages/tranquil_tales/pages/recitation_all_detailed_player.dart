@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:nour_al_quran/pages/recitation_category/pages/recitation_all_player.dart';
 import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
