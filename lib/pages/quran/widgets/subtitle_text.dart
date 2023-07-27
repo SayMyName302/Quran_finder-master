@@ -9,6 +9,7 @@ class SubTitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.only(bottom: 10.h, left: 20.h, right: 20.w),
+        alignment: Alignment.topLeft,
         child: Text(
           title,
           style: TextStyle(

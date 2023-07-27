@@ -36,77 +36,137 @@ class _JuzIndexPageState extends State<JuzIndexPage> {
   Widget build(BuildContext context) {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // SubTitleText(title: localeText(context, "juz_index")),
-        // SearchWidget(
-        //   hintText: localeText(context, "search_juz_name"),
-        //   searchController: searchController,
-        //   onChange: (value) {
-        //     context.read<JuzProvider>().searchJuz(value);
-        //   },
-        // ),
-        Consumer<JuzProvider>(
-          builder: (context, juzValue, child) {
-            return juzValue.juzNameList.isNotEmpty
-                ? MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: juzValue.juzNameList.length,
-                      itemBuilder: (context, index) {
-                        Juz juz = juzValue.juzNameList[index];
-                        return InkWell(
-                          onTap: () async {
-                            context.read<QuranProvider>().setJuzText(
-                                  juzId: juz.juzId!,
-                                  title: juz.juzArabic!,
-                                  fromWhere: 1,
-                                  isJuz: true,
-                                );
-                            Future.delayed(
-                                Duration.zero,
-                                () => context
-                                    .read<RecitationPlayerProvider>()
-                                    .pause(context));
-                            analytics.logEvent(
-                              name: 'read_quran_juzz_index',
-                              parameters: {
-                                'Name': juz.juzEnglish,
-                                'index': juz.juzId.toString()
-                              },
-                            );
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                // title: juz.juzArabic!,fromWhere: 1,isJuz: true,juzId: index+1
-                                return const QuranTextView();
-                              },
-                            ));
-                          },
-                          child: DetailsContainerWidget1(
-                            index: index + 1,
-                            title: LocalizationProvider().checkIsArOrUr()
-                                ? juz.juzArabic!
-                                : juz.juzEnglish!,
-                            subTitle: LocalizationProvider().checkIsArOrUr()
-                                ? "${localeText(context, "juz")} ${index + 1}"
-                                : "${localeText(context, "juz")} ${index + 1} | ${juz.juzArabic}",
-                            icon: Icons.remove_red_eye_outlined,
-                            imageIcon: "assets/images/app_icons/view.png",
-                          ),
-                        );
+    return Consumer<JuzProvider>(
+      builder: (context, juzValue, child) {
+        return juzValue.juzNameList.isNotEmpty
+            ? MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: Expanded(
+            child: ListView.builder(
+              itemCount: juzValue.juzNameList.length,
+              itemBuilder: (context, index) {
+                Juz juz = juzValue.juzNameList[index];
+                return InkWell(
+                  onTap: () async {
+                    context.read<QuranProvider>().setJuzText(
+                      juzId: juz.juzId!,
+                      title: juz.juzArabic!,
+                      fromWhere: 1,
+                      isJuz: true,
+                    );
+                    Future.delayed(
+                        Duration.zero,
+                            () => context
+                            .read<RecitationPlayerProvider>()
+                            .pause(context));
+                    analytics.logEvent(
+                      name: 'read_quran_juzz_index',
+                      parameters: {
+                        'Name': juz.juzEnglish,
+                        'index': juz.juzId.toString()
                       },
-                    ),
-                  )
-                : const Center(
-                    child: Text('No Result Found'),
-                  );
-          },
-        ),
-      ],
+                    );
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        // title: juz.juzArabic!,fromWhere: 1,isJuz: true,juzId: index+1
+                        return const QuranTextView();
+                      },
+                    ));
+                  },
+                  child: DetailsContainerWidget1(
+                    index: index + 1,
+                    title: LocalizationProvider().checkIsArOrUr()
+                        ? juz.juzArabic!
+                        : juz.juzEnglish!,
+                    subTitle: LocalizationProvider().checkIsArOrUr()
+                        ? "${localeText(context, "juz")} ${index + 1}"
+                        : "${localeText(context, "juz")} ${index + 1} | ${juz.juzArabic}",
+                    icon: Icons.remove_red_eye_outlined,
+                    imageIcon: "assets/images/app_icons/view.png",
+                  ),
+                );
+              },
+            ),
+          ),
+        )
+            : const Center(
+          child: Text('No Result Found'),
+        );
+      },
     );
+
+    //   Column(
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     // SubTitleText(title: localeText(context, "juz_index")),
+    //     // SearchWidget(
+    //     //   hintText: localeText(context, "search_juz_name"),
+    //     //   searchController: searchController,
+    //     //   onChange: (value) {
+    //     //     context.read<JuzProvider>().searchJuz(value);
+    //     //   },
+    //     // ),
+    //     Consumer<JuzProvider>(
+    //       builder: (context, juzValue, child) {
+    //         return juzValue.juzNameList.isNotEmpty
+    //             ? MediaQuery.removePadding(
+    //                 context: context,
+    //                 removeTop: true,
+    //                 child: Expanded(
+    //                   child: ListView.builder(
+    //                     itemCount: juzValue.juzNameList.length,
+    //                     itemBuilder: (context, index) {
+    //                       Juz juz = juzValue.juzNameList[index];
+    //                       return InkWell(
+    //                         onTap: () async {
+    //                           context.read<QuranProvider>().setJuzText(
+    //                                 juzId: juz.juzId!,
+    //                                 title: juz.juzArabic!,
+    //                                 fromWhere: 1,
+    //                                 isJuz: true,
+    //                               );
+    //                           Future.delayed(
+    //                               Duration.zero,
+    //                               () => context
+    //                                   .read<RecitationPlayerProvider>()
+    //                                   .pause(context));
+    //                           analytics.logEvent(
+    //                             name: 'read_quran_juzz_index',
+    //                             parameters: {
+    //                               'Name': juz.juzEnglish,
+    //                               'index': juz.juzId.toString()
+    //                             },
+    //                           );
+    //                           Navigator.of(context).push(MaterialPageRoute(
+    //                             builder: (context) {
+    //                               // title: juz.juzArabic!,fromWhere: 1,isJuz: true,juzId: index+1
+    //                               return const QuranTextView();
+    //                             },
+    //                           ));
+    //                         },
+    //                         child: DetailsContainerWidget1(
+    //                           index: index + 1,
+    //                           title: LocalizationProvider().checkIsArOrUr()
+    //                               ? juz.juzArabic!
+    //                               : juz.juzEnglish!,
+    //                           subTitle: LocalizationProvider().checkIsArOrUr()
+    //                               ? "${localeText(context, "juz")} ${index + 1}"
+    //                               : "${localeText(context, "juz")} ${index + 1} | ${juz.juzArabic}",
+    //                           icon: Icons.remove_red_eye_outlined,
+    //                           imageIcon: "assets/images/app_icons/view.png",
+    //                         ),
+    //                       );
+    //                     },
+    //                   ),
+    //                 ),
+    //               )
+    //             : const Center(
+    //                 child: Text('No Result Found'),
+    //               );
+    //       },
+    //     ),
+    //   ],
+    // );
   }
 }
