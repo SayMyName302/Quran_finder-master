@@ -369,8 +369,8 @@ class ReciterPage extends StatelessWidget {
       /// saving recommended reciter
       reciterProvider.addRecommendedReciterToList(reciters, surah);
       /// audio play logic
-      // context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciterProvider.downloadSurahList.indexWhere((element) => element == surah.surahId),reciterProvider.downloadSurahList,context);
-      // Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+      context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciterProvider.downloadSurahList.indexWhere((element) => element == surah.surahId),reciterProvider.downloadSurahList,context);
+      Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
     }
   }
 
