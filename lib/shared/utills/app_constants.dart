@@ -55,5 +55,9 @@ const String streakLevelKey = "streakLevelKey";
 const String onBoardingDoneKey = "onBoardingDoneKey";
 
 
-/// fav
+/// fav reciters
 const String favReciterListKey = "favReciterListKey";
+
+/// recommended Reciter List
+const String recommendedReciterListKey = "recommendedReciterListKey";
+

@@ -181,8 +181,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                   crossAxisSpacing: 5.w,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
-                                  Reciters reciter =
-                                      recitersValue.recitersList[index];
+                                  Reciters reciter = recitersValue.recitersList[index];
                                   return InkWell(
                                     onTap: () async {
                                       recitersValue.getSurahName();

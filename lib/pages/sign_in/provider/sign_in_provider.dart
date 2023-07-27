@@ -278,8 +278,7 @@ class SignInProvider extends ChangeNotifier {
 
   //
 
-  signUpWithEmailPassword(
-      String email, String password, String name, BuildContext context) async {
+  signUpWithEmailPassword(String email, String password, String name, BuildContext context) async {
     try {
       Future.delayed(Duration.zero,
           () => EasyLoadingDialog.show(context: context, radius: 20.r));

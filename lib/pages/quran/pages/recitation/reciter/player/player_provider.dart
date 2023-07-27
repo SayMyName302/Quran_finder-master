@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
@@ -37,8 +38,7 @@ class RecitationPlayerProvider with ChangeNotifier {
   Duration get duration => _duration;
   AudioPlayer get audioPlayer => _audioPlayer!;
 
-  void initAudioPlayer(Reciters reciters, int current,List reciterDownloadList) async {
-    print(current);
+  void initAudioPlayer(Reciters reciters, int current,List reciterDownloadList,BuildContext context) async {
     setReciter(reciters);
     List<String> audios = await getAudioFilesFromLocal(reciters.reciterName!);
     _playList = ConcatenatingAudioSource(
@@ -49,31 +49,33 @@ class RecitationPlayerProvider with ChangeNotifier {
     );
     // setDownloadSurahListToPlayer(reciters.downloadSurahList!);
     setDownloadSurahListToPlayer(reciterDownloadList);
-    setCurrentIndex(current);
+    setCurrentIndex(current,context);
     if (_audioPlayer == null) {
-      _init(playList!);
+      _init(playList!,context);
     } else {
       _audioPlayer!.stop();
       _audioPlayer = null;
-      _init(playList!);
+      _init(playList!,context);
     }
   }
 
-  void _init(ConcatenatingAudioSource file) async {
+  void _init(ConcatenatingAudioSource file,BuildContext context) async {
     _audioPlayer = AudioPlayer();
     // await _audioPlayer!.setFilePath(file);
     await _audioPlayer!.setAudioSource(file, initialIndex: _currentIndex);
-    _audioPlayer!.currentIndexStream.listen((currentAudio) {
-      setCurrentIndex(currentAudio!);
-    });
     _audioPlayer!.playerStateStream.listen((event) {
       setIsPlaying(event.playing);
-      if (event.processingState == ProcessingState.completed &&
-          _currentIndex == _surahNamesList.length - 1) {
+      if (event.processingState == ProcessingState.completed && _currentIndex == _surahNamesList.length - 1) {
         _audioPlayer!.seek(Duration.zero);
         _audioPlayer!.pause();
+        Provider.of<ReciterProvider>(context,listen: false).updateTimeElapsed(reciter!,surah!);
+        Provider.of<ReciterProvider>(context,listen: false).resetTimer();
       }
     });
+    _audioPlayer!.currentIndexStream.listen((currentAudio) {
+      setCurrentIndex(currentAudio!,context);
+    });
+
     _audioPlayer!.durationStream.listen((duration) {
       if (duration != null) {
         setDuration(duration);
@@ -86,6 +88,7 @@ class RecitationPlayerProvider with ChangeNotifier {
 
   Future<void> play(BuildContext context) async {
     var provider = Provider.of<MyStateProvider>(context, listen: false);
+    Provider.of<ReciterProvider>(context,listen: false).startTimer();
     provider.startQuranRecitationTimer("other");
     setIsPlaying(true);
     _isOpen = true;
@@ -107,8 +110,9 @@ class RecitationPlayerProvider with ChangeNotifier {
 
   Future<void> pause(BuildContext context) async {
     if (_audioPlayer != null) {
-      Provider.of<MyStateProvider>(context, listen: false)
-          .stopRecitationTimer("other");
+      Provider.of<ReciterProvider>(context,listen: false).updateTimeElapsed(reciter!,surah!);
+      Provider.of<ReciterProvider>(context,listen: false).resetTimer();
+      Provider.of<MyStateProvider>(context, listen: false).stopRecitationTimer("other");
       setIsPlaying(false);
       await _audioPlayer!.pause();
     }
@@ -129,10 +133,16 @@ class RecitationPlayerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setCurrentIndex(int index) {
+  void setCurrentIndex(int index,BuildContext context) {
     _currentIndex = index;
-    print("-----curren index $index");
     if (_surahNamesList.isNotEmpty) {
+      if(_isPlaying){
+        print("---------------------------------------------------------");
+        Provider.of<ReciterProvider>(context,listen: false).updateTimeElapsed(reciter!,surah!);
+        Provider.of<ReciterProvider>(context,listen: false).resetTimer();
+        Provider.of<ReciterProvider>(context,listen: false).startTimer();
+        print("---------------------------------------------------------");
+      }
       _surah = _surahNamesList[index];
     }
     notifyListeners();
@@ -168,7 +178,7 @@ class RecitationPlayerProvider with ChangeNotifier {
         notifyListeners();
       }
     }
-    print("$downloadList here is surah list");
+    // print("$downloadList here is surah list");
   }
 
   /// this will get each surah audio from local storage
@@ -187,7 +197,7 @@ class RecitationPlayerProvider with ChangeNotifier {
       int bNumber = int.parse(b.split('/').last.replaceAll(RegExp(r'[^0-9]'), ''));
       return aNumber.compareTo(bNumber);
     });
-    debugPrint("$audioFiles here is audios files");
+    // debugPrint("$audioFiles here is audios files");
     return audioFiles;
   }
 

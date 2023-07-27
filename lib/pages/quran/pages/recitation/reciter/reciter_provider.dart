@@ -1,6 +1,9 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
@@ -8,6 +11,8 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/providers/download_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../../shared/utills/app_constants.dart';
 
 class ReciterProvider extends ChangeNotifier {
   List<int> _downloadSurahList = [];
@@ -21,13 +26,12 @@ class ReciterProvider extends ChangeNotifier {
 
   void setReciterList(List<int> downloadSurah) {
     _downloadSurahList = downloadSurah;
-    print(
-        "After Setting a Surah List For Reciter While Going to Reciter Page -------> $_downloadSurahList");
+    // print("After Setting a Surah List For Reciter While Going to Reciter Page -------> $_downloadSurahList");
     notifyListeners();
   }
 
   void updateDownloadSurahList(int item, BuildContext context) {
-    print('Updating Playlist if player is played Mode ====> update $item');
+    // print('Updating Playlist if player is played Mode ====> update $item');
     context.read<RecitationPlayerProvider>().updatePlayList(item);
   }
 
@@ -87,8 +91,7 @@ class ReciterProvider extends ChangeNotifier {
         var file = <int>[];
         file.addAll(response.data);
         var directory = await getApplicationDocumentsDirectory();
-        var audioDirectory =
-            "${directory.path}/recitation/${reciters.reciterName}/fullRecitations";
+        var audioDirectory = "${directory.path}/recitation/${reciters.reciterName}/fullRecitations";
         if (!await Directory(audioDirectory).exists()) {
           await Directory(audioDirectory).create(recursive: true);
         }
@@ -111,12 +114,8 @@ class ReciterProvider extends ChangeNotifier {
             _downloadSurahList.add(surah.surahId!);
             notifyListeners();
           }
-          print(
-              "After Downloading Surah new Surah Index added =====> $_downloadSurahList");
+          // print("After Downloading Surah new Surah Index added =====> $_downloadSurahList");
           reciters.setDownloadSurahList = downloadSurahList;
-
-          // QuranDatabase()
-          //     .updateReciterDownloadList(reciters.reciterId!, reciters);
 
           // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
         });
@@ -128,10 +127,6 @@ class ReciterProvider extends ChangeNotifier {
             .showSnackBar(const SnackBar(content: Text('No Internet')));
       });
     }
-  }
-
-  void removeDownloadedSurah(int surahId, Reciters reciters) {
-    // QuranDatabase().updateReciterDownloadList(reciters.reciterId!, reciters);
   }
 
   /// this method will check reciter folder with his name
@@ -159,6 +154,109 @@ class ReciterProvider extends ChangeNotifier {
       setReciterList([]);
       return [];
     }
+  }
+
+
+  /// ------ recommended Reciters Logic ------ ///
+  List<RecommendedReciter> recommendedReciterList = Hive.box(appBoxKey).get(recommendedReciterListKey) != null
+      ? (jsonDecode(Hive.box(appBoxKey).get(recommendedReciterListKey)) as List<dynamic>).map((e) => RecommendedReciter.fromJson(e)).toList() : [];
+  int secondElapsed = 0;
+  Timer? _timer;
+
+  addRecommendedReciterToList(Reciters reciters,Surah surah){
+    RecommendedReciter recommededReciter = RecommendedReciter(reciterId: reciters.reciterId, reciterName: reciters.reciterName, surahName: surah.surahName,surahId: surah.surahId, secondSpend: 0);
+    if(!recommendedReciterList.any((element) => element.surahName == surah.surahName)){
+      recommendedReciterList.add(recommededReciter);
+      saveRecommendedReciters();
+    }
+    print(recommendedReciterList.toString());
+  }
+
+  startTimer(){
+    secondElapsed = 0;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      secondElapsed++;
+      print("(--------$secondElapsed--------)");
+    });
+  }
+
+  resetTimer(){
+    if(_timer != null){
+      secondElapsed = 0;
+      _timer!.cancel();
+      print("(--------$secondElapsed--------)");
+    }
+  }
+
+
+  updateTimeElapsed(Reciters reciters,Surah surah){
+    int reciterIndex = recommendedReciterList.indexWhere((element) => element.surahName == surah.surahName);
+    if(reciterIndex != -1){
+      RecommendedReciter reciter = recommendedReciterList[reciterIndex];
+      reciter.setSecondSpend = reciter.secondSpend! + secondElapsed;
+      saveRecommendedReciters();
+    }else{
+      RecommendedReciter recommededReciter = RecommendedReciter(reciterId: reciters.reciterId, reciterName: reciters.reciterName, surahName: surah.surahName,surahId: surah.surahId, secondSpend: secondElapsed);
+      recommendedReciterList.add(recommededReciter);
+      saveRecommendedReciters();
+      print('after Adding New Surah ${recommendedReciterList.toString()}');
+    }
+  }
+
+  saveRecommendedReciters(){
+    Hive.box(appBoxKey).put(recommendedReciterListKey, jsonEncode(recommendedReciterList));
+  }
+}
+
+
+
+class RecommendedReciter{
+  int? _reciterId;
+  String? _reciterName;
+  String? _surahName;
+  int? _surahId;
+  int? _secondSpend;
+
+
+  int? get reciterId => _reciterId;
+  String? get reciterName => _reciterName;
+  String? get surahName => _surahName;
+  int? get surahId => _surahId;
+  int? get secondSpend => _secondSpend;
+
+  set setSecondSpend(int value) {
+    _secondSpend = value;
+  }
+
+  RecommendedReciter({required reciterId, required reciterName, required surahName,required surahId, required secondSpend}){
+    _reciterId = reciterId;
+    _reciterName = reciterName;
+    _surahName = surahName;
+    _surahId = surahId;
+    _secondSpend = secondSpend;
+  }
+
+  RecommendedReciter.fromJson(Map<String,dynamic> json){
+    _reciterId = json['reciterId'];
+    _reciterName = json['reciterName'];
+    _surahName = json['surahName'];
+    _surahId = json['surahId'];
+    _secondSpend = json['secondSpend'];
+  }
+
+  Map toJson(){
+    return {
+      'reciterId':_reciterId,
+      'reciterName': _reciterName,
+      'surahName':_surahName,
+      'surahId':_surahId,
+      'secondSpend':_secondSpend
+    };
+  }
+
+  @override
+  String toString() {
+    return "(rId: $reciterId, rName: $reciterName, sName: $surahName, sId: $surahId, seconds: $secondSpend)";
   }
 }
 

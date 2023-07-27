@@ -94,7 +94,7 @@ class ReciterPage extends StatelessWidget {
                               ? InkWell(
                                   onTap: () {
                                     // audio play logic
-                                    context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, 0,reciterProvider.downloadSurahList);
+                                    context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, 0,reciterProvider.downloadSurahList,context);
                                     Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
                                   },
                                   child: Container(
@@ -354,7 +354,9 @@ class ReciterPage extends StatelessWidget {
           Future.delayed(Duration.zero,(){
             var list = reciterProvider.downloadSurahList;
             list.sort();
-            context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, list.indexWhere((element) => element == surah.surahId,),reciterProvider.downloadSurahList);
+            /// saving recommended reciter
+            reciterProvider.addRecommendedReciterToList(reciters, surah);
+            context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, list.indexWhere((element) => element == surah.surahId,),reciterProvider.downloadSurahList,context);
             Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
           });
         }
@@ -364,12 +366,11 @@ class ReciterPage extends StatelessWidget {
             .showSnackBar(const SnackBar(content: Text('No Internet')));
       }).doRequest();
     } else {
-      // audio play logic
-      print("from db ${reciters.downloadSurahList}");
-      print("from reciter ${reciterProvider.downloadSurahList}");
-      // context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciters.downloadSurahList!.indexWhere((element) => element == surah.surahId));
-      context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciterProvider.downloadSurahList.indexWhere((element) => element == surah.surahId),reciterProvider.downloadSurahList);
-      Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
+      /// saving recommended reciter
+      reciterProvider.addRecommendedReciterToList(reciters, surah);
+      /// audio play logic
+      // context.read<RecitationPlayerProvider>().initAudioPlayer(reciters, reciterProvider.downloadSurahList.indexWhere((element) => element == surah.surahId),reciterProvider.downloadSurahList,context);
+      // Navigator.of(context).pushNamed(RouteHelper.audioPlayer);
     }
   }
 
@@ -427,8 +428,7 @@ class ReciterPage extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(2.5.r),
                           child: LinearProgressIndicator(
-                            value: value.downloadProgress
-                                .toDouble(), // Convert int to double
+                            value: value.downloadProgress.toDouble(), // Convert int to double
                             backgroundColor: AppColors.lightBrandingColor,
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 appColors.mainBrandingColor),

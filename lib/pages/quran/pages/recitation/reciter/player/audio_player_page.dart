@@ -353,7 +353,7 @@ class AudioPlayerPage extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () async {
-                            player.setCurrentIndex(index);
+                            player.setCurrentIndex(index,context);
                             player.audioPlayer
                                 .seek(Duration.zero, index: index);
                             player.play(context);
