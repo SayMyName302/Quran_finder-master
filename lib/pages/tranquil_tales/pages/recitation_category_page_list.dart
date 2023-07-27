@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
-import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
+
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/provider/tranquil_tales_provider.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +36,7 @@ class TranquilPageList extends StatelessWidget {
                         recitationProvider
                             .getSelectedRecitationAll(model.categoryId!);
                         Navigator.of(context).pushNamed(
-                          RouteHelper.recitationallcategory,
+                          RouteHelper.tranquil_tales,
                           arguments: [
                             localeText(context, model.categoryName!),
                             model.imageURl!,
