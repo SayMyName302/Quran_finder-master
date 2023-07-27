@@ -1,30 +1,56 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/utills/app_colors.dart';
 import '../../sign_in/provider/sign_in_provider.dart';
+import '../models/title_custom.dart';
 import '../provider/home_provider.dart';
 import 'labeled_textfield.dart';
+import 'dart:math';
 
 class AppDownloadsSection extends StatelessWidget {
-  const AppDownloadsSection({Key? key}) : super(key: key);
+  AppDownloadsSection({Key? key}) : super(key: key);
+
+  //TextField Controllers
+  final country = TextEditingController();
+  final hijriMonth = TextEditingController();
+  final date = TextEditingController();
+  final time = TextEditingController();
+  final hijriYear = TextEditingController();
+  final dayName = TextEditingController();
+
+  void _fetchRandomTitle(BuildContext context) {
+    String countryName = country.text.trim();
+    final user = Provider.of<HomeProvider>(context, listen: false);
+
+    user.getTitlesByCountry(countryName);
+    List<CustomTitle> titles = user.titleText;
+
+    if (titles.isNotEmpty) {
+      int randomIndex = Random().nextInt(titles.length);
+      CustomTitle selectedTitle = titles[randomIndex];
+      String? selectedTitleText = selectedTitle.titleText;
+
+      // Set the selectedTitleText in your provider
+      user.setSelectedTitleText(selectedTitleText);
+
+      // print(selectedTitleText);
+    } else {
+      user.setSelectedTitleText("Popular Recitations");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<HomeProvider>(context);
     final authProvider = Provider.of<SignInProvider>(context);
+
     final userEmail = authProvider.userEmail;
     final isUserYou = userEmail == "you@you.com";
-    //TextField Controllers
-    final region = TextEditingController();
-    final hijriMonth = TextEditingController();
-    final date = TextEditingController();
-    final time = TextEditingController();
-    final hijriYear = TextEditingController();
-    final dayName = TextEditingController();
 
     if (!isUserYou) {
       return const SizedBox.shrink();
@@ -78,7 +104,7 @@ class AppDownloadsSection extends StatelessWidget {
                   ),
                   LabeledTextField(
                     label: "Region: ${user.region}",
-                    controller: region,
+                    controller: country,
                   ),
                   const SizedBox(height: 10),
                   LabeledTextField(
@@ -106,6 +132,11 @@ class AppDownloadsSection extends StatelessWidget {
                     controller: dayName,
                   ),
                   const SizedBox(height: 10),
+                  BrandButton(
+                      text: 'Submit',
+                      onTap: () {
+                        _fetchRandomTitle(context);
+                      }),
                 ],
               ),
             );

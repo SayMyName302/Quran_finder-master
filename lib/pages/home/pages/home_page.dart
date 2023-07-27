@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
             /// Islam Basics Section
             const IslamBasicsSection(),
 
-            const AppDownloadsSection(),
+            AppDownloadsSection(),
 
             // const RecitationCategorySection(),
           ],
