@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import '../lib/src/adhan_base.dart';
+import 'package:adhan/src/adhan_base.dart';
 
 void main() {
   print(

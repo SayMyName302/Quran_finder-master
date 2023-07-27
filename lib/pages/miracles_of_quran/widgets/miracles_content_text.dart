@@ -86,7 +86,7 @@ class MiraclesContentText extends StatelessWidget {
       );
     } catch (e) {
       showErrorSnackBar('An error occurred: $e', context);
-      return SizedBox.shrink(); // Return an empty widget in case of an error
+      return const SizedBox.shrink(); // Return an empty widget in case of an error
     }
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -19,7 +18,6 @@ import '../../pages/duas/models/dua.dart';
 import '../../pages/duas/models/dua_category.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah_category.dart';
-import '../../pages/recitation_category/models/recitation_all_category_model.dart';
 
 class QuranDatabase {
   Database? database;

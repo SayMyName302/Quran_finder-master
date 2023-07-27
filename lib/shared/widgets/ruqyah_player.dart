@@ -38,8 +38,8 @@ class RuqyahAudioPlayer extends StatelessWidget {
                 children: [
                   Container(
                     margin: EdgeInsets.only(left: 50.w, right: 35.w, top: 10.h),
-                    child: Row(
-                      children: const [],
+                    child: const Row(
+                      children: [],
                     ),
                   ),
                   Row(

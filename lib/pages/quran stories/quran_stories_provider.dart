@@ -17,7 +17,7 @@ class QuranStoriesProvider extends ChangeNotifier {
   QuranStories? _selectedQuranStory;
   QuranStories? get selectedQuranStory => _selectedQuranStory;
   SharedPreferences? _preferences;
-  int _lastTappedIndex = -1;
+  final int _lastTappedIndex = -1;
 
   Future<void> getStories() async {
     _stories = await HomeDb().getQuranStories();
@@ -90,9 +90,7 @@ class QuranStoriesProvider extends ChangeNotifier {
         final story = _stories.firstWhere(
           (m) => m.storyTitle == storyTitle,
         );
-        if (story != null) {
-          sortedStories.add(story);
-        }
+        sortedStories.add(story);
       }
       _stories = sortedStories;
       notifyListeners();

@@ -205,6 +205,17 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Consumer<recentProvider>(
                     builder: (context, surahValue, child) {
+                      // Modify the logic to display the specific surahs you want
+                      final additionalSurahNames = [
+                        'Al-Mulk',
+                        'Al-Baqara',
+                        'As-Sajda',
+                        'Yaseen',
+                        'Ar-Rahmaan',
+                        'Al-Waaqia',
+                        'Al-Kahf'
+                      ];
+
                       return Container(
                         height: 23.h,
                         margin: EdgeInsets.only(bottom: 15.h),
@@ -214,10 +225,12 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             final surahName = additionalSurahNames[index];
+
                             return GestureDetector(
                               onTap: () async {
                                 var surahList = await QuranDatabase().getSurahName();
-                                int surahIndex = surahList.indexWhere((element) => element.surahName == surahName);
+                                int surahIndex = surahList.indexWhere(
+                                        (element) => element.surahName == surahName);
                                 Surah surah = surahList[surahIndex];
                                 context.read<QuranProvider>().setSurahText(
                                   surahId: surah.surahId!,
@@ -225,7 +238,10 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
                                   fromWhere: 1,
                                 );
                                 tappedSurahNames.add(surah.surahName!);
-                                context.read<LastReadProvider>().addTappedSurahName(surah.surahName!);
+                                context
+                                    .read<LastReadProvider>()
+                                    .addTappedSurahName(surah.surahName!);
+
                                 saveTappedSurahNames(context);
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) {
@@ -234,7 +250,26 @@ class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProvid
                                 ));
                                 // Handle the onTap logic for additional surahs
                               },
-                              child: buildQuickLinkContainer(surahName),
+                              child: Container(
+                                height: 23.h,
+                                padding: EdgeInsets.only(left: 9.w, right: 9.w),
+                                margin: EdgeInsets.only(right: 7.w),
+                                decoration: BoxDecoration(
+                                  color: AppColors.grey6,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    surahName,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'satoshi',
+                                      fontSize: 15.sp,
+                                      color: AppColors.grey3,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             );
                           },
                         ),

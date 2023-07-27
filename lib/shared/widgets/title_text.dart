@@ -14,9 +14,7 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: style != null
-          ? style
-          : TextStyle(
+      style: style ?? TextStyle(
               fontSize: fontSize == 0 ? 22.1.sp : fontSize,
               fontFamily: "satoshi"),
     );

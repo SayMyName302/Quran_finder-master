@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AudioListProvider with ChangeNotifier {
-  List<List<String>> _audioLists = List.generate(19, (_) => []);
+  final List<List<String>> _audioLists = List.generate(19, (_) => []);
   int _currentPage = 0;
 
   List<List<String>> get audioLists => _audioLists;

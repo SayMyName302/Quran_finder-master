@@ -5,8 +5,8 @@ import 'package:nour_al_quran/pages/recitation_category/pages/recitation_categor
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 
-class RecitationCategoryPage1 extends StatelessWidget {
-  const RecitationCategoryPage1({Key? key}) : super(key: key);
+class TranquilStoriesViewAll extends StatelessWidget {
+  const TranquilStoriesViewAll({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class RecitationCategoryPage1 extends StatelessWidget {
                       fontFamily: 'satoshi',
                       fontSize: 22.sp,
                       fontWeight: FontWeight.bold))),
-          const RecitationCategoryPageList()
+          const TranquilStoriesPageList()
         ],
       ),
     );

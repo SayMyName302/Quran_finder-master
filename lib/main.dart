@@ -62,10 +62,13 @@ import 'pages/popular_section/provider/popular_provider.dart';
 import 'pages/recitation_category/provider/recitation_category_provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
+import 'pages/tranquil_tales/provider/tranquil_tales_provider.dart';
+
 void main() async {
   await dotenv.load(fileName: '.env');
   await Global.init();
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => TranquilCategoryProvider()),
     ChangeNotifierProvider(create: (_) => PopularProvider()),
     ChangeNotifierProvider(create: (_) => FeatureProvider()),
     ChangeNotifierProvider(create: (_) => PremiumScreenProvider()),

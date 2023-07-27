@@ -7,7 +7,6 @@ import 'package:nour_al_quran/pages/more/pages/qibla_direction/provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -65,37 +64,37 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
       _qiblabutton = mainBrandingColor;
       _arrowbutton = Colors.white;
       _mapbutton = Colors.white;
-      if (mainBrandingColor == Color(0xFF90EE90)) {
+      if (mainBrandingColor == const Color(0xFF90EE90)) {
         setState(() {
           _imagePath = 'assets/images/app_icons/lightGreenCompass1.png';
         });
-      } else if (mainBrandingColor == Color(0xFF0BDA51)) {
+      } else if (mainBrandingColor == const Color(0xFF0BDA51)) {
         setState(() {
           _imagePath = 'assets/images/app_icons/lightgreen2Compass1.png';
         });
 
         // Replace with the desired image paths for this color
-      } else if (mainBrandingColor == Color(0xFF27AE60)) {
+      } else if (mainBrandingColor == const Color(0xFF27AE60)) {
         setState(() {
           _imagePath = 'assets/images/app_icons/lightGreen3Compass1.png';
         });
-      } else if (mainBrandingColor == Color(0xFF228B22)) {
+      } else if (mainBrandingColor == const Color(0xFF228B22)) {
         setState(() {
           _imagePath = 'assets/images/app_icons/lightGreen4Compass1.png';
         });
-      } else if (mainBrandingColor == Color(0xFF4E91FD)) {
+      } else if (mainBrandingColor == const Color(0xFF4E91FD)) {
         setState(() {
           _imagePath = 'assets/images/app_icons/blue1.png';
         });
-      } else if (mainBrandingColor == Color(0xFF2C2CFF)) {
+      } else if (mainBrandingColor == const Color(0xFF2C2CFF)) {
         setState(() {
           _imagePath = 'assets/images/app_icons/darkblue1.png';
         });
-      } else if (mainBrandingColor == Color(0xFF0229BF)) {
+      } else if (mainBrandingColor == const Color(0xFF0229BF)) {
         setState(() {
           _imagePath = 'assets/images/app_icons/darkerblue1.png';
         });
-      } else if (mainBrandingColor == Color(0xFF2745AE)) {
+      } else if (mainBrandingColor == const Color(0xFF2745AE)) {
         setState(() {
           _imagePath = 'assets/images/app_icons/darkestblue1.png';
         });
@@ -144,37 +143,37 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
   }
 
   void _updateImagePath(Color brandingColor) {
-    if (brandingColor == Color(0xFF90EE90)) {
+    if (brandingColor == const Color(0xFF90EE90)) {
       setState(() {
         _imagePath = 'assets/images/app_icons/lightGreenCompass1.png';
       });
-    } else if (brandingColor == Color(0xFF0BDA51)) {
+    } else if (brandingColor == const Color(0xFF0BDA51)) {
       setState(() {
         _imagePath = 'assets/images/app_icons/lightgreen2Compass1.png';
       });
 
       // Replace with the desired image paths for this color
-    } else if (brandingColor == Color(0xFF27AE60)) {
+    } else if (brandingColor == const Color(0xFF27AE60)) {
       setState(() {
         _imagePath = 'assets/images/app_icons/lightGreen3Compass1.png';
       });
-    } else if (brandingColor == Color(0xFF228B22)) {
+    } else if (brandingColor == const Color(0xFF228B22)) {
       setState(() {
         _imagePath = 'assets/images/app_icons/lightGreen4Compass1.png';
       });
-    } else if (brandingColor == Color(0xFF4E91FD)) {
+    } else if (brandingColor == const Color(0xFF4E91FD)) {
       setState(() {
         _imagePath = 'assets/images/app_icons/blue1.png';
       });
-    } else if (brandingColor == Color(0xFF2C2CFF)) {
+    } else if (brandingColor == const Color(0xFF2C2CFF)) {
       setState(() {
         _imagePath = 'assets/images/app_icons/darkblue1.png';
       });
-    } else if (brandingColor == Color(0xFF0229BF)) {
+    } else if (brandingColor == const Color(0xFF0229BF)) {
       setState(() {
         _imagePath = 'assets/images/app_icons/darkerblue1.png';
       });
-    } else if (brandingColor == Color(0xFF2745AE)) {
+    } else if (brandingColor == const Color(0xFF2745AE)) {
       setState(() {
         _imagePath = 'assets/images/app_icons/darkestblue1.png';
       });
@@ -199,14 +198,14 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
     final appColorsProvider = Provider.of<AppColorsProvider>(context);
     final brandingColor = appColorsProvider.mainBrandingColor;
 
-    if (brandingColor == Color(0xFF90EE90)) {
+    if (brandingColor == const Color(0xFF90EE90)) {
       compassImages = [
         'assets/images/app_icons/lightGreenCompass1.png',
         'assets/images/app_icons/lightGreenCompass3.png',
         'assets/images/app_icons/lightGreenCompass4.png',
         'assets/images/app_icons/lightGreenCompass5.png',
       ];
-    } else if (brandingColor == Color(0xFF0BDA51)) {
+    } else if (brandingColor == const Color(0xFF0BDA51)) {
       compassImages = [
         'assets/images/app_icons/lightgreen2Compass1.png',
         'assets/images/app_icons/lightgreen2Compass3.png',
@@ -214,7 +213,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
         'assets/images/app_icons/lightgreen2Compass5.png',
         // Replace with the desired image paths for this color
       ];
-    } else if (brandingColor == Color(0xFF27AE60)) {
+    } else if (brandingColor == const Color(0xFF27AE60)) {
       compassImages = [
         'assets/images/app_icons/lightGreen3Compass1.png',
         'assets/images/app_icons/lightGreen3Compass3.png',
@@ -222,7 +221,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
         'assets/images/app_icons/lightGreen3Compass5.png',
         // Replace with the desired image paths for this color
       ];
-    } else if (brandingColor == Color(0xFF228B22)) {
+    } else if (brandingColor == const Color(0xFF228B22)) {
       compassImages = [
         'assets/images/app_icons/lightGreen4Compass1.png',
         'assets/images/app_icons/lightGreen4Compass3.png',
@@ -230,7 +229,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
         'assets/images/app_icons/lightGreen4Compass5.png',
         // Replace with the desired image paths for this color
       ];
-    } else if (brandingColor == Color(0xFF4E91FD)) {
+    } else if (brandingColor == const Color(0xFF4E91FD)) {
       compassImages = [
         'assets/images/app_icons/blue1.png',
         'assets/images/app_icons/blue2.png',
@@ -238,7 +237,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
         'assets/images/app_icons/blue4.png',
         // Replace with the desired image paths for this color
       ];
-    } else if (brandingColor == Color(0xFF2C2CFF)) {
+    } else if (brandingColor == const Color(0xFF2C2CFF)) {
       compassImages = [
         'assets/images/app_icons/darkblue1.png',
         'assets/images/app_icons/darkblue2.png',
@@ -246,7 +245,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
         'assets/images/app_icons/darkblue4.png',
         // Replace with the desired image paths for this color
       ];
-    } else if (brandingColor == Color(0xFF0229BF)) {
+    } else if (brandingColor == const Color(0xFF0229BF)) {
       compassImages = [
         'assets/images/app_icons/darkerblue1.png',
         'assets/images/app_icons/darkerblue2.png',
@@ -254,7 +253,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
         'assets/images/app_icons/darkerblue4.png',
         // Replace with the desired image paths for this color
       ];
-    } else if (brandingColor == Color(0xFF2745AE)) {
+    } else if (brandingColor == const Color(0xFF2745AE)) {
       compassImages = [
         'assets/images/app_icons/darkestblue1.png',
         'assets/images/app_icons/darkestblue2.png',
@@ -354,7 +353,7 @@ class _QiblaDirectionPageState extends State<QiblaDirectionPage>
                   ),
 
                   //compass , arrow , google map code
-                  Container(
+                  SizedBox(
                     height: 60.h, // Set height of the tab buttons
                     child: Row(
                       children: [

@@ -1,4 +1,3 @@
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 
 import '../../../shared/utills/app_constants.dart';

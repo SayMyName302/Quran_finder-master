@@ -79,8 +79,8 @@ class SwipePagesState extends State<SwipePages> {
   bool _loop = false;
   int _currentPlayingIndex = 0;
   PageController controller = PageController();
-  AudioPlayer _audioPlayer = AudioPlayer();
-  List<AudioPlayer> _audioLists = [];
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  final List<AudioPlayer> _audioLists = [];
   int _currentPageIndex = 0;
 
   List<String> audioFiles = [];

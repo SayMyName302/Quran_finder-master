@@ -1,9 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
 import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
 import 'package:nour_al_quran/pages/settings/pages/download_manager/download_manager_provider.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';

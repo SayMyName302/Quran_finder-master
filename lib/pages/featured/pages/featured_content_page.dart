@@ -5,10 +5,6 @@ import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/routes/routes_helper.dart';
-import 'package:nour_al_quran/shared/utills/app_colors.dart';
-import 'package:nour_al_quran/shared/widgets/circle_button.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/widgets/app_bar.dart';

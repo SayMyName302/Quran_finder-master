@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmark_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/juz/juz_Index_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_page.dart';
-import 'package:nour_al_quran/pages/quran/pages/surah/surah_index_page.dart';
 import 'package:nour_al_quran/pages/quran/providers/quran_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/my_state/my_state_page.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/widgets/title_row.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
@@ -204,7 +199,7 @@ class _ManageProfileState extends State<ManageProfile> {
                                   profile.updatePreferredLanguage(value!);
                                   context
                                       .read<LocalizationProvider>()
-                                      .setLocale(value!);
+                                      .setLocale(value);
                                 },
                               ),
                             ],

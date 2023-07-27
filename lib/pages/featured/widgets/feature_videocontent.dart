@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/models/miracles.dart';
-import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:provider/provider.dart';
@@ -89,7 +87,7 @@ class FeaturedMiraclesContentText extends StatelessWidget {
       );
     } catch (e) {
       showErrorSnackBar('An error occurred: $e', context);
-      return SizedBox.shrink(); // Return an empty widget in case of an error
+      return const SizedBox.shrink(); // Return an empty widget in case of an error
     }
   }
 }

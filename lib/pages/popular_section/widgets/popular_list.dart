@@ -1,8 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/featured/models/featured.dart';
-import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import 'package:nour_al_quran/pages/popular_section/models/PopularModel';

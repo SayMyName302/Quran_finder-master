@@ -6,7 +6,6 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_constants.dart';
-import '../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import '../../quran stories/models/quran_stories.dart';
 import '../../quran stories/quran_stories_provider.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';

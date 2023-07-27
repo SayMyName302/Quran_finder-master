@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/provider/tranquil_tales_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/circle_button.dart';
@@ -14,17 +15,17 @@ import '../../../shared/widgets/app_bar.dart';
 import '../models/TranquilModel.dart';
 import 'bookmarks_recitation.dart';
 
-class RecitationAudioPlayer extends StatelessWidget {
-  const RecitationAudioPlayer({Key? key}) : super(key: key);
+class TranquilAudioPlayer extends StatelessWidget {
+  const TranquilAudioPlayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var recitationProv = Provider.of<RecitationCategoryProvider>(context);
+    var recitationProv = Provider.of<TranquilCategoryProvider>(context);
     List arguments = ModalRoute.of(context)!.settings.arguments! as List;
     String title = arguments[0];
 
-    RecitationCategoryProvider rcp =
-        Provider.of<RecitationCategoryProvider>(context);
+    TranquilCategoryProvider rcp =
+        Provider.of<TranquilCategoryProvider>(context);
     Map<String, dynamic> nextDuaData = rcp.getNextDuaRecitation();
     TranquilTalesModel nextDua = nextDuaData['dua'];
     // int? fav = nextDua.isFav;
@@ -43,7 +44,7 @@ class RecitationAudioPlayer extends StatelessWidget {
             font: 16.sp,
             title: localeText(context, "now_playing")),
         body: Consumer4<ThemProvider, StoryAndBasicPlayerProvider,
-            AppColorsProvider, RecitationCategoryProvider>(
+            AppColorsProvider, TranquilCategoryProvider>(
           builder: (context, them, player, appColor, recitationCategoryProvider,
               child) {
             int recitationIndex = recitationProv.selectedRecitationAll

@@ -4,17 +4,14 @@ import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/skip_button.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
-import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/entities/reciters.dart';
 import '../models/fav_reciter.dart';
 
 class SetFavReciter extends StatefulWidget {

@@ -11,7 +11,6 @@ import 'package:video_player/video_player.dart';
 
 import 'package:nour_al_quran/shared/database/home_db.dart';
 
-import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 
 import '../models/miracles.dart';
 
@@ -118,7 +117,7 @@ class FeaturedMiraclesOfQuranProvider extends ChangeNotifier {
   }
 
   void _moveMiracleToEnd(int index) {
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       _miracles.removeAt(index);
       _miracles.add(_selectedMiracle!);
       notifyListeners();
@@ -141,9 +140,7 @@ class FeaturedMiraclesOfQuranProvider extends ChangeNotifier {
         final miracle = _miracles.firstWhere(
           (m) => m.title == title,
         );
-        if (miracle != null) {
-          sortedMiracles.add(miracle);
-        }
+        sortedMiracles.add(miracle);
       }
       _miracles = sortedMiracles;
       notifyListeners();

@@ -35,7 +35,7 @@ class _NamesOfALLAHPageState extends State<NamesOfALLAHPage> {
       // Initialize audio player and set URL for the first name's audio
       if (namesProvider.names.isNotEmpty) {
         audioPlayer
-            .setUrl(namesProvider.names[currentAudioIndex]?.audioUrl ?? '');
+            .setUrl(namesProvider.names[currentAudioIndex].audioUrl ?? '');
       }
     });
   }
@@ -158,7 +158,7 @@ class _NamesOfALLAHPageState extends State<NamesOfALLAHPage> {
                                             // Play new audio
                                             audioPlayer.stop();
                                             audioPlayer.setUrl(namesProvider
-                                                    .names[index]?.audioUrl ??
+                                                    .names[index].audioUrl ??
                                                 '');
                                             audioPlayer.play();
                                             currentAudioIndex = index;

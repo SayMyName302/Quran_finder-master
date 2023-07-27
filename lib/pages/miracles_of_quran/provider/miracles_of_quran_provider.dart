@@ -1,20 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_launcher_icons/utils.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:nour_al_quran/shared/database/home_db.dart';
-import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 
 import '../models/miracles.dart';
@@ -160,9 +153,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
         final miracle = _miracles.firstWhere(
           (m) => m.title == title,
         );
-        if (miracle != null) {
-          sortedMiracles.add(miracle);
-        }
+        sortedMiracles.add(miracle);
       }
       _miracles = sortedMiracles;
       notifyListeners();

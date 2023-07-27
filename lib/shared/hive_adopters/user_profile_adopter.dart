@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
 import '../../pages/settings/pages/profile/user_profile.dart';

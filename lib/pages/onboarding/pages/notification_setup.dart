@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/utills/app_constants.dart';
-import '../../settings/pages/notifications/notification_services.dart';
 import '../models/on_boarding_information.dart';
 
 class NotificationSetup extends StatelessWidget {

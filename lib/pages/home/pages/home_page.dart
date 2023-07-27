@@ -12,6 +12,7 @@ import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
 import 'package:provider/provider.dart';
+import '../../sign_in/provider/sign_in_provider.dart';
 import '../provider/home_provider.dart';
 import '../widgets/total_app_downloads.dart';
 import '../widgets/verse_of_the_day.dart';
@@ -36,22 +37,29 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _getLocationPermissionAndRegion() async {
     HomeProvider getRegion = Provider.of<HomeProvider>(context, listen: false);
+    SignInProvider signInProvider =
+        Provider.of<SignInProvider>(context, listen: false);
+    try {
+      await signInProvider.initUserEmail();
+      String? userEmail = signInProvider.userEmail;
+      print('======UserEmail{$userEmail}======');
 
-    String? userRegion = await getRegion.getUserRegion();
-    if (userRegion != null && userRegion.isNotEmpty) {
-      // Region is already available, handle region-specific tasks
-      // For example, you can directly show content or handle other logic here
-      // print('User region: $userRegion');
-    } else {
-      // ignore: use_build_context_synchronously
-      await getRegion.getLocationPermission(context);
-      // print('Newly retrieved region: ${getRegion.region}');
+      bool isUser = userEmail == "you@you.com";
+
+      String userRegion = getRegion.region;
+      if (userRegion.isNotEmpty) {
+      } else {
+        if (isUser) {
+          await getRegion.getLocationPermission(context);
+        }
+      }
+    } catch (e) {
+      print('Error: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

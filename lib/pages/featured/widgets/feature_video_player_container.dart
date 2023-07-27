@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
-import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -137,7 +136,7 @@ class FeatureVideoPlayerContainer extends StatelessWidget {
 }
 
 class LandScapePlayer extends StatefulWidget {
-  LandScapePlayer({
+  const LandScapePlayer({
     Key? key,
     //  required this.controller,
     //required this.video,
@@ -174,6 +173,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
     isPlaying = widget.isPlaying;
   }
 
+  @override
   void dispose() {
     super.dispose();
     _setAllOrientation();
@@ -190,7 +190,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
             isPlaying = !isPlaying;
           });
 
-          widget.featuremiraclesOfQuranProvider!.playVideo();
+          widget.featuremiraclesOfQuranProvider.playVideo();
         },
         child: Stack(
           alignment: Alignment.center,
@@ -204,7 +204,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
                     height: 15.h,
                     margin: EdgeInsets.only(left: 20.w, right: 20.w),
                     child: VideoProgressIndicator(
-                        widget.featuremiraclesOfQuranProvider!.controller!,
+                        widget.featuremiraclesOfQuranProvider.controller,
                         allowScrubbing: true))),
             Positioned(
                 left: 0,

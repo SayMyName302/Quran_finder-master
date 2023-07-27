@@ -42,8 +42,8 @@ class DuaAudioPlayer extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 50.w, right: 35.w, top: 10.h),
                     //decoration: BoxDecoration(border: Border.all(width: 1)),
-                    child: Row(
-                      children: const [],
+                    child: const Row(
+                      children: [],
                     ),
                   ),
                   Row(

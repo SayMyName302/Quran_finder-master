@@ -6,10 +6,7 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/app_bar.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
-import '../../../../../shared/routes/routes_helper.dart';
 import '../../../../../shared/localization/localization_constants.dart';
-import '../../../../../shared/widgets/title_row.dart';
-import 'package:provider/provider.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class paywallpage2 extends StatelessWidget {
@@ -98,7 +95,7 @@ class paywallpage2 extends StatelessWidget {
                             snapshot.data!.data() as Map<String, dynamic>;
                         final perYearPrice = data['price'];
                         final perMonthPrice = data['perMonthPrice'];
-                        return Container(
+                        return SizedBox(
                           width: double.infinity,
                           height: 120.h,
                           child: Column(
@@ -150,7 +147,7 @@ class paywallpage2 extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
+                SizedBox(
                   height: 65.h,
                   child: Column(
                     children: [
@@ -185,7 +182,7 @@ class paywallpage2 extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 28),
-                  child: Container(
+                  child: SizedBox(
                     height: 65.h,
                     child: Column(
                       children: [
@@ -218,7 +215,7 @@ class paywallpage2 extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 0),
-                  child: Container(
+                  child: SizedBox(
                     height: 60,
                     child: Column(
                       children: [
