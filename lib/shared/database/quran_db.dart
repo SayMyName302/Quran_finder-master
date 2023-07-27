@@ -16,6 +16,7 @@ import 'package:path/path.dart';
 
 import '../../pages/duas/models/dua.dart';
 import '../../pages/duas/models/dua_category.dart';
+import '../../pages/home/models/title_custom.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah_category.dart';
 
@@ -33,8 +34,27 @@ class QuranDatabase {
   final String _rduaAllTable = "al_ruqyah_all";
   final String _rduaCatergoryTable = "ruqyah_category";
 
-  final String _reciteAllTable = "recitation_all";
-  final String _reciteCategoryTable = "recitation_category";
+  // final String _reciteAllTable = "recitation_all";
+  // final String _reciteCategoryTable = "recitation_category";
+
+  final String _rowtitlecustom = "row_title_custom";
+
+  Future<List<CustomTitle>> getCountrytitles(String country) async {
+    database = await openDb();
+    var titles = <CustomTitle>[];
+
+    var cursor = await database!.query(_rowtitlecustom,
+        columns: ["title_text"],
+        where: "country_name = ?",
+        whereArgs: [country]);
+
+    for (var row in cursor) {
+      var customTitle = CustomTitle.fromJson(row);
+      titles.add(customTitle);
+    }
+
+    return titles;
+  }
 
   // to load all Ruqyah duas category names
   Future<List<Ruqyah>> getRDua(int categoryId) async {
@@ -767,7 +787,6 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
 //   return filteredQuranText;
 // }
 }
-
 
 class Translation {
   int surahId;

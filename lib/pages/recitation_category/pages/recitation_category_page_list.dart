@@ -2,23 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
-import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
-import 'package:nour_al_quran/pages/tranquil_tales/provider/tranquil_tales_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_constants.dart';
 import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/routes/routes_helper.dart';
 
-class TranquilStoriesPageList extends StatelessWidget {
-  const TranquilStoriesPageList({Key? key}) : super(key: key);
+class RecitationCategoryPageList extends StatelessWidget {
+  const RecitationCategoryPageList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // int network = Provider.of<int>(context);
     // print("Test By Farhan");
     return Expanded(
-      child: Consumer<TranquilCategoryProvider>(
+      child: Consumer<RecitationCategoryProvider>(
         builder: (context, recitationProvider, child) {
           return recitationProvider.recitationCategory.isNotEmpty
               ? GridView.builder(
@@ -28,7 +26,7 @@ class TranquilStoriesPageList extends StatelessWidget {
                   ),
                   itemCount: recitationProvider.recitationCategory.length,
                   itemBuilder: (context, index) {
-                    TranquilTalesCategoryModel model =
+                    RecitationCategoryModel model =
                         recitationProvider.recitationCategory[index];
                     print(
                         'list length ${recitationProvider.selectedRecitationAll.length}');
@@ -37,7 +35,7 @@ class TranquilStoriesPageList extends StatelessWidget {
                         recitationProvider
                             .getSelectedRecitationAll(model.categoryId!);
                         Navigator.of(context).pushNamed(
-                          RouteHelper.tranquil_tales,
+                          RouteHelper.recitationallcategory,
                           arguments: [
                             localeText(context, model.categoryName!),
                             model.imageURl!,

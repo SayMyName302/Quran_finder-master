@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
+import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import 'package:nour_al_quran/pages/popular_section/models/PopularModel';
 import 'package:nour_al_quran/pages/popular_section/provider/popular_provider.dart';
@@ -13,29 +14,47 @@ import 'package:provider/provider.dart';
 import '../../../shared/localization/localization_constants.dart';
 
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
+import '../../sign_in/provider/sign_in_provider.dart';
 import 'home_row_widget.dart';
 
 class PopularSection extends StatelessWidget {
   const PopularSection({Key? key}) : super(key: key);
 
   @override
-  @override
   Widget build(BuildContext context) {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     int network = Provider.of<int>(context);
+    final authProvider = Provider.of<SignInProvider>(context);
+
+    final user = Provider.of<HomeProvider>(context);
+    String? selectedTitleText = user.selectedTitleText;
+    final userEmail = authProvider.userEmail;
+    bool isSpecialUser = (userEmail == 'you@you.com');
     return Column(
       children: [
-        HomeRowWidget(
-          text: localeText(context, 'popular'),
-          buttonText: localeText(context, "view_all"),
-          onTap: () {
-            Navigator.of(context).pushNamed(RouteHelper.popular);
-            analytics.logEvent(
-              name: 'popular_section_viewall_button',
-              parameters: {'title': 'popular_viewall'},
-            );
-          },
-        ),
+        isSpecialUser
+            ? HomeRowWidgettest(
+                text: selectedTitleText ?? 'Popular Recitations',
+                buttonText: localeText(context, "view_all"),
+                onTap: () {
+                  Navigator.of(context).pushNamed(RouteHelper.popular);
+                  analytics.logEvent(
+                    name: 'popular_section_viewall_button',
+                    parameters: {'title': 'popular_viewall'},
+                  );
+                },
+              )
+            : HomeRowWidget(
+                text: localeText(context, 'popular'),
+                buttonText: localeText(context, "view_all"),
+                onTap: () {
+                  Navigator.of(context).pushNamed(RouteHelper.popular);
+                  analytics.logEvent(
+                    name: 'popular_section_viewall_button',
+                    parameters: {'title': 'popular_viewall'},
+                  );
+                },
+              ),
         Consumer<LocalizationProvider>(
           builder: (context, language, child) {
             return SizedBox(

@@ -92,7 +92,8 @@ class TranquilCategoryProvider extends ChangeNotifier {
       // ignore: use_build_context_synchronously
       Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
           .initAudioPlayer(
-              _selectedRecitationStory!.contentType!, imageUrl!, context);
+              _selectedRecitationStory!.contentUrl!, imageUrl!, context);
+
       notifyListeners();
     }
   }

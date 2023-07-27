@@ -51,7 +51,7 @@ class Page1State extends State<Page1> {
     'assets/images/qaida/page1/sheen.mp3': 12,
     'assets/images/qaida/page1/suaad.mp3': 13,
     'assets/images/qaida/page1/zaad.mp3': 14,
-    'assets/images/qaida/page1/taaaah.mp3': 15,
+    'assets/images/qaida/page1/toah.mp3': 15,
     'assets/images/qaida/page1/zaaah.mp3': 16,
     'assets/images/qaida/page1/aaen.mp3': 17,
     'assets/images/qaida/page1/gaen.mp3': 18,
@@ -135,13 +135,13 @@ class Page1State extends State<Page1> {
       List<String> selectedAudioFiles = [];
       for (int i = start; i <= end; i++) {
         selectedAudioFiles.add(audioFilePaths[i]);
-        //print('_selectedAudioFiles: $selectedAudioFiles');
+        print('_selectedAudioFiles: $selectedAudioFiles');
       }
 
       List<int?> audioIndexes = selectedAudioFiles
           .map((filePath) => audioIndexMap[filePath])
           .toList();
-      // print('Audio Indexes: $audioIndexes');
+      print('Audio Indexes: $audioIndexes');
 
       AudioListHolder1.audioList = selectedAudioFiles;
       AudioListHolder1.audioIndexes = audioIndexes;

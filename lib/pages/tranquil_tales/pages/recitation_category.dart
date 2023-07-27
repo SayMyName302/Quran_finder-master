@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/recitation_category/pages/recitation_category_page_list.dart';
 
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
+
+import 'recitation_category_page_list.dart';
 
 class TranquilStoriesViewAll extends StatelessWidget {
   const TranquilStoriesViewAll({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class TranquilStoriesViewAll extends StatelessWidget {
                       fontFamily: 'satoshi',
                       fontSize: 22.sp,
                       fontWeight: FontWeight.bold))),
-          const TranquilStoriesPageList()
+          const TranquilPageList()
         ],
       ),
     );

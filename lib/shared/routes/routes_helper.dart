@@ -42,7 +42,7 @@ import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sign_up_page.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_all_category.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_category.dart';
-import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_player.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/pages/tranquil_Player.dart';
 //import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import '../../pages/basics_of_quran/pages/basics_content_page.dart';
 import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';

@@ -154,6 +154,9 @@ class SwipePagesState extends State<SwipePages> {
       if (_curr == 0) {
         if (AudioListHolder1.audioList.isEmpty) {
           AudioListHolder1.page1Audios();
+          print('=====${AudioListHolder1.audioList}=====');
+
+          print('=====${AudioListHolder1.audioIndexes}=====');
           // audioFiles = AudioListHolder1.audioList;
           // pageId = AudioListHolder1.pageId;
           // audioIndex = AudioListHolder1.audioIndexes;
@@ -350,143 +353,15 @@ class SwipePagesState extends State<SwipePages> {
 
   Future<void> _playPageAudios(int pageId, List<String> audioFiles) async {
     try {
-      _audioLists.clear();
-      print("Audio Files: $audioFiles");
+      if (audioFiles.isEmpty) return;
 
-      switch (pageId) {
-        case 1:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 2:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 3:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 4:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 5:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 6:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 7:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 8:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 9:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 10:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 11:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 12:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 13:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 14:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 15:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 16:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 17:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 18:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
-        case 19:
-          for (int i = 0; i < audioFiles.length; i++) {
-            AudioPlayer player = AudioPlayer();
-            await player.setAsset(audioFiles[i]);
-            _audioLists.add(player);
-          }
-          break;
+      _audioLists.clear();
+      // print("Audio Files: $audioFiles");
+
+      for (int i = 0; i < audioFiles.length; i++) {
+        AudioPlayer player = AudioPlayer();
+        await player.setAsset(audioFiles[i]);
+        _audioLists.add(player);
       }
 
       //--- Logic For Audio Play + Highlighting the Container

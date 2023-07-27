@@ -19,6 +19,8 @@ import '../../../shared/widgets/easy_loading.dart';
 import '../../onboarding/on_boarding_provider.dart';
 import 'package:hijri/hijri_calendar.dart';
 
+import '../models/title_custom.dart';
+
 class HomeProvider extends ChangeNotifier {
   int? verseId = 0;
   int? surahId = 0;
@@ -47,7 +49,25 @@ class HomeProvider extends ChangeNotifier {
   String get hijriYear => _hijriYear;
   String get dayName => _dayName;
 
+  //Fetching all the text_title by filtering on country name
+  List<CustomTitle> _titleText = [];
+  List<CustomTitle> get titleText => _titleText;
+
+  //this variable will be used to display in HomeScreen text change
+  String? _selectedTitleText;
+  String? get selectedTitleText => _selectedTitleText;
+
   bool isRequestingPermission = false;
+
+  Future<void> getTitlesByCountry(String country) async {
+    _titleText = await QuranDatabase().getCountrytitles(country);
+    notifyListeners();
+  }
+
+  void setSelectedTitleText(String? text) {
+    _selectedTitleText = text;
+    notifyListeners();
+  }
 
   getVerse(BuildContext context) async {
     _verseOfTheDay = await QuranDatabase().getVerseOfTheDay() ??
@@ -61,7 +81,8 @@ class HomeProvider extends ChangeNotifier {
     verseId = _verseOfTheDay.verseId;
     surahId = _verseOfTheDay.surahId;
     if (_verseOfTheDay.surahId != null) {
-      surahName = await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
+      surahName =
+          await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
     }
     notifyListeners();
     Future.delayed(Duration.zero, () {
@@ -144,7 +165,7 @@ class HomeProvider extends ChangeNotifier {
     ];
 
     if (month >= 1 && month <= 12) {
-      return hijriMonthNames[month - 1];
+      return hijriMonthNames[month - 1].toLowerCase();
     } else {
       return 'Unknown';
     }
@@ -158,23 +179,26 @@ class HomeProvider extends ChangeNotifier {
         desiredAccuracy: LocationAccuracy.low,
       ).timeout(const Duration(seconds: 15));
 
-      List<Placemark> placeMarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placeMarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];
-        String region = placeMark.country ?? "";
+        String region = placeMark.country?.toLowerCase() ?? "";
+        print('=====Country{$region}======');
         notifyListeners();
 
         DateTime now = DateTime.now();
         String formattedDate = DateFormat('MMddyy').format(now);
-        String formattedTime = DateFormat('HH:mm').format(now);
+        String formattedTime = DateFormat('HH').format(now);
         notifyListeners();
 
         String hijriMonthAndYear = getHijriMonthAndYear(
           HijriCalendar.now().hMonth,
         );
         String hijriYear = HijriCalendar.now().hYear.toString();
-        String dayName = DateFormat('EEEE').format(DateTime.now());
+        String dayName =
+            DateFormat('EEEE').format(DateTime.now()).toLowerCase();
         notifyListeners();
 
         return UserData(

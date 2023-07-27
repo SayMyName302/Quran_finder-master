@@ -23,7 +23,7 @@ class RecitationCategoryPage1 extends StatelessWidget {
                       fontFamily: 'satoshi',
                       fontSize: 22.sp,
                       fontWeight: FontWeight.bold))),
-          const TranquilStoriesPageList()
+          const RecitationCategoryPageList()
         ],
       ),
     );

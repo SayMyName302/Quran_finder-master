@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     try {
       await signInProvider.initUserEmail();
       String? userEmail = signInProvider.userEmail;
-      print('======UserEmail{$userEmail}======');
+      //print('======UserEmail{$userEmail}======');
 
       bool isUser = userEmail == "you@you.com";
 
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
             /// Islam Basics Section
             const IslamBasicsSection(),
 
-            const AppDownloadsSection(),
+            AppDownloadsSection(),
 
             // const RecitationCategorySection(),
           ],

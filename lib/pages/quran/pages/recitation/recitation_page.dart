@@ -82,7 +82,7 @@ class _RecitationPageState extends State<RecitationPage> {
                         child: Row(
                           children: [
                             SizedBox(
-                              height: 200,
+                              height: 170,
                               width: 5 * (200.87.h) +
                                   3 * 5.w, // Adjust the width based on the item width and spacing
                               child: GridView.builder(
@@ -128,7 +128,7 @@ class _RecitationPageState extends State<RecitationPage> {
                       );
               },
             ),
-
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -166,8 +166,10 @@ class _RecitationPageState extends State<RecitationPage> {
                         child: Row(
                           children: [
                             SizedBox(
-                              width: 5 * (200.87.h) +
-                                  3 * 5.w, // Adjust the width based on the item width and spacing
+                              width: 5 * (200.87.h) + 3 * 5.w,
+
+                              height:
+                                  170, // Adjust the width based on the item width and spacing
                               child: GridView.builder(
                                 padding:
                                     EdgeInsets.only(left: 20.w, right: 20.w),
@@ -425,8 +427,6 @@ class _RecitationPageState extends State<RecitationPage> {
   Container buildReciterDetailsContainer(Reciters reciter) {
     var appColors = context.watch<AppColorsProvider>().mainBrandingColor;
     return Container(
-      height: 200,
-      width: 200,
       margin: EdgeInsets.only(right: 7.w),
       child: Column(
         mainAxisSize: MainAxisSize.max,
