@@ -3,7 +3,9 @@ import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/onboarding/models/fav_reciter.dart';
 import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
+import 'package:provider/provider.dart';
 
+import '../settings/pages/profile/profile_provider.dart';
 import 'models/common.dart';
 
 class OnBoardingProvider extends ChangeNotifier {
@@ -25,6 +27,7 @@ class OnBoardingProvider extends ChangeNotifier {
     if (!_selectAchieveWithQuranList.contains(item)) {
       if (selectAchieveWithQuranList.length < 3) {
         _selectAchieveWithQuranList.add(item);
+        Provider.of<ProfileProvider>(context,listen: false).userProfile!.setPurposeOfQuran = selectAchieveWithQuranList;
         print("items $item");
       } else {
         ScaffoldMessenger.of(context)
@@ -36,6 +39,7 @@ class OnBoardingProvider extends ChangeNotifier {
       }
     } else {
       _selectAchieveWithQuranList.removeWhere((element) => element == item);
+      Provider.of<ProfileProvider>(context,listen: false).userProfile!.setPurposeOfQuran = selectAchieveWithQuranList;
     }
     notifyListeners();
   }

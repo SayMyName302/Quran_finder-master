@@ -6,6 +6,7 @@ import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/shared/localization/languages.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -190,6 +191,7 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
           return InkWell(
             onTap: () {
               localization.setLocale(lang);
+              Provider.of<ProfileProvider>(context,listen: false).userProfile!.setPreferredLanguage = localization.locale.languageCode;
             },
             child: Container(
               margin: EdgeInsets.only(

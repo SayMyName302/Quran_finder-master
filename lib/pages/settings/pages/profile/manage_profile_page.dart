@@ -107,7 +107,7 @@ class _ManageProfileState extends State<ManageProfile> {
               child: SingleChildScrollView(
                 child: Consumer<ProfileProvider>(
                   builder: (context, profile, child) {
-                    if (profile.userProfile == null) {
+                    if (profile.userProfile!.uid == null) {
                       return Center(
                         child: Container(
                             margin: EdgeInsets.only(
@@ -301,15 +301,15 @@ class _ManageProfileState extends State<ManageProfile> {
                           SizedBox(
                             height: 40.h,
                           ),
-                          Text(localeText(context, 'logged_in_devices'),
+                          profile.userProfile!.loginDevices.isNotEmpty ? Text(localeText(context, 'logged_in_devices'),
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 18.sp,
-                                  fontFamily: 'satoshi')),
+                                  fontFamily: 'satoshi')) : const SizedBox.shrink(),
                           SizedBox(
                             height: 10.h,
                           ),
-                          Row(
+                          profile.userProfile!.loginDevices.isNotEmpty ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
@@ -340,12 +340,11 @@ class _ManageProfileState extends State<ManageProfile> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                          profile.userProfile!.loginDevices![0]
-                                              .name!,
+                                       Text(profile.userProfile!.loginDevices![0].name!,
                                           style: style12),
                                       Text(
-                                        'Logged in at 22-12-22 | 04:28 pm',
+                                        profile.userProfile!.loginDevices[0].datetime!,
+                                        // 'Logged in at 22-12-22 | 04:28 pm',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 10.sp,
@@ -372,7 +371,7 @@ class _ManageProfileState extends State<ManageProfile> {
                               //   ),),
                               // ),
                             ],
-                          ),
+                          ) : const SizedBox.shrink(),
                           SizedBox(
                             height: 16.h,
                           ), // Add additional spacing if needed

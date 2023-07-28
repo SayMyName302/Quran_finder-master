@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/provider.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
@@ -14,9 +15,9 @@ import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import '../provider/recitation_category_provider.dart';
 
 class RecitationCategorySection extends StatelessWidget {
-  const RecitationCategorySection({Key? key}) : super(key: key);
+  RecitationCategorySection({Key? key}) : super(key: key);
 
-  @override
+  List<RecitationCategoryModel> tappedRecitationList = [];
   @override
   Widget build(BuildContext context) {
     // int network = Provider.of<int>(context);
@@ -79,6 +80,9 @@ class RecitationCategorySection extends StatelessWidget {
                                 model.categoryId!,
                               ],
                             );
+                            final tappedRecitersProvider =
+                                context.read<recentProviderRecitation>();
+                            tappedRecitersProvider.addRecitation(model);
                           },
                           child: Container(
                             width: 209.w,

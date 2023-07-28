@@ -59,6 +59,7 @@ import 'pages/paywall/paywal_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'pages/popular_section/provider/popular_provider.dart';
+import 'pages/quran/pages/recitation/provider.dart';
 import 'pages/recitation_category/provider/recitation_category_provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
@@ -68,6 +69,7 @@ void main() async {
   await dotenv.load(fileName: '.env');
   await Global.init();
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => recentProviderRecitation()),
     ChangeNotifierProvider(create: (_) => TranquilCategoryProvider()),
     ChangeNotifierProvider(create: (_) => PopularProvider()),
     ChangeNotifierProvider(create: (_) => FeatureProvider()),

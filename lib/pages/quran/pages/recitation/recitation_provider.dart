@@ -17,7 +17,7 @@ class RecitationProvider extends ChangeNotifier {
   List<Reciters> _allRecitersList = [];
   List<Reciters> get allRecitersList => _allRecitersList;
 
-  final List<Reciters> _favRecitersTest = Hive.box(appBoxKey).get(favReciterListKey) != null ? (jsonDecode(Hive.box(appBoxKey).get(favReciterListKey))
+  List<Reciters> _favRecitersTest = Hive.box(appBoxKey).get(favReciterListKey) != null ? (jsonDecode(Hive.box(appBoxKey).get(favReciterListKey))
                   as List<dynamic>).map((e) => Reciters.fromJson(e)).toList() : [];
   List<Reciters> get favRecitersTest => _favRecitersTest;
 
@@ -57,6 +57,12 @@ class RecitationProvider extends ChangeNotifier {
 
   Future<void> getSurahName() async {
     _surahNamesList = await QuranDatabase().getSurahName();
+    notifyListeners();
+  }
+
+
+  setRecitationList(List<Reciters> favReciterList){
+    _favRecitersTest = favReciterList;
     notifyListeners();
   }
 

@@ -14,9 +14,9 @@ import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import '../provider/tranquil_tales_provider.dart';
 
 class tranquil_talesSection extends StatelessWidget {
-  const tranquil_talesSection({Key? key}) : super(key: key);
+  tranquil_talesSection({Key? key}) : super(key: key);
 
-  @override
+  List<TranquilTalesCategoryModel> tappedRecitersList = [];
   @override
   Widget build(BuildContext context) {
     // int network = Provider.of<int>(context);
@@ -69,6 +69,12 @@ class tranquil_talesSection extends StatelessWidget {
                                 'title': model.categoryName.toString()
                               },
                             );
+                            tappedRecitersList.add(model);
+                            print('Tapped Reciters List:');
+                            for (var tappedReciter in tappedRecitersList) {
+                              print(tappedReciter.categoryName);
+                              // Add more details you want to display about the tapped reciter
+                            }
                             Navigator.of(context).pushNamed(
                               RouteHelper.tranquil_tales,
                               arguments: [
