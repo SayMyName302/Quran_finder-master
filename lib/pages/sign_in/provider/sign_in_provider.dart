@@ -19,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../shared/entities/bookmarks.dart';
 import '../../../shared/entities/reciters.dart';
+import '../../../shared/localization/localization_provider.dart';
 import '../../duas/models/dua.dart';
 import '../../quran/pages/ruqyah/models/ruqyah.dart';
 import '../../recitation_category/models/recitation_all_category_model.dart';
@@ -29,97 +30,186 @@ class SignInProvider extends ChangeNotifier {
   String? get userEmail => _userEmail;
 
   signInWithGoogle(BuildContext context) async {
-    try {
-      final GoogleSignInAccount? googleUser =
-          await GoogleSignIn(scopes: <String>['email']).signIn();
-      if (googleUser != null) {
-        /// to show loading when user select any google account after clicking on google button
-        Future.delayed(Duration.zero,
-            () => EasyLoadingDialog.show(context: context, radius: 20.r));
+    final GoogleSignInAccount? googleUser =
+    await GoogleSignIn(scopes: <String>['email']).signIn();
+    if (googleUser != null) {
+      /// to show loading when user select any google account after clicking on google button
+      Future.delayed(Duration.zero,
+              () => EasyLoadingDialog.show(context: context, radius: 20.r));
 
-        /// google sign in code
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleUser.authentication;
-        final credential = GoogleAuthProvider.credential(
-            accessToken: googleSignInAuthentication.accessToken,
-            idToken: googleSignInAuthentication.idToken);
+      /// google sign in code
+      final GoogleSignInAuthentication googleSignInAuthentication =
+      await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken);
 
-        /// firebase sign in with google account
-        try {
-          await FirebaseAuth.instance
-              .signInWithCredential(credential)
-              .then((userCredential) async {
-            /// to check weather user exist in the existing list of fire store database
-            var doc = await FirebaseFirestore.instance.collection("users").get();
-            List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
+      /// firebase sign in with google account
+      try {
+        await FirebaseAuth.instance
+            .signInWithCredential(credential)
+            .then((userCredential) async {
+          /// to check weather user exist in the existing list of fire store database
+          var doc = await FirebaseFirestore.instance.collection("users").get();
+          List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
 
-            /// if list is not empty means there are some users logged in to this app
-            if (usersList.isNotEmpty) {
-              /// now check whether this user uid is available in the list or not
-              int userIndex = usersList.indexWhere((element) => element.uid == userCredential.user!.uid);
-              if (userIndex != -1) {
-                Future.delayed(Duration.zero, () {
-                  /// saving user profile model in local db
-                  Provider.of<ProfileProvider>(context, listen: false)
-                      .saveUserProfile(usersList[userIndex]);
+          /// if list is not empty means there are some users logged in to this app
+          if (usersList.isNotEmpty) {
+            /// now check whether this user uid is available in the list or not
+            int userIndex = usersList.indexWhere((element) => element.uid == userCredential.user!.uid);
+            if (userIndex != -1) {
+              Future.delayed(Duration.zero, () {
+                /// saving user profile model in local db
+                Provider.of<ProfileProvider>(context, listen: false)
+                    .saveUserProfile(usersList[userIndex]);
 
-                  FirebaseAnalytics.instance.logEvent(
-                    name: 'google_login',
-                  );
+                FirebaseAnalytics.instance.logEvent(
+                  name: 'google_login',
+                );
 
-                  /// close loading dialog
-                  EasyLoadingDialog.dismiss(context);
-                  // Navigator.of(context).pushNamed(RouteHelper.completeProfile);
+                /// close loading dialog
+                EasyLoadingDialog.dismiss(context);
+                // Navigator.of(context).pushNamed(RouteHelper.completeProfile);
 
-                  /// save on boarding done and redirect user to application
-                  Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
-                  RouteHelper.isLoggedIn = true;
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      RouteHelper.application, (route) => false);
-                });
-              } else {
-                /// if user id Does not exist so create new user then and save data to fire store db
-                print("----------------");
-                UserProfile userProfile = await _setUserProfile(
+                /// save on boarding done and redirect user to application
+                Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
+                RouteHelper.isLoggedIn = true;
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    RouteHelper.application, (route) => false);
+              });
+            } else {
+              /// if user id Does not exist so create new user then and save data to fire store db
+              print("----------------");
+              UserProfile userProfile = await _setUserProfile(
                   userCredential: userCredential,
                   loginType: "google",
-                );
-                Future.delayed(
-                    Duration.zero,
-                    () => context.read<ProfileProvider>().uploadDataToFireStore(
-                        userCredential.user!.uid, userProfile));
-              }
-            } else {
-              /// else list is empty and it is the first use who logged in to this app
-              UserProfile userProfile = await _setUserProfile(
-                userCredential: userCredential,
-                loginType: "google",
+                  context: context
               );
               Future.delayed(
                   Duration.zero,
-                  () => context.read<ProfileProvider>().uploadDataToFireStore(
+                      () => context.read<ProfileProvider>().uploadDataToFireStore(
                       userCredential.user!.uid, userProfile));
             }
-          });
-        } on FirebaseAuthException catch (e) {
-          Future.delayed(Duration.zero, () {
-            EasyLoadingDialog.dismiss(context);
-            showErrorSnackBar(e.message.toString(), context);
-          });
-        } catch (e) {
-          Future.delayed(Duration.zero, () {
-            EasyLoadingDialog.dismiss(context);
-            showErrorSnackBar(e.toString(), context);
-          });
-        }
+          } else {
+            /// else list is empty and it is the first use who logged in to this app
+            UserProfile userProfile = await _setUserProfile(
+                userCredential: userCredential,
+                loginType: "google",
+                context: context
+            );
+            Future.delayed(
+                Duration.zero,
+                    () => context.read<ProfileProvider>().uploadDataToFireStore(
+                    userCredential.user!.uid, userProfile));
+          }
+        });
+      } on FirebaseAuthException catch (e) {
+        Future.delayed(Duration.zero, () {
+          EasyLoadingDialog.dismiss(context);
+          showErrorSnackBar(e.message.toString(), context);
+        });
+      } catch (e) {
+        print(e);
+        Future.delayed(Duration.zero, () {
+          EasyLoadingDialog.dismiss(context);
+          showErrorSnackBar(e.toString(), context);
+        });
       }
-    } on PlatformException catch (e) {
-      showErrorSnackBar(e.message!, context);
-      print("/////////////// Google Login Exceptions ///////////////");
-      print(e.message);
-    } catch (e) {
-      showErrorSnackBar(e.toString(), context);
     }
+    // try {
+    //   final GoogleSignInAccount? googleUser =
+    //       await GoogleSignIn(scopes: <String>['email']).signIn();
+    //   if (googleUser != null) {
+    //     /// to show loading when user select any google account after clicking on google button
+    //     Future.delayed(Duration.zero,
+    //         () => EasyLoadingDialog.show(context: context, radius: 20.r));
+    //
+    //     /// google sign in code
+    //     final GoogleSignInAuthentication googleSignInAuthentication =
+    //         await googleUser.authentication;
+    //     final credential = GoogleAuthProvider.credential(
+    //         accessToken: googleSignInAuthentication.accessToken,
+    //         idToken: googleSignInAuthentication.idToken);
+    //
+    //     /// firebase sign in with google account
+    //     try {
+    //       await FirebaseAuth.instance
+    //           .signInWithCredential(credential)
+    //           .then((userCredential) async {
+    //         /// to check weather user exist in the existing list of fire store database
+    //         var doc = await FirebaseFirestore.instance.collection("users").get();
+    //         List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
+    //
+    //         /// if list is not empty means there are some users logged in to this app
+    //         if (usersList.isNotEmpty) {
+    //           /// now check whether this user uid is available in the list or not
+    //           int userIndex = usersList.indexWhere((element) => element.uid == userCredential.user!.uid);
+    //           if (userIndex != -1) {
+    //             Future.delayed(Duration.zero, () {
+    //               /// saving user profile model in local db
+    //               Provider.of<ProfileProvider>(context, listen: false)
+    //                   .saveUserProfile(usersList[userIndex]);
+    //
+    //               FirebaseAnalytics.instance.logEvent(
+    //                 name: 'google_login',
+    //               );
+    //
+    //               /// close loading dialog
+    //               EasyLoadingDialog.dismiss(context);
+    //               // Navigator.of(context).pushNamed(RouteHelper.completeProfile);
+    //
+    //               /// save on boarding done and redirect user to application
+    //               Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
+    //               RouteHelper.isLoggedIn = true;
+    //               Navigator.of(context).pushNamedAndRemoveUntil(
+    //                   RouteHelper.application, (route) => false);
+    //             });
+    //           } else {
+    //             /// if user id Does not exist so create new user then and save data to fire store db
+    //             print("----------------");
+    //             UserProfile userProfile = await _setUserProfile(
+    //               userCredential: userCredential,
+    //               loginType: "google",
+    //               context: context
+    //             );
+    //             Future.delayed(
+    //                 Duration.zero,
+    //                 () => context.read<ProfileProvider>().uploadDataToFireStore(
+    //                     userCredential.user!.uid, userProfile));
+    //           }
+    //         } else {
+    //           /// else list is empty and it is the first use who logged in to this app
+    //           UserProfile userProfile = await _setUserProfile(
+    //             userCredential: userCredential,
+    //             loginType: "google",
+    //               context: context
+    //           );
+    //           Future.delayed(
+    //               Duration.zero,
+    //               () => context.read<ProfileProvider>().uploadDataToFireStore(
+    //                   userCredential.user!.uid, userProfile));
+    //         }
+    //       });
+    //     } on FirebaseAuthException catch (e) {
+    //       Future.delayed(Duration.zero, () {
+    //         EasyLoadingDialog.dismiss(context);
+    //         showErrorSnackBar(e.message.toString(), context);
+    //       });
+    //     } catch (e) {
+    //       print(e);
+    //       Future.delayed(Duration.zero, () {
+    //         EasyLoadingDialog.dismiss(context);
+    //         showErrorSnackBar(e.toString(), context);
+    //       });
+    //     }
+    //   }
+    // } on PlatformException catch (e) {
+    //   showErrorSnackBar(e.message!, context);
+    //   print("/////////////// Google Login Exceptions ///////////////");
+    //   print(e.message);
+    // } catch (e) {
+    //   showErrorSnackBar(e.toString(), context);
+    // }
   }
 
   signInWithFaceBook(BuildContext context) async {
@@ -168,7 +258,10 @@ class SignInProvider extends ChangeNotifier {
                 UserProfile userProfile = await _setUserProfile(
                     userCredential: userCredential,
                     loginType: "facebook",
-                    image: data["picture"]['data']['url']);
+                    image: data["picture"]['data']['url'],
+                    context: context
+                );
+
                 Future.delayed(
                     Duration.zero,
                     () => context.read<ProfileProvider>().uploadDataToFireStore(
@@ -180,7 +273,9 @@ class SignInProvider extends ChangeNotifier {
               UserProfile userProfile = await _setUserProfile(
                   userCredential: userCredential,
                   loginType: "facebook",
-                  image: data["picture"]['data']['url']);
+                  image: data["picture"]['data']['url'],
+                  context: context
+              );
               Future.delayed(
                   Duration.zero,
                   () => context.read<ProfileProvider>().uploadDataToFireStore(
@@ -214,10 +309,8 @@ class SignInProvider extends ChangeNotifier {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         var doc = await FirebaseFirestore.instance.collection("users").get();
-        List<UserProfile> usersList =
-            doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
-        int index =
-            usersList.indexWhere((element) => element.uid == value.user!.uid);
+        List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
+        int index = usersList.indexWhere((element) => element.uid == value.user!.uid);
         if (index != -1) {
           //storing user email to userEmail variable to check for email you@you.com
           //storing user email to userEmail variable to check for email you@you.com
@@ -292,7 +385,9 @@ class SignInProvider extends ChangeNotifier {
             password: password,
             name: name,
             userCredential: userCredential,
-            loginType: "email");
+            loginType: "email",
+            context: context
+        );
         Future.delayed(
             Duration.zero,
             () => Provider.of<ProfileProvider>(context, listen: false)
@@ -342,33 +437,49 @@ class SignInProvider extends ChangeNotifier {
       String? name,
       required UserCredential userCredential,
       required String loginType,
-      String? image}) async {
+      String? image,required BuildContext context
+      }) async {
+    UserProfile userProfile = Provider.of<ProfileProvider>(context,listen: false).userProfile!;
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    OnBoardingInformation onBoarding =
-        Hive.box(appBoxKey).get(onBoardingInformationKey);
-    UserProfile userProfile = UserProfile(
-        email: loginType == "email" ? email : userCredential.user!.email,
-        password: loginType == "email" ? password : "",
-        fullName: loginType == "email" ? name : userCredential.user!.displayName,
-        image: loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
-        uid: userCredential.user!.uid,
-        purposeOfQuran: onBoarding.purposeOfQuran,
-        preferredLanguage: onBoarding.preferredLanguage!.languageCode,
-        loginDevices: <Devices>[
-          Devices(name: androidInfo.model, datetime: DateTime.now().toIso8601String())
-        ],
-        loginType: loginType,
-        favRecitersList: <Reciters>[],
-        quranBookmarksList: <Bookmarks>[],
-        duaBookmarksList: <Dua>[],
-        ruqyahBookmarksList: <Ruqyah>[],
-        recitationBookmarkList: <BookmarksRecitation>[]
-        /// changes
-        // whenToReciterQuran: onBoarding.whenToReciterQuran,
-        // recitationReminder: onBoarding.recitationReminder,
-        // dailyQuranReadTime: onBoarding.dailyQuranReadTime,
-        );
+    userProfile.setEmail = (loginType == "email" ? email : userCredential.user!.email)!;
+    userProfile.setFullName = (loginType == "email" ? name : userCredential.user!.displayName)!;
+    userProfile.setPassword = (loginType == "email" ? password : "")!;
+    userProfile.setImage = (loginType == "email" ? "" : image ?? userCredential.user!.photoURL)!;
+    userProfile.setUid = userCredential.user!.uid;
+    // userProfile.setPurposeOfQuran = [];
+    userProfile.setLoginDevices = <Devices>[
+      Devices(name: androidInfo.model, datetime: DateTime.now().toIso8601String())
+    ];
+    // userProfile.setPreferredLanguage = LocalizationProvider().locale.languageCode;
+    userProfile.setLoginType = loginType;
+
+
+
+
+
+    // UserProfile userProfile = UserProfile(
+    //     email: loginType == "email" ? email : userCredential.user!.email,
+    //     password: loginType == "email" ? password : "",
+    //     fullName: loginType == "email" ? name : userCredential.user!.displayName,
+    //     image: loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
+    //     uid: userCredential.user!.uid,
+    //     purposeOfQuran: onBoarding.purposeOfQuran,
+    //     preferredLanguage: onBoarding.preferredLanguage!.languageCode,
+    //     loginDevices: <Devices>[
+    //       Devices(name: androidInfo.model, datetime: DateTime.now().toIso8601String())
+    //     ],
+    //     loginType: loginType,
+    //     favRecitersList: <Reciters>[],
+    //     quranBookmarksList: <Bookmarks>[],
+    //     duaBookmarksList: <Dua>[],
+    //     ruqyahBookmarksList: <Ruqyah>[],
+    //     recitationBookmarkList: <BookmarksRecitation>[]
+    //     /// changes
+    //     // whenToReciterQuran: onBoarding.whenToReciterQuran,
+    //     // recitationReminder: onBoarding.recitationReminder,
+    //     // dailyQuranReadTime: onBoarding.dailyQuranReadTime,
+    //     );
     return userProfile;
   }
 

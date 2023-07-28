@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
+import 'package:nour_al_quran/pages/duas/models/dua.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
+import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/user_profile.dart';
 import 'package:nour_al_quran/shared/localization/languages.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
@@ -17,12 +20,22 @@ import 'package:provider/provider.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import '../../../../shared/database/quran_db.dart';
+import '../../../../shared/entities/bookmarks.dart';
+import '../../../../shared/entities/reciters.dart';
 import '../../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import 'package:flutter/services.dart';
 
+import '../../../recitation_category/pages/bookmarks_recitation.dart';
+
 class ProfileProvider extends ChangeNotifier {
   UserProfile? _userProfile = Hive.box(appBoxKey).get(userProfileKey) != null
-      ? UserProfile.fromJson(jsonDecode(Hive.box(appBoxKey).get(userProfileKey))) : null;
+      ? UserProfile.fromJson(jsonDecode(Hive.box(appBoxKey).get(userProfileKey))) :
+  UserProfile(email: null, password: null, fullName: null, image: "", uid: null,
+      purposeOfQuran: <String>[], preferredLanguage: "en", loginDevices: <Devices>[], loginType: null,
+      favRecitersList: <Reciters>[], quranBookmarksList: <Bookmarks>[], duaBookmarksList: <Dua>[],
+      ruqyahBookmarksList: <Ruqyah>[], recitationBookmarkList: <BookmarksRecitation>[]);
+
   UserProfile? get userProfile => _userProfile;
   Languages _languages = Languages.languages[0];
   Languages get languages => _languages;
@@ -85,11 +98,37 @@ class ProfileProvider extends ChangeNotifier {
         (element) => element.languageCode == _userProfile!.preferredLanguage)];
     notifyListeners();
     Hive.box(appBoxKey).put(loginStatusString, 1);
-    Hive.box(appBoxKey).put(userProfileKey, jsonEncode(userProfile));
+    Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
   }
 
+  void addReciterFavOrRemove(int reciterId) async{
+    List<Reciters> allRecitersList = await QuranDatabase().getAllReciter();
+    if (!_userProfile!.favRecitersList.any((element) => element.reciterId == reciterId)) {
+      int index = allRecitersList.indexWhere((element) => element.reciterId == reciterId);
+      _userProfile!.favRecitersList.add(allRecitersList[index]);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+      notifyListeners();
+    } else {
+      _userProfile!.favRecitersList.removeWhere((element) => element.reciterId == reciterId);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+      notifyListeners();
+    }
+  }
+
+  void addOrRemoveRecitationBookmark(BookmarksRecitation bookmarks) {
+    if (!_userProfile!.recitationBookmarkList.any((element) => element.contentUrl == bookmarks.contentUrl)) {
+      _userProfile!.recitationBookmarkList.add(bookmarks);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    } else {
+      _userProfile!.recitationBookmarkList!.removeWhere((element) => element.contentUrl == bookmarks.contentUrl);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    }
+    notifyListeners();
+  }
+
+
   updateUserProfile() {
-    Hive.box(appBoxKey).put(userProfileKey, userProfile);
+    Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
   }
 
   void uploadDataToFireStore(

@@ -14,7 +14,7 @@ class UserProfile{
   String? _uid;
   List<String>? _purposeOfQuran;
   String? _preferredLanguage;
-  List<Devices>? _loginDevices;
+  List<Devices> _loginDevices = [];
   String? _loginType;
   List<Reciters> _favRecitersList = [];
   List<Bookmarks> _quranBookmarksList = [];
@@ -32,12 +32,12 @@ class UserProfile{
   String? get preferredLanguage => _preferredLanguage;
   String? get loginType => _loginType;
   /// for saving user information in firebase
-  List<Devices>? get loginDevices => _loginDevices;
-  List<Reciters>? get favRecitersList => _favRecitersList;
-  List<Bookmarks>? get quranBookmarksList => _quranBookmarksList;
-  List<Dua>? get duaBookmarksList => _duaBookmarksList;
-  List<Ruqyah>? get ruqyahBookmarksList => _ruqyahBookmarksList;
-  List<BookmarksRecitation>? get recitationBookmarkList => _recitationBookmarkList;
+  List<Devices> get loginDevices => _loginDevices;
+  List<Reciters> get favRecitersList => _favRecitersList;
+  List<Bookmarks> get quranBookmarksList => _quranBookmarksList;
+  List<Dua> get duaBookmarksList => _duaBookmarksList;
+  List<Ruqyah> get ruqyahBookmarksList => _ruqyahBookmarksList;
+  List<BookmarksRecitation> get recitationBookmarkList => _recitationBookmarkList;
 
   set setPreferredLanguage(String value) =>_preferredLanguage = value;
   set setFullName(String value) => _fullName = value;
@@ -80,7 +80,6 @@ class UserProfile{
     required duaBookmarksList,
     required ruqyahBookmarksList,
     required recitationBookmarkList
-
   }){
     _email = email;
     _password = password;
@@ -109,7 +108,7 @@ class UserProfile{
     if(json['loginDevices'] != null){
       _loginDevices = [];
       for(var map in json['loginDevices']){
-        _loginDevices!.add(Devices.fromJson(map));
+        _loginDevices.add(Devices.fromJson(map));
       }
     }
     _loginType = json['loginType'];
@@ -204,15 +203,15 @@ class UserProfile{
       'fullName' : _fullName,
       'image' : _image,
       'uid' : _uid,
-      'purposeOfQuran': _purposeOfQuran,
+      'purposeOfQuran': _purposeOfQuran!.map((e) => e.toString()).toList(),
       'preferredLanguage' : _preferredLanguage,
-      'loginDevices' : _loginDevices!.map((e) => e.toJson()).toList(),
+      'loginDevices' : _loginDevices.map((e) => e.toJson()).toList(),
       "loginType":_loginType,
-      "favRecitersList":_favRecitersList,
-      "quranBookmarksList":_quranBookmarksList,
-      "duaBookmarksList":_duaBookmarksList,
-      "ruqyahBookmarksList":_ruqyahBookmarksList,
-      "recitationBookmarkList":_recitationBookmarkList
+      "favRecitersList":_favRecitersList.map((e) => e.toJson()).toList(),
+      "quranBookmarksList":_quranBookmarksList.map((e) => e.toJson()).toList(),
+      "duaBookmarksList":_duaBookmarksList.map((e) => e.toJson()).toList(),
+      "ruqyahBookmarksList":_ruqyahBookmarksList.map((e) => e.toJson()).toList(),
+      "recitationBookmarkList":_recitationBookmarkList.map((e) => e.toJson()).toList()
     };
   }
 
