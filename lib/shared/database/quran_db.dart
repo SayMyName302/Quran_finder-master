@@ -39,7 +39,7 @@ class QuranDatabase {
 
   final String _rowtitlecustom = "row_title_custom";
 
-  Future<List<CustomTitle>> getCountrytitles(String country) async {
+  Future<List<CustomTitle>> getCountrytitlesExplicitly(String country) async {
     database = await openDb();
     var titles = <CustomTitle>[];
 
@@ -51,6 +51,51 @@ class QuranDatabase {
     for (var row in cursor) {
       var customTitle = CustomTitle.fromJson(row);
       titles.add(customTitle);
+    }
+
+    return titles;
+  }
+  
+  Future<List<CustomTitle>> getCountrytitles(String country) async {
+    database = await openDb();
+    var titles = <CustomTitle>[];
+
+    // Get the current hour and minute
+    DateTime now = DateTime.now();
+    int currentHour = now.hour;
+    int currentMinute = now.minute;
+    int currentTimeInMinutes = currentHour * 60 + currentMinute;
+
+    var cursor = await database!.query(_rowtitlecustom,
+        columns: ["title_text", "start_hours", "end_hours"],
+        where: "country_name = ?",
+        whereArgs: [country]);
+
+    for (var row in cursor) {
+      var customTitle = CustomTitle.fromJson(row);
+
+      // Convert "HH:mm" format to minutes past midnight
+      try {
+        int? startHourInMinutes = customTitle.startHour
+            ?.split(':')
+            .map(int.parse)
+            .reduce((h, m) => h * 60 + m);
+        int? endHourInMinutes = customTitle.endHour
+            ?.split(':')
+            .map(int.parse)
+            .reduce((h, m) => h * 60 + m);
+
+        if (startHourInMinutes != null && endHourInMinutes != null) {
+          // Check if the current time is within the title's start and end hours
+          if (currentTimeInMinutes >= startHourInMinutes &&
+              currentTimeInMinutes < endHourInMinutes) {
+            titles.add(customTitle);
+          }
+        }
+      } catch (e) {
+        print('Error parsing time for title: ${customTitle.titleText}');
+        print('Error message: $e');
+      }
     }
 
     return titles;

@@ -4,6 +4,9 @@ import 'package:nour_al_quran/pages/qaida/qaida.dart';
 import 'package:nour_al_quran/pages/qaida/screens/pageindex.dart';
 import 'package:nour_al_quran/pages/qaida/screens/qaidaplayer.dart';
 
+import '../../../shared/localization/localization_constants.dart';
+import '../../../shared/widgets/app_bar.dart';
+
 class SwipePages extends StatefulWidget {
   final int initialPage;
   const SwipePages({Key? key, required this.initialPage}) : super(key: key);
@@ -113,6 +116,8 @@ class SwipePagesState extends State<SwipePages> {
         //   showBackButton: true,
         //   bottomTabProvider: bottomTabProvider,
         // ),
+        appBar:
+            buildAppBar(context: context, title: localeText(context, 'qaida')),
         body: isRTL
             ? Directionality(textDirection: TextDirection.ltr, child: pageView)
             : pageView,

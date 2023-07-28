@@ -65,6 +65,11 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getTitlesByCountryExplicitly(String country) async {
+    _titleText = await QuranDatabase().getCountrytitlesExplicitly(country);
+    notifyListeners();
+  }
+
   void setSelectedTitleText(String? text) {
     _selectedTitleText = text;
     notifyListeners();

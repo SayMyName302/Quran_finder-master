@@ -28,7 +28,7 @@ class AppDownloadsSection extends StatelessWidget {
     String countryName = country.text.trim();
     final user = Provider.of<HomeProvider>(context, listen: false);
 
-    user.getTitlesByCountry(countryName);
+    user.getTitlesByCountryExplicitly(countryName);
     List<CustomTitle> titles = user.titleText;
 
     if (titles.isNotEmpty) {
