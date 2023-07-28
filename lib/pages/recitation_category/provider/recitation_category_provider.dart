@@ -43,7 +43,7 @@ class RecitationCategoryProvider extends ChangeNotifier {
 
   void addOrRemoveBookmark(BookmarksRecitation bookmarks) {
     if (!_bookmarkListTest.any(
-        (element) => element.recitationIndex == bookmarks.recitationIndex)) {
+        (element) => element.contentUrl == bookmarks.contentUrl)) {
       // print('adding');
       _bookmarkListTest.add(bookmarks);
       Hive.box("myBox").put("bookmarksrecite", jsonEncode(_bookmarkListTest));

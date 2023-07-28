@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,7 +21,8 @@ import '../../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import 'package:flutter/services.dart';
 
 class ProfileProvider extends ChangeNotifier {
-  UserProfile? _userProfile = Hive.box(appBoxKey).get(userProfileKey);
+  UserProfile? _userProfile = Hive.box(appBoxKey).get(userProfileKey) != null
+      ? UserProfile.fromJson(jsonDecode(Hive.box(appBoxKey).get(userProfileKey))) : null;
   UserProfile? get userProfile => _userProfile;
   Languages _languages = Languages.languages[0];
   Languages get languages => _languages;
@@ -83,7 +85,7 @@ class ProfileProvider extends ChangeNotifier {
         (element) => element.languageCode == _userProfile!.preferredLanguage)];
     notifyListeners();
     Hive.box(appBoxKey).put(loginStatusString, 1);
-    Hive.box(appBoxKey).put(userProfileKey, userProfile);
+    Hive.box(appBoxKey).put(userProfileKey, jsonEncode(userProfile));
   }
 
   updateUserProfile() {
@@ -109,11 +111,6 @@ class ProfileProvider extends ChangeNotifier {
       Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
       Navigator.of(RouteHelper.currentContext)
           .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
-      // if(_fromWhere == "home"){
-      //
-      // }else if(_fromWhere == "fromInApp"){
-      //   Navigator.of(RouteHelper.currentContext).pop("login");
-      // }
     });
   }
 

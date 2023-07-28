@@ -42,7 +42,7 @@ class Global {
     Hive.registerAdapter(DuaBookmarksAdapter());
     Hive.registerAdapter(RecitationBookmarksAdapter());
     Hive.registerAdapter(RuqyahBookmarksAdapter());
-    Hive.registerAdapter(UserProfileAdopter());
+    // Hive.registerAdapter(UserProfileAdopter());
     Hive.registerAdapter(OnBoardingAdopter());
     Hive.registerAdapter(TimeOfTheDayAdapter());
     Hive.registerAdapter(DevicesAdapter());
