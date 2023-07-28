@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/onboarding/models/on_boarding_information.dart';
+import 'package:nour_al_quran/pages/recitation_category/pages/bookmarks_recitation.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/user_profile.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
@@ -16,6 +17,12 @@ import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../shared/entities/bookmarks.dart';
+import '../../../shared/entities/reciters.dart';
+import '../../../shared/localization/localization_provider.dart';
+import '../../duas/models/dua.dart';
+import '../../quran/pages/ruqyah/models/ruqyah.dart';
+import '../../recitation_category/models/recitation_all_category_model.dart';
 import '../../settings/pages/profile/profile_provider.dart';
 
 class SignInProvider extends ChangeNotifier {
@@ -44,16 +51,13 @@ class SignInProvider extends ChangeNotifier {
               .signInWithCredential(credential)
               .then((userCredential) async {
             /// to check weather user exist in the existing list of fire store database
-            var doc =
-                await FirebaseFirestore.instance.collection("users").get();
-            List<UserProfile> usersList =
-                doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
+            var doc = await FirebaseFirestore.instance.collection("users").get();
+            List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
 
             /// if list is not empty means there are some users logged in to this app
             if (usersList.isNotEmpty) {
               /// now check whether this user uid is available in the list or not
-              int userIndex = usersList.indexWhere(
-                  (element) => element.uid == userCredential.user!.uid);
+              int userIndex = usersList.indexWhere((element) => element.uid == userCredential.user!.uid);
               if (userIndex != -1) {
                 Future.delayed(Duration.zero, () {
                   /// saving user profile model in local db
@@ -76,9 +80,11 @@ class SignInProvider extends ChangeNotifier {
                 });
               } else {
                 /// if user id Does not exist so create new user then and save data to fire store db
+                print("----------------");
                 UserProfile userProfile = await _setUserProfile(
                   userCredential: userCredential,
                   loginType: "google",
+                  context: context
                 );
                 Future.delayed(
                     Duration.zero,
@@ -90,6 +96,7 @@ class SignInProvider extends ChangeNotifier {
               UserProfile userProfile = await _setUserProfile(
                 userCredential: userCredential,
                 loginType: "google",
+                  context: context
               );
               Future.delayed(
                   Duration.zero,
@@ -103,6 +110,7 @@ class SignInProvider extends ChangeNotifier {
             showErrorSnackBar(e.message.toString(), context);
           });
         } catch (e) {
+          print(e);
           Future.delayed(Duration.zero, () {
             EasyLoadingDialog.dismiss(context);
             showErrorSnackBar(e.toString(), context);
@@ -164,7 +172,10 @@ class SignInProvider extends ChangeNotifier {
                 UserProfile userProfile = await _setUserProfile(
                     userCredential: userCredential,
                     loginType: "facebook",
-                    image: data["picture"]['data']['url']);
+                    image: data["picture"]['data']['url'],
+                    context: context
+                );
+
                 Future.delayed(
                     Duration.zero,
                     () => context.read<ProfileProvider>().uploadDataToFireStore(
@@ -176,7 +187,9 @@ class SignInProvider extends ChangeNotifier {
               UserProfile userProfile = await _setUserProfile(
                   userCredential: userCredential,
                   loginType: "facebook",
-                  image: data["picture"]['data']['url']);
+                  image: data["picture"]['data']['url'],
+                  context: context
+              );
               Future.delayed(
                   Duration.zero,
                   () => context.read<ProfileProvider>().uploadDataToFireStore(
@@ -210,10 +223,8 @@ class SignInProvider extends ChangeNotifier {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         var doc = await FirebaseFirestore.instance.collection("users").get();
-        List<UserProfile> usersList =
-            doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
-        int index =
-            usersList.indexWhere((element) => element.uid == value.user!.uid);
+        List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
+        int index = usersList.indexWhere((element) => element.uid == value.user!.uid);
         if (index != -1) {
           //storing user email to userEmail variable to check for email you@you.com
           //storing user email to userEmail variable to check for email you@you.com
@@ -276,8 +287,6 @@ class SignInProvider extends ChangeNotifier {
     prefs.setString('user_email', email ?? '');
   }
 
-  //
-
   signUpWithEmailPassword(String email, String password, String name, BuildContext context) async {
     try {
       Future.delayed(Duration.zero,
@@ -290,7 +299,9 @@ class SignInProvider extends ChangeNotifier {
             password: password,
             name: name,
             userCredential: userCredential,
-            loginType: "email");
+            loginType: "email",
+            context: context
+        );
         Future.delayed(
             Duration.zero,
             () => Provider.of<ProfileProvider>(context, listen: false)
@@ -340,33 +351,49 @@ class SignInProvider extends ChangeNotifier {
       String? name,
       required UserCredential userCredential,
       required String loginType,
-      String? image}) async {
+      String? image,required BuildContext context
+      }) async {
+    UserProfile userProfile = Provider.of<ProfileProvider>(context,listen: false).userProfile!;
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    OnBoardingInformation onBoarding =
-        Hive.box(appBoxKey).get(onBoardingInformationKey);
-    UserProfile userProfile = UserProfile(
-        email: loginType == "email" ? email : userCredential.user!.email,
-        password: loginType == "email" ? password : "",
-        fullName:
-            loginType == "email" ? name : userCredential.user!.displayName,
-        image:
-            loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
-        uid: userCredential.user!.uid,
-        purposeOfQuran: onBoarding.purposeOfQuran,
-        favReciter: onBoarding.favReciter,
-        preferredLanguage: onBoarding.preferredLanguage!.languageCode,
-        loginDevices: <Devices>[
-          Devices(name: androidInfo.model, datetime: DateTime.now())
-        ],
-        loginType: loginType,
-        bookmarks: <int>[]
+    userProfile.setEmail = (loginType == "email" ? email : userCredential.user!.email)!;
+    userProfile.setFullName = (loginType == "email" ? name : userCredential.user!.displayName)!;
+    userProfile.setPassword = (loginType == "email" ? password : "")!;
+    userProfile.setImage = (loginType == "email" ? "" : image ?? userCredential.user!.photoURL)!;
+    userProfile.setUid = userCredential.user!.uid;
+    // userProfile.setPurposeOfQuran = [];
+    userProfile.setLoginDevices = <Devices>[
+      Devices(name: androidInfo.model, datetime: DateTime.now().toIso8601String())
+    ];
+    // userProfile.setPreferredLanguage = LocalizationProvider().locale.languageCode;
+    userProfile.setLoginType = loginType;
 
-        /// changes
-        // whenToReciterQuran: onBoarding.whenToReciterQuran,
-        // recitationReminder: onBoarding.recitationReminder,
-        // dailyQuranReadTime: onBoarding.dailyQuranReadTime,
-        );
+
+
+
+
+    // UserProfile userProfile = UserProfile(
+    //     email: loginType == "email" ? email : userCredential.user!.email,
+    //     password: loginType == "email" ? password : "",
+    //     fullName: loginType == "email" ? name : userCredential.user!.displayName,
+    //     image: loginType == "email" ? "" : image ?? userCredential.user!.photoURL,
+    //     uid: userCredential.user!.uid,
+    //     purposeOfQuran: onBoarding.purposeOfQuran,
+    //     preferredLanguage: onBoarding.preferredLanguage!.languageCode,
+    //     loginDevices: <Devices>[
+    //       Devices(name: androidInfo.model, datetime: DateTime.now().toIso8601String())
+    //     ],
+    //     loginType: loginType,
+    //     favRecitersList: <Reciters>[],
+    //     quranBookmarksList: <Bookmarks>[],
+    //     duaBookmarksList: <Dua>[],
+    //     ruqyahBookmarksList: <Ruqyah>[],
+    //     recitationBookmarkList: <BookmarksRecitation>[]
+    //     /// changes
+    //     // whenToReciterQuran: onBoarding.whenToReciterQuran,
+    //     // recitationReminder: onBoarding.recitationReminder,
+    //     // dailyQuranReadTime: onBoarding.dailyQuranReadTime,
+    //     );
     return userProfile;
   }
 

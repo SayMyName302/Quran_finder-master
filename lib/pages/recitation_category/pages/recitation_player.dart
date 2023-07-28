@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/recitation_category/provider/recitation_category_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/circle_button.dart';
@@ -42,9 +43,8 @@ class RecitationAudioPlayer extends StatelessWidget {
             context: context,
             font: 16.sp,
             title: localeText(context, "now_playing")),
-        body: Consumer4<ThemProvider, StoryAndBasicPlayerProvider,
-            AppColorsProvider, RecitationCategoryProvider>(
-          builder: (context, them, player, appColor, recitationCategoryProvider,
+        body: Consumer5<ThemProvider, StoryAndBasicPlayerProvider, AppColorsProvider, RecitationCategoryProvider,ProfileProvider>(
+          builder: (context, them, player, appColor, recitationCategoryProvider,profile,
               child) {
             int recitationIndex = recitationProv.selectedRecitationAll
                 .indexWhere((element) => element.reference == reference);
@@ -203,8 +203,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                           // )
                           InkWell(
                             onTap: () {
-                              recitationCategoryProvider
-                                  .addOrRemoveBookmark(bookmark);
+                              // recitationCategoryProvider.addOrRemoveBookmark(bookmark);
+                              profile.addOrRemoveRecitationBookmark(bookmark);
                             },
                             child: Container(
                               height: 23.h,
@@ -219,20 +219,18 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   height: 21.h,
                                   width: 21.w,
                                   child: CircleAvatar(
-                                    backgroundColor: recitationCategoryProvider
-                                            .bookmarkListTest
+                                    backgroundColor: profile.userProfile!.recitationBookmarkList!
                                             .any((element) =>
-                                                element.recitationIndex ==
-                                                bookmark.recitationIndex)
+                                                element.contentUrl ==
+                                                bookmark.contentUrl)
                                         ? appColor.mainBrandingColor
                                         : Colors.white,
                                     child: Icon(
                                       Icons.favorite,
-                                      color: recitationCategoryProvider
-                                              .bookmarkListTest
+                                      color: profile.userProfile!.recitationBookmarkList!
                                               .any((element) =>
-                                                  element.recitationIndex ==
-                                                  bookmark.recitationIndex)
+                                                  element.contentUrl ==
+                                                  bookmark.contentUrl)
                                           ? Colors.white
                                           : appColor.mainBrandingColor,
                                       size: 13.h,

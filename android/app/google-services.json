@@ -126,6 +126,38 @@
       },
       "oauth_client": [
         {
+          "client_id": "966166920037-1fjnhitvcgi2h011prv4p3nbpf5nshbl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nouralquran.nouralquran",
+            "certificate_hash": "0db8af94eb860a8c0ada88c2e4255169b7eba97e"
+          }
+        },
+        {
+          "client_id": "966166920037-2labq32rudbjok852r04lhjv5ibiakin.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nouralquran.nouralquran",
+            "certificate_hash": "2ef0b3e570c1ae77941add67f25535790585a492"
+          }
+        },
+        {
+          "client_id": "966166920037-n9dgka7m4qe5h5nods8jknkmlf95r3j2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nouralquran.nouralquran",
+            "certificate_hash": "070e57d536678901894de8daa7184ed2e43be24d"
+          }
+        },
+        {
+          "client_id": "966166920037-qc1jlqlmg7q4anj6e1bplriooovbprjj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nouralquran.nouralquran",
+            "certificate_hash": "2574fb90c0e84228bd476c15464ccaa562bb380c"
+          }
+        },
+        {
           "client_id": "966166920037-fn7cl6k1cr2pb93o7vn0qkvjf6o2b8dr.apps.googleusercontent.com",
           "client_type": 3
         }

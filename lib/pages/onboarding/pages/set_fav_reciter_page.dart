@@ -12,6 +12,7 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
 
+import '../../settings/pages/profile/profile_provider.dart';
 import '../models/fav_reciter.dart';
 
 class SetFavReciter extends StatefulWidget {
@@ -78,6 +79,7 @@ class _SetFavReciterState extends State<SetFavReciter> {
                       var provider = Provider.of<OnBoardingProvider>(context,listen: false);
                       List<FavReciter> reciterList = provider.reciterList;
                       int index = reciterList.indexWhere((element) => element.title == provider.favReciter);
+                      Provider.of<ProfileProvider>(context,listen: false).addReciterFavOrRemove(reciterList[index].reciterId!);
                       Provider.of<RecitationProvider>(context,listen: false).addReciterFavOrRemove(reciterList[index].reciterId!);
                       // var selectedReciterIds = context.read<OnBoardingProvider>().reciterList.where((reciter) => reciter.title == context.read<OnBoardingProvider>().favReciter).map((reciter) => reciter.reciterId).toList();
                       // Assuming you have access to the DBHelper instance

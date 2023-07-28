@@ -62,8 +62,7 @@ class AchieveWithQuranPage extends StatelessWidget {
                             print("The tags list in final phase arev $tagsList");
                             OneSignal.shared.sendTags({'App Feature preference': tagsList});
                             //OneSignal.shared.sendTag("App Feature preference", tagsList);
-                            Navigator.of(context)
-                                .pushNamed(RouteHelper.setFavReciter);
+                            Navigator.of(context).pushNamed(RouteHelper.setFavReciter);
                           }
                         }),
                     SizedBox(
@@ -71,8 +70,7 @@ class AchieveWithQuranPage extends StatelessWidget {
                     ),
                     SkipButton(
                       onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(RouteHelper.setFavReciter);
+                        Navigator.of(context).pushNamed(RouteHelper.setFavReciter);
                       },
                     ),
                   ],

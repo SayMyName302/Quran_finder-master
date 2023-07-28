@@ -49,7 +49,7 @@ class NotificationSetup extends StatelessWidget {
               BrandButton(
                   text: localeText(context, "finish_setup"),
                   onTap: () {
-                    saveOnBoarding();
+                    // saveOnBoarding();
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         RouteHelper.fontSettingsOnboarding, (route) => false);
                   })
@@ -97,18 +97,18 @@ class NotificationSetup extends StatelessWidget {
     );
   }
 
-  void saveOnBoarding() {
-    print("saved On Board");
-    LocalizationProvider localization = LocalizationProvider();
-    OnBoardingProvider provider = OnBoardingProvider();
-    OnBoardingInformation onBoardingInfo = OnBoardingInformation(
-        purposeOfQuran: provider.selectAchieveWithQuranList,
-        favReciter: provider.favReciter,
-        preferredLanguage: localization.locale
-        // whenToReciterQuran: provider.selectTimeLikeToRecite,
-        // recitationReminder: provider.recitationReminderTime,
-        // dailyQuranReadTime: provider.selectedDailyTime,
-        );
-    Hive.box(appBoxKey).put(onBoardingInformationKey, onBoardingInfo);
-  }
+  // void saveOnBoarding() {
+  //   print("saved On Board");
+  //   LocalizationProvider localization = LocalizationProvider();
+  //   OnBoardingProvider provider = OnBoardingProvider();
+  //   OnBoardingInformation onBoardingInfo = OnBoardingInformation(
+  //       purposeOfQuran: provider.selectAchieveWithQuranList,
+  //       favReciter: provider.favReciter,
+  //       preferredLanguage: localization.locale
+  //       // whenToReciterQuran: provider.selectTimeLikeToRecite,
+  //       // recitationReminder: provider.recitationReminderTime,
+  //       // dailyQuranReadTime: provider.selectedDailyTime,
+  //       );
+  //   Hive.box(appBoxKey).put(onBoardingInformationKey, onBoardingInfo);
+  // }
 }
