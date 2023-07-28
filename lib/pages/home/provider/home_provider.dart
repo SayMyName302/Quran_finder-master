@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
@@ -35,14 +36,14 @@ class HomeProvider extends ChangeNotifier {
   Surah? surahName;
 
   //For Region/Zone
-  String _region = "";
+  String _country = "";
   String _date = "";
   String _time = "";
   String _hijriMonth = "";
   String _hijriYear = "";
   String _dayName = "";
 
-  String get region => _region;
+  String get country => _country;
   String get date => _date;
   String get time => _time;
   String get hijriMonth => _hijriMonth;
@@ -139,7 +140,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<void> updateUserData(UserData userData) async {
-    _region = userData.region;
+    _country = userData.country;
     _date = userData.date;
     _time = userData.time;
     _hijriMonth = userData.hijriMonth;
@@ -176,7 +177,7 @@ class HomeProvider extends ChangeNotifier {
 
     try {
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low,
+        desiredAccuracy: LocationAccuracy.high,
       ).timeout(const Duration(seconds: 15));
 
       List<Placemark> placeMarks =
@@ -184,8 +185,20 @@ class HomeProvider extends ChangeNotifier {
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];
-        String region = placeMark.country?.toLowerCase() ?? "";
-        print('=====Country{$region}======');
+        String country = placeMark.country?.toLowerCase() ?? "";
+        print('=====Country{$country}======');
+        await getTitlesByCountry(country);
+        // Select a random title from the list
+        // Select a random title from the list
+        if (_titleText.isNotEmpty) {
+          int randomIndex = Random().nextInt(_titleText.length);
+          CustomTitle selectedTitle = _titleText[randomIndex];
+          String? selectedTitleText = selectedTitle.titleText;
+          _selectedTitleText = selectedTitleText;
+        } else {
+          _selectedTitleText = "Popular Recitations";
+        }
+
         notifyListeners();
 
         DateTime now = DateTime.now();
@@ -202,7 +215,7 @@ class HomeProvider extends ChangeNotifier {
         notifyListeners();
 
         return UserData(
-          region: region,
+          country: country,
           date: formattedDate,
           time: formattedTime,
           hijriMonth: hijriMonthAndYear,
@@ -241,10 +254,33 @@ class HomeProvider extends ChangeNotifier {
       ..removeCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(msg)));
   }
+
+  String getRegionFromCountry(String country) {
+    switch (country) {
+      case "pakistan":
+      case "india":
+      case "indonesia":
+      case "bangladesh":
+      case "china":
+        return "Asia";
+      case "france":
+      case "spain":
+      case "germany":
+        return "Europe";
+      case "saudi arabia":
+        return "Middle East";
+      case "united states":
+      case "canada":
+      case "central america":
+        return "North America";
+      default:
+        return "Unknown";
+    }
+  }
 }
 
 class UserData {
-  String region;
+  String country;
   String date;
   String time;
   String hijriMonth;
@@ -252,7 +288,7 @@ class UserData {
   String dayName;
 
   UserData({
-    required this.region,
+    required this.country,
     required this.date,
     required this.time,
     required this.hijriMonth,

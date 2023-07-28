@@ -36,21 +36,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _getLocationPermissionAndRegion() async {
-    HomeProvider getRegion = Provider.of<HomeProvider>(context, listen: false);
+    HomeProvider getCountry = Provider.of<HomeProvider>(context, listen: false);
     SignInProvider signInProvider =
         Provider.of<SignInProvider>(context, listen: false);
     try {
       await signInProvider.initUserEmail();
       String? userEmail = signInProvider.userEmail;
-      //print('======UserEmail{$userEmail}======');
+      bool isUser = userEmail == "asdf@a.com";
 
-      bool isUser = userEmail == "you@you.com";
-
-      String userRegion = getRegion.region;
+      String userRegion = getCountry.country;
       if (userRegion.isNotEmpty) {
       } else {
         if (isUser) {
-          await getRegion.getLocationPermission(context);
+          await getCountry.getLocationPermission(context);
         }
       }
     } catch (e) {

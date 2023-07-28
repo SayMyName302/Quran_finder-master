@@ -5,6 +5,8 @@ class CustomTitle {
   String? _language;
   String? _region;
   String? _countryName;
+  String? _startHour;
+  String? _endHour;
 
   String? get rowName => _rowName;
   String? get screenName => _screenName;
@@ -13,20 +15,26 @@ class CustomTitle {
   String? get region => _region;
   String? get countryName => _countryName;
 
-  CustomTitle({
-    required rowname,
-    required screenname,
-    required titleText,
-    required language,
-    required region,
-    required countryName,
-  }) {
+  String? get startHour => _startHour;
+  String? get endHour => _endHour;
+
+  CustomTitle(
+      {required rowname,
+      required screenname,
+      required titleText,
+      required language,
+      required region,
+      required countryName,
+      required startHour,
+      required endHour}) {
     _rowName = rowname;
     _screenName = screenname;
     _titleText = titleText;
     _language = language;
     _region = region;
     _countryName = countryName;
+    _startHour = startHour;
+    _endHour = endHour;
   }
 
   CustomTitle.fromJson(Map<String, dynamic> json) {
@@ -36,6 +44,8 @@ class CustomTitle {
     _language = json['language'];
     _region = json['region'];
     _countryName = json['country_name'];
+    _startHour = json['start_hours'];
+    _endHour = json['end_hours'];
   }
 
   // Map<String, dynamic> toJson() {

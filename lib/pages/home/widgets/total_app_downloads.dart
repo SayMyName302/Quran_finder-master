@@ -11,6 +11,7 @@ import '../models/title_custom.dart';
 import '../provider/home_provider.dart';
 import 'labeled_textfield.dart';
 import 'dart:math';
+// import 'dart:ui' as ui;
 
 class AppDownloadsSection extends StatelessWidget {
   AppDownloadsSection({Key? key}) : super(key: key);
@@ -37,8 +38,6 @@ class AppDownloadsSection extends StatelessWidget {
 
       // Set the selectedTitleText in your provider
       user.setSelectedTitleText(selectedTitleText);
-
-      // print(selectedTitleText);
     } else {
       user.setSelectedTitleText("Popular Recitations");
     }
@@ -50,7 +49,7 @@ class AppDownloadsSection extends StatelessWidget {
     final authProvider = Provider.of<SignInProvider>(context);
 
     final userEmail = authProvider.userEmail;
-    final isUserYou = userEmail == "you@you.com";
+    final isUserYou = userEmail == "asdf@a.com";
 
     if (!isUserYou) {
       return const SizedBox.shrink();
@@ -103,7 +102,7 @@ class AppDownloadsSection extends StatelessWidget {
                     ),
                   ),
                   LabeledTextField(
-                    label: "Region: ${user.region}",
+                    label: "Region: ${user.country}",
                     controller: country,
                   ),
                   const SizedBox(height: 10),

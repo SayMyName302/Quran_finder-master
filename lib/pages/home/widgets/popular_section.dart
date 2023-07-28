@@ -29,7 +29,7 @@ class PopularSection extends StatelessWidget {
     final user = Provider.of<HomeProvider>(context);
     String? selectedTitleText = user.selectedTitleText;
     final userEmail = authProvider.userEmail;
-    bool isSpecialUser = (userEmail == 'you@you.com');
+    bool isSpecialUser = (userEmail == 'asdf@a.com');
     return Column(
       children: [
         isSpecialUser
