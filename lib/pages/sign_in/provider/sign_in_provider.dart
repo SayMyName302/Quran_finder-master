@@ -30,186 +30,100 @@ class SignInProvider extends ChangeNotifier {
   String? get userEmail => _userEmail;
 
   signInWithGoogle(BuildContext context) async {
-    final GoogleSignInAccount? googleUser =
-    await GoogleSignIn(scopes: <String>['email']).signIn();
-    if (googleUser != null) {
-      /// to show loading when user select any google account after clicking on google button
-      Future.delayed(Duration.zero,
-              () => EasyLoadingDialog.show(context: context, radius: 20.r));
+    try {
+      final GoogleSignInAccount? googleUser =
+          await GoogleSignIn(scopes: <String>['email']).signIn();
+      if (googleUser != null) {
+        /// to show loading when user select any google account after clicking on google button
+        Future.delayed(Duration.zero,
+            () => EasyLoadingDialog.show(context: context, radius: 20.r));
 
-      /// google sign in code
-      final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken);
+        /// google sign in code
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+            accessToken: googleSignInAuthentication.accessToken,
+            idToken: googleSignInAuthentication.idToken);
 
-      /// firebase sign in with google account
-      try {
-        await FirebaseAuth.instance
-            .signInWithCredential(credential)
-            .then((userCredential) async {
-          /// to check weather user exist in the existing list of fire store database
-          var doc = await FirebaseFirestore.instance.collection("users").get();
-          List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
+        /// firebase sign in with google account
+        try {
+          await FirebaseAuth.instance
+              .signInWithCredential(credential)
+              .then((userCredential) async {
+            /// to check weather user exist in the existing list of fire store database
+            var doc = await FirebaseFirestore.instance.collection("users").get();
+            List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
 
-          /// if list is not empty means there are some users logged in to this app
-          if (usersList.isNotEmpty) {
-            /// now check whether this user uid is available in the list or not
-            int userIndex = usersList.indexWhere((element) => element.uid == userCredential.user!.uid);
-            if (userIndex != -1) {
-              Future.delayed(Duration.zero, () {
-                /// saving user profile model in local db
-                Provider.of<ProfileProvider>(context, listen: false)
-                    .saveUserProfile(usersList[userIndex]);
+            /// if list is not empty means there are some users logged in to this app
+            if (usersList.isNotEmpty) {
+              /// now check whether this user uid is available in the list or not
+              int userIndex = usersList.indexWhere((element) => element.uid == userCredential.user!.uid);
+              if (userIndex != -1) {
+                Future.delayed(Duration.zero, () {
+                  /// saving user profile model in local db
+                  Provider.of<ProfileProvider>(context, listen: false)
+                      .saveUserProfile(usersList[userIndex]);
 
-                FirebaseAnalytics.instance.logEvent(
-                  name: 'google_login',
-                );
+                  FirebaseAnalytics.instance.logEvent(
+                    name: 'google_login',
+                  );
 
-                /// close loading dialog
-                EasyLoadingDialog.dismiss(context);
-                // Navigator.of(context).pushNamed(RouteHelper.completeProfile);
+                  /// close loading dialog
+                  EasyLoadingDialog.dismiss(context);
+                  // Navigator.of(context).pushNamed(RouteHelper.completeProfile);
 
-                /// save on boarding done and redirect user to application
-                Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
-                RouteHelper.isLoggedIn = true;
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    RouteHelper.application, (route) => false);
-              });
-            } else {
-              /// if user id Does not exist so create new user then and save data to fire store db
-              print("----------------");
-              UserProfile userProfile = await _setUserProfile(
+                  /// save on boarding done and redirect user to application
+                  Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
+                  RouteHelper.isLoggedIn = true;
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      RouteHelper.application, (route) => false);
+                });
+              } else {
+                /// if user id Does not exist so create new user then and save data to fire store db
+                print("----------------");
+                UserProfile userProfile = await _setUserProfile(
                   userCredential: userCredential,
                   loginType: "google",
+                  context: context
+                );
+                Future.delayed(
+                    Duration.zero,
+                    () => context.read<ProfileProvider>().uploadDataToFireStore(
+                        userCredential.user!.uid, userProfile));
+              }
+            } else {
+              /// else list is empty and it is the first use who logged in to this app
+              UserProfile userProfile = await _setUserProfile(
+                userCredential: userCredential,
+                loginType: "google",
                   context: context
               );
               Future.delayed(
                   Duration.zero,
-                      () => context.read<ProfileProvider>().uploadDataToFireStore(
+                  () => context.read<ProfileProvider>().uploadDataToFireStore(
                       userCredential.user!.uid, userProfile));
             }
-          } else {
-            /// else list is empty and it is the first use who logged in to this app
-            UserProfile userProfile = await _setUserProfile(
-                userCredential: userCredential,
-                loginType: "google",
-                context: context
-            );
-            Future.delayed(
-                Duration.zero,
-                    () => context.read<ProfileProvider>().uploadDataToFireStore(
-                    userCredential.user!.uid, userProfile));
-          }
-        });
-      } on FirebaseAuthException catch (e) {
-        Future.delayed(Duration.zero, () {
-          EasyLoadingDialog.dismiss(context);
-          showErrorSnackBar(e.message.toString(), context);
-        });
-      } catch (e) {
-        print(e);
-        Future.delayed(Duration.zero, () {
-          EasyLoadingDialog.dismiss(context);
-          showErrorSnackBar(e.toString(), context);
-        });
+          });
+        } on FirebaseAuthException catch (e) {
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(context);
+            showErrorSnackBar(e.message.toString(), context);
+          });
+        } catch (e) {
+          print(e);
+          Future.delayed(Duration.zero, () {
+            EasyLoadingDialog.dismiss(context);
+            showErrorSnackBar(e.toString(), context);
+          });
+        }
       }
+    } on PlatformException catch (e) {
+      showErrorSnackBar(e.message!, context);
+      print("/////////////// Google Login Exceptions ///////////////");
+      print(e.message);
+    } catch (e) {
+      showErrorSnackBar(e.toString(), context);
     }
-    // try {
-    //   final GoogleSignInAccount? googleUser =
-    //       await GoogleSignIn(scopes: <String>['email']).signIn();
-    //   if (googleUser != null) {
-    //     /// to show loading when user select any google account after clicking on google button
-    //     Future.delayed(Duration.zero,
-    //         () => EasyLoadingDialog.show(context: context, radius: 20.r));
-    //
-    //     /// google sign in code
-    //     final GoogleSignInAuthentication googleSignInAuthentication =
-    //         await googleUser.authentication;
-    //     final credential = GoogleAuthProvider.credential(
-    //         accessToken: googleSignInAuthentication.accessToken,
-    //         idToken: googleSignInAuthentication.idToken);
-    //
-    //     /// firebase sign in with google account
-    //     try {
-    //       await FirebaseAuth.instance
-    //           .signInWithCredential(credential)
-    //           .then((userCredential) async {
-    //         /// to check weather user exist in the existing list of fire store database
-    //         var doc = await FirebaseFirestore.instance.collection("users").get();
-    //         List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
-    //
-    //         /// if list is not empty means there are some users logged in to this app
-    //         if (usersList.isNotEmpty) {
-    //           /// now check whether this user uid is available in the list or not
-    //           int userIndex = usersList.indexWhere((element) => element.uid == userCredential.user!.uid);
-    //           if (userIndex != -1) {
-    //             Future.delayed(Duration.zero, () {
-    //               /// saving user profile model in local db
-    //               Provider.of<ProfileProvider>(context, listen: false)
-    //                   .saveUserProfile(usersList[userIndex]);
-    //
-    //               FirebaseAnalytics.instance.logEvent(
-    //                 name: 'google_login',
-    //               );
-    //
-    //               /// close loading dialog
-    //               EasyLoadingDialog.dismiss(context);
-    //               // Navigator.of(context).pushNamed(RouteHelper.completeProfile);
-    //
-    //               /// save on boarding done and redirect user to application
-    //               Hive.box(appBoxKey).put(onBoardingDoneKey, "done");
-    //               RouteHelper.isLoggedIn = true;
-    //               Navigator.of(context).pushNamedAndRemoveUntil(
-    //                   RouteHelper.application, (route) => false);
-    //             });
-    //           } else {
-    //             /// if user id Does not exist so create new user then and save data to fire store db
-    //             print("----------------");
-    //             UserProfile userProfile = await _setUserProfile(
-    //               userCredential: userCredential,
-    //               loginType: "google",
-    //               context: context
-    //             );
-    //             Future.delayed(
-    //                 Duration.zero,
-    //                 () => context.read<ProfileProvider>().uploadDataToFireStore(
-    //                     userCredential.user!.uid, userProfile));
-    //           }
-    //         } else {
-    //           /// else list is empty and it is the first use who logged in to this app
-    //           UserProfile userProfile = await _setUserProfile(
-    //             userCredential: userCredential,
-    //             loginType: "google",
-    //               context: context
-    //           );
-    //           Future.delayed(
-    //               Duration.zero,
-    //               () => context.read<ProfileProvider>().uploadDataToFireStore(
-    //                   userCredential.user!.uid, userProfile));
-    //         }
-    //       });
-    //     } on FirebaseAuthException catch (e) {
-    //       Future.delayed(Duration.zero, () {
-    //         EasyLoadingDialog.dismiss(context);
-    //         showErrorSnackBar(e.message.toString(), context);
-    //       });
-    //     } catch (e) {
-    //       print(e);
-    //       Future.delayed(Duration.zero, () {
-    //         EasyLoadingDialog.dismiss(context);
-    //         showErrorSnackBar(e.toString(), context);
-    //       });
-    //     }
-    //   }
-    // } on PlatformException catch (e) {
-    //   showErrorSnackBar(e.message!, context);
-    //   print("/////////////// Google Login Exceptions ///////////////");
-    //   print(e.message);
-    // } catch (e) {
-    //   showErrorSnackBar(e.toString(), context);
-    // }
   }
 
   signInWithFaceBook(BuildContext context) async {
