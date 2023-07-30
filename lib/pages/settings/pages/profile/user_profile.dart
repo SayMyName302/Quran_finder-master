@@ -192,8 +192,6 @@ class UserProfile{
         }
       }
     }
-
-
   }
 
   Map<String,dynamic> toJson(){

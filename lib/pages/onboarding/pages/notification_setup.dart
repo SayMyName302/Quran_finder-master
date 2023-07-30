@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/utills/app_constants.dart';
+import '../../settings/pages/profile/profile_provider.dart';
 import '../models/on_boarding_information.dart';
 
 class NotificationSetup extends StatelessWidget {
@@ -49,7 +50,7 @@ class NotificationSetup extends StatelessWidget {
               BrandButton(
                   text: localeText(context, "finish_setup"),
                   onTap: () {
-                    // saveOnBoarding();
+                    Provider.of<ProfileProvider>(context).saveProfileToHive();
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         RouteHelper.fontSettingsOnboarding, (route) => false);
                   })

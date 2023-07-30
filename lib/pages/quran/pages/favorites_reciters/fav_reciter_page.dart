@@ -11,6 +11,8 @@ import 'package:nour_al_quran/shared/widgets/circle_button.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../../../settings/pages/profile/profile_provider.dart';
+
 class FavoritesRecitersPage extends StatelessWidget {
   const FavoritesRecitersPage({Key? key}) : super(key: key);
 
@@ -19,19 +21,19 @@ class FavoritesRecitersPage extends StatelessWidget {
     // context.read<RecitationProvider>().getFavReciter();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SubTitleText(title: localeText(context, "favorite_reciters")),
-      Consumer<RecitationProvider>(
-        builder: (context, recitation, child) {
-          return recitation.favRecitersTest.isNotEmpty ? Expanded(
+      Consumer<ProfileProvider>(
+        builder: (context, profile, child) {
+          return profile.userProfile!.favRecitersList.isNotEmpty ? Expanded(
             child: MediaQuery.removePadding(
               context: context,
               removeTop: true,
               child: ListView.builder(
-                itemCount: recitation.favRecitersTest.length,
+                itemCount: profile.userProfile!.favRecitersList.length,
                   itemBuilder: (context, index) {
-                  Reciters reciter = recitation.favRecitersTest[index];
+                  Reciters reciter = profile.userProfile!.favRecitersList[index];
                     return InkWell(
                       onTap: (){
-                        recitation.getSurahName();
+                        // recitation.getSurahName();
                         // context.read<ReciterProvider>().resetDownloadSurahList();
                         context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
                         Navigator.of(context).pushNamed(RouteHelper.reciter,arguments: reciter);
@@ -72,7 +74,7 @@ class FavoritesRecitersPage extends StatelessWidget {
                             ),
                             InkWell(
                               onTap:(){
-                                recitation.addReciterFavOrRemove(reciter.reciterId!);
+                                profile.addReciterFavOrRemove(reciter.reciterId!);
                               },
                               child: Container(
                                 margin: EdgeInsets.only(right: 10.w, top: 17.h, bottom: 16.h,left: 10.w),

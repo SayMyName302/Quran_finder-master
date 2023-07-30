@@ -8,8 +8,8 @@ import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
 
-import 'dua_provider.dart';
-import 'models/dua_category.dart';
+import '../provider/dua_provider.dart';
+import '../models/dua_category.dart';
 
 class DuaCategoriesPage extends StatelessWidget {
   const DuaCategoriesPage({Key? key}) : super(key: key);
@@ -20,40 +20,32 @@ class DuaCategoriesPage extends StatelessWidget {
 
     context.read<DuaProvider>().getDuaCategories();
     return Consumer<DuaProvider>(
-      builder: (context, duaValue, child) {
-        return duaValue.duaCategoryList.isNotEmpty
+      builder: (context, duaProvider, child) {
+        return duaProvider.duaCategoryList.isNotEmpty
             ? GridView.builder(
                 padding: EdgeInsets.only(left: 10.w, right: 0.w),
-                itemCount: duaValue.duaCategoryList.length,
+                itemCount: duaProvider.duaCategoryList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  //  mainAxisSpacing:
-                  //      4.0,
-                  // crossAxisSpacing: 4.0,
                 ),
                 itemBuilder: (context, index) {
-                  DuaCategory duaCategory = duaValue.duaCategoryList[index];
-
+                  DuaCategory duaCategory = duaProvider.duaCategoryList[index];
                   return InkWell(
                     onTap: () async {
-                      Future.delayed(
-                        Duration.zero,
-                        () => context
-                            .read<RecitationPlayerProvider>()
-                            .pause(context),
-                      );
-                      duaValue.getDua(duaCategory.categoryId!);
-
+                      /// pause recitation player
+                      Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
+                      duaProvider.getDuaBasedOnCategoryId(duaCategory.categoryId!);
+                      duaProvider.setSelectedCategory(index);
                       Navigator.of(context).pushNamed(
                         RouteHelper.dua,
-                        arguments: [
-                          localeText(context, duaCategory.categoryName!),
-                          duaCategory.imageUrl,
-                          LocalizationProvider().checkIsArOrUr()
-                              ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                              : "${localeText(context, 'playlist_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
-                          duaCategory.categoryId,
-                        ],
+                        // arguments: [
+                        //   localeText(context, duaCategory.categoryName!),
+                        //   duaCategory.imageUrl,
+                        //   LocalizationProvider().checkIsArOrUr()
+                        //       ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                        //       : "${localeText(context, 'playlist_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
+                        //   duaCategory.categoryId,
+                        // ],
                       );
                     },
                     child: Container(

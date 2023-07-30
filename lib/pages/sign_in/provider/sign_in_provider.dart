@@ -61,8 +61,7 @@ class SignInProvider extends ChangeNotifier {
               if (userIndex != -1) {
                 Future.delayed(Duration.zero, () {
                   /// saving user profile model in local db
-                  Provider.of<ProfileProvider>(context, listen: false)
-                      .saveUserProfile(usersList[userIndex]);
+                  Provider.of<ProfileProvider>(context, listen: false).saveUserProfile(usersList[userIndex]);
 
                   FirebaseAnalytics.instance.logEvent(
                     name: 'google_login',
@@ -226,8 +225,8 @@ class SignInProvider extends ChangeNotifier {
         List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
         int index = usersList.indexWhere((element) => element.uid == value.user!.uid);
         if (index != -1) {
-          //storing user email to userEmail variable to check for email you@you.com
-          //storing user email to userEmail variable to check for email you@you.com
+          /// storing user email to userEmail variable to check for email you@you.com
+          /// storing user email to userEmail variable to check for email you@you.com
           _userEmail = value.user?.email; // Update the private variable
           // Save the userEmail to SharedPreferences
           SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -404,8 +403,7 @@ class SignInProvider extends ChangeNotifier {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: email)
           .then((value) {
-        showErrorSnackBar(
-            "An Email is sent to you, Please check your mail", context);
+        showErrorSnackBar("An Email is sent to you, Please check your mail", context);
         EasyLoadingDialog.dismiss(context);
         Navigator.of(context).pop();
       });
@@ -421,14 +419,3 @@ class SignInProvider extends ChangeNotifier {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 }
-
-
-
-// String fromWhere = Provider.of<ProfileProvider>(context, listen: false).fromWhere;
-// if (fromWhere == "home") {
-//   Navigator.of(context).pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
-// } else {
-//   /// this is from in App Purchase Bottom Sheet
-//   EasyLoadingDialog.dismiss(context);
-//   Navigator.of(context).pop("login");
-// }

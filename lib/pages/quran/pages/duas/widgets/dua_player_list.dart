@@ -46,7 +46,7 @@ class DuaPlayList extends StatelessWidget {
 
                       return InkWell(
                         onTap: () {
-                          duaProvider.gotoDuaPlayerPage(dua.id!, context);
+                          duaProvider.gotoDuaPlayerPage(dua.duaId!, context);
                           Navigator.pop(context);
                         },
                         child: Container(

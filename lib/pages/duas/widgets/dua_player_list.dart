@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/duas/dua_provider.dart';
+import 'package:nour_al_quran/pages/duas/provider/dua_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../shared/localization/localization_constants.dart';
@@ -52,15 +52,15 @@ class DuaPlayList extends StatelessWidget {
                 Expanded(
                   child: ListView.builder(
                     itemCount: duaProvider.duaList.length,
-                    itemBuilder: (context, duacategoryID) {
-                      Dua dua = duaProvider.duaList[duacategoryID];
+                    itemBuilder: (context, duaCategoryID) {
+                      Dua dua = duaProvider.duaList[duaCategoryID];
                       String duaCount = dua.ayahCount.toString();
 
                       return InkWell(
                         onTap: () {
+                          Navigator.of(context).pop();
                           duaProvider.gotoDuaPlayerPage(
-                              dua.duaCategory!, dua.duaText!, context);
-                          Navigator.pop(context);
+                              dua.duaCategoryId!, dua.duaText!, context);
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -96,7 +96,7 @@ class DuaPlayList extends StatelessWidget {
                                           height: 25,
                                           alignment: Alignment.center,
                                           child: Text(
-                                            "${duacategoryID + 1}",
+                                            "${duaCategoryID + 1}",
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                               fontSize: 11,

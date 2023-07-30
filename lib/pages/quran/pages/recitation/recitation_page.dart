@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 
 import '../../../recitation_category/pages/bookmarks_recitation.dart';
 import '../../../recitation_category/provider/recitation_category_provider.dart';
+import '../../../settings/pages/profile/profile_provider.dart';
 import '../../widgets/details_container_widget.dart';
 
 class RecitationPage extends StatefulWidget {
@@ -181,7 +182,7 @@ class _RecitationPageState extends State<RecitationPage> {
             // const RecitationCategorySection(),
             Consumer<RecitationProvider>(
               builder: (context, recitersValue, child) {
-                return recitersValue.recitersList2.isNotEmpty
+                return recitersValue.popularReciterList.isNotEmpty
                     ? SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
@@ -205,7 +206,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
                                   Reciters reciter =
-                                      recitersValue.recitersList2[index];
+                                      recitersValue.popularReciterList[index];
                                   return InkWell(
                                     onTap: () async {
                                       recitersValue.getSurahName();
@@ -274,7 +275,7 @@ class _RecitationPageState extends State<RecitationPage> {
             // const RecitationCategorySection(),
             Consumer<RecitationProvider>(
               builder: (context, recitersValue, child) {
-                return recitersValue.recitersList.isNotEmpty
+                return recitersValue.recommendedReciterList.isNotEmpty
                     ? SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
@@ -299,7 +300,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
                                   Reciters reciter =
-                                      recitersValue.recitersList[index];
+                                      recitersValue.recommendedReciterList[index];
                                   return InkWell(
                                     onTap: () async {
                                       recitersValue.getSurahName();
@@ -434,11 +435,13 @@ class _RecitationPageState extends State<RecitationPage> {
             //             localeText(context, "no_fav_reciter_added_yet"));
             //   },
             // ),
-            Consumer2<RecitationProvider, RecitationCategoryProvider>(
-              builder: (context, recitation, rcp, child) {
+            Consumer3<RecitationProvider, RecitationCategoryProvider,ProfileProvider>(
+              builder: (context, recitation, rcp,profile, child) {
                 // final bookmarkListReciter = recitation.favReciters;
-                final bookmarkListRecitation = rcp.bookmarkListTest;
-                final favRecitersList = recitation.favRecitersTest;
+                // final bookmarkListRecitation = rcp.bookmarkListTest;
+                final bookmarkListRecitation = profile.userProfile!.recitationBookmarkList;
+                // final favRecitersList = recitation.favRecitersTest;
+                final favRecitersList = profile.userProfile!.favRecitersList;
 
                 final combinedBookmarkList = [
                   ...favRecitersList,
@@ -464,15 +467,13 @@ class _RecitationPageState extends State<RecitationPage> {
                               title = bookmark.reciterName ?? '';
                               subTitle = localeText(context, "reciters");
                               icon = Icons.bookmark;
-                              imageIcon =
-                                  "assets/images/app_icons/bookmark.png";
+                              imageIcon = "assets/images/app_icons/bookmark.png";
                             } else if (bookmark is BookmarksRecitation) {
                               final recitationBookmark = bookmark;
                               title = recitationBookmark.recitationName ?? '';
                               subTitle = localeText(context, "recitation");
                               icon = Icons.bookmark;
-                              imageIcon =
-                                  "assets/images/app_icons/bookmark.png";
+                              imageIcon = "assets/images/app_icons/bookmark.png";
                             } else {
                               title = '';
                               subTitle = '';
@@ -518,10 +519,12 @@ class _RecitationPageState extends State<RecitationPage> {
                                 imageIcon: imageIcon,
                                 onTapIcon: () {
                                   if (bookmark is Reciters) {
-                                    recitation.addReciterFavOrRemove(
-                                        bookmark.reciterId!);
+                                    // recitation.addReciterFavOrRemove(
+                                    //     bookmark.reciterId!);
+                                    profile.addReciterFavOrRemove(bookmark.reciterId!);
                                   } else if (bookmark is BookmarksRecitation) {
-                                    rcp.addOrRemoveBookmark(bookmark);
+                                    // rcp.addOrRemoveBookmark(bookmark);
+                                    profile.addOrRemoveRecitationBookmark(bookmark);
                                   }
                                 },
                               ),

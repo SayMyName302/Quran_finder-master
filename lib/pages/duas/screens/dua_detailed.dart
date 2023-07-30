@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../../../../shared/localization/localization_constants.dart';
-import '../../../../shared/providers/dua_audio_player_provider.dart';
-import '../../../../shared/utills/app_colors.dart';
-import '../../../../shared/widgets/app_bar.dart';
-import '../../../../shared/widgets/dua_player.dart';
-import '../../shared/entities/bookmarks_dua.dart';
-import '../settings/pages/app_colors/app_colors_provider.dart';
-import '../settings/pages/app_them/them_provider.dart';
-import '../settings/pages/fonts/font_provider.dart';
-import 'dua_bookmarks_provider.dart';
-import 'dua_provider.dart';
-import 'models/dua.dart';
-import 'models/dua_category.dart';
+import '../../../../../shared/localization/localization_constants.dart';
+import '../../../../../shared/providers/dua_audio_player_provider.dart';
+import '../../../../../shared/utills/app_colors.dart';
+import '../../../../../shared/widgets/app_bar.dart';
+import '../../../../../shared/widgets/dua_player.dart';
+import '../../../shared/entities/bookmarks_dua.dart';
+import '../../settings/pages/app_colors/app_colors_provider.dart';
+import '../../settings/pages/app_them/them_provider.dart';
+import '../../settings/pages/fonts/font_provider.dart';
+import '../../settings/pages/profile/profile_provider.dart';
+import '../provider/dua_bookmarks_provider.dart';
+import '../provider/dua_provider.dart';
+import '../models/dua.dart';
+import '../models/dua_category.dart';
 
 class DuaDetail extends StatelessWidget {
   const DuaDetail({Key? key}) : super(key: key);
@@ -21,17 +22,20 @@ class DuaDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DuaProvider duaProvider = Provider.of<DuaProvider>(context);
-    Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
+    // Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
 
-    int index = nextDuaData['index'];
-    Dua nextDua = nextDuaData['dua'];
+
+    Dua nextDua = duaProvider.selectedDua!;
+    int index = nextDua.duaNo!;
+    // int index = nextDuaData['index'];
+    // Dua nextDua = nextDuaData['dua'];
     String duaTitle = nextDua.duaTitle.toString();
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
     int? duaCount = nextDua.ayahCount;
     String duaTranslation = nextDua.translations.toString();
     int? fav = nextDua.isFav;
-    int favindex = index - 1;
+    // int favindex = index - 1;
     String duaUrl = nextDua.duaUrl.toString();
 
     return WillPopScope(
@@ -43,9 +47,8 @@ class DuaDetail extends StatelessWidget {
         appBar:
             buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
-          child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
-                  DuaProvider>(
-              builder: (context, them, player, appColor, duaProv, child) {
+          child: Consumer5<ThemProvider, DuaPlayerProvider, AppColorsProvider, DuaProvider,ProfileProvider>(
+              builder: (context, them, player, appColor, duaProv,profile, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -140,49 +143,55 @@ class DuaDetail extends StatelessWidget {
                                       ),
                                       InkWell(
                                         onTap: () async {
-                                          int duaIndex = duaProv.duaList
-                                              .indexWhere((element) =>
-                                                  element.duaText == duaText);
-                                          int indx =
-                                              duaProv.duaList[duaIndex].id!;
-                                          int? categoryId = duaProv
-                                              .duaList[duaIndex].duaCategory;
-                                          String categoryName =
-                                              getCategoryNameById(categoryId!,
-                                                  duaProv.duaCategoryList);
-                                          int duaNo =
-                                              duaProv.duaList[duaIndex].duaNo!;
-                                          if (fav == 0 || fav == null) {
-                                            duaProv.bookmark(duaIndex, 1);
-                                            BookmarksDua bookmark =
-                                                BookmarksDua(
-                                                    duaId: indx,
-                                                    duaNo: duaNo,
-                                                    categoryId: categoryId,
-                                                    categoryName: categoryName,
-                                                    duaTitle: duaTitle,
-                                                    duaRef: duaRef,
-                                                    ayahCount: duaCount,
-                                                    duaText: duaText,
-                                                    duaTranslation:
-                                                        duaTranslation,
-                                                    bookmarkPosition: favindex,
-                                                    duaUrl: duaUrl);
-                                            context
-                                                .read<BookmarkProviderDua>()
-                                                .addBookmark(bookmark);
-                                          } else {
-                                            // to change state
-                                            duaProv.bookmark(duaIndex, 0);
-                                            context
-                                                .read<BookmarkProviderDua>()
-                                                .removeBookmark(
-                                                    duaProvider
-                                                        .duaList[duaIndex].id!,
-                                                    duaProvider
-                                                        .duaList[duaIndex]
-                                                        .duaCategory!);
-                                          }
+                                          int duaIndex = duaProv.duaList.indexWhere((element) => element.duaText == duaText);
+                                          Dua dua = duaProvider.duaList[duaIndex];
+                                          profile.addOrRemoveDuaBookmark(dua);
+                                          print(dua.duaText);
+                                          // int indx = duaProv.duaList[duaIndex].duaId!;
+                                          // int? categoryId = duaProv.duaList[duaIndex].duaCategoryId;
+                                          // String categoryName = getCategoryNameById(categoryId!, duaProv.duaCategoryList);
+                                          // int duaNo = duaProv.duaList[duaIndex].duaNo!;
+                                          // BookmarksDua bookmark = BookmarksDua(
+                                          //     duaId: indx,
+                                          //     duaNo: duaNo,
+                                          //     categoryId: categoryId,
+                                          //     categoryName: categoryName,
+                                          //     duaTitle: duaTitle,
+                                          //     duaRef: duaRef,
+                                          //     ayahCount: duaCount,
+                                          //     duaText: duaText,
+                                          //     duaTranslation:
+                                          //     duaTranslation,
+                                          //     bookmarkPosition: favindex,
+                                          //     duaUrl: duaUrl);
+                                          // if (fav == 0 || fav == null) {
+                                          //   duaProv.bookmark(duaIndex, 1);
+                                          //   BookmarksDua bookmark = BookmarksDua(
+                                          //           duaId: indx,
+                                          //           duaNo: duaNo,
+                                          //           categoryId: categoryId,
+                                          //           categoryName: categoryName,
+                                          //           duaTitle: duaTitle,
+                                          //           duaRef: duaRef,
+                                          //           ayahCount: duaCount,
+                                          //           duaText: duaText,
+                                          //           duaTranslation:
+                                          //               duaTranslation,
+                                          //           bookmarkPosition: favindex,
+                                          //           duaUrl: duaUrl);
+                                          //   context.read<BookmarkProviderDua>().addBookmark(bookmark);
+                                          // } else {
+                                          //   // to change state
+                                          //   duaProv.bookmark(duaIndex, 0);
+                                          //   context
+                                          //       .read<BookmarkProviderDua>()
+                                          //       .removeBookmark(
+                                          //           duaProvider
+                                          //               .duaList[duaIndex].duaId!,
+                                          //           duaProvider
+                                          //               .duaList[duaIndex]
+                                          //               .duaCategoryId!);
+                                          // }
                                         },
                                         child: Container(
                                           height: 20.h,
@@ -202,16 +211,15 @@ class DuaDetail extends StatelessWidget {
                                                   height: 21.h,
                                                   width: 21.w,
                                                   child: CircleAvatar(
-                                                    backgroundColor: fav == 1
+                                                    backgroundColor: profile.userProfile!.duaBookmarksList.any((element) => element.duaText == duaText)
                                                         ? appColor
                                                             .mainBrandingColor
                                                         : Colors.white,
                                                     child: Icon(
                                                       Icons.favorite,
-                                                      color: fav == 1
+                                                      color: profile.userProfile!.duaBookmarksList.any((element) => element.duaText == duaText)
                                                           ? Colors.white
-                                                          : appColor
-                                                              .mainBrandingColor,
+                                                          : appColor.mainBrandingColor,
                                                       size: 13.h,
                                                     ),
                                                   ),

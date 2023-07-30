@@ -101,31 +101,9 @@ class ProfileProvider extends ChangeNotifier {
     Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
   }
 
-  void addReciterFavOrRemove(int reciterId) async{
-    List<Reciters> allRecitersList = await QuranDatabase().getAllReciter();
-    if (!_userProfile!.favRecitersList.any((element) => element.reciterId == reciterId)) {
-      int index = allRecitersList.indexWhere((element) => element.reciterId == reciterId);
-      _userProfile!.favRecitersList.add(allRecitersList[index]);
-      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
-      notifyListeners();
-    } else {
-      _userProfile!.favRecitersList.removeWhere((element) => element.reciterId == reciterId);
-      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
-      notifyListeners();
-    }
+  saveProfileToHive(){
+    Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
   }
-
-  void addOrRemoveRecitationBookmark(BookmarksRecitation bookmarks) {
-    if (!_userProfile!.recitationBookmarkList.any((element) => element.contentUrl == bookmarks.contentUrl)) {
-      _userProfile!.recitationBookmarkList.add(bookmarks);
-      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
-    } else {
-      _userProfile!.recitationBookmarkList!.removeWhere((element) => element.contentUrl == bookmarks.contentUrl);
-      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
-    }
-    notifyListeners();
-  }
-
 
   updateUserProfile() {
     Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
@@ -212,5 +190,43 @@ class ProfileProvider extends ChangeNotifier {
     } else if (Platform.isIOS) {
       exit(0);
     }
+  }
+
+
+  /// bookmarks functions ///
+  void addReciterFavOrRemove(int reciterId) async{
+    List<Reciters> allRecitersList = await QuranDatabase().getAllReciter();
+    if (!_userProfile!.favRecitersList.any((element) => element.reciterId == reciterId)) {
+      int index = allRecitersList.indexWhere((element) => element.reciterId == reciterId);
+      _userProfile!.favRecitersList.add(allRecitersList[index]);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+      notifyListeners();
+    } else {
+      _userProfile!.favRecitersList.removeWhere((element) => element.reciterId == reciterId);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+      notifyListeners();
+    }
+  }
+
+  void addOrRemoveRecitationBookmark(BookmarksRecitation bookmarks) {
+    if (!_userProfile!.recitationBookmarkList.any((element) => element.contentUrl == bookmarks.contentUrl)) {
+      _userProfile!.recitationBookmarkList.add(bookmarks);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    } else {
+      _userProfile!.recitationBookmarkList.removeWhere((element) => element.contentUrl == bookmarks.contentUrl);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    }
+    notifyListeners();
+  }
+
+  void addOrRemoveDuaBookmark(Dua duaBookmark) {
+    if (!_userProfile!.duaBookmarksList.any((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId)) {
+      _userProfile!.duaBookmarksList.add(duaBookmark);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    } else {
+      _userProfile!.duaBookmarksList.removeWhere((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    }
+    notifyListeners();
   }
 }

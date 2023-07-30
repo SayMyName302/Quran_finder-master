@@ -34,7 +34,7 @@ class _AllRecitersState extends State<AllReciters> {
     final recitersValue =
         Provider.of<RecitationProvider>(context, listen: false);
     await Future.wait(
-      recitersValue.recitersList.map((reciter) {
+      recitersValue.recommendedReciterList.map((reciter) {
         return precacheImage(
             CachedNetworkImageProvider(reciter.imageUrl!), context);
       }),
@@ -60,7 +60,7 @@ class _AllRecitersState extends State<AllReciters> {
                 builder: (context, recitersValue, child) {
                   return GridView.builder(
                     padding: EdgeInsets.only(left: 20.w, right: 20.w),
-                    itemCount: recitersValue.recitersList.length,
+                    itemCount: recitersValue.recommendedReciterList.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
                       mainAxisExtent: 116.87.h,
@@ -68,7 +68,7 @@ class _AllRecitersState extends State<AllReciters> {
                       crossAxisSpacing: 5.w,
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      Reciters reciter = recitersValue.recitersList[index];
+                      Reciters reciter = recitersValue.recommendedReciterList[index];
                       return InkWell(
                         onTap: () async {
                           recitersValue.getSurahName();

@@ -4,7 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/duas/models/dua_category.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
-import '../../pages/duas/dua_provider.dart';
+import '../../pages/duas/provider/dua_provider.dart';
 // import '../../pages/duas/models/dua_category.dart';
 import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
 import '../providers/dua_audio_player_provider.dart';
@@ -20,8 +20,8 @@ class DuaAudioPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DuaProvider duaProvider = Provider.of<DuaProvider>(context);
-    Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
-    int index = nextDuaData['index'];
+    // Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
+    // int index = nextDuaData['index'];
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     // ignore: unused_local_variable
@@ -93,14 +93,13 @@ class DuaAudioPlayer extends StatelessWidget {
                             isLoopMoreNotifier.value = true;
                             player.audioPlayer.setLoopMode(LoopMode.one);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text('Loop More On For ${'Dua $index'}')));
+                                content: Text('Loop More On For ${'Dua ${duaProvider.selectedDua!.duaNo!}'}')));
                           } else {
                             isLoopMoreNotifier.value = false;
                             player.audioPlayer.setLoopMode(LoopMode.off);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content:
-                                    Text('Loop More Off For ${'Dua $index'}')));
+                                    Text('Loop More Off For ${'Dua ${duaProvider.selectedDua!.duaNo!}'}')));
                           }
                         },
                         icon: ValueListenableBuilder<bool>(
@@ -171,8 +170,7 @@ class DuaAudioPlayer extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () async {
-                          Provider.of<DuaProvider>(context, listen: false)
-                              .playNextDuaInCategory(context);
+                          Provider.of<DuaProvider>(context, listen: false).playNextDuaInCategory(context);
                         },
                         icon: Image.asset(
                           'assets/images/app_icons/next.png',

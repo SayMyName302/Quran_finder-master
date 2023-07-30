@@ -9,7 +9,7 @@ import '../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../shared/routes/routes_helper.dart';
 import '../../../shared/utills/app_colors.dart';
 import '../../../shared/widgets/circle_button.dart';
-import '../../duas/dua_provider.dart';
+import '../../duas/provider/dua_provider.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 import '../provider/recitation_category_provider.dart';
 

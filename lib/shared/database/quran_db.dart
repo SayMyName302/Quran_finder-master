@@ -433,8 +433,8 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     return duaCategoryList;
   }
 
-  // to load all duas category names
-  Future<List<Dua>> getDua(int categoryId) async {
+  /// to load all duas where categoryId = ?
+  Future<List<Dua>> getDuas(int categoryId) async {
     database = await openDb();
     var duaList = <Dua>[];
     var cursor = await database!.query(_duaAllTable,

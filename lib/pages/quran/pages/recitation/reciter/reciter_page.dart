@@ -18,6 +18,8 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/circle_button.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../settings/pages/profile/profile_provider.dart';
+
 class ReciterPage extends StatelessWidget {
   const ReciterPage({Key? key}) : super(key: key);
 
@@ -28,8 +30,8 @@ class ReciterPage extends StatelessWidget {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     return Scaffold(
       body: SafeArea(
-        child: Consumer3<AppColorsProvider, ReciterProvider, RecitationProvider>(
-          builder: (context, appColors, reciterProvider, recitationProvider, child) {
+        child: Consumer4<AppColorsProvider, ReciterProvider, RecitationProvider,ProfileProvider>(
+          builder: (context, appColors, reciterProvider, recitationProvider,profile, child) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -158,7 +160,8 @@ class ReciterPage extends StatelessWidget {
                           // ),
                           InkWell(
                             onTap: () {
-                              recitationProvider.addReciterFavOrRemove(reciters.reciterId!);
+                              // recitationProvider.addReciterFavOrRemove(reciters.reciterId!);
+                              profile.addReciterFavOrRemove(reciters.reciterId!);
                             },
                             child: Container(
                               height: 23.h,
@@ -171,12 +174,12 @@ class ReciterPage extends StatelessWidget {
                                   height: 21.h,
                                   width: 21.w,
                                   child: CircleAvatar(
-                                    backgroundColor: recitationProvider.favRecitersTest.any((element) => element.reciterId == reciters.reciterId)
+                                    backgroundColor: profile.userProfile!.favRecitersList.any((element) => element.reciterId == reciters.reciterId)
                                         ? appColors.mainBrandingColor
                                         : Colors.white,
                                     child: Icon(
                                       Icons.favorite,
-                                      color: recitationProvider.favRecitersTest.any((element) => element.reciterId == reciters.reciterId)
+                                      color: profile.userProfile!.favRecitersList.any((element) => element.reciterId == reciters.reciterId)
                                           ? Colors.white
                                           : appColors.mainBrandingColor,
                                       size: 13.h,

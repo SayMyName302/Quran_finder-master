@@ -5,9 +5,11 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provide
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
-import '../../../../shared/routes/routes_helper.dart';
-import 'dua_provider.dart';
-import 'models/dua.dart';
+import '../../../../../shared/routes/routes_helper.dart';
+import '../../../shared/localization/localization_constants.dart';
+import '../../../shared/localization/localization_provider.dart';
+import '../provider/dua_provider.dart';
+import '../models/dua.dart';
 
 class DuaPage extends StatelessWidget {
   const DuaPage({
@@ -16,21 +18,19 @@ class DuaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List arguments = ModalRoute.of(context)!.settings.arguments! as List;
-    String title = arguments[0];
-    String imageUrl = arguments[1];
-    String collectionOfDua = arguments[2];
-
-    //Split Collection
-    List<String> splitText = collectionOfDua.split(' ');
-    String duaCount = splitText[0];
-    String duasText = splitText.sublist(1).join(' ');
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
     return Scaffold(
       body: SafeArea(
         child: Consumer2<AppColorsProvider, DuaProvider>(
           builder: (context, appColors, duaProvider, child) {
+            String collectionOfDua = LocalizationProvider().checkIsArOrUr()
+                ? "${duaProvider.selectedDuaCategory!.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                : "${localeText(context, 'playlist_of')} ${duaProvider.selectedDuaCategory!.noOfDua!} ${localeText(context, 'duas')}";
+            //Split Collection
+            List<String> splitText = collectionOfDua.split(' ');
+            String duaCount = splitText[0];
+            String duasText = splitText.sublist(1).join(' ');
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -56,7 +56,7 @@ class DuaPage extends StatelessWidget {
                           color: Colors.amberAccent,
                           borderRadius: BorderRadius.circular(22),
                           image: DecorationImage(
-                            image: AssetImage(imageUrl),
+                            image: AssetImage(duaProvider.selectedDuaCategory!.imageUrl!),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -70,7 +70,7 @@ class DuaPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TitleText(
-                                title: title,
+                                title: localeText(context, duaProvider.selectedDuaCategory!.categoryName!),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 17.sp,
@@ -128,14 +128,14 @@ class DuaPage extends StatelessWidget {
                                   parameters: {
                                     'index': index + 1,
                                     'Name': dua.duaTitle.toString(),
-                                    'Category': title
+                                    'Category': localeText(context, duaProvider.selectedDuaCategory!.categoryName!)
                                   },
                                 );
-                                Navigator.of(context).pushNamed(
-                                  RouteHelper.duaDetailed,
-                                );
+                                // Navigator.of(context).pushNamed(
+                                //   RouteHelper.duaDetailed,
+                                // );
                                 duaProvider.gotoDuaPlayerPage(
-                                    dua.duaCategory!, dua.duaText!, context);
+                                    dua.duaCategoryId!, dua.duaText!, context);
                               },
                               child: Container(
                                 margin: EdgeInsets.only(
@@ -183,7 +183,7 @@ class DuaPage extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(width: 10.h),
+                                          SizedBox(width: 10.w),
                                           Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -192,7 +192,7 @@ class DuaPage extends StatelessWidget {
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.6,
+                                                    0.5,
                                                 child: Text(
                                                   capitalize(
                                                       dua.duaTitle.toString()),
@@ -211,7 +211,7 @@ class DuaPage extends StatelessWidget {
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.6,
+                                                    0.5,
                                                 child: Text(
                                                   dua.duaRef.toString(),
                                                   style: TextStyle(

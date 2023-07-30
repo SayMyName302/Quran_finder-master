@@ -24,13 +24,13 @@ class DuaProvider extends ChangeNotifier {
 
   Future<void> getDua(int duaCategoryId) async {
     //fetches all the dua in current category list
-    _duaList = await QuranDatabase().getDua(duaCategoryId);
+    _duaList = await QuranDatabase().getDuas(duaCategoryId);
     notifyListeners();
   }
 
   gotoDuaPlayerPage(int duaId, BuildContext context) {
     //Dua list index always starting from 0
-    _currentduaIndex = _duaList.indexWhere((element) => element.id == duaId);
+    _currentduaIndex = _duaList.indexWhere((element) => element.duaId == duaId);
     _selectedDua = _duaList[_currentduaIndex];
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);

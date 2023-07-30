@@ -80,7 +80,7 @@ class _SetFavReciterState extends State<SetFavReciter> {
                       List<FavReciter> reciterList = provider.reciterList;
                       int index = reciterList.indexWhere((element) => element.title == provider.favReciter);
                       Provider.of<ProfileProvider>(context,listen: false).addReciterFavOrRemove(reciterList[index].reciterId!);
-                      Provider.of<RecitationProvider>(context,listen: false).addReciterFavOrRemove(reciterList[index].reciterId!);
+                      // Provider.of<RecitationProvider>(context,listen: false).addReciterFavOrRemove(reciterList[index].reciterId!);
                       // var selectedReciterIds = context.read<OnBoardingProvider>().reciterList.where((reciter) => reciter.title == context.read<OnBoardingProvider>().favReciter).map((reciter) => reciter.reciterId).toList();
                       // Assuming you have access to the DBHelper instance
                       // var dbHelper = QuranDatabase();

@@ -2,29 +2,30 @@ import 'package:hive/hive.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 
 class Dua {
-  int? _id;
-  int? _duaCategory;
+  int? _duaId;
+  int? _duaCategoryId;
+  int? _duaNo;
+  int? _ayahCount;
+  String? _duaTitle;
   String? _duaText;
-  String? _duatitle;
   String? _duaRef;
   String? _translations;
   String? _contentUrl;
-  int? _ayahCount;
   int? _isFav;
   String? _status;
-  int? _duaNo;
 
-  int? get id => _id;
-  int? get duaCategory => _duaCategory;
+  int? get duaId => _duaId;
+  int? get duaCategoryId => _duaCategoryId;
+  int? get duaNo => _duaNo;
+  String? get duaTitle => _duaTitle;
+  String? get duaText => _duaText;
   String? get translations => _translations;
   String? get duaRef => _duaRef;
-  String? get duaText => _duaText;
-  String? get duaTitle => _duatitle;
   String? get duaUrl => _contentUrl;
   int? get ayahCount => _ayahCount;
   int? get isFav => _isFav;
   String? get status => _status;
-  int? get duaNo => _duaNo;
+
   set setIsBookmark(int value) => _isFav = value;
 
   Dua({
@@ -40,12 +41,12 @@ class Dua {
     required status,
     required duaNo,
   }) {
-    _id = id;
-    _duaCategory = duaCategory;
+    _duaId = id;
+    _duaCategoryId = duaCategory;
     _duaText = duaText;
     _duaRef = duaRef;
     _translations = translations;
-    _duatitle = duaTitle;
+    _duaTitle = duaTitle;
     _contentUrl = duaUrl;
     _ayahCount = ayahCount;
     _isFav = isFav;
@@ -54,33 +55,33 @@ class Dua {
   }
 
   Dua.fromJson(Map<String, dynamic> json) {
-    _id = json['dua_id'];
-    _duaCategory = json['category_id'];
-    _duaText = json['dua_text'];
-    _duatitle = json['dua_title'];
-    _duaRef = json['dua_ref'];
-    _translations = json[
-        Hive.box(appBoxKey).get(duaTranslationKey) ?? 'translation_english'];
-    _contentUrl = json['content_url'];
+    _duaId = json['dua_id'];
+    _duaCategoryId = json['category_id'];
+    _duaNo = json['dua_no'];
     _ayahCount = json['ayah_count'];
+    _duaTitle = json['dua_title'];
+    _duaText = json['dua_text'];
+    _duaRef = json['dua_ref'];
+    _translations = json[Hive.box(appBoxKey).get(duaTranslationKey) ?? 'translation_english'];
+    _contentUrl = json['content_url'];
     _isFav = json['is_fav'];
     _status = json['status'];
-    _duaNo = json['dua_no'];
+
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'dua_id': _id,
-      'category_id': _duaCategory,
+      'dua_id': _duaId,
+      'category_id': _duaCategoryId,
+      'dua_no': _duaNo,
+      'ayah_count': _ayahCount,
+      'dua_title': _duaTitle,
       'dua_text': _duaText,
-      'dua_title': _duatitle,
       'dua_ref': _duaRef,
       'translations': _translations,
       'content_url': _contentUrl,
-      'ayah_count': _ayahCount,
       'is_fav': _isFav,
       'status': _status,
-      'dua_no': _duaNo,
     };
   }
 

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/duas/dua_bookmarks_provider.dart';
-import 'package:nour_al_quran/pages/duas/dua_provider.dart';
+import 'package:nour_al_quran/pages/duas/provider/dua_bookmarks_provider.dart';
+import 'package:nour_al_quran/pages/duas/provider/dua_provider.dart';
 import 'package:nour_al_quran/pages/duas/widgets/ruqyah_bookmark_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah_provider.dart';
 import 'package:nour_al_quran/pages/quran/widgets/details_container_widget.dart';
+import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
-import '../../shared/routes/routes_helper.dart';
+import '../../../shared/routes/routes_helper.dart';
 
 class DuaBookmarkPage extends StatelessWidget {
   const DuaBookmarkPage({Key? key}) : super(key: key);
@@ -26,9 +27,10 @@ class DuaBookmarkPage extends StatelessWidget {
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
             )),
         Expanded(
-          child: Consumer2<BookmarkProviderDua, BookmarkProviderRuqyah>(
-            builder: (context, bookmarkDuaValue, bookmarkRuqyahValue, child) {
-              final bookmarkListDua = bookmarkDuaValue.bookmarkList;
+          child: Consumer3<BookmarkProviderDua, BookmarkProviderRuqyah,ProfileProvider>(
+            builder: (context, bookmarkDuaValue, bookmarkRuqyahValue,profile, child) {
+              // final bookmarkListDua = bookmarkDuaValue.bookmarkList;
+              final bookmarkListDua = profile.userProfile!.duaBookmarksList;
               final bookmarkListRuqyah = bookmarkRuqyahValue.bookmarkList;
 
               final combinedBookmarkList = [
@@ -49,17 +51,12 @@ class DuaBookmarkPage extends StatelessWidget {
                             if (isDuaBookmark) {
                               Provider.of<DuaProvider>(context, listen: false)
                                   .gotoDuaPlayerPage(
-                                bookmark.categoryId!,
+                                bookmark.duaCategoryId!,
                                 bookmark.duaText!,
                                 context,
                               );
-                              Navigator.of(context).pushNamed(
-                                RouteHelper.duaDetailed,
-                              );
                             } else {
-                              Provider.of<RuqyahProvider>(context,
-                                      listen: false)
-                                  .gotoDuaPlayerPage(
+                              Provider.of<RuqyahProvider>(context, listen: false).gotoDuaPlayerPage(
                                 bookmark.categoryId!,
                                 bookmark.duaText!,
                                 context,
@@ -70,15 +67,15 @@ class DuaBookmarkPage extends StatelessWidget {
                             }
                           },
                           child: DetailsContainerWidget(
-                            title:
-                                '${bookmark.duaTitle} - ${localeText(context, bookmark.categoryName!)}',
-                            subTitle:
-                                "${localeText(context, "dua")} ${bookmark.duaNo} , ${bookmark.duaRef}",
+                            // ${localeText(context, bookmark.duaCategoryId!)}
+                            title: '${bookmark.duaTitle}',
+                            subTitle: "${localeText(context, "dua")} ${bookmark.duaNo} , ${bookmark.duaRef}",
                             icon: Icons.bookmark,
                             onTapIcon: () {
                               if (isDuaBookmark) {
-                                bookmarkDuaValue.removeBookmark(
-                                    bookmark.duaId!, bookmark.categoryId!);
+                                profile.addOrRemoveDuaBookmark(bookmark);
+                                // bookmarkDuaValue.removeBookmark(
+                                //     bookmark.duaId!, bookmark.categoryId!);
                               } else {
                                 bookmarkRuqyahValue.removeBookmark(
                                     bookmark.duaId!, bookmark.categoryId!);
