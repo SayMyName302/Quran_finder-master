@@ -41,7 +41,7 @@ class TranslationManagerPage extends StatelessWidget {
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.4,
                           child: Text(
-                            localeText(context, "default_translation_language"),
+                            localeText(context, "set_default_translation"),
                             style: style,
                           )),
                       DropdownButton<int>(
@@ -77,7 +77,7 @@ class TranslationManagerPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Download translations",
+                  "Available translations to download",
                   style: style,
                 ),
                 SizedBox(
