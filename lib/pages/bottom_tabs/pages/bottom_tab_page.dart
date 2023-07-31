@@ -99,7 +99,7 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached) {
-      Provider.of<ProfileProvider>(context).uploadProfileData();
+      Provider.of<ProfileProvider>(context,listen: false).uploadProfileData();
       provider.stopAllTimer();
     } else if (state == AppLifecycleState.resumed) {
       provider.startAppUsageTimer();

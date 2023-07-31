@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/quran/pages/juz/juz_Index_page.dart';
+
 import 'package:nour_al_quran/pages/quran/pages/juz/juz_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/lastreadprovider.dart';
@@ -54,7 +54,8 @@ class _SurahIndexPageState extends State<SurahIndexPage>
     _tabController = TabController(length: 2, vsync: this);
     context.read<SurahProvider>().getSurahName();
     context.read<JuzProvider>().getJuzNames();
-    loadTappedSurahNames(); // Load tapped surah names from shared preferences here
+
+    // Load tapped surah names from shared preferences here
   }
 
   @override
@@ -83,7 +84,7 @@ class _SurahIndexPageState extends State<SurahIndexPage>
   @override
   Widget build(BuildContext context) {
     final appColorsProvider = Provider.of<AppColorsProvider>(context);
-
+    loadTappedSurahNames();
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -390,6 +391,11 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                                 () => context
                                     .read<RecitationPlayerProvider>()
                                     .pause(context));
+                            // tappedSurahNames.add(juz.juzEnglish!);
+                            // context
+                            //     .read<LastReadProvider>()
+                            //     .addTappedSurahName(juz.juzEnglish!);
+                            // saveTappedSurahNames(context);
                             analytics.logEvent(
                               name: 'read_quran_juzz_index',
                               parameters: {
