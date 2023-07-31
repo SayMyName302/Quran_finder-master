@@ -14,10 +14,16 @@ import '../../home/widgets/home_row_widget.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import '../provider/recitation_category_provider.dart';
 
-class RecitationCategorySection extends StatelessWidget {
+class RecitationCategorySection extends StatefulWidget {
   RecitationCategorySection({Key? key}) : super(key: key);
 
-  List<RecitationCategoryModel> tappedRecitationList = [];
+  @override
+  State<RecitationCategorySection> createState() =>
+      _RecitationCategorySectionState();
+}
+
+class _RecitationCategorySectionState extends State<RecitationCategorySection> {
+  List<String> tappedRecitationNames = [];
   @override
   Widget build(BuildContext context) {
     // int network = Provider.of<int>(context);
@@ -80,9 +86,10 @@ class RecitationCategorySection extends StatelessWidget {
                                 model.categoryId!,
                               ],
                             );
-                            final tappedRecitersProvider =
-                                context.read<recentProviderRecitation>();
-                            tappedRecitersProvider.addRecitation(model);
+                            tappedRecitationNames.add(model.categoryName!);
+                            context
+                                .read<recentProviderRecitation>()
+                                .addTappedReciterName(model.categoryName!);
                           },
                           child: Container(
                             width: 209.w,
