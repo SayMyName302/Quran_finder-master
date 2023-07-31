@@ -113,8 +113,7 @@ class _ManageProfileState extends State<ManageProfile> {
                             margin: EdgeInsets.only(
                                 left: 20.w, right: 20.w, top: 200.h),
                             child: BrandButton(
-                              text:
-                                  localeText(context, "sign-in_to_get_started"),
+                              text: localeText(context, "sign-in"),
                               onTap: () {
                                 Navigator.pushNamed(
                                     context, RouteHelper.signIn);
@@ -301,77 +300,86 @@ class _ManageProfileState extends State<ManageProfile> {
                           SizedBox(
                             height: 40.h,
                           ),
-                          profile.userProfile!.loginDevices.isNotEmpty ? Text(localeText(context, 'logged_in_devices'),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18.sp,
-                                  fontFamily: 'satoshi')) : const SizedBox.shrink(),
+                          profile.userProfile!.loginDevices.isNotEmpty
+                              ? Text(localeText(context, 'logged_in_devices'),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18.sp,
+                                      fontFamily: 'satoshi'))
+                              : const SizedBox.shrink(),
                           SizedBox(
                             height: 10.h,
                           ),
-                          profile.userProfile!.loginDevices.isNotEmpty ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Consumer<AppColorsProvider>(
-                                    builder: (context, appColors, child) {
-                                      return Container(
-                                        height: 38.h,
-                                        width: 38.w,
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 10.67.h,
-                                            horizontal: 10.w),
-                                        decoration: BoxDecoration(
-                                          color: appColors.mainBrandingColor,
-                                          borderRadius:
-                                              BorderRadius.circular(6.r),
+                          profile.userProfile!.loginDevices.isNotEmpty
+                              ? Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Consumer<AppColorsProvider>(
+                                          builder: (context, appColors, child) {
+                                            return Container(
+                                              height: 38.h,
+                                              width: 38.w,
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 10.67.h,
+                                                  horizontal: 10.w),
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    appColors.mainBrandingColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(6.r),
+                                              ),
+                                              child: Image.asset(
+                                                'assets/images/app_icons/smartphone.png',
+                                              ),
+                                            );
+                                          },
                                         ),
-                                        child: Image.asset(
-                                          'assets/images/app_icons/smartphone.png',
+                                        SizedBox(
+                                          width: 10.w,
                                         ),
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                       Text(profile.userProfile!.loginDevices![0].name!,
-                                          style: style12),
-                                      Text(
-                                        profile.userProfile!.loginDevices[0].datetime!,
-                                        // 'Logged in at 22-12-22 | 04:28 pm',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 10.sp,
-                                            fontFamily: 'satoshi',
-                                            color: them
-                                                ? AppColors.grey4
-                                                : AppColors.grey3),
-                                      ),
-                                    ],
-                                  ),
-                                  // Add MyStatePage widget
-                                ],
-                              ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                profile.userProfile!
+                                                    .loginDevices![0].name!,
+                                                style: style12),
+                                            Text(
+                                              profile.userProfile!
+                                                  .loginDevices[0].datetime!,
+                                              // 'Logged in at 22-12-22 | 04:28 pm',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 10.sp,
+                                                  fontFamily: 'satoshi',
+                                                  color: them
+                                                      ? AppColors.grey4
+                                                      : AppColors.grey3),
+                                            ),
+                                          ],
+                                        ),
+                                        // Add MyStatePage widget
+                                      ],
+                                    ),
 
-                              // Container(
-                              //   padding: EdgeInsets.symmetric(vertical: 2.84.h,horizontal: 6.38.w),
-                              //   alignment: Alignment.center,
-                              //   decoration: BoxDecoration(
-                              //       borderRadius: BorderRadius.circular(8.51.r),
-                              //       border: Border.all(color: them ? AppColors.grey2:AppColors.grey4)
-                              //   ),
-                              //   child: Text("Remove Device",style: TextStyle(
-                              //       fontWeight: FontWeight.w500,fontSize: 7.8.sp,fontFamily: 'satoshi'
-                              //   ),),
-                              // ),
-                            ],
-                          ) : const SizedBox.shrink(),
+                                    // Container(
+                                    //   padding: EdgeInsets.symmetric(vertical: 2.84.h,horizontal: 6.38.w),
+                                    //   alignment: Alignment.center,
+                                    //   decoration: BoxDecoration(
+                                    //       borderRadius: BorderRadius.circular(8.51.r),
+                                    //       border: Border.all(color: them ? AppColors.grey2:AppColors.grey4)
+                                    //   ),
+                                    //   child: Text("Remove Device",style: TextStyle(
+                                    //       fontWeight: FontWeight.w500,fontSize: 7.8.sp,fontFamily: 'satoshi'
+                                    //   ),),
+                                    // ),
+                                  ],
+                                )
+                              : const SizedBox.shrink(),
                           SizedBox(
                             height: 16.h,
                           ), // Add additional spacing if needed

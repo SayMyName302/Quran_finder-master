@@ -189,7 +189,7 @@ class QuranDatabase {
       // Write and flush the bytes to the documents directory
       await File(path).writeAsBytes(bytes, flush: true).then((value) async {
         List bookmarkList = [
-          Bookmarks(
+          AyahBookmarks(
               surahId: 36,
               verseId: 1,
               surahName: "Ya-seen",
@@ -198,7 +198,7 @@ class QuranDatabase {
               juzName: "",
               isFromJuz: false,
               bookmarkPosition: 1),
-          Bookmarks(
+          AyahBookmarks(
               surahId: 18,
               verseId: 1,
               surahName: "Al-Kahf",

@@ -5,11 +5,24 @@ import 'package:provider/provider.dart';
 import '../../../../../shared/localization/localization_constants.dart';
 import '../../../shared/utills/app_colors.dart';
 import '../../../shared/widgets/title_text.dart';
+import '../../quran/pages/ruqyah/provider/ruqyah_provider.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 
 
-class DuaCategoriesMain extends StatelessWidget with RouteAware {
+class DuaCategoriesMain extends StatefulWidget with RouteAware {
   const DuaCategoriesMain({Key? key}) : super(key: key);
+
+  @override
+  State<DuaCategoriesMain> createState() => _DuaCategoriesMainState();
+}
+
+class _DuaCategoriesMainState extends State<DuaCategoriesMain> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<DuaProvider>().getDuaCategories();
+    context.read<RuqyahProvider>().getRDuaCategories();
+  }
 
   @override
   Widget build(BuildContext context) {

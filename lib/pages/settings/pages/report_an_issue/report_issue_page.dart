@@ -11,8 +11,24 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 import '../../../../shared/widgets/app_bar.dart';
 
-class ReportIssuePage extends StatelessWidget {
-  const ReportIssuePage({Key? key}) : super(key: key);
+class ReportIssuePage extends StatefulWidget {
+  const ReportIssuePage({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _ReportIssuePageState createState() => _ReportIssuePageState();
+}
+
+class _ReportIssuePageState extends State<ReportIssuePage> {
+  final ValueNotifier<String> selectedOption =
+      ValueNotifier("Request a Feature");
+  int _selectedOptionIndex = -1;
+
+  List<String> options = [
+    "Report an issue",
+    "Add a new feature",
+    "Add specific content to app",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -35,53 +51,35 @@ class ReportIssuePage extends StatelessWidget {
                 style: style14,
               ),
               Container(
-                  margin: EdgeInsets.only(top: 7.h, bottom: 13.h),
-                  padding: EdgeInsets.only(left: 10.w, right: 21.w),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.r),
-                      border: Border.all(color: AppColors.grey5)),
-                  child: Theme(
-                    data: ThemeData(dividerColor: Colors.transparent),
-                    child: ExpansionTile(
-                      title: Text(
-                        "Request a Feature",
-                        style: style14,
-                      ),
-                      tilePadding: EdgeInsets.zero,
-                      childrenPadding: EdgeInsets.zero,
-                      expandedCrossAxisAlignment: CrossAxisAlignment.center,
-                      expandedAlignment: Alignment.centerLeft,
-                      children: [
-                        Container(
-                            width: double.maxFinite,
-                            margin: EdgeInsets.only(bottom: 2.h),
-                            padding: EdgeInsets.all(10.h),
-                            color: AppColors.grey5,
-                            child: Text(
-                              "Request a Feature",
-                              style: style14,
-                            )),
-                        Container(
-                            width: double.maxFinite,
-                            padding: EdgeInsets.all(10.h),
-                            margin: EdgeInsets.only(bottom: 2.h),
-                            color: AppColors.grey5,
-                            child: Text(
-                              "Request a Feature",
-                              style: style14,
-                            )),
-                        Container(
-                            width: double.maxFinite,
-                            padding: EdgeInsets.all(10.h),
-                            margin: EdgeInsets.only(bottom: 2.h),
-                            color: AppColors.grey5,
-                            child: Text(
-                              "Request a Feature",
-                              style: style14,
-                            )),
-                      ],
+                margin: EdgeInsets.only(top: 7.h, bottom: 13.h),
+                padding: EdgeInsets.only(left: 10.w, right: 21.w),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.r),
+                    border: Border.all(color: AppColors.grey5)),
+                child: ExpansionTile(
+                  title: Text(
+                    selectedOption.value,
+                    style: TextStyle(
+                      fontFamily: 'satoshi',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
                     ),
-                  )),
+                  ),
+                  onExpansionChanged: (isExpanded) {
+                    if (isExpanded) {
+                      _selectedOptionIndex = -1;
+                    } else {
+                      if (_selectedOptionIndex != -1) {
+                        selectedOption.value = options[_selectedOptionIndex];
+                      }
+                    }
+                  },
+                  children: [
+                    for (int i = 0; i < options.length; i++)
+                      _buildExpansionOption(i, options[i]),
+                  ],
+                ),
+              ),
               Text(
                 "Description",
                 style: style14,
@@ -140,40 +138,69 @@ class ReportIssuePage extends StatelessWidget {
     );
   }
 
-  void sendEmail(String subject, String body) async {
-    final String? gmailUsername = dotenv.env['GMAIL_USERNAME'];
-    final String? gmailPassword = dotenv.env['GMAIL_PASSWORD'];
+  Widget _buildExpansionOption(int index, String title) {
+    var style14 = TextStyle(
+      fontFamily: 'satoshi',
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w400,
+    );
 
-    if (gmailUsername != null && gmailPassword != null) {
-      final smtpServer = SmtpServer(
-        'smtp.gmail.com',
-        username: gmailUsername,
-        password: gmailPassword,
-        ssl: true,
-        port: 465,
-      );
+    return InkWell(
+      onTap: () {
+        setState(() {
+          selectedOption.value = title;
+          _selectedOptionIndex = index;
+        });
+      },
+      child: Container(
+        width: double.maxFinite,
+        padding: EdgeInsets.all(10.h),
+        margin: EdgeInsets.only(bottom: 2.h),
+        color: _selectedOptionIndex == index
+            ? AppColors.grey5
+            : Colors.transparent,
+        child: Text(
+          title,
+          style: style14,
+        ),
+      ),
+    );
+  }
+}
 
-      final message = Message()
-        ..from = Address(gmailUsername)
-        ..recipients.add("sohaila.tabusum@gmail.com")
-        ..subject = subject
-        ..text = body;
+void sendEmail(String subject, String body) async {
+  final String? gmailUsername = dotenv.env['GMAIL_USERNAME'];
+  final String? gmailPassword = dotenv.env['GMAIL_PASSWORD'];
 
-      final connectivityResult = await Connectivity().checkConnectivity();
-      if (connectivityResult == ConnectivityResult.none) {
-        Fluttertoast.showToast(msg: 'No internet connection');
-      } else {
-        try {
-          final sendReport = await send(message, smtpServer);
-          print('Message sent: ${sendReport.toString()}');
-          Fluttertoast.showToast(msg: 'Response submitted successfully');
-        } on MailerException catch (e) {
-          print('Message not sent. Error: ${e.toString()}');
-          Fluttertoast.showToast(msg: 'Failed to send email');
-        }
-      }
+  if (gmailUsername != null && gmailPassword != null) {
+    final smtpServer = SmtpServer(
+      'smtp.gmail.com',
+      username: gmailUsername,
+      password: gmailPassword,
+      ssl: true,
+      port: 465,
+    );
+
+    final message = Message()
+      ..from = Address(gmailUsername)
+      ..recipients.add("sohaila.tabusum@gmail.com")
+      ..subject = subject
+      ..text = body;
+
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      Fluttertoast.showToast(msg: 'No internet connection');
     } else {
-      print('Error: Gmail credentials not found or incomplete.');
+      try {
+        final sendReport = await send(message, smtpServer);
+        print('Message sent: ${sendReport.toString()}');
+        Fluttertoast.showToast(msg: 'Response submitted successfully');
+      } on MailerException catch (e) {
+        print('Message not sent. Error: ${e.toString()}');
+        Fluttertoast.showToast(msg: 'Failed to send email');
+      }
     }
+  } else {
+    print('Error: Gmail credentials not found or incomplete.');
   }
 }

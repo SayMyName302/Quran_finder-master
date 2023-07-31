@@ -6,12 +6,10 @@ import '../../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../../../shared/utills/app_colors.dart';
 import '../../../../../shared/widgets/app_bar.dart';
 import '../../../../../shared/widgets/dua_player.dart';
-import '../../../shared/entities/bookmarks_dua.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 import '../../settings/pages/app_them/them_provider.dart';
 import '../../settings/pages/fonts/font_provider.dart';
 import '../../settings/pages/profile/profile_provider.dart';
-import '../provider/dua_bookmarks_provider.dart';
 import '../provider/dua_provider.dart';
 import '../models/dua.dart';
 import '../models/dua_category.dart';
@@ -44,8 +42,7 @@ class DuaDetail extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        appBar:
-            buildAppBar(context: context, title: localeText(context, "dua")),
+        appBar: buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
           child: Consumer5<ThemProvider, DuaPlayerProvider, AppColorsProvider, DuaProvider,ProfileProvider>(
               builder: (context, them, player, appColor, duaProv,profile, child) {
@@ -110,8 +107,7 @@ class DuaDetail extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
+                                            width: MediaQuery.of(context).size
                                                     .width *
                                                 0.6,
                                             child: Text(

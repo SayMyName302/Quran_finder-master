@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../shared/routes/routes_helper.dart';
-import '../../quran/pages/ruqyah/ruqyah_categories_page.dart';
+import '../../quran/pages/ruqyah/pages/ruqyah_categories_page.dart';
 import '../screens/dua_bookmarks.dart';
 import '../screens/dua_categories_page.dart';
 import '../models/dua.dart';
@@ -99,10 +99,10 @@ class DuaProvider extends ChangeNotifier {
     }
     // _currentDuaIndex = (_currentDuaIndex + 1) % _duaList.length;
     _selectedDua = _duaList[_currentDuaIndex];
+    notifyListeners();
     Provider.of<DuaPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedDua!.duaUrl!, context);
     // getNextDua();
-    notifyListeners();
   }
 
   // Map<String, dynamic> getNextDua() {
@@ -126,8 +126,8 @@ class DuaProvider extends ChangeNotifier {
     // getNextDua();
   }
 
-  void bookmark(int duaId, int value) {
-    _duaList[duaId].setIsBookmark = value;
-    notifyListeners();
-  }
+  // void bookmark(int duaId, int value) {
+  //   _duaList[duaId].setIsBookmark = value;
+  //   notifyListeners();
+  // }
 }

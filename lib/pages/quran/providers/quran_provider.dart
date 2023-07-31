@@ -10,9 +10,6 @@ import 'package:nour_al_quran/shared/entities/surah.dart';
 class QuranProvider extends ChangeNotifier {
   int _currentPage = 0;
   int get currentPage => _currentPage;
-  // for saving spend time in that screen
-  int _seconds = Hive.box("myBox").get("seconds") ?? 0;
-  Timer? _timer;
 
   // quran view
   List<QuranText> _quranTextList = [];
@@ -124,14 +121,4 @@ class QuranProvider extends ChangeNotifier {
     return await QuranDatabase().getSpecificSurahName(surahId);
   }
 
-  // user engagement
-  void startTimer() {
-    const oneSecond = Duration(seconds: 1);
-    _timer = Timer.periodic(oneSecond, (Timer timer) => _seconds++);
-  }
-
-  void cancelTimer() {
-    _timer!.cancel();
-    Hive.box("myBox").put("seconds", _seconds);
-  }
 }
