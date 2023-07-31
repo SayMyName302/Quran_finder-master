@@ -1,12 +1,12 @@
 import 'package:hive/hive.dart';
 import 'package:nour_al_quran/shared/entities/bookmarks.dart';
 
-class BookmarksAdapter extends TypeAdapter<Bookmarks> {
+class BookmarksAdapter extends TypeAdapter<AyahBookmarks> {
   @override
   final int typeId = 3;
 
   @override
-  Bookmarks read(BinaryReader reader) {
+  AyahBookmarks read(BinaryReader reader) {
     final surahId = reader.read();
     final verseId = reader.read();
     final surahName = reader.read();
@@ -16,7 +16,7 @@ class BookmarksAdapter extends TypeAdapter<Bookmarks> {
     final isFromJuz = reader.read();
     final bookmarkPosition = reader.read();
 
-    return Bookmarks(
+    return AyahBookmarks(
         surahId: surahId,
         verseId: verseId,
         surahName: surahName,
@@ -28,7 +28,7 @@ class BookmarksAdapter extends TypeAdapter<Bookmarks> {
   }
 
   @override
-  void write(BinaryWriter writer, Bookmarks obj) {
+  void write(BinaryWriter writer, AyahBookmarks obj) {
     writer.write(obj.surahId);
     writer.write(obj.verseId);
     writer.write(obj.surahName);

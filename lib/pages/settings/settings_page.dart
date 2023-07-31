@@ -281,8 +281,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 size: 12.h,
                               ),
                               onTap: () async {
-                                if (profile.userProfile!.loginType ==
-                                    "google") {
+                                if (profile.userProfile!.loginType == "google") {
                                   profile.resetUserProfile();
                                   await login.signOutFromGoogle();
                                 } else if (profile.userProfile!.loginType ==

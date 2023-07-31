@@ -33,7 +33,7 @@ class ProfileProvider extends ChangeNotifier {
       ? UserProfile.fromJson(jsonDecode(Hive.box(appBoxKey).get(userProfileKey))) :
   UserProfile(email: null, password: null, fullName: null, image: "", uid: null,
       purposeOfQuran: <String>[], preferredLanguage: "en", loginDevices: <Devices>[], loginType: null,
-      favRecitersList: <Reciters>[], quranBookmarksList: <Bookmarks>[], duaBookmarksList: <Dua>[],
+      favRecitersList: <Reciters>[], quranBookmarksList: <AyahBookmarks>[], duaBookmarksList: <Dua>[],
       ruqyahBookmarksList: <Ruqyah>[], recitationBookmarkList: <BookmarksRecitation>[]);
 
   UserProfile? get userProfile => _userProfile;
@@ -153,9 +153,9 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   resetUserProfile() {
-    _userProfile = null;
+    _userProfile!.setUid = null;
     notifyListeners();
-    Hive.box(appBoxKey).delete(userProfileKey);
+    // Hive.box(appBoxKey).delete(userProfileKey);
     Hive.box(appBoxKey).put(loginStatusString, 0);
   }
 
@@ -225,6 +225,28 @@ class ProfileProvider extends ChangeNotifier {
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     } else {
       _userProfile!.duaBookmarksList.removeWhere((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    }
+    notifyListeners();
+  }
+
+  void addOrRemoveRuqyaDuaBookmark(Ruqyah duaBookmark) {
+    if (!_userProfile!.ruqyahBookmarksList.any((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId)) {
+      _userProfile!.ruqyahBookmarksList.add(duaBookmark);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    } else {
+      _userProfile!.ruqyahBookmarksList.removeWhere((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    }
+    notifyListeners();
+  }
+
+  void addOrRemoveAyahBookmark(AyahBookmarks ayahBookmark) {
+    if (!_userProfile!.quranBookmarksList.any((element) => element.verseId == ayahBookmark.verseId && element.surahId == ayahBookmark.surahId)) {
+      _userProfile!.quranBookmarksList.add(ayahBookmark);
+      Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
+    } else {
+      _userProfile!.quranBookmarksList.removeWhere((element) => element.verseId == ayahBookmark.verseId && element.surahId == ayahBookmark.surahId);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     }
     notifyListeners();

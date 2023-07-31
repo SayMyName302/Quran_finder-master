@@ -23,6 +23,7 @@ import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../../shared/routes/routes_helper.dart';
 import '../../settings/pages/my_state/my_state_provider_updated.dart';
+import '../../settings/pages/profile/profile_provider.dart';
 import '../../settings/pages/translation_manager/translations.dart';
 
 class QuranTextView extends StatefulWidget {
@@ -52,7 +53,6 @@ class _QuranTextViewState extends State<QuranTextView> {
   @override
   void initState() {
     super.initState();
-    context.read<QuranProvider>().startTimer();
     Future.delayed(Duration.zero,
         () => context.read<MyStateProvider>().startQuranReadingTimer("other"));
     _quranProvider = context.read<QuranProvider>();
@@ -71,8 +71,7 @@ class _QuranTextViewState extends State<QuranTextView> {
 
   Future<void> saveLastSeen() async {
     QuranText quranText = _quranText[_lastPosition];
-    Surah? surah =
-        await QuranDatabase().getSpecificSurahName(quranText.surahId!);
+    Surah? surah = await QuranDatabase().getSpecificSurahName(quranText.surahId!);
     if (surah != null) {
       LastSeen lastSeen = LastSeen(
           surahNameArabic: surah.arabicName,
@@ -86,8 +85,6 @@ class _QuranTextViewState extends State<QuranTextView> {
           juzId: _quranProvider.juzId! == -1 ? 0 : _quranProvider.juzId!);
       if (mounted) {
         context.read<LastSeenProvider>().saveLastSeen(lastSeen);
-        // stop timer as well
-        context.read<QuranProvider>().cancelTimer();
       }
     }
   }
@@ -153,9 +150,8 @@ class _QuranTextViewState extends State<QuranTextView> {
                 ))
           ],
         ),
-        body: Consumer5<QuranProvider, ThemProvider, LocalizationProvider,
-            FontProvider, AppColorsProvider>(
-          builder: (context, value, them, language, font, appColors, child) {
+        body: Consumer6<QuranProvider, ThemProvider, LocalizationProvider, FontProvider, AppColorsProvider,ProfileProvider>(
+          builder: (context, value, them, language, font, appColors,profile, child) {
             return value.quranTextList.isNotEmpty
                 ? ScrollablePositionedList.builder(
                     padding: EdgeInsets.only(bottom: 16.h),
@@ -302,29 +298,25 @@ class _QuranTextViewState extends State<QuranTextView> {
                                       QuranText quranText = _quranText[index];
                                       Surah? surah = await value.getSpecificSurah(quranText.surahId!);
                                       if (surah != null) {
-                                        if (quranText.isBookmark == 0) {
-                                          value.bookmark(index, 1);
-                                          Bookmarks bookmark = Bookmarks(
-                                              surahId: surah.surahId,
-                                              verseId: quranText.verseId,
-                                              surahName:
-                                                  "Surah ${surah.surahName}",
-                                              surahArabic: surah.arabicName,
-                                              juzId: _quranProvider.juzId,
-                                              juzName: _quranProvider.title,
-                                              isFromJuz: _quranProvider.isJuz,
-                                              bookmarkPosition: index);
-                                          context
-                                              .read<BookmarkProvider>()
-                                              .addBookmark(bookmark);
-                                        } else {
-                                          // to change state
-                                          value.bookmark(index, 0);
-                                          context
-                                              .read<BookmarkProvider>()
-                                              .removeBookmark(surah.surahId!,
-                                                  quranText.verseId!);
-                                        }
+                                        AyahBookmarks bookmark = AyahBookmarks(
+                                            surahId: surah.surahId,
+                                            verseId: quranText.verseId,
+                                            surahName: "Surah ${surah.surahName}",
+                                            surahArabic: surah.arabicName,
+                                            juzId: _quranProvider.juzId,
+                                            juzName: _quranProvider.title,
+                                            isFromJuz: _quranProvider.isJuz,
+                                            bookmarkPosition: index);
+                                        profile.addOrRemoveAyahBookmark(bookmark);
+                                        // if (quranText.isBookmark == 0) {
+                                        //   value.bookmark(index, 1);
+                                        //
+                                        //   context.read<BookmarkProvider>().addBookmark(bookmark);
+                                        // } else {
+                                        //   // to change state
+                                        //   value.bookmark(index, 0);
+                                        //   context.read<BookmarkProvider>().removeBookmark(surah.surahId!, quranText.verseId!);
+                                        // }
                                       }
                                     },
                                     child: Container(
@@ -343,13 +335,13 @@ class _QuranTextViewState extends State<QuranTextView> {
                                           width: 16.w,
                                           child: CircleAvatar(
                                             backgroundColor: !them.isDark
-                                                ? quranText.isBookmark == 1
+                                                ? profile.userProfile!.quranBookmarksList.any((element) => element.surahId == quranText.surahId && element.verseId == quranText.verseId)
                                                     ? appColor
                                                     : Colors.white
                                                 : AppColors.grey2,
                                             child: Icon(
                                               Icons.bookmark,
-                                              color: quranText.isBookmark == 1
+                                              color: profile.userProfile!.quranBookmarksList.any((element) => element.surahId == quranText.surahId && element.verseId == quranText.verseId)
                                                   ? Colors.white
                                                   : appColors.mainBrandingColor,
                                               size: 9.h,

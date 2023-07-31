@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
-//import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +15,6 @@ class DuaCategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appColors = context.read<AppColorsProvider>().mainBrandingColor;
-
-    context.read<DuaProvider>().getDuaCategories();
     return Consumer<DuaProvider>(
       builder: (context, duaProvider, child) {
         return duaProvider.duaCategoryList.isNotEmpty
@@ -38,14 +34,6 @@ class DuaCategoriesPage extends StatelessWidget {
                       duaProvider.setSelectedCategory(index);
                       Navigator.of(context).pushNamed(
                         RouteHelper.dua,
-                        // arguments: [
-                        //   localeText(context, duaCategory.categoryName!),
-                        //   duaCategory.imageUrl,
-                        //   LocalizationProvider().checkIsArOrUr()
-                        //       ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                        //       : "${localeText(context, 'playlist_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
-                        //   duaCategory.categoryId,
-                        // ],
                       );
                     },
                     child: Container(
@@ -108,3 +96,13 @@ class DuaCategoriesPage extends StatelessWidget {
     );
   }
 }
+
+
+// arguments: [
+//   localeText(context, duaCategory.categoryName!),
+//   duaCategory.imageUrl,
+//   LocalizationProvider().checkIsArOrUr()
+//       ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+//       : "${localeText(context, 'playlist_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
+//   duaCategory.categoryId,
+// ],

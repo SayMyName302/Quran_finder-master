@@ -17,7 +17,7 @@ class UserProfile{
   List<Devices> _loginDevices = [];
   String? _loginType;
   List<Reciters> _favRecitersList = [];
-  List<Bookmarks> _quranBookmarksList = [];
+  List<AyahBookmarks> _quranBookmarksList = [];
   List<Dua> _duaBookmarksList = [];
   List<Ruqyah> _ruqyahBookmarksList = [];
   List<BookmarksRecitation> _recitationBookmarkList = [];
@@ -34,7 +34,7 @@ class UserProfile{
   /// for saving user information in firebase
   List<Devices> get loginDevices => _loginDevices;
   List<Reciters> get favRecitersList => _favRecitersList;
-  List<Bookmarks> get quranBookmarksList => _quranBookmarksList;
+  List<AyahBookmarks> get quranBookmarksList => _quranBookmarksList;
   List<Dua> get duaBookmarksList => _duaBookmarksList;
   List<Ruqyah> get ruqyahBookmarksList => _ruqyahBookmarksList;
   List<BookmarksRecitation> get recitationBookmarkList => _recitationBookmarkList;
@@ -47,7 +47,7 @@ class UserProfile{
 
   set setImage(String value) => _image = value;
 
-  set setUid(String value) =>_uid = value;
+  set setUid(String? value) =>_uid = value;
 
   set setPurposeOfQuran(List<String> value) =>_purposeOfQuran = value;
 
@@ -57,7 +57,7 @@ class UserProfile{
 
   set setFavRecitersList(List<Reciters> value) =>_favRecitersList = value;
 
-  set setQuranBookmarksList(List<Bookmarks> value) =>_quranBookmarksList = value;
+  set setQuranBookmarksList(List<AyahBookmarks> value) =>_quranBookmarksList = value;
 
   set setDuaBookmarksList(List<Dua> value) =>_duaBookmarksList = value;
 
@@ -132,11 +132,11 @@ class UserProfile{
       if(_quranBookmarksList.isEmpty){
         _quranBookmarksList = [];
         for(var bookmark in json['quranBookmarksList']){
-          _quranBookmarksList.add(Bookmarks.fromJson(bookmark));
+          _quranBookmarksList.add(AyahBookmarks.fromJson(bookmark));
         }
       }else{
         for(var bookmarks in json['quranBookmarksList']){
-          Bookmarks bookmark = Bookmarks.fromJson(bookmarks);
+          AyahBookmarks bookmark = AyahBookmarks.fromJson(bookmarks);
           if(!_quranBookmarksList.any((element) => element.surahId == bookmark.surahId && element.verseId == bookmark.verseId)){
             _quranBookmarksList.add(bookmark);
           }
@@ -230,7 +230,7 @@ class Devices {
 
   Devices.fromJson(Map<String, dynamic> json) {
     _name = json['name'];
-    _datetime = json['datetime'];
+    _datetime = json['datetime'].toString();
   }
 
   Map<String, dynamic> toJson() {

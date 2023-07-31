@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:provider/provider.dart';
-import '../../pages/quran/pages/ruqyah/models/ruqyah_category.dart';
-import '../../pages/quran/pages/ruqyah/models/ruqyah_provider.dart';
-import '../../pages/settings/pages/app_colors/app_colors_provider.dart';
-import '../providers/dua_audio_player_provider.dart';
-import '../routes/routes_helper.dart';
-import '../utills/app_colors.dart';
-import '../widgets/circle_button.dart';
+import '../models/ruqyah_category.dart';
+import '../provider/ruqyah_provider.dart';
+import '../../../../settings/pages/app_colors/app_colors_provider.dart';
+import '../../../../../shared/providers/dua_audio_player_provider.dart';
+import '../../../../../shared/routes/routes_helper.dart';
+import '../../../../../shared/utills/app_colors.dart';
+import '../../../../../shared/widgets/circle_button.dart';
 
 class RuqyahAudioPlayer extends StatelessWidget {
   const RuqyahAudioPlayer({
@@ -19,8 +19,9 @@ class RuqyahAudioPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RuqyahProvider ruqyahProvider = Provider.of<RuqyahProvider>(context);
-    Map<String, dynamic> nextDuaData = ruqyahProvider.getNextDua();
-    int index = nextDuaData['index'];
+    // Map<String, dynamic> nextDuaData = ruqyahProvider.getNextDua();
+    // int index = nextDuaData['index'];
+    int index = ruqyahProvider.selectedDua!.duaNo!;
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     // ignore: unused_local_variable
@@ -44,8 +45,7 @@ class RuqyahAudioPlayer extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text(
-                          "${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
+                      Text("${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
                       SliderTheme(
                         data: SliderThemeData(
                             overlayShape: SliderComponentShape.noOverlay,
@@ -73,8 +73,7 @@ class RuqyahAudioPlayer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text(
-                          '- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
+                      Text('- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
                     ],
                   ),
                   SizedBox(

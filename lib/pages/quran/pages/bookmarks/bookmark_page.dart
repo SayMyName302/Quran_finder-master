@@ -7,6 +7,8 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../settings/pages/profile/profile_provider.dart';
+
 class BookmarkPage extends StatelessWidget {
   const BookmarkPage({Key? key}) : super(key: key);
 
@@ -23,18 +25,17 @@ class BookmarkPage extends StatelessWidget {
               localeText(context, "reading_bookmarks"),
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
             )),
-        Consumer<BookmarkProvider>(
-          builder: (context, bookmarkValue, child) {
-            return bookmarkValue.bookmarkList.isNotEmpty
+        Consumer2<BookmarkProvider,ProfileProvider>(
+          builder: (context, bookmarkValue,profile, child) {
+            return profile.userProfile != null
                 ? Expanded(
                     child: MediaQuery.removePadding(
                       context: context,
                       removeTop: true,
                       child: ListView.builder(
-                        itemCount: bookmarkValue.bookmarkList.length,
+                        itemCount: profile.userProfile!.quranBookmarksList.length,
                         itemBuilder: (context, index) {
-                          Bookmarks bookmarks =
-                              bookmarkValue.bookmarkList[index];
+                          AyahBookmarks bookmarks = profile.userProfile!.quranBookmarksList[index];
                           return InkWell(
                             onTap: () async {
                               bookmarkValue.goToQuranView(bookmarks, context);
@@ -43,12 +44,11 @@ class BookmarkPage extends StatelessWidget {
                               title: LocalizationProvider().checkIsArOrUr()
                                   ? bookmarks.surahArabic!
                                   : bookmarks.surahName!,
-                              subTitle:
-                                  "${localeText(context, "surah")} ${bookmarks.surahId} , ${localeText(context, "ayat")} ${bookmarks.verseId}",
+                              subTitle: "${localeText(context, "surah")} ${bookmarks.surahId} , ${localeText(context, "ayat")} ${bookmarks.verseId}",
                               icon: Icons.bookmark,
                               onTapIcon: () {
-                                bookmarkValue.removeBookmark(
-                                    bookmarks.surahId!, bookmarks.verseId!);
+                                profile.addOrRemoveAyahBookmark(bookmarks);
+                                // bookmarkValue.removeBookmark(bookmarks.surahId!, bookmarks.verseId!);
                               },
                             ),
                           );

@@ -14,6 +14,7 @@ import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import '../../settings/pages/profile/profile_provider.dart';
 
 class SignInProvider extends ChangeNotifier {
@@ -22,16 +23,13 @@ class SignInProvider extends ChangeNotifier {
 
   signInWithGoogle(BuildContext context) async {
     try {
-      final GoogleSignInAccount? googleUser =
-          await GoogleSignIn(scopes: <String>['email']).signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(scopes: <String>['email']).signIn();
       if (googleUser != null) {
         /// to show loading when user select any google account after clicking on google button
-        Future.delayed(Duration.zero,
-            () => EasyLoadingDialog.show(context: context, radius: 20.r));
+        Future.delayed(Duration.zero, () => EasyLoadingDialog.show(context: context, radius: 20.r));
 
         /// google sign in code
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleUser.authentication;
+        final GoogleSignInAuthentication googleSignInAuthentication = await googleUser.authentication;
         final credential = GoogleAuthProvider.credential(
             accessToken: googleSignInAuthentication.accessToken,
             idToken: googleSignInAuthentication.idToken);
@@ -76,10 +74,7 @@ class SignInProvider extends ChangeNotifier {
                   loginType: "google",
                   context: context
                 );
-                Future.delayed(
-                    Duration.zero,
-                    () => context.read<ProfileProvider>().uploadDataToFireStore(
-                        userCredential.user!.uid, userProfile));
+                Future.delayed(Duration.zero, () => context.read<ProfileProvider>().uploadDataToFireStore(userCredential.user!.uid, userProfile));
               }
             } else {
               /// else list is empty and it is the first use who logged in to this app
@@ -204,14 +199,10 @@ class SignInProvider extends ChangeNotifier {
   }
 
   /// sign in user
-  signInWithEmailPassword(
-      String email, String password, BuildContext context) async {
+  signInWithEmailPassword(String email, String password, BuildContext context) async {
     try {
-      Future.delayed(Duration.zero,
-          () => EasyLoadingDialog.show(context: context, radius: 20.r));
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
+      Future.delayed(Duration.zero, () => EasyLoadingDialog.show(context: context, radius: 20.r));
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value) async {
         var doc = await FirebaseFirestore.instance.collection("users").get();
         List<UserProfile> usersList = doc.docs.map((e) => UserProfile.fromJson(e.data())).toList();
         int index = usersList.indexWhere((element) => element.uid == value.user!.uid);
@@ -221,8 +212,7 @@ class SignInProvider extends ChangeNotifier {
           _userEmail = value.user?.email; // Update the private variable
           // Save the userEmail to SharedPreferences
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString(
-              'user_email', _userEmail ?? ''); // Use ?? '' to handle null case
+          prefs.setString('user_email', _userEmail ?? ''); // Use ?? '' to handle null case
           // print('=====UserEmail{$userEmail}======');
 
           Future.delayed(Duration.zero, () {
@@ -230,6 +220,9 @@ class SignInProvider extends ChangeNotifier {
             Provider.of<ProfileProvider>(context, listen: false)
                 .saveUserProfile(usersList[index]);
 
+            Provider.of<BottomTabsPageProvider>(RouteHelper.currentContext,
+                listen: false)
+                .setCurrentPage(0);
             /// close loading dialog
             // EasyLoadingDialog.dismiss(context);
 
@@ -279,8 +272,7 @@ class SignInProvider extends ChangeNotifier {
 
   signUpWithEmailPassword(String email, String password, String name, BuildContext context) async {
     try {
-      Future.delayed(Duration.zero,
-          () => EasyLoadingDialog.show(context: context, radius: 20.r));
+      Future.delayed(Duration.zero, () => EasyLoadingDialog.show(context: context, radius: 20.r));
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((userCredential) async {
@@ -292,10 +284,7 @@ class SignInProvider extends ChangeNotifier {
             loginType: "email",
             context: context
         );
-        Future.delayed(
-            Duration.zero,
-            () => Provider.of<ProfileProvider>(context, listen: false)
-                .uploadDataToFireStore(userCredential.user!.uid, userProfile));
+        Future.delayed(Duration.zero, () => Provider.of<ProfileProvider>(context, listen: false).uploadDataToFireStore(userCredential.user!.uid, userProfile));
       });
     } on FirebaseAuthException catch (e) {
       showErrorSnackBar(e.message.toString(), context);
