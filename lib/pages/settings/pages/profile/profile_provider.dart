@@ -23,6 +23,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import '../../../../shared/database/quran_db.dart';
 import '../../../../shared/entities/bookmarks.dart';
 import '../../../../shared/entities/reciters.dart';
+import '../../../../shared/network/network_check.dart';
 import '../../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import 'package:flutter/services.dart';
 
@@ -35,6 +36,9 @@ class ProfileProvider extends ChangeNotifier {
       purposeOfQuran: <String>[], preferredLanguage: "en", loginDevices: <Devices>[], loginType: null,
       favRecitersList: <Reciters>[], quranBookmarksList: <AyahBookmarks>[], duaBookmarksList: <Dua>[],
       ruqyahBookmarksList: <Ruqyah>[], recitationBookmarkList: <BookmarksRecitation>[]);
+
+  bool _isProfileUpdated = false;
+  bool get isProfileUpdated => _isProfileUpdated;
 
   UserProfile? get userProfile => _userProfile;
   Languages _languages = Languages.languages[0];
@@ -131,6 +135,28 @@ class ProfileProvider extends ChangeNotifier {
     });
   }
 
+
+  uploadProfileData() async {
+    if(!_isProfileUpdated){
+      if(_userProfile!.uid != null){
+        NetworksCheck(
+            onComplete: ()async{
+              await FirebaseFirestore.instance.collection('users').doc(_userProfile!.uid).set(userProfile!.toJson()).then((value) {
+                _isProfileUpdated = false;
+              });
+            },
+            onError: (){
+              _isProfileUpdated = false;
+            }
+        ).doRequest();
+      }
+    }else{
+      print("Profile Updated");
+    }
+  }
+
+
+
   deleteUserProfile() {
     EasyLoadingDialog.show(context: RouteHelper.currentContext, radius: 20.r);
     FirebaseFirestore.instance
@@ -153,6 +179,8 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   resetUserProfile() {
+    /// we can't do like this userprofile = null as userProfile is use in a lot of places for
+    /// bookmarks so just simply set uid to null is fine
     _userProfile!.setUid = null;
     notifyListeners();
     // Hive.box(appBoxKey).delete(userProfileKey);
@@ -195,6 +223,7 @@ class ProfileProvider extends ChangeNotifier {
 
   /// bookmarks functions ///
   void addReciterFavOrRemove(int reciterId) async{
+    _isProfileUpdated = false;
     List<Reciters> allRecitersList = await QuranDatabase().getAllReciter();
     if (!_userProfile!.favRecitersList.any((element) => element.reciterId == reciterId)) {
       int index = allRecitersList.indexWhere((element) => element.reciterId == reciterId);
@@ -209,6 +238,7 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   void addOrRemoveRecitationBookmark(BookmarksRecitation bookmarks) {
+    _isProfileUpdated = false;
     if (!_userProfile!.recitationBookmarkList.any((element) => element.contentUrl == bookmarks.contentUrl)) {
       _userProfile!.recitationBookmarkList.add(bookmarks);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
@@ -220,6 +250,7 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   void addOrRemoveDuaBookmark(Dua duaBookmark) {
+    _isProfileUpdated = false;
     if (!_userProfile!.duaBookmarksList.any((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId)) {
       _userProfile!.duaBookmarksList.add(duaBookmark);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
@@ -231,6 +262,7 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   void addOrRemoveRuqyaDuaBookmark(Ruqyah duaBookmark) {
+    _isProfileUpdated = false;
     if (!_userProfile!.ruqyahBookmarksList.any((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId)) {
       _userProfile!.ruqyahBookmarksList.add(duaBookmark);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
@@ -242,6 +274,7 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   void addOrRemoveAyahBookmark(AyahBookmarks ayahBookmark) {
+    _isProfileUpdated = false;
     if (!_userProfile!.quranBookmarksList.any((element) => element.verseId == ayahBookmark.verseId && element.surahId == ayahBookmark.surahId)) {
       _userProfile!.quranBookmarksList.add(ayahBookmark);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));

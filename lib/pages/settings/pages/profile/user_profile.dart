@@ -44,7 +44,6 @@ class UserProfile{
   set setEmail(String value) =>_email = value;
   set setPassword(String value) => _password = value;
 
-
   set setImage(String value) => _image = value;
 
   set setUid(String? value) =>_uid = value;

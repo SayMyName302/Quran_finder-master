@@ -97,9 +97,7 @@ class _QuranTextViewState extends State<QuranTextView> {
 
   @override
   Widget build(BuildContext context) {
-    // i was not able to wrap appbar in consumer that's why i did like this
     Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
-    // final transProvider = Provider.of<TranslationManagerProvider>(context);
     String title = _quranProvider.title!;
     return WillPopScope(
       onWillPop: () async {
@@ -211,8 +209,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                                               ),
                                             ),
                                             TextSpan(
-                                              text: convertToArabicNumber(
-                                                  (quranText.verseId!)),
+                                              text: convertToArabicNumber((quranText.verseId!)),
                                               style: TextStyle(
                                                 // Add the desired font style for convertToArabicNumber
                                                 // Example:
@@ -376,8 +373,7 @@ class _QuranTextViewState extends State<QuranTextView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        if (quranProvider.previousSurah !=
-                            null) // Conditionally show the "Previous" text
+                        if (quranProvider.previousSurah != null) // Conditionally show the "Previous" text
                           InkWell(
                             child: Text(
                               'Previous Surah',

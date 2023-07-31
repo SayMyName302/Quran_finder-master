@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
-import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/database/home_db.dart';
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
-import '../pages/bookmarks_recitation.dart';
 
 class RecitationCategoryProvider extends ChangeNotifier {
   List<RecitationCategoryModel> _recitationCategory = [];
@@ -25,12 +21,11 @@ class RecitationCategoryProvider extends ChangeNotifier {
   int get currentRecitationIndex => _currentRecitationIndex;
 
   RecitationAllCategoryModel? _selectedRecitationStory;
-  RecitationAllCategoryModel? get selectedRecitationStory =>
-      _selectedRecitationStory;
+  RecitationAllCategoryModel? get selectedRecitationStory => _selectedRecitationStory;
 
-  final List _bookmarkList = [];
+  // final List _bookmarkList = [];
   // final List _bookmarkList = Hive.box('myBox').get('bookmarksrecite') ?? [];
-  List get bookmarkList => _bookmarkList;
+  // List get bookmarkList => _bookmarkList;
 
 
 
@@ -56,8 +51,7 @@ class RecitationCategoryProvider extends ChangeNotifier {
     };
   }
 
-  gotoRecitationAudioPlayerPage(
-      int duaCategoryId, int surahId, imageUrl, BuildContext context) async {
+  gotoRecitationAudioPlayerPage(int duaCategoryId, int surahId, imageUrl, BuildContext context) async {
     _selectedRecitationAll = [];
     _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
     if (_selectedRecitationAll.isNotEmpty) {
