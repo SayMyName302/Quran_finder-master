@@ -36,8 +36,6 @@ const String salahSelectedThem = "salahThem";
 
 const String salahTimerListKey = "salahTimerList";
 
-const String onBoardingInformationKey = "onBoardingInfoKey";
-
 // user Profile related
 
 const String userProfileKey = "userProfile";

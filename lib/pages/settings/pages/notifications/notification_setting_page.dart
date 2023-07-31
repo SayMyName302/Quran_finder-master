@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../shared/widgets/app_bar.dart';
 import '../../../onboarding/models/common.dart';
-import '../../../onboarding/on_boarding_provider.dart';
+import '../../../onboarding/provider/on_boarding_provider.dart';
 import '../app_colors/app_colors_provider.dart';
 
 class NotificationSettingPage extends StatelessWidget {

@@ -7,7 +7,6 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
-
 import 'models/ruqyah_category.dart';
 import 'models/ruqyah_provider.dart';
 
@@ -47,7 +46,6 @@ class RuqyahCategoriesPage extends StatelessWidget {
                             .pause(context),
                       );
                       duaValue.getRDua(duaCategory.categoryId!);
-
                       // context.read<QuranDbProvider>().setDuaList(await QuranDatabase().getDua(duaCategory.categoryId!));
                       Navigator.of(context).pushNamed(
                         RouteHelper.ruqyah,

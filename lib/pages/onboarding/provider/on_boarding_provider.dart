@@ -5,8 +5,8 @@ import 'package:nour_al_quran/pages/settings/pages/notifications/notification_se
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:provider/provider.dart';
 
-import '../settings/pages/profile/profile_provider.dart';
-import 'models/common.dart';
+import '../../settings/pages/profile/profile_provider.dart';
+import '../models/common.dart';
 
 class OnBoardingProvider extends ChangeNotifier {
   // achieve functionality
@@ -151,11 +151,6 @@ class OnBoardingProvider extends ChangeNotifier {
   final TimeOfDay _recitationReminderTime = TimeOfDay.now();
   TimeOfDay get recitationReminderTime =>
       _recitationReminderTime; // set notification
-
-  // void setRecitationReminderTime(TimeOfDay dateTime){
-  //   _recitationReminderTime = dateTime;
-  //   notifyListeners();
-  // }
 
   // set notifications
   final List<Common> _notification = [

@@ -14,5 +14,4 @@ class Common{
     _isSelected = isSelected;
   }
 
-  // Common.fromJson(Map<String,dynamic>)
 }

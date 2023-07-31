@@ -26,7 +26,7 @@ import 'package:nour_al_quran/pages/more/pages/qibla_direction/provider.dart';
 import 'package:nour_al_quran/pages/more/pages/salah_timer/provider.dart';
 import 'package:nour_al_quran/pages/more/pages/step_by_step_salah/salah_steps_provider.dart';
 import 'package:nour_al_quran/pages/more/pages/tasbeeh/provider/tasbeeh_provider.dart';
-import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
+import 'package:nour_al_quran/pages/onboarding/provider/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/juz/juz_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';

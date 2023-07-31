@@ -8,21 +8,12 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
-import 'package:nour_al_quran/pages/onboarding/models/on_boarding_information.dart';
-import 'package:nour_al_quran/pages/recitation_category/pages/bookmarks_recitation.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/user_profile.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../shared/entities/bookmarks.dart';
-import '../../../shared/entities/reciters.dart';
-import '../../../shared/localization/localization_provider.dart';
-import '../../duas/models/dua.dart';
-import '../../quran/pages/ruqyah/models/ruqyah.dart';
-import '../../recitation_category/models/recitation_all_category_model.dart';
 import '../../settings/pages/profile/profile_provider.dart';
 
 class SignInProvider extends ChangeNotifier {

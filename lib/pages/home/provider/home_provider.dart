@@ -17,7 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../shared/utills/app_constants.dart';
 import '../../../shared/widgets/easy_loading.dart';
-import '../../onboarding/on_boarding_provider.dart';
+import '../../onboarding/provider/on_boarding_provider.dart';
 import 'package:hijri/hijri_calendar.dart';
 
 import '../models/title_custom.dart';

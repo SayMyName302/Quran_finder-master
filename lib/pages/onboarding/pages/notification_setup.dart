@@ -1,20 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:nour_al_quran/pages/onboarding/models/common.dart';
-import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
+import 'package:nour_al_quran/pages/onboarding/provider/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
-
-import '../../../shared/localization/localization_provider.dart';
-import '../../../shared/utills/app_constants.dart';
 import '../../settings/pages/profile/profile_provider.dart';
-import '../models/on_boarding_information.dart';
 
 class NotificationSetup extends StatelessWidget {
   const NotificationSetup({Key? key}) : super(key: key);
@@ -50,7 +45,7 @@ class NotificationSetup extends StatelessWidget {
               BrandButton(
                   text: localeText(context, "finish_setup"),
                   onTap: () {
-                    Provider.of<ProfileProvider>(context).saveProfileToHive();
+                    Provider.of<ProfileProvider>(context,listen: false).saveProfileToHive();
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         RouteHelper.fontSettingsOnboarding, (route) => false);
                   })
@@ -97,19 +92,4 @@ class NotificationSetup extends StatelessWidget {
       },
     );
   }
-
-  // void saveOnBoarding() {
-  //   print("saved On Board");
-  //   LocalizationProvider localization = LocalizationProvider();
-  //   OnBoardingProvider provider = OnBoardingProvider();
-  //   OnBoardingInformation onBoardingInfo = OnBoardingInformation(
-  //       purposeOfQuran: provider.selectAchieveWithQuranList,
-  //       favReciter: provider.favReciter,
-  //       preferredLanguage: localization.locale
-  //       // whenToReciterQuran: provider.selectTimeLikeToRecite,
-  //       // recitationReminder: provider.recitationReminderTime,
-  //       // dailyQuranReadTime: provider.selectedDailyTime,
-  //       );
-  //   Hive.box(appBoxKey).put(onBoardingInformationKey, onBoardingInfo);
-  // }
 }

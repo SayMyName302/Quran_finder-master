@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/onboarding/on_boarding_provider.dart';
+import 'package:nour_al_quran/pages/onboarding/provider/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/skip_button.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
