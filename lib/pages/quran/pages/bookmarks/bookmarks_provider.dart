@@ -8,25 +8,25 @@ import 'package:nour_al_quran/shared/entities/bookmarks.dart';
 import 'package:provider/provider.dart';
 
 class BookmarkProvider extends ChangeNotifier{
-  final List _bookmarkList =  Hive.box('myBox').get('bookmarks') ?? [];
-  List get bookmarkList => _bookmarkList;
+  // final List _bookmarkList =  Hive.box('myBox').get('bookmarks') ?? [];
+  // List get bookmarkList => _bookmarkList;
+  //
+  // void removeBookmark(int surahId,int verseId){
+  //   QuranDatabase().removeBookmark(surahId, verseId);
+  //   // print(_bookmarkList.indexWhere((element) => element.surahId == surahId && element.verseId == verseId));
+  //   _bookmarkList.removeWhere((element) => element.surahId == surahId && element.verseId == verseId);
+  //   notifyListeners();
+  //   Hive.box("myBox").put("bookmarks", _bookmarkList);
+  // }
+  //
+  // void addBookmark(AyahBookmarks bookmarks){
+  //   QuranDatabase().addBookmark(bookmarks.surahId!, bookmarks.verseId!);
+  //   _bookmarkList.add(bookmarks);
+  //   notifyListeners();
+  //   Hive.box("myBox").put("bookmarks", _bookmarkList);
+  // }
 
-  void removeBookmark(int surahId,int verseId){
-    QuranDatabase().removeBookmark(surahId, verseId);
-    // print(_bookmarkList.indexWhere((element) => element.surahId == surahId && element.verseId == verseId));
-    _bookmarkList.removeWhere((element) => element.surahId == surahId && element.verseId == verseId);
-    notifyListeners();
-    Hive.box("myBox").put("bookmarks", _bookmarkList);
-  }
-
-  void addBookmark(Bookmarks bookmarks){
-    QuranDatabase().addBookmark(bookmarks.surahId!, bookmarks.verseId!);
-    _bookmarkList.add(bookmarks);
-    notifyListeners();
-    Hive.box("myBox").put("bookmarks", _bookmarkList);
-  }
-
-  void goToQuranView(Bookmarks bookmarks, BuildContext context) async{
+  void goToQuranView(AyahBookmarks bookmarks, BuildContext context) async{
     if(bookmarks.isFromJuz!){
       context.read<QuranProvider>().setJuzText(juzId: bookmarks.juzId!,title: bookmarks.juzName!,fromWhere: 2,isJuz: true,bookmarkPosition: bookmarks.bookmarkPosition);
       /// if recitation player is on So this line is used to pause the player

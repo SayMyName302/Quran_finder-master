@@ -4,16 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/global.dart';
 import 'package:nour_al_quran/pages/basics_of_quran/provider/islam_basics_provider.dart';
 import 'package:nour_al_quran/pages/bottom_tabs/provider/bottom_tabs_page_provider.dart';
-import 'package:nour_al_quran/pages/duas/provider/dua_bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/duas/provider/dua_provider.dart';
-import 'package:nour_al_quran/pages/duas/widgets/ruqyah_bookmark_provider.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/models/app_download_count_provider.dart';
 import 'package:nour_al_quran/pages/onesginalnotify/provider.dart';
 
 import 'package:nour_al_quran/pages/qaida/providers/audiolist_provider.dart';
 import 'package:nour_al_quran/pages/quran%20stories/quran_stories_provider.dart';
-import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah_provider.dart';
+import 'package:nour_al_quran/pages/quran/pages/ruqyah/provider/ruqyah_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/lastreadprovider.dart';
 import 'package:nour_al_quran/pages/quran/pages/surah/provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/provider/about_provider.dart';
@@ -111,8 +109,6 @@ void main() async {
     ChangeNotifierProvider(create: (_) => MyStateProvider()),
     ChangeNotifierProvider(create: (_) => DuaPlayerProvider()),
     ChangeNotifierProvider(create: (_) => OneSignalProvider()),
-    ChangeNotifierProvider(create: (_) => BookmarkProviderDua()),
-    ChangeNotifierProvider(create: (_) => BookmarkProviderRuqyah()),
     ChangeNotifierProvider(create: (_) => FeaturedMiraclesOfQuranProvider()),
     ChangeNotifierProvider(create: (_) => AboutProvider()),
     ChangeNotifierProvider(create: (_) => RecitationCategoryProvider()),

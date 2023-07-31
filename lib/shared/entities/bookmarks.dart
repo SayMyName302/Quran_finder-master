@@ -1,4 +1,4 @@
-class Bookmarks{
+class AyahBookmarks{
   int? _surahId;
   int? _verseId;
   String? _surahName;
@@ -18,7 +18,7 @@ class Bookmarks{
   int? get bookmarkPosition => _bookmarkPosition;
 
 
-  Bookmarks({required surahId,required verseId,required surahName,required surahArabic, required juzId,required juzName,required isFromJuz,required bookmarkPosition}){
+  AyahBookmarks({required surahId,required verseId,required surahName,required surahArabic, required juzId,required juzName,required isFromJuz,required bookmarkPosition}){
     _surahId = surahId;
     _verseId = verseId;
     _surahName = surahName;
@@ -29,7 +29,7 @@ class Bookmarks{
     _bookmarkPosition = bookmarkPosition;
   }
 
-  Bookmarks.fromJson(Map<String,dynamic> json){
+  AyahBookmarks.fromJson(Map<String,dynamic> json){
     _surahId = json['surahId'];
     _verseId = json['verseId'];
     _surahName = json['surahName'];

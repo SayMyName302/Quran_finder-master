@@ -81,7 +81,7 @@ class Dua {
       'translations': _translations,
       'content_url': _contentUrl,
       'is_fav': _isFav,
-      'status': _status,
+      'status': _status
     };
   }
 

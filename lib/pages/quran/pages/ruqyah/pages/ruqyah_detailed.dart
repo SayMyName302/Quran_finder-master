@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
 import 'package:provider/provider.dart';
-import '../../../../shared/entities/bookmarks_ruqyah.dart';
-import '../../../../shared/localization/localization_constants.dart';
-import '../../../../shared/providers/dua_audio_player_provider.dart';
-import '../../../../shared/utills/app_colors.dart';
-import '../../../../shared/widgets/app_bar.dart';
-import '../../../../shared/widgets/ruqyah_player.dart';
-import '../../../duas/widgets/ruqyah_bookmark_provider.dart';
-import '../../../settings/pages/app_colors/app_colors_provider.dart';
-import '../../../settings/pages/app_them/them_provider.dart';
-import '../../../settings/pages/fonts/font_provider.dart';
-import 'models/ruqyah.dart';
-import 'models/ruqyah_category.dart';
-import 'models/ruqyah_provider.dart';
+import '../../../../../shared/entities/bookmarks_ruqyah.dart';
+import '../../../../../shared/localization/localization_constants.dart';
+import '../../../../../shared/providers/dua_audio_player_provider.dart';
+import '../../../../../shared/utills/app_colors.dart';
+import '../../../../../shared/widgets/app_bar.dart';
+import 'ruqyah_player.dart';
+import '../../../../settings/pages/app_colors/app_colors_provider.dart';
+import '../../../../settings/pages/app_them/them_provider.dart';
+import '../../../../settings/pages/fonts/font_provider.dart';
+import '../models/ruqyah.dart';
+import '../models/ruqyah_category.dart';
+import '../provider/ruqyah_provider.dart';
 
 class RuqyahDetail extends StatelessWidget {
   const RuqyahDetail({Key? key}) : super(key: key);
@@ -21,19 +21,21 @@ class RuqyahDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RuqyahProvider duaProvider = Provider.of<RuqyahProvider>(context);
-    Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
+    // Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
+    // int index = nextDuaData['index'];
+    // Dua nextDua = nextDuaData['dua'];
 
-    int index = nextDuaData['index'];
-    Ruqyah nextDua = nextDuaData['dua'];
+    int index = duaProvider.selectedDua!.duaNo!;
+    Ruqyah nextDua = duaProvider.selectedDua!;
     String duaTitle = nextDua.duaTitle.toString();
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
 
-    int? duaCount = nextDua.ayahCount;
+    // int? duaCount = nextDua.ayahCount;
     String duaTranslation = nextDua.translations.toString();
-    int? fav = nextDua.isFav;
-    int favindex = index - 1;
-    String duaUrl = nextDua.duaUrl.toString();
+    // int? fav = nextDua.isFav;
+    // int favindex = index - 1;
+    // String duaUrl = nextDua.duaUrl.toString();
 
     return WillPopScope(
       onWillPop: () async {
@@ -44,10 +46,8 @@ class RuqyahDetail extends StatelessWidget {
         appBar:
             buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
-          child: Consumer4<ThemProvider, DuaPlayerProvider, AppColorsProvider,
-                  RuqyahProvider>(
-              builder:
-                  (context, them, player, appColor, ruqyahProvider, child) {
+          child: Consumer5<ThemProvider, DuaPlayerProvider, AppColorsProvider, RuqyahProvider,ProfileProvider>(
+              builder: (context, them, player, appColor, ruqyahProvider,profile, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -77,8 +77,7 @@ class RuqyahDetail extends StatelessWidget {
                                             top: 5, bottom: 5),
                                         child: CircleAvatar(
                                           radius: 17,
-                                          backgroundColor:
-                                              appColor.mainBrandingColor,
+                                          backgroundColor: appColor.mainBrandingColor,
                                           child: Container(
                                             width: 25,
                                             height: 25,
@@ -98,16 +97,11 @@ class RuqyahDetail extends StatelessWidget {
                                         width: 10.h,
                                       ),
                                       Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.6,
+                                            width: MediaQuery.of(context).size.width * 0.6,
                                             child: Text(
                                               capitalize(duaTitle),
                                               style: TextStyle(
@@ -162,54 +156,9 @@ class RuqyahDetail extends StatelessWidget {
                                       // ),
                                       InkWell(
                                         onTap: () async {
-                                          int duaIndex = ruqyahProvider.duaList
-                                              .indexWhere((element) =>
-                                                  element.duaText == duaText);
-                                          int? categoryId = ruqyahProvider
-                                              .duaList[duaIndex].duaCategory;
-                                          String categoryName =
-                                              getCategoryNameById(
-                                                  categoryId!,
-                                                  ruqyahProvider
-                                                      .duaCategoryList);
-                                          int indx = ruqyahProvider
-                                              .duaList[duaIndex].id!;
-                                          int duaNo = ruqyahProvider
-                                              .duaList[duaIndex].duaNo!;
-
-                                          if (fav == 0 || fav == null) {
-                                            ruqyahProvider.bookmark(
-                                                duaIndex, 1);
-                                            BookmarksRuqyah bookmark =
-                                                BookmarksRuqyah(
-                                                    duaId: indx,
-                                                    duaNo: duaNo,
-                                                    categoryId: categoryId,
-                                                    categoryName: categoryName,
-                                                    duaTitle: duaTitle,
-                                                    duaRef: duaRef,
-                                                    ayahCount: duaCount,
-                                                    duaText: duaText,
-                                                    duaTranslation:
-                                                        duaTranslation,
-                                                    bookmarkPosition: favindex,
-                                                    duaUrl: duaUrl);
-                                            context
-                                                .read<BookmarkProviderRuqyah>()
-                                                .addBookmark(bookmark);
-                                          } else {
-                                            ruqyahProvider.bookmark(
-                                                duaIndex, 0);
-                                            context
-                                                .read<BookmarkProviderRuqyah>()
-                                                .removeBookmark(
-                                                    ruqyahProvider
-                                                        .duaList[duaIndex].id!,
-                                                    ruqyahProvider
-                                                        .duaList[duaIndex]
-                                                        .duaCategory!);
-                                          }
-                                          // }
+                                          int duaIndex = ruqyahProvider.duaList.indexWhere((element) => element.duaText == duaText);
+                                          Ruqyah dua = duaProvider.duaList[duaIndex];
+                                          profile.addOrRemoveRuqyaDuaBookmark(dua);
                                         },
                                         child: Container(
                                           height: 20.h,
@@ -229,13 +178,13 @@ class RuqyahDetail extends StatelessWidget {
                                                   height: 21.h,
                                                   width: 21.w,
                                                   child: CircleAvatar(
-                                                    backgroundColor: fav == 1
+                                                    backgroundColor: profile.userProfile!.ruqyahBookmarksList.any((element) => element.duaText == duaText)
                                                         ? appColor
                                                             .mainBrandingColor
                                                         : Colors.white,
                                                     child: Icon(
                                                       Icons.favorite,
-                                                      color: fav == 1
+                                                      color: profile.userProfile!.ruqyahBookmarksList.any((element) => element.duaText == duaText)
                                                           ? Colors.white
                                                           : appColor
                                                               .mainBrandingColor,
@@ -306,8 +255,7 @@ class RuqyahDetail extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontSize:
-                                        fontProvider.fontSizeTranslation.sp,
+                                    fontSize: fontProvider.fontSizeTranslation.sp,
                                     fontFamily: 'satoshi',
                                   ),
                                 ),
@@ -328,8 +276,7 @@ class RuqyahDetail extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'satoshi',
-                                    fontSize:
-                                        fontProvider.fontSizeTranslation.sp,
+                                    fontSize: fontProvider.fontSizeTranslation.sp,
                                   ),
                                 ),
                               ),
@@ -410,3 +357,42 @@ class RuqyahDetail extends StatelessWidget {
     return ''; // Return an empty string or handle the case when category is not found
   }
 }
+
+
+// int? categoryId = ruqyahProvider.duaList[duaIndex].duaCategory;
+// String categoryName = getCategoryNameById(categoryId!, ruqyahProvider.duaCategoryList);
+// int indx = ruqyahProvider.duaList[duaIndex].id!;
+// int duaNo = ruqyahProvider.duaList[duaIndex].duaNo!;
+// if (fav == 0 || fav == null) {
+//   ruqyahProvider.bookmark(
+//       duaIndex, 1);
+//   BookmarksRuqyah bookmark =
+//       BookmarksRuqyah(
+//           duaId: indx,
+//           duaNo: duaNo,
+//           categoryId: categoryId,
+//           categoryName: categoryName,
+//           duaTitle: duaTitle,
+//           duaRef: duaRef,
+//           ayahCount: duaCount,
+//           duaText: duaText,
+//           duaTranslation:
+//               duaTranslation,
+//           bookmarkPosition: favindex,
+//           duaUrl: duaUrl);
+//   context
+//       .read<BookmarkProviderRuqyah>()
+//       .addBookmark(bookmark);
+// } else {
+//   ruqyahProvider.bookmark(
+//       duaIndex, 0);
+//   context
+//       .read<BookmarkProviderRuqyah>()
+//       .removeBookmark(
+//           ruqyahProvider
+//               .duaList[duaIndex].id!,
+//           ruqyahProvider
+//               .duaList[duaIndex]
+//               .duaCategory!);
+// }
+// }

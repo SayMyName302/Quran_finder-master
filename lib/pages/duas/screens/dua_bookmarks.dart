@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nour_al_quran/pages/duas/provider/dua_bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/duas/provider/dua_provider.dart';
-import 'package:nour_al_quran/pages/duas/widgets/ruqyah_bookmark_provider.dart';
-import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah_provider.dart';
+import 'package:nour_al_quran/pages/duas/models/dua.dart';
+import 'package:nour_al_quran/pages/quran/pages/ruqyah/models/ruqyah.dart';
+import 'package:nour_al_quran/pages/quran/pages/ruqyah/provider/ruqyah_provider.dart';
 import 'package:nour_al_quran/pages/quran/widgets/details_container_widget.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -20,20 +20,18 @@ class DuaBookmarkPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            margin: EdgeInsets.only(
-                bottom: 10.h, left: 20.h, top: 2.h, right: 20.w),
+            margin: EdgeInsets.only(bottom: 10.h, left: 20.h, top: 2.h, right: 20.w),
             child: Text(
               localeText(context, "dua_bookmarks"),
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
             )),
         Expanded(
-          child: Consumer3<BookmarkProviderDua, BookmarkProviderRuqyah,ProfileProvider>(
-            builder: (context, bookmarkDuaValue, bookmarkRuqyahValue,profile, child) {
-              // final bookmarkListDua = bookmarkDuaValue.bookmarkList;
-              final bookmarkListDua = profile.userProfile!.duaBookmarksList;
-              final bookmarkListRuqyah = bookmarkRuqyahValue.bookmarkList;
+          child: Consumer<ProfileProvider>(
+            builder: (context, profile, child) {
+              List<Dua> bookmarkListDua = profile.userProfile!.duaBookmarksList;
+              List<Ruqyah> bookmarkListRuqyah = profile.userProfile!.ruqyahBookmarksList;
 
-              final combinedBookmarkList = [
+              List<dynamic> combinedBookmarkList = [
                 ...bookmarkListDua,
                 ...bookmarkListRuqyah
               ];
@@ -49,15 +47,14 @@ class DuaBookmarkPage extends StatelessWidget {
                         return InkWell(
                           onTap: () async {
                             if (isDuaBookmark) {
-                              Provider.of<DuaProvider>(context, listen: false)
-                                  .gotoDuaPlayerPage(
+                              Provider.of<DuaProvider>(context, listen: false).gotoDuaPlayerPage(
                                 bookmark.duaCategoryId!,
                                 bookmark.duaText!,
                                 context,
                               );
                             } else {
                               Provider.of<RuqyahProvider>(context, listen: false).gotoDuaPlayerPage(
-                                bookmark.categoryId!,
+                                bookmark.duaCategoryId!,
                                 bookmark.duaText!,
                                 context,
                               );
@@ -74,11 +71,8 @@ class DuaBookmarkPage extends StatelessWidget {
                             onTapIcon: () {
                               if (isDuaBookmark) {
                                 profile.addOrRemoveDuaBookmark(bookmark);
-                                // bookmarkDuaValue.removeBookmark(
-                                //     bookmark.duaId!, bookmark.categoryId!);
                               } else {
-                                bookmarkRuqyahValue.removeBookmark(
-                                    bookmark.duaId!, bookmark.categoryId!);
+                                profile.addOrRemoveRuqyaDuaBookmark(bookmark);
                               }
                             },
                           ),

@@ -131,9 +131,6 @@ class DuaPage extends StatelessWidget {
                                     'Category': localeText(context, duaProvider.selectedDuaCategory!.categoryName!)
                                   },
                                 );
-                                // Navigator.of(context).pushNamed(
-                                //   RouteHelper.duaDetailed,
-                                // );
                                 duaProvider.gotoDuaPlayerPage(
                                     dua.duaCategoryId!, dua.duaText!, context);
                               },

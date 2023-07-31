@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
-//import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
-import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
-import 'models/ruqyah_category.dart';
-import 'models/ruqyah_provider.dart';
+import '../models/ruqyah_category.dart';
+import '../provider/ruqyah_provider.dart';
 
 class RuqyahCategoriesPage extends StatelessWidget {
   const RuqyahCategoriesPage({Key? key}) : super(key: key);
@@ -16,7 +14,6 @@ class RuqyahCategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appColors = context.read<AppColorsProvider>().mainBrandingColor;
-    context.read<RuqyahProvider>().getRDuaCategories();
     return Consumer<RuqyahProvider>(
       builder: (context, duaValue, child) {
         return duaValue.duaCategoryList.isNotEmpty
@@ -39,24 +36,11 @@ class RuqyahCategoriesPage extends StatelessWidget {
                   return InkWell(
                     onTap: () async {
                       /// if recitation player is on So this line is used to pause the player
-                      Future.delayed(
-                        Duration.zero,
-                        () => context
-                            .read<RecitationPlayerProvider>()
-                            .pause(context),
-                      );
-                      duaValue.getRDua(duaCategory.categoryId!);
-                      // context.read<QuranDbProvider>().setDuaList(await QuranDatabase().getDua(duaCategory.categoryId!));
+                      Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
+                      duaValue.setSelectedCategory(index);
+                      duaValue.getRDuaBasedOnCategoryId(duaCategory.categoryId!);
                       Navigator.of(context).pushNamed(
                         RouteHelper.ruqyah,
-                        arguments: [
-                          localeText(context, duaCategory.categoryName!),
-                          duaCategory.imageUrl,
-                          LocalizationProvider().checkIsArOrUr()
-                              ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                              : "${localeText(context, 'playlist_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
-                          duaCategory.categoryId,
-                        ],
                       );
                     },
                     child: Container(
@@ -116,3 +100,13 @@ class RuqyahCategoriesPage extends StatelessWidget {
     );
   }
 }
+
+
+// arguments: [
+//   localeText(context, duaCategory.categoryName!),
+//   duaCategory.imageUrl,
+//   LocalizationProvider().checkIsArOrUr()
+//       ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+//       : "${localeText(context, 'playlist_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
+//   duaCategory.categoryId,
+// ],

@@ -14,6 +14,7 @@ import '../../basics_of_quran/provider/islam_basics_provider.dart';
 import '../../miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import '../../quran stories/quran_stories_provider.dart';
 import '../../settings/pages/my_state/my_state_provider_updated.dart';
+import '../../settings/pages/profile/profile_provider.dart';
 import '../provider/bottom_tabs_page_provider.dart';
 
 class BottomTabsPage extends StatefulWidget {
@@ -98,6 +99,7 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached) {
+      Provider.of<ProfileProvider>(context).uploadProfileData();
       provider.stopAllTimer();
     } else if (state == AppLifecycleState.resumed) {
       provider.startAppUsageTimer();
