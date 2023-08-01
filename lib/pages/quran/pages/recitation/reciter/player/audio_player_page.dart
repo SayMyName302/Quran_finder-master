@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:nour_al_quran/main.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
@@ -10,7 +11,6 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/circle_button.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../../shared/widgets/app_bar.dart';
 
 class AudioPlayerPage extends StatelessWidget {
@@ -27,8 +27,7 @@ class AudioPlayerPage extends StatelessWidget {
           context: context,
           font: 16.sp,
           title: localeText(context, "playing_recitation")),
-      body:
-          Consumer3<ThemProvider, RecitationPlayerProvider, AppColorsProvider>(
+      body: Consumer3<ThemProvider, RecitationPlayerProvider, AppColorsProvider>(
         builder: (context, them, player, appColor, child) {
           return Column(
             mainAxisSize: MainAxisSize.max,
@@ -120,8 +119,7 @@ class AudioPlayerPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text(
-                            '- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
+                        Text('- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
                       ],
                     ),
                     SizedBox(

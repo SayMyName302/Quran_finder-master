@@ -154,8 +154,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 tappedReciterNames.reversed.toSet();
                             final surahName = surahNamesSet.elementAt(index);
                             final recitersd = tappedReciterNames[index];
-                            Reciters reciters =
-                                recitersValue.popularReciterList[index];
+                            Reciters reciters = recitersValue.popularReciterList[index];
                             return InkWell(
                               onTap: () => navigateToReciterScreen(
                                   context, recitersValue, reciters),

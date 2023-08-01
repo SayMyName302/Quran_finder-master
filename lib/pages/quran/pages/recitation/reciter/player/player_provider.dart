@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:nour_al_quran/main.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import '../../../../../../shared/routes/routes_helper.dart';
 import '../../../../../settings/pages/my_state/my_state_provider_updated.dart';
 
 class RecitationPlayerProvider with ChangeNotifier {
@@ -68,8 +70,8 @@ class RecitationPlayerProvider with ChangeNotifier {
       if (event.processingState == ProcessingState.completed && _currentIndex == _surahNamesList.length - 1) {
         _audioPlayer!.seek(Duration.zero);
         _audioPlayer!.pause();
-        Provider.of<ReciterProvider>(context,listen: false).updateTimeElapsed(reciter!,surah!);
-        Provider.of<ReciterProvider>(context,listen: false).resetTimer();
+        Provider.of<ReciterProvider>(globalContext!,listen: false).updateTimeElapsed(reciter!,surah!);
+        Provider.of<ReciterProvider>(globalContext!,listen: false).resetTimer();
       }
     });
     _audioPlayer!.currentIndexStream.listen((currentAudio) {
