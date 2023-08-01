@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     try {
       await signInProvider.initUserEmail();
       String? userEmail = signInProvider.userEmail;
-      bool isUser = userEmail == "asdf@a.com";
+      bool isUser = userEmail == "u@u.com";
 
       String userRegion = getCountry.country;
       if (userRegion.isNotEmpty) {

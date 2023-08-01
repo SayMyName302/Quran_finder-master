@@ -49,7 +49,7 @@ class AppDownloadsSection extends StatelessWidget {
     final authProvider = Provider.of<SignInProvider>(context);
 
     final userEmail = authProvider.userEmail;
-    final isUserYou = userEmail == "asdf@a.com";
+    final isUserYou = userEmail == "u@u.com";
 
     if (!isUserYou) {
       return const SizedBox.shrink();

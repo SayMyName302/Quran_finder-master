@@ -20,7 +20,7 @@ class QuranMiraclesSection extends StatelessWidget {
     return Column(
       children: [
         HomeRowWidget(
-          text: localeText(context, 'quran_miracles'),
+          text: localeText(context, 'miracles_of_quran'),
           buttonText: localeText(context, "view_all"),
           onTap: () {
             Navigator.of(context).pushNamed(RouteHelper.miraclesOfQuran);
