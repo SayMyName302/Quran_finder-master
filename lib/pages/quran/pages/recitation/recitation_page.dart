@@ -257,7 +257,6 @@ class _RecitationPageState extends State<RecitationPage> {
                                     context
                                         .read<recentProviderRecitation>()
                                         .addTappedReciterName(categoryNames!);
-                                    tappedReciterNames.add(categoryNames);
                                   },
                                   child: Container(
                                     width: 209.w,
@@ -395,8 +394,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                         RouteHelper.reciter,
                                         arguments: reciter,
                                       );
-                                      tappedReciterNames
-                                          .add(reciter.reciterName!);
+
                                       context
                                           .read<recentProviderRecitation>()
                                           .addTappedReciterName(
@@ -573,7 +571,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                     );
                                     String categoryNames = model.categoryName!
                                         .replaceAll('_', ' ');
-                                    tappedReciterNames.add(categoryNames!);
+
                                     context
                                         .read<recentProviderRecitation>()
                                         .addTappedReciterName(categoryNames!);
