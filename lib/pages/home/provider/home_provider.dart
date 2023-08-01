@@ -16,7 +16,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../shared/utills/app_constants.dart';
-import '../../../shared/widgets/easy_loading.dart';
 import '../../onboarding/provider/on_boarding_provider.dart';
 import 'package:hijri/hijri_calendar.dart';
 
@@ -178,8 +177,6 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<UserData> getRegionAndShowContent(BuildContext context) async {
-    EasyLoadingDialog.show(context: context, radius: 20.r);
-
     try {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
@@ -193,7 +190,7 @@ class HomeProvider extends ChangeNotifier {
         String country = placeMark.country?.toLowerCase() ?? "";
         print('=====Country{$country}======');
         await getTitlesByCountry(country);
-        // Select a random title from the list
+
         // Select a random title from the list
         if (_titleText.isNotEmpty) {
           int randomIndex = Random().nextInt(_titleText.length);
@@ -204,22 +201,22 @@ class HomeProvider extends ChangeNotifier {
           _selectedTitleText = "Popular Recitations";
         }
 
-        notifyListeners();
-
         DateTime now = DateTime.now();
         String formattedDate = DateFormat('MMddyy').format(now);
         String formattedTime = DateFormat('HH').format(now);
-        notifyListeners();
 
+        String formattedmin = DateFormat('HH:mm:ss').format(now);
+        print('=====TIMEEE{$formattedmin}======');
         String hijriMonthAndYear = getHijriMonthAndYear(
           HijriCalendar.now().hMonth,
         );
         String hijriYear = HijriCalendar.now().hYear.toString();
         String dayName =
             DateFormat('EEEE').format(DateTime.now()).toLowerCase();
-        notifyListeners();
 
-        return UserData(
+        // Update the UserData without notifying listeners
+        // since we'll notify listeners after the UI is updated
+        UserData userData = UserData(
           country: country,
           date: formattedDate,
           time: formattedTime,
@@ -227,13 +224,16 @@ class HomeProvider extends ChangeNotifier {
           hijriYear: hijriYear,
           dayName: dayName,
         );
+
+        // Notify listeners after updating the UserData
+        notifyListeners();
+
+        return userData;
       } else {
         throw Exception("PlaceMarks is empty");
       }
     } catch (e) {
       throw Exception("Error fetching location data: $e");
-    } finally {
-      EasyLoadingDialog.dismiss(context);
     }
   }
 
