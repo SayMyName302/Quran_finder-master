@@ -63,6 +63,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'pages/tranquil_tales/provider/tranquil_tales_provider.dart';
 
+BuildContext? globalContext;
+
 void main() async {
   await dotenv.load(fileName: '.env');
   await Global.init();
@@ -124,10 +126,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    globalContext = context;
     final oneSignalProvider = Provider.of<OneSignalProvider>(context);
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    final FirebaseAnalyticsObserver observer =
-        FirebaseAnalyticsObserver(analytics: analytics);
+    final FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
     oneSignalProvider.initializeOneSignal();
     return ScreenUtilInit(
       designSize: Size(Dimensions.width, Dimensions.height),
