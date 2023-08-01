@@ -153,7 +153,7 @@ class _RecitationPageState extends State<RecitationPage> {
                             final surahNamesSet =
                                 tappedReciterNames.reversed.toSet();
                             final surahName = surahNamesSet.elementAt(index);
-                            final reciter = tappedReciterNames[index];
+                            final recitersd = tappedReciterNames[index];
                             Reciters reciters =
                                 recitersValue.popularReciterList[index];
                             return InkWell(
