@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
+
+import '../../../../shared/utills/app_constants.dart';
+import '../../../tranquil_tales/models/TranquilCategory.dart';
 
 class RecitationProvider extends ChangeNotifier {
   List<Reciters> _recommendedReciterList = [];
@@ -17,6 +21,34 @@ class RecitationProvider extends ChangeNotifier {
 
   List<Surah> _surahNamesList = [];
   List<Surah> get surahNamesList => _surahNamesList;
+
+
+  List<dynamic> tappedRecitationList = Hive.box(appBoxKey).get('tappedRecitationList') != null ?
+  (jsonDecode(Hive.box(appBoxKey).get('tappedRecitationList')) as List<dynamic>).map((e) {
+    var map = e as Map<String,dynamic>;
+    if(e.containsKey("reciter_name")){
+      Reciters.fromJson(map);
+    }else if(e.containsKey("category_name")){
+      RecitationCategoryModel.fromJson(map);
+    }else if(e.containsKey("category_name")){
+      TranquilTalesCategoryModel.fromJson(map);
+    }
+  }).toList():[];
+
+
+  void addTappedRecitationList(dynamic obj) {
+    if (tappedRecitationList.length >= 3) {
+      /// If the length exceeds 3, remove the item at index 0
+      tappedRecitationList.removeAt(0);
+    }
+    /// Add the new item to the end of the list
+    tappedRecitationList.add(obj);
+    Hive.box(appBoxKey).put('tappedRecitationList', jsonEncode(tappedRecitationList));
+
+    notifyListeners();
+  }
+
+
 
   Future<void> getRecommendedReciters() async {
     _recommendedReciterList = await QuranDatabase().getRecommendedReciters();

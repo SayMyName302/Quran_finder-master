@@ -62,13 +62,10 @@ class _RecitationPageState extends State<RecitationPage> {
     prefs.setStringList('tappedRecitationSection', tappedReciterNames);
   }
 
-  void navigateToReciterScreen(BuildContext context,
-      RecitationProvider recitersValue, Reciters reciter) async {
+  void navigateToReciterScreen(BuildContext context, RecitationProvider recitersValue, Reciters reciter) async {
     recitersValue.getSurahName();
-    context
-        .read<ReciterProvider>()
-        .getAvailableDownloadAudiosAsListOfInt(reciter.reciterName!);
-    updateTappedSurahNames(reciter.reciterName!);
+    context.read<ReciterProvider>().getAvailableDownloadAudiosAsListOfInt(reciter.reciterName!);
+    // updateTappedSurahNames(reciter.reciterName!);
     Navigator.of(context).pushNamed(
       RouteHelper.reciter,
       arguments: reciter,
@@ -112,9 +109,9 @@ class _RecitationPageState extends State<RecitationPage> {
                 );
               },
             ),
-            Consumer<recentProviderRecitation>(
-              builder: (context, tappedRecitersProvider, child) {
-                if (tappedReciterNames.isEmpty) {
+            Consumer<RecitationProvider>(
+              builder: (context, recitationProvider, child) {
+                if (recitationProvider.tappedRecitationList.isEmpty) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Center(
@@ -134,61 +131,137 @@ class _RecitationPageState extends State<RecitationPage> {
                     ),
                   );
                 } else {
-                  return Consumer<RecitationProvider>(
-                      builder: (context, recitersValue, child) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, right: 20.0, bottom: 14.0, top: 10),
-                      child: SizedBox(
-                        height: 23.h,
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20.0, right: 20.0, bottom: 14.0, top: 10),
+                    child: SizedBox(
+                      height: 23.h,
 
-                        /// Set the desired height constraint
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount:
-                              tappedReciterNames.reversed.toSet().length > 3
-                                  ? 3
-                                  : tappedReciterNames.reversed.toSet().length,
-                          itemBuilder: (context, index) {
-                            final surahNamesSet =
-                                tappedReciterNames.reversed.toSet();
-                            final surahName = surahNamesSet.elementAt(index);
-                            final recitersd = tappedReciterNames[index];
-                            Reciters reciters = recitersValue.popularReciterList[index];
-                            return InkWell(
-                              onTap: () => navigateToReciterScreen(
-                                  context, recitersValue, reciters),
-                              child: Container(
-                                height: 23.h,
-                                padding:
-                                    const EdgeInsets.only(left: 9, right: 9),
-                                margin: const EdgeInsets.only(right: 7),
-                                decoration: BoxDecoration(
-                                  color: AppColors.grey6,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    surahName,
-                                    // Use the appropriate property of the Reciters class
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: 'satoshi',
-                                      fontSize: 15,
-                                      color: AppColors.grey3,
-                                    ),
+                      /// Set the desired height constraint
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: recitationProvider.tappedRecitationList.length,
+                        itemBuilder: (context, index) {
+                          var obj = recitationProvider.tappedRecitationList[index];
+                          String title = "";
+                          if(obj is Reciters){
+                            Reciters reciter = obj;
+                            title = reciter.reciterName!;
+                          }else if(obj is RecitationCategoryModel){
+                            RecitationCategoryModel recitationCategoryModel = obj;
+                            title = recitationCategoryModel.categoryName!;
+                          }else if(obj is TranquilTalesCategoryModel){
+                            TranquilTalesCategoryModel tranquilTalesCategoryModel = obj;
+                            title = tranquilTalesCategoryModel.categoryName!;
+                          }
+                          return InkWell(
+                            onTap: () {
+                              // navigateToReciterScreen(context, recitationProvider, reciters)
+                            },
+                            child: Container(
+                              height: 23.h,
+                              padding: const EdgeInsets.only(left: 9, right: 9),
+                              margin: const EdgeInsets.only(right: 7),
+                              decoration: BoxDecoration(
+                                color: AppColors.grey6,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  title,
+                                  // Use the appropriate property of the Reciters class
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'satoshi',
+                                    fontSize: 15,
+                                    color: AppColors.grey3,
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  });
+                    ),
+                  );
                 }
               },
             ),
+            // Consumer<recentProviderRecitation>(
+            //   builder: (context, tappedRecitersProvider, child) {
+            //     if (tappedReciterNames.isEmpty) {
+            //       return Padding(
+            //         padding: const EdgeInsets.symmetric(vertical: 10),
+            //         child: Center(
+            //           child: Text(
+            //             localeText(
+            //               context,
+            //               'no_last_tapped_reciters',
+            //             ), // Your desired message
+            //             style: TextStyle(
+            //               fontWeight: FontWeight.w700,
+            //               fontFamily: 'satoshi',
+            //               fontSize: 13.sp,
+            //               color: AppColors.grey3,
+            //               // Your desired style
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     } else {
+            //       return Consumer<RecitationProvider>(
+            //           builder: (context, recitersValue, child) {
+            //         return Padding(
+            //           padding: const EdgeInsets.only(
+            //               left: 20.0, right: 20.0, bottom: 14.0, top: 10),
+            //           child: SizedBox(
+            //             height: 23.h,
+            //
+            //             /// Set the desired height constraint
+            //             child: ListView.builder(
+            //               scrollDirection: Axis.horizontal,
+            //               itemCount:
+            //                   tappedReciterNames.reversed.toSet().length > 3
+            //                       ? 3
+            //                       : tappedReciterNames.reversed.toSet().length,
+            //               itemBuilder: (context, index) {
+            //                 final surahNamesSet = tappedReciterNames.reversed.toSet();
+            //                 final surahName = surahNamesSet.elementAt(index);
+            //                 final recitersd = tappedReciterNames[index];
+            //                 Reciters reciters = recitersValue.popularReciterList[index];
+            //                 return InkWell(
+            //                   onTap: () => navigateToReciterScreen(
+            //                       context, recitersValue, reciters),
+            //                   child: Container(
+            //                     height: 23.h,
+            //                     padding: const EdgeInsets.only(left: 9, right: 9),
+            //                     margin: const EdgeInsets.only(right: 7),
+            //                     decoration: BoxDecoration(
+            //                       color: AppColors.grey6,
+            //                       borderRadius: BorderRadius.circular(12),
+            //                     ),
+            //                     child: Center(
+            //                       child: Text(
+            //                         surahName,
+            //                         // Use the appropriate property of the Reciters class
+            //                         style: const TextStyle(
+            //                           fontWeight: FontWeight.w700,
+            //                           fontFamily: 'satoshi',
+            //                           fontSize: 15,
+            //                           color: AppColors.grey3,
+            //                         ),
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 );
+            //               },
+            //             ),
+            //           ),
+            //         );
+            //       });
+            //     }
+            //   },
+            // ),
 
             Column(
               children: [
@@ -210,34 +283,25 @@ class _RecitationPageState extends State<RecitationPage> {
                       child: Consumer<RecitationCategoryProvider>(
                         builder: (context, recitationProvider, child) {
                           return ListView.builder(
-                            itemCount:
-                                recitationProvider.recitationCategory.length,
-                            padding: EdgeInsets.only(
-                                left: 20.w, right: 20.w, bottom: 14.h),
+                            itemCount: recitationProvider.recitationCategory.length,
+                            padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               try {
-                                RecitationCategoryModel model =
-                                    recitationProvider
-                                        .recitationCategory[index];
+                                RecitationCategoryModel model = recitationProvider.recitationCategory[index];
                                 // print(model.categoryName);
                                 // print(model.imageURl);
                                 return InkWell(
                                   onTap: () {
-                                    Future.delayed(
-                                      Duration.zero,
-                                      () => context
-                                          .read<RecitationPlayerProvider>()
-                                          .pause(context),
-                                    );
-                                    recitationProvider.getSelectedRecitationAll(
-                                        model.categoryId as int);
+                                    Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
+                                    recitationProvider.getSelectedRecitationAll(model.categoryId as int);
                                     analytics.logEvent(
                                       name: 'recitation_section',
                                       parameters: {
                                         'title': model.categoryName.toString()
                                       },
                                     );
+                                    Provider.of<RecitationProvider>(context,listen: false).addTappedRecitationList(model);
                                     updateTappedSurahNames(model.categoryName!);
                                     Navigator.of(context).pushNamed(
                                       RouteHelper.recitationallcategory,
@@ -377,10 +441,11 @@ class _RecitationPageState extends State<RecitationPage> {
                                   crossAxisSpacing: 5.w,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
-                                  Reciters reciter =
-                                      recitersValue.popularReciterList[index];
+                                  Reciters reciter = recitersValue.popularReciterList[index];
                                   return InkWell(
                                     onTap: () async {
+
+                                      Provider.of<RecitationProvider>(context,listen: false).addTappedRecitationList(reciter);
                                       recitersValue.getSurahName();
                                       // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
                                       /// so that is now an other way
@@ -473,6 +538,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                       .recommendedReciterList[index];
                                   return InkWell(
                                     onTap: () async {
+                                      Provider.of<RecitationProvider>(context,listen: false).addTappedRecitationList(reciter);
                                       recitersValue.getSurahName();
                                       // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
                                       /// so that is now an other way
@@ -528,8 +594,7 @@ class _RecitationPageState extends State<RecitationPage> {
                       child: Consumer<TranquilCategoryProvider>(
                         builder: (context, recitationProvider, child) {
                           return ListView.builder(
-                            itemCount:
-                                recitationProvider.recitationCategory.length,
+                            itemCount: recitationProvider.recitationCategory.length,
                             padding: EdgeInsets.only(
                                 left: 20.w, right: 20.w, bottom: 14.h),
                             scrollDirection: Axis.horizontal,
@@ -542,12 +607,8 @@ class _RecitationPageState extends State<RecitationPage> {
                                 // print(model.imageURl);
                                 return InkWell(
                                   onTap: () {
-                                    Future.delayed(
-                                      Duration.zero,
-                                      () => context
-                                          .read<RecitationPlayerProvider>()
-                                          .pause(context),
-                                    );
+                                    Provider.of<RecitationProvider>(context,listen: false).addTappedRecitationList(model);
+                                    Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
                                     recitationProvider.getSelectedRecitationAll(
                                         model.categoryId as int);
                                     analytics.logEvent(

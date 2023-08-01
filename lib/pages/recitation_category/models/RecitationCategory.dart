@@ -36,4 +36,16 @@ class RecitationCategoryModel {
 
     // Assign the value to the content_type field
   }
+
+
+
+  Map toJson(){
+    return {
+      'category_id':_categoryId,
+      'category_name':_categoryName,
+      'image_url':_imageURl,
+      'number_of_prayers':_numberOfPrayers,
+      'view_order_by':_viewOrderBy
+    };
+  }
 }
