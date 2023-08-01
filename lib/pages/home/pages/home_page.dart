@@ -46,9 +46,11 @@ class _HomePageState extends State<HomePage> {
 
       String userRegion = getCountry.country;
       if (userRegion.isNotEmpty) {
+        await getCountry.getTitlesByCountryExplicitly(userRegion);
       } else {
         if (isUser) {
           await getCountry.getLocationPermission(context);
+          //   await getCountry.getTitlesByCountryExplicitly(userRegion);
         }
       }
     } catch (e) {

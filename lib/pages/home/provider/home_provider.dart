@@ -3,8 +3,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:android_intent_plus/android_intent.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +16,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../shared/utills/app_constants.dart';
+import '../../../shared/widgets/easy_loading.dart';
 import '../../onboarding/provider/on_boarding_provider.dart';
 import 'package:hijri/hijri_calendar.dart';
 
@@ -41,6 +42,7 @@ class HomeProvider extends ChangeNotifier {
   String _hijriMonth = "";
   String _hijriYear = "";
   String _dayName = "";
+  String _weather = "";
 
   String get country => _country;
   String get date => _date;
@@ -48,10 +50,11 @@ class HomeProvider extends ChangeNotifier {
   String get hijriMonth => _hijriMonth;
   String get hijriYear => _hijriYear;
   String get dayName => _dayName;
+  String get weather => _weather;
 
   //Fetching all the text_title by filtering on country name
-  List<CustomTitle> _titleText = [];
-  List<CustomTitle> get titleText => _titleText;
+  List<CustomTitles> _titleText = [];
+  List<CustomTitles> get titleText => _titleText;
 
   //this variable will be used to display in HomeScreen text change
   String? _selectedTitleText;
@@ -64,8 +67,22 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getTitlesByCountryExplicitly(String country) async {
+  Future<List<CustomTitles>> getTitlesbyWeather(String country) async {
+    List<CustomTitles> titles =
+        await QuranDatabase().getTitlesByWeather(country);
+    // notifyListeners();
+    return titles;
+  }
+
+  Future<List<CustomTitles>> getTitlesByCountryExplicitly(
+      String country) async {
     _titleText = await QuranDatabase().getCountrytitlesExplicitly(country);
+    notifyListeners();
+    return _titleText;
+  }
+
+  void updateWeather(String newWeather) {
+    _weather = newWeather;
     notifyListeners();
   }
 
@@ -143,6 +160,30 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
+  Future<String> checkWeather(String city, BuildContext context) async {
+    try {
+      var dio = Dio();
+      Response response = await dio.get(
+          "http://api.weatherapi.com/v1/current.json?key=73ec04d970d540f1ba3173621232602&q=$city&aqi=yes");
+      var data = response.data;
+      if (response.statusCode == 200) {
+        String weatherCondition =
+            data['current']['condition']['text'].toString().toLowerCase();
+        String country = data['location']['country'].toString().toLowerCase();
+
+        if (weatherCondition.contains("rain")) {
+          return country;
+        } else {
+          return weatherCondition;
+        }
+      }
+    } on DioError {
+      EasyLoadingDialog.dismiss(context);
+      return "other";
+    }
+    return "other";
+  }
+
   Future<void> updateUserData(UserData userData) async {
     _country = userData.country;
     _date = userData.date;
@@ -187,26 +228,48 @@ class HomeProvider extends ChangeNotifier {
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];
-        String country = placeMark.country?.toLowerCase() ?? "";
-        print('=====Country{$country}======');
-        await getTitlesByCountry(country);
 
-        // Select a random title from the list
-        if (_titleText.isNotEmpty) {
-          int randomIndex = Random().nextInt(_titleText.length);
-          CustomTitle selectedTitle = _titleText[randomIndex];
-          String? selectedTitleText = selectedTitle.titleText;
-          _selectedTitleText = selectedTitleText;
+        String country = placeMark.country?.toLowerCase() ?? "";
+        String city = placeMark.locality?.toLowerCase() ?? "";
+
+        //    print('==city=${city}=====');
+        //    print('==country=${country}=====');
+
+        // Get weather data for the user's location
+        String weatherCondition = await checkWeather(city, context);
+
+        //This method updates the value of Weather i.e. raining, cloudy etc
+        updateWeather(weatherCondition);
+
+        if (weatherCondition == "rain") {
+          List<CustomTitles> titles = await getTitlesbyWeather(country);
+
+          if (titles.isNotEmpty) {
+            int randomIndex = Random().nextInt(titles.length);
+            CustomTitles selectedTitle = titles[randomIndex];
+            String? selectedTitleText = selectedTitle.titleText;
+            _selectedTitleText = selectedTitleText;
+          } else {
+            _selectedTitleText = "No Title Available for Raining Weather";
+          }
         } else {
-          _selectedTitleText = "Popular Recitations";
+          //    print('not raining method executed');
+          await getTitlesByCountry(country);
+
+          if (_titleText.isNotEmpty) {
+            int randomIndex = Random().nextInt(_titleText.length);
+            CustomTitles selectedTitle = _titleText[randomIndex];
+            String? selectedTitleText = selectedTitle.titleText;
+            _selectedTitleText = selectedTitleText;
+          } else {
+            _selectedTitleText = "Popular Recitations";
+          }
         }
 
         DateTime now = DateTime.now();
         String formattedDate = DateFormat('MMddyy').format(now);
         String formattedTime = DateFormat('HH').format(now);
 
-        String formattedmin = DateFormat('HH:mm:ss').format(now);
-        print('=====TIMEEE{$formattedmin}======');
         String hijriMonthAndYear = getHijriMonthAndYear(
           HijriCalendar.now().hMonth,
         );
@@ -214,18 +277,15 @@ class HomeProvider extends ChangeNotifier {
         String dayName =
             DateFormat('EEEE').format(DateTime.now()).toLowerCase();
 
-        // Update the UserData without notifying listeners
-        // since we'll notify listeners after the UI is updated
         UserData userData = UserData(
-          country: country,
-          date: formattedDate,
-          time: formattedTime,
-          hijriMonth: hijriMonthAndYear,
-          hijriYear: hijriYear,
-          dayName: dayName,
-        );
+            country: country,
+            date: formattedDate,
+            time: formattedTime,
+            hijriMonth: hijriMonthAndYear,
+            hijriYear: hijriYear,
+            dayName: dayName,
+            weather: weatherCondition);
 
-        // Notify listeners after updating the UserData
         notifyListeners();
 
         return userData;
@@ -291,6 +351,7 @@ class UserData {
   String hijriMonth;
   String hijriYear;
   String dayName;
+  String weather;
 
   UserData({
     required this.country,
@@ -299,5 +360,6 @@ class UserData {
     required this.hijriMonth,
     required this.hijriYear,
     required this.dayName,
+    required this.weather,
   });
 }

@@ -1,4 +1,4 @@
-class CustomTitle {
+class CustomTitles {
   String? _rowName;
   String? _screenName;
   String? _titleText;
@@ -7,6 +7,7 @@ class CustomTitle {
   String? _countryName;
   String? _startHour;
   String? _endHour;
+  String? _weather;
 
   String? get rowName => _rowName;
   String? get screenName => _screenName;
@@ -14,11 +15,11 @@ class CustomTitle {
   String? get language => _language;
   String? get region => _region;
   String? get countryName => _countryName;
-
   String? get startHour => _startHour;
   String? get endHour => _endHour;
+  String? get weather => _weather;
 
-  CustomTitle(
+  CustomTitles(
       {required rowname,
       required screenname,
       required titleText,
@@ -26,7 +27,8 @@ class CustomTitle {
       required region,
       required countryName,
       required startHour,
-      required endHour}) {
+      required endHour,
+      required weather}) {
     _rowName = rowname;
     _screenName = screenname;
     _titleText = titleText;
@@ -35,9 +37,10 @@ class CustomTitle {
     _countryName = countryName;
     _startHour = startHour;
     _endHour = endHour;
+    _weather = weather;
   }
 
-  CustomTitle.fromJson(Map<String, dynamic> json) {
+  CustomTitles.fromJson(Map<String, dynamic> json) {
     _rowName = json['row_name'];
     _screenName = json['screen_name'];
     _titleText = json['title_text'];
@@ -46,6 +49,7 @@ class CustomTitle {
     _countryName = json['country_name'];
     _startHour = json['start_hours'];
     _endHour = json['end_hours'];
+    _weather = json['weather'];
   }
 
   // Map<String, dynamic> toJson() {

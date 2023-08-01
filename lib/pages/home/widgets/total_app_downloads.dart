@@ -23,17 +23,20 @@ class AppDownloadsSection extends StatelessWidget {
   final time = TextEditingController();
   final hijriYear = TextEditingController();
   final dayName = TextEditingController();
+  final weather = TextEditingController();
 
-  void _fetchRandomTitle(BuildContext context) {
+  void _fetchRandomTitle(BuildContext context) async {
     String countryName = country.text.trim();
     final user = Provider.of<HomeProvider>(context, listen: false);
+    // print('>>>>>>>>>>>>>>>>>>>>>>>>>>${user.weather}');
 
-    user.getTitlesByCountryExplicitly(countryName);
-    List<CustomTitle> titles = user.titleText;
+    // Await the completion of the getTitlesByCountryExplicitly function
+    List<CustomTitles> titles =
+        await user.getTitlesByCountryExplicitly(countryName);
 
     if (titles.isNotEmpty) {
       int randomIndex = Random().nextInt(titles.length);
-      CustomTitle selectedTitle = titles[randomIndex];
+      CustomTitles selectedTitle = titles[randomIndex];
       String? selectedTitleText = selectedTitle.titleText;
 
       // Set the selectedTitleText in your provider
@@ -129,6 +132,11 @@ class AppDownloadsSection extends StatelessWidget {
                   LabeledTextField(
                     label: "Day name: ${user.dayName}",
                     controller: dayName,
+                  ),
+                  const SizedBox(height: 10),
+                  LabeledTextField(
+                    label: "weather: ${user.weather}",
+                    controller: weather,
                   ),
                   const SizedBox(height: 10),
                   BrandButton(

@@ -20,8 +20,7 @@ class ReportIssuePage extends StatefulWidget {
 }
 
 class _ReportIssuePageState extends State<ReportIssuePage> {
-  final ValueNotifier<String> selectedOption =
-      ValueNotifier("Request a Feature");
+  final ValueNotifier<String> selectedOption = ValueNotifier("");
   int _selectedOptionIndex = -1;
 
   List<String> options = [
