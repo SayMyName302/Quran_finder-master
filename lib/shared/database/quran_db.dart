@@ -39,6 +39,7 @@ class QuranDatabase {
 
   final String _rowtitlecustom = "row_title_custom";
 
+  //This method is used when country is input from InputField
   Future<List<CustomTitles>> getCountrytitlesExplicitly(String country) async {
     database = await openDb();
     var titles = <CustomTitles>[];
@@ -56,46 +57,40 @@ class QuranDatabase {
     return titles;
   }
 
+  //Fetch country where weather is rain EXPLICITLY
+  Future<List<CustomTitles>> getRainCountryTitles(String country) async {
+    database = await openDb();
+    var titles = <CustomTitles>[];
+
+    var cursor = await database!.query(_rowtitlecustom,
+        columns: ["title_text"],
+        where: "country_name = ? AND weather = ?",
+        whereArgs: [country, 'rain']);
+
+    for (var row in cursor) {
+      var customTitle = CustomTitles.fromJson(row);
+      titles.add(customTitle);
+    }
+
+    // Print the list of titles
+    titles.forEach((title) {
+      print('Title Text: ${title.titleText}');
+    });
+    return titles;
+  }
+
   Future<List<CustomTitles>> getCountrytitles(String country) async {
     database = await openDb();
     var titles = <CustomTitles>[];
 
-    // Get the current hour and minute
-    DateTime now = DateTime.now();
-    int currentHour = now.hour;
-    int currentMinute = now.minute;
-    int currentTimeInMinutes = currentHour * 60 + currentMinute;
-
     var cursor = await database!.query(_rowtitlecustom,
-        columns: ["title_text", "start_hours", "end_hours"],
+        columns: ["title_text"],
         where: "country_name = ?",
         whereArgs: [country]);
 
     for (var row in cursor) {
       var customTitle = CustomTitles.fromJson(row);
-
-      // Convert "HH:mm" format to minutes past midnight
-      try {
-        int? startHourInMinutes = customTitle.startHour
-            ?.split(':')
-            .map(int.parse)
-            .reduce((h, m) => h * 60 + m);
-        int? endHourInMinutes = customTitle.endHour
-            ?.split(':')
-            .map(int.parse)
-            .reduce((h, m) => h * 60 + m);
-
-        if (startHourInMinutes != null && endHourInMinutes != null) {
-          // Check if the current time is within the title's start and end hours
-          if (currentTimeInMinutes >= startHourInMinutes &&
-              currentTimeInMinutes < endHourInMinutes) {
-            titles.add(customTitle);
-          }
-        }
-      } catch (e) {
-        print('Error parsing time for title: ${customTitle.titleText}');
-        print('Error message: $e');
-      }
+      titles.add(customTitle);
     }
 
     return titles;
@@ -105,48 +100,114 @@ class QuranDatabase {
     database = await openDb();
     var titles = <CustomTitles>[];
 
-    // Get the current hour and minute
-    DateTime now = DateTime.now();
-    int currentHour = now.hour;
-    int currentMinute = now.minute;
-    int currentTimeInMinutes = currentHour * 60 + currentMinute;
-
     var cursor = await database!.query(
       _rowtitlecustom,
-      columns: ["title_text", "start_hours", "end_hours", "weather"],
-      where: "country_name = ?",
-      whereArgs: [country],
+      columns: ["title_text"],
+      where: "weather = ? AND country_name = ?",
+      whereArgs: ["rain", country],
     );
 
     for (var row in cursor) {
       var customTitle = CustomTitles.fromJson(row);
-
-      // Convert "HH:mm" format to minutes past midnight
-      try {
-        int? startHourInMinutes = customTitle.startHour
-            ?.split(':')
-            .map(int.parse)
-            .reduce((h, m) => h * 60 + m);
-        int? endHourInMinutes = customTitle.endHour
-            ?.split(':')
-            .map(int.parse)
-            .reduce((h, m) => h * 60 + m);
-
-        if (startHourInMinutes != null && endHourInMinutes != null) {
-          // Check if the current time is within the title's start and end hours
-          if (currentTimeInMinutes >= startHourInMinutes &&
-              currentTimeInMinutes < endHourInMinutes) {
-            titles.add(customTitle);
-          }
-        }
-      } catch (e) {
-        print('Error parsing time for title: ${customTitle.titleText}');
-        print('Error message: $e');
-      }
+      titles.add(customTitle);
     }
 
     return titles;
   }
+
+  // Future<List<CustomTitles>> getCountrytitles(String country) async {
+  //   database = await openDb();
+  //   var titles = <CustomTitles>[];
+
+  //   // Get the current hour and minute
+  //   DateTime now = DateTime.now();
+  //   int currentHour = now.hour;
+  //   int currentMinute = now.minute;
+  //   int currentTimeInMinutes = currentHour * 60 + currentMinute;
+
+  //   var cursor = await database!.query(_rowtitlecustom,
+  //       // columns: ["title_text", "start_hours", "end_hours"],
+  //       columns: ["title_text"],
+  //       where: "country_name = ?",
+  //       whereArgs: [country]);
+
+  //   for (var row in cursor) {
+  //     var customTitle = CustomTitles.fromJson(row);
+
+  //     // Convert "HH:mm" format to minutes past midnight
+  //     try {
+  //       int? startHourInMinutes = customTitle.startHour
+  //           ?.split(':')
+  //           .map(int.parse)
+  //           .reduce((h, m) => h * 60 + m);
+  //       int? endHourInMinutes = customTitle.endHour
+  //           ?.split(':')
+  //           .map(int.parse)
+  //           .reduce((h, m) => h * 60 + m);
+
+  //       if (startHourInMinutes != null && endHourInMinutes != null) {
+  //         // Check if the current time is within the title's start and end hours
+  //         if (currentTimeInMinutes >= startHourInMinutes &&
+  //             currentTimeInMinutes < endHourInMinutes) {
+  //           titles.add(customTitle);
+  //         }
+  //       }
+  //     } catch (e) {
+  //       print('Error parsing time for title: ${customTitle.titleText}');
+  //       print('Error message: $e');
+  //     }
+  //   }
+
+  //   return titles;
+  // }
+
+  // Future<List<CustomTitles>> getTitlesByWeather(
+  //     String country, String weather) async {
+  //   database = await openDb();
+  //   var titles = <CustomTitles>[];
+
+  //   // Get the current hour and minute
+  //   DateTime now = DateTime.now();
+  //   int currentHour = now.hour;
+  //   int currentMinute = now.minute;
+  //   int currentTimeInMinutes = currentHour * 60 + currentMinute;
+
+  //   var cursor = await database!.query(
+  //     _rowtitlecustom,
+  //     columns: ["title_text", "weather"],
+  //     where: "country_name = ? AND weather = ?",
+  //     whereArgs: [country, weather],
+  //   );
+
+  //   for (var row in cursor) {
+  //     var customTitle = CustomTitles.fromJson(row);
+
+  //     // Convert "HH:mm" format to minutes past midnight
+  //     try {
+  //       int? startHourInMinutes = customTitle.startHour
+  //           ?.split(':')
+  //           .map(int.parse)
+  //           .reduce((h, m) => h * 60 + m);
+  //       int? endHourInMinutes = customTitle.endHour
+  //           ?.split(':')
+  //           .map(int.parse)
+  //           .reduce((h, m) => h * 60 + m);
+
+  //       if (startHourInMinutes != null && endHourInMinutes != null) {
+  //         // Check if the current time is within the title's start and end hours
+  //         if (currentTimeInMinutes >= startHourInMinutes &&
+  //             currentTimeInMinutes < endHourInMinutes) {
+  //           titles.add(customTitle);
+  //         }
+  //       }
+  //     } catch (e) {
+  //       print('Error parsing time for title: ${customTitle.titleText}');
+  //       print('Error message: $e');
+  //     }
+  //   }
+
+  //   return titles;
+  // }
 
   // to load all Ruqyah duas category names
   Future<List<Ruqyah>> getRDua(int categoryId) async {

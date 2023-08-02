@@ -52,7 +52,7 @@ class HomeProvider extends ChangeNotifier {
   String get dayName => _dayName;
   String get weather => _weather;
 
-  //Fetching all the text_title by filtering on country name
+  //Fetching all the text_title by filtering
   List<CustomTitles> _titleText = [];
   List<CustomTitles> get titleText => _titleText;
 
@@ -62,22 +62,31 @@ class HomeProvider extends ChangeNotifier {
 
   bool isRequestingPermission = false;
 
-  Future<void> getTitlesByCountry(String country) async {
+  Future<List<CustomTitles>> getTitlesByCountry(String country) async {
     _titleText = await QuranDatabase().getCountrytitles(country);
     notifyListeners();
+    return _titleText;
   }
 
   Future<List<CustomTitles>> getTitlesbyWeather(String country) async {
     List<CustomTitles> titles =
         await QuranDatabase().getTitlesByWeather(country);
-    // notifyListeners();
+    notifyListeners();
     return titles;
   }
 
+  //Only country input by user
   Future<List<CustomTitles>> getTitlesByCountryExplicitly(
       String country) async {
     _titleText = await QuranDatabase().getCountrytitlesExplicitly(country);
     notifyListeners();
+    return _titleText;
+  }
+
+  //Country name and 'rain' input by user
+  Future<List<CustomTitles>> getRainCountryTitles(String country) async {
+    _titleText = await QuranDatabase().getRainCountryTitles(country);
+    // notifyListeners();
     return _titleText;
   }
 
@@ -160,28 +169,49 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> checkWeather(String city, BuildContext context) async {
+  Future<Map<String, String>> checkWeather(
+      double latitude, double longitude, BuildContext context) async {
     try {
       var dio = Dio();
-      Response response = await dio.get(
-          "http://api.weatherapi.com/v1/current.json?key=73ec04d970d540f1ba3173621232602&q=$city&aqi=yes");
+      String url =
+          "http://api.weatherapi.com/v1/current.json?key=73ec04d970d540f1ba3173621232602&q=$latitude,$longitude&aqi=yes";
+
+      Response response = await dio.get(url);
       var data = response.data;
       if (response.statusCode == 200) {
         String weatherCondition =
             data['current']['condition']['text'].toString().toLowerCase();
         String country = data['location']['country'].toString().toLowerCase();
 
-        if (weatherCondition.contains("rain")) {
-          return country;
+        // String cityAPI = data['location']['name'].toString().toLowerCase();
+        // print('==CITY API=${cityAPI}=====');
+
+        if (weatherCondition.contains("rain") ||
+            weatherCondition.contains("light rain")) {
+          return {
+            'weather': 'rain',
+            'country': country,
+          };
         } else {
-          return weatherCondition;
+          return {
+            'weather': weatherCondition,
+            'country': country,
+          };
         }
       }
-    } on DioError {
+    } catch (e, stackTrace) {
+      print("Error fetching weather data: $e");
+      print(stackTrace);
       EasyLoadingDialog.dismiss(context);
-      return "other";
+      return {
+        'weather': 'other',
+        'country': '',
+      };
     }
-    return "other";
+    return {
+      'weather': 'other',
+      'country': '',
+    };
   }
 
   Future<void> updateUserData(UserData userData) async {
@@ -228,35 +258,32 @@ class HomeProvider extends ChangeNotifier {
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];
-
         String country = placeMark.country?.toLowerCase() ?? "";
-        String city = placeMark.locality?.toLowerCase() ?? "";
-
-        //    print('==city=${city}=====');
-        //    print('==country=${country}=====');
-
-        // Get weather data for the user's location
-        String weatherCondition = await checkWeather(city, context);
-
-        //This method updates the value of Weather i.e. raining, cloudy etc
+        double latitude = position.latitude;
+        double longitude = position.longitude;
+        Map<String, String> weatherData = await checkWeather(
+          latitude,
+          longitude,
+          context,
+        );
+        String weatherCondition = weatherData['weather'] ?? "";
+        String countryfromapi = weatherData['country'] ?? "";
         updateWeather(weatherCondition);
 
         if (weatherCondition == "rain") {
-          List<CustomTitles> titles = await getTitlesbyWeather(country);
-
+          List<CustomTitles> titles = await getTitlesbyWeather(countryfromapi);
           if (titles.isNotEmpty) {
             int randomIndex = Random().nextInt(titles.length);
             CustomTitles selectedTitle = titles[randomIndex];
             String? selectedTitleText = selectedTitle.titleText;
-            _selectedTitleText = selectedTitleText;
+            _selectedTitleText =
+                selectedTitleText ?? "No Title Available for Raining Weather}";
           } else {
             _selectedTitleText = "No Title Available for Raining Weather";
           }
         } else {
-          //    print('not raining method executed');
-          await getTitlesByCountry(country);
-
-          if (_titleText.isNotEmpty) {
+          List<CustomTitles> titles = await getTitlesByCountry(country);
+          if (titles.isNotEmpty) {
             int randomIndex = Random().nextInt(_titleText.length);
             CustomTitles selectedTitle = _titleText[randomIndex];
             String? selectedTitleText = selectedTitle.titleText;
