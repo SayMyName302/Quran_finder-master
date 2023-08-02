@@ -31,8 +31,7 @@ class SurahIndexPage extends StatefulWidget {
   State<SurahIndexPage> createState() => _SurahIndexPageState();
 }
 
-class _SurahIndexPageState extends State<SurahIndexPage>
-    with SingleTickerProviderStateMixin {
+class _SurahIndexPageState extends State<SurahIndexPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   var searchController = TextEditingController();
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -46,7 +45,7 @@ class _SurahIndexPageState extends State<SurahIndexPage>
     'Al-Kahf'
   ];
 
-  List<String> tappedSurahNames = [];
+  // List<String> tappedSurahNames = [];
 
   @override
   void initState() {
@@ -65,26 +64,26 @@ class _SurahIndexPageState extends State<SurahIndexPage>
   }
 
   // Load the tapped surah names from shared preferences
-  void loadTappedSurahNames() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      tappedSurahNames = prefs.getStringList('tappedSurahNames') ?? [];
-    });
-  }
+  // void loadTappedSurahNames() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     tappedSurahNames = prefs.getStringList('tappedSurahNames') ?? [];
+  //   });
+  // }
 
   // Update the tapped surah names and save to shared preferences
-  void updateTappedSurahNames(String surahName) async {
-    setState(() {
-      tappedSurahNames.add(surahName);
-    });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('tappedSurahNames', tappedSurahNames);
-  }
+  // void updateTappedSurahNames(String surahName) async {
+  //   setState(() {
+  //     tappedSurahNames.add(surahName);
+  //   });
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setStringList('tappedSurahNames', tappedSurahNames);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final appColorsProvider = Provider.of<AppColorsProvider>(context);
-    loadTappedSurahNames();
+    final appColorsProvider = Provider.of<AppColorsProvider>(context,listen: false);
+    // loadTappedSurahNames();
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -114,9 +113,9 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                     );
                   },
                 ),
-                Consumer<recentProvider>(
-                  builder: (context, surahValue, child) {
-                    if (tappedSurahNames.isEmpty) {
+                Consumer<SurahProvider>(
+                  builder: (context, surahProvider, child) {
+                    if (surahProvider.tappedSurahList.isEmpty) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Center(
@@ -137,44 +136,33 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                       );
                     } else {
                       return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, bottom: 14.0, top: 10),
+                        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 14.0, top: 10),
                         child: SizedBox(
                           height: 23.h, // Set the desired height constraint
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount:
-                                tappedSurahNames.reversed.toSet().length > 3
-                                    ? 3
-                                    : tappedSurahNames.reversed.toSet().length,
+                            itemCount: surahProvider.tappedSurahList.length,
                             itemBuilder: (context, index) {
-                              final surahNamesSet =
-                                  tappedSurahNames.reversed.toSet();
-                              final surahName = surahNamesSet.elementAt(index);
+                              final surahNamesSet = surahProvider.tappedSurahList.reversed.toSet();
+                              final surahObj = surahNamesSet.elementAt(index);
                               return GestureDetector(
                                 onTap: () async {
-                                  var surahList =
-                                      await QuranDatabase().getSurahName();
-                                  int surahIndex = surahList.indexWhere(
-                                      (element) =>
-                                          element.surahName == surahName);
-                                  Surah surah = surahList[surahIndex];
-                                  context.read<QuranProvider>().setSurahText(
-                                      surahId: surah.surahId!,
-                                      title: 'سورة ${surah.arabicName}',
+                                  context.read<QuranProvider>().setSurahText(surahId: surahObj.surahId!, title: 'سورة ${surahObj.arabicName}',
                                       fromWhere: 1);
-                                  updateTappedSurahNames(surah.surahName!);
+                                  // updateTappedSurahNames(surahObj.surahName!);
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const QuranTextView(),
+                                      const QuranTextView(),
                                     ),
                                   );
+                                  /// adding last visited surah
+                                  surahProvider.addTappedSurahList(surahObj);
                                 },
                                 child: Container(
                                   height: 23.h,
                                   padding:
-                                      EdgeInsets.only(left: 9.w, right: 9.w),
+                                  EdgeInsets.only(left: 9.w, right: 9.w),
                                   margin: EdgeInsets.only(right: 7.w),
                                   decoration: BoxDecoration(
                                     color: AppColors.grey6,
@@ -182,7 +170,7 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                                   ),
                                   child: Center(
                                     child: Text(
-                                      surahName,
+                                      surahObj.surahName!,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontFamily: 'satoshi',
@@ -200,6 +188,87 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                     }
                   },
                 ),
+                // Consumer<recentProvider>(
+                //   builder: (context, surahValue, child) {
+                //     if (tappedSurahNames.isEmpty) {
+                //       return Padding(
+                //         padding: const EdgeInsets.symmetric(vertical: 10),
+                //         child: Center(
+                //           child: Text(
+                //             localeText(
+                //               context,
+                //               'no_last_read',
+                //             ), // Your desired message
+                //             style: TextStyle(
+                //               fontWeight: FontWeight.w700,
+                //               fontFamily: 'satoshi',
+                //               fontSize: 13.sp,
+                //               color: AppColors.grey3,
+                //               // Your desired style
+                //             ),
+                //           ),
+                //         ),
+                //       );
+                //     } else {
+                //       return Padding(
+                //         padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 14.0, top: 10),
+                //         child: SizedBox(
+                //           height: 23.h, // Set the desired height constraint
+                //           child: ListView.builder(
+                //             scrollDirection: Axis.horizontal,
+                //             itemCount:
+                //                 tappedSurahNames.reversed.toSet().length > 3
+                //                     ? 3
+                //                     : tappedSurahNames.reversed.toSet().length,
+                //             itemBuilder: (context, index) {
+                //               final surahNamesSet = tappedSurahNames.reversed.toSet();
+                //               final surahName = surahNamesSet.elementAt(index);
+                //               return GestureDetector(
+                //                 onTap: () async {
+                //                   var surahList = await QuranDatabase().getSurahName();
+                //                   int surahIndex = surahList.indexWhere((element) => element.surahName == surahName);
+                //                   Surah surah = surahList[surahIndex];
+                //                   context.read<QuranProvider>().setSurahText(
+                //                       surahId: surah.surahId!,
+                //                       title: 'سورة ${surah.arabicName}',
+                //                       fromWhere: 1);
+                //                   updateTappedSurahNames(surah.surahName!);
+                //                   Navigator.of(context).push(
+                //                     MaterialPageRoute(
+                //                       builder: (context) =>
+                //                           const QuranTextView(),
+                //                     ),
+                //                   );
+                //                 },
+                //                 child: Container(
+                //                   height: 23.h,
+                //                   padding:
+                //                       EdgeInsets.only(left: 9.w, right: 9.w),
+                //                   margin: EdgeInsets.only(right: 7.w),
+                //                   decoration: BoxDecoration(
+                //                     color: AppColors.grey6,
+                //                     borderRadius: BorderRadius.circular(12.r),
+                //                   ),
+                //                   child: Center(
+                //                     child: Text(
+                //                       surahName,
+                //                       style: TextStyle(
+                //                         fontWeight: FontWeight.w700,
+                //                         fontFamily: 'satoshi',
+                //                         fontSize: 15.sp,
+                //                         color: AppColors.grey3,
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //               );
+                //             },
+                //           ),
+                //         ),
+                //       );
+                //     }
+                //   },
+                // ),
                 const SizedBox(height: 10),
                 Consumer<AppColorsProvider>(
                   builder: (context, value, child) {
@@ -226,8 +295,8 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Consumer<recentProvider>(
-                    builder: (context, surahValue, child) {
+                  child: Consumer<SurahProvider>(
+                    builder: (context, surahProvider, child) {
                       return Container(
                         height: 23.h,
                         margin: EdgeInsets.only(bottom: 15.h),
@@ -239,24 +308,23 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                             final surahName = additionalSurahNames[index];
                             return GestureDetector(
                               onTap: () async {
-                                var surahList =
-                                    await QuranDatabase().getSurahName();
-                                int surahIndex = surahList.indexWhere(
-                                    (element) =>
-                                        element.surahName == surahName);
+                                var surahList = await QuranDatabase().getSurahName();
+                                int surahIndex = surahList.indexWhere((element) => element.surahName == surahName);
                                 Surah surah = surahList[surahIndex];
                                 context.read<QuranProvider>().setSurahText(
                                       surahId: surah.surahId!,
                                       title: 'سورة ${surah.arabicName}',
                                       fromWhere: 1,
                                     );
-                                updateTappedSurahNames(surah.surahName!);
+
+                                // updateTappedSurahNames(surah.surahName!);
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => const QuranTextView(),
                                   ),
                                 );
-                                // Handle the onTap logic for additional surahs
+                                /// add tapped surah
+                                surahProvider.addTappedSurahList(surah);
                               },
                               child: buildQuickLinkContainer(surahName),
                             );
@@ -318,14 +386,15 @@ class _SurahIndexPageState extends State<SurahIndexPage>
           ),
           _tabController.index == 0
               ? Consumer<SurahProvider>(
-                  builder: (context, surahValue, child) {
+                  builder: (context, surahProvider, child) {
                     return SliverList(
                         delegate: SliverChildBuilderDelegate(
-                      childCount: surahValue.surahNamesList.length,
+                      childCount: surahProvider.surahNamesList.length,
                       (context, index) {
-                        Surah surah = surahValue.surahNamesList[index];
+                        Surah surah = surahProvider.surahNamesList[index];
                         return InkWell(
                           onTap: () async {
+
                             // to clear search field
                             searchController.text = "";
                             context.read<QuranProvider>().setSurahText(
@@ -339,7 +408,7 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                                   .read<RecitationPlayerProvider>()
                                   .pause(context),
                             );
-                            tappedSurahNames.add(surah.surahName!);
+                            // tappedSurahNames.add(surah.surahName!);
                             context
                                 .read<LastReadProvider>()
                                 .addTappedSurahName(surah.surahName!);
@@ -356,6 +425,8 @@ class _SurahIndexPageState extends State<SurahIndexPage>
                                 return const QuranTextView();
                               },
                             ));
+                            /// adding last visited surah
+                            surahProvider.addTappedSurahList(surah);
                           },
                           child: DetailsContainerWidget1(
                             index: index + 1,

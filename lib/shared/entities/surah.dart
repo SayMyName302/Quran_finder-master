@@ -27,4 +27,13 @@ class Surah {
         englishName: map['english_name'],
         arabicName: map['arabic_name']);
   }
+
+  Map toJson(){
+    return {
+      'Id':_surahId,
+      'surah_name':_surahName,
+      'english_name':_englishName,
+      'arabic_name':_arabicName
+    };
+  }
 }

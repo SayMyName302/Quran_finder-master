@@ -59,3 +59,8 @@ const String favReciterListKey = "favReciterListKey";
 /// recommended Reciter List
 const String recommendedReciterListKey = "recommendedReciterListKey";
 
+/// tapped list keys
+const String tappedRecitationListKey = "tappedRecitationList";
+const String tappedSurahListKey = "tappedSurahListKey";
+
+

@@ -23,18 +23,28 @@ class RecitationProvider extends ChangeNotifier {
   List<Surah> get surahNamesList => _surahNamesList;
 
 
-  List<dynamic> tappedRecitationList = Hive.box(appBoxKey).get('tappedRecitationList') != null ?
-  (jsonDecode(Hive.box(appBoxKey).get('tappedRecitationList')) as List<dynamic>).map((e) {
+  List<dynamic> tappedRecitationList = Hive.box(appBoxKey).get(tappedRecitationListKey) != null ?
+  (jsonDecode(Hive.box(appBoxKey).get(tappedRecitationListKey)) as List<dynamic>).map((e) {
     var map = e as Map<String,dynamic>;
-    if(e.containsKey("reciter_name")){
-      Reciters.fromJson(map);
-    }else if(e.containsKey("category_name")){
-      RecitationCategoryModel.fromJson(map);
-    }else if(e.containsKey("category_name")){
-      TranquilTalesCategoryModel.fromJson(map);
+    var type = map["type"];
+    Map<String,dynamic> value = map['value'];
+    if(type == "reciter"){
+      return {
+        "type":type,
+        "value":Reciters.fromJson(value)
+      };
+    }else if(type == "recitationCategory"){
+      return {
+        "type":type,
+        "value":RecitationCategoryModel.fromJson(value)
+      };
+    }else if(type == "tranquilTalesCategory"){
+      return {
+        "type":type,
+        "value":TranquilTalesCategoryModel.fromJson(value)
+      };
     }
   }).toList():[];
-
 
   void addTappedRecitationList(dynamic obj) {
     if (tappedRecitationList.length >= 3) {
@@ -42,10 +52,11 @@ class RecitationProvider extends ChangeNotifier {
       tappedRecitationList.removeAt(0);
     }
     /// Add the new item to the end of the list
-    tappedRecitationList.add(obj);
-    Hive.box(appBoxKey).put('tappedRecitationList', jsonEncode(tappedRecitationList));
-
+    if(!tappedRecitationList.contains(obj)){
+      tappedRecitationList.add(obj);
+    }
     notifyListeners();
+    Hive.box(appBoxKey).put(tappedRecitationListKey, jsonEncode(tappedRecitationList));
   }
 
 
