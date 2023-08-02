@@ -25,12 +25,10 @@ class AppDownloadsSection extends StatelessWidget {
   final dayName = TextEditingController();
   final weather = TextEditingController();
 
-  void _fetchRandomTitle(BuildContext context) async {
-    String countryName = country.text.trim();
+  void fetchCountryTitle(BuildContext context) async {
+    String countryName = country.text.trim().toLowerCase();
     final user = Provider.of<HomeProvider>(context, listen: false);
-    // print('>>>>>>>>>>>>>>>>>>>>>>>>>>${user.weather}');
 
-    // Await the completion of the getTitlesByCountryExplicitly function
     List<CustomTitles> titles =
         await user.getTitlesByCountryExplicitly(countryName);
 
@@ -39,7 +37,25 @@ class AppDownloadsSection extends StatelessWidget {
       CustomTitles selectedTitle = titles[randomIndex];
       String? selectedTitleText = selectedTitle.titleText;
 
-      // Set the selectedTitleText in your provider
+      user.setSelectedTitleText(selectedTitleText);
+    } else {
+      user.setSelectedTitleText("Popular Recitations");
+    }
+  }
+
+  void fetchRainCountryTitle(BuildContext context) async {
+    String countryName = country.text.trim().toLowerCase();
+    final user = Provider.of<HomeProvider>(context, listen: false);
+    print(weather.text);
+    print(country.text);
+
+    List<CustomTitles> titles = await user.getRainCountryTitles(countryName);
+
+    if (titles.isNotEmpty) {
+      int randomIndex = Random().nextInt(titles.length);
+      CustomTitles selectedTitle = titles[randomIndex];
+      String? selectedTitleText = selectedTitle.titleText;
+
       user.setSelectedTitleText(selectedTitleText);
     } else {
       user.setSelectedTitleText("Popular Recitations");
@@ -140,10 +156,23 @@ class AppDownloadsSection extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   BrandButton(
-                      text: 'Submit',
-                      onTap: () {
-                        _fetchRandomTitle(context);
-                      }),
+                    text: 'Submit',
+                    onTap: () {
+                      String lowerCaseCountry =
+                          country.text.trim().toLowerCase();
+                      String lowerCaseWeather =
+                          weather.text.trim().toLowerCase();
+
+                      if ((lowerCaseCountry == "pakistan" ||
+                              lowerCaseCountry == "saudi arabia" ||
+                              lowerCaseCountry == "indonesia") &&
+                          lowerCaseWeather == "rain") {
+                        fetchRainCountryTitle(context);
+                      } else if (lowerCaseCountry.isNotEmpty) {
+                        fetchCountryTitle(context);
+                      }
+                    },
+                  ),
                 ],
               ),
             );
