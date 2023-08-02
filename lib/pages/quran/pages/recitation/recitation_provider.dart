@@ -22,44 +22,54 @@ class RecitationProvider extends ChangeNotifier {
   List<Surah> _surahNamesList = [];
   List<Surah> get surahNamesList => _surahNamesList;
 
-
-  List<dynamic> tappedRecitationList = Hive.box(appBoxKey).get(tappedRecitationListKey) != null ?
-  (jsonDecode(Hive.box(appBoxKey).get(tappedRecitationListKey)) as List<dynamic>).map((e) {
-    var map = e as Map<String,dynamic>;
+  List<dynamic> tappedRecitationList =
+  Hive.box(appBoxKey).get(tappedRecitationListKey) != null
+      ? (jsonDecode(Hive.box(appBoxKey).get(tappedRecitationListKey))
+  as List<dynamic>)
+      .map((e) {
+    var map = e as Map<String, dynamic>;
     var type = map["type"];
-    Map<String,dynamic> value = map['value'];
-    if(type == "reciter"){
+    Map<String, dynamic> value = map['value'];
+    if (type == "reciter") {
+      return {"type": type, "value": Reciters.fromJson(value)};
+    } else if (type == "recitationCategory") {
       return {
-        "type":type,
-        "value":Reciters.fromJson(value)
+        "type": type,
+        "value": RecitationCategoryModel.fromJson(value)
       };
-    }else if(type == "recitationCategory"){
+    } else if (type == "tranquilTalesCategory") {
       return {
-        "type":type,
-        "value":RecitationCategoryModel.fromJson(value)
-      };
-    }else if(type == "tranquilTalesCategory"){
-      return {
-        "type":type,
-        "value":TranquilTalesCategoryModel.fromJson(value)
+        "type": type,
+        "value": TranquilTalesCategoryModel.fromJson(value)
       };
     }
-  }).toList():[];
+  }).toList()
+      : [];
 
   void addTappedRecitationList(dynamic obj) {
-    if (tappedRecitationList.length >= 3) {
-      /// If the length exceeds 3, remove the item at index 0
+    // Remove any duplicate item from the list
+    tappedRecitationList.removeWhere((item) {
+      return item["type"] == obj["type"] && item["value"] == obj["value"];
+    });
+
+    // Reverse the list to show most recent items first
+    tappedRecitationList = tappedRecitationList.reversed.toList();
+
+    // Add the new item to the end of the list
+    tappedRecitationList.add(obj);
+
+    // Ensure the list length does not exceed 3
+    if (tappedRecitationList.length > 3) {
       tappedRecitationList.removeAt(0);
     }
-    /// Add the new item to the end of the list
-    if(!tappedRecitationList.contains(obj)){
-      tappedRecitationList.add(obj);
-    }
+
+    // Reverse the list again to get back the original order
+    tappedRecitationList = tappedRecitationList.reversed.toList();
+
     notifyListeners();
-    Hive.box(appBoxKey).put(tappedRecitationListKey, jsonEncode(tappedRecitationList));
+    Hive.box(appBoxKey)
+        .put(tappedRecitationListKey, jsonEncode(tappedRecitationList));
   }
-
-
 
   Future<void> getRecommendedReciters() async {
     _recommendedReciterList = await QuranDatabase().getRecommendedReciters();
