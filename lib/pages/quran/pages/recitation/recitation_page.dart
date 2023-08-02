@@ -45,32 +45,37 @@ class _RecitationPageState extends State<RecitationPage> {
     // context.read<RecitationProvider>().getFavReciter();
   }
 
-
-  _addLastViewedRecitations(String type,dynamic model){
+  _addLastViewedRecitations(String type, dynamic model) {
     /// add last viewed recitation
-    var recitationTypeMap = {
-      "type":type,
-      "value":model
-    };
-    Provider.of<RecitationProvider>(context,listen: false).addTappedRecitationList(recitationTypeMap);
+    var recitationTypeMap = {"type": type, "value": model};
+    Provider.of<RecitationProvider>(context, listen: false)
+        .addTappedRecitationList(recitationTypeMap);
   }
 
-
-  void navigateToReciterScreen(BuildContext context, RecitationProvider recitersValue, Reciters reciter) async {
+  void navigateToReciterScreen(BuildContext context,
+      RecitationProvider recitersValue, Reciters reciter) async {
     recitersValue.getSurahName();
-    context.read<ReciterProvider>().getAvailableDownloadAudiosAsListOfInt(reciter.reciterName!);
+    context
+        .read<ReciterProvider>()
+        .getAvailableDownloadAudiosAsListOfInt(reciter.reciterName!);
     // updateTappedSurahNames(reciter.reciterName!);
     Navigator.of(context).pushNamed(
       RouteHelper.reciter,
       arguments: reciter,
     );
     // tappedReciterNames.add(reciter.reciterName!);
-    context.read<recentProviderRecitation>().addTappedReciterName(reciter.reciterName!);
+    context
+        .read<recentProviderRecitation>()
+        .addTappedReciterName(reciter.reciterName!);
   }
 
-  void navigateToRecitationCategory(RecitationCategoryModel model){
-    Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
-    Provider.of<RecitationCategoryProvider>(context,listen: false).getSelectedRecitationAll(model.categoryId as int);
+  void navigateToRecitationCategory(RecitationCategoryModel model) {
+    Future.delayed(
+      Duration.zero,
+      () => context.read<RecitationPlayerProvider>().pause(context),
+    );
+    Provider.of<RecitationCategoryProvider>(context, listen: false)
+        .getSelectedRecitationAll(model.categoryId as int);
     Navigator.of(context).pushNamed(
       RouteHelper.recitationallcategory,
       arguments: [
@@ -82,19 +87,22 @@ class _RecitationPageState extends State<RecitationPage> {
         model.categoryId!,
       ],
     );
+
     /// add last viewed recitation
     _addLastViewedRecitations("recitationCategory", model);
   }
 
-  void navigateToTranquilTalesCategory(TranquilTalesCategoryModel model){
-
-    Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
-    Provider.of<TranquilCategoryProvider>(context,listen: false).getSelectedRecitationAll(model.categoryId as int);
+  void navigateToTranquilTalesCategory(TranquilTalesCategoryModel model) {
+    Future.delayed(
+      Duration.zero,
+      () => context.read<RecitationPlayerProvider>().pause(context),
+    );
+    Provider.of<TranquilCategoryProvider>(context, listen: false)
+        .getSelectedRecitationAll(model.categoryId as int);
     Navigator.of(context).pushNamed(
       RouteHelper.tranquil_tales,
       arguments: [
-        localeText(
-            context, model.categoryName!),
+        localeText(context, model.categoryName!),
         model.imageURl!,
         LocalizationProvider().checkIsArOrUr()
             ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
@@ -165,27 +173,37 @@ class _RecitationPageState extends State<RecitationPage> {
                       /// Set the desired height constraint
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: recitationProvider.tappedRecitationList.length,
+                        itemCount:
+                            recitationProvider.tappedRecitationList.length,
                         itemBuilder: (context, index) {
-                          Map<String,dynamic> map = recitationProvider.tappedRecitationList[index];
+                          Map<String, dynamic> map =
+                              recitationProvider.tappedRecitationList[index];
                           String title = "";
-                          if(map['value'] is Reciters){
+                          if (map['value'] is Reciters) {
                             Reciters reciter = map['value'];
                             title = reciter.reciterName!;
-                          }else if(map['value'] is RecitationCategoryModel){
-                            RecitationCategoryModel recitationCategoryModel = map['value'];
-                            title = localeText(context, recitationCategoryModel.categoryName!);
-                          }else if(map['value'] is TranquilTalesCategoryModel){
-                            TranquilTalesCategoryModel tranquilTalesCategoryModel = map['value'];
-                            title = localeText(context, tranquilTalesCategoryModel.categoryName!);
+                          } else if (map['value'] is RecitationCategoryModel) {
+                            RecitationCategoryModel recitationCategoryModel =
+                                map['value'];
+                            title = localeText(
+                                context, recitationCategoryModel.categoryName!);
+                          } else if (map['value']
+                              is TranquilTalesCategoryModel) {
+                            TranquilTalesCategoryModel
+                                tranquilTalesCategoryModel = map['value'];
+                            title = localeText(context,
+                                tranquilTalesCategoryModel.categoryName!);
                           }
                           return InkWell(
                             onTap: () {
-                              if(map['value'] is Reciters){
-                                navigateToReciterScreen(context, recitationProvider, map['value']);
-                              }else if(map['value'] is RecitationCategoryModel){
+                              if (map['value'] is Reciters) {
+                                navigateToReciterScreen(
+                                    context, recitationProvider, map['value']);
+                              } else if (map['value']
+                                  is RecitationCategoryModel) {
                                 navigateToRecitationCategory(map['value']);
-                              }else if(map['value'] is TranquilTalesCategoryModel){
+                              } else if (map['value']
+                                  is TranquilTalesCategoryModel) {
                                 navigateToTranquilTalesCategory(map['value']);
                               }
                             },
@@ -219,7 +237,6 @@ class _RecitationPageState extends State<RecitationPage> {
               },
             ),
 
-
             Column(
               children: [
                 HomeRowWidget(
@@ -233,36 +250,44 @@ class _RecitationPageState extends State<RecitationPage> {
                     );
                   },
                 ),
-                Consumer2<LocalizationProvider,RecitationCategoryProvider>(
-                  builder: (context, language,recitationProvider, child) {
+                Consumer2<LocalizationProvider, RecitationCategoryProvider>(
+                  builder: (context, language, recitationProvider, child) {
                     return SizedBox(
                       height: 150.h,
                       child: ListView.builder(
                         itemCount: recitationProvider.recitationCategory.length,
-                        padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
+                        padding: EdgeInsets.only(
+                            left: 20.w, right: 20.w, bottom: 14.h),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           try {
-                            RecitationCategoryModel model = recitationProvider.recitationCategory[index];
+                            RecitationCategoryModel model =
+                                recitationProvider.recitationCategory[index];
                             // print(model.categoryName);
                             // print(model.imageURl);
                             return InkWell(
                               onTap: () {
-                                Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
-                                recitationProvider.getSelectedRecitationAll(model.categoryId as int);
+                                Future.delayed(
+                                  Duration.zero,
+                                  () => context
+                                      .read<RecitationPlayerProvider>()
+                                      .pause(context),
+                                );
+                                recitationProvider.getSelectedRecitationAll(
+                                    model.categoryId as int);
                                 analytics.logEvent(
                                   name: 'recitation_section',
                                   parameters: {
                                     'title': model.categoryName.toString()
                                   },
                                 );
-                                _addLastViewedRecitations("recitationCategory", model);
+                                _addLastViewedRecitations(
+                                    "recitationCategory", model);
                                 // updateTappedSurahNames(model.categoryName!);
                                 Navigator.of(context).pushNamed(
                                   RouteHelper.recitationallcategory,
                                   arguments: [
-                                    localeText(
-                                        context, model.categoryName!),
+                                    localeText(context, model.categoryName!),
                                     model.imageURl!,
                                     LocalizationProvider().checkIsArOrUr()
                                         ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
@@ -270,9 +295,12 @@ class _RecitationPageState extends State<RecitationPage> {
                                     model.categoryId!,
                                   ],
                                 );
-                                String categoryNames = model.categoryName!.replaceAll('_', ' ');
+                                String categoryNames =
+                                    model.categoryName!.replaceAll('_', ' ');
                                 //   tappedRecitationNames.add(model.categoryName!);
-                                context.read<recentProviderRecitation>().addTappedReciterName(categoryNames!);
+                                context
+                                    .read<recentProviderRecitation>()
+                                    .addTappedReciterName(categoryNames!);
                               },
                               child: Container(
                                 width: 209.w,
@@ -282,15 +310,13 @@ class _RecitationPageState extends State<RecitationPage> {
                                   borderRadius: BorderRadius.circular(8.r),
                                   image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                        model.imageURl!
-                                    ),
+                                        model.imageURl!),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(8.r),
+                                    borderRadius: BorderRadius.circular(8.r),
                                     gradient: const LinearGradient(
                                       colors: [
                                         Color.fromRGBO(0, 0, 0, 0),
@@ -307,8 +333,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                         ? Alignment.bottomRight
                                         : Alignment.bottomLeft,
                                     child: Text(
-                                      localeText(
-                                          context, model.categoryName!),
+                                      localeText(context, model.categoryName!),
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -387,10 +412,12 @@ class _RecitationPageState extends State<RecitationPage> {
                                   crossAxisSpacing: 5.w,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
-                                  Reciters reciter = recitersValue.popularReciterList[index];
+                                  Reciters reciter =
+                                      recitersValue.popularReciterList[index];
                                   return InkWell(
                                     onTap: () async {
-                                      _addLastViewedRecitations("reciter", reciter);
+                                      _addLastViewedRecitations(
+                                          "reciter", reciter);
                                       recitersValue.getSurahName();
                                       // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
                                       /// so that is now an other way
@@ -482,11 +509,15 @@ class _RecitationPageState extends State<RecitationPage> {
                                       .recommendedReciterList[index];
                                   return InkWell(
                                     onTap: () async {
-                                      _addLastViewedRecitations("reciter", reciter);
+                                      _addLastViewedRecitations(
+                                          "reciter", reciter);
                                       recitersValue.getSurahName();
                                       // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
                                       /// so that is now an other way
-                                      context.read<ReciterProvider>().getAvailableDownloadAudiosAsListOfInt(reciter.reciterName!);
+                                      context
+                                          .read<ReciterProvider>()
+                                          .getAvailableDownloadAudiosAsListOfInt(
+                                              reciter.reciterName!);
                                       // updateTappedSurahNames(reciter.reciterName!);
                                       Navigator.of(context).pushNamed(
                                         RouteHelper.reciter,
@@ -495,7 +526,10 @@ class _RecitationPageState extends State<RecitationPage> {
 
                                       // tappedReciterNames.add(reciter.reciterName!);
                                       /// please delete this
-                                      context.read<recentProviderRecitation>().addTappedReciterName(reciter.reciterName!);
+                                      context
+                                          .read<recentProviderRecitation>()
+                                          .addTappedReciterName(
+                                              reciter.reciterName!);
                                     },
                                     child:
                                         buildReciterDetailsContainer(reciter),
@@ -524,8 +558,8 @@ class _RecitationPageState extends State<RecitationPage> {
                     );
                   },
                 ),
-                Consumer2<LocalizationProvider,TranquilCategoryProvider>(
-                  builder: (context, language,recitationProvider, child) {
+                Consumer2<LocalizationProvider, TranquilCategoryProvider>(
+                  builder: (context, language, recitationProvider, child) {
                     return SizedBox(
                       height: 150.h,
                       child: ListView.builder(
@@ -535,13 +569,20 @@ class _RecitationPageState extends State<RecitationPage> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           try {
-                            TranquilTalesCategoryModel model = recitationProvider.recitationCategory[index];
+                            TranquilTalesCategoryModel model =
+                                recitationProvider.recitationCategory[index];
                             // print(model.categoryName);
                             // print(model.imageURl);
                             return InkWell(
                               onTap: () {
-                                _addLastViewedRecitations("tranquilTalesCategory", model);
-                                Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
+                                _addLastViewedRecitations(
+                                    "tranquilTalesCategory", model);
+                                Future.delayed(
+                                  Duration.zero,
+                                  () => context
+                                      .read<RecitationPlayerProvider>()
+                                      .pause(context),
+                                );
                                 recitationProvider.getSelectedRecitationAll(
                                     model.categoryId as int);
                                 analytics.logEvent(
@@ -554,8 +595,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 Navigator.of(context).pushNamed(
                                   RouteHelper.tranquil_tales,
                                   arguments: [
-                                    localeText(
-                                        context, model.categoryName!),
+                                    localeText(context, model.categoryName!),
                                     model.imageURl!,
                                     LocalizationProvider().checkIsArOrUr()
                                         ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
@@ -563,8 +603,8 @@ class _RecitationPageState extends State<RecitationPage> {
                                     model.categoryId!,
                                   ],
                                 );
-                                String categoryNames = model.categoryName!
-                                    .replaceAll('_', ' ');
+                                String categoryNames =
+                                    model.categoryName!.replaceAll('_', ' ');
 
                                 context
                                     .read<recentProviderRecitation>()
@@ -585,8 +625,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 ),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(8.r),
+                                    borderRadius: BorderRadius.circular(8.r),
                                     gradient: const LinearGradient(
                                       colors: [
                                         Color.fromRGBO(0, 0, 0, 0),
@@ -599,16 +638,13 @@ class _RecitationPageState extends State<RecitationPage> {
                                   child: Container(
                                     margin: EdgeInsets.only(
                                         left: 6.w, bottom: 8.h, right: 6.w),
-                                    alignment: language
-                                                    .locale.languageCode ==
+                                    alignment: language.locale.languageCode ==
                                                 "ur" ||
-                                            language.locale.languageCode ==
-                                                "ar"
+                                            language.locale.languageCode == "ar"
                                         ? Alignment.bottomRight
                                         : Alignment.bottomLeft,
                                     child: Text(
-                                      localeText(
-                                          context, model.categoryName!),
+                                      localeText(context, model.categoryName!),
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           color: Colors.white,
