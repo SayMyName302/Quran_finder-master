@@ -52,7 +52,6 @@ const String streakLevelKey = "streakLevelKey";
 
 const String onBoardingDoneKey = "onBoardingDoneKey";
 
-
 /// fav reciters
 const String favReciterListKey = "favReciterListKey";
 
@@ -62,5 +61,4 @@ const String recommendedReciterListKey = "recommendedReciterListKey";
 /// tapped list keys
 const String tappedRecitationListKey = "tappedRecitationList";
 const String tappedSurahListKey = "tappedSurahListKey";
-
-
+const String tappedJuzzListKey = "tappedJuzzListKey";
