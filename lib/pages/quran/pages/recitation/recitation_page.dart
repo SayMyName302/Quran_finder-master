@@ -236,7 +236,6 @@ class _RecitationPageState extends State<RecitationPage> {
                 }
               },
             ),
-
             Column(
               children: [
                 HomeRowWidget(
@@ -261,8 +260,7 @@ class _RecitationPageState extends State<RecitationPage> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           try {
-                            RecitationCategoryModel model =
-                                recitationProvider.recitationCategory[index];
+                            RecitationCategoryModel model = recitationProvider.recitationCategory[index];
                             // print(model.categoryName);
                             // print(model.imageURl);
                             return InkWell(
