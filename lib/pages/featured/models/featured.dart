@@ -62,4 +62,9 @@ class FeaturedModel {
     _status = json['status']; // Assign the value to the status field
     _viewOrderBy = json['view_order_by'];
   }
+
+  @override
+  String toString() {
+    return "$_title";
+  }
 }

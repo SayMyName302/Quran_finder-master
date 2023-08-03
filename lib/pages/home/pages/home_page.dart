@@ -94,12 +94,7 @@ class _HomePageState extends State<HomePage> {
             lastSeen != null
                 ? const WhereULeftOffWidget()
                 : const SizedBox.shrink(),
-            Consumer<FeatureProvider>(
-              builder: (context, featureProvider, child) {
-                return FeaturedSection();
-              },
-            ),
-
+            const FeaturedSection(),
             const VerseOfTheDayContainer(),
             const PopularSection(),
 
