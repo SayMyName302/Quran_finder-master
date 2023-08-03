@@ -30,7 +30,8 @@ class HomeDb {
   final String _popular = "popular_recitation";
   final String _tranquil = "tranquil_tales";
   final String _tranquilCategory = "tranquil_tales_category";
-
+  final String _recitationPlaylists = "recitation_playlists";
+  final String _recitationPlaylistitems = "recitation_playlist_items";
   initDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -87,12 +88,12 @@ class HomeDb {
   }
 
   Future<List<RecitationAllCategoryModel>> getSelectedAll(
-      int categoryId) async {
+      int playlistId) async {
     _database = await openDb();
     List<RecitationAllCategoryModel> selectedRecitationAll = [];
-    var cursor = await _database!.query(_recitationAllTb,
-        where: "category_id = ? AND status = 'active'",
-        whereArgs: [categoryId]);
+    var cursor = await _database!.query(_recitationPlaylistitems,
+        where: "playlist_id = ? AND status = 'active'",
+        whereArgs: [playlistId]);
     for (var map in cursor) {
       selectedRecitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
@@ -184,7 +185,7 @@ class HomeDb {
   Future<List<RecitationCategoryModel>> getRecitationCategory() async {
     List<RecitationCategoryModel> recitationCategory = [];
     _database = await openDb();
-    var table = await _database!.query(_recitationCategoryTb);
+    var table = await _database!.query(_recitationPlaylists);
     print(
         "Table Length of recitation Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
@@ -212,7 +213,7 @@ class HomeDb {
   Future<List<RecitationAllCategoryModel>> getRecitationAll() async {
     List<RecitationAllCategoryModel> recitationAll = [];
     _database = await openDb();
-    var table = await _database!.query(_recitationAllTb);
+    var table = await _database!.query(_recitationPlaylistitems);
     print(
         "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {

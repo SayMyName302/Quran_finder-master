@@ -14,13 +14,15 @@ class RecitationCategoryProvider extends ChangeNotifier {
   List<RecitationAllCategoryModel> get recitationAll => _recitationAll;
 
   List<RecitationAllCategoryModel> _selectedRecitationAll = [];
-  List<RecitationAllCategoryModel> get selectedRecitationAll => _selectedRecitationAll;
+  List<RecitationAllCategoryModel> get selectedRecitationAll =>
+      _selectedRecitationAll;
 
   int _currentRecitationIndex = 0;
   int get currentRecitationIndex => _currentRecitationIndex;
 
   RecitationAllCategoryModel? _selectedRecitationStory;
-  RecitationAllCategoryModel? get selectedRecitationStory => _selectedRecitationStory;
+  RecitationAllCategoryModel? get selectedRecitationStory =>
+      _selectedRecitationStory;
 
   Future<void> getRecitationCategoryStories() async {
     _recitationCategory = await HomeDb().getRecitationCategory();
@@ -32,8 +34,8 @@ class RecitationCategoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getSelectedRecitationAll(int categoryId) async {
-    _selectedRecitationAll = await HomeDb().getSelectedAll(categoryId);
+  Future<void> getSelectedRecitationAll(int playlistId) async {
+    _selectedRecitationAll = await HomeDb().getSelectedAll(playlistId);
     notifyListeners();
   }
 
@@ -44,19 +46,22 @@ class RecitationCategoryProvider extends ChangeNotifier {
     };
   }
 
-  gotoRecitationAudioPlayerPage(int duaCategoryId, int surahId, imageUrl, BuildContext context) async {
+  gotoRecitationAudioPlayerPage(
+      int duaCategoryId, int surahId, imageUrl, BuildContext context) async {
     // _selectedRecitationAll = [];
     // _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
     if (_selectedRecitationAll.isNotEmpty) {
-      _currentRecitationIndex = _selectedRecitationAll.indexWhere((element) => element.surahId == surahId);
-      _selectedRecitationStory = _selectedRecitationAll[_currentRecitationIndex];
+      _currentRecitationIndex = _selectedRecitationAll
+          .indexWhere((element) => element.surahId == surahId);
+      _selectedRecitationStory =
+          _selectedRecitationAll[_currentRecitationIndex];
       notifyListeners();
       // ignore: use_build_context_synchronously
-      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false).initAudioPlayer(_selectedRecitationStory!.contentUrl!, imageUrl!, context);
+      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
+          .initAudioPlayer(
+              _selectedRecitationStory!.contentUrl!, imageUrl!, context);
     }
   }
-
-
 }
 
 

@@ -5,16 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/home/widgets/home_row_widget.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
-import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
+
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
-import 'package:nour_al_quran/pages/recitation_category/pages/recitation_category_section.dart';
+
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
-import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_category_page.dart';
+
 import 'package:nour_al_quran/pages/tranquil_tales/provider/tranquil_tales_provider.dart';
-import 'package:nour_al_quran/shared/database/quran_db.dart';
+
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/pages/quran/widgets/subtitle_text.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -22,7 +22,6 @@ import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../recitation_category/models/bookmarks_recitation.dart';
 import '../../../recitation_category/provider/recitation_category_provider.dart';
@@ -260,7 +259,8 @@ class _RecitationPageState extends State<RecitationPage> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           try {
-                            RecitationCategoryModel model = recitationProvider.recitationCategory[index];
+                            RecitationCategoryModel model =
+                                recitationProvider.recitationCategory[index];
                             // print(model.categoryName);
                             // print(model.imageURl);
                             return InkWell(
@@ -272,11 +272,11 @@ class _RecitationPageState extends State<RecitationPage> {
                                       .pause(context),
                                 );
                                 recitationProvider.getSelectedRecitationAll(
-                                    model.categoryId as int);
+                                    model.playlistId!);
                                 analytics.logEvent(
                                   name: 'recitation_section',
                                   parameters: {
-                                    'title': model.categoryName.toString()
+                                    'title': model.playlistName.toString()
                                   },
                                 );
                                 _addLastViewedRecitations(
@@ -285,16 +285,16 @@ class _RecitationPageState extends State<RecitationPage> {
                                 Navigator.of(context).pushNamed(
                                   RouteHelper.recitationallcategory,
                                   arguments: [
-                                    localeText(context, model.categoryName!),
+                                    localeText(context, model.playlistName!),
                                     model.imageURl!,
                                     LocalizationProvider().checkIsArOrUr()
-                                        ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                        : "${localeText(context, 'playlist_of')} ${model.numberOfPrayers!} ${localeText(context, 'duas')}",
-                                    model.categoryId!,
+                                        ? "${model.numberOfSruahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                                        : "${localeText(context, 'playlist_of')} ${model.numberOfSruahs!} ${localeText(context, 'duas')}",
+                                    model.playlistId!,
                                   ],
                                 );
                                 String categoryNames =
-                                    model.categoryName!.replaceAll('_', ' ');
+                                    model.playlistName!.replaceAll('_', ' ');
                                 //   tappedRecitationNames.add(model.categoryName!);
                                 context
                                     .read<recentProviderRecitation>()
@@ -543,128 +543,129 @@ class _RecitationPageState extends State<RecitationPage> {
                       );
               },
             ),
-            Column(
-              children: [
-                HomeRowWidget(
-                  text: localeText(context, 'tranquil_tales'),
-                  buttonText: localeText(context, "view_all"),
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushNamed(RouteHelper.tranquildstoriesviewall);
-                    analytics.logEvent(
-                      name: 'recitation_all_button',
-                    );
-                  },
-                ),
-                Consumer2<LocalizationProvider, TranquilCategoryProvider>(
-                  builder: (context, language, recitationProvider, child) {
-                    return SizedBox(
-                      height: 150.h,
-                      child: ListView.builder(
-                        itemCount: recitationProvider.recitationCategory.length,
-                        padding: EdgeInsets.only(
-                            left: 20.w, right: 20.w, bottom: 14.h),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          try {
-                            TranquilTalesCategoryModel model =
-                                recitationProvider.recitationCategory[index];
-                            // print(model.categoryName);
-                            // print(model.imageURl);
-                            return InkWell(
-                              onTap: () {
-                                _addLastViewedRecitations("tranquilTalesCategory", model);
-                                Future.delayed(
-                                  Duration.zero,
-                                  () => context
-                                      .read<RecitationPlayerProvider>()
-                                      .pause(context),
-                                );
-                                recitationProvider.getSelectedRecitationAll(
-                                    model.categoryId as int);
-                                analytics.logEvent(
-                                  name: 'recitation_section',
-                                  parameters: {
-                                    'title': model.categoryName.toString()
-                                  },
-                                );
-                                // updateTappedSurahNames(model.categoryName!);
-                                Navigator.of(context).pushNamed(
-                                  RouteHelper.tranquil_tales,
-                                  arguments: [
-                                    localeText(context, model.categoryName!),
-                                    model.imageURl!,
-                                    LocalizationProvider().checkIsArOrUr()
-                                        ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                        : "${localeText(context, 'playlist_of')} ${model.numberOfPrayers!} ${localeText(context, 'duas')}",
-                                    model.categoryId!,
-                                  ],
-                                );
-                                String categoryNames =
-                                    model.categoryName!.replaceAll('_', ' ');
+            // Column(
+            //   children: [
+            //     HomeRowWidget(
+            //       text: localeText(context, 'tranquil_tales'),
+            //       buttonText: localeText(context, "view_all"),
+            //       onTap: () {
+            //         Navigator.of(context)
+            //             .pushNamed(RouteHelper.tranquildstoriesviewall);
+            //         analytics.logEvent(
+            //           name: 'recitation_all_button',
+            //         );
+            //       },
+            //     ),
+            //     Consumer2<LocalizationProvider, TranquilCategoryProvider>(
+            //       builder: (context, language, recitationProvider, child) {
+            //         return SizedBox(
+            //           height: 150.h,
+            //           child: ListView.builder(
+            //             itemCount: recitationProvider.recitationCategory.length,
+            //             padding: EdgeInsets.only(
+            //                 left: 20.w, right: 20.w, bottom: 14.h),
+            //             scrollDirection: Axis.horizontal,
+            //             itemBuilder: (context, index) {
+            //               try {
+            //                 TranquilTalesCategoryModel model =
+            //                     recitationProvider.recitationCategory[index];
+            //                 // print(model.categoryName);
+            //                 // print(model.imageURl);
+            //                 return InkWell(
+            //                   onTap: () {
+            //                     _addLastViewedRecitations(
+            //                         "tranquilTalesCategory", model);
+            //                     Future.delayed(
+            //                       Duration.zero,
+            //                       () => context
+            //                           .read<RecitationPlayerProvider>()
+            //                           .pause(context),
+            //                     );
+            //                     recitationProvider.getSelectedRecitationAll(
+            //                         model.categoryId as int);
+            //                     analytics.logEvent(
+            //                       name: 'recitation_section',
+            //                       parameters: {
+            //                         'title': model.categoryName.toString()
+            //                       },
+            //                     );
+            //                     // updateTappedSurahNames(model.categoryName!);
+            //                     Navigator.of(context).pushNamed(
+            //                       RouteHelper.tranquil_tales,
+            //                       arguments: [
+            //                         localeText(context, model.categoryName!),
+            //                         model.imageURl!,
+            //                         LocalizationProvider().checkIsArOrUr()
+            //                             ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+            //                             : "${localeText(context, 'playlist_of')} ${model.numberOfPrayers!} ${localeText(context, 'duas')}",
+            //                         model.categoryId!,
+            //                       ],
+            //                     );
+            //                     String categoryNames =
+            //                         model.categoryName!.replaceAll('_', ' ');
 
-                                context
-                                    .read<recentProviderRecitation>()
-                                    .addTappedReciterName(categoryNames!);
-                              },
-                              child: Container(
-                                width: 209.w,
-                                margin: EdgeInsets.only(right: 10.w),
-                                decoration: BoxDecoration(
-                                  color: Colors.amberAccent,
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  image: DecorationImage(
-                                    image: NetworkImage(model.imageURl!
-                                        // Replace "https://example.com/path/to/image.jpg" with your actual image URL
-                                        ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Color.fromRGBO(0, 0, 0, 0),
-                                        Color.fromRGBO(0, 0, 0, 1),
-                                      ],
-                                      begin: Alignment.center,
-                                      end: Alignment.bottomCenter,
-                                    ),
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: 6.w, bottom: 8.h, right: 6.w),
-                                    alignment: language.locale.languageCode ==
-                                                "ur" ||
-                                            language.locale.languageCode == "ar"
-                                        ? Alignment.bottomRight
-                                        : Alignment.bottomLeft,
-                                    child: Text(
-                                      localeText(context, model.categoryName!),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17.sp,
-                                          fontFamily: "satoshi",
-                                          fontWeight: FontWeight.w900),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          } catch (error) {
-                            print("Error: $error");
+            //                     context
+            //                         .read<recentProviderRecitation>()
+            //                         .addTappedReciterName(categoryNames!);
+            //                   },
+            //                   child: Container(
+            //                     width: 209.w,
+            //                     margin: EdgeInsets.only(right: 10.w),
+            //                     decoration: BoxDecoration(
+            //                       color: Colors.amberAccent,
+            //                       borderRadius: BorderRadius.circular(8.r),
+            //                       image: DecorationImage(
+            //                         image: NetworkImage(model.imageURl!
+            //                             // Replace "https://example.com/path/to/image.jpg" with your actual image URL
+            //                             ),
+            //                         fit: BoxFit.cover,
+            //                       ),
+            //                     ),
+            //                     child: Container(
+            //                       decoration: BoxDecoration(
+            //                         borderRadius: BorderRadius.circular(8.r),
+            //                         gradient: const LinearGradient(
+            //                           colors: [
+            //                             Color.fromRGBO(0, 0, 0, 0),
+            //                             Color.fromRGBO(0, 0, 0, 1),
+            //                           ],
+            //                           begin: Alignment.center,
+            //                           end: Alignment.bottomCenter,
+            //                         ),
+            //                       ),
+            //                       child: Container(
+            //                         margin: EdgeInsets.only(
+            //                             left: 6.w, bottom: 8.h, right: 6.w),
+            //                         alignment: language.locale.languageCode ==
+            //                                     "ur" ||
+            //                                 language.locale.languageCode == "ar"
+            //                             ? Alignment.bottomRight
+            //                             : Alignment.bottomLeft,
+            //                         child: Text(
+            //                           localeText(context, model.categoryName!),
+            //                           textAlign: TextAlign.left,
+            //                           style: TextStyle(
+            //                               color: Colors.white,
+            //                               fontSize: 17.sp,
+            //                               fontFamily: "satoshi",
+            //                               fontWeight: FontWeight.w900),
+            //                         ),
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 );
+            //               } catch (error) {
+            //                 print("Error: $error");
 
-                            return Container(); // Placeholder for error handling
-                          }
-                        },
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
+            //                 return Container(); // Placeholder for error handling
+            //               }
+            //             },
+            //           ),
+            //         );
+            //       },
+            //     )
+            //   ],
+            // ),
             Container(
                 margin: EdgeInsets.only(top: 20.h),
                 child: buildTitleContainer(localeText(context, "favorites"))),

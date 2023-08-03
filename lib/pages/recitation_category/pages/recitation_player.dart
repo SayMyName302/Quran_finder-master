@@ -23,10 +23,12 @@ class RecitationAudioPlayer extends StatelessWidget {
     List arguments = ModalRoute.of(context)!.settings.arguments! as List;
     String title = arguments[0];
     // Map<String, dynamic> nextDuaData = recitationProv.getNextDuaRecitation();
-    var recitationProv = Provider.of<RecitationCategoryProvider>(context,listen: false);
-    RecitationAllCategoryModel nextDua = recitationProv.selectedRecitationStory!;
+    var recitationProv =
+        Provider.of<RecitationCategoryProvider>(context, listen: false);
+    RecitationAllCategoryModel nextDua =
+        recitationProv.selectedRecitationStory!;
     String duaUrl = nextDua.contentUrl.toString();
-    String reference = nextDua.reference.toString();
+    String reference = nextDua.surahName.toString();
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     return WillPopScope(
@@ -39,16 +41,22 @@ class RecitationAudioPlayer extends StatelessWidget {
             context: context,
             font: 16.sp,
             title: localeText(context, "now_playing")),
-        body: Consumer5<ThemProvider, StoryAndBasicPlayerProvider, AppColorsProvider, RecitationCategoryProvider,ProfileProvider>(
-          builder: (context, them, player, appColor, recitationCategoryProvider,profile, child) {
-            int recitationIndex = recitationProv.selectedRecitationAll.indexWhere((element) => element.reference == reference);
-            int indx = recitationProv.selectedRecitationAll[recitationIndex].surahId!;
-            int? categoryId = recitationProv.selectedRecitationAll[recitationIndex].categoryId;
+        body: Consumer5<ThemProvider, StoryAndBasicPlayerProvider,
+            AppColorsProvider, RecitationCategoryProvider, ProfileProvider>(
+          builder: (context, them, player, appColor, recitationCategoryProvider,
+              profile, child) {
+            int recitationIndex = recitationProv.selectedRecitationAll
+                .indexWhere((element) => element.surahName == reference);
+            int indx = recitationProv
+                .selectedRecitationAll[recitationIndex].playlistId!;
+            int? categoryId = recitationProv
+                .selectedRecitationAll[recitationIndex].playlistId;
             BookmarksRecitation bookmark = BookmarksRecitation(
                 recitationIndex: indx,
                 catID: categoryId,
                 recitationName: title,
-                recitationRef: recitationProv.selectedRecitationStory!.reference!,
+                recitationRef:
+                    recitationProv.selectedRecitationStory!.surahName!,
                 contentUrl: duaUrl,
                 imageUrl: player.image);
             return SingleChildScrollView(
@@ -78,7 +86,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                         // title,
                         style: TextStyle(
                             fontSize: 18.sp,
-                            color: them.isDark ? AppColors.grey4 : AppColors.grey3,
+                            color:
+                                them.isDark ? AppColors.grey4 : AppColors.grey3,
                             fontWeight: FontWeight.w900,
                             fontFamily: 'satoshi'),
                       ),
@@ -86,7 +95,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                         height: 3.h,
                       ),
                       Text(
-                        localeText(context, recitationProv.selectedRecitationStory!.title!),
+                        localeText(context,
+                            recitationProv.selectedRecitationStory!.title!),
                         style: TextStyle(
                           fontFamily: 'satoshi',
                           fontWeight: FontWeight.w900,
@@ -97,7 +107,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                         height: 3.h,
                       ),
                       Text(
-                        recitationProv.selectedRecitationStory!.reference!,
+                        recitationProv.selectedRecitationStory!.surahName!,
                         style: TextStyle(
                             fontSize: 16.sp,
                             fontFamily: 'satoshi',
@@ -113,7 +123,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 16.sp,
                             fontFamily: 'satoshi',
-                            color: them.isDark ? AppColors.grey4 : AppColors.grey3,
+                            color:
+                                them.isDark ? AppColors.grey4 : AppColors.grey3,
                             fontWeight: FontWeight.w700),
                       ),
                       Row(
@@ -139,13 +150,17 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   height: 21.h,
                                   width: 21.w,
                                   child: CircleAvatar(
-                                    backgroundColor: profile.userProfile!.recitationBookmarkList!.any((element)
-                                    => element.contentUrl == bookmark.contentUrl)
+                                    backgroundColor: profile.userProfile!
+                                            .recitationBookmarkList!
+                                            .any((element) =>
+                                                element.contentUrl ==
+                                                bookmark.contentUrl)
                                         ? appColor.mainBrandingColor
                                         : Colors.white,
                                     child: Icon(
                                       Icons.favorite,
-                                      color: profile.userProfile!.recitationBookmarkList!
+                                      color: profile.userProfile!
+                                              .recitationBookmarkList!
                                               .any((element) =>
                                                   element.contentUrl ==
                                                   bookmark.contentUrl)
@@ -170,7 +185,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text("${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
+                            Text(
+                                "${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
                             SliderTheme(
                               data: SliderThemeData(
                                   overlayShape: SliderComponentShape.noOverlay,
@@ -199,7 +215,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Text('- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
+                            Text(
+                                '- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
                           ],
                         ),
                         SizedBox(
@@ -214,12 +231,16 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   isLoopMoreNotifier.value = true;
                                   player.audioPlayer.setLoopMode(LoopMode.one);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('Loop Mode On For ${recitationProv.selectedRecitationStory!.surahNo!}')));
+                                      SnackBar(
+                                          content: Text(
+                                              'Loop Mode On For ${recitationProv.selectedRecitationStory!.surahNo!}')));
                                 } else {
                                   isLoopMoreNotifier.value = false;
                                   player.audioPlayer.setLoopMode(LoopMode.off);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('Loop Mode Off For ${recitationProv.selectedRecitationStory!.surahNo!}')));
+                                      SnackBar(
+                                          content: Text(
+                                              'Loop Mode Off For ${recitationProv.selectedRecitationStory!.surahNo!}')));
                                 }
                               },
                               icon: ValueListenableBuilder<bool>(
