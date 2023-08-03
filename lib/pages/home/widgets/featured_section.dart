@@ -15,10 +15,15 @@ import '../../../shared/localization/localization_constants.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import 'home_row_widget.dart';
 
-class FeaturedSection extends StatelessWidget {
-  const FeaturedSection({Key? key}) : super(key: key);
+class FeaturedSection extends StatefulWidget {
+  const FeaturedSection({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
+  _FeaturedSectionState createState() => _FeaturedSectionState();
+}
+
+class _FeaturedSectionState extends State<FeaturedSection> {
   @override
   Widget build(BuildContext context) {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -44,8 +49,19 @@ class FeaturedSection extends StatelessWidget {
                   Consumer2<FeatureProvider, FeaturedMiraclesOfQuranProvider>(
                 builder:
                     (context, storiesProvider, featuremiraclesProvider, child) {
+                  List<Map<String, dynamic>> mapList = storiesProvider.feature
+                      .map((model) => storiesProvider.featuredModelToMap(model))
+                      .toList();
+                  List<Map<String, dynamic>> listToDisplay =
+                      storiesProvider.dayName.isEmpty
+                          ? mapList
+                          : storiesProvider.reorderedStories;
+
+                  print(
+                      'INSIDE LISTVIEWBUILDER${storiesProvider.reorderedStories}');
+
                   return ListView.builder(
-                    itemCount: storiesProvider.feature.length,
+                    itemCount: listToDisplay.length,
                     padding:
                         EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                     scrollDirection: Axis.horizontal,
@@ -71,11 +87,6 @@ class FeaturedSection extends StatelessWidget {
                                   parameters: {'title': model.title},
                                 );
                               } else if (model.contentType == "Video") {
-                                // print(index);
-                                // print(model.storyTitle!);
-
-                                /// two ways without creating any separate provider
-                                /// directly using MiraclesOfQuranProvider
                                 Provider.of<MiraclesOfQuranProvider>(context,
                                         listen: false)
                                     .goToMiracleDetailsPageFromFeatured(
@@ -85,15 +96,7 @@ class FeaturedSection extends StatelessWidget {
                                       'featured_section_miracle_tile_homescreen',
                                   parameters: {'title': model.title},
                                 );
-
-                                /// else u can use your own provider as u create both work fine u can check and give me some
-                                /// feedback tomorrow
-                                /// u can un comment this and commit out MiraclesOfQuranProvider this provider line to check both
-                                // featuremiraclesProvider.goToMiracleDetailsPage(
-                                //     model.title!, context, index);
                               }
-                              // storiesProvider.gotoFeaturePlayerPage(
-                              //     model.storyId!, context, index);
                             } else {
                               ScaffoldMessenger.of(context)
                                 ..removeCurrentSnackBar()

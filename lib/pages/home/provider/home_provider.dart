@@ -82,7 +82,8 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<List<CustomTitles>> getTitlesbyWeather(String country) async {
-    List<CustomTitles> titles = await QuranDatabase().getTitlesByWeather(country);
+    List<CustomTitles> titles =
+        await QuranDatabase().getTitlesByWeather(country);
     notifyListeners();
     return titles;
   }
@@ -95,10 +96,12 @@ class HomeProvider extends ChangeNotifier {
     return _titleText;
   }
 
-  //Country name and 'rain' input by user
-  Future<List<CustomTitles>> getRainCountryTitles(String country) async {
-    _titleText = await QuranDatabase().getRainCountryTitles(country);
-    // notifyListeners();
+  // Country name and weather input by user
+  Future<List<CustomTitles>> getWeatherCountryTitles(
+      String country, String weather) async {
+    _titleText =
+        await QuranDatabase().getWeatherCountryTitles(country, weather);
+    notifyListeners(); // Uncomment this if you are using a ChangeNotifier
     return _titleText;
   }
 
@@ -191,13 +194,15 @@ class HomeProvider extends ChangeNotifier {
       Response response = await dio.get(url);
       var data = response.data;
       if (response.statusCode == 200) {
-        String weatherCondition = data['current']['condition']['text'].toString().toLowerCase();
+        String weatherCondition =
+            data['current']['condition']['text'].toString().toLowerCase();
         String country = data['location']['country'].toString().toLowerCase();
 
         // String cityAPI = data['location']['name'].toString().toLowerCase();
         //print('==URL API=${url}=====');
 
-        if (weatherCondition.contains("rain") || weatherCondition.contains("light rain")) {
+        if (weatherCondition.contains("rain") ||
+            weatherCondition.contains("light rain")) {
           return {
             'weather': 'rain',
             'country': country,
@@ -263,7 +268,8 @@ class HomeProvider extends ChangeNotifier {
         desiredAccuracy: LocationAccuracy.high,
       ).timeout(const Duration(seconds: 15));
 
-      List<Placemark> placeMarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placeMarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];

@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/utills/app_colors.dart';
+import '../../featured/models/featured.dart';
+import '../../featured/provider/featured_provider.dart';
 import '../../sign_in/provider/sign_in_provider.dart';
 import '../models/title_custom.dart';
 import '../provider/home_provider.dart';
@@ -25,11 +27,14 @@ class AppDownloadsSection extends StatelessWidget {
   final dayName = TextEditingController();
   final weather = TextEditingController();
 
+  // final feature = Provider.of<FeatureProvider>(context, listen: false);
+
   void fetchCountryTitle(BuildContext context) async {
     String countryName = country.text.trim().toLowerCase();
     final user = Provider.of<HomeProvider>(context, listen: false);
 
-    List<CustomTitles> titles = await user.getTitlesByCountryExplicitly(countryName);
+    List<CustomTitles> titles =
+        await user.getTitlesByCountryExplicitly(countryName);
 
     if (titles.isNotEmpty) {
       int randomIndex = Random().nextInt(titles.length);
@@ -44,11 +49,14 @@ class AppDownloadsSection extends StatelessWidget {
 
   void fetchRainCountryTitle(BuildContext context) async {
     String countryName = country.text.trim().toLowerCase();
+
+    String lowerCaseWeather = weather.text.trim().toLowerCase();
     final user = Provider.of<HomeProvider>(context, listen: false);
     // print(weather.text);
     // print(country.text);
 
-    List<CustomTitles> titles = await user.getRainCountryTitles(countryName);
+    List<CustomTitles> titles =
+        await user.getWeatherCountryTitles(countryName, lowerCaseWeather);
 
     if (titles.isNotEmpty) {
       int randomIndex = Random().nextInt(titles.length);
@@ -61,13 +69,27 @@ class AppDownloadsSection extends StatelessWidget {
     }
   }
 
+  void changeFeatureOrder(BuildContext context) async {}
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<HomeProvider>(context);
     final authProvider = Provider.of<SignInProvider>(context);
+    final featureProvider =
+        Provider.of<FeatureProvider>(context, listen: false);
+
+    // List<FeaturedModel> featureModels = featureProvider.feature;
+    // List<Map<String, dynamic>> mapList = featureModels
+    //     .map((model) => featureProvider.featuredModelToMap(model))
+    //     .toList();
+    // List<Map<String, dynamic>> reorderedStories =
+    //     [];
 
     final userEmail = authProvider.userEmail;
-    final isUserYou = userEmail == "u@u.com";
+    final isUserYou = userEmail == "u@u.com" ||
+        userEmail == "ahsanalikhan200@gmail.com" ||
+        userEmail == "ahsanalikhan538@gmail.com" ||
+        userEmail == "canzinternal3@gmail.com";
 
     if (!isUserYou) {
       return const SizedBox.shrink();
@@ -161,15 +183,24 @@ class AppDownloadsSection extends StatelessWidget {
                           country.text.trim().toLowerCase();
                       String lowerCaseWeather =
                           weather.text.trim().toLowerCase();
+                      String lowerCasedayName =
+                          dayName.text.trim().toLowerCase();
 
                       if ((lowerCaseCountry == "pakistan" ||
-                              lowerCaseCountry == "saudi arabia" ||
-                              lowerCaseCountry == "indonesia") &&
-                          lowerCaseWeather == "rain") {
+                                  lowerCaseCountry == "saudi arabia" ||
+                                  lowerCaseCountry == "indonesia") &&
+                              lowerCaseWeather == "rain" ||
+                          lowerCaseWeather == "thunder") {
                         fetchRainCountryTitle(context);
                       } else if (lowerCaseCountry.isNotEmpty) {
                         fetchCountryTitle(context);
                       }
+                      // else if (lowerCasedayName.isNotEmpty) {
+                      //   featureProvider.setDayName(dayName.text);
+                      // }
+
+                      // featureProvider.setDayName(dayName.text);
+                      featureProvider.reorderStoriesIfNeeded(lowerCasedayName);
                     },
                   ),
                 ],

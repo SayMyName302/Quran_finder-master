@@ -10,6 +10,7 @@ class FeaturedModel {
   String? _videoUrl;
   String? _contentType;
   String? _status; // New field: status
+  int? _viewOrderBy;
 
   int? get storyId => _storyId;
   String? get storyTitle => _storyTitle;
@@ -19,6 +20,7 @@ class FeaturedModel {
   String? get text => _text;
   String? get contentType => _contentType;
   String? get status => _status; // New getter for status
+  int? get viewOrderBy => _viewOrderBy;
 
   String? _title;
   String? get title => _title;
@@ -33,6 +35,7 @@ class FeaturedModel {
     required video,
     required contentType,
     required status, // New parameter: status
+    required viewOrderBy,
   }) {
     _title = title;
     _storyId = storyId;
@@ -43,6 +46,7 @@ class FeaturedModel {
     _videoUrl = video;
     _contentType = contentType;
     _status = status; // Assign the value to the status field
+    _viewOrderBy = viewOrderBy;
   }
 
   FeaturedModel.fromJson(Map<String, dynamic> json) {
@@ -56,5 +60,6 @@ class FeaturedModel {
     _videoUrl = json['content_url'];
     _contentType = json['content_type'];
     _status = json['status']; // Assign the value to the status field
+    _viewOrderBy = json['view_order_by'];
   }
 }

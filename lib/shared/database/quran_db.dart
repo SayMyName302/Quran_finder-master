@@ -56,7 +56,7 @@ class QuranDatabase {
     return username.isNotEmpty;
   }
 
-  //This method is used when country is input from InputField
+  //Fetch country EXPLICITLY through INPUT
   Future<List<CustomTitles>> getCountrytitlesExplicitly(String country) async {
     database = await openDb();
     var titles = <CustomTitles>[];
@@ -74,28 +74,34 @@ class QuranDatabase {
     return titles;
   }
 
-  //Fetch country where weather is rain EXPLICITLY
-  Future<List<CustomTitles>> getRainCountryTitles(String country) async {
+  //Fetch country where weather is rain EXPLICITLY through INPUT
+  Future<List<CustomTitles>> getWeatherCountryTitles(
+      String country, String weather) async {
     database = await openDb();
     var titles = <CustomTitles>[];
 
-    var cursor = await database!.query(_rowtitlecustom,
-        columns: ["title_text"],
-        where: "country_name = ? AND weather = ?",
-        whereArgs: [country, 'rain']);
+    var cursor = await database!.query(
+      _rowtitlecustom,
+      columns: ["title_text"],
+      where: "country_name = ? AND weather = ?",
+      whereArgs: [
+        country,
+        weather
+      ], // Pass the 'weather' parameter to the query
+    );
 
     for (var row in cursor) {
       var customTitle = CustomTitles.fromJson(row);
       titles.add(customTitle);
     }
 
-    // Print the list of titles
-    titles.forEach((title) {
-      print('Title Text: ${title.titleText}');
-    });
+    // titles.forEach((title) {
+    //   print('Title Text: ${title.titleText}');
+    // });
     return titles;
   }
 
+  //Fetches Country Titles when No rain
   Future<List<CustomTitles>> getCountrytitles(String country) async {
     database = await openDb();
     var titles = <CustomTitles>[];
@@ -113,6 +119,7 @@ class QuranDatabase {
     return titles;
   }
 
+  //Fetches Country Titles on Rain Condition
   Future<List<CustomTitles>> getTitlesByWeather(String country) async {
     database = await openDb();
     var titles = <CustomTitles>[];

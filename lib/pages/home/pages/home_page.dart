@@ -12,6 +12,7 @@ import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
 import 'package:provider/provider.dart';
+import '../../featured/provider/featured_provider.dart';
 import '../../sign_in/provider/sign_in_provider.dart';
 import '../provider/home_provider.dart';
 import '../widgets/total_app_downloads.dart';
@@ -42,7 +43,10 @@ class _HomePageState extends State<HomePage> {
     try {
       await signInProvider.initUserEmail();
       String? userEmail = signInProvider.userEmail;
-      bool isUser = userEmail == "u@u.com";
+      bool isUser = userEmail == "u@u.com" ||
+          userEmail == "ahsanalikhan200@gmail.com" ||
+          userEmail == "ahsanalikhan538@gmail.com" ||
+          userEmail == "canzinternal3@gmail.com";
 
       String userRegion = getCountry.country;
       if (userRegion.isNotEmpty) {
@@ -90,7 +94,12 @@ class _HomePageState extends State<HomePage> {
             lastSeen != null
                 ? const WhereULeftOffWidget()
                 : const SizedBox.shrink(),
-            const FeaturedSection(),
+            Consumer<FeatureProvider>(
+              builder: (context, featureProvider, child) {
+                return FeaturedSection();
+              },
+            ),
+
             const VerseOfTheDayContainer(),
             const PopularSection(),
 
