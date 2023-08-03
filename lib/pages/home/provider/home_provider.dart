@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:nour_al_quran/pages/home/models/test_users.dart';
 import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
 import 'package:nour_al_quran/shared/database/quran_db.dart';
 import 'package:nour_al_quran/shared/entities/quran_text.dart';
@@ -56,11 +57,23 @@ class HomeProvider extends ChangeNotifier {
   List<CustomTitles> _titleText = [];
   List<CustomTitles> get titleText => _titleText;
 
+  //For Test Users
+  // bool? _user;
+  // bool? get userFound => _user;
+
+  final ValueNotifier<bool?> _user = ValueNotifier<bool?>(null);
+  ValueNotifier<bool?> get user => _user;
+
   //this variable will be used to display in HomeScreen text change
   String? _selectedTitleText;
   String? get selectedTitleText => _selectedTitleText;
 
   bool isRequestingPermission = false;
+
+  Future<void> checkUser(String email) async {
+    bool userExists = await QuranDatabase().checkUserInDatabase(email);
+    _user.value = userExists;
+  }
 
   Future<List<CustomTitles>> getTitlesByCountry(String country) async {
     _titleText = await QuranDatabase().getCountrytitles(country);
@@ -69,7 +82,8 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<List<CustomTitles>> getTitlesbyWeather(String country) async {
-    List<CustomTitles> titles = await QuranDatabase().getTitlesByWeather(country);
+    List<CustomTitles> titles =
+        await QuranDatabase().getTitlesByWeather(country);
     notifyListeners();
     return titles;
   }
@@ -82,10 +96,12 @@ class HomeProvider extends ChangeNotifier {
     return _titleText;
   }
 
-  //Country name and 'rain' input by user
-  Future<List<CustomTitles>> getRainCountryTitles(String country) async {
-    _titleText = await QuranDatabase().getRainCountryTitles(country);
-    // notifyListeners();
+  // Country name and weather input by user
+  Future<List<CustomTitles>> getWeatherCountryTitles(
+      String country, String weather) async {
+    _titleText =
+        await QuranDatabase().getWeatherCountryTitles(country, weather);
+    notifyListeners(); // Uncomment this if you are using a ChangeNotifier
     return _titleText;
   }
 
@@ -178,13 +194,15 @@ class HomeProvider extends ChangeNotifier {
       Response response = await dio.get(url);
       var data = response.data;
       if (response.statusCode == 200) {
-        String weatherCondition = data['current']['condition']['text'].toString().toLowerCase();
+        String weatherCondition =
+            data['current']['condition']['text'].toString().toLowerCase();
         String country = data['location']['country'].toString().toLowerCase();
 
         // String cityAPI = data['location']['name'].toString().toLowerCase();
-        // print('==CITY API=${cityAPI}=====');
+        //print('==URL API=${url}=====');
 
-        if (weatherCondition.contains("rain") || weatherCondition.contains("light rain")) {
+        if (weatherCondition.contains("rain") ||
+            weatherCondition.contains("light rain")) {
           return {
             'weather': 'rain',
             'country': country,
@@ -250,7 +268,8 @@ class HomeProvider extends ChangeNotifier {
         desiredAccuracy: LocationAccuracy.high,
       ).timeout(const Duration(seconds: 15));
 
-      List<Placemark> placeMarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placeMarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];

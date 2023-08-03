@@ -10,6 +10,9 @@ class RecitationAllCategoryModel {
   String? _status;
   int? _orderBy;
   int? _isFav;
+  int? _playlistId;
+  int? _playlistItemId;
+  String? _surahName;
 
   int? get surahId => _surahId;
   int? get categoryId => _categoryId;
@@ -22,22 +25,27 @@ class RecitationAllCategoryModel {
   String? get status => _status;
   int? get orderBy => _orderBy;
   int? get isFav => _isFav;
+  int? get playlistId => _playlistId;
+  int? get playlistItemId => _playlistItemId;
+  String? get surahName => _surahName;
+
   set setIsBookmark(int value) => _isFav = value;
 
-  // Getter for content_type
-
   RecitationAllCategoryModel({
-    required surahId,
-    required categoryId,
-    required surahNo,
-    required ayahCount,
-    required title,
-    required reference,
-    required contentType,
-    required contentUrl,
-    required status,
-    required orderBy,
-    required isFav,
+    required int surahId,
+    required int categoryId,
+    required int surahNo,
+    required int ayahCount,
+    required String title,
+    required String reference,
+    required String contentType,
+    required String contentUrl,
+    required String status,
+    required int orderBy,
+    required int isFav,
+    required int playlistId,
+    required int playlistItemId,
+    required String surahName,
   }) {
     _surahId = surahId;
     _categoryId = categoryId;
@@ -50,6 +58,9 @@ class RecitationAllCategoryModel {
     _status = status;
     _orderBy = orderBy;
     _isFav = isFav;
+    _playlistId = playlistId;
+    _playlistItemId = playlistItemId;
+    _surahName = surahName;
   }
 
   RecitationAllCategoryModel.fromJson(Map<String, dynamic> json) {
@@ -64,7 +75,11 @@ class RecitationAllCategoryModel {
     _status = json['status'];
     _orderBy = json['order_by'];
     _isFav = json['is_favorite'];
+    _playlistId = json['playlist_id'];
+    _playlistItemId = json['playlist_item_id'];
+    _surahName = json['surah_name'];
   }
+
   Map<String, dynamic> toJson() {
     return {
       'surah_id': _surahId,
@@ -78,11 +93,9 @@ class RecitationAllCategoryModel {
       'status': _status,
       'order_by': _orderBy,
       'is_favorite': _isFav,
+      'playlist_id': _playlistId,
+      'playlist_item_id': _playlistItemId,
+      'surah_name': _surahName,
     };
   }
-
-  // @override
-  // String toString() {
-  //   return 'surahid $surahId category $categoryId isfavorite $isFav ,';
-  // }
 }

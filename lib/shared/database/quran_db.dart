@@ -16,6 +16,7 @@ import 'package:path/path.dart';
 
 import '../../pages/duas/models/dua.dart';
 import '../../pages/duas/models/dua_category.dart';
+import '../../pages/home/models/test_users.dart';
 import '../../pages/home/models/title_custom.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah_category.dart';
@@ -27,19 +28,35 @@ class QuranDatabase {
   final String _duaAllTable = "duas_all";
   final String _duaCategoryTable = "dua_category";
   final String _reciterTable = "reciters";
-
   final String _juzListTable = "juz_list";
-  //final String _bookmarkNameTable = "BookMarksList";
-
   final String _rduaAllTable = "al_ruqyah_all";
   final String _rduaCatergoryTable = "ruqyah_category";
-
-  // final String _reciteAllTable = "recitation_all";
-  // final String _reciteCategoryTable = "recitation_category";
-
   final String _rowtitlecustom = "row_title_custom";
+  final String _testUsers = "bottom_testing";
 
-  //This method is used when country is input from InputField
+  //Checking user to show custom Container for Testing
+  Future<bool> checkUserInDatabase(String userEmail) async {
+    final database = await openDb();
+    final username = <TestUsers>[];
+
+    final cursor = await database.query(
+      _testUsers,
+      columns: ["username"],
+      where: "username = ?",
+      whereArgs: [userEmail],
+    );
+
+    for (final row in cursor) {
+      final users = TestUsers.fromJson(row);
+      username.add(users);
+    }
+
+    await database.close();
+
+    return username.isNotEmpty;
+  }
+
+  //Fetch country EXPLICITLY through INPUT
   Future<List<CustomTitles>> getCountrytitlesExplicitly(String country) async {
     database = await openDb();
     var titles = <CustomTitles>[];
@@ -57,35 +74,41 @@ class QuranDatabase {
     return titles;
   }
 
-  //Fetch country where weather is rain EXPLICITLY
-  Future<List<CustomTitles>> getRainCountryTitles(String country) async {
+  //Fetch country where weather is rain EXPLICITLY through INPUT
+  Future<List<CustomTitles>> getWeatherCountryTitles(
+      String country, String weather) async {
     database = await openDb();
     var titles = <CustomTitles>[];
 
-    var cursor = await database!.query(_rowtitlecustom,
-        columns: ["title_text"],
-        where: "country_name = ? AND weather = ?",
-        whereArgs: [country, 'rain']);
+    var cursor = await database!.query(
+      _rowtitlecustom,
+      columns: ["title_text"],
+      where: "country_name = ? AND weather = ?",
+      whereArgs: [
+        country,
+        weather
+      ], // Pass the 'weather' parameter to the query
+    );
 
     for (var row in cursor) {
       var customTitle = CustomTitles.fromJson(row);
       titles.add(customTitle);
     }
 
-    // Print the list of titles
-    titles.forEach((title) {
-      print('Title Text: ${title.titleText}');
-    });
+    // titles.forEach((title) {
+    //   print('Title Text: ${title.titleText}');
+    // });
     return titles;
   }
 
+  //Fetches Country Titles when No rain
   Future<List<CustomTitles>> getCountrytitles(String country) async {
     database = await openDb();
     var titles = <CustomTitles>[];
 
     var cursor = await database!.query(_rowtitlecustom,
         columns: ["title_text"],
-        where: "country_name = ?",
+        where: "country_name = ? AND weather NOT LIKE '%rain%'",
         whereArgs: [country]);
 
     for (var row in cursor) {
@@ -96,6 +119,7 @@ class QuranDatabase {
     return titles;
   }
 
+  //Fetches Country Titles on Rain Condition
   Future<List<CustomTitles>> getTitlesByWeather(String country) async {
     database = await openDb();
     var titles = <CustomTitles>[];
@@ -111,7 +135,7 @@ class QuranDatabase {
       var customTitle = CustomTitles.fromJson(row);
       titles.add(customTitle);
     }
-
+//iuhnbuybuytbutbububugt
     return titles;
   }
 

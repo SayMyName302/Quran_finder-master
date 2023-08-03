@@ -51,25 +51,4 @@ class CustomTitles {
     _endHour = json['end_hours'];
     _weather = json['weather'];
   }
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'dua_id': _rowname,
-  //     'category_id': _duaCategory,
-  //     'dua_text': _duaText,
-  //     'dua_title': _duatitle,
-  //     'dua_ref': _duaRef,
-  //     'translations': _translations,
-  //     'content_url': _contentUrl,
-  //     'ayah_count': _ayahCount,
-  //     'is_fav': _isFav,
-  //     'status': _status,
-  //     'dua_no': _duaNo,
-  //   };
-  // }
-
-  // @override
-  // String toString() {
-  //   return 'Dua: duaId=$id,duaTitle=$duaTitle, duaText=$duaText, translations=$translations, duaRef=$duaRef, totalAyaat=$ayahCount, isFAV ? $isFav, status > $status';
-  // }
 }
