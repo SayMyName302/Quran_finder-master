@@ -135,7 +135,7 @@ class QuranDatabase {
       var customTitle = CustomTitles.fromJson(row);
       titles.add(customTitle);
     }
-
+//iuhnbuybuytbutbububugt
     return titles;
   }
 
