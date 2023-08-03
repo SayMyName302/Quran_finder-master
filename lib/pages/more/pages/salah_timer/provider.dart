@@ -190,8 +190,7 @@ class PrayerTimeProvider extends ChangeNotifier {
   void checkWeather(String city, BuildContext context) async {
     try {
       var dio = Dio();
-      Response response = await dio.get(
-          "http://api.weatherapi.com/v1/current.json?key=73ec04d970d540f1ba3173621232602&q=$city&aqi=yes");
+      Response response = await dio.get("http://api.weatherapi.com/v1/current.json?key=73ec04d970d540f1ba3173621232602&q=$city&aqi=yes");
       var data = response.data;
       if (response.statusCode == 200) {
         if (data['current']['condition']['text']

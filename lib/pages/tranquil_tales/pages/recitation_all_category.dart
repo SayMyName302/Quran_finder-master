@@ -22,9 +22,6 @@ class TranquilStories extends StatelessWidget {
     String title = arguments[0];
     String imageURl = arguments[1];
     String collectionOfDua = arguments[2];
-    // print(title);
-    // print(collectionOfDua);
-    // print(imageURl);
 
     //Split Collection
     List<String> splitText = collectionOfDua.split(' ');
@@ -44,13 +41,11 @@ class TranquilStories extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   icon: const Icon(Icons.arrow_back_outlined),
-                  padding: EdgeInsets.only(
-                      left: 20.w, top: 13.41.h, bottom: 21.4.h, right: 20.w),
+                  padding: EdgeInsets.only(left: 20.w, top: 13.41.h, bottom: 21.4.h, right: 20.w),
                   alignment: Alignment.topLeft,
                 ),
                 Container(
-                  margin:
-                      EdgeInsets.only(bottom: 18.h, left: 20.w, right: 20.w),
+                  margin: EdgeInsets.only(bottom: 18.h, left: 20.w, right: 20.w),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -120,16 +115,12 @@ class TranquilStories extends StatelessWidget {
                           ),
                         )
                       : ListView.builder(
-                          itemCount:
-                              recitationProvider.selectedRecitationAll.length,
+                          itemCount: recitationProvider.selectedRecitationAll.length,
                           itemBuilder: (context, index) {
-                            TranquilTalesModel recitationModels =
-                                recitationProvider.selectedRecitationAll[index];
-
+                            TranquilTalesModel recitationModels = recitationProvider.selectedRecitationAll[index];
                             return InkWell(
                               onTap: () {
-                                recitationProvider
-                                    .gotoRecitationAudioPlayerPage(
+                                recitationProvider.gotoRecitationAudioPlayerPage(
                                   recitationModels.categoryId!,
                                   recitationModels.surahId!,
                                   imageURl,
@@ -163,26 +154,21 @@ class TranquilStories extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only(
-                                          left: 10.w, right: 10.w),
-                                      padding: const EdgeInsets.only(
-                                          top: 5, bottom: 5),
+                                      margin: EdgeInsets.only(left: 10.w, right: 10.w),
+                                      padding: const EdgeInsets.only(top: 5, bottom: 5),
                                       child: Row(
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5, bottom: 5),
+                                            padding: const EdgeInsets.only(top: 5, bottom: 5),
                                             child: CircleAvatar(
                                               radius: 17,
-                                              backgroundColor:
-                                                  appColors.mainBrandingColor,
+                                              backgroundColor: appColors.mainBrandingColor,
                                               child: Container(
                                                 width: 25,
                                                 height: 25,
                                                 alignment: Alignment.center,
                                                 child: Text(
-                                                  recitationModels.surahNo
-                                                      .toString(),
+                                                  recitationModels.surahNo.toString(),
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
                                                       fontSize: 12,
@@ -195,47 +181,28 @@ class TranquilStories extends StatelessWidget {
                                           ),
                                           SizedBox(width: 10.h),
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.6,
-                                                child: Text(
-                                                  localeText(
-                                                      context,
-                                                      recitationModels.title
-                                                          .toString()),
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15.sp,
-                                                    fontFamily: "satoshi",
-                                                  ),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                              Text(
+                                                localeText(context, recitationModels.title.toString()),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 15.sp,
+                                                  fontFamily: "satoshi",
                                                 ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                               SizedBox(height: 2.h),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.6,
-                                                child: Text(
-                                                  recitationModels.reference
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 12.sp,
-                                                    fontFamily: "satoshi",
-                                                    color: AppColors.grey4,
-                                                  ),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                              Text(
+                                                recitationModels.reference.toString(),
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontFamily: "satoshi",
+                                                  color: AppColors.grey4,
                                                 ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                             ],
                                           ),
@@ -256,8 +223,7 @@ class TranquilStories extends StatelessWidget {
                                           height: 21.h,
                                           alignment: Alignment.center,
                                           child: Text(
-                                            recitationModels.ayahCount
-                                                .toString(),
+                                            recitationModels.ayahCount.toString(),
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                                 fontSize: 12,

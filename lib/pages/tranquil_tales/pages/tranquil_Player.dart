@@ -13,25 +13,20 @@ import 'package:provider/provider.dart';
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
 import '../../../shared/widgets/app_bar.dart';
 import '../models/TranquilModel.dart';
-import 'bookmarks_recitation.dart';
+import '../models/bookmarks_recitation.dart';
 
 class TranquilAudioPlayer extends StatelessWidget {
   const TranquilAudioPlayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var recitationProv = Provider.of<TranquilCategoryProvider>(context);
     List arguments = ModalRoute.of(context)!.settings.arguments! as List;
     String title = arguments[0];
-
-    TranquilCategoryProvider rcp =
-        Provider.of<TranquilCategoryProvider>(context);
-    Map<String, dynamic> nextDuaData = rcp.getNextDuaRecitation();
-    TranquilTalesModel nextDua = nextDuaData['dua'];
-    // int? fav = nextDua.isFav;
+    // Map<String, dynamic> nextDuaData = rcp.getNextDuaRecitation();
+    var recitationProv = Provider.of<TranquilCategoryProvider>(context);
+    TranquilTalesModel nextDua = recitationProv.selectedRecitationStory!;
     String duaUrl = nextDua.contentUrl.toString();
     String reference = nextDua.reference.toString();
-    print(duaUrl);
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     return WillPopScope(
       onWillPop: () async {
@@ -45,21 +40,16 @@ class TranquilAudioPlayer extends StatelessWidget {
             title: localeText(context, "now_playing")),
         body: Consumer4<ThemProvider, StoryAndBasicPlayerProvider,
             AppColorsProvider, TranquilCategoryProvider>(
-          builder: (context, them, player, appColor, recitationCategoryProvider,
-              child) {
-            int recitationIndex = recitationProv.selectedRecitationAll
-                .indexWhere((element) => element.reference == reference);
-            int indx =
-                recitationProv.selectedRecitationAll[recitationIndex].surahId!;
-            int? categoryId = recitationProv
-                .selectedRecitationAll[recitationIndex].categoryId;
+          builder: (context, them, player, appColor, recitationCategoryProvider, child) {
+            int recitationIndex = recitationProv.selectedRecitationAll.indexWhere((element) => element.reference == reference);
+            int indx = recitationProv.selectedRecitationAll[recitationIndex].surahId!;
+            int? categoryId = recitationProv.selectedRecitationAll[recitationIndex].categoryId;
 
             BookmarksRecitation bookmark = BookmarksRecitation(
                 recitationIndex: indx,
                 catID: categoryId,
                 recitationName: title,
-                recitationRef:
-                    recitationProv.selectedRecitationStory!.reference!,
+                recitationRef: recitationProv.selectedRecitationStory!.reference!,
                 contentUrl: duaUrl,
                 imageUrl: player.image);
             return SingleChildScrollView(
@@ -81,16 +71,14 @@ class TranquilAudioPlayer extends StatelessWidget {
                                   player.image,
                                 ),
                                 fit: BoxFit.cover)),
-                        margin: EdgeInsets.only(
-                            left: 20.w, right: 20.w, bottom: 35.h),
+                        margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 35.h),
                       ),
                       Text(
                         localeText(context, title),
                         // title,
                         style: TextStyle(
                             fontSize: 18.sp,
-                            color:
-                                them.isDark ? AppColors.grey4 : AppColors.grey3,
+                            color: them.isDark ? AppColors.grey4 : AppColors.grey3,
                             fontWeight: FontWeight.w900,
                             fontFamily: 'satoshi'),
                       ),
@@ -98,8 +86,7 @@ class TranquilAudioPlayer extends StatelessWidget {
                         height: 3.h,
                       ),
                       Text(
-                        localeText(context,
-                            recitationProv.selectedRecitationStory!.title!),
+                        localeText(context, recitationProv.selectedRecitationStory!.title!),
                         style: TextStyle(
                           fontFamily: 'satoshi',
                           fontWeight: FontWeight.w900,
@@ -126,8 +113,7 @@ class TranquilAudioPlayer extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 16.sp,
                             fontFamily: 'satoshi',
-                            color:
-                                them.isDark ? AppColors.grey4 : AppColors.grey3,
+                            color: them.isDark ? AppColors.grey4 : AppColors.grey3,
                             fontWeight: FontWeight.w700),
                       ),
                       Row(
@@ -135,73 +121,6 @@ class TranquilAudioPlayer extends StatelessWidget {
                         children: [
                           const Text(""),
                           const Text(""),
-                          // InkWell(
-                          //   onTap: () {
-                          //     int recitationIndex = recitationProv
-                          //         .selectedRecitationAll
-                          //         .indexWhere((element) =>
-                          //             element.reference == reference);
-                          //     int indx = recitationProv
-                          //         .selectedRecitationAll[recitationIndex]
-                          //         .surahId!;
-                          //     int? categoryId = recitationProv
-                          //         .selectedRecitationAll[recitationIndex]
-                          //         .categoryId;
-                          //
-                          //     if (fav == 0 || fav == null) {
-                          //       rprovider.bookmark(recitationIndex, 1);
-                          //       BookmarksRecitation bookmark =
-                          //           BookmarksRecitation(
-                          //               recitationIndex: indx,
-                          //               catID: categoryId,
-                          //               recitationName: title,
-                          //               recitationRef: recitationProv
-                          //                   .selectedRecitationStory!
-                          //                   .reference!,
-                          //               contentUrl: duaUrl,
-                          //               imageUrl: player.image);
-                          //
-                          //       context
-                          //           .read<RecitationCategoryProvider>()
-                          //           .addBookmark(bookmark);
-                          //     } else {
-                          //       rprovider.bookmark(recitationIndex, 0);
-                          //       context
-                          //           .read<RecitationCategoryProvider>()
-                          //           .removeBookmark(
-                          //               indx,
-                          //               recitationProv.selectedRecitationStory!
-                          //                   .categoryId!);
-                          //     }
-                          //   },
-                          //   child: Container(
-                          //     height: 23.h,
-                          //     width: 23.w,
-                          //     margin: EdgeInsets.only(
-                          //       top: 3.h,
-                          //       bottom: 10.h,
-                          //     ),
-                          //     child: CircleAvatar(
-                          //       backgroundColor: appColor.mainBrandingColor,
-                          //       child: SizedBox(
-                          //         height: 21.h,
-                          //         width: 21.w,
-                          //         child: CircleAvatar(
-                          //           backgroundColor: fav == 1
-                          //               ? appColor.mainBrandingColor
-                          //               : Colors.white,
-                          //           child: Icon(
-                          //             Icons.favorite,
-                          //             color: fav == 1
-                          //                 ? Colors.white
-                          //                 : appColor.mainBrandingColor,
-                          //             size: 13.h,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // )
                           InkWell(
                             onTap: () {
                               // recitationCategoryProvider
@@ -409,3 +328,72 @@ class TranquilAudioPlayer extends StatelessWidget {
     );
   }
 }
+
+/// bookmark old logic
+// InkWell(
+//   onTap: () {
+//     int recitationIndex = recitationProv
+//         .selectedRecitationAll
+//         .indexWhere((element) =>
+//             element.reference == reference);
+//     int indx = recitationProv
+//         .selectedRecitationAll[recitationIndex]
+//         .surahId!;
+//     int? categoryId = recitationProv
+//         .selectedRecitationAll[recitationIndex]
+//         .categoryId;
+//
+//     if (fav == 0 || fav == null) {
+//       rprovider.bookmark(recitationIndex, 1);
+//       BookmarksRecitation bookmark =
+//           BookmarksRecitation(
+//               recitationIndex: indx,
+//               catID: categoryId,
+//               recitationName: title,
+//               recitationRef: recitationProv
+//                   .selectedRecitationStory!
+//                   .reference!,
+//               contentUrl: duaUrl,
+//               imageUrl: player.image);
+//
+//       context
+//           .read<RecitationCategoryProvider>()
+//           .addBookmark(bookmark);
+//     } else {
+//       rprovider.bookmark(recitationIndex, 0);
+//       context
+//           .read<RecitationCategoryProvider>()
+//           .removeBookmark(
+//               indx,
+//               recitationProv.selectedRecitationStory!
+//                   .categoryId!);
+//     }
+//   },
+//   child: Container(
+//     height: 23.h,
+//     width: 23.w,
+//     margin: EdgeInsets.only(
+//       top: 3.h,
+//       bottom: 10.h,
+//     ),
+//     child: CircleAvatar(
+//       backgroundColor: appColor.mainBrandingColor,
+//       child: SizedBox(
+//         height: 21.h,
+//         width: 21.w,
+//         child: CircleAvatar(
+//           backgroundColor: fav == 1
+//               ? appColor.mainBrandingColor
+//               : Colors.white,
+//           child: Icon(
+//             Icons.favorite,
+//             color: fav == 1
+//                 ? Colors.white
+//                 : appColor.mainBrandingColor,
+//             size: 13.h,
+//           ),
+//         ),
+//       ),
+//     ),
+//   ),
+// )

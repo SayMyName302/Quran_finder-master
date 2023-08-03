@@ -14,27 +14,21 @@ class TranquilPageList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // int network = Provider.of<int>(context);
-    // print("Test By Farhan");
     return Expanded(
       child: Consumer<TranquilCategoryProvider>(
-        builder: (context, recitationProvider, child) {
-          return recitationProvider.recitationCategory.isNotEmpty
+        builder: (context, tranquilProvider, child) {
+          return tranquilProvider.recitationCategory.isNotEmpty
               ? GridView.builder(
                   padding: EdgeInsets.only(left: 10.w, right: 0.w),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                   ),
-                  itemCount: recitationProvider.recitationCategory.length,
+                  itemCount: tranquilProvider.recitationCategory.length,
                   itemBuilder: (context, index) {
-                    TranquilTalesCategoryModel model =
-                        recitationProvider.recitationCategory[index];
-                    print(
-                        'list length ${recitationProvider.selectedRecitationAll.length}');
+                    TranquilTalesCategoryModel model = tranquilProvider.recitationCategory[index];
                     return InkWell(
                       onTap: () {
-                        recitationProvider
-                            .getSelectedRecitationAll(model.categoryId!);
+                        tranquilProvider.getSelectedRecitationAll(model.categoryId!);
                         Navigator.of(context).pushNamed(
                           RouteHelper.tranquil_tales,
                           arguments: [
@@ -73,9 +67,7 @@ class TranquilPageList extends StatelessWidget {
                             margin: EdgeInsets.only(
                                 left: 6.w, bottom: 8.h, right: 9.w),
                             alignment: Alignment.bottomLeft,
-                            child: Text(
-                              localeText(
-                                  context, model.categoryName!.toLowerCase()),
+                            child: Text(localeText(context, model.categoryName!.toLowerCase()),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15.sp,

@@ -29,8 +29,7 @@ class AppDownloadsSection extends StatelessWidget {
     String countryName = country.text.trim().toLowerCase();
     final user = Provider.of<HomeProvider>(context, listen: false);
 
-    List<CustomTitles> titles =
-        await user.getTitlesByCountryExplicitly(countryName);
+    List<CustomTitles> titles = await user.getTitlesByCountryExplicitly(countryName);
 
     if (titles.isNotEmpty) {
       int randomIndex = Random().nextInt(titles.length);

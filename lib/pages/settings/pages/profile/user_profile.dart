@@ -3,7 +3,7 @@ import '../../../../shared/entities/bookmarks.dart';
 import '../../../../shared/entities/reciters.dart';
 import '../../../duas/models/dua.dart';
 import '../../../quran/pages/ruqyah/models/ruqyah.dart';
-import '../../../recitation_category/pages/bookmarks_recitation.dart';
+import '../../../recitation_category/models/bookmarks_recitation.dart';
 
 class UserProfile {
   String? _fullName;

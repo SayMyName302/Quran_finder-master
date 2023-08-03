@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../shared/database/home_db.dart';
 
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
-import '../pages/bookmarks_recitation.dart';
+import '../models/bookmarks_recitation.dart';
 
 class TranquilCategoryProvider extends ChangeNotifier {
   List<TranquilTalesCategoryModel> _recitationCategory = [];

@@ -23,28 +23,28 @@ class RecitationProvider extends ChangeNotifier {
   List<Surah> get surahNamesList => _surahNamesList;
 
   List<dynamic> tappedRecitationList =
-      Hive.box(appBoxKey).get(tappedRecitationListKey) != null
-          ? (jsonDecode(Hive.box(appBoxKey).get(tappedRecitationListKey))
-                  as List<dynamic>)
-              .map((e) {
-              var map = e as Map<String, dynamic>;
-              var type = map["type"];
-              Map<String, dynamic> value = map['value'];
-              if (type == "reciter") {
-                return {"type": type, "value": Reciters.fromJson(value)};
-              } else if (type == "recitationCategory") {
-                return {
-                  "type": type,
-                  "value": RecitationCategoryModel.fromJson(value)
-                };
-              } else if (type == "tranquilTalesCategory") {
-                return {
-                  "type": type,
-                  "value": TranquilTalesCategoryModel.fromJson(value)
-                };
-              }
-            }).toList()
-          : [];
+  Hive.box(appBoxKey).get(tappedRecitationListKey) != null
+      ? (jsonDecode(Hive.box(appBoxKey).get(tappedRecitationListKey))
+  as List<dynamic>)
+      .map((e) {
+    var map = e as Map<String, dynamic>;
+    var type = map["type"];
+    Map<String, dynamic> value = map['value'];
+    if (type == "reciter") {
+      return {"type": type, "value": Reciters.fromJson(value)};
+    } else if (type == "recitationCategory") {
+      return {
+        "type": type,
+        "value": RecitationCategoryModel.fromJson(value)
+      };
+    } else if (type == "tranquilTalesCategory") {
+      return {
+        "type": type,
+        "value": TranquilTalesCategoryModel.fromJson(value)
+      };
+    }
+  }).toList()
+      : [];
 
   void addTappedRecitationList(dynamic obj) {
     // Remove any duplicate item from the list
