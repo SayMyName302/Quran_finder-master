@@ -27,7 +27,7 @@ import '../../../../shared/network/network_check.dart';
 import '../../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import 'package:flutter/services.dart';
 
-import '../../../recitation_category/pages/bookmarks_recitation.dart';
+import '../../../recitation_category/models/bookmarks_recitation.dart';
 
 class ProfileProvider extends ChangeNotifier {
   UserProfile? _userProfile = Hive.box(appBoxKey).get(userProfileKey) != null

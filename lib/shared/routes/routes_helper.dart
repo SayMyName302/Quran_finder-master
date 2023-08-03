@@ -23,7 +23,7 @@ import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/view_all/view_all.dart';
 import 'package:nour_al_quran/pages/recitation_category/pages/recitation_all_category.dart';
-import 'package:nour_al_quran/pages/recitation_category/pages/recitation_category.dart';
+import 'package:nour_al_quran/pages/recitation_category/pages/recitation_category_page.dart';
 import 'package:nour_al_quran/pages/recitation_category/pages/recitation_player.dart';
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/about_the_app_page.dart';
 import 'package:nour_al_quran/pages/settings/pages/download_manager/reciter_download_surahs_page.dart';
@@ -41,7 +41,7 @@ import 'package:nour_al_quran/pages/sign_in/pages/forgot_password_screen.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/pages/sign_in/pages/sign_up_page.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_all_category.dart';
-import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_category.dart';
+import 'package:nour_al_quran/pages/tranquil_tales/pages/tranquil_tales_page.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/pages/tranquil_Player.dart';
 //import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import '../../pages/basics_of_quran/pages/basics_content_page.dart';
@@ -197,7 +197,7 @@ class RouteHelper {
       },
       tranquildstoriesviewall: (context) {
         currentContext = context;
-        return const TranquilStoriesViewAll();
+        return const TranquilStoriesPage();
       },
       popular: (context) {
         currentContext = context;

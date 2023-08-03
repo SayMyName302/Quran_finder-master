@@ -14,20 +14,13 @@ class RecitationCategoryProvider extends ChangeNotifier {
   List<RecitationAllCategoryModel> get recitationAll => _recitationAll;
 
   List<RecitationAllCategoryModel> _selectedRecitationAll = [];
-  List<RecitationAllCategoryModel> get selectedRecitationAll =>
-      _selectedRecitationAll;
+  List<RecitationAllCategoryModel> get selectedRecitationAll => _selectedRecitationAll;
 
   int _currentRecitationIndex = 0;
   int get currentRecitationIndex => _currentRecitationIndex;
 
   RecitationAllCategoryModel? _selectedRecitationStory;
   RecitationAllCategoryModel? get selectedRecitationStory => _selectedRecitationStory;
-
-  // final List _bookmarkList = [];
-  // final List _bookmarkList = Hive.box('myBox').get('bookmarksrecite') ?? [];
-  // List get bookmarkList => _bookmarkList;
-
-
 
   Future<void> getRecitationCategoryStories() async {
     _recitationCategory = await HomeDb().getRecitationCategory();
@@ -52,24 +45,25 @@ class RecitationCategoryProvider extends ChangeNotifier {
   }
 
   gotoRecitationAudioPlayerPage(int duaCategoryId, int surahId, imageUrl, BuildContext context) async {
-    _selectedRecitationAll = [];
-    _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
+    // _selectedRecitationAll = [];
+    // _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
     if (_selectedRecitationAll.isNotEmpty) {
-      _currentRecitationIndex = _selectedRecitationAll
-          .indexWhere((element) => element.surahId == surahId);
-      _selectedRecitationStory =
-          _selectedRecitationAll[_currentRecitationIndex];
-      // ignore: use_build_context_synchronously
-      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
-          .initAudioPlayer(
-              _selectedRecitationStory!.contentUrl!, imageUrl!, context);
+      _currentRecitationIndex = _selectedRecitationAll.indexWhere((element) => element.surahId == surahId);
+      _selectedRecitationStory = _selectedRecitationAll[_currentRecitationIndex];
       notifyListeners();
+      // ignore: use_build_context_synchronously
+      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false).initAudioPlayer(_selectedRecitationStory!.contentUrl!, imageUrl!, context);
     }
   }
 
 
 }
 
+
+/// book logic done previously
+// final List _bookmarkList = [];
+// final List _bookmarkList = Hive.box('myBox').get('bookmarksrecite') ?? [];
+// List get bookmarkList => _bookmarkList;
 
 // final List<BookmarksRecitation> _bookmarkListTest =
 //     Hive.box('myBox').get('bookmarksrecite') != null

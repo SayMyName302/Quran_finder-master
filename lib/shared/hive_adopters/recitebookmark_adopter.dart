@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import '../../pages/recitation_category/pages/bookmarks_recitation.dart';
+import '../../pages/recitation_category/models/bookmarks_recitation.dart';
 
 class RecitationBookmarksAdapter extends TypeAdapter<BookmarksRecitation> {
   @override

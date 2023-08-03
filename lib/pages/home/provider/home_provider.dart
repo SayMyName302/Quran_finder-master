@@ -69,8 +69,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<List<CustomTitles>> getTitlesbyWeather(String country) async {
-    List<CustomTitles> titles =
-        await QuranDatabase().getTitlesByWeather(country);
+    List<CustomTitles> titles = await QuranDatabase().getTitlesByWeather(country);
     notifyListeners();
     return titles;
   }
@@ -179,15 +178,13 @@ class HomeProvider extends ChangeNotifier {
       Response response = await dio.get(url);
       var data = response.data;
       if (response.statusCode == 200) {
-        String weatherCondition =
-            data['current']['condition']['text'].toString().toLowerCase();
+        String weatherCondition = data['current']['condition']['text'].toString().toLowerCase();
         String country = data['location']['country'].toString().toLowerCase();
 
         // String cityAPI = data['location']['name'].toString().toLowerCase();
         // print('==CITY API=${cityAPI}=====');
 
-        if (weatherCondition.contains("rain") ||
-            weatherCondition.contains("light rain")) {
+        if (weatherCondition.contains("rain") || weatherCondition.contains("light rain")) {
           return {
             'weather': 'rain',
             'country': country,
@@ -253,8 +250,7 @@ class HomeProvider extends ChangeNotifier {
         desiredAccuracy: LocationAccuracy.high,
       ).timeout(const Duration(seconds: 15));
 
-      List<Placemark> placeMarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placeMarks = await placemarkFromCoordinates(position.latitude, position.longitude);
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];

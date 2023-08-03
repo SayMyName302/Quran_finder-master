@@ -9,7 +9,7 @@ import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/recitation_provider.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
-import 'package:nour_al_quran/pages/recitation_category/pages/recitation_category_page.dart';
+import 'package:nour_al_quran/pages/recitation_category/pages/recitation_category_section.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_category_page.dart';
@@ -24,7 +24,7 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../recitation_category/pages/bookmarks_recitation.dart';
+import '../../../recitation_category/models/bookmarks_recitation.dart';
 import '../../../recitation_category/provider/recitation_category_provider.dart';
 import '../../../settings/pages/profile/profile_provider.dart';
 import '../../widgets/details_container_widget.dart';
@@ -575,8 +575,7 @@ class _RecitationPageState extends State<RecitationPage> {
                             // print(model.imageURl);
                             return InkWell(
                               onTap: () {
-                                _addLastViewedRecitations(
-                                    "tranquilTalesCategory", model);
+                                _addLastViewedRecitations("tranquilTalesCategory", model);
                                 Future.delayed(
                                   Duration.zero,
                                   () => context

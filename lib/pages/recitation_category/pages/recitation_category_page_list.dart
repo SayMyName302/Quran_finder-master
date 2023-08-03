@@ -13,8 +13,7 @@ class RecitationCategoryPageList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // int network = Provider.of<int>(context);
-    // print("Test By Farhan");
+    /// Test By Farhan
     return Expanded(
       child: Consumer<RecitationCategoryProvider>(
         builder: (context, recitationProvider, child) {
@@ -26,14 +25,10 @@ class RecitationCategoryPageList extends StatelessWidget {
                   ),
                   itemCount: recitationProvider.recitationCategory.length,
                   itemBuilder: (context, index) {
-                    RecitationCategoryModel model =
-                        recitationProvider.recitationCategory[index];
-                    print(
-                        'list length ${recitationProvider.selectedRecitationAll.length}');
+                    RecitationCategoryModel model = recitationProvider.recitationCategory[index];
                     return InkWell(
                       onTap: () {
-                        recitationProvider
-                            .getSelectedRecitationAll(model.categoryId!);
+                        recitationProvider.getSelectedRecitationAll(model.categoryId!);
                         Navigator.of(context).pushNamed(
                           RouteHelper.recitationallcategory,
                           arguments: [
@@ -69,12 +64,10 @@ class RecitationCategoryPageList extends StatelessWidget {
                           ),
                           child: Container(
                             width: double.maxFinite,
-                            margin: EdgeInsets.only(
-                                left: 6.w, bottom: 8.h, right: 9.w),
+                            margin: EdgeInsets.only(left: 6.w, bottom: 8.h, right: 9.w),
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                              localeText(
-                                  context, model.categoryName!.toLowerCase()),
+                              localeText(context, model.categoryName!.toLowerCase()),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15.sp,

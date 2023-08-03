@@ -13,22 +13,18 @@ import 'package:provider/provider.dart';
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
 import '../../../shared/widgets/app_bar.dart';
 import '../models/recitation_all_category_model.dart';
-import 'bookmarks_recitation.dart';
+import '../models/bookmarks_recitation.dart';
 
 class RecitationAudioPlayer extends StatelessWidget {
   const RecitationAudioPlayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var recitationProv = Provider.of<RecitationCategoryProvider>(context);
     List arguments = ModalRoute.of(context)!.settings.arguments! as List;
     String title = arguments[0];
-
-    RecitationCategoryProvider rcp =
-        Provider.of<RecitationCategoryProvider>(context);
-    Map<String, dynamic> nextDuaData = rcp.getNextDuaRecitation();
-    RecitationAllCategoryModel nextDua = nextDuaData['dua'];
-    // int? fav = nextDua.isFav;
+    // Map<String, dynamic> nextDuaData = recitationProv.getNextDuaRecitation();
+    var recitationProv = Provider.of<RecitationCategoryProvider>(context,listen: false);
+    RecitationAllCategoryModel nextDua = recitationProv.selectedRecitationStory!;
     String duaUrl = nextDua.contentUrl.toString();
     String reference = nextDua.reference.toString();
 
@@ -44,21 +40,15 @@ class RecitationAudioPlayer extends StatelessWidget {
             font: 16.sp,
             title: localeText(context, "now_playing")),
         body: Consumer5<ThemProvider, StoryAndBasicPlayerProvider, AppColorsProvider, RecitationCategoryProvider,ProfileProvider>(
-          builder: (context, them, player, appColor, recitationCategoryProvider,profile,
-              child) {
-            int recitationIndex = recitationProv.selectedRecitationAll
-                .indexWhere((element) => element.reference == reference);
-            int indx =
-                recitationProv.selectedRecitationAll[recitationIndex].surahId!;
-            int? categoryId = recitationProv
-                .selectedRecitationAll[recitationIndex].categoryId;
-
+          builder: (context, them, player, appColor, recitationCategoryProvider,profile, child) {
+            int recitationIndex = recitationProv.selectedRecitationAll.indexWhere((element) => element.reference == reference);
+            int indx = recitationProv.selectedRecitationAll[recitationIndex].surahId!;
+            int? categoryId = recitationProv.selectedRecitationAll[recitationIndex].categoryId;
             BookmarksRecitation bookmark = BookmarksRecitation(
                 recitationIndex: indx,
                 catID: categoryId,
                 recitationName: title,
-                recitationRef:
-                    recitationProv.selectedRecitationStory!.reference!,
+                recitationRef: recitationProv.selectedRecitationStory!.reference!,
                 contentUrl: duaUrl,
                 imageUrl: player.image);
             return SingleChildScrollView(
@@ -88,8 +78,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                         // title,
                         style: TextStyle(
                             fontSize: 18.sp,
-                            color:
-                                them.isDark ? AppColors.grey4 : AppColors.grey3,
+                            color: them.isDark ? AppColors.grey4 : AppColors.grey3,
                             fontWeight: FontWeight.w900,
                             fontFamily: 'satoshi'),
                       ),
@@ -97,8 +86,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                         height: 3.h,
                       ),
                       Text(
-                        localeText(context,
-                            recitationProv.selectedRecitationStory!.title!),
+                        localeText(context, recitationProv.selectedRecitationStory!.title!),
                         style: TextStyle(
                           fontFamily: 'satoshi',
                           fontWeight: FontWeight.w900,
@@ -125,8 +113,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 16.sp,
                             fontFamily: 'satoshi',
-                            color:
-                                them.isDark ? AppColors.grey4 : AppColors.grey3,
+                            color: them.isDark ? AppColors.grey4 : AppColors.grey3,
                             fontWeight: FontWeight.w700),
                       ),
                       Row(
@@ -134,73 +121,6 @@ class RecitationAudioPlayer extends StatelessWidget {
                         children: [
                           const Text(""),
                           const Text(""),
-                          // InkWell(
-                          //   onTap: () {
-                          //     int recitationIndex = recitationProv
-                          //         .selectedRecitationAll
-                          //         .indexWhere((element) =>
-                          //             element.reference == reference);
-                          //     int indx = recitationProv
-                          //         .selectedRecitationAll[recitationIndex]
-                          //         .surahId!;
-                          //     int? categoryId = recitationProv
-                          //         .selectedRecitationAll[recitationIndex]
-                          //         .categoryId;
-                          //
-                          //     if (fav == 0 || fav == null) {
-                          //       rprovider.bookmark(recitationIndex, 1);
-                          //       BookmarksRecitation bookmark =
-                          //           BookmarksRecitation(
-                          //               recitationIndex: indx,
-                          //               catID: categoryId,
-                          //               recitationName: title,
-                          //               recitationRef: recitationProv
-                          //                   .selectedRecitationStory!
-                          //                   .reference!,
-                          //               contentUrl: duaUrl,
-                          //               imageUrl: player.image);
-                          //
-                          //       context
-                          //           .read<RecitationCategoryProvider>()
-                          //           .addBookmark(bookmark);
-                          //     } else {
-                          //       rprovider.bookmark(recitationIndex, 0);
-                          //       context
-                          //           .read<RecitationCategoryProvider>()
-                          //           .removeBookmark(
-                          //               indx,
-                          //               recitationProv.selectedRecitationStory!
-                          //                   .categoryId!);
-                          //     }
-                          //   },
-                          //   child: Container(
-                          //     height: 23.h,
-                          //     width: 23.w,
-                          //     margin: EdgeInsets.only(
-                          //       top: 3.h,
-                          //       bottom: 10.h,
-                          //     ),
-                          //     child: CircleAvatar(
-                          //       backgroundColor: appColor.mainBrandingColor,
-                          //       child: SizedBox(
-                          //         height: 21.h,
-                          //         width: 21.w,
-                          //         child: CircleAvatar(
-                          //           backgroundColor: fav == 1
-                          //               ? appColor.mainBrandingColor
-                          //               : Colors.white,
-                          //           child: Icon(
-                          //             Icons.favorite,
-                          //             color: fav == 1
-                          //                 ? Colors.white
-                          //                 : appColor.mainBrandingColor,
-                          //             size: 13.h,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // )
                           InkWell(
                             onTap: () {
                               // recitationCategoryProvider.addOrRemoveBookmark(bookmark);
@@ -219,10 +139,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   height: 21.h,
                                   width: 21.w,
                                   child: CircleAvatar(
-                                    backgroundColor: profile.userProfile!.recitationBookmarkList!
-                                            .any((element) =>
-                                                element.contentUrl ==
-                                                bookmark.contentUrl)
+                                    backgroundColor: profile.userProfile!.recitationBookmarkList!.any((element)
+                                    => element.contentUrl == bookmark.contentUrl)
                                         ? appColor.mainBrandingColor
                                         : Colors.white,
                                     child: Icon(
@@ -252,8 +170,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text(
-                                "${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
+                            Text("${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
                             SliderTheme(
                               data: SliderThemeData(
                                   overlayShape: SliderComponentShape.noOverlay,
@@ -282,8 +199,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Text(
-                                '- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
+                            Text('- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
                           ],
                         ),
                         SizedBox(
@@ -298,16 +214,12 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   isLoopMoreNotifier.value = true;
                                   player.audioPlayer.setLoopMode(LoopMode.one);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              'Loop Mode On For ${recitationProv.selectedRecitationStory!.surahNo!}')));
+                                      SnackBar(content: Text('Loop Mode On For ${recitationProv.selectedRecitationStory!.surahNo!}')));
                                 } else {
                                   isLoopMoreNotifier.value = false;
                                   player.audioPlayer.setLoopMode(LoopMode.off);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              'Loop Mode Off For ${recitationProv.selectedRecitationStory!.surahNo!}')));
+                                      SnackBar(content: Text('Loop Mode Off For ${recitationProv.selectedRecitationStory!.surahNo!}')));
                                 }
                               },
                               icon: ValueListenableBuilder<bool>(
@@ -406,3 +318,73 @@ class RecitationAudioPlayer extends StatelessWidget {
     );
   }
 }
+
+
+/// bookmark logic old concept
+// InkWell(
+//   onTap: () {
+//     int recitationIndex = recitationProv
+//         .selectedRecitationAll
+//         .indexWhere((element) =>
+//             element.reference == reference);
+//     int indx = recitationProv
+//         .selectedRecitationAll[recitationIndex]
+//         .surahId!;
+//     int? categoryId = recitationProv
+//         .selectedRecitationAll[recitationIndex]
+//         .categoryId;
+//
+//     if (fav == 0 || fav == null) {
+//       rprovider.bookmark(recitationIndex, 1);
+//       BookmarksRecitation bookmark =
+//           BookmarksRecitation(
+//               recitationIndex: indx,
+//               catID: categoryId,
+//               recitationName: title,
+//               recitationRef: recitationProv
+//                   .selectedRecitationStory!
+//                   .reference!,
+//               contentUrl: duaUrl,
+//               imageUrl: player.image);
+//
+//       context
+//           .read<RecitationCategoryProvider>()
+//           .addBookmark(bookmark);
+//     } else {
+//       rprovider.bookmark(recitationIndex, 0);
+//       context
+//           .read<RecitationCategoryProvider>()
+//           .removeBookmark(
+//               indx,
+//               recitationProv.selectedRecitationStory!
+//                   .categoryId!);
+//     }
+//   },
+//   child: Container(
+//     height: 23.h,
+//     width: 23.w,
+//     margin: EdgeInsets.only(
+//       top: 3.h,
+//       bottom: 10.h,
+//     ),
+//     child: CircleAvatar(
+//       backgroundColor: appColor.mainBrandingColor,
+//       child: SizedBox(
+//         height: 21.h,
+//         width: 21.w,
+//         child: CircleAvatar(
+//           backgroundColor: fav == 1
+//               ? appColor.mainBrandingColor
+//               : Colors.white,
+//           child: Icon(
+//             Icons.favorite,
+//             color: fav == 1
+//                 ? Colors.white
+//                 : appColor.mainBrandingColor,
+//             size: 13.h,
+//           ),
+//         ),
+//       ),
+//     ),
+//   ),
+// )
