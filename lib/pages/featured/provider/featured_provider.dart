@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ import 'package:nour_al_quran/shared/database/home_db.dart';
 import 'package:nour_al_quran/shared/providers/story_n_basics_audio_player_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:async';
 
 class FeatureProvider extends ChangeNotifier {
   List<FeaturedModel> _feature = [];
@@ -24,8 +26,8 @@ class FeatureProvider extends ChangeNotifier {
   FeaturedModel? get selectedFeatureStory => _selectedFeatureStory;
   SharedPreferences? _preferences;
   //For reordeing ListView for FRIDAY
-  List<Map<String, dynamic>> _reorderedStories = [];
-  List<Map<String, dynamic>> get reorderedStories => _reorderedStories;
+  // List<Map<String, dynamic>> _reorderedStories = [];
+  // List<Map<String, dynamic>> get reorderedStories => _reorderedStories;
 
   String _dayName = '';
 
@@ -33,7 +35,6 @@ class FeatureProvider extends ChangeNotifier {
 
   setDayName(String value) {
     _dayName = value;
-    print(_dayName);
     // reorderStories();
     notifyListeners();
   }
@@ -44,26 +45,63 @@ class FeatureProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Schedule the method to be called every Friday
+  void scheduleReorder() {
+    DateTime now = DateTime.now();
+
+    if (now.weekday == DateTime.friday) {
+      reorderStories('friday'); // if today is friday call reorder method
+    } else {
+      const oneWeek = Duration(days: 7);
+      DateTime nextFriday;
+      if (now.weekday <= DateTime.friday) {
+        // If today is a day before Friday
+        nextFriday = now.add(Duration(days: DateTime.friday - now.weekday));
+      } else {
+        // If today is Saturday to Thursday
+        nextFriday =
+            now.add(oneWeek - Duration(days: now.weekday - DateTime.friday));
+      }
+      Duration timeUntilNextFriday = nextFriday.difference(now);
+      // Schedule the method using Timer.periodic
+      Timer.periodic(timeUntilNextFriday, (Timer timer) {
+        if (timer.isActive) {
+          reorderStories('friday'); // Calling reorderStories method
+        }
+      });
+    }
+  }
+
   void reorderStories(String dayName) {
     if (dayName == 'friday') {
-      if (_feature.isNotEmpty && _feature.length > 1) {
-        // if it's Friday and if there are more than one featured stories available.
-        //assigning items to variables
-        FeaturedModel firstItem = _feature.first;
-        FeaturedModel lastItem = _feature.last;
+      // Find the indices of rows with the 'friday' day
+      List<int> fridayIndices = [];
+      for (int i = 0; i < _feature.length; i++) {
+        if (_feature[i].day == 'friday') {
+          fridayIndices.add(i);
+        }
+      }
 
-        // Swap the first and last items
-        _feature[0] = lastItem;
-        _feature[_feature.length - 1] = firstItem;
+      if (fridayIndices.isNotEmpty && _feature.length > 1) {
+        Random random = Random();
+        int randomIndex = random.nextInt(fridayIndices.length);
+        int selectedFridayIndex = fridayIndices[randomIndex];
+        // print('>>>>>>>>${fridayIndices}');
 
-        notifyListeners(); // Notify listeners about the change
+        FeaturedModel firstItem = _feature[0];
+        FeaturedModel selectedFridayItem = _feature[selectedFridayIndex];
+        _feature[0] = selectedFridayItem;
+        _feature[selectedFridayIndex] = firstItem;
+        notifyListeners();
       }
     }
   }
 
+//dsassssssssssssssssssssssssss
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
-    _loadStoriesOrder();
+    scheduleReorder();
+    // _loadStoriesOrder();
     notifyListeners();
   }
 

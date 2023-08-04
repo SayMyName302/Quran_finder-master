@@ -12,7 +12,6 @@ import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
 import 'package:provider/provider.dart';
-import '../../featured/provider/featured_provider.dart';
 import '../../sign_in/provider/sign_in_provider.dart';
 import '../provider/home_provider.dart';
 import '../widgets/total_app_downloads.dart';
