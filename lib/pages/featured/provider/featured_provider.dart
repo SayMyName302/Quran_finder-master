@@ -14,9 +14,12 @@ import 'package:nour_al_quran/shared/providers/story_n_basics_audio_player_provi
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:async';
+import 'package:hijri/hijri_calendar.dart';
 
 class FeatureProvider extends ChangeNotifier {
   List<FeaturedModel> _feature = [];
+  List<FeaturedModel> _copyFeature =
+      []; // Will remove this later as its currently needed to do operations as TEST CASES
   List<FeaturedModel> get feature => _feature;
   int _currentFeatureIndex = 0;
   int get currentFeatureIndex => _currentFeatureIndex;
@@ -30,8 +33,9 @@ class FeatureProvider extends ChangeNotifier {
   // List<Map<String, dynamic>> get reorderedStories => _reorderedStories;
 
   String _dayName = '';
-
   String get dayName => _dayName;
+  String _monthName = '';
+  String get monthName => _monthName;
 
   setDayName(String value) {
     _dayName = value;
@@ -45,7 +49,56 @@ class FeatureProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Schedule the method to be called every Friday
+  //Test method will remove later (Input month from user and reorder)
+  sethijriMonth(String value) {
+    _monthName = value;
+    // reorderStories();
+    print(_monthName);
+    notifyListeners();
+  }
+
+  void reorderStoriesforMonth(String mname) {
+    sethijriMonth(mname);
+    reorderHijriMonth(mname);
+    notifyListeners();
+  }
+
+  void reorderHijriMonth(String inputMonth) {
+    if (_copyFeature.isEmpty) {
+      print('No features to reorder.');
+      return;
+    }
+
+    String lowercaseInputMonth = inputMonth.toLowerCase();
+    int userInputMonthIndex = -1;
+    for (int i = 0; i < _copyFeature.length; i++) {
+      if (_copyFeature[i].monthDisplay!.toLowerCase() == lowercaseInputMonth) {
+        userInputMonthIndex = i;
+        print('User input month found at index: $userInputMonthIndex');
+        break;
+      }
+    }
+
+    if (userInputMonthIndex != -1) {
+      print('Swapping user input month with the first index.');
+
+      // Swap the user-provided month's item with the first item in the _copyFeature list
+      FeaturedModel firstItem = _copyFeature[0];
+      FeaturedModel selectedMonthItem = _copyFeature[userInputMonthIndex];
+      _copyFeature[0] = selectedMonthItem;
+      _copyFeature[userInputMonthIndex] = firstItem;
+
+      print('Reordered list: $_copyFeature');
+
+      notifyListeners();
+    } else {
+      print('User input month not found in the list.');
+    }
+  }
+
+  //
+
+  // Method to be called every Friday to reorder stories
   void scheduleReorder() {
     DateTime now = DateTime.now();
 
@@ -72,8 +125,31 @@ class FeatureProvider extends ChangeNotifier {
     }
   }
 
+  String getHijriMonthAndYear(int month) {
+    List<String> hijriMonthNames = [
+      "Muharram",
+      "Safar",
+      "Rabi al-Awwal",
+      "Rabi al-Thani",
+      "Jumada al-Awwal",
+      "Jumada al-Thani",
+      "Rajab",
+      "Sha'ban",
+      "Ramadan",
+      "Shawwal",
+      "Dhu al-Qa'dah",
+      "Dhu al-Hijjah"
+    ];
+
+    if (month >= 1 && month <= 12) {
+      return hijriMonthNames[month - 1].toLowerCase();
+    } else {
+      return 'Unknown';
+    }
+  }
+
   void reorderStories(String dayName) {
-    if (dayName == 'friday') {
+    if (dayName == 'friday' || _feature.isEmpty) {
       // Find the indices of rows with the 'friday' day
       List<int> fridayIndices = [];
       for (int i = 0; i < _feature.length; i++) {
@@ -86,22 +162,59 @@ class FeatureProvider extends ChangeNotifier {
         Random random = Random();
         int randomIndex = random.nextInt(fridayIndices.length);
         int selectedFridayIndex = fridayIndices[randomIndex];
-        // print('>>>>>>>>${fridayIndices}');
+        // print('FRIDAYINDICESSS>>>>>>>${fridayIndices}');
 
         FeaturedModel firstItem = _feature[0];
         FeaturedModel selectedFridayItem = _feature[selectedFridayIndex];
         _feature[0] = selectedFridayItem;
         _feature[selectedFridayIndex] = firstItem;
+
+        notifyListeners();
+      }
+    } else {
+      // Get the current Hijri month
+      String currentHijriMonth = getHijriMonthAndYear(
+        HijriCalendar.now().hMonth,
+      );
+      // print('>>>>HIJRIMONTH>>>>${currentHijriMonth}');
+
+      // Find the indices of rows with the current Hijri month
+      List<int> currentMonthIndices = [];
+      for (int i = 0; i < _feature.length; i++) {
+        if (_feature[i].monthDisplay == currentHijriMonth) {
+          currentMonthIndices.add(i);
+        }
+      }
+
+      if (currentMonthIndices.isNotEmpty && _feature.length > 1) {
+        Random random = Random();
+        int randomIndex = random.nextInt(currentMonthIndices.length);
+        int selectedMonthIndex = currentMonthIndices[randomIndex];
+        // print('CURR_MONTH INDICES>>>>>>${currentMonthIndices}');
+
+        FeaturedModel firstItem = _feature[0];
+        FeaturedModel selectedMonthItem = _feature[selectedMonthIndex];
+        _feature[0] = selectedMonthItem;
+        _feature[selectedMonthIndex] = firstItem;
+
         notifyListeners();
       }
     }
   }
 
-//dsassssssssssssssssssssssssss
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
     scheduleReorder();
     // _loadStoriesOrder();
+    _copyFeature = List.from(_feature);
+
+    // Print the list and its indices
+    print('AT RUNTIME LIST IS $_copyFeature');
+    for (int i = 0; i < _copyFeature.length; i++) {
+      print(
+          'Index: $i, Month: ${_copyFeature[i].monthDisplay},ViewOrderBY: ${_copyFeature[i].viewOrderBy}, ');
+    }
+
     notifyListeners();
   }
 

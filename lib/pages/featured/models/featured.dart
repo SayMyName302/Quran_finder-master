@@ -12,6 +12,7 @@ class FeaturedModel {
   String? _status; // New field: status
   int? _viewOrderBy;
   String? _day; // New field: status
+  String? _monthDisplay;
 
   int? get storyId => _storyId;
   String? get storyTitle => _storyTitle;
@@ -26,6 +27,8 @@ class FeaturedModel {
   String? _title;
   String? get title => _title;
 
+  String? get monthDisplay => _monthDisplay;
+
   FeaturedModel({
     required title,
     required storyId,
@@ -38,6 +41,7 @@ class FeaturedModel {
     required status, // New parameter: status
     required viewOrderBy,
     required day,
+    required monthDisplay,
   }) {
     _title = title;
     _storyId = storyId;
@@ -50,6 +54,7 @@ class FeaturedModel {
     _status = status; // Assign the value to the status field
     _viewOrderBy = viewOrderBy;
     _day = day;
+    _monthDisplay = monthDisplay;
   }
 
   FeaturedModel.fromJson(Map<String, dynamic> json) {
@@ -65,6 +70,7 @@ class FeaturedModel {
     _status = json['status'];
     _viewOrderBy = json['view_order_by'];
     _day = json['day'];
+    _monthDisplay = json['month_display'];
   }
 
   @override

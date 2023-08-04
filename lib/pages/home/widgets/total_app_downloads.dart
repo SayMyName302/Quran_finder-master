@@ -68,20 +68,10 @@ class AppDownloadsSection extends StatelessWidget {
     }
   }
 
-  // void changeFeatureOrder(BuildContext context) async {}
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<HomeProvider>(context);
     final authProvider = Provider.of<SignInProvider>(context);
-    // final featureProvider = Provider.of<FeatureProvider>(context, listen: false);
-
-    // List<FeaturedModel> featureModels = featureProvider.feature;
-    // List<Map<String, dynamic>> mapList = featureModels
-    //     .map((model) => featureProvider.featuredModelToMap(model))
-    //     .toList();
-    // List<Map<String, dynamic>> reorderedStories =
-    //     [];
 
     final userEmail = authProvider.userEmail;
     final isUserYou = userEmail == "u@u.com" ||
@@ -183,6 +173,8 @@ class AppDownloadsSection extends StatelessWidget {
                           weather.text.trim().toLowerCase();
                       String lowerCasedayName =
                           dayName.text.trim().toLowerCase();
+                      String lowerCasehijrimonth =
+                          hijriMonth.text.trim().toLowerCase();
 
                       if ((lowerCaseCountry == "pakistan" ||
                                   lowerCaseCountry == "saudi arabia" ||
@@ -192,12 +184,11 @@ class AppDownloadsSection extends StatelessWidget {
                         fetchRainCountryTitle(context);
                       } else if (lowerCaseCountry.isNotEmpty) {
                         fetchCountryTitle(context);
+                      } else if (lowerCasehijrimonth.isNotEmpty) {
+                        Provider.of<FeatureProvider>(context, listen: false)
+                            .reorderStoriesforMonth(lowerCasehijrimonth);
                       }
-                      // else if (lowerCasedayName.isNotEmpty) {
-                      //   featureProvider.setDayName(dayName.text);
-                      // }
 
-                      // featureProvider.setDayName(dayName.text);
                       Provider.of<FeatureProvider>(context, listen: false)
                           .reorderStoriesIfNeeded(lowerCasedayName);
                     },
