@@ -11,7 +11,6 @@ class RecitationCategoryModel {
   // String? _categoryName;
   // String? _numberOfPrayers;
 
-
   int? get playlistId => _playlistId;
   String? get playlistName => _playlistName;
   String? get playPeriod => _playPeriod;
@@ -21,32 +20,25 @@ class RecitationCategoryModel {
   String? get imageURl => _imageURl;
   String? get audioImageUrl => _audioImageUrl;
 
-
   // int? get categoryId => _categoryId;
   // String? get categoryName => _categoryName;
 
   // String? get numberOfPrayers => _numberOfPrayers;
 
+  RecitationCategoryModel(
+      {required int playlistId,
+      required String playlistName,
+      required String playPeriod,
+      required String playlistContentType,
+      required int viewOrderBy,
+      required String numberOfSurahs,
+      required String imageURl,
+      required String audioImageUrl
+      // required int categoryId,
+      // required String categoryName,
+      // required String numberOfPrayers,
 
-
-
-
-
-
-  RecitationCategoryModel({
-    required int playlistId,
-    required String playlistName,
-    required String playPeriod,
-    required String playlistContentType,
-    required int viewOrderBy,
-    required String numberOfSurahs,
-    required String imageURl,
-    required String audioImageUrl
-    // required int categoryId,
-    // required String categoryName,
-    // required String numberOfPrayers,
-
-  }) {
+      }) {
     _playlistId = playlistId;
     _playlistName = playlistName;
     _playPeriod = playPeriod;
@@ -56,16 +48,13 @@ class RecitationCategoryModel {
     _numberOfSurahs = numberOfSurahs;
     _audioImageUrl = audioImageUrl;
 
-
-
     // _categoryId = categoryId;
     // _categoryName = categoryName;
     // _numberOfPrayers = numberOfPrayers;
-
   }
 
   RecitationCategoryModel.fromJson(Map<String, dynamic> json) {
-    _playlistId = int.parse(json['playlist_id']);
+    _playlistId = (json['playlist_id']);
     _playlistName = json['playlist_name'];
     _playPeriod = json['play_period'];
     _playlistContentType = json['playlist_content_type'];
@@ -77,7 +66,6 @@ class RecitationCategoryModel {
     // _categoryId = json['category_id'];
     // _categoryName = json['category_name'];
     // _numberOfPrayers = json['number_of_prayers'];
-
   }
 
   Map toJson() {

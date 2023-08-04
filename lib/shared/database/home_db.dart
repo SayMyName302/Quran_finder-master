@@ -186,11 +186,69 @@ class HomeDb {
     List<RecitationCategoryModel> recitationCategory = [];
     _database = await openDb();
     var table = await _database!.query(_recitationPlaylists);
-    print("Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
+    print(
+        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
-    print("Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    print(
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    return recitationCategory;
+  }
+
+  Future<List<RecitationCategoryModel>> getRecitationMorning() async {
+    List<RecitationCategoryModel> recitationCategory = [];
+    _database = await openDb();
+    var table = await _database!.query(_recitationPlaylists);
+    print(
+        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      recitationCategory.add(RecitationCategoryModel.fromJson(map));
+    }
+    print(
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    return recitationCategory;
+  }
+
+  Future<List<RecitationCategoryModel>> getRecitationAfternoon() async {
+    List<RecitationCategoryModel> recitationCategory = [];
+    _database = await openDb();
+    var table = await _database!.query(_recitationPlaylists);
+    print(
+        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      recitationCategory.add(RecitationCategoryModel.fromJson(map));
+    }
+    print(
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    return recitationCategory;
+  }
+
+  Future<List<RecitationCategoryModel>> getRecitationEvening() async {
+    List<RecitationCategoryModel> recitationCategory = [];
+    _database = await openDb();
+    var table = await _database!.query(_recitationPlaylists);
+    print(
+        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      recitationCategory.add(RecitationCategoryModel.fromJson(map));
+    }
+    print(
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    return recitationCategory;
+  }
+
+  Future<List<RecitationCategoryModel>> getRecitationNight() async {
+    List<RecitationCategoryModel> recitationCategory = [];
+    _database = await openDb();
+    var table = await _database!.query(_recitationPlaylists);
+    print(
+        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      recitationCategory.add(RecitationCategoryModel.fromJson(map));
+    }
+    print(
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
     return recitationCategory;
   }
 
@@ -212,7 +270,8 @@ class HomeDb {
     List<RecitationAllCategoryModel> recitationAll = [];
     _database = await openDb();
     var table = await _database!.query(_recitationPlaylistitems);
-    print("Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
+    print(
+        "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }

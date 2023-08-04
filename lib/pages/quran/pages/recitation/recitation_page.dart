@@ -253,13 +253,14 @@ class _RecitationPageState extends State<RecitationPage> {
                     return SizedBox(
                       height: 150.h,
                       child: ListView.builder(
-                        itemCount: 2,
+                        itemCount: recitationProvider.recitationCategory.length,
                         padding: EdgeInsets.only(
                             left: 20.w, right: 20.w, bottom: 14.h),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           try {
-                            RecitationCategoryModel model = recitationProvider.recitationCategory[index];
+                            RecitationCategoryModel model =
+                                recitationProvider.recitationCategory[index];
                             print(model.playlistName);
                             print(model.imageURl);
                             return InkWell(
