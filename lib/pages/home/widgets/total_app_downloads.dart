@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/utills/app_colors.dart';
-import '../../featured/models/featured.dart';
 import '../../featured/provider/featured_provider.dart';
 import '../../sign_in/provider/sign_in_provider.dart';
 import '../models/title_custom.dart';
@@ -69,13 +68,13 @@ class AppDownloadsSection extends StatelessWidget {
     }
   }
 
-  void changeFeatureOrder(BuildContext context) async {}
+  // void changeFeatureOrder(BuildContext context) async {}
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<HomeProvider>(context);
     final authProvider = Provider.of<SignInProvider>(context);
-    final featureProvider = Provider.of<FeatureProvider>(context, listen: false);
+    // final featureProvider = Provider.of<FeatureProvider>(context, listen: false);
 
     // List<FeaturedModel> featureModels = featureProvider.feature;
     // List<Map<String, dynamic>> mapList = featureModels
@@ -178,11 +177,16 @@ class AppDownloadsSection extends StatelessWidget {
                   BrandButton(
                     text: 'Submit',
                     onTap: () {
-                      String lowerCaseCountry = country.text.trim().toLowerCase();
-                      String lowerCaseWeather = weather.text.trim().toLowerCase();
-                      String lowerCasedayName = dayName.text.trim().toLowerCase();
+                      String lowerCaseCountry =
+                          country.text.trim().toLowerCase();
+                      String lowerCaseWeather =
+                          weather.text.trim().toLowerCase();
+                      String lowerCasedayName =
+                          dayName.text.trim().toLowerCase();
 
-                      if ((lowerCaseCountry == "pakistan" || lowerCaseCountry == "saudi arabia" || lowerCaseCountry == "indonesia") &&
+                      if ((lowerCaseCountry == "pakistan" ||
+                                  lowerCaseCountry == "saudi arabia" ||
+                                  lowerCaseCountry == "indonesia") &&
                               lowerCaseWeather == "rain" ||
                           lowerCaseWeather == "thunder") {
                         fetchRainCountryTitle(context);
@@ -194,7 +198,8 @@ class AppDownloadsSection extends StatelessWidget {
                       // }
 
                       // featureProvider.setDayName(dayName.text);
-                      Provider.of<FeatureProvider>(context, listen: false).reorderStoriesIfNeeded(lowerCasedayName);
+                      Provider.of<FeatureProvider>(context, listen: false)
+                          .reorderStoriesIfNeeded(lowerCasedayName);
                     },
                   ),
                 ],
