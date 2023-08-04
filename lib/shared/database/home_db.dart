@@ -187,12 +187,12 @@ class HomeDb {
     _database = await openDb();
     var table = await _database!.query(_recitationPlaylists);
     print(
-        "Table Length of recitation Category: ${table.length}"); // Print the number of rows retrieved from the table
+        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
     print(
-        "Recitation Category Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
     return recitationCategory;
   }
 

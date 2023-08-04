@@ -19,7 +19,8 @@ class RecitationCategorySection extends StatefulWidget {
   const RecitationCategorySection({Key? key}) : super(key: key);
 
   @override
-  State<RecitationCategorySection> createState() => _RecitationCategorySectionState();
+  State<RecitationCategorySection> createState() =>
+      _RecitationCategorySectionState();
 }
 
 class _RecitationCategorySectionState extends State<RecitationCategorySection> {
@@ -46,31 +47,39 @@ class _RecitationCategorySectionState extends State<RecitationCategorySection> {
                 builder: (context, recitationProvider, child) {
                   return ListView.builder(
                     itemCount: recitationProvider.recitationCategory.length,
-                    padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
+                    padding:
+                        EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       try {
-                        RecitationCategoryModel model = recitationProvider.recitationCategory[index];
+                        RecitationCategoryModel model =
+                            recitationProvider.recitationCategory[index];
                         return InkWell(
                           onTap: () {
                             /// pause reciter recitation player
-                            Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
-                            recitationProvider.getSelectedRecitationAll(model.categoryId as int);
+                            Future.delayed(
+                              Duration.zero,
+                              () => context
+                                  .read<RecitationPlayerProvider>()
+                                  .pause(context),
+                            );
+                            recitationProvider.getSelectedRecitationAll(
+                                model.playlistId as int);
                             analytics.logEvent(
                               name: 'recitation_section',
                               parameters: {
-                                'title': model.categoryName.toString()
+                                'title': model.playlistName.toString()
                               },
                             );
                             Navigator.of(context).pushNamed(
                               RouteHelper.recitationallcategory,
                               arguments: [
-                                localeText(context, model.categoryName!),
+                                localeText(context, model.playlistName!),
                                 model.imageURl!,
                                 LocalizationProvider().checkIsArOrUr()
                                     ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
                                     : "${localeText(context, 'playlist_of')} ${model.numberOfPrayers!} ${localeText(context, 'duas')}",
-                                model.categoryId!,
+                                model.playlistId!,
                               ],
                             );
                             // tappedRecitationNames.add(model.categoryName!);
@@ -83,7 +92,8 @@ class _RecitationCategorySectionState extends State<RecitationCategorySection> {
                               color: Colors.amberAccent,
                               borderRadius: BorderRadius.circular(8.r),
                               image: DecorationImage(
-                                image: CachedNetworkImageProvider(model.imageURl!),
+                                image:
+                                    CachedNetworkImageProvider(model.imageURl!),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -100,12 +110,13 @@ class _RecitationCategorySectionState extends State<RecitationCategorySection> {
                                 ),
                               ),
                               child: Container(
-                                margin: EdgeInsets.only(left: 6.w, bottom: 8.h, right: 6.w),
+                                margin: EdgeInsets.only(
+                                    left: 6.w, bottom: 8.h, right: 6.w),
                                 alignment: language.checkIsArOrUr()
-                                        ? Alignment.bottomRight
-                                        : Alignment.bottomLeft,
+                                    ? Alignment.bottomRight
+                                    : Alignment.bottomLeft,
                                 child: Text(
-                                  localeText(context, model.categoryName!),
+                                  localeText(context, model.playlistName!),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colors.white,

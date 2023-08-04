@@ -71,19 +71,19 @@ class _RecitationPageState extends State<RecitationPage> {
   void navigateToRecitationCategory(RecitationCategoryModel model) {
     Future.delayed(
       Duration.zero,
-          () => context.read<RecitationPlayerProvider>().pause(context),
+      () => context.read<RecitationPlayerProvider>().pause(context),
     );
     Provider.of<RecitationCategoryProvider>(context, listen: false)
-        .getSelectedRecitationAll(model.categoryId as int);
+        .getSelectedRecitationAll(model.playlistId as int);
     Navigator.of(context).pushNamed(
       RouteHelper.recitationallcategory,
       arguments: [
-        localeText(context, model.categoryName!),
+        localeText(context, model.playlistName!),
         model.imageURl!,
         LocalizationProvider().checkIsArOrUr()
             ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
             : "${localeText(context, 'playlist_of')} ${model.numberOfPrayers!} ${localeText(context, 'duas')}",
-        model.categoryId!,
+        model.playlistId!,
       ],
     );
 
@@ -94,7 +94,7 @@ class _RecitationPageState extends State<RecitationPage> {
   void navigateToTranquilTalesCategory(TranquilTalesCategoryModel model) {
     Future.delayed(
       Duration.zero,
-          () => context.read<RecitationPlayerProvider>().pause(context),
+      () => context.read<RecitationPlayerProvider>().pause(context),
     );
     Provider.of<TranquilCategoryProvider>(context, listen: false)
         .getSelectedRecitationAll(model.categoryId as int);
@@ -173,23 +173,23 @@ class _RecitationPageState extends State<RecitationPage> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount:
-                        recitationProvider.tappedRecitationList.length,
+                            recitationProvider.tappedRecitationList.length,
                         itemBuilder: (context, index) {
                           Map<String, dynamic> map =
-                          recitationProvider.tappedRecitationList[index];
+                              recitationProvider.tappedRecitationList[index];
                           String title = "";
                           if (map['value'] is Reciters) {
                             Reciters reciter = map['value'];
                             title = reciter.reciterName!;
                           } else if (map['value'] is RecitationCategoryModel) {
                             RecitationCategoryModel recitationCategoryModel =
-                            map['value'];
+                                map['value'];
                             title = localeText(
-                                context, recitationCategoryModel.categoryName!);
+                                context, recitationCategoryModel.playlistName!);
                           } else if (map['value']
-                          is TranquilTalesCategoryModel) {
+                              is TranquilTalesCategoryModel) {
                             TranquilTalesCategoryModel
-                            tranquilTalesCategoryModel = map['value'];
+                                tranquilTalesCategoryModel = map['value'];
                             title = localeText(context,
                                 tranquilTalesCategoryModel.categoryName!);
                           }
@@ -199,10 +199,10 @@ class _RecitationPageState extends State<RecitationPage> {
                                 navigateToReciterScreen(
                                     context, recitationProvider, map['value']);
                               } else if (map['value']
-                              is RecitationCategoryModel) {
+                                  is RecitationCategoryModel) {
                                 navigateToRecitationCategory(map['value']);
                               } else if (map['value']
-                              is TranquilTalesCategoryModel) {
+                                  is TranquilTalesCategoryModel) {
                                 navigateToTranquilTalesCategory(map['value']);
                               }
                             },
@@ -253,21 +253,21 @@ class _RecitationPageState extends State<RecitationPage> {
                     return SizedBox(
                       height: 150.h,
                       child: ListView.builder(
-                        itemCount: recitationProvider.recitationCategory.length,
+                        itemCount: 2,
                         padding: EdgeInsets.only(
                             left: 20.w, right: 20.w, bottom: 14.h),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           try {
                             RecitationCategoryModel model =
-                            recitationProvider.recitationCategory[index];
-                            // print(model.categoryName);
-                            // print(model.imageURl);
+                                recitationProvider.recitationCategory[index];
+                            print(model.playlistName);
+                            print(model.imageURl);
                             return InkWell(
                               onTap: () {
                                 Future.delayed(
                                   Duration.zero,
-                                      () => context
+                                  () => context
                                       .read<RecitationPlayerProvider>()
                                       .pause(context),
                                 );
@@ -294,7 +294,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                   ],
                                 );
                                 String categoryNames =
-                                model.playlistName!.replaceAll('_', ' ');
+                                    model.playlistName!.replaceAll('_', ' ');
                                 //   tappedRecitationNames.add(model.categoryName!);
                                 context
                                     .read<recentProviderRecitation>()
@@ -331,7 +331,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                         ? Alignment.bottomRight
                                         : Alignment.bottomLeft,
                                     child: Text(
-                                      localeText(context, model.categoryName!),
+                                      localeText(context, model.playlistName!),
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -371,7 +371,7 @@ class _RecitationPageState extends State<RecitationPage> {
                   },
                   child: Container(
                     margin:
-                    EdgeInsets.only(bottom: 10.h, right: 20.w, left: 20.w),
+                        EdgeInsets.only(bottom: 10.h, right: 20.w, left: 20.w),
                     child: Text(
                       localeText(context, "view_all"),
                       style: TextStyle(
@@ -389,63 +389,63 @@ class _RecitationPageState extends State<RecitationPage> {
               builder: (context, recitersValue, child) {
                 return recitersValue.popularReciterList.isNotEmpty
                     ? SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        height: 170,
-                        width: 5 * (200.87.h) +
-                            3 * 5.w, // Adjust the width based on the item width and spacing
-                        child: GridView.builder(
-                          padding:
-                          EdgeInsets.only(left: 20.w, right: 20.w),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: 8,
-                          gridDelegate:
-                          SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 8,
-                            mainAxisExtent: 200.87.h,
-                            crossAxisSpacing: 5.w,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            Reciters reciter =
-                            recitersValue.popularReciterList[index];
-                            return InkWell(
-                              onTap: () async {
-                                _addLastViewedRecitations(
-                                    "reciter", reciter);
-                                recitersValue.getSurahName();
-                                // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
-                                /// so that is now an other way
-                                context
-                                    .read<ReciterProvider>()
-                                    .getAvailableDownloadAudiosAsListOfInt(
-                                    reciter.reciterName!);
-                                // updateTappedSurahNames(reciter.reciterName!);
-                                Navigator.of(context).pushNamed(
-                                  RouteHelper.reciter,
-                                  arguments: reciter,
-                                );
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              height: 170,
+                              width: 5 * (200.87.h) +
+                                  3 * 5.w, // Adjust the width based on the item width and spacing
+                              child: GridView.builder(
+                                padding:
+                                    EdgeInsets.only(left: 20.w, right: 20.w),
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 8,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 8,
+                                  mainAxisExtent: 200.87.h,
+                                  crossAxisSpacing: 5.w,
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  Reciters reciter =
+                                      recitersValue.popularReciterList[index];
+                                  return InkWell(
+                                    onTap: () async {
+                                      _addLastViewedRecitations(
+                                          "reciter", reciter);
+                                      recitersValue.getSurahName();
+                                      // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
+                                      /// so that is now an other way
+                                      context
+                                          .read<ReciterProvider>()
+                                          .getAvailableDownloadAudiosAsListOfInt(
+                                              reciter.reciterName!);
+                                      // updateTappedSurahNames(reciter.reciterName!);
+                                      Navigator.of(context).pushNamed(
+                                        RouteHelper.reciter,
+                                        arguments: reciter,
+                                      );
 
-                                context
-                                    .read<recentProviderRecitation>()
-                                    .addTappedReciterName(
-                                    reciter.reciterName!);
-                              },
-                              child:
-                              buildReciterDetailsContainer(reciter),
-                            );
-                          },
+                                      context
+                                          .read<recentProviderRecitation>()
+                                          .addTappedReciterName(
+                                              reciter.reciterName!);
+                                    },
+                                    child:
+                                        buildReciterDetailsContainer(reciter),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                )
+                      )
                     : CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(appColor),
-                );
+                        valueColor: AlwaysStoppedAnimation<Color>(appColor),
+                      );
               },
             ),
             const SizedBox(height: 10),
@@ -463,7 +463,7 @@ class _RecitationPageState extends State<RecitationPage> {
                   },
                   child: Container(
                     margin:
-                    EdgeInsets.only(bottom: 10.h, right: 20.w, left: 20.w),
+                        EdgeInsets.only(bottom: 10.h, right: 20.w, left: 20.w),
                     child: Text(
                       localeText(context, "view_all"),
                       style: TextStyle(
@@ -481,66 +481,66 @@ class _RecitationPageState extends State<RecitationPage> {
               builder: (context, recitersValue, child) {
                 return recitersValue.recommendedReciterList.isNotEmpty
                     ? SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 5 * (200.87.h) + 3 * 5.w,
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 5 * (200.87.h) + 3 * 5.w,
 
-                        height:
-                        170, // Adjust the width based on the item width and spacing
-                        child: GridView.builder(
-                          padding:
-                          EdgeInsets.only(left: 20.w, right: 20.w),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: 8,
-                          gridDelegate:
-                          SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 8,
-                            mainAxisExtent: 200.87.h,
-                            crossAxisSpacing: 5.w,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            Reciters reciter = recitersValue
-                                .recommendedReciterList[index];
-                            return InkWell(
-                              onTap: () async {
-                                _addLastViewedRecitations(
-                                    "reciter", reciter);
-                                recitersValue.getSurahName();
-                                // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
-                                /// so that is now an other way
-                                context
-                                    .read<ReciterProvider>()
-                                    .getAvailableDownloadAudiosAsListOfInt(
-                                    reciter.reciterName!);
-                                // updateTappedSurahNames(reciter.reciterName!);
-                                Navigator.of(context).pushNamed(
-                                  RouteHelper.reciter,
-                                  arguments: reciter,
-                                );
+                              height:
+                                  170, // Adjust the width based on the item width and spacing
+                              child: GridView.builder(
+                                padding:
+                                    EdgeInsets.only(left: 20.w, right: 20.w),
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 8,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 8,
+                                  mainAxisExtent: 200.87.h,
+                                  crossAxisSpacing: 5.w,
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  Reciters reciter = recitersValue
+                                      .recommendedReciterList[index];
+                                  return InkWell(
+                                    onTap: () async {
+                                      _addLastViewedRecitations(
+                                          "reciter", reciter);
+                                      recitersValue.getSurahName();
+                                      // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
+                                      /// so that is now an other way
+                                      context
+                                          .read<ReciterProvider>()
+                                          .getAvailableDownloadAudiosAsListOfInt(
+                                              reciter.reciterName!);
+                                      // updateTappedSurahNames(reciter.reciterName!);
+                                      Navigator.of(context).pushNamed(
+                                        RouteHelper.reciter,
+                                        arguments: reciter,
+                                      );
 
-                                // tappedReciterNames.add(reciter.reciterName!);
-                                /// please delete this
-                                context
-                                    .read<recentProviderRecitation>()
-                                    .addTappedReciterName(
-                                    reciter.reciterName!);
-                              },
-                              child:
-                              buildReciterDetailsContainer(reciter),
-                            );
-                          },
+                                      // tappedReciterNames.add(reciter.reciterName!);
+                                      /// please delete this
+                                      context
+                                          .read<recentProviderRecitation>()
+                                          .addTappedReciterName(
+                                              reciter.reciterName!);
+                                    },
+                                    child:
+                                        buildReciterDetailsContainer(reciter),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                )
+                      )
                     : CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(appColor),
-                );
+                        valueColor: AlwaysStoppedAnimation<Color>(appColor),
+                      );
               },
             ),
             // Column(
@@ -687,92 +687,92 @@ class _RecitationPageState extends State<RecitationPage> {
 
                 return combinedBookmarkList.isNotEmpty
                     ? MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: ListView.builder(
-                    itemCount: combinedBookmarkList.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final bookmark = combinedBookmarkList[index];
-                      String title;
-                      String subTitle;
-                      IconData icon;
-                      String imageIcon;
+                        context: context,
+                        removeTop: true,
+                        child: ListView.builder(
+                          itemCount: combinedBookmarkList.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final bookmark = combinedBookmarkList[index];
+                            String title;
+                            String subTitle;
+                            IconData icon;
+                            String imageIcon;
 
-                      if (bookmark is Reciters) {
-                        title = bookmark.reciterName ?? '';
-                        subTitle = localeText(context, "reciters");
-                        icon = Icons.bookmark;
-                        imageIcon =
-                        "assets/images/app_icons/bookmark.png";
-                      } else if (bookmark is BookmarksRecitation) {
-                        final recitationBookmark = bookmark;
-                        title = recitationBookmark.recitationName ?? '';
-                        subTitle = localeText(context, "recitation");
-                        icon = Icons.bookmark;
-                        imageIcon =
-                        "assets/images/app_icons/bookmark.png";
-                      } else {
-                        title = '';
-                        subTitle = '';
-                        icon = Icons.error;
-                        imageIcon = '';
-                      }
-
-                      return InkWell(
-                        onTap: () {
-                          if (bookmark is Reciters) {
-                            recitation.getSurahName();
-                            context
-                                .read<ReciterProvider>()
-                                .setReciterList(
-                                bookmark.downloadSurahList!);
-                            Navigator.of(context).pushNamed(
-                              RouteHelper.reciter,
-                              arguments: bookmark,
-                            );
-                            final tappedRecitersProvider =
-                            context.read<recentProviderRecitation>();
-                          } else if (bookmark is BookmarksRecitation) {
-                            Provider.of<RecitationCategoryProvider>(
-                                context,
-                                listen: false)
-                                .gotoRecitationAudioPlayerPage(
-                              bookmark.catID!,
-                              bookmark.recitationIndex!,
-                              bookmark.imageUrl!,
-                              context,
-                            );
-                            Navigator.of(context).pushNamed(
-                                RouteHelper.recitationAudioPlayer,
-                                arguments: [title]);
-                          }
-                        },
-                        child: DetailsContainerWidget(
-                          title: title,
-                          subTitle: subTitle,
-                          icon: icon,
-                          imageIcon: imageIcon,
-                          onTapIcon: () {
                             if (bookmark is Reciters) {
-                              // recitation.addReciterFavOrRemove(
-                              //     bookmark.reciterId!);
-                              profile.addReciterFavOrRemove(
-                                  bookmark.reciterId!);
+                              title = bookmark.reciterName ?? '';
+                              subTitle = localeText(context, "reciters");
+                              icon = Icons.bookmark;
+                              imageIcon =
+                                  "assets/images/app_icons/bookmark.png";
                             } else if (bookmark is BookmarksRecitation) {
-                              // rcp.addOrRemoveBookmark(bookmark);
-                              profile.addOrRemoveRecitationBookmark(
-                                  bookmark);
+                              final recitationBookmark = bookmark;
+                              title = recitationBookmark.recitationName ?? '';
+                              subTitle = localeText(context, "recitation");
+                              icon = Icons.bookmark;
+                              imageIcon =
+                                  "assets/images/app_icons/bookmark.png";
+                            } else {
+                              title = '';
+                              subTitle = '';
+                              icon = Icons.error;
+                              imageIcon = '';
                             }
+
+                            return InkWell(
+                              onTap: () {
+                                if (bookmark is Reciters) {
+                                  recitation.getSurahName();
+                                  context
+                                      .read<ReciterProvider>()
+                                      .setReciterList(
+                                          bookmark.downloadSurahList!);
+                                  Navigator.of(context).pushNamed(
+                                    RouteHelper.reciter,
+                                    arguments: bookmark,
+                                  );
+                                  final tappedRecitersProvider =
+                                      context.read<recentProviderRecitation>();
+                                } else if (bookmark is BookmarksRecitation) {
+                                  Provider.of<RecitationCategoryProvider>(
+                                          context,
+                                          listen: false)
+                                      .gotoRecitationAudioPlayerPage(
+                                    bookmark.catID!,
+                                    bookmark.recitationIndex!,
+                                    bookmark.imageUrl!,
+                                    context,
+                                  );
+                                  Navigator.of(context).pushNamed(
+                                      RouteHelper.recitationAudioPlayer,
+                                      arguments: [title]);
+                                }
+                              },
+                              child: DetailsContainerWidget(
+                                title: title,
+                                subTitle: subTitle,
+                                icon: icon,
+                                imageIcon: imageIcon,
+                                onTapIcon: () {
+                                  if (bookmark is Reciters) {
+                                    // recitation.addReciterFavOrRemove(
+                                    //     bookmark.reciterId!);
+                                    profile.addReciterFavOrRemove(
+                                        bookmark.reciterId!);
+                                  } else if (bookmark is BookmarksRecitation) {
+                                    // rcp.addOrRemoveBookmark(bookmark);
+                                    profile.addOrRemoveRecitationBookmark(
+                                        bookmark);
+                                  }
+                                },
+                              ),
+                            );
                           },
                         ),
-                      );
-                    },
-                  ),
-                )
+                      )
                     : messageContainer(
-                    localeText(context, "no_fav_reciter_added_yet"));
+                        localeText(context, "no_fav_reciter_added_yet"));
               },
             ),
           ],
