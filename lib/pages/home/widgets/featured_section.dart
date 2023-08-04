@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
-import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
@@ -35,19 +34,11 @@ class FeaturedSection extends StatelessWidget {
             );
           },
         ),
-        Consumer2<LocalizationProvider,FeatureProvider>(
-          builder: (context, language,storiesProvider, child) {
-            // List<Map<String, dynamic>> mapList = storiesProvider.feature.map((model) => storiesProvider.featuredModelToMap(model)).toList();
-            // List<Map<String, dynamic>> listToDisplay = storiesProvider.dayName.isEmpty
-            //     ? mapList
-            //     : storiesProvider.reorderedStories;
-
-            // print('INSIDE LISTVIEWBUILDER${storiesProvider.reorderedStories}');
-            // print('INSIDE LISTVIEWBUILDER${storiesProvider.feature}');
+        Consumer2<LocalizationProvider, FeatureProvider>(
+          builder: (context, language, storiesProvider, child) {
             return SizedBox(
               height: 150.h,
               child: ListView.builder(
-                // itemCount: listToDisplay.length,
                 itemCount: storiesProvider.feature.length,
                 padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                 scrollDirection: Axis.horizontal,
@@ -55,12 +46,16 @@ class FeaturedSection extends StatelessWidget {
                   try {
                     FeaturedModel model = storiesProvider.feature[index];
                     if (model.status != 'active') {
-                      return Container(); // Skip inactive items
+                      return Container();
                     }
                     return InkWell(
                       onTap: () {
                         if (network == 1) {
-                          Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
+                          Future.delayed(
+                              Duration.zero,
+                              () => context
+                                  .read<RecitationPlayerProvider>()
+                                  .pause(context));
                           if (model.contentType == "audio") {
                             storiesProvider.gotoFeaturePlayerPage(
                                 model.storyId!, context, index);
@@ -70,9 +65,9 @@ class FeaturedSection extends StatelessWidget {
                             );
                           } else if (model.contentType == "Video") {
                             Provider.of<MiraclesOfQuranProvider>(context,
-                                listen: false)
+                                    listen: false)
                                 .goToMiracleDetailsPageFromFeatured(
-                                model.storyTitle!, context, index);
+                                    model.storyTitle!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_miracle_tile_homescreen',
                               parameters: {'title': model.title},
@@ -81,8 +76,8 @@ class FeaturedSection extends StatelessWidget {
                         } else {
                           ScaffoldMessenger.of(context)
                             ..removeCurrentSnackBar()
-                            ..showSnackBar(const SnackBar(
-                                content: Text("No Internet")));
+                            ..showSnackBar(
+                                const SnackBar(content: Text("No Internet")));
                         }
                       },
                       child: Container(
@@ -110,9 +105,8 @@ class FeaturedSection extends StatelessWidget {
                           child: Container(
                             margin: EdgeInsets.only(
                                 left: 6.w, bottom: 8.h, right: 6.w),
-                            alignment:
-                            language.locale.languageCode == "ur" ||
-                                language.locale.languageCode == "ar"
+                            alignment: language.locale.languageCode == "ur" ||
+                                    language.locale.languageCode == "ar"
                                 ? Alignment.bottomRight
                                 : Alignment.bottomLeft,
                             child: Text(

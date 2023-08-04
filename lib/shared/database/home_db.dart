@@ -24,9 +24,9 @@ class HomeDb {
   final String _storiesInQuran = "stories_in_quran";
   final String _islamBasicsTb = "islam_basics";
   final String _featured = "featured_all";
-  final String _appinfo = "app_info";
-  final String _recitationCategoryTb = "recitation_category";
-  final String _recitationAllTb = "recitation_all";
+  // final String _appinfo = "app_info";
+  // final String _recitationCategoryTb = "recitation_category";
+  // final String _recitationAllTb = "recitation_all";
   final String _popular = "popular_recitation";
   final String _tranquil = "tranquil_tales";
   final String _tranquilCategory = "tranquil_tales_category";
@@ -144,13 +144,13 @@ class HomeDb {
     List<FeaturedModel> feature = [];
     _database = await openDb();
     var table = await _database!.query(_featured, orderBy: 'view_order_by');
-    // print(
-    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+
     for (var map in table) {
       feature.add(FeaturedModel.fromJson(map));
+      print("Row Data:");
+      print("view_order_by: ${map['view_order_by']}");
+      print("day: ${map['day']}");
     }
-    // print(
-    //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
   }
 
@@ -158,13 +158,9 @@ class HomeDb {
     List<FeaturedModel> feature = [];
     _database = await openDb();
     var table = await _database!.query(_featured, orderBy: 'view_order_by');
-    // print(
-    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       feature.add(FeaturedModel.fromJson(map));
     }
-    // print(
-    //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
   }
 
