@@ -37,8 +37,8 @@ class RecitationCategoryPageList extends StatelessWidget {
                             localeText(context, model.playlistName!),
                             model.imageURl!,
                             LocalizationProvider().checkIsArOrUr()
-                                ? "${model.numberOfSruahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                : "${localeText(context, 'playlist_of')} ${model.numberOfSruahs!} ${localeText(context, 'duas')}",
+                                ? "${model.numberOfSurahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                                : "${localeText(context, 'playlist_of')} ${model.numberOfSurahs!} ${localeText(context, 'duas')}",
                             model.playlistId!,
                           ],
                         );

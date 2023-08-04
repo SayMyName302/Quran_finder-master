@@ -81,8 +81,8 @@ class _RecitationPageState extends State<RecitationPage> {
         localeText(context, model.playlistName!),
         model.imageURl!,
         LocalizationProvider().checkIsArOrUr()
-            ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-            : "${localeText(context, 'playlist_of')} ${model.numberOfPrayers!} ${localeText(context, 'duas')}",
+            ? "${model.numberOfSurahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+            : "${localeText(context, 'playlist_of')} ${model.numberOfSurahs!} ${localeText(context, 'duas')}",
         model.playlistId!,
       ],
     );
@@ -259,8 +259,7 @@ class _RecitationPageState extends State<RecitationPage> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           try {
-                            RecitationCategoryModel model =
-                                recitationProvider.recitationCategory[index];
+                            RecitationCategoryModel model = recitationProvider.recitationCategory[index];
                             print(model.playlistName);
                             print(model.imageURl);
                             return InkWell(
@@ -288,8 +287,8 @@ class _RecitationPageState extends State<RecitationPage> {
                                     localeText(context, model.playlistName!),
                                     model.imageURl!,
                                     LocalizationProvider().checkIsArOrUr()
-                                        ? "${model.numberOfSruahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                        : "${localeText(context, 'playlist_of')} ${model.numberOfSruahs!} ${localeText(context, 'duas')}",
+                                        ? "${model.numberOfSurahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                                        : "${localeText(context, 'playlist_of')} ${model.numberOfSurahs!} ${localeText(context, 'duas')}",
                                     model.playlistId!,
                                   ],
                                 );

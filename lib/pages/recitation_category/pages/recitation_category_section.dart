@@ -77,8 +77,9 @@ class _RecitationCategorySectionState extends State<RecitationCategorySection> {
                                 localeText(context, model.playlistName!),
                                 model.imageURl!,
                                 LocalizationProvider().checkIsArOrUr()
-                                    ? "${model.numberOfPrayers!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                    : "${localeText(context, 'playlist_of')} ${model.numberOfPrayers!} ${localeText(context, 'duas')}",
+                                /// "{model.numberOfPrayers!} is change to numbers of surah as there is no column with number of prayer name
+                                    ?  "${model.numberOfSurahs!}${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                                    : "${localeText(context, 'playlist_of')} ${model.numberOfSurahs!} ${localeText(context, 'duas')}",
                                 model.playlistId!,
                               ],
                             );
