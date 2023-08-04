@@ -512,5 +512,12 @@
   "surah_al-hashr": "Surah Al Hashr",
   "surah_taha": "Surah Taha",
   "surah_al-kahf": "Surah Al Kahf",
+<<<<<<< HEAD
   "surah_al-baqarah": "Surah Al Baqarah"
+=======
+  "sahl_yassin": "Sahl Yassin",
+  "abdul_rehman_al_ossi": "Abdul Rehman Al-Ossi",
+  "muhammad_siddiq_al-minshawi": "Muhammad Siddiq Al-Minshawi",
+  "hani_arrifai": "Hani Arrifai"
+>>>>>>> da0f8d6508577038c4dd2f8e33e8bbfce61fbcd8
 }

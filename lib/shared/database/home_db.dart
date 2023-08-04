@@ -192,59 +192,36 @@ class HomeDb {
     return recitationCategory;
   }
 
-  Future<List<RecitationCategoryModel>> getRecitationMorning() async {
+  Future<List<RecitationCategoryModel>> getRecitationBasedOnTime() async {
     List<RecitationCategoryModel> recitationCategory = [];
     _database = await openDb();
-    var table = await _database!.query(_recitationPlaylists);
-    print(
-        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
-    for (var map in table) {
-      recitationCategory.add(RecitationCategoryModel.fromJson(map));
-    }
-    print(
-        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
-    return recitationCategory;
-  }
 
-  Future<List<RecitationCategoryModel>> getRecitationAfternoon() async {
-    List<RecitationCategoryModel> recitationCategory = [];
-    _database = await openDb();
-    var table = await _database!.query(_recitationPlaylists);
-    print(
-        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
-    for (var map in table) {
-      recitationCategory.add(RecitationCategoryModel.fromJson(map));
-    }
-    print(
-        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
-    return recitationCategory;
-  }
+    DateTime now = DateTime.now();
+    String currentTimePeriod = 'morning';
 
-  Future<List<RecitationCategoryModel>> getRecitationEvening() async {
-    List<RecitationCategoryModel> recitationCategory = [];
-    _database = await openDb();
-    var table = await _database!.query(_recitationPlaylists);
-    print(
-        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
-    for (var map in table) {
-      recitationCategory.add(RecitationCategoryModel.fromJson(map));
+    // Determine the current time period based on the time of day
+    if (now.hour >= 5 && now.hour < 12) {
+      currentTimePeriod = 'morning';
+    } else if (now.hour >= 12 && now.hour < 18) {
+      currentTimePeriod = 'afternoon';
+    } else if (now.hour >= 18 && now.hour < 22) {
+      currentTimePeriod = 'evening';
+    } else {
+      currentTimePeriod = 'night';
     }
-    print(
-        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
-    return recitationCategory;
-  }
 
-  Future<List<RecitationCategoryModel>> getRecitationNight() async {
-    List<RecitationCategoryModel> recitationCategory = [];
-    _database = await openDb();
-    var table = await _database!.query(_recitationPlaylists);
-    print(
-        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
+    var table = await _database!.query(_recitationPlaylists,
+        where: 'play_period = ?', whereArgs: [currentTimePeriod]);
+
+    // Print the number of rows retrieved from the table
+
     for (var map in table) {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
+
     print(
         "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+
     return recitationCategory;
   }
 

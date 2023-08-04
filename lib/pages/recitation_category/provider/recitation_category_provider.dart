@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
@@ -7,6 +9,38 @@ import '../../../shared/database/home_db.dart';
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
 
 class RecitationCategoryProvider extends ChangeNotifier {
+  void printCurrentTimeCategory() {
+    // Get the current time
+    DateTime currentTime = DateTime.now();
+    int currentHour = currentTime.hour;
+
+    if (currentHour >= 6 && currentHour < 12) {
+      print("It's currently Morning.");
+    } else if (currentHour >= 12 && currentHour < 18) {
+      print("It's currently Afternoon.");
+    } else if (currentHour >= 18 && currentHour < 24) {
+      print("It's currently Evening.");
+    } else {
+      print("It's currently Night time.");
+    }
+  }
+
+  Timer? _timer;
+
+  void startUpdatingPeriodically() {
+    _timer?.cancel(); // Cancel any existing timers to avoid duplicates
+    _timer = Timer.periodic(const Duration(minutes: 5), (_) {
+      // Adjust the duration as needed; here, we update every 5 minutes
+      getRecitationCategoryStories();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel the timer when the provider is disposed
+    super.dispose();
+  }
+
   List<RecitationCategoryModel> _recitationCategory = [];
   List<RecitationCategoryModel> get recitationCategory => _recitationCategory;
 
@@ -25,7 +59,8 @@ class RecitationCategoryProvider extends ChangeNotifier {
       _selectedRecitationStory;
 
   Future<void> getRecitationCategoryStories() async {
-    _recitationCategory = await HomeDb().getRecitationCategory();
+    _recitationCategory = await HomeDb().getRecitationBasedOnTime();
+    printCurrentTimeCategory();
     notifyListeners();
   }
 

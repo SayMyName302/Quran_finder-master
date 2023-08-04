@@ -114,6 +114,9 @@ class _RecitationPageState extends State<RecitationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final yourProvider =
+        Provider.of<RecitationCategoryProvider>(context, listen: false);
+    yourProvider.startUpdatingPeriodically();
     var appColor = context.read<AppColorsProvider>().mainBrandingColor;
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     // loadTappedSurahNames();
@@ -261,8 +264,7 @@ class _RecitationPageState extends State<RecitationPage> {
                           try {
                             RecitationCategoryModel model =
                                 recitationProvider.recitationCategory[index];
-                            print(model.playlistName);
-                            print(model.imageURl);
+
                             return InkWell(
                               onTap: () {
                                 Future.delayed(
