@@ -40,20 +40,15 @@ class FeatureProvider extends ChangeNotifier {
 
   void reorderStoriesIfNeeded(String dayName) {
     setDayName(dayName);
-    // reorderStoriesForDay(_reorderedStories, dayName);
     reorderStories(dayName);
     notifyListeners();
-  }
-
-  // Method to populate _reorderedStories based on the feature list
-  void populateReorderedStories() {
-    _reorderedStories =
-        feature.map((model) => featuredModelToMap(model)).toList();
   }
 
   void reorderStories(String dayName) {
     if (dayName == 'friday') {
       if (_feature.isNotEmpty && _feature.length > 1) {
+        // if it's Friday and if there are more than one featured stories available.
+        //assigning items to variables
         FeaturedModel firstItem = _feature.first;
         FeaturedModel lastItem = _feature.last;
 
@@ -65,24 +60,10 @@ class FeatureProvider extends ChangeNotifier {
       }
     }
   }
-  // void reorderStories() {
-  //   List<Map<String, dynamic>> updatedStories = [..._reorderedStories];
-  //
-  //   if (_dayName == 'friday') {
-  //     int indexToMove = updatedStories.indexWhere((story) => story['view_order_by'] == 7);
-  //
-  //     if (indexToMove != -1) {
-  //       Map<String, dynamic> storyToMove = updatedStories.removeAt(indexToMove);
-  //       updatedStories.insert(0, storyToMove);
-  //     }
-  //   }
-  //
-  //   _reorderedStories = updatedStories; // Update the reordered stories
-  // }
 
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
-    populateReorderedStories();
+    _loadStoriesOrder();
     notifyListeners();
   }
 
@@ -148,48 +129,24 @@ class FeatureProvider extends ChangeNotifier {
     _preferences?.setStringList('feature_order', order);
   }
 
-  List<Map<String, dynamic>> reorderStoriesForDay(List<Map<String, dynamic>> stories, String dayName) {
-    if (dayName == 'friday') {
-      // Find the index of the item with view_order_by = 7
-      int indexToMove = stories.indexWhere((story) => story['view_order_by'] == 7);
+  void _loadStoriesOrder() async {
+    final List<String>? order = _preferences?.getStringList('feature_order');
 
-      // If an item with view_order_by = 7 is found, remove it from the list and insert at the beginning
-      if (indexToMove != -1) {
-        Map<String, dynamic> storyToMove = stories.removeAt(indexToMove);
-        stories.insert(0, storyToMove);
+    if (order != null && order.isNotEmpty) {
+      // Add a check for non-empty order
+      final List<FeaturedModel> sortedStories = [];
+      for (final storyTitle in order) {
+        final story = _feature.firstWhere(
+          (m) => m.storyTitle == storyTitle,
+        );
+        if (story != null) {
+          sortedStories.add(story);
+        }
       }
+      _feature = sortedStories;
+      notifyListeners();
     }
-    _reorderedStories = stories; // Store the reordered stories
-
-    return stories;
   }
-
-  Map<String, dynamic> featuredModelToMap(FeaturedModel model) {
-    return {
-      'story_id': model.storyId,
-      'view_order_by': model.viewOrderBy,
-      'story_title': model.storyTitle,
-    };
-  }
-
-  // void _loadStoriesOrder() async {
-  //   final List<String>? order = _preferences?.getStringList('feature_order');
-
-  //   if (order != null && order.isNotEmpty) {
-  //     // Add a check for non-empty order
-  //     final List<FeaturedModel> sortedStories = [];
-  //     for (final storyTitle in order) {
-  //       final story = _feature.firstWhere(
-  //         (m) => m.storyTitle == storyTitle,
-  //       );
-  //       if (story != null) {
-  //         sortedStories.add(story);
-  //       }
-  //     }
-  //     _feature = sortedStories;
-  //     notifyListeners();
-  //   }
-  // }
 
   void setVideoFile(File video) {
     _videoUrl = video;

@@ -51,4 +51,17 @@ class CustomTitles {
     _endHour = json['end_hours'];
     _weather = json['weather'];
   }
+
+  // // Named constructor to create CustomTitles object from a Map<String, dynamic>
+  // CustomTitles.fromMap(Map<String, dynamic> map) {
+  //   _rowName = map['row_name'];
+  //   _screenName = map['screen_name'];
+  //   _titleText = map['title_text'];
+  //   _language = map['language'];
+  //   _region = map['region'];
+  //   _countryName = map['country_name'];
+  //   _startHour = map['start_hours'];
+  //   _endHour = map['end_hours'];
+  //   _weather = map['weather'];
+  // }
 }

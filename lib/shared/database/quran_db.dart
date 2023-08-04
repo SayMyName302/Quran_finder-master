@@ -80,21 +80,28 @@ class QuranDatabase {
     database = await openDb();
     var titles = <CustomTitles>[];
 
+    // Split the weather string into individual weather conditions
+    List<String> weatherConditions = weather.split(',');
+
     var cursor = await database!.query(
       _rowtitlecustom,
-      columns: ["title_text"],
-      where: "country_name = ? AND weather = ?",
-      whereArgs: [
-        country,
-        weather
-      ], // Pass the 'weather' parameter to the query
+      columns: ["title_text", "weather"],
+      where: "country_name = ?",
+      whereArgs: [country],
     );
 
     for (var row in cursor) {
-      var customTitle = CustomTitles.fromJson(row);
-      titles.add(customTitle);
-    }
+      var rowWeather = row['weather'] as String;
+      List<String> rowWeatherConditions = rowWeather.split(',');
 
+      // Check if any of the weather conditions in the row matches the input conditions
+      if (rowWeatherConditions
+          .any((condition) => weatherConditions.contains(condition))) {
+        //  print('Row: $row');
+        var customTitle = CustomTitles.fromJson(row);
+        titles.add(customTitle);
+      }
+    }
     // titles.forEach((title) {
     //   print('Title Text: ${title.titleText}');
     // });
