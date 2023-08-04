@@ -35,7 +35,43 @@ class _BottomTabsPageState extends State<BottomTabsPage>
 
     /// observer is used to observe app lifecycle state
     /// and it is used to stop and start app usage and other timers when user stop or resume the app
-    WidgetsBinding.instance.addObserver(this);
+    // Call methods based on the current time of day
+    // // Call methods based on the current time of day
+    // final now = DateTime.now();
+    // final morningTime = const TimeOfDay(hour: 6, minute: 0);
+    // final afternoonTime = const TimeOfDay(hour: 12, minute: 0);
+    // final eveningTime = const TimeOfDay(hour: 17, minute: 0);
+    // final nightTime = const TimeOfDay(hour: 20, minute: 0);
+
+    // final currentTimeOfDay = TimeOfDay.fromDateTime(now);
+
+    // if (currentTimeOfDay.hour < afternoonTime.hour ||
+    //     (currentTimeOfDay.hour == afternoonTime.hour &&
+    //         currentTimeOfDay.minute < afternoonTime.minute)) {
+    //   // It's morning time
+    //   context
+    //       .read<RecitationCategoryProvider>()
+    //       .getRecitationCategoryStoriesMorning();
+    // } else if (currentTimeOfDay.hour < eveningTime.hour ||
+    //     (currentTimeOfDay.hour == eveningTime.hour &&
+    //         currentTimeOfDay.minute < eveningTime.minute)) {
+    //   // It's afternoon time
+    //   context
+    //       .read<RecitationCategoryProvider>()
+    //       .getRecitationCategoryStoriesAfternoon();
+    // } else if (currentTimeOfDay.hour < nightTime.hour ||
+    //     (currentTimeOfDay.hour == nightTime.hour &&
+    //         currentTimeOfDay.minute < nightTime.minute)) {
+    //   // It's evening time
+    //   context
+    //       .read<RecitationCategoryProvider>()
+    //       .getRecitationCategoryStoriesEvening();
+    // } else {
+    //   // It's night time
+    //   context
+    //       .read<RecitationCategoryProvider>()
+    //       .getRecitationCategoryStoriesNight();
+    // }
 
     /// this method will get verse of the day
     context.read<HomeProvider>().getVerse(context);
@@ -49,7 +85,8 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     context.read<PopularProvider>().getStories();
     context.read<RecitationCategoryProvider>().getRecitationCategoryStories();
     context.read<TranquilCategoryProvider>().getRecitationCategoryStories();
-    Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false).getMiracles();
+    Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false)
+        .getMiracles();
 
     /// this is app usage state provider which is used to stop and start timers
     var provider = context.read<MyStateProvider>();
@@ -98,7 +135,7 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached) {
-      Provider.of<ProfileProvider>(context,listen: false).uploadProfileData();
+      Provider.of<ProfileProvider>(context, listen: false).uploadProfileData();
       provider.stopAllTimer();
     } else if (state == AppLifecycleState.resumed) {
       provider.startAppUsageTimer();
