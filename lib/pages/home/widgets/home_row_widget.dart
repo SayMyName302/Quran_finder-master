@@ -54,11 +54,11 @@ class HomeRowWidget extends StatelessWidget {
   }
 }
 
-class HomeRowWidgettest extends StatelessWidget {
+class HomeRowWidgetTest extends StatelessWidget {
   final String text;
   final String buttonText;
   final VoidCallback onTap;
-  const HomeRowWidgettest(
+  const HomeRowWidgetTest(
       {Key? key,
       required this.text,
       required this.buttonText,

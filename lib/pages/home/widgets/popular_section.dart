@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 import '../../../shared/localization/localization_constants.dart';
 
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
-import '../../sign_in/provider/sign_in_provider.dart';
 import 'home_row_widget.dart';
 
 class PopularSection extends StatelessWidget {
@@ -35,7 +34,7 @@ class PopularSection extends StatelessWidget {
     //     userEmail == "canzinternal3@gmail.com");
     return Column(
       children: [
-        HomeRowWidgettest(
+        HomeRowWidgetTest(
           text: selectedTitleText ?? 'Popular Recitations',
           buttonText: localeText(context, "view_all"),
           onTap: () {

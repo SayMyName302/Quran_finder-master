@@ -25,6 +25,7 @@ class AppDownloadsSection extends StatelessWidget {
   final hijriYear = TextEditingController();
   final dayName = TextEditingController();
   final weather = TextEditingController();
+  final hijriDate = TextEditingController();
 
   // final feature = Provider.of<FeatureProvider>(context, listen: false);
 
@@ -135,13 +136,18 @@ class AppDownloadsSection extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   LabeledTextField(
-                    label: "Date : ${user.date}",
+                    label: "Georgian Date : ${user.date}",
                     controller: date,
                   ),
                   const SizedBox(height: 10),
                   LabeledTextField(
                     label: "Time: ${user.time}",
                     controller: time,
+                  ),
+                  const SizedBox(height: 10),
+                  LabeledTextField(
+                    label: "Hijridate: ${user.hijriDate}",
+                    controller: hijriDate,
                   ),
                   const SizedBox(height: 10),
                   LabeledTextField(
@@ -160,7 +166,7 @@ class AppDownloadsSection extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   LabeledTextField(
-                    label: "weather: ${user.weather}",
+                    label: "Weather: ${user.weather}",
                     controller: weather,
                   ),
                   const SizedBox(height: 10),
@@ -175,6 +181,8 @@ class AppDownloadsSection extends StatelessWidget {
                           dayName.text.trim().toLowerCase();
                       String lowerCasehijrimonth =
                           hijriMonth.text.trim().toLowerCase();
+                      String lowerCasehijridate =
+                          hijriDate.text.trim().toLowerCase();
 
                       if ((lowerCaseCountry == "pakistan" ||
                                   lowerCaseCountry == "saudi arabia" ||
@@ -187,10 +195,18 @@ class AppDownloadsSection extends StatelessWidget {
                       } else if (lowerCasehijrimonth.isNotEmpty) {
                         Provider.of<FeatureProvider>(context, listen: false)
                             .reorderStoriesforMonth(lowerCasehijrimonth);
+                      } else if (lowerCasehijridate.isNotEmpty &&
+                          lowerCasehijrimonth.isNotEmpty) {
+                        Provider.of<FeatureProvider>(context, listen: false)
+                            .reorderStoriesforDate(
+                                lowerCasehijridate, lowerCasehijrimonth);
                       } else {
                         Provider.of<FeatureProvider>(context, listen: false)
                             .reorderStoriesIfNeeded(lowerCasedayName);
                       }
+                      Provider.of<FeatureProvider>(context, listen: false)
+                          .reorderStoriesforDate(
+                              lowerCasehijridate, lowerCasehijrimonth);
                     },
                   ),
                 ],

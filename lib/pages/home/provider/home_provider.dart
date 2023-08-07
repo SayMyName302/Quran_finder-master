@@ -44,6 +44,7 @@ class HomeProvider extends ChangeNotifier {
   String _hijriYear = "";
   String _dayName = "";
   String _weather = "";
+  String _hijriDate = "";
 
   String get country => _country;
   String get date => _date;
@@ -52,6 +53,7 @@ class HomeProvider extends ChangeNotifier {
   String get hijriYear => _hijriYear;
   String get dayName => _dayName;
   String get weather => _weather;
+  String get hijriDate => _hijriDate;
 
   //Fetching all the text_title by filtering
   List<CustomTitles> _titleText = [];
@@ -101,12 +103,18 @@ class HomeProvider extends ChangeNotifier {
       String country, String weather) async {
     _titleText =
         await QuranDatabase().getWeatherCountryTitles(country, weather);
-    notifyListeners(); // Uncomment this if you are using a ChangeNotifier
+    notifyListeners();
     return _titleText;
   }
 
+  //Setting weather value to show in UI
   void updateWeather(String newWeather) {
     _weather = newWeather;
+    notifyListeners();
+  }
+
+  void updateHijriDate(String hijriDate) {
+    _hijriDate = hijriDate;
     notifyListeners();
   }
 
@@ -283,6 +291,8 @@ class HomeProvider extends ChangeNotifier {
         );
         String weatherCondition = weatherData['weather'] ?? "";
         String countryfromapi = weatherData['country'] ?? "";
+
+        //Remove this method when All the code is ready(Right Now its only being used to update UI)
         updateWeather(weatherCondition);
 
         if (weatherCondition == "rain") {
@@ -309,13 +319,18 @@ class HomeProvider extends ChangeNotifier {
         }
 
         DateTime now = DateTime.now();
-        String formattedDate = DateFormat('MMddyy').format(now);
+        String formattedDate = DateFormat('Mddyy').format(now);
         String formattedTime = DateFormat('HH').format(now);
 
         String hijriMonthAndYear = getHijriMonthAndYear(
           HijriCalendar.now().hMonth,
         );
         String hijriYear = HijriCalendar.now().hYear.toString();
+        String hijriDate = HijriCalendar.now().hDay.toString();
+
+        //Remove this method when All the code is ready(Right Now its only being used to update UI)
+        updateHijriDate(hijriDate);
+
         String dayName =
             DateFormat('EEEE').format(DateTime.now()).toLowerCase();
 
@@ -326,7 +341,8 @@ class HomeProvider extends ChangeNotifier {
             hijriMonth: hijriMonthAndYear,
             hijriYear: hijriYear,
             dayName: dayName,
-            weather: weatherCondition);
+            weather: weatherCondition,
+            hijridate: hijriDate);
 
         notifyListeners();
 
@@ -394,6 +410,7 @@ class UserData {
   String hijriYear;
   String dayName;
   String weather;
+  String hijridate;
 
   UserData({
     required this.country,
@@ -403,5 +420,6 @@ class UserData {
     required this.hijriYear,
     required this.dayName,
     required this.weather,
+    required this.hijridate,
   });
 }

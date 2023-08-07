@@ -118,13 +118,9 @@ class HomeDb {
     List<AboutModel> appinfo = [];
     _database = await openDb();
     var table = await _database!.query(_appInfo);
-    // print(
-    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       appinfo.add(AboutModel.fromJson(map));
     }
-    // print(
-    //     "App info Length: ${appinfo.length}"); // Print the number of FeaturedModel objects added to the list
     return appinfo;
   }
 
@@ -148,11 +144,28 @@ class HomeDb {
 
     for (var map in table) {
       feature.add(FeaturedModel.fromJson(map));
-      print("Row Data:");
-      print("view_order_by: ${map['view_order_by']}");
-      print("day: ${map['day']}");
+      // print("Row Data:");
+      // print("view_order_by: ${map['view_order_by']}");
+      // print("day: ${map['day']}");
     }
     return feature;
+  }
+
+// Method to filter the list based on islamic_date
+  List<FeaturedModel> filterFeaturesByIslamicDate(
+      List<FeaturedModel> featureList, String targetDate, String targetMonth) {
+    List<FeaturedModel> filteredList = [];
+
+    for (var feature in featureList) {
+      // Assuming 'hijriDate' and 'hijriMonth' are properties in your FeaturedModel class
+      if (feature.islamicDate == targetDate &&
+          feature.monthDisplay == targetMonth) {
+        filteredList.add(feature);
+      }
+    }
+    print("FILTERED LIST: ${filteredList}");
+
+    return filteredList;
   }
 
   Future<List<FeaturedModel>> getTranquil() async {
