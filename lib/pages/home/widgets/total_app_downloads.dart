@@ -187,10 +187,10 @@ class AppDownloadsSection extends StatelessWidget {
                       } else if (lowerCasehijrimonth.isNotEmpty) {
                         Provider.of<FeatureProvider>(context, listen: false)
                             .reorderStoriesforMonth(lowerCasehijrimonth);
+                      } else {
+                        Provider.of<FeatureProvider>(context, listen: false)
+                            .reorderStoriesIfNeeded(lowerCasedayName);
                       }
-
-                      Provider.of<FeatureProvider>(context, listen: false)
-                          .reorderStoriesIfNeeded(lowerCasedayName);
                     },
                   ),
                 ],

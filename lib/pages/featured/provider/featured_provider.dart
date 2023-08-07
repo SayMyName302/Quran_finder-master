@@ -64,15 +64,16 @@ class FeatureProvider extends ChangeNotifier {
   }
 
   void reorderHijriMonth(String inputMonth) {
-    if (_copyFeature.isEmpty) {
+    if (_feature.isEmpty) {
       print('No features to reorder.');
       return;
     }
 
     String lowercaseInputMonth = inputMonth.toLowerCase();
     int userInputMonthIndex = -1;
-    for (int i = 0; i < _copyFeature.length; i++) {
-      if (_copyFeature[i].monthDisplay!.toLowerCase() == lowercaseInputMonth) {
+
+    for (int i = 0; i < _feature.length; i++) {
+      if (_feature[i].monthDisplay!.toLowerCase() == lowercaseInputMonth) {
         userInputMonthIndex = i;
         print('User input month found at index: $userInputMonthIndex');
         break;
@@ -82,13 +83,13 @@ class FeatureProvider extends ChangeNotifier {
     if (userInputMonthIndex != -1) {
       print('Swapping user input month with the first index.');
 
-      // Swap the user-provided month's item with the first item in the _copyFeature list
-      FeaturedModel firstItem = _copyFeature[0];
-      FeaturedModel selectedMonthItem = _copyFeature[userInputMonthIndex];
-      _copyFeature[0] = selectedMonthItem;
-      _copyFeature[userInputMonthIndex] = firstItem;
+      // Swap the user-provided month's item with the first item in the _feature list
+      FeaturedModel firstItem = _feature[0];
+      FeaturedModel selectedMonthItem = _feature[userInputMonthIndex];
+      _feature[0] = selectedMonthItem;
+      _feature[userInputMonthIndex] = firstItem;
 
-      print('Reordered list: $_copyFeature');
+      print('Reordered list: $_feature');
 
       notifyListeners();
     } else {
@@ -101,27 +102,10 @@ class FeatureProvider extends ChangeNotifier {
   // Method to be called every Friday to reorder stories
   void scheduleReorder() {
     DateTime now = DateTime.now();
-
     if (now.weekday == DateTime.friday) {
-      reorderStories('friday'); // if today is friday call reorder method
+      reorderStories('friday');
     } else {
-      const oneWeek = Duration(days: 7);
-      DateTime nextFriday;
-      if (now.weekday <= DateTime.friday) {
-        // If today is a day before Friday
-        nextFriday = now.add(Duration(days: DateTime.friday - now.weekday));
-      } else {
-        // If today is Saturday to Thursday
-        nextFriday =
-            now.add(oneWeek - Duration(days: now.weekday - DateTime.friday));
-      }
-      Duration timeUntilNextFriday = nextFriday.difference(now);
-      // Schedule the method using Timer.periodic
-      Timer.periodic(timeUntilNextFriday, (Timer timer) {
-        if (timer.isActive) {
-          reorderStories('friday'); // Calling reorderStories method
-        }
-      });
+      reorderStories('dayName');
     }
   }
 
@@ -206,14 +190,14 @@ class FeatureProvider extends ChangeNotifier {
     _feature = await HomeDb().getFeatured();
     scheduleReorder();
     // _loadStoriesOrder();
-    _copyFeature = List.from(_feature);
+    // _copyFeature = List.from(_feature);
 
-    // Print the list and its indices
-    print('AT RUNTIME LIST IS $_copyFeature');
-    for (int i = 0; i < _copyFeature.length; i++) {
-      print(
-          'Index: $i, Month: ${_copyFeature[i].monthDisplay},ViewOrderBY: ${_copyFeature[i].viewOrderBy}, ');
-    }
+    // // Print the list and its indices
+    // print('AT RUNTIME LIST IS $_copyFeature');
+    // for (int i = 0; i < _copyFeature.length; i++) {
+    //   print(
+    //       'Index: $i, Month: ${_copyFeature[i].monthDisplay},ViewOrderBY: ${_copyFeature[i].viewOrderBy}, ');
+    // }
 
     notifyListeners();
   }
