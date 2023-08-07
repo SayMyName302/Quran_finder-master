@@ -93,7 +93,8 @@ class HomeDb {
     List<RecitationAllCategoryModel> selectedRecitationAll = [];
     var cursor = await _database!.query(_recitationPlaylistitems,
         where: "playlist_id = ? AND status = 'active'",
-        whereArgs: [playlistId]);
+        whereArgs: [playlistId],
+        orderBy: 'order_by');
     for (var map in cursor) {
       selectedRecitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
