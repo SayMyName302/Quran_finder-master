@@ -54,7 +54,7 @@ class RecitationCategoryModel {
   }
 
   RecitationCategoryModel.fromJson(Map<String, dynamic> json) {
-    _playlistId = (json['Playlist_id']);
+    _playlistId = (json['playlist_id']);
     _playlistName = json['playlist_name'];
     _playPeriod = json['play_period'];
     _playlistContentType = json['playlist_content_type'];
