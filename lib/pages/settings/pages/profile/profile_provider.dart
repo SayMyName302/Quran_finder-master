@@ -27,15 +27,27 @@ import '../../../../shared/network/network_check.dart';
 import '../../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import 'package:flutter/services.dart';
 
-import '../../../recitation_category/models/bookmarks_recitation.dart';
+import '../../../recitation_category/models/recitation_all_category_model.dart';
 
 class ProfileProvider extends ChangeNotifier {
   UserProfile? _userProfile = Hive.box(appBoxKey).get(userProfileKey) != null
-      ? UserProfile.fromJson(jsonDecode(Hive.box(appBoxKey).get(userProfileKey))) :
-  UserProfile(email: null, password: null, fullName: null, image: "", uid: null,
-      purposeOfQuran: <String>[], preferredLanguage: "en", loginDevices: <Devices>[], loginType: null,
-      favRecitersList: <Reciters>[], quranBookmarksList: <AyahBookmarks>[], duaBookmarksList: <Dua>[],
-      ruqyahBookmarksList: <Ruqyah>[], recitationBookmarkList: <BookmarksRecitation>[]);
+      ? UserProfile.fromJson(
+          jsonDecode(Hive.box(appBoxKey).get(userProfileKey)))
+      : UserProfile(
+          email: null,
+          password: null,
+          fullName: null,
+          image: "",
+          uid: null,
+          purposeOfQuran: <String>[],
+          preferredLanguage: "en",
+          loginDevices: <Devices>[],
+          loginType: null,
+          favRecitersList: <Reciters>[],
+          quranBookmarksList: <AyahBookmarks>[],
+          duaBookmarksList: <Dua>[],
+          ruqyahBookmarksList: <Ruqyah>[],
+          recitationBookmarkList: <RecitationAllCategoryModel>[]);
 
   bool _isProfileUpdated = false;
   bool get isProfileUpdated => _isProfileUpdated;
@@ -105,7 +117,7 @@ class ProfileProvider extends ChangeNotifier {
     Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
   }
 
-  saveProfileToHive(){
+  saveProfileToHive() {
     Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
   }
 
@@ -135,27 +147,25 @@ class ProfileProvider extends ChangeNotifier {
     });
   }
 
-
   uploadProfileData() async {
-    if(!_isProfileUpdated){
-      if(_userProfile!.uid != null){
-        NetworksCheck(
-            onComplete: ()async{
-              await FirebaseFirestore.instance.collection('users').doc(_userProfile!.uid).set(userProfile!.toJson()).then((value) {
-                _isProfileUpdated = false;
-              });
-            },
-            onError: (){
-              _isProfileUpdated = false;
-            }
-        ).doRequest();
+    if (!_isProfileUpdated) {
+      if (_userProfile!.uid != null) {
+        NetworksCheck(onComplete: () async {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(_userProfile!.uid)
+              .set(userProfile!.toJson())
+              .then((value) {
+            _isProfileUpdated = false;
+          });
+        }, onError: () {
+          _isProfileUpdated = false;
+        }).doRequest();
       }
-    }else{
+    } else {
       print("Profile Updated");
     }
   }
-
-
 
   deleteUserProfile() {
     EasyLoadingDialog.show(context: RouteHelper.currentContext, radius: 20.r);
@@ -220,30 +230,34 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-
   /// bookmarks functions ///
-  void addReciterFavOrRemove(int reciterId) async{
+  void addReciterFavOrRemove(int reciterId) async {
     _isProfileUpdated = false;
     List<Reciters> allRecitersList = await QuranDatabase().getAllReciter();
-    if (!_userProfile!.favRecitersList.any((element) => element.reciterId == reciterId)) {
-      int index = allRecitersList.indexWhere((element) => element.reciterId == reciterId);
+    if (!_userProfile!.favRecitersList
+        .any((element) => element.reciterId == reciterId)) {
+      int index = allRecitersList
+          .indexWhere((element) => element.reciterId == reciterId);
       _userProfile!.favRecitersList.add(allRecitersList[index]);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
       notifyListeners();
     } else {
-      _userProfile!.favRecitersList.removeWhere((element) => element.reciterId == reciterId);
+      _userProfile!.favRecitersList
+          .removeWhere((element) => element.reciterId == reciterId);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
       notifyListeners();
     }
   }
 
-  void addOrRemoveRecitationBookmark(BookmarksRecitation bookmarks) {
+  void addOrRemoveRecitationBookmark(RecitationAllCategoryModel bookmarks) {
     _isProfileUpdated = false;
-    if (!_userProfile!.recitationBookmarkList.any((element) => element.contentUrl == bookmarks.contentUrl)) {
+    if (!_userProfile!.recitationBookmarkList
+        .any((element) => element.contentUrl == bookmarks.contentUrl)) {
       _userProfile!.recitationBookmarkList.add(bookmarks);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     } else {
-      _userProfile!.recitationBookmarkList.removeWhere((element) => element.contentUrl == bookmarks.contentUrl);
+      _userProfile!.recitationBookmarkList
+          .removeWhere((element) => element.contentUrl == bookmarks.contentUrl);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     }
     notifyListeners();
@@ -251,11 +265,15 @@ class ProfileProvider extends ChangeNotifier {
 
   void addOrRemoveDuaBookmark(Dua duaBookmark) {
     _isProfileUpdated = false;
-    if (!_userProfile!.duaBookmarksList.any((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId)) {
+    if (!_userProfile!.duaBookmarksList.any((element) =>
+        element.duaText == duaBookmark.duaText &&
+        element.duaCategoryId == duaBookmark.duaCategoryId)) {
       _userProfile!.duaBookmarksList.add(duaBookmark);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     } else {
-      _userProfile!.duaBookmarksList.removeWhere((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId);
+      _userProfile!.duaBookmarksList.removeWhere((element) =>
+          element.duaText == duaBookmark.duaText &&
+          element.duaCategoryId == duaBookmark.duaCategoryId);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     }
     notifyListeners();
@@ -263,11 +281,15 @@ class ProfileProvider extends ChangeNotifier {
 
   void addOrRemoveRuqyaDuaBookmark(Ruqyah duaBookmark) {
     _isProfileUpdated = false;
-    if (!_userProfile!.ruqyahBookmarksList.any((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId)) {
+    if (!_userProfile!.ruqyahBookmarksList.any((element) =>
+        element.duaText == duaBookmark.duaText &&
+        element.duaCategoryId == duaBookmark.duaCategoryId)) {
       _userProfile!.ruqyahBookmarksList.add(duaBookmark);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     } else {
-      _userProfile!.ruqyahBookmarksList.removeWhere((element) => element.duaText == duaBookmark.duaText && element.duaCategoryId == duaBookmark.duaCategoryId);
+      _userProfile!.ruqyahBookmarksList.removeWhere((element) =>
+          element.duaText == duaBookmark.duaText &&
+          element.duaCategoryId == duaBookmark.duaCategoryId);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     }
     notifyListeners();
@@ -275,11 +297,15 @@ class ProfileProvider extends ChangeNotifier {
 
   void addOrRemoveAyahBookmark(AyahBookmarks ayahBookmark) {
     _isProfileUpdated = false;
-    if (!_userProfile!.quranBookmarksList.any((element) => element.verseId == ayahBookmark.verseId && element.surahId == ayahBookmark.surahId)) {
+    if (!_userProfile!.quranBookmarksList.any((element) =>
+        element.verseId == ayahBookmark.verseId &&
+        element.surahId == ayahBookmark.surahId)) {
       _userProfile!.quranBookmarksList.add(ayahBookmark);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     } else {
-      _userProfile!.quranBookmarksList.removeWhere((element) => element.verseId == ayahBookmark.verseId && element.surahId == ayahBookmark.surahId);
+      _userProfile!.quranBookmarksList.removeWhere((element) =>
+          element.verseId == ayahBookmark.verseId &&
+          element.surahId == ayahBookmark.surahId);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     }
     notifyListeners();

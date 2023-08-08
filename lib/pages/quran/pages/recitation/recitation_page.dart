@@ -23,7 +23,9 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../shared/providers/story_n_basics_audio_player_provider.dart';
 import '../../../recitation_category/models/bookmarks_recitation.dart';
+import '../../../recitation_category/models/recitation_all_category_model.dart';
 import '../../../recitation_category/provider/recitation_category_provider.dart';
 import '../../../settings/pages/profile/profile_provider.dart';
 import '../../widgets/details_container_widget.dart';
@@ -672,9 +674,9 @@ class _RecitationPageState extends State<RecitationPage> {
                 margin: EdgeInsets.only(top: 20.h),
                 child: buildTitleContainer(localeText(context, "favorites"))),
 
-            Consumer3<RecitationProvider, RecitationCategoryProvider,
-                ProfileProvider>(
-              builder: (context, recitation, rcp, profile, child) {
+            Consumer4<RecitationProvider, StoryAndBasicPlayerProvider,
+                RecitationCategoryProvider, ProfileProvider>(
+              builder: (context, recitation, player, rcp, profile, child) {
                 // final bookmarkListReciter = recitation.favReciters;
                 // final bookmarkListRecitation = rcp.bookmarkListTest;
                 final bookmarkListRecitation =
@@ -697,6 +699,12 @@ class _RecitationPageState extends State<RecitationPage> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             final bookmark = combinedBookmarkList[index];
+                            final isDuaBookmark =
+                                index > favRecitersList.length;
+//                             if(isDuaBookmark){print("REC PLAYLISTID BB${bookmark.}");
+                            // print("REC TITLE >>>> $isDuaBookmark");
+// }
+
                             String title;
                             String subTitle;
                             IconData icon;
@@ -708,9 +716,9 @@ class _RecitationPageState extends State<RecitationPage> {
                               icon = Icons.bookmark;
                               imageIcon =
                                   "assets/images/app_icons/bookmark.png";
-                            } else if (bookmark is BookmarksRecitation) {
+                            } else if (bookmark is RecitationAllCategoryModel) {
                               final recitationBookmark = bookmark;
-                              title = recitationBookmark.recitationName ?? '';
+                              title = recitationBookmark.title ?? '';
                               subTitle = localeText(context, "recitation");
                               icon = Icons.bookmark;
                               imageIcon =
@@ -721,6 +729,7 @@ class _RecitationPageState extends State<RecitationPage> {
                               icon = Icons.error;
                               imageIcon = '';
                             }
+// print("${bookmark.catID!}, ${bookmark.recitationName!}, ${bookmark.imageUrl!}");
 
                             return InkWell(
                               onTap: () {
@@ -736,14 +745,18 @@ class _RecitationPageState extends State<RecitationPage> {
                                   );
                                   final tappedRecitersProvider =
                                       context.read<recentProviderRecitation>();
-                                } else if (bookmark is BookmarksRecitation) {
+                                } else if (bookmark
+                                    is RecitationAllCategoryModel) {
+                                  print(
+                                      "BOOKMARKS P L ID${bookmark.playlistId!}, REC NAME${bookmark.title!}, IMG URL ${bookmark.contentUrl!}");
+
                                   Provider.of<RecitationCategoryProvider>(
                                           context,
                                           listen: false)
                                       .gotoRecitationAudioPlayerPage(
-                                    bookmark.catID!,
-                                    bookmark.recitationIndex!,
-                                    bookmark.imageUrl!,
+                                    bookmark.playlistId!,
+                                    bookmark.title!,
+                                    player.image!,
                                     context,
                                   );
                                   Navigator.of(context).pushNamed(
@@ -762,7 +775,8 @@ class _RecitationPageState extends State<RecitationPage> {
                                     //     bookmark.reciterId!);
                                     profile.addReciterFavOrRemove(
                                         bookmark.reciterId!);
-                                  } else if (bookmark is BookmarksRecitation) {
+                                  } else if (bookmark
+                                      is RecitationAllCategoryModel) {
                                     // rcp.addOrRemoveBookmark(bookmark);
                                     profile.addOrRemoveRecitationBookmark(
                                         bookmark);

@@ -54,6 +54,9 @@ class RecitationCategoryProvider extends ChangeNotifier {
   int _currentRecitationIndex = 0;
   int get currentRecitationIndex => _currentRecitationIndex;
 
+  RecitationAllCategoryModel? _selectedRec;
+  RecitationAllCategoryModel? get selectedRec => _selectedRec;
+
   RecitationAllCategoryModel? _selectedRecitationStory;
   RecitationAllCategoryModel? get selectedRecitationStory =>
       _selectedRecitationStory;
@@ -82,19 +85,18 @@ class RecitationCategoryProvider extends ChangeNotifier {
   }
 
   gotoRecitationAudioPlayerPage(
-      int duaCategoryId, int surahId, imageUrl, BuildContext context) async {
+      int playlistid, String title, imageUrl, BuildContext context) async {
     // _selectedRecitationAll = [];
     // _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
     if (_selectedRecitationAll.isNotEmpty) {
       _currentRecitationIndex = _selectedRecitationAll
-          .indexWhere((element) => element.surahId == surahId);
-      _selectedRecitationStory =
-          _selectedRecitationAll[_currentRecitationIndex];
+          .indexWhere((element) => element.title == title);
+
+      _selectedRec = _selectedRecitationAll[_currentRecitationIndex];
       notifyListeners();
       // ignore: use_build_context_synchronously
       Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
-          .initAudioPlayer(
-              _selectedRecitationStory!.contentUrl!, imageUrl!, context);
+          .initAudioPlayer(_selectedRec!.contentUrl!, imageUrl!, context);
     }
   }
 }
