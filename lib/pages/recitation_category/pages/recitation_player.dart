@@ -70,6 +70,19 @@ class RecitationAudioPlayer extends StatelessWidget {
                         margin: EdgeInsets.only(
                             left: 20.w, right: 20.w, bottom: 35.h),
                       ),
+                      // Text(
+                      //   localeText(context, title),
+                      //   // title,
+                      //   style: TextStyle(
+                      //       fontSize: 18.sp,
+                      //       color:
+                      //           them.isDark ? AppColors.grey4 : AppColors.grey3,
+                      //       fontWeight: FontWeight.w900,
+                      //       fontFamily: 'satoshi'),
+                      // ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
                       Text(
                         localeText(context, title),
                         // title,
@@ -79,17 +92,6 @@ class RecitationAudioPlayer extends StatelessWidget {
                                 them.isDark ? AppColors.grey4 : AppColors.grey3,
                             fontWeight: FontWeight.w900,
                             fontFamily: 'satoshi'),
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Text(
-                        localeText(context, nextDua.title!.toString()),
-                        style: TextStyle(
-                          fontFamily: 'satoshi',
-                          fontWeight: FontWeight.w900,
-                          fontSize: 22.sp,
-                        ),
                       ),
                       SizedBox(
                         height: 3.h,
