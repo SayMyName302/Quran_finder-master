@@ -27,7 +27,9 @@ class OnBoardingProvider extends ChangeNotifier {
     if (!_selectAchieveWithQuranList.contains(item)) {
       if (selectAchieveWithQuranList.length < 3) {
         _selectAchieveWithQuranList.add(item);
-        Provider.of<ProfileProvider>(context,listen: false).userProfile!.setPurposeOfQuran = selectAchieveWithQuranList;
+        Provider.of<ProfileProvider>(context, listen: false)
+            .userProfile!
+            .setPurposeOfQuran = selectAchieveWithQuranList;
         print("items $item");
       } else {
         ScaffoldMessenger.of(context)
@@ -39,7 +41,9 @@ class OnBoardingProvider extends ChangeNotifier {
       }
     } else {
       _selectAchieveWithQuranList.removeWhere((element) => element == item);
-      Provider.of<ProfileProvider>(context,listen: false).userProfile!.setPurposeOfQuran = selectAchieveWithQuranList;
+      Provider.of<ProfileProvider>(context, listen: false)
+          .userProfile!
+          .setPurposeOfQuran = selectAchieveWithQuranList;
     }
     notifyListeners();
   }
@@ -47,39 +51,75 @@ class OnBoardingProvider extends ChangeNotifier {
   // set fav reciter functionality
   final List<FavReciter> _reciterList = [
     FavReciter(
-      title: "Abdur- Rahman As- Sudais",
+      title: "Mishary Rashid Alafasy",
       isPlaying: false,
       audioUrl: "assets/audios/fav_reciters/Abdur- Rahman As- Sudais.mp3",
       reciterId: 11,
-      imageUrl: "assets/images/app_icons/qari1.jpg",
+      imageUrl: "assets/images/reciters/mishray_rashid_al_afasy.webp",
     ),
     FavReciter(
-      title: "Mahmoud Al-Hussary",
+      title: "Abdul Basit Abdul Samad",
       isPlaying: false,
       audioUrl: "assets/audios/fav_reciters/Mahmoud Al-Hussary.mp3",
       reciterId: 20,
-      imageUrl: "assets/images/app_icons/qari2.jpg",
+      imageUrl: "assets/images/reciters/abdul_basit_abdus_samad.webp",
     ),
     FavReciter(
-      title: "Mishary Al Afsay",
+      title: "Maher Al-Muaiqly",
       isPlaying: false,
       audioUrl: "assets/audios/fav_reciters/Mishary Al Afsay.mp3",
       reciterId: 10,
-      imageUrl: "assets/images/app_icons/qari3.webp",
+      imageUrl: "assets/images/reciters/sheikh_maher_al_muaiqly.png",
     ),
     FavReciter(
-      title: "Sheikh Maher Muaqily",
+      title: "Abdul Rahman Al-Sudais",
       isPlaying: false,
       audioUrl: "assets/audios/fav_reciters/Sheikh Maher Muaqily.mp3",
       reciterId: 4,
-      imageUrl: "assets/images/app_icons/qari4.jpg",
+      imageUrl: "assets/images/reciters/abdul_rahman_al_sudais.webp",
     ),
     FavReciter(
-      title: "Sheikh Saud Al-Shuraim",
+      title: "Ahmed Al-Ajmi",
       isPlaying: false,
       audioUrl: "assets/audios/fav_reciters/Sheikh Saud Al-Shuraim.mp3",
       reciterId: 14,
-      imageUrl: "assets/images/app_icons/qari5.jpg",
+      imageUrl: "assets/images/reciters/sheikh_ahmed_al_ajmi.webp",
+    ),
+    FavReciter(
+      title: "Saad Al-Ghamdi",
+      isPlaying: false,
+      audioUrl: "assets/audios/fav_reciters/Sheikh Saud Al-Shuraim.mp3",
+      reciterId: 14,
+      imageUrl: "assets/images/reciters/saad_el_ghamidi.webp",
+    ),
+    FavReciter(
+      title: "Muhammad Siddeeq",
+      isPlaying: false,
+      audioUrl: "assets/audios/fav_reciters/Sheikh Saud Al-Shuraim.mp3",
+      reciterId: 14,
+      imageUrl:
+          "assets/images/reciters/sheikh_muhammad_siddiq_al_minshawi.webp",
+    ),
+    FavReciter(
+      title: "Yasser Al-Dosari",
+      isPlaying: false,
+      audioUrl: "assets/audios/fav_reciters/Sheikh Saud Al-Shuraim.mp3",
+      reciterId: 14,
+      imageUrl: "assets/images/reciters/sheikh_yasser_al_dosari.webp",
+    ),
+    FavReciter(
+      title: "Raad Mohammad al Kurdi",
+      isPlaying: false,
+      audioUrl: "assets/audios/fav_reciters/Sheikh Saud Al-Shuraim.mp3",
+      reciterId: 14,
+      imageUrl: "assets/images/reciters/raad_muhammad_al-kurdi.png",
+    ),
+    FavReciter(
+      title: "Abdul Rahman Al Ossi",
+      isPlaying: false,
+      audioUrl: "assets/audios/fav_reciters/Sheikh Saud Al-Shuraim.mp3",
+      reciterId: 14,
+      imageUrl: "assets/images/reciters/abdul_rahman_al_ossi.png",
     ),
   ];
   List<FavReciter> get reciterList => _reciterList;
