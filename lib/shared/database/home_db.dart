@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/models/miracles.dart';
 import 'package:nour_al_quran/pages/popular_section/models/PopularModel';
@@ -15,6 +16,7 @@ import 'package:sqflite/sqflite.dart';
 import '../../pages/basics_of_quran/models/islam_basics.dart';
 import '../../pages/miracles_of_quran/models/miracles.dart';
 import '../../pages/quran stories/models/quran_stories.dart';
+import 'package:hijri/hijri_calendar.dart';
 
 class HomeDb {
   Database? _database;
@@ -47,7 +49,7 @@ class HomeDb {
       // Copy the database file from the assets folder
       ByteData data = await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> bytes =
-      data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       // Write and flush the bytes to the documents directory
       await File(path).writeAsBytes(bytes, flush: true);
       print('Database file copied to documents directory');
@@ -56,7 +58,7 @@ class HomeDb {
 
       // Check for differences between the existing and assets database files
       ByteData assetsData =
-      await rootBundle.load(join('assets', 'masterdb.db'));
+          await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> assetsBytes = assetsData.buffer
           .asUint8List(assetsData.offsetInBytes, assetsData.lengthInBytes);
 
@@ -144,23 +146,98 @@ class HomeDb {
 
     for (var map in table) {
       feature.add(FeaturedModel.fromJson(map));
-      // print("Row Data:");
-      // print("view_order_by: ${map['view_order_by']}");
-      // print("day: ${map['day']}");
     }
     return feature;
   }
 
+  String getHijriMonthAndYear(int month) {
+    List<String> hijriMonthNames = [
+      "Muharram",
+      "Safar",
+      "Rabi al-Awwal",
+      "Rabi al-Thani",
+      "Jumada al-Awwal",
+      "Jumada al-Thani",
+      "Rajab",
+      "Sha'ban",
+      "Ramadan",
+      "Shawwal",
+      "Dhu al-Qa'dah",
+      "Dhu al-Hijjah"
+    ];
+
+    if (month >= 1 && month <= 12) {
+      return hijriMonthNames[month - 1].toLowerCase();
+    } else {
+      return 'Unknown';
+    }
+  }
+
 // Method to filter the list based on islamic_date
   List<FeaturedModel> filterFeaturesByIslamicDate(
-      List<FeaturedModel> featureList, String targetDate, String targetMonth) {
+      List<FeaturedModel> featureList, String targetDate) {
     List<FeaturedModel> filteredList = [];
+    // print('FeatureBEFOREFILEINDB $featureList');
+
+    HijriCalendar currentDate = HijriCalendar.now();
+    String currentMonth = getHijriMonthAndYear(currentDate.hMonth);
+    // print('Current Month: $currentMonth');
 
     for (var feature in featureList) {
-      // Assuming 'hijriDate' and 'hijriMonth' are properties in your FeaturedModel class
-      if (feature.islamicDate == targetDate &&
-          feature.monthDisplay == targetMonth) {
-        filteredList.add(feature);
+      if (feature.islamicDate != null) {
+        int hijriDay = int.parse(feature.islamicDate!);
+        String featureMonth = feature.monthDisplay!.toLowerCase();
+        int? hijriYear = feature.hijriYear;
+
+        // print('Feature: ${feature.islamicDate}, ${featureMonth}, ${hijriYear}');
+
+        if (hijriDay == currentDate.hDay &&
+            featureMonth == currentMonth &&
+            hijriYear == currentDate.hYear &&
+            int.parse(targetDate) == currentDate.hDay) {
+          // Changed this line
+          // print(
+          //     'Match Found for: ${feature.islamicDate}, ${featureMonth}, ${hijriYear}');
+          filteredList.add(feature);
+        }
+      }
+    }
+
+    // print("FILTERED LIST: ${filteredList}");
+
+    return filteredList;
+  }
+
+  //GeorgeDay input for TESTING
+  List<FeaturedModel> filterFeaturesByGeorgeDate(
+      List<FeaturedModel> featureList, String inputDate) {
+    List<FeaturedModel> filteredList = [];
+
+    //CODE TO CHECK TODAYS DATE IN 80923 FORMAT
+    // DateTime currentDate = DateTime.now();
+    // String formattedDate = "${currentDate.month.toString().padLeft(1, '0')}"
+    //     "${currentDate.day.toString().padLeft(2, '0')}"
+    //     "${currentDate.year.toString().substring(2)}";
+
+    // print("TODAYS DATE Formatted BY CODE: $formattedDate");
+    //
+
+    for (var feature in featureList) {
+      if (feature.georgeDate == inputDate) {
+        DateTime currentDate = DateTime.now();
+        String currentMonthName =
+            DateFormat('MMMM').format(currentDate).toLowerCase();
+        int currentYear = currentDate.year;
+
+        // print(
+        //     "Checking feature: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
+
+        if (feature.georgeMonth == currentMonthName &&
+            feature.georgeYear == currentYear) {
+          // print(
+          //     "Match found for: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
+          filteredList.add(feature);
+        }
       }
     }
     print("FILTERED LIST: ${filteredList}");
@@ -233,7 +310,8 @@ class HomeDb {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
 
-    print("Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    print(
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
 
     return recitationCategory;
   }
@@ -326,7 +404,7 @@ class HomeDb {
     List<Miracles> miracles = [];
     _database = await openDb();
     var table =
-    await _database!.query(_miraclesOfQuranTb, orderBy: 'view_order_by');
+        await _database!.query(_miraclesOfQuranTb, orderBy: 'view_order_by');
     for (var map in table) {
       miracles.add(Miracles.fromJson(map));
     }
@@ -337,7 +415,7 @@ class HomeDb {
     List<IslamBasics> islamBasics = [];
     _database = await openDb();
     var table =
-    await _database!.query(_islamBasicsTb, orderBy: 'view_order_by');
+        await _database!.query(_islamBasicsTb, orderBy: 'view_order_by');
     for (var map in table) {
       islamBasics.add(IslamBasics.fromJson(map));
     }
