@@ -34,13 +34,10 @@ class DuaDetail extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        appBar:
-            buildAppBar(context: context, title: localeText(context, "dua")),
+        appBar: buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
-          child: Consumer5<ThemProvider, DuaPlayerProvider, AppColorsProvider,
-                  DuaProvider, ProfileProvider>(
-              builder:
-                  (context, them, player, appColor, duaProv, profile, child) {
+          child: Consumer5<ThemProvider, DuaPlayerProvider, AppColorsProvider, DuaProvider, ProfileProvider>(
+              builder: (context, them, player, appColor, duaProv, profile, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -135,13 +132,9 @@ class DuaDetail extends StatelessWidget {
                                       ),
                                       InkWell(
                                         onTap: () async {
-                                          int duaIndex = duaProv.duaList
-                                              .indexWhere((element) =>
-                                                  element.duaText == duaText);
-                                          Dua dua =
-                                              duaProvider.duaList[duaIndex];
+                                          int duaIndex = duaProv.duaList.indexWhere((element) => element.duaText == duaText);
+                                          Dua dua = duaProvider.duaList[duaIndex];
                                           profile.addOrRemoveDuaBookmark(dua);
-                                          print(dua.duaText);
                                           // int indx = duaProv.duaList[duaIndex].duaId!;
                                           // int? categoryId = duaProv.duaList[duaIndex].duaCategoryId;
                                           // String categoryName = getCategoryNameById(categoryId!, duaProv.duaCategoryList);

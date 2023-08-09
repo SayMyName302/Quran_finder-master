@@ -233,8 +233,7 @@ class HomeDb {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
 
-    print(
-        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    print("Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
 
     return recitationCategory;
   }

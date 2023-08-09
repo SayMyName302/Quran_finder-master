@@ -48,16 +48,17 @@ class RecitationProvider extends ChangeNotifier {
 
   void addTappedRecitationList(dynamic obj) {
     // Remove any duplicate item from the list
-    tappedRecitationList.removeWhere((item) {
-      return item["type"] == obj["type"] && item["value"] == obj["value"];
-    });
+    // tappedRecitationList.removeWhere((item) {
+    //   return item["type"] == obj["type"] && item["value"] == obj["value"];
+    // });
 
     // Reverse the list to show most recent items first
     tappedRecitationList = tappedRecitationList.reversed.toList();
 
-    // Add the new item to the end of the list
-    tappedRecitationList.add(obj);
-
+    if(!tappedRecitationList.any((element) => element['value'] == obj["value"])){
+      // Add the new item to the end of the list
+      tappedRecitationList.add(obj);
+    }
     // Ensure the list length does not exceed 3
     if (tappedRecitationList.length > 3) {
       tappedRecitationList.removeAt(0);
@@ -67,8 +68,7 @@ class RecitationProvider extends ChangeNotifier {
     tappedRecitationList = tappedRecitationList.reversed.toList();
 
     notifyListeners();
-    Hive.box(appBoxKey)
-        .put(tappedRecitationListKey, jsonEncode(tappedRecitationList));
+    Hive.box(appBoxKey).put(tappedRecitationListKey, jsonEncode(tappedRecitationList));
   }
 
   Future<void> getRecommendedReciters() async {
