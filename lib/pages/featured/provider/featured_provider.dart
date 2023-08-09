@@ -106,6 +106,7 @@ class FeatureProvider extends ChangeNotifier {
   }
 
   sethijriDate(String hdate) async {
+    // print('TODAYS HIJRI DATE IS VALID, CHECKING ROWS IN DB');
     _hijriDate = hdate;
     List<FeaturedModel> tempFeatureList = List.from(_feature);
 
@@ -178,13 +179,41 @@ class FeatureProvider extends ChangeNotifier {
   }
   //d//
 
-  // Method to check Day if found else execute Month Logic
-  void scheduleReorder() {
-    DateTime now = DateTime.now();
-    if (now.weekday == DateTime.friday) {
-      reorderStories('friday');
+  // Method to check HijriDate records in db if found else checks Day else Month
+  void scheduleReorder() async {
+    HijriCalendar currentDate = HijriCalendar.now();
+    String todayHijriDate = currentDate.hDay.toString();
+    print("Today's Hijri date is: $todayHijriDate");
+
+    List<FeaturedModel> featureListHijriDate =
+        await HomeDb().filterFeaturesByIslamicDate(_feature, todayHijriDate);
+
+    if (featureListHijriDate.isNotEmpty) {
+      print("Found matching rows for Hijri date: $todayHijriDate");
+      sethijriDate(todayHijriDate);
     } else {
-      reorderStories('notFriday');
+      DateTime now = DateTime.now();
+      if (now.weekday == DateTime.friday) {
+        print("Today is Friday, reordering for Friday");
+        reorderStories('friday');
+      } else {
+        String formattedDate = "${now.month.toString().padLeft(1, '0')}"
+            "${now.day.toString().padLeft(2, '0')}"
+            "${now.year.toString().substring(2)}";
+        print("Today's Georgian date is: $formattedDate");
+
+        List<FeaturedModel> featureListGeorgeDate =
+            await HomeDb().filterFeaturesByGeorgeDate(_feature, formattedDate);
+
+        if (featureListGeorgeDate.isNotEmpty) {
+          print("Found matching rows for Georgian date: $formattedDate");
+          setGeorgeDate(formattedDate);
+        } else {
+          print("Checking for today's day name");
+          // If needed, you can add additional logic for checking day name here
+          reorderStories('notFriday');
+        }
+      }
     }
   }
 
@@ -226,7 +255,7 @@ class FeatureProvider extends ChangeNotifier {
         Random random = Random();
         int randomIndex = random.nextInt(fridayIndices.length);
         int selectedFridayIndex = fridayIndices[randomIndex];
-        print('FRIDAYINDICESSS>>>>>>>${fridayIndices}');
+        // print('FRIDAYINDICESSS>>>>>>>${fridayIndices}');
 
         FeaturedModel firstItem = _feature[0];
         FeaturedModel selectedFridayItem = _feature[selectedFridayIndex];
@@ -236,6 +265,7 @@ class FeatureProvider extends ChangeNotifier {
         notifyListeners();
       }
     } else {
+      print('Today is Not Friday,Executing Month Logic');
       // Get the current Hijri month
       String currentHijriMonth =
           getHijriMonthAndYear(HijriCalendar.now().hMonth);

@@ -27,8 +27,6 @@ class AppDownloadsSection extends StatelessWidget {
   final weather = TextEditingController();
   final hijriDate = TextEditingController();
 
-  // final feature = Provider.of<FeatureProvider>(context, listen: false);
-
   void fetchCountryTitle(BuildContext context) async {
     String countryName = country.text.trim().toLowerCase();
     final user = Provider.of<HomeProvider>(context, listen: false);

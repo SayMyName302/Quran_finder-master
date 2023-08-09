@@ -49,7 +49,7 @@ class HomeDb {
       // Copy the database file from the assets folder
       ByteData data = await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> bytes =
-      data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       // Write and flush the bytes to the documents directory
       await File(path).writeAsBytes(bytes, flush: true);
       print('Database file copied to documents directory');
@@ -58,7 +58,7 @@ class HomeDb {
 
       // Check for differences between the existing and assets database files
       ByteData assetsData =
-      await rootBundle.load(join('assets', 'masterdb.db'));
+          await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> assetsBytes = assetsData.buffer
           .asUint8List(assetsData.offsetInBytes, assetsData.lengthInBytes);
 
@@ -146,9 +146,6 @@ class HomeDb {
 
     for (var map in table) {
       feature.add(FeaturedModel.fromJson(map));
-      // print("Row Data:");
-      // print("view_order_by: ${map['view_order_by']}");
-      // print("day: ${map['day']}");
     }
     return feature;
   }
@@ -180,11 +177,11 @@ class HomeDb {
   List<FeaturedModel> filterFeaturesByIslamicDate(
       List<FeaturedModel> featureList, String targetDate) {
     List<FeaturedModel> filteredList = [];
-    print('FeatureBEFOREFILEINDB $featureList');
+    // print('FeatureBEFOREFILEINDB $featureList');
 
     HijriCalendar currentDate = HijriCalendar.now();
     String currentMonth = getHijriMonthAndYear(currentDate.hMonth);
-    print('Current Month: $currentMonth');
+    // print('Current Month: $currentMonth');
 
     for (var feature in featureList) {
       if (feature.islamicDate != null) {
@@ -192,21 +189,21 @@ class HomeDb {
         String featureMonth = feature.monthDisplay!.toLowerCase();
         int? hijriYear = feature.hijriYear;
 
-        print('Feature: ${feature.islamicDate}, ${featureMonth}, ${hijriYear}');
+        // print('Feature: ${feature.islamicDate}, ${featureMonth}, ${hijriYear}');
 
         if (hijriDay == currentDate.hDay &&
             featureMonth == currentMonth &&
             hijriYear == currentDate.hYear &&
             int.parse(targetDate) == currentDate.hDay) {
           // Changed this line
-          print(
-              'Match Found for: ${feature.islamicDate}, ${featureMonth}, ${hijriYear}');
+          // print(
+          //     'Match Found for: ${feature.islamicDate}, ${featureMonth}, ${hijriYear}');
           filteredList.add(feature);
         }
       }
     }
 
-    print("FILTERED LIST: ${filteredList}");
+    // print("FILTERED LIST: ${filteredList}");
 
     return filteredList;
   }
@@ -216,6 +213,15 @@ class HomeDb {
       List<FeaturedModel> featureList, String inputDate) {
     List<FeaturedModel> filteredList = [];
 
+    //CODE TO CHECK TODAYS DATE IN 80923 FORMAT
+    // DateTime currentDate = DateTime.now();
+    // String formattedDate = "${currentDate.month.toString().padLeft(1, '0')}"
+    //     "${currentDate.day.toString().padLeft(2, '0')}"
+    //     "${currentDate.year.toString().substring(2)}";
+
+    // print("TODAYS DATE Formatted BY CODE: $formattedDate");
+    //
+
     for (var feature in featureList) {
       if (feature.georgeDate == inputDate) {
         DateTime currentDate = DateTime.now();
@@ -223,13 +229,13 @@ class HomeDb {
             DateFormat('MMMM').format(currentDate).toLowerCase();
         int currentYear = currentDate.year;
 
-        print(
-            "Checking feature: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
+        // print(
+        //     "Checking feature: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
 
         if (feature.georgeMonth == currentMonthName &&
             feature.georgeYear == currentYear) {
-          print(
-              "Match found for: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
+          // print(
+          //     "Match found for: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
           filteredList.add(feature);
         }
       }
@@ -304,7 +310,8 @@ class HomeDb {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
 
-    print("Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    print(
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
 
     return recitationCategory;
   }
@@ -397,7 +404,7 @@ class HomeDb {
     List<Miracles> miracles = [];
     _database = await openDb();
     var table =
-    await _database!.query(_miraclesOfQuranTb, orderBy: 'view_order_by');
+        await _database!.query(_miraclesOfQuranTb, orderBy: 'view_order_by');
     for (var map in table) {
       miracles.add(Miracles.fromJson(map));
     }
@@ -408,7 +415,7 @@ class HomeDb {
     List<IslamBasics> islamBasics = [];
     _database = await openDb();
     var table =
-    await _database!.query(_islamBasicsTb, orderBy: 'view_order_by');
+        await _database!.query(_islamBasicsTb, orderBy: 'view_order_by');
     for (var map in table) {
       islamBasics.add(IslamBasics.fromJson(map));
     }
