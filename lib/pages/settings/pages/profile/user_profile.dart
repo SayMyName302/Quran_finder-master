@@ -19,7 +19,7 @@ class UserProfile {
   List<AyahBookmarks> _quranBookmarksList = [];
   List<Dua> _duaBookmarksList = [];
   List<Ruqyah> _ruqyahBookmarksList = [];
-  List<BookmarksRecitation> _recitationBookmarkList = [];
+  List<RecitationAllCategoryModel> _recitationBookmarkList = [];
 
   String? get fullName => _fullName;
   String? get email => _email;
@@ -36,7 +36,7 @@ class UserProfile {
   List<AyahBookmarks> get quranBookmarksList => _quranBookmarksList;
   List<Dua> get duaBookmarksList => _duaBookmarksList;
   List<Ruqyah> get ruqyahBookmarksList => _ruqyahBookmarksList;
-  List<BookmarksRecitation> get recitationBookmarkList =>
+  List<RecitationAllCategoryModel> get recitationBookmarkList =>
       _recitationBookmarkList;
 
   set setPreferredLanguage(String value) => _preferredLanguage = value;
@@ -64,7 +64,7 @@ class UserProfile {
   set setRuqyahBookmarksList(List<Ruqyah> value) =>
       _ruqyahBookmarksList = value;
 
-  set setRecitationBookmarkList(List<BookmarksRecitation> value) =>
+  set setRecitationBookmarkList(List<RecitationAllCategoryModel> value) =>
       _recitationBookmarkList = value;
 
   UserProfile(
@@ -191,12 +191,13 @@ class UserProfile {
       if (_recitationBookmarkList.isEmpty) {
         _recitationBookmarkList = [];
         for (var recitation in json['recitationBookmarkList']) {
-          _recitationBookmarkList.add(BookmarksRecitation.fromJson(recitation));
+          _recitationBookmarkList
+              .add(RecitationAllCategoryModel.fromJson(recitation));
         }
       } else {
         for (var recitation in json['recitationBookmarkList']) {
-          BookmarksRecitation recitationBookmark =
-              BookmarksRecitation.fromJson(recitation);
+          RecitationAllCategoryModel recitationBookmark =
+              RecitationAllCategoryModel.fromJson(recitation);
           if (!_recitationBookmarkList.any((element) =>
               element.contentUrl == recitationBookmark.contentUrl)) {
             _recitationBookmarkList.add(recitationBookmark);

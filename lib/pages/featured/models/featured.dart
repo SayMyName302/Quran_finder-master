@@ -11,6 +11,10 @@ class FeaturedModel {
   String? _contentType;
   String? _status; // New field: status
   int? _viewOrderBy;
+  String? _day; // New field: status
+  String? _monthDisplay;
+  int? _hijriYear;
+  String? _islamicDate;
 
   int? get storyId => _storyId;
   String? get storyTitle => _storyTitle;
@@ -21,9 +25,13 @@ class FeaturedModel {
   String? get contentType => _contentType;
   String? get status => _status; // New getter for status
   int? get viewOrderBy => _viewOrderBy;
-
+  String? get day => _day;
   String? _title;
   String? get title => _title;
+
+  String? get monthDisplay => _monthDisplay;
+  int? get hijriYear => _hijriYear;
+  String? get islamicDate => _islamicDate;
 
   FeaturedModel({
     required title,
@@ -36,6 +44,10 @@ class FeaturedModel {
     required contentType,
     required status, // New parameter: status
     required viewOrderBy,
+    required day,
+    required monthDisplay,
+    required hijriYear,
+    required islamicDate,
   }) {
     _title = title;
     _storyId = storyId;
@@ -47,6 +59,10 @@ class FeaturedModel {
     _contentType = contentType;
     _status = status; // Assign the value to the status field
     _viewOrderBy = viewOrderBy;
+    _day = day;
+    _monthDisplay = monthDisplay;
+    _hijriYear = hijriYear;
+    _islamicDate = islamicDate;
   }
 
   FeaturedModel.fromJson(Map<String, dynamic> json) {
@@ -59,8 +75,12 @@ class FeaturedModel {
     _text = json['text'];
     _videoUrl = json['content_url'];
     _contentType = json['content_type'];
-    _status = json['status']; // Assign the value to the status field
+    _status = json['status'];
     _viewOrderBy = json['view_order_by'];
+    _day = json['day'];
+    _monthDisplay = json['month_display'];
+    _hijriYear = json['hijri_year'];
+    _islamicDate = json['islamic_date'];
   }
 
   @override

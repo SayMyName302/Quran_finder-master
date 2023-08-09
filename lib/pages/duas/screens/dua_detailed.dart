@@ -20,21 +20,13 @@ class DuaDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DuaProvider duaProvider = Provider.of<DuaProvider>(context);
-    // Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
-
-
     Dua nextDua = duaProvider.selectedDua!;
+
     int index = nextDua.duaNo!;
-    // int index = nextDuaData['index'];
-    // Dua nextDua = nextDuaData['dua'];
     String duaTitle = nextDua.duaTitle.toString();
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
-    int? duaCount = nextDua.ayahCount;
     String duaTranslation = nextDua.translations.toString();
-    int? fav = nextDua.isFav;
-    // int favindex = index - 1;
-    String duaUrl = nextDua.duaUrl.toString();
 
     return WillPopScope(
       onWillPop: () async {
@@ -42,10 +34,13 @@ class DuaDetail extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        appBar: buildAppBar(context: context, title: localeText(context, "dua")),
+        appBar:
+            buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
-          child: Consumer5<ThemProvider, DuaPlayerProvider, AppColorsProvider, DuaProvider,ProfileProvider>(
-              builder: (context, them, player, appColor, duaProv,profile, child) {
+          child: Consumer5<ThemProvider, DuaPlayerProvider, AppColorsProvider,
+                  DuaProvider, ProfileProvider>(
+              builder:
+                  (context, them, player, appColor, duaProv, profile, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -107,7 +102,8 @@ class DuaDetail extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context).size
+                                            width: MediaQuery.of(context)
+                                                    .size
                                                     .width *
                                                 0.6,
                                             child: Text(
@@ -139,8 +135,11 @@ class DuaDetail extends StatelessWidget {
                                       ),
                                       InkWell(
                                         onTap: () async {
-                                          int duaIndex = duaProv.duaList.indexWhere((element) => element.duaText == duaText);
-                                          Dua dua = duaProvider.duaList[duaIndex];
+                                          int duaIndex = duaProv.duaList
+                                              .indexWhere((element) =>
+                                                  element.duaText == duaText);
+                                          Dua dua =
+                                              duaProvider.duaList[duaIndex];
                                           profile.addOrRemoveDuaBookmark(dua);
                                           print(dua.duaText);
                                           // int indx = duaProv.duaList[duaIndex].duaId!;
@@ -207,15 +206,28 @@ class DuaDetail extends StatelessWidget {
                                                   height: 21.h,
                                                   width: 21.w,
                                                   child: CircleAvatar(
-                                                    backgroundColor: profile.userProfile!.duaBookmarksList.any((element) => element.duaText == duaText)
+                                                    backgroundColor: profile
+                                                            .userProfile!
+                                                            .duaBookmarksList
+                                                            .any((element) =>
+                                                                element
+                                                                    .duaText ==
+                                                                duaText)
                                                         ? appColor
                                                             .mainBrandingColor
                                                         : Colors.white,
                                                     child: Icon(
                                                       Icons.favorite,
-                                                      color: profile.userProfile!.duaBookmarksList.any((element) => element.duaText == duaText)
+                                                      color: profile
+                                                              .userProfile!
+                                                              .duaBookmarksList
+                                                              .any((element) =>
+                                                                  element
+                                                                      .duaText ==
+                                                                  duaText)
                                                           ? Colors.white
-                                                          : appColor.mainBrandingColor,
+                                                          : appColor
+                                                              .mainBrandingColor,
                                                       size: 13.h,
                                                     ),
                                                   ),

@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 import '../../../shared/localization/localization_constants.dart';
 
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
-import '../../sign_in/provider/sign_in_provider.dart';
 import 'home_row_widget.dart';
 
 class PopularSection extends StatelessWidget {
@@ -24,37 +23,39 @@ class PopularSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     int network = Provider.of<int>(context);
-    final authProvider = Provider.of<SignInProvider>(context);
+    // final authProvider = Provider.of<SignInProvider>(context);
 
     final user = Provider.of<HomeProvider>(context);
     String? selectedTitleText = user.selectedTitleText;
-    final userEmail = authProvider.userEmail;
-    bool isSpecialUser = (userEmail == 'u@u.com');
+    // final userEmail = authProvider.userEmail;
+    // bool isSpecialUser = (userEmail == "u@u.com" ||
+    //     userEmail == "ahsanalikhan200@gmail.com" ||
+    //     userEmail == "ahsanalikhan538@gmail.com" ||
+    //     userEmail == "canzinternal3@gmail.com");
     return Column(
       children: [
-        isSpecialUser
-            ? HomeRowWidgettest(
-                text: selectedTitleText ?? 'Popular Recitations',
-                buttonText: localeText(context, "view_all"),
-                onTap: () {
-                  Navigator.of(context).pushNamed(RouteHelper.popular);
-                  analytics.logEvent(
-                    name: 'popular_section_viewall_button',
-                    parameters: {'title': 'popular_viewall'},
-                  );
-                },
-              )
-            : HomeRowWidget(
-                text: localeText(context, 'popular'),
-                buttonText: localeText(context, "view_all"),
-                onTap: () {
-                  Navigator.of(context).pushNamed(RouteHelper.popular);
-                  analytics.logEvent(
-                    name: 'popular_section_viewall_button',
-                    parameters: {'title': 'popular_viewall'},
-                  );
-                },
-              ),
+        HomeRowWidgetTest(
+          text: selectedTitleText ?? 'Popular Recitations',
+          buttonText: localeText(context, "view_all"),
+          onTap: () {
+            Navigator.of(context).pushNamed(RouteHelper.popular);
+            analytics.logEvent(
+              name: 'popular_section_viewall_button',
+              parameters: {'title': 'popular_viewall'},
+            );
+          },
+        ),
+        //  HomeRowWidget(
+        //     text: localeText(context, 'popular'),
+        //     buttonText: localeText(context, "view_all"),
+        //     onTap: () {
+        //       Navigator.of(context).pushNamed(RouteHelper.popular);
+        //       analytics.logEvent(
+        //         name: 'popular_section_viewall_button',
+        //         parameters: {'title': 'popular_viewall'},
+        //       );
+        //     },
+        //   ),
         Consumer<LocalizationProvider>(
           builder: (context, language, child) {
             return SizedBox(
