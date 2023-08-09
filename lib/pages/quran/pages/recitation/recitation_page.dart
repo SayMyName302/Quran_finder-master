@@ -765,7 +765,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 }
                               },
                               child: DetailsContainerWidget(
-                                title: title,
+                                title: localeText(context, title),
                                 subTitle: subTitle,
                                 icon: icon,
                                 imageIcon: imageIcon,
