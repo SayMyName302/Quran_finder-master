@@ -24,9 +24,9 @@ class HomeDb {
   final String _storiesInQuran = "stories_in_quran";
   final String _islamBasicsTb = "islam_basics";
   final String _featured = "featured_all";
-  final String _appinfo = "app_info";
-  final String _recitationCategoryTb = "recitation_category";
-  final String _recitationAllTb = "recitation_all";
+  // final String _appinfo = "app_info";
+  // final String _recitationCategoryTb = "recitation_category";
+  // final String _recitationAllTb = "recitation_all";
   final String _popular = "popular_recitation";
   final String _tranquil = "tranquil_tales";
   final String _tranquilCategory = "tranquil_tales_category";
@@ -47,7 +47,7 @@ class HomeDb {
       // Copy the database file from the assets folder
       ByteData data = await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       // Write and flush the bytes to the documents directory
       await File(path).writeAsBytes(bytes, flush: true);
       print('Database file copied to documents directory');
@@ -56,7 +56,7 @@ class HomeDb {
 
       // Check for differences between the existing and assets database files
       ByteData assetsData =
-          await rootBundle.load(join('assets', 'masterdb.db'));
+      await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> assetsBytes = assetsData.buffer
           .asUint8List(assetsData.offsetInBytes, assetsData.lengthInBytes);
 
@@ -93,7 +93,8 @@ class HomeDb {
     List<RecitationAllCategoryModel> selectedRecitationAll = [];
     var cursor = await _database!.query(_recitationPlaylistitems,
         where: "playlist_id = ? AND status = 'active'",
-        whereArgs: [playlistId]);
+        whereArgs: [playlistId],
+        orderBy: 'order_by');
     for (var map in cursor) {
       selectedRecitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
@@ -117,13 +118,9 @@ class HomeDb {
     List<AboutModel> appinfo = [];
     _database = await openDb();
     var table = await _database!.query(_appInfo);
-    // print(
-    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       appinfo.add(AboutModel.fromJson(map));
     }
-    // print(
-    //     "App info Length: ${appinfo.length}"); // Print the number of FeaturedModel objects added to the list
     return appinfo;
   }
 
@@ -144,27 +141,40 @@ class HomeDb {
     List<FeaturedModel> feature = [];
     _database = await openDb();
     var table = await _database!.query(_featured, orderBy: 'view_order_by');
-    // print(
-    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
+
     for (var map in table) {
       feature.add(FeaturedModel.fromJson(map));
+      // print("Row Data:");
+      // print("view_order_by: ${map['view_order_by']}");
+      // print("day: ${map['day']}");
     }
-    // print(
-    //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
+  }
+
+// Method to filter the list based on islamic_date
+  List<FeaturedModel> filterFeaturesByIslamicDate(
+      List<FeaturedModel> featureList, String targetDate, String targetMonth) {
+    List<FeaturedModel> filteredList = [];
+
+    for (var feature in featureList) {
+      // Assuming 'hijriDate' and 'hijriMonth' are properties in your FeaturedModel class
+      if (feature.islamicDate == targetDate &&
+          feature.monthDisplay == targetMonth) {
+        filteredList.add(feature);
+      }
+    }
+    print("FILTERED LIST: ${filteredList}");
+
+    return filteredList;
   }
 
   Future<List<FeaturedModel>> getTranquil() async {
     List<FeaturedModel> feature = [];
     _database = await openDb();
     var table = await _database!.query(_featured, orderBy: 'view_order_by');
-    // print(
-    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       feature.add(FeaturedModel.fromJson(map));
     }
-    // print(
-    //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
   }
 
@@ -186,11 +196,46 @@ class HomeDb {
     List<RecitationCategoryModel> recitationCategory = [];
     _database = await openDb();
     var table = await _database!.query(_recitationPlaylists);
-    print("Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
+    print(
+        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
-    print("Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    print(
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    return recitationCategory;
+  }
+
+  Future<List<RecitationCategoryModel>> getRecitationBasedOnTime() async {
+    List<RecitationCategoryModel> recitationCategory = [];
+    _database = await openDb();
+
+    DateTime now = DateTime.now();
+    String currentTimePeriod = 'morning';
+
+    // Determine the current time period based on the time of day
+    if (now.hour >= 5 && now.hour < 12) {
+      currentTimePeriod = 'morning';
+    } else if (now.hour >= 12 && now.hour < 18) {
+      currentTimePeriod = 'afternoon';
+    } else if (now.hour >= 18 && now.hour < 22) {
+      currentTimePeriod = 'evening';
+    } else {
+      currentTimePeriod = 'night';
+    }
+
+    var table = await _database!.query(_recitationPlaylists,
+        where: 'play_period = ?', whereArgs: [currentTimePeriod]);
+
+    // Print the number of rows retrieved from the table
+
+    for (var map in table) {
+      recitationCategory.add(RecitationCategoryModel.fromJson(map));
+    }
+
+    print(
+        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+
     return recitationCategory;
   }
 
@@ -212,7 +257,8 @@ class HomeDb {
     List<RecitationAllCategoryModel> recitationAll = [];
     _database = await openDb();
     var table = await _database!.query(_recitationPlaylistitems);
-    print("Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
+    print(
+        "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
@@ -281,7 +327,7 @@ class HomeDb {
     List<Miracles> miracles = [];
     _database = await openDb();
     var table =
-        await _database!.query(_miraclesOfQuranTb, orderBy: 'view_order_by');
+    await _database!.query(_miraclesOfQuranTb, orderBy: 'view_order_by');
     for (var map in table) {
       miracles.add(Miracles.fromJson(map));
     }
@@ -292,7 +338,7 @@ class HomeDb {
     List<IslamBasics> islamBasics = [];
     _database = await openDb();
     var table =
-        await _database!.query(_islamBasicsTb, orderBy: 'view_order_by');
+    await _database!.query(_islamBasicsTb, orderBy: 'view_order_by');
     for (var map in table) {
       islamBasics.add(IslamBasics.fromJson(map));
     }
