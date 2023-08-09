@@ -183,30 +183,55 @@ class AppDownloadsSection extends StatelessWidget {
                           hijriMonth.text.trim().toLowerCase();
                       String lowerCasehijridate =
                           hijriDate.text.trim().toLowerCase();
+                      String georgeDate = date.text.trim().toLowerCase();
 
                       if ((lowerCaseCountry == "pakistan" ||
-                                  lowerCaseCountry == "saudi arabia" ||
-                                  lowerCaseCountry == "indonesia") &&
-                              lowerCaseWeather == "rain" ||
-                          lowerCaseWeather == "thunder") {
+                              lowerCaseCountry == "saudi arabia" ||
+                              lowerCaseCountry == "indonesia") &&
+                          (lowerCaseWeather == "rain" ||
+                              lowerCaseWeather == "thunder")) {
                         fetchRainCountryTitle(context);
                       } else if (lowerCaseCountry.isNotEmpty) {
                         fetchCountryTitle(context);
                       } else if (lowerCasehijrimonth.isNotEmpty) {
                         Provider.of<FeatureProvider>(context, listen: false)
                             .reorderStoriesforMonth(lowerCasehijrimonth);
-                      } else if (lowerCasehijridate.isNotEmpty &&
-                          lowerCasehijrimonth.isNotEmpty) {
+                      } else if (lowerCasehijridate.isNotEmpty) {
                         Provider.of<FeatureProvider>(context, listen: false)
-                            .reorderStoriesforDate(
-                                lowerCasehijridate, lowerCasehijrimonth);
+                            .reorderStoriesforHijriDate(lowerCasehijridate);
+                      } else if (lowerCasedayName.isNotEmpty) {
+                        Provider.of<FeatureProvider>(context, listen: false)
+                            .reorderStoriesDayName(lowerCasedayName);
                       } else {
                         Provider.of<FeatureProvider>(context, listen: false)
-                            .reorderStoriesIfNeeded(lowerCasedayName);
+                            .reorderStoriesforGeorgeDate(georgeDate);
                       }
-                      Provider.of<FeatureProvider>(context, listen: false)
-                          .reorderStoriesforDate(
-                              lowerCasehijridate, lowerCasehijrimonth);
+
+                      // if ((lowerCaseCountry == "pakistan" ||
+                      //             lowerCaseCountry == "saudi arabia" ||
+                      //             lowerCaseCountry == "indonesia") &&
+                      //         lowerCaseWeather == "rain" ||
+                      //     lowerCaseWeather == "thunder") {
+                      //   fetchRainCountryTitle(context);
+                      // } else if (lowerCaseCountry.isNotEmpty) {
+                      //   fetchCountryTitle(context);
+                      // } else if (lowerCasehijrimonth.isNotEmpty) {
+                      //   Provider.of<FeatureProvider>(context, listen: false)
+                      //       .reorderStoriesforMonth(lowerCasehijrimonth);
+                      // } else if (lowerCasehijridate.isNotEmpty) {
+                      //   Provider.of<FeatureProvider>(context, listen: false)
+                      //       .reorderStoriesforDate(lowerCasehijridate);
+                      // } else if (lowerCasedayName.isNotEmpty) {
+                      //   Provider.of<FeatureProvider>(context, listen: false)
+                      //       .reorderStoriesDayName(lowerCasedayName);
+                      // } else {
+                      //   Provider.of<FeatureProvider>(context, listen: false)
+                      //       .reorderStoriesforGeorgeDate(georgeDate);
+                      // }
+
+                      // Provider.of<FeatureProvider>(context, listen: false)
+                      //     .reorderStoriesforDate(
+                      //         lowerCasehijridate, lowerCasehijrimonth);
                     },
                   ),
                 ],

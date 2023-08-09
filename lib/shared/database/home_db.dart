@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/models/miracles.dart';
 import 'package:nour_al_quran/pages/popular_section/models/PopularModel';
@@ -15,6 +16,7 @@ import 'package:sqflite/sqflite.dart';
 import '../../pages/basics_of_quran/models/islam_basics.dart';
 import '../../pages/miracles_of_quran/models/miracles.dart';
 import '../../pages/quran stories/models/quran_stories.dart';
+import 'package:hijri/hijri_calendar.dart';
 
 class HomeDb {
   Database? _database;
@@ -151,16 +153,85 @@ class HomeDb {
     return feature;
   }
 
+  String getHijriMonthAndYear(int month) {
+    List<String> hijriMonthNames = [
+      "Muharram",
+      "Safar",
+      "Rabi al-Awwal",
+      "Rabi al-Thani",
+      "Jumada al-Awwal",
+      "Jumada al-Thani",
+      "Rajab",
+      "Sha'ban",
+      "Ramadan",
+      "Shawwal",
+      "Dhu al-Qa'dah",
+      "Dhu al-Hijjah"
+    ];
+
+    if (month >= 1 && month <= 12) {
+      return hijriMonthNames[month - 1].toLowerCase();
+    } else {
+      return 'Unknown';
+    }
+  }
+
 // Method to filter the list based on islamic_date
   List<FeaturedModel> filterFeaturesByIslamicDate(
-      List<FeaturedModel> featureList, String targetDate, String targetMonth) {
+      List<FeaturedModel> featureList, String targetDate) {
+    List<FeaturedModel> filteredList = [];
+    print('FeatureBEFOREFILEINDB $featureList');
+
+    HijriCalendar currentDate = HijriCalendar.now();
+    String currentMonth = getHijriMonthAndYear(currentDate.hMonth);
+    print('Current Month: $currentMonth');
+
+    for (var feature in featureList) {
+      if (feature.islamicDate != null) {
+        int hijriDay = int.parse(feature.islamicDate!);
+        String featureMonth = feature.monthDisplay!.toLowerCase();
+        int? hijriYear = feature.hijriYear;
+
+        print('Feature: ${feature.islamicDate}, ${featureMonth}, ${hijriYear}');
+
+        if (hijriDay == currentDate.hDay &&
+            featureMonth == currentMonth &&
+            hijriYear == currentDate.hYear &&
+            int.parse(targetDate) == currentDate.hDay) {
+          // Changed this line
+          print(
+              'Match Found for: ${feature.islamicDate}, ${featureMonth}, ${hijriYear}');
+          filteredList.add(feature);
+        }
+      }
+    }
+
+    print("FILTERED LIST: ${filteredList}");
+
+    return filteredList;
+  }
+
+  //GeorgeDay input for TESTING
+  List<FeaturedModel> filterFeaturesByGeorgeDate(
+      List<FeaturedModel> featureList, String inputDate) {
     List<FeaturedModel> filteredList = [];
 
     for (var feature in featureList) {
-      // Assuming 'hijriDate' and 'hijriMonth' are properties in your FeaturedModel class
-      if (feature.islamicDate == targetDate &&
-          feature.monthDisplay == targetMonth) {
-        filteredList.add(feature);
+      if (feature.georgeDate == inputDate) {
+        DateTime currentDate = DateTime.now();
+        String currentMonthName =
+            DateFormat('MMMM').format(currentDate).toLowerCase();
+        int currentYear = currentDate.year;
+
+        print(
+            "Checking feature: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
+
+        if (feature.georgeMonth == currentMonthName &&
+            feature.georgeYear == currentYear) {
+          print(
+              "Match found for: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
+          filteredList.add(feature);
+        }
       }
     }
     print("FILTERED LIST: ${filteredList}");

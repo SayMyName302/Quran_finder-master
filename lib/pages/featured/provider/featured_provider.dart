@@ -20,9 +20,6 @@ class FeatureProvider extends ChangeNotifier {
   List<FeaturedModel> _feature = [];
   List<FeaturedModel> get feature => _feature;
 
-  //Test List will remove when Task completed
-  List<FeaturedModel> _featureListDate = [];
-  List<FeaturedModel> get featureListDate => _featureListDate;
   int _currentFeatureIndex = 0;
   int get currentFeatureIndex => _currentFeatureIndex;
   FeaturedModel? _selectedFeatureStory;
@@ -36,13 +33,15 @@ class FeatureProvider extends ChangeNotifier {
   String get monthName => _monthName;
   String _hijriDate = '';
   String get hijriDate => _hijriDate;
+  String _georgeDate = '';
+  String get georgeDate => _georgeDate;
 
   setDayName(String value) {
     _dayName = value;
     notifyListeners();
   }
 
-  void reorderStoriesIfNeeded(String dayName) {
+  void reorderStoriesDayName(String dayName) {
     setDayName(dayName);
     reorderStories(dayName);
     notifyListeners();
@@ -100,52 +99,83 @@ class FeatureProvider extends ChangeNotifier {
   ///M///
 
   //d// Test method will remove when task completed
-  void reorderStoriesforDate(String hdate, String hmonth) {
-    sethijriDate(hdate, hmonth);
-    // reorderHijriMonth(hdate);
+
+  void reorderStoriesforHijriDate(String hdate) {
+    sethijriDate(hdate);
     notifyListeners();
   }
 
-  sethijriDate(String hdatee, String hmonthh) async {
-    _hijriDate = hdatee;
-    _monthName = hmonthh;
-    _featureListDate = await HomeDb()
-        .filterFeaturesByIslamicDate(_feature, _hijriDate, _monthName);
-    // print('List fetched IN PROVIDER${_featureListDate}');
-    reorderHijriDate(_featureListDate);
-    notifyListeners();
-  }
+  sethijriDate(String hdate) async {
+    _hijriDate = hdate;
+    List<FeaturedModel> tempFeatureList = List.from(_feature);
 
-  void reorderHijriDate(List<FeaturedModel> filteredList) {
-    if (filteredList.isEmpty) {
-      // print('No features to reorder.');
-      return;
-    }
+    List<FeaturedModel> _featureListHijriDate =
+        await HomeDb().filterFeaturesByIslamicDate(tempFeatureList, _hijriDate);
 
-    // Find the index of the first item with the lowest index in the list that matches the date
-    int lowestIndex = -1;
-    for (int i = 0; i < filteredList.length; i++) {
-      if (filteredList[i].day == filteredList[0].day) {
-        lowestIndex = i;
-        break;
+    if (_featureListHijriDate.isNotEmpty && tempFeatureList.isNotEmpty) {
+      // Find the index of the filtered item in tempFeatureList
+      int filteredIndex = tempFeatureList.indexWhere(
+        (item) =>
+            item.islamicDate == _featureListHijriDate[0].islamicDate &&
+            item.monthDisplay == _featureListHijriDate[0].monthDisplay &&
+            item.hijriYear == _featureListHijriDate[0].hijriYear,
+      );
+      print('INDEX FOUND AT $filteredIndex');
+
+      if (filteredIndex != -1) {
+        // Swap the items in tempFeatureList
+        FeaturedModel temp = tempFeatureList[0];
+        tempFeatureList[0] = tempFeatureList[filteredIndex];
+        tempFeatureList[filteredIndex] = temp;
+      } else {
+        print('Filtered item not found in tempFeatureList');
       }
     }
 
-    if (lowestIndex != -1) {
-      // Swap the items
-      FeaturedModel firstItem = filteredList[0];
-      filteredList[0] = filteredList[lowestIndex];
-      filteredList[lowestIndex] = firstItem;
-
-      // print('Reordered list: $filteredList');
-
-      notifyListeners();
-    } else {
-      // If the date is not found in the list
-      // print('User provided date not found in the list.');
-    }
+    // Update _feature with the modified tempFeatureList
+    _feature = tempFeatureList;
+    notifyListeners();
   }
 
+  //d//
+
+  //GeorgianDate// Test method will remove when task completed
+  void reorderStoriesforGeorgeDate(String hdate) {
+    setGeorgeDate(hdate);
+    notifyListeners();
+  }
+
+  setGeorgeDate(String hdate) async {
+    _georgeDate = hdate;
+    // print(georgeDate);
+    List<FeaturedModel> tempFeatureList = List.from(_feature);
+
+    List<FeaturedModel> _featureListHijriDate =
+        await HomeDb().filterFeaturesByGeorgeDate(tempFeatureList, _georgeDate);
+
+    if (_featureListHijriDate.isNotEmpty && tempFeatureList.isNotEmpty) {
+      // Find the index of the filtered item in tempFeatureList
+      int filteredIndex = tempFeatureList.indexWhere(
+        (item) =>
+            item.georgeDate == _featureListHijriDate[0].georgeDate &&
+            item.georgeMonth == _featureListHijriDate[0].georgeMonth &&
+            item.georgeYear == _featureListHijriDate[0].georgeYear,
+      );
+      print('INDEX FOUND AT $filteredIndex');
+
+      if (filteredIndex != -1) {
+        // Swap the items in tempFeatureList
+        FeaturedModel temp = tempFeatureList[0];
+        tempFeatureList[0] = tempFeatureList[filteredIndex];
+        tempFeatureList[filteredIndex] = temp;
+      } else {
+        print('Filtered item not found in tempFeatureList');
+      }
+    }
+
+    _feature = tempFeatureList;
+    notifyListeners();
+  }
   //d//
 
   // Method to check Day if found else execute Month Logic
@@ -196,7 +226,7 @@ class FeatureProvider extends ChangeNotifier {
         Random random = Random();
         int randomIndex = random.nextInt(fridayIndices.length);
         int selectedFridayIndex = fridayIndices[randomIndex];
-        // print('FRIDAYINDICESSS>>>>>>>${fridayIndices}');
+        print('FRIDAYINDICESSS>>>>>>>${fridayIndices}');
 
         FeaturedModel firstItem = _feature[0];
         FeaturedModel selectedFridayItem = _feature[selectedFridayIndex];
@@ -238,16 +268,6 @@ class FeatureProvider extends ChangeNotifier {
 
     //Uncomment this after testing date
     scheduleReorder();
-
-    // int date = HijriCalendar.now().hDay;
-    // int month = HijriCalendar.now().hMonth;
-    // int year = HijriCalendar.now().hYear;
-    // int mlength = HijriCalendar.now().lengthOfMonth;
-    // print('====DATE $date====');
-    // print('====MONTH $month====');
-    // print('====YEAR $year====');
-    // print('====MonthLength $mlength====');
-
     // _loadStoriesOrder();
     notifyListeners();
   }
