@@ -251,13 +251,13 @@ class ProfileProvider extends ChangeNotifier {
 
   void addOrRemoveRecitationBookmark(RecitationAllCategoryModel bookmarks) {
     _isProfileUpdated = false;
-    if (!_userProfile!.recitationBookmarkList
-        .any((element) => element.contentUrl == bookmarks.contentUrl)) {
+    if (!_userProfile!.recitationBookmarkList.any((element) => element.surahName == bookmarks.surahName && element.title == bookmarks.title)) {
+      print("${bookmarks.surahName} ${bookmarks.title}");
       _userProfile!.recitationBookmarkList.add(bookmarks);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     } else {
       _userProfile!.recitationBookmarkList
-          .removeWhere((element) => element.contentUrl == bookmarks.contentUrl);
+          .removeWhere((element) => element.surahName == bookmarks.surahName && element.title == bookmarks.title);
       Hive.box(appBoxKey).put(userProfileKey, jsonEncode(_userProfile));
     }
     notifyListeners();

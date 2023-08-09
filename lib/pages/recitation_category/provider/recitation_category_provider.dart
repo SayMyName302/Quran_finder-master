@@ -48,8 +48,7 @@ class RecitationCategoryProvider extends ChangeNotifier {
   List<RecitationAllCategoryModel> get recitationAll => _recitationAll;
 
   List<RecitationAllCategoryModel> _selectedRecitationAll = [];
-  List<RecitationAllCategoryModel> get selectedRecitationAll =>
-      _selectedRecitationAll;
+  List<RecitationAllCategoryModel> get selectedRecitationAll => _selectedRecitationAll;
 
   int _currentRecitationIndex = 0;
   int get currentRecitationIndex => _currentRecitationIndex;
@@ -84,14 +83,11 @@ class RecitationCategoryProvider extends ChangeNotifier {
     };
   }
 
-  gotoRecitationAudioPlayerPage(
-      int playlistid, String title, imageUrl, BuildContext context) async {
+  gotoRecitationAudioPlayerPage(int playlistId, String title, imageUrl, BuildContext context) async {
     // _selectedRecitationAll = [];
     // _selectedRecitationAll = await HomeDb().getSelectedAll(duaCategoryId);
     if (_selectedRecitationAll.isNotEmpty) {
-      _currentRecitationIndex = _selectedRecitationAll
-          .indexWhere((element) => element.title == title);
-
+      _currentRecitationIndex = _selectedRecitationAll.indexWhere((element) => element.title == title && element.playlistId == playlistId);
       _selectedRec = _selectedRecitationAll[_currentRecitationIndex];
       notifyListeners();
       // ignore: use_build_context_synchronously

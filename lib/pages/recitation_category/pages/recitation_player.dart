@@ -20,11 +20,10 @@ class RecitationAudioPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List arguments = ModalRoute.of(context)!.settings.arguments! as List;
-    String title = arguments[0];
+    // String title = arguments[0];
     // print('======AudioPlayerPage${title}');
 
-    RecitationCategoryProvider recProv =
-        Provider.of<RecitationCategoryProvider>(context);
+    RecitationCategoryProvider recProv = Provider.of<RecitationCategoryProvider>(context);
     RecitationAllCategoryModel nextDua = recProv.selectedRec!;
 
     String surahName = nextDua.surahName.toString();
@@ -43,10 +42,8 @@ class RecitationAudioPlayer extends StatelessWidget {
         body: Consumer5<ThemProvider, StoryAndBasicPlayerProvider,
             AppColorsProvider, RecitationCategoryProvider, ProfileProvider>(
           builder: (context, them, player, appColor, rcp, profile, child) {
-            int recitationIndex = rcp.selectedRecitationAll
-                .indexWhere((element) => element.surahName == surahName);
-            RecitationAllCategoryModel recitation =
-                rcp.selectedRecitationAll[recitationIndex];
+            int recitationIndex = rcp.selectedRecitationAll.indexWhere((element) => element.surahName == surahName && element.title == nextDua.title);
+            RecitationAllCategoryModel recitation = rcp.selectedRecitationAll[recitationIndex];
 
             return SingleChildScrollView(
               child: Column(
@@ -84,7 +81,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                         height: 3.h,
                       ),
                       Text(
-                        localeText(context, title),
+                        localeText(context, recitation.title!),
                         // title,
                         style: TextStyle(
                             fontSize: 18.sp,
@@ -141,10 +138,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   height: 21.h,
                                   width: 21.w,
                                   child: CircleAvatar(
-                                    backgroundColor: profile.userProfile!
-                                            .recitationBookmarkList!
-                                            .any((element) =>
-                                                element.surahName == surahName)
+                                    backgroundColor: profile.userProfile!.recitationBookmarkList
+                                        .any((element) => element.surahName == surahName && element.title == nextDua.title)
                                         ? appColor.mainBrandingColor
                                         : Colors.white,
                                     child: Icon(
@@ -153,7 +148,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                                               .recitationBookmarkList!
                                               .any((element) =>
                                                   element.surahName ==
-                                                  surahName)
+                                                  surahName && element.title == nextDua.title)
                                           ? Colors.white
                                           : appColor.mainBrandingColor,
                                       size: 13.h,
