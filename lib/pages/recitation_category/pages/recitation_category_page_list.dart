@@ -17,30 +17,21 @@ class RecitationCategoryPageList extends StatelessWidget {
     return Expanded(
       child: Consumer<RecitationCategoryProvider>(
         builder: (context, recitationProvider, child) {
-          return recitationProvider.recitationCategory.isNotEmpty
+          return recitationProvider.recitationCategoryList.isNotEmpty
               ? GridView.builder(
                   padding: EdgeInsets.only(left: 10.w, right: 0.w),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                   ),
-                  itemCount: recitationProvider.recitationCategory.length,
+                  itemCount: recitationProvider.recitationCategoryList.length,
                   itemBuilder: (context, index) {
-                    RecitationCategoryModel model =
-                        recitationProvider.recitationCategory[index];
+                    RecitationCategoryModel model = recitationProvider.recitationCategoryList[index];
                     return InkWell(
                       onTap: () {
-                        recitationProvider
-                            .getSelectedRecitationAll(model.playlistId!);
+                        recitationProvider.getSelectedRecitationAll(model.playlistId!);
+                        recitationProvider.setSelectedRecitationCategory(model);
                         Navigator.of(context).pushNamed(
                           RouteHelper.recitationallcategory,
-                          arguments: [
-                            localeText(context, model.playlistName!),
-                            model.imageURl!,
-                            LocalizationProvider().checkIsArOrUr()
-                                ? "${model.numberOfSurahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                : "${localeText(context, 'playlist_of')} ${model.numberOfSurahs!} ${localeText(context, 'duas')}",
-                            model.playlistId!,
-                          ],
                         );
                       },
                       child: Container(
@@ -94,3 +85,12 @@ class RecitationCategoryPageList extends StatelessWidget {
     );
   }
 }
+
+// arguments: [
+// localeText(context, model.playlistName!),
+// model.imageURl!,
+// LocalizationProvider().checkIsArOrUr()
+// ? "${model.numberOfSurahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+//     : "${localeText(context, 'playlist_of')} ${model.numberOfSurahs!} ${localeText(context, 'duas')}",
+// model.playlistId!,
+// ],

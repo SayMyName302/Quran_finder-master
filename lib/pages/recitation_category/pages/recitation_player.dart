@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
@@ -20,12 +21,11 @@ class RecitationAudioPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List arguments = ModalRoute.of(context)!.settings.arguments! as List;
-    String title = arguments[0];
+    // String title = arguments[0];
     // print('======AudioPlayerPage${title}');
 
-    RecitationCategoryProvider recProv =
-        Provider.of<RecitationCategoryProvider>(context);
-    RecitationAllCategoryModel nextDua = recProv.selectedRec!;
+    RecitationCategoryProvider recProv = Provider.of<RecitationCategoryProvider>(context);
+    RecitationAllCategoryModel nextDua = recProv.selectedRecitationModel!;
 
     String surahName = nextDua.surahName.toString();
 
@@ -43,10 +43,8 @@ class RecitationAudioPlayer extends StatelessWidget {
         body: Consumer5<ThemProvider, StoryAndBasicPlayerProvider,
             AppColorsProvider, RecitationCategoryProvider, ProfileProvider>(
           builder: (context, them, player, appColor, rcp, profile, child) {
-            int recitationIndex = rcp.selectedRecitationAll
-                .indexWhere((element) => element.surahName == surahName);
-            RecitationAllCategoryModel recitation =
-                rcp.selectedRecitationAll[recitationIndex];
+            // int recitationIndex = rcp.selectedRecitationAll.indexWhere((element) => element.surahName == surahName && element.title == nextDua.title);
+            // RecitationAllCategoryModel recitation = rcp.selectedRecitationAll[recitationIndex];
 
             return SingleChildScrollView(
               child: Column(
@@ -59,19 +57,32 @@ class RecitationAudioPlayer extends StatelessWidget {
                       Container(
                         height: 340.h,
                         width: 353.w,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
+                        margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 35.h),
+                        child: ClipRRect(
                             borderRadius: BorderRadius.circular(24.r),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                  player.image,
-                                ),
-                                fit: BoxFit.cover)),
-                        margin: EdgeInsets.only(
-                            left: 20.w, right: 20.w, bottom: 35.h),
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: player.image,
+                            placeholder: (context, url) => const Icon(Icons.image),
+                            errorWidget: (context, url, error) => const Icon(Icons.person),
+                          ),
+                        ),
+                      ),
+                      // Text(
+                      //   localeText(context, title),
+                      //   // title,
+                      //   style: TextStyle(
+                      //       fontSize: 18.sp,
+                      //       color:
+                      //           them.isDark ? AppColors.grey4 : AppColors.grey3,
+                      //       fontWeight: FontWeight.w900,
+                      //       fontFamily: 'satoshi'),
+                      // ),
+                      SizedBox(
+                        height: 3.h,
                       ),
                       Text(
-                        localeText(context, title),
+                        localeText(context, recProv.selectedRecitationModel!.title!),
                         // title,
                         style: TextStyle(
                             fontSize: 18.sp,
@@ -79,17 +90,6 @@ class RecitationAudioPlayer extends StatelessWidget {
                                 them.isDark ? AppColors.grey4 : AppColors.grey3,
                             fontWeight: FontWeight.w900,
                             fontFamily: 'satoshi'),
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Text(
-                        localeText(context, nextDua.title!.toString()),
-                        style: TextStyle(
-                          fontFamily: 'satoshi',
-                          fontWeight: FontWeight.w900,
-                          fontSize: 22.sp,
-                        ),
                       ),
                       SizedBox(
                         height: 3.h,
@@ -123,8 +123,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               // recitationCategoryProvider.addOrRemoveBookmark(bookmark);
-                              profile.addOrRemoveRecitationBookmark(recitation);
-                              print(recitation.title);
+                              profile.addOrRemoveRecitationBookmark(recProv.selectedRecitationModel!);
+                              print(recProv.selectedRecitationModel!.title);
                             },
                             child: Container(
                               height: 23.h,
@@ -139,10 +139,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   height: 21.h,
                                   width: 21.w,
                                   child: CircleAvatar(
-                                    backgroundColor: profile.userProfile!
-                                            .recitationBookmarkList!
-                                            .any((element) =>
-                                                element.surahName == surahName)
+                                    backgroundColor: profile.userProfile!.recitationBookmarkList
+                                        .any((element) => element.surahName == surahName && element.title == nextDua.title)
                                         ? appColor.mainBrandingColor
                                         : Colors.white,
                                     child: Icon(
@@ -151,7 +149,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                                               .recitationBookmarkList!
                                               .any((element) =>
                                                   element.surahName ==
-                                                  surahName)
+                                                  surahName && element.title == nextDua.title)
                                           ? Colors.white
                                           : appColor.mainBrandingColor,
                                       size: 13.h,
@@ -221,14 +219,14 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text(
-                                              'Loop Mode On For ${recProv.selectedRecitationStory!.surahNo!}')));
+                                              'Loop Mode On For ${recProv.selectedRecitationModel!.surahNo!}')));
                                 } else {
                                   isLoopMoreNotifier.value = false;
                                   player.audioPlayer.setLoopMode(LoopMode.off);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text(
-                                              'Loop Mode Off For ${recProv.selectedRecitationStory!.surahNo!}')));
+                                              'Loop Mode Off For ${recProv.selectedRecitationModel!.surahNo!}')));
                                 }
                               },
                               icon: ValueListenableBuilder<bool>(

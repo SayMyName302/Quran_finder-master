@@ -49,7 +49,7 @@ class HomeDb {
       // Copy the database file from the assets folder
       ByteData data = await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       // Write and flush the bytes to the documents directory
       await File(path).writeAsBytes(bytes, flush: true);
       print('Database file copied to documents directory');
@@ -58,7 +58,7 @@ class HomeDb {
 
       // Check for differences between the existing and assets database files
       ByteData assetsData =
-          await rootBundle.load(join('assets', 'masterdb.db'));
+      await rootBundle.load(join('assets', 'masterdb.db'));
       List<int> assetsBytes = assetsData.buffer
           .asUint8List(assetsData.offsetInBytes, assetsData.lengthInBytes);
 
@@ -304,8 +304,7 @@ class HomeDb {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
 
-    print(
-        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    print("Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
 
     return recitationCategory;
   }
@@ -398,7 +397,7 @@ class HomeDb {
     List<Miracles> miracles = [];
     _database = await openDb();
     var table =
-        await _database!.query(_miraclesOfQuranTb, orderBy: 'view_order_by');
+    await _database!.query(_miraclesOfQuranTb, orderBy: 'view_order_by');
     for (var map in table) {
       miracles.add(Miracles.fromJson(map));
     }
@@ -409,7 +408,7 @@ class HomeDb {
     List<IslamBasics> islamBasics = [];
     _database = await openDb();
     var table =
-        await _database!.query(_islamBasicsTb, orderBy: 'view_order_by');
+    await _database!.query(_islamBasicsTb, orderBy: 'view_order_by');
     for (var map in table) {
       islamBasics.add(IslamBasics.fromJson(map));
     }

@@ -7,6 +7,7 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/localization/localization_constants.dart';
+import '../../../shared/localization/localization_provider.dart';
 import '../../../shared/routes/routes_helper.dart';
 import '../provider/recitation_category_provider.dart';
 
@@ -17,21 +18,29 @@ class RecitationAllCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List arguments = ModalRoute.of(context)!.settings.arguments! as List;
-    String title = arguments[0];
-    String imageURl = arguments[1];
-    String collectionOfDua = arguments[2];
-
+    // List arguments = ModalRoute.of(context)!.settings.arguments! as List;
+    // String title = arguments[0];
+    // String imageURl = arguments[1];
+    // String collectionOfDua = arguments[2];
     //Split Collection
-    List<String> splitText = collectionOfDua.split(' ');
-    String duaCount = splitText[0];
-    String duasText = splitText.sublist(1).join(' ');
+    // List<String> splitText = collectionOfDua.split(' ');
+    // String duaCount = splitText[0];
+    // String duasText = splitText.sublist(1).join(' ');
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return Scaffold(
       body: SafeArea(
         child: Consumer2<AppColorsProvider, RecitationCategoryProvider>(
           builder: (context, appColors, recitationProvider, child) {
+            String collectionOfDua = LocalizationProvider().checkIsArOrUr()
+            /// "{model.numberOfPrayers!} is change to numbers of surah as there is no column with number of prayer name
+                ?  "${recitationProvider.selectedRecitationCategory!.numberOfSurahs!}${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                : "${localeText(context, 'playlist_of')} ${recitationProvider.selectedRecitationCategory!.numberOfSurahs!} ${localeText(context, 'duas')}";
+            //Split Collection
+            List<String> splitText = collectionOfDua.split(' ');
+            String duaCount = splitText[0];
+            String duasText = splitText.sublist(1).join(' ');
+            final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -57,7 +66,7 @@ class RecitationAllCategory extends StatelessWidget {
                           color: Colors.amberAccent,
                           borderRadius: BorderRadius.circular(22),
                           image: DecorationImage(
-                            image: NetworkImage(imageURl),
+                            image: NetworkImage(recitationProvider.selectedRecitationCategory!.imageURl!),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -71,7 +80,7 @@ class RecitationAllCategory extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TitleText(
-                                title: title,
+                                title: localeText(context, recitationProvider.selectedRecitationCategory!.playlistName!),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 17.sp,
@@ -116,24 +125,18 @@ class RecitationAllCategory extends StatelessWidget {
                           ),
                         )
                       : ListView.builder(
-                          itemCount:
-                              recitationProvider.selectedRecitationAll.length,
+                          itemCount: recitationProvider.selectedRecitationAll.length,
                           itemBuilder: (context, index) {
-                            RecitationAllCategoryModel recitationModels =
-                                recitationProvider.selectedRecitationAll[index];
+                            RecitationAllCategoryModel recitationModels = recitationProvider.selectedRecitationAll[index];
                             String title = recitationModels.title!;
-                            print(
-                                '======RecPlayListId LVIEW ${recitationModels.playlistId!}');
-                            print(
-                                '======RecplaylistItemId LVIEW ${recitationModels.surahId}');
+                            // print('======RecPlayListId LVIEW ${recitationModels.playlistId!}');
+                            // print('======RecplaylistItemId LVIEW ${recitationModels.surahId}');
 
                             return InkWell(
                               onTap: () {
-                                recitationProvider
-                                    .gotoRecitationAudioPlayerPage(
-                                  recitationModels.playlistId!, //catID
-                                  recitationModels.title!, //title
-                                  imageURl,
+                                recitationProvider.gotoRecitationAudioPlayerPage(
+                                  recitationModels,
+                                  recitationProvider.selectedRecitationCategory!.imageURl!,
                                   context,
                                 );
                                 Navigator.of(context).pushNamed(
