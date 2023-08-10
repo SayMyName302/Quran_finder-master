@@ -24,7 +24,7 @@ import '../../pages/quran/pages/ruqyah/models/ruqyah_category.dart';
 class QuranDatabase {
   Database? database;
   final String _quranTextTable = "quran_text";
-  final String _surahNameTable = "surah";
+  final String _surahNameTable = "surahs";
   final String _duaAllTable = "duas_all";
   final String _duaCategoryTable = "dua_category";
   final String _reciterTable = "reciters";

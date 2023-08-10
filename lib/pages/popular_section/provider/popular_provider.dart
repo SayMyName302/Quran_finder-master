@@ -25,6 +25,7 @@ class PopularProvider extends ChangeNotifier {
   SharedPreferences? _preferences;
   Future<void> getStories() async {
     _feature = await HomeDb().getPopular();
+    print('FEATUER >>>>>>$_feature');
     // _loadStoriesOrder();
     notifyListeners();
   }
@@ -55,7 +56,7 @@ class PopularProvider extends ChangeNotifier {
     // _moveStoryToEnd(index);
   }
 
-  gotoFeaturePlayerPage(int storyId, BuildContext context, int index) {
+  gotoFeaturePlayerPage(String storyId, BuildContext context, int index) {
     _currentFeatureIndex =
         _feature.indexWhere((element) => element.surahId == storyId);
     _selectedFeatureStory = _feature[_currentFeatureIndex];

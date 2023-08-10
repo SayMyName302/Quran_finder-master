@@ -47,7 +47,7 @@ class PopularList extends StatelessWidget {
                                   .pause(context));
                           if (model.contentType == "audio") {
                             featureProvider.gotoFeaturePlayerPage(
-                                model.surahId!, context, index);
+                                model.surahId! as String, context, index);
                             analytics.logEvent(
                               name: 'featured_section_audiotiles',
                               parameters: {'title': model.title},

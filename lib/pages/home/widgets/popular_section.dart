@@ -64,6 +64,8 @@ class PopularSection extends StatelessWidget {
                   Consumer2<PopularProvider, FeaturedMiraclesOfQuranProvider>(
                 builder:
                     (context, storiesProvider, featuremiraclesProvider, child) {
+                  print('LENGTHHHH:${storiesProvider.feature.length}');
+
                   return ListView.builder(
                     itemCount: storiesProvider.feature.length,
                     padding:
@@ -73,6 +75,12 @@ class PopularSection extends StatelessWidget {
                       try {
                         PopularModelClass model =
                             storiesProvider.feature[index];
+                        // print('SURAHID>>:${model.surahId}');
+                        // print('SURAHID>>:${model.status}');
+                        // print('SURAHID>>:${model.image}');
+                        // print('SURAHID>>:${model.title}');
+                        // print('SURAHID>>:${model.contentType}');
+                        // print('SURAHID>>:${model.surahId}');
 
                         if (model.status != 'active') {
                           return Container(); // Skip inactive items
@@ -87,7 +95,7 @@ class PopularSection extends StatelessWidget {
                                       .pause(context));
                               if (model.contentType == "audio") {
                                 storiesProvider.gotoFeaturePlayerPage(
-                                    model.surahId!, context, index);
+                                    model.surahId! as String, context, index);
                                 analytics.logEvent(
                                   name: 'featured_section_tile_homescreen',
                                   parameters: {'title': model.title},
@@ -204,7 +212,7 @@ class PopularSection extends StatelessWidget {
                           ),
                         );
                       } catch (error) {
-                        print("Error: $error");
+                        print("Error:>> $error");
                         return Container(); // Placeholder for error handling
                       }
                     },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nour_al_quran/pages/onboarding/provider/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/skip_button.dart';
 import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.dart';
@@ -56,15 +55,10 @@ class _SetFavReciterState extends State<SetFavReciter> {
                       context: context,
                       removeTop: true,
                       removeBottom: true,
-                      child: GridView.builder(
+                      child: ListView.builder(
                         itemCount: setReciter.reciterList.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, // Number of columns
-                          childAspectRatio: 175 / 145, // Width / Height
-                        ),
                         itemBuilder: (context, index) {
                           FavReciter reciter = setReciter.reciterList[index];
                           return InkWell(
@@ -72,19 +66,13 @@ class _SetFavReciterState extends State<SetFavReciter> {
                               setReciter.setFavReciter(index);
                             },
                             child: _buildReciterNameContainer(
-                              reciter,
-                              setReciter,
-                              isDark,
-                              appColors,
-                              index,
-                            ),
+                                reciter, setReciter, isDark, appColors, index),
                           );
                         },
                       ),
                     );
                   },
                 ),
-                const SizedBox(height: 50),
                 BrandButton(
                     text: localeText(context, "continue"),
                     onTap: () async {
@@ -129,119 +117,88 @@ class _SetFavReciterState extends State<SetFavReciter> {
   }
 
   Container _buildReciterNameContainer(
-    FavReciter reciter,
-    OnBoardingProvider setReciter,
-    bool isDark,
-    AppColorsProvider appColors,
-    int index,
-    // Add height parameter
-  ) {
-    bool isSelected = reciter.title == setReciter.favReciter;
-    Color selectedBackgroundColor =
-        const Color.fromRGBO(253, 191, 71, 0.75); // Golden color
-
+      FavReciter reciter,
+      OnBoardingProvider setReciter,
+      bool isDark,
+      AppColorsProvider appColors,
+      int index) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius:
-            BorderRadius.circular(10), // Round edges of the outer container
+      margin: EdgeInsets.only(
+        bottom: 15.h,
       ),
-      child: InkWell(
-        child: Card(
-          elevation: 20,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            // side: BorderSide(
-            //   color: isSelected
-            //       ? appColors.mainBrandingColor
-            //       : isDark
-            //           ? AppColors.grey3
-            //           : AppColors.grey5,
-            // ),
-          ),
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    isSelected
-                        ? ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                              Colors.black.withOpacity(0.6),
-                              BlendMode.darken,
-                            ),
-                            child: Image.asset(
-                              reciter.imageUrl ?? "",
-                              width: double.infinity,
-                              height: double.infinity,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.error),
-                            ),
-                          )
-                        : Image.asset(
-                            reciter.imageUrl ?? "",
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Icon(Icons.error),
-                          ),
-                    if (isSelected)
-                      Center(
-                        child: SvgPicture.asset(
-                            'assets/images/app_icons/audiobus.svg',
+      padding:
+          EdgeInsets.only(left: 10.w, right: 10.w, top: 15.h, bottom: 15.h),
+      decoration: BoxDecoration(
+          color: reciter.title == setReciter.favReciter
+              ? isDark
+                  ? AppColors.brandingDark
+                  : AppColors.lightBrandingColor
+              : Colors.transparent,
+          border: Border.all(
+              color: reciter.title == setReciter.favReciter
+                  ? appColors.mainBrandingColor
+                  : isDark
+                      ? AppColors.grey3
+                      : AppColors.grey5),
+          borderRadius: BorderRadius.circular(6.r)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50.r),
+            child: Image.asset(
+              reciter.imageUrl ?? "",
+              width: 48.w,
+              height: 48.h,
+              fit: BoxFit.cover,
 
-                            /// Replace with your SVG asset path
-                            width: 105.w,
-                            height: 105.h,
-                            fit: BoxFit.cover,
-                            color: selectedBackgroundColor
-                            // Optional: You can apply color to the SVG
-                            ),
-                      ),
-                  ],
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
-                  color: isSelected
-                      ? selectedBackgroundColor
-                      : Colors
-                          .white, // Change background color based on selection
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              errorBuilder: (context, error, stackTrace) => const Icon(Icons
+                  .error), // Display an error icon if the image fails to load
+            ),
+          ),
+          Text(
+            reciter.title!,
+            style: TextStyle(
+                fontFamily: 'satoshi',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500),
+          ),
+          reciter.title == setReciter.favReciter
+              ? Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
-                        reciter.title!,
-                        style: TextStyle(
-                          fontFamily: 'DM Sans',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: isSelected
-                              ? Colors.white
-                              : Colors
-                                  .black, // Change text color based on selection
-                        ),
-                      ),
+                    reciter.isPlaying!
+                        ? Image.asset(
+                            "assets/images/app_icons/sound_waves.png",
+                            height: 20.78.h,
+                            width: 27.46.w,
+                            color: isDark
+                                ? Colors.white
+                                : appColors.mainBrandingColor,
+                          )
+                        : InkWell(
+                            onTap: () {
+                              setReciter.setIsPlaying(index);
+                            },
+                            child: Image.asset(
+                              "assets/images/app_icons/play_mainplayer.png",
+                              height: 20.h,
+                              width: 20.w,
+                            )),
+                    SizedBox(
+                      width: 9.w,
                     ),
                   ],
-                ),
-              ),
-            ],
-          ),
-        ),
+                )
+              : Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/app_icons/play_mainplayer.png",
+                      height: 20.h,
+                      width: 20.w,
+                    ),
+                  ],
+                )
+        ],
       ),
     );
   }
