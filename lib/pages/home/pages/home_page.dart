@@ -30,8 +30,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _getLocationPermissionAndRegion();
-
-    // Future.delayed(const Duration(seconds: 5),()=>showInAppPurchaseBottomSheet());
   }
 
   Future<void> _getLocationPermissionAndRegion() async {

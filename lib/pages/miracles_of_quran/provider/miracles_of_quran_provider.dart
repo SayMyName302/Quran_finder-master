@@ -55,8 +55,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void goToMiracleDetailsPageFromFeatured(
       String title, BuildContext context, int index) {
-    int miracleIndex =
-        _featureMiraclesList.indexWhere((element) => element.title == title);
+    int miracleIndex = _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
@@ -65,8 +64,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void goToMiracleDetailsPageFromPopular(
       String title, BuildContext context, int index) {
-    int miracleIndex =
-        _featureMiraclesList.indexWhere((element) => element.title == title);
+    int miracleIndex = _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
@@ -162,7 +160,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void favoriteMiraclesDetailsPage(String s, BuildContext context, int index) {}
 
-  /// login to download Video From Internet
+/// logic to download Video From Internet
 // Future<void> checkVideoAvailable(String miracleTitle,BuildContext context) async {
 //   currentMiracle = _miracles.indexWhere((element) => element.title == miracleTitle);
 //   _selectedMiracle = _miracles[currentMiracle];

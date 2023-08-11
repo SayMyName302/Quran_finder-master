@@ -1,27 +1,24 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nour_al_quran/pages/popular_section/models/popular_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:nour_al_quran/shared/database/home_db.dart';
 import 'package:nour_al_quran/shared/providers/story_n_basics_audio_player_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:video_player/video_player.dart';
 
 class PopularProvider extends ChangeNotifier {
-  List<PopularModelClass> _feature = [];
-  List<PopularModelClass> get feature => _feature;
+  List<PopularRecitationModel> _feature = [];
+  List<PopularRecitationModel> get feature => _feature;
   int _currentFeatureIndex = 0;
   int get currentFeatureIndex => _currentFeatureIndex;
-  PopularModelClass? _selectedFeatureStory;
+  PopularRecitationModel? _selectedFeatureStory;
   File? _videoUrl;
   File? get videoUrl => _videoUrl;
-  PopularModelClass? get selectedFeatureStory => _selectedFeatureStory;
+  PopularRecitationModel? get selectedFeatureStory => _selectedFeatureStory;
   SharedPreferences? _preferences;
   Future<void> getStories() async {
     _feature = await HomeDb().getPopular();
@@ -57,8 +54,7 @@ class PopularProvider extends ChangeNotifier {
   }
 
   gotoFeaturePlayerPage(String storyId, BuildContext context, int index) {
-    _currentFeatureIndex =
-        _feature.indexWhere((element) => element.surahId == storyId);
+    _currentFeatureIndex = _feature.indexWhere((element) => element.surahId == storyId);
     _selectedFeatureStory = _feature[_currentFeatureIndex];
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(
@@ -127,8 +123,8 @@ class PopularProvider extends ChangeNotifier {
 
   void initVideoPlayer() async {
     try {
-      controller = VideoPlayerController.network(
-        _selectedFeatureStory!.contentUrl!,
+      controller = VideoPlayerController.networkUrl(
+        Uri.parse(_selectedFeatureStory!.contentUrl!),
       )
         ..initialize().then((_) {
           setNetworkError(false);

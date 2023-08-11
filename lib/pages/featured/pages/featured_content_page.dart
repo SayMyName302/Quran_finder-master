@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
+import 'package:nour_al_quran/pages/popular_section/provider/popular_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -14,80 +15,78 @@ class FeaturedDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FontProvider fontProvider = Provider.of<FontProvider>(context);
-    return Consumer2<FeatureProvider, AppColorsProvider>(
-      builder: (context, story, appColors, child) {
+    return Consumer3<FeatureProvider,PopularProvider, AppColorsProvider>(
+      builder: (context, story, popular,appColors, child) {
+
         return Scaffold(
           appBar: buildAppBar(
               context: context,
-              title:
-                  localeText(context, story.selectedFeatureStory!.storyTitle!)),
-          body: story.selectedFeatureStory!.text != null
-              ? SingleChildScrollView(
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        left: 20.w, right: 20.w, top: 16.h, bottom: 16.h),
-                    child: story.selectedFeatureStory!.text != null
-                        ? checkIfArabic(story.selectedFeatureStory!.text!)
-                            ? Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: HtmlWidget(
-                                  story.selectedFeatureStory!.text!,
-                                  textStyle: TextStyle(
-                                    fontFamily: 'satoshi',
-                                    fontSize:
-                                        fontProvider.fontSizeTranslation.sp,
-                                  ),
-                                ),
-                              )
-                            : HtmlWidget(
-                                story.selectedFeatureStory!.text!,
-                                textStyle: TextStyle(
-                                  fontFamily: 'satoshi',
-                                  fontSize: fontProvider.fontSizeTranslation.sp,
-                                ),
-                                customStylesBuilder: (element) {
-                                  // Check if the element is <em>
-                                  if (element.localName == 'strong') {
-                                    final appColorsProvider =
-                                        Provider.of<AppColorsProvider>(context);
-                                    final brandingColor =
-                                        appColorsProvider.mainBrandingColor;
-                                    final colorValue =
-                                        '#${brandingColor.value.toRadixString(16).substring(2)}';
-
-                                    return {
-                                      'color': colorValue,
-                                    }; // Apply mainBrandingColor to the text color
-                                  }
-                                  if (element.localName == 'em') {
-                                    final appColorsProvider =
-                                        Provider.of<AppColorsProvider>(context);
-
-                                    final brandingColor =
-                                        appColorsProvider.mainBrandingColor;
-
-                                    final colorValue =
-                                        '#${brandingColor.value.toRadixString(16).substring(2)}';
-
-                                    return {
-                                      'color': colorValue
-                                    }; // Apply mainBrandingColor to the text color
-                                  }
-
-                                  return null; // Return null for other elements to apply default style
-                                },
-                              )
-                        : const Center(
-                            child: Text('pending'),
-                          ),
-                  ),
-                )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                ),
+              title: story.selectedFeatureStory != null ? localeText(context, story.selectedFeatureStory!.storyTitle!):
+              localeText(context, popular.selectedFeatureStory!.title!)),
+          body: buildBody(story, popular, context)
         );
       },
+    );
+  }
+
+  buildBody(FeatureProvider story,PopularProvider popular,BuildContext context){
+    FontProvider fontProvider = Provider.of<FontProvider>(context);
+    String? text = story.selectedFeatureStory != null ? story.selectedFeatureStory!.text : popular.selectedFeatureStory!.text;
+    return text != null ? SingleChildScrollView(
+      child: Container(
+          margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 16.h, bottom: 16.h),
+          child: checkIfArabic(text)
+              ? Directionality(
+            textDirection: TextDirection.rtl,
+            child: HtmlWidget(
+              text,
+              textStyle: TextStyle(
+                fontFamily: 'satoshi',
+                fontSize: fontProvider.fontSizeTranslation.sp,
+              ),
+            ),
+          ) : HtmlWidget(
+            text,
+            textStyle: TextStyle(
+              fontFamily: 'satoshi',
+              fontSize: fontProvider.fontSizeTranslation.sp,
+            ),
+            customStylesBuilder: (element) {
+              // Check if the element is <em>
+              if (element.localName == 'strong') {
+                final appColorsProvider =
+                Provider.of<AppColorsProvider>(context);
+                final brandingColor =
+                    appColorsProvider.mainBrandingColor;
+                final colorValue =
+                    '#${brandingColor.value.toRadixString(16).substring(2)}';
+
+                return {
+                  'color': colorValue,
+                }; // Apply mainBrandingColor to the text color
+              }
+              if (element.localName == 'em') {
+                final appColorsProvider =
+                Provider.of<AppColorsProvider>(context);
+
+                final brandingColor =
+                    appColorsProvider.mainBrandingColor;
+
+                final colorValue =
+                    '#${brandingColor.value.toRadixString(16).substring(2)}';
+
+                return {
+                  'color': colorValue
+                }; // Apply mainBrandingColor to the text color
+              }
+
+              return null; // Return null for other elements to apply default style
+            },
+          )
+      ),
+    )
+        : const Center(
+      child: CircularProgressIndicator(),
     );
   }
 }

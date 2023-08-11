@@ -395,8 +395,8 @@ class FeatureProvider extends ChangeNotifier {
 
   void initVideoPlayer() async {
     try {
-      controller = VideoPlayerController.network(
-        _selectedFeatureStory!.videoUrl!,
+      controller = VideoPlayerController.networkUrl(
+        Uri.parse(_selectedFeatureStory!.videoUrl!),
       )
         ..initialize().then((_) {
           setNetworkError(false);

@@ -1,11 +1,9 @@
-import 'package:hive_flutter/adapters.dart';
-import 'package:nour_al_quran/shared/utills/app_constants.dart';
-class PopularModelClass {
+class PopularRecitationModel {
   String? surahId;
   int? surahNo;
   String? title;
   int? reciterId;
-  String? description;
+  String? text; // description
   String? contentType;
   String? contentUrl;
   String? image;
@@ -19,12 +17,12 @@ class PopularModelClass {
   int? isFavorite;
   String? mood;
 
-  PopularModelClass(
+  PopularRecitationModel(
       {this.surahId,
         this.surahNo,
         this.title,
         this.reciterId,
-        this.description,
+        this.text,
         this.contentType,
         this.contentUrl,
         this.image,
@@ -38,12 +36,12 @@ class PopularModelClass {
         this.isFavorite,
         this.mood});
 
-  PopularModelClass.fromJson(Map<String, dynamic> json) {
+  PopularRecitationModel.fromJson(Map<String, dynamic> json) {
     surahId = json['surah_id'];
     surahNo = json['surah_no'];
     title = json['title'];
     reciterId = json['reciter_id'];
-    description = json['description'];
+    text = json['description'];
     contentType = json['content_type'];
     contentUrl = json['content_url'];
     image = json['image_url'];
@@ -59,12 +57,12 @@ class PopularModelClass {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['surah_id'] = surahId;
     data['surah_no'] = surahNo;
     data['title'] = title;
     data['reciter_id'] = reciterId;
-    data['description'] = description;
+    data['description'] = text;
     data['content_type'] = contentType;
     data['content_url'] = contentUrl;
     data['image_url'] = image;
@@ -78,6 +76,11 @@ class PopularModelClass {
     data['is_favorite'] = isFavorite;
     data['mood'] = mood;
     return data;
+  }
+
+  @override
+  String toString(){
+    return 'title $title, surahID $surahId';
   }
 }
 

@@ -20,8 +20,8 @@ class PopularList extends StatelessWidget {
 
     return Expanded(
       child: Consumer2<PopularProvider, FeaturedMiraclesOfQuranProvider>(
-        builder: (context, featureProvider, featuremiraclesProvider, child) {
-          List<PopularModelClass> activeStories = featureProvider.feature
+        builder: (context, featureProvider, featureMiraclesProvider, child) {
+          List<PopularRecitationModel> activeStories = featureProvider.feature
               .where((model) => model.status == 'active')
               .toList();
           return featureProvider.feature.isNotEmpty
@@ -32,7 +32,7 @@ class PopularList extends StatelessWidget {
                   ),
                   itemCount: activeStories.length,
                   itemBuilder: (context, index) {
-                    PopularModelClass model = activeStories[index];
+                    PopularRecitationModel model = activeStories[index];
                     if (model.status != 'active') {
                       return Container(); // Skip inactive items
                     }
@@ -40,14 +40,9 @@ class PopularList extends StatelessWidget {
                       onTap: () {
                         if (network == 1) {
                           /// if recitation player is on So this line is used to pause the player
-                          Future.delayed(
-                              Duration.zero,
-                              () => context
-                                  .read<RecitationPlayerProvider>()
-                                  .pause(context));
+                          Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
                           if (model.contentType == "audio") {
-                            featureProvider.gotoFeaturePlayerPage(
-                                model.surahId! as String, context, index);
+                            featureProvider.gotoFeaturePlayerPage(model.surahId!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_audiotiles',
                               parameters: {'title': model.title},
@@ -58,20 +53,11 @@ class PopularList extends StatelessWidget {
 
                             /// two ways without creating any separate provider
                             /// directly using MiraclesOfQuranProvider
-                            Provider.of<MiraclesOfQuranProvider>(context,
-                                    listen: false)
-                                .goToMiracleDetailsPageFromFeatured(
-                                    model.title!, context, index);
+                            Provider.of<MiraclesOfQuranProvider>(context, listen: false).goToMiracleDetailsPageFromFeatured(model.title!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_videotiles',
                               parameters: {'title': model.title},
                             );
-
-                            /// else u can use your own provider as u create both work fine u can check and give me some
-                            /// feedback tomorrow
-                            /// u can un comment this and commit out MiraclesOfQuranProvider this provider line to check both
-                            // featuremiraclesProvider.goToMiracleDetailsPage(
-                            //     model.storyTitle!, context, index);
                           }
                         } else {
                           ScaffoldMessenger.of(context)

@@ -255,14 +255,14 @@ class HomeDb {
     return feature;
   }
 
-  Future<List<PopularModelClass>> getPopular() async {
-    List<PopularModelClass> feature = [];
+  Future<List<PopularRecitationModel>> getPopular() async {
+    List<PopularRecitationModel> feature = [];
     _database = await openDb();
     var table = await _database!.query(_popular, orderBy: 'order_by');
     print(
         "Table Length:>> ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
-      feature.add(PopularModelClass.fromJson(map));
+      feature.add(PopularRecitationModel.fromJson(map));
     }
     print(
         "Feature Length: >>${feature.length}"); // Print the number of FeaturedModel objects added to the list
