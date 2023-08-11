@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
-import 'package:nour_al_quran/pages/popular_section/models/PopularModel';
+import 'package:nour_al_quran/pages/popular_section/models/popular_model.dart';
 import 'package:nour_al_quran/pages/popular_section/provider/popular_provider.dart';
 import 'package:provider/provider.dart';
 

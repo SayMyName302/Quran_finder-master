@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/models/miracles.dart';
-import 'package:nour_al_quran/pages/popular_section/models/PopularModel';
+import 'package:nour_al_quran/pages/popular_section/models/popular_model.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/model/about_model.dart';

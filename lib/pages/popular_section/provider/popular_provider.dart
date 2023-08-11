@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nour_al_quran/pages/popular_section/models/popular_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +12,6 @@ import 'package:nour_al_quran/shared/database/home_db.dart';
 import 'package:nour_al_quran/shared/providers/story_n_basics_audio_player_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:video_player/video_player.dart';
-import 'package:nour_al_quran/pages/popular_section/models/PopularModel';
 
 class PopularProvider extends ChangeNotifier {
   List<PopularModelClass> _feature = [];
@@ -62,7 +62,9 @@ class PopularProvider extends ChangeNotifier {
     _selectedFeatureStory = _feature[_currentFeatureIndex];
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(
-            _selectedFeatureStory!.audioUrl!,
+            // _selectedFeatureStory!.audioUrl!,
+            _selectedFeatureStory!.contentUrl!,
+            // "assets/images/popular_recitations/${selectedFeatureStory!.image}",
             "assets/images/popular_recitations/${selectedFeatureStory!.image}",
             context);
     _moveStoryToEnd(index);
@@ -126,7 +128,7 @@ class PopularProvider extends ChangeNotifier {
   void initVideoPlayer() async {
     try {
       controller = VideoPlayerController.network(
-        _selectedFeatureStory!.videoUrl!,
+        _selectedFeatureStory!.contentUrl!,
       )
         ..initialize().then((_) {
           setNetworkError(false);
