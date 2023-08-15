@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
 import 'package:nour_al_quran/pages/home/provider/home_provider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
+import 'package:nour_al_quran/pages/onboarding/models/fav_reciter.dart';
+import 'package:nour_al_quran/pages/onboarding/provider/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/popular_section/provider/popular_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
@@ -18,6 +20,22 @@ class PopularSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var onBoardingProvider = Provider.of<OnBoardingProvider>(context);
+
+    // Get the index of the selected reciter
+    int selectedIndex = onBoardingProvider.reciterList.indexWhere(
+      (reciter) => reciter.title == onBoardingProvider.favReciter,
+    );
+
+    // Print the details of the selected reciter to the console
+    if (selectedIndex != -1) {
+      FavReciter selectedReciter =
+          onBoardingProvider.reciterList[selectedIndex];
+      print('Selected Reciter Title: ${selectedReciter.title}');
+      print('Selected Reciter ID: ${selectedReciter.reciterId}');
+      print('---');
+    }
+
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     int network = Provider.of<int>(context);
     // final authProvider = Provider.of<SignInProvider>(context);
@@ -41,94 +59,125 @@ class PopularSection extends StatelessWidget {
             );
           },
         ),
-        Consumer3<LocalizationProvider,PopularProvider, FeaturedMiraclesOfQuranProvider>(
-          builder: (context, language, storiesProvider, featureMiraclesProvider,  child) {
+        Consumer3<LocalizationProvider, PopularProvider,
+            FeaturedMiraclesOfQuranProvider>(
+          builder: (context, language, storiesProvider, featureMiraclesProvider,
+              child) {
+            List<PopularRecitationModel> sortedList = [];
+
+            // Add the selected reciter's title to the beginning of the list if found
+            if (selectedIndex != -1) {
+              PopularRecitationModel selectedReciterModel =
+                  storiesProvider.feature[selectedIndex];
+              sortedList.add(selectedReciterModel);
+            }
+
+            // Add the remaining list items, excluding the selected reciter
+            for (int index = 0;
+                index < storiesProvider.feature.length;
+                index++) {
+              PopularRecitationModel model = storiesProvider.feature[index];
+              if (model.status == 'active' && index != selectedIndex) {
+                sortedList.add(model);
+              }
+            }
+
             return SizedBox(
               height: 150.h,
               child: ListView.builder(
-                itemCount: storiesProvider.feature.length,
+                itemCount: sortedList.length,
                 padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                    PopularRecitationModel model = storiesProvider.feature[index];
-                    if (model.status != 'active') {
-                      return const SizedBox.shrink();
-                    }
-                    return InkWell(
-                      onTap: () {
-                        if (network == 1) {
-                          Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
-                          if (model.contentType == "audio") {
-                            storiesProvider.gotoFeaturePlayerPage(model.surahId!, context, index);
-                            analytics.logEvent(
-                              name: 'featured_section_tile_homescreen',
-                              parameters: {'title': model.title},
-                            );
-                          } else if (model.contentType == "Video") {
-                            /// go to miracle Details Page
-                            Provider.of<MiraclesOfQuranProvider>(context, listen: false).goToMiracleDetailsPageFromFeatured(model.title!, context, index);
-                            analytics.logEvent(
-                              name:
-                              'featured_section_miracle_tile_homescreen',
-                              parameters: {'title': model.title},
-                            );
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context)..removeCurrentSnackBar()..showSnackBar(const SnackBar(
-                                content: Text("No Internet")));
+                  PopularRecitationModel model = sortedList[index];
+                  if (model.status != 'active') {
+                    return const SizedBox.shrink();
+                  }
+                  return InkWell(
+                    onTap: () {
+                      if (network == 1) {
+                        Future.delayed(
+                            Duration.zero,
+                            () => context
+                                .read<RecitationPlayerProvider>()
+                                .pause(context));
+                        if (model.contentType == "audio") {
+                          storiesProvider.gotoFeaturePlayerPage(
+                              model.surahId!, context, index);
+                          analytics.logEvent(
+                            name: 'featured_section_tile_homescreen',
+                            parameters: {'title': model.title},
+                          );
+                        } else if (model.contentType == "Video") {
+                          /// go to miracle Details Page
+                          Provider.of<MiraclesOfQuranProvider>(context,
+                                  listen: false)
+                              .goToMiracleDetailsPageFromFeatured(
+                                  model.title!, context, index);
+                          analytics.logEvent(
+                            name: 'featured_section_miracle_tile_homescreen',
+                            parameters: {'title': model.title},
+                          );
                         }
-                      },
+                      } else {
+                        ScaffoldMessenger.of(context)
+                          ..removeCurrentSnackBar()
+                          ..showSnackBar(
+                              const SnackBar(content: Text("No Internet")));
+                      }
+                    },
+                    child: Container(
+                      width: 250.w,
+                      margin: EdgeInsets.only(right: 10.w),
+                      decoration: BoxDecoration(
+                        color: Colors.amberAccent,
+                        borderRadius: BorderRadius.circular(8.r),
+                        image: DecorationImage(
+                          image: AssetImage(
+                              "assets/images/popular_recitations/${model.image}"),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                       child: Container(
-                        width: 250.w,
-                        margin: EdgeInsets.only(right: 10.w),
                         decoration: BoxDecoration(
-                          color: Colors.amberAccent,
                           borderRadius: BorderRadius.circular(8.r),
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/popular_recitations/${model.image}"),
-                            fit: BoxFit.cover,
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color.fromRGBO(0, 0, 0, 0),
+                              Color.fromRGBO(0, 0, 0, 1),
+                            ],
+                            begin: Alignment.center,
+                            end: Alignment.bottomCenter,
                           ),
                         ),
                         child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color.fromRGBO(0, 0, 0, 0),
-                                Color.fromRGBO(0, 0, 0, 1),
-                              ],
-                              begin: Alignment.center,
-                              end: Alignment.bottomCenter,
-                            ),
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.only(left: 6.w, bottom: 8.h, right: 6.w),
-                            alignment: language.checkIsArOrUr()
-                                ? Alignment.bottomRight
-                                : Alignment.bottomLeft,
-                            child: Column(
-                              crossAxisAlignment:
-                              language.checkIsArOrUr()
-                                  ? CrossAxisAlignment.end
-                                  : CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  localeText(context, model.title!),
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17.sp,
-                                    fontFamily: "satoshi",
-                                    fontWeight: FontWeight.w900,
-                                  ),
+                          margin: EdgeInsets.only(
+                              left: 6.w, bottom: 8.h, right: 6.w),
+                          alignment: language.checkIsArOrUr()
+                              ? Alignment.bottomRight
+                              : Alignment.bottomLeft,
+                          child: Column(
+                            crossAxisAlignment: language.checkIsArOrUr()
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                localeText(context, model.title!),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17.sp,
+                                  fontFamily: "satoshi",
+                                  fontWeight: FontWeight.w900,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    );
+                    ),
+                  );
                 },
               ),
             );

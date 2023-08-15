@@ -138,6 +138,8 @@ class HomeProvider extends ChangeNotifier {
       surahName =
           await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
     }
+
+     
     notifyListeners();
     Future.delayed(Duration.zero, () {
       bool dailyVerseNotificationEnable =

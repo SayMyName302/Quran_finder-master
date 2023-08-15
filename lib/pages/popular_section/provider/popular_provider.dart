@@ -54,7 +54,8 @@ class PopularProvider extends ChangeNotifier {
   }
 
   gotoFeaturePlayerPage(String storyId, BuildContext context, int index) {
-    _currentFeatureIndex = _feature.indexWhere((element) => element.surahId == storyId);
+    _currentFeatureIndex =
+        _feature.indexWhere((element) => element.surahId == storyId);
     _selectedFeatureStory = _feature[_currentFeatureIndex];
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(
