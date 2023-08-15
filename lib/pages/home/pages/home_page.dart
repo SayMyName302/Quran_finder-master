@@ -7,6 +7,8 @@ import 'package:nour_al_quran/pages/home/widgets/popular_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_miracles_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_stories_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/user_picture.dart';
+import 'package:nour_al_quran/pages/notifications/notification_services.dart';
+
 import 'package:nour_al_quran/pages/settings/pages/subscriptions/on_board/free_trial.dart';
 import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
@@ -24,11 +26,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  NotificationServices notificationServices = NotificationServices();
+
   LastSeen? lastSeen = Hive.box('myBox').get("lastSeen");
 
   @override
   void initState() {
     super.initState();
+    notificationServices.requestNotitificationPermission();
+
+    notificationServices.firebaseInit();
+
+    notificationServices.isTokenRefresh();
+
+    notificationServices.getDeviceToken().then((value) {
+      print('Device Token');
+      print(value);
+    });
     _getLocationPermissionAndRegion();
   }
 

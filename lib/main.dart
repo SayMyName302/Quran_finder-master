@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,6 +67,9 @@ import 'pages/tranquil_tales/provider/tranquil_tales_provider.dart';
 BuildContext? globalContext;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   await dotenv.load(fileName: '.env');
   await Global.init();
   runApp(MultiProvider(providers: [
@@ -129,7 +133,8 @@ class MyApp extends StatelessWidget {
     globalContext = context;
     final oneSignalProvider = Provider.of<OneSignalProvider>(context);
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    final FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+    final FirebaseAnalyticsObserver observer =
+        FirebaseAnalyticsObserver(analytics: analytics);
     oneSignalProvider.initializeOneSignal();
     return ScreenUtilInit(
       designSize: Size(Dimensions.width, Dimensions.height),
