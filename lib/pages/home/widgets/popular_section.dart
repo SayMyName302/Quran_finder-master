@@ -49,27 +49,27 @@ class PopularSection extends StatelessWidget {
               child) {
             var onBoardingProvider = Provider.of<OnBoardingProvider>(context);
 
-            // Get the index of the selected reciter
             int selectedIndex = onBoardingProvider.reciterList.indexWhere(
               (reciter) => reciter.title == onBoardingProvider.favReciter,
             );
             List<PopularRecitationModel> reorderedList = [];
             List<PopularRecitationModel> originalList = storiesProvider.feature;
 
+            print('Original List: >>$originalList');
+
             if (selectedIndex != -1) {
               FavReciter selectedReciter =
                   onBoardingProvider.reciterList[selectedIndex];
               for (var model in originalList) {
-                if (model.reciterId == selectedReciter?.reciterId) {
-                  reorderedList
-                      .add(model); // Add matching models at the beginning
+                if (model.reciterId == selectedReciter.reciterId) {
+                  reorderedList.add(model);
                 }
               }
-              reorderedList.addAll(originalList.where((model) =>
-                  model.reciterId !=
-                  selectedReciter?.reciterId)); // Add non-matching models
+              reorderedList.addAll(originalList.where(
+                  (model) => model.reciterId != selectedReciter.reciterId));
             } else {
               reorderedList = originalList;
+              print('Re-ordered List: >>$reorderedList');
             }
 
             return SizedBox(

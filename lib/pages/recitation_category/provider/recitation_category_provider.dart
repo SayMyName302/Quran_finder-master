@@ -28,16 +28,16 @@ class RecitationCategoryProvider extends ChangeNotifier {
   Timer? _timer;
 
   void startUpdatingPeriodically() {
-    _timer?.cancel();
+    _timer?.cancel(); // Cancel any existing timers to avoid duplicates
     _timer = Timer.periodic(const Duration(minutes: 5), (_) {
-      // Adjust the duration as needed; here, we update every 5 minutesssssss
+      // Adjust the duration as needed; here, we update every 5 minutes
       getRecitationCategoryStories();
     });
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _timer?.cancel(); // Cancel the timer when the provider is disposed
     super.dispose();
   }
 

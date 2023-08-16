@@ -99,19 +99,49 @@ class FeatureProvider extends ChangeNotifier {
   ///M///
 
   //d// Test method will remove when task completed
-
   void reorderStoriesforHijriDate(String hdate) {
-    sethijriDate(hdate);
+    sethijriDateInput(hdate);
     notifyListeners();
   }
 
   sethijriDate(String hdate) async {
-    // print('TODAYS HIJRI DATE IS VALID, CHECKING ROWS IN DB');
     _hijriDate = hdate;
     List<FeaturedModel> tempFeatureList = List.from(_feature);
 
     List<FeaturedModel> _featureListHijriDate =
         await HomeDb().filterFeaturesByIslamicDate(tempFeatureList, _hijriDate);
+
+    if (_featureListHijriDate.isNotEmpty && tempFeatureList.isNotEmpty) {
+      // Find the index of the filtered item in tempFeatureList
+      int filteredIndex = tempFeatureList.indexWhere(
+        (item) =>
+            item.islamicDate == _featureListHijriDate[0].islamicDate &&
+            item.monthDisplay == _featureListHijriDate[0].monthDisplay &&
+            item.hijriYear == _featureListHijriDate[0].hijriYear,
+      );
+      print('INDEX FOUND AT $filteredIndex');
+
+      if (filteredIndex != -1) {
+        // Swap the items in tempFeatureListt
+        FeaturedModel temp = tempFeatureList[0];
+        tempFeatureList[0] = tempFeatureList[filteredIndex];
+        tempFeatureList[filteredIndex] = temp;
+      } else {
+        print('Filtered item not found in tempFeatureList');
+      }
+    }
+
+    _feature = tempFeatureList;
+    notifyListeners();
+  }
+
+  //Test PURPOSE WILL REMOVE LATER, upper method should remain later on remove this below method only
+  sethijriDateInput(String hdate) async {
+    _hijriDate = hdate;
+    List<FeaturedModel> tempFeatureList = List.from(_feature);
+
+    List<FeaturedModel> _featureListHijriDate =
+        await HomeDb().filterFeaturesByHijriDate(tempFeatureList, _hijriDate);
 
     if (_featureListHijriDate.isNotEmpty && tempFeatureList.isNotEmpty) {
       // Find the index of the filtered item in tempFeatureList
@@ -133,7 +163,6 @@ class FeatureProvider extends ChangeNotifier {
       }
     }
 
-    // Update _feature with the modified tempFeatureList
     _feature = tempFeatureList;
     notifyListeners();
   }
@@ -177,6 +206,7 @@ class FeatureProvider extends ChangeNotifier {
     _feature = tempFeatureList;
     notifyListeners();
   }
+
   //d//
 
   // Method to check HijriDate records in db if found else checks Georgian date else checks Day else Month
