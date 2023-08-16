@@ -8,7 +8,7 @@ class RecitationAllCategoryModel {
   String? _contentType;
   String? _contentUrl;
   String? _status;
-  int? _orderBy;
+
   int? _isFav;
   int? _playlistId;
   int? _playlistItemId;
@@ -23,7 +23,7 @@ class RecitationAllCategoryModel {
   String? get contentType => _contentType;
   String? get contentUrl => _contentUrl;
   String? get status => _status;
-  int? get orderBy => _orderBy;
+
   int? get isFav => _isFav;
   int? get playlistId => _playlistId;
   int? get playlistItemId => _playlistItemId;
@@ -41,7 +41,6 @@ class RecitationAllCategoryModel {
     required String contentType,
     required String contentUrl,
     required String status,
-    required int orderBy,
     required int isFav,
     required int playlistId,
     required int playlistItemId,
@@ -56,7 +55,7 @@ class RecitationAllCategoryModel {
     _contentType = contentType;
     _contentUrl = contentUrl;
     _status = status;
-    _orderBy = orderBy;
+
     _isFav = isFav;
     _playlistId = playlistId;
     _playlistItemId = playlistItemId;
@@ -73,7 +72,7 @@ class RecitationAllCategoryModel {
     _contentType = json['content_type'];
     _contentUrl = json['content_url'];
     _status = json['status'];
-    _orderBy = json['order_by'];
+
     _isFav = json['is_favorite'];
     _playlistId = json['playlist_id'];
     _playlistItemId = json['playlist_item_id'];
@@ -91,7 +90,6 @@ class RecitationAllCategoryModel {
       'content_type': _contentType,
       'content_url': _contentUrl,
       'status': _status,
-      'order_by': _orderBy,
       'is_favorite': _isFav,
       'playlist_id': _playlistId,
       'playlist_item_id': _playlistItemId,

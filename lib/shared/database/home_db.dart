@@ -208,19 +208,10 @@ class HomeDb {
     return filteredList;
   }
 
-  //GeorgeDay input for TESTING
-  List<FeaturedModel> filterFeaturesByGeorgeDate(
+  //GeorgeDate Rows Filter
+  List<FeaturedModel> filterByGeorgeDate(
       List<FeaturedModel> featureList, String inputDate) {
     List<FeaturedModel> filteredList = [];
-
-    //CODE TO CHECK TODAYS DATE IN 80923 FORMAT
-    // DateTime currentDate = DateTime.now();
-    // String formattedDate = "${currentDate.month.toString().padLeft(1, '0')}"
-    //     "${currentDate.day.toString().padLeft(2, '0')}"
-    //     "${currentDate.year.toString().substring(2)}";
-
-    // print("TODAYS DATE Formatted BY CODE: $formattedDate");
-    //
 
     for (var feature in featureList) {
       if (feature.georgeDate == inputDate) {
@@ -228,10 +219,8 @@ class HomeDb {
         String currentMonthName =
             DateFormat('MMMM').format(currentDate).toLowerCase();
         int currentYear = currentDate.year;
-
         // print(
         //     "Checking feature: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
-
         if (feature.georgeMonth == currentMonthName &&
             feature.georgeYear == currentYear) {
           // print(
@@ -240,8 +229,36 @@ class HomeDb {
         }
       }
     }
+    //  print("FILTERED LIST: ${filteredList}");
+    return filteredList;
+  }
+
+  //GeorgeDate Input for TESTING, remove this when task completed
+  List<FeaturedModel> filterFeaturesByGeorgeDate(
+      List<FeaturedModel> featureList, String inputDate) {
+    List<FeaturedModel> filteredList = [];
+
+    for (var feature in featureList) {
+      if (feature.georgeDate == inputDate) {
+        filteredList.add(feature);
+      }
+    }
     print("FILTERED LIST: ${filteredList}");
 
+    return filteredList;
+  }
+
+  //HijriMonth Input for TESTING, remove this when task completed
+  List<FeaturedModel> filterByHijriMonth(
+      List<FeaturedModel> featureList, String inputMonth) {
+    List<FeaturedModel> filteredList = [];
+
+    for (var feature in featureList) {
+      if (feature.georgeMonth == inputMonth) {
+        filteredList.add(feature);
+      }
+    }
+    print("FILTERED LIST: ${filteredList}");
     return filteredList;
   }
 

@@ -148,7 +148,7 @@ class FeatureProvider extends ChangeNotifier {
 
   setGeorgeDate(String hdate) async {
     _georgeDate = hdate;
-    // print(georgeDate);
+    print(georgeDate);
     List<FeaturedModel> tempFeatureList = List.from(_feature);
 
     List<FeaturedModel> _featureListHijriDate =
@@ -179,7 +179,7 @@ class FeatureProvider extends ChangeNotifier {
   }
   //d//
 
-  // Method to check HijriDate records in db if found else checks Day else Month
+  // Method to check HijriDate records in db if found else checks Georgian date else checks Day else Month
   void scheduleReorder() async {
     HijriCalendar currentDate = HijriCalendar.now();
     String todayHijriDate = currentDate.hDay.toString();
@@ -203,7 +203,7 @@ class FeatureProvider extends ChangeNotifier {
         print("Today's Georgian date is: $formattedDate");
 
         List<FeaturedModel> featureListGeorgeDate =
-            await HomeDb().filterFeaturesByGeorgeDate(_feature, formattedDate);
+            await HomeDb().filterByGeorgeDate(_feature, formattedDate);
 
         if (featureListGeorgeDate.isNotEmpty) {
           print("Found matching rows for Georgian date: $formattedDate");
