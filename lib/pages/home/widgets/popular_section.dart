@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +12,7 @@ import 'package:nour_al_quran/pages/popular_section/provider/popular_provider.da
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../shared/localization/localization_constants.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import 'home_row_widget.dart';

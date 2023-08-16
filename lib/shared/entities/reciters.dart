@@ -8,7 +8,8 @@ class Reciters {
   String? _imageUrl;
   String? _audioUrl;
   int? _isFav;
-  String? _categorize; // Add the categorize property
+  String? _categorize;
+  String? _similarReciters; // Add the similarReciters property
 
   int? get reciterId => _reciterId;
   String? get reciterName => _reciterName;
@@ -17,15 +18,18 @@ class Reciters {
   String? get imageUrl => _imageUrl;
   String? get audioUrl => _audioUrl;
   int? get isFav => _isFav;
-  String? get categorize => _categorize; // Getter for categorize property
+  String? get categorize => _categorize;
+  String? get similarReciters =>
+      _similarReciters; // Getter for similarReciters property
 
   set setDownloadSurahList(List<int> value) {
     _downloadSurahList = value;
   }
 
   set setIsFav(int value) => _isFav = value;
-  set setCategorize(String? value) =>
-      _categorize = value; // Setter for categorize property
+  set setCategorize(String? value) => _categorize = value;
+  set setSimilarReciters(String? value) =>
+      _similarReciters = value; // Setter for similarReciters property
 
   Reciters({
     required int reciterId,
@@ -35,8 +39,9 @@ class Reciters {
     required String imageUrl,
     required String audioUrl,
     required int isFav,
+    required String categorize,
     required String?
-        categorize, // Include the categorize property in the constructor
+        similarReciters, // Include the similarReciters property in the constructor
   }) {
     _reciterId = reciterId;
     _reciterName = reciterName;
@@ -45,8 +50,9 @@ class Reciters {
     _imageUrl = imageUrl;
     _audioUrl = audioUrl;
     _isFav = isFav;
-    _categorize =
-        categorize; // Assign the categorize value to the private property
+    _categorize = categorize;
+    _similarReciters =
+        similarReciters; // Assign the similarReciters value to the private property
   }
 
   Reciters.fromJson(Map<String, dynamic> json) {
@@ -57,7 +63,9 @@ class Reciters {
     _imageUrl = json['image_url'];
     _audioUrl = json['audio_url'];
     _isFav = json['is_fav'];
-    _categorize = json['categorize']; // Fetch the categorize value from JSON
+    _categorize = json['categorize'];
+    _similarReciters =
+        json['similar_reciters']; // Fetch the similarReciters value from JSON
   }
 
   Map<String, dynamic> toJson() {
@@ -69,7 +77,9 @@ class Reciters {
       "image_url": _imageUrl,
       "audio_url": _audioUrl,
       "is_fav": _isFav,
-      "categorize": _categorize, // Include the categorize property in the JSON
+      "categorize": _categorize,
+      "similar_reciters":
+          _similarReciters, // Include the similarReciters property in the JSON
     };
   }
 }

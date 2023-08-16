@@ -620,6 +620,39 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     return reciterList;
   }
 
+  Future<List<Reciters>> getSimilarReciters(int reciterId) async {
+    database = await openDb();
+    var reciterList = <Reciters>[];
+
+    // Fetch the row for the selected reciter
+    var selectedCursor = await database!.query(
+      _reciterTable,
+      where: 'reciter_id = ?',
+      whereArgs: [reciterId],
+    );
+
+    if (selectedCursor.isNotEmpty) {
+      var selectedReciter = Reciters.fromJson(selectedCursor.first);
+      var similarReciterIds = selectedReciter.similarReciters!.split(',');
+
+      // Fetch similar reciters using the retrieved IDs
+      var cursor = await database!.query(
+        _reciterTable,
+        where:
+            'reciter_id IN (${List.filled(similarReciterIds.length, '?').join(', ')})',
+        whereArgs: similarReciterIds,
+        orderBy: 'order_by',
+      );
+
+      for (var maps in cursor) {
+        var reciter = Reciters.fromJson(maps);
+        reciterList.add(reciter);
+      }
+    }
+
+    return reciterList;
+  }
+
   // to load all Reciter names
   Future<List<Reciters>> getAllReciter() async {
     // await initDb();
