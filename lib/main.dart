@@ -129,7 +129,8 @@ class MyApp extends StatelessWidget {
     globalContext = context;
     final oneSignalProvider = Provider.of<OneSignalProvider>(context);
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    final FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+    final FirebaseAnalyticsObserver observer =
+        FirebaseAnalyticsObserver(analytics: analytics);
     oneSignalProvider.initializeOneSignal();
     return ScreenUtilInit(
       designSize: Size(Dimensions.width, Dimensions.height),
