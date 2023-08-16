@@ -54,7 +54,8 @@ class PopularProvider extends ChangeNotifier {
   }
 
   gotoFeaturePlayerPage(String storyId, BuildContext context, int index) {
-    _currentFeatureIndex = _feature.indexWhere((element) => element.surahId == storyId);
+    _currentFeatureIndex =
+        _feature.indexWhere((element) => element.surahId == storyId);
     _selectedFeatureStory = _feature[_currentFeatureIndex];
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(
@@ -63,7 +64,7 @@ class PopularProvider extends ChangeNotifier {
             // "assets/images/popular_recitations/${selectedFeatureStory!.image}",
             "assets/images/popular_recitations/${selectedFeatureStory!.image}",
             context);
-    _moveStoryToEnd(index);
+    // _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromPopular');
   }

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,6 +51,7 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_them.dart';
 import 'package:nour_al_quran/shared/utills/dimensions.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/featured/provider/featured_provider.dart';
 import 'pages/featured/provider/featurevideoProvider.dart';
@@ -66,6 +68,10 @@ import 'pages/tranquil_tales/provider/tranquil_tales_provider.dart';
 BuildContext? globalContext;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  // Load the reordered titles from shared preferences
+
   await dotenv.load(fileName: '.env');
   await Global.init();
   runApp(MultiProvider(providers: [

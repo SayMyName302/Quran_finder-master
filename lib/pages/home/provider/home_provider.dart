@@ -192,6 +192,8 @@ class HomeProvider extends ChangeNotifier {
       surahName =
           await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
     }
+
+     
     notifyListeners();
     final currentTime = TimeOfDay.now();
     if (currentTime.hour == 16 && currentTime.minute == 37) {
