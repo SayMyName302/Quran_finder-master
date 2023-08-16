@@ -20,22 +20,6 @@ class PopularSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var onBoardingProvider = Provider.of<OnBoardingProvider>(context);
-
-    // Get the index of the selected reciter
-    int selectedIndex = onBoardingProvider.reciterList.indexWhere(
-      (reciter) => reciter.title == onBoardingProvider.favReciter,
-    );
-
-    // Print the details of the selected reciter to the console
-    if (selectedIndex != -1) {
-      FavReciter selectedReciter =
-          onBoardingProvider.reciterList[selectedIndex];
-      print('Selected Reciter Title: ${selectedReciter.title}');
-      print('Selected Reciter ID: ${selectedReciter.reciterId}');
-      print('---');
-    }
-
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     int network = Provider.of<int>(context);
     // final authProvider = Provider.of<SignInProvider>(context);
@@ -63,36 +47,44 @@ class PopularSection extends StatelessWidget {
             FeaturedMiraclesOfQuranProvider>(
           builder: (context, language, storiesProvider, featureMiraclesProvider,
               child) {
-            List<PopularRecitationModel> sortedList = [];
+            var onBoardingProvider = Provider.of<OnBoardingProvider>(context);
 
-            // Add the selected reciter's title to the beginning of the list if found
+            // Get the index of the selected reciter
+            int selectedIndex = onBoardingProvider.reciterList.indexWhere(
+              (reciter) => reciter.title == onBoardingProvider.favReciter,
+            );
+            List<PopularRecitationModel> reorderedList = [];
+            List<PopularRecitationModel> originalList = storiesProvider.feature;
+
             if (selectedIndex != -1) {
-              PopularRecitationModel selectedReciterModel =
-                  storiesProvider.feature[selectedIndex];
-              sortedList.add(selectedReciterModel);
-            }
-
-            // Add the remaining list items, excluding the selected reciter
-            for (int index = 0;
-                index < storiesProvider.feature.length;
-                index++) {
-              PopularRecitationModel model = storiesProvider.feature[index];
-              if (model.status == 'active' && index != selectedIndex) {
-                sortedList.add(model);
+              FavReciter selectedReciter =
+                  onBoardingProvider.reciterList[selectedIndex];
+              for (var model in originalList) {
+                if (model.reciterId == selectedReciter?.reciterId) {
+                  reorderedList
+                      .add(model); // Add matching models at the beginning
+                }
               }
+              reorderedList.addAll(originalList.where((model) =>
+                  model.reciterId !=
+                  selectedReciter?.reciterId)); // Add non-matching models
+            } else {
+              reorderedList = originalList;
             }
 
             return SizedBox(
               height: 150.h,
               child: ListView.builder(
-                itemCount: sortedList.length,
+                itemCount: reorderedList.length,
                 padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 14.h),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  PopularRecitationModel model = sortedList[index];
+                  PopularRecitationModel model = reorderedList[index];
+
                   if (model.status != 'active') {
                     return const SizedBox.shrink();
                   }
+
                   return InkWell(
                     onTap: () {
                       if (network == 1) {

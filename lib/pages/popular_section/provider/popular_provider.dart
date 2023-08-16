@@ -64,7 +64,7 @@ class PopularProvider extends ChangeNotifier {
             // "assets/images/popular_recitations/${selectedFeatureStory!.image}",
             "assets/images/popular_recitations/${selectedFeatureStory!.image}",
             context);
-    _moveStoryToEnd(index);
+    // _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromPopular');
   }
