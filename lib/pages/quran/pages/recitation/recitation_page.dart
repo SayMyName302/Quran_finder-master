@@ -3,6 +3,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/home/widgets/home_row_widget.dart';
+import 'package:nour_al_quran/pages/onboarding/provider/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 
@@ -24,6 +25,7 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/providers/story_n_basics_audio_player_provider.dart';
+import '../../../onboarding/models/fav_reciter.dart';
 import '../../../recitation_category/models/bookmarks_recitation.dart';
 import '../../../recitation_category/models/recitation_all_category_model.dart';
 import '../../../recitation_category/provider/recitation_category_provider.dart';
@@ -552,6 +554,7 @@ class _RecitationPageState extends State<RecitationPage> {
                       );
               },
             ),
+
             // Column(
             //   children: [
             //     HomeRowWidget(

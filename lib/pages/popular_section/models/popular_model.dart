@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class PopularRecitationModel {
   String? surahId;
   int? surahNo;
@@ -19,22 +21,22 @@ class PopularRecitationModel {
 
   PopularRecitationModel(
       {this.surahId,
-        this.surahNo,
-        this.title,
-        this.reciterId,
-        this.text,
-        this.contentType,
-        this.contentUrl,
-        this.image,
-        this.audioImageUrl,
-        this.status,
-        this.orderBy,
-        this.premiumFeatures,
-        this.region,
-        this.day,
-        this.timePeriod,
-        this.isFavorite,
-        this.mood});
+      this.surahNo,
+      this.title,
+      this.reciterId,
+      this.text,
+      this.contentType,
+      this.contentUrl,
+      this.image,
+      this.audioImageUrl,
+      this.status,
+      this.orderBy,
+      this.premiumFeatures,
+      this.region,
+      this.day,
+      this.timePeriod,
+      this.isFavorite,
+      this.mood});
 
   PopularRecitationModel.fromJson(Map<String, dynamic> json) {
     surahId = json['surah_id'];
@@ -79,7 +81,7 @@ class PopularRecitationModel {
   }
 
   @override
-  String toString(){
+  String toString() {
     return 'title $title, surahID $surahId';
   }
 }

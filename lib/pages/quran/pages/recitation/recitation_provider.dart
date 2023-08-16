@@ -13,6 +13,9 @@ class RecitationProvider extends ChangeNotifier {
   List<Reciters> _recommendedReciterList = [];
   List<Reciters> get recommendedReciterList => _recommendedReciterList;
 
+  List<Reciters> _similarReciterList = [];
+  List<Reciters> get similarReciterList => _similarReciterList;
+
   List<Reciters> _popularReciterList = [];
   List<Reciters> get popularReciterList => _popularReciterList;
 
@@ -55,7 +58,8 @@ class RecitationProvider extends ChangeNotifier {
     // Reverse the list to show most recent items first
     tappedRecitationList = tappedRecitationList.reversed.toList();
 
-    if(!tappedRecitationList.any((element) => element['value'] == obj["value"])){
+    if (!tappedRecitationList
+        .any((element) => element['value'] == obj["value"])) {
       // Add the new item to the end of the list
       tappedRecitationList.add(obj);
     }
@@ -68,13 +72,19 @@ class RecitationProvider extends ChangeNotifier {
     tappedRecitationList = tappedRecitationList.reversed.toList();
 
     notifyListeners();
-    Hive.box(appBoxKey).put(tappedRecitationListKey, jsonEncode(tappedRecitationList));
+    Hive.box(appBoxKey)
+        .put(tappedRecitationListKey, jsonEncode(tappedRecitationList));
   }
 
   Future<void> getRecommendedReciters() async {
     _recommendedReciterList = await QuranDatabase().getRecommendedReciters();
     _allRecitersList = await QuranDatabase().getAllReciter();
     notifyListeners();
+  }
+
+  Future<void> getSimilarReciters(int selectedReciterId) async {
+    _similarReciterList =
+        await QuranDatabase().getSimilarReciters(selectedReciterId);
   }
 
   Future<void> getPopularReciters() async {
