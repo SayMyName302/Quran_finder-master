@@ -208,6 +208,20 @@ class HomeDb {
     return filteredList;
   }
 
+  //This method is only for INPUT METHOD ONLY WILL REMOVE AFTERWARDS, upper method should remain as it is, remove below method only.
+  List<FeaturedModel> filterFeaturesByHijriDate(
+      List<FeaturedModel> featureList, String targetDate) {
+    List<FeaturedModel> filteredList = [];
+
+    for (var feature in featureList) {
+      if (feature.islamicDate == targetDate) {
+        filteredList.add(feature);
+      }
+    }
+    print('records found by hijri date : $filteredList');
+    return filteredList;
+  }
+
   //GeorgeDate Rows Filter
   List<FeaturedModel> filterByGeorgeDate(
       List<FeaturedModel> featureList, String inputDate) {
