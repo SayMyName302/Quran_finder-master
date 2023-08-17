@@ -42,29 +42,32 @@ class RecitationCategoryProvider extends ChangeNotifier {
   }
 
   List<RecitationCategoryModel> _recitationCategoryList = [];
-  List<RecitationCategoryModel> get recitationCategoryList => _recitationCategoryList;
+  List<RecitationCategoryModel> get recitationCategoryList =>
+      _recitationCategoryList;
 
   RecitationCategoryModel? _selectedRecitationCategory;
-  RecitationCategoryModel? get selectedRecitationCategory => _selectedRecitationCategory;
+  RecitationCategoryModel? get selectedRecitationCategory =>
+      _selectedRecitationCategory;
 
   List<RecitationAllCategoryModel> _recitationAllList = [];
   List<RecitationAllCategoryModel> get recitationAllList => _recitationAllList;
 
   List<RecitationAllCategoryModel> _selectedRecitationAll = [];
-  List<RecitationAllCategoryModel> get selectedRecitationAll => _selectedRecitationAll;
+  List<RecitationAllCategoryModel> get selectedRecitationAll =>
+      _selectedRecitationAll;
 
   int _currentRecitationIndex = 0;
   int get currentRecitationIndex => _currentRecitationIndex;
 
   RecitationAllCategoryModel? _selectedRecitationModel;
-  RecitationAllCategoryModel? get selectedRecitationModel => _selectedRecitationModel;
+  RecitationAllCategoryModel? get selectedRecitationModel =>
+      _selectedRecitationModel;
 
-  setSelectedRecitationCategory(RecitationCategoryModel value){
+  setSelectedRecitationCategory(RecitationCategoryModel value) {
     _selectedRecitationCategory = value;
     print(_selectedRecitationCategory);
     notifyListeners();
   }
-
 
   Future<void> getRecitationCategoryStories() async {
     _recitationCategoryList = await HomeDb().getRecitationBasedOnTime();
@@ -89,20 +92,30 @@ class RecitationCategoryProvider extends ChangeNotifier {
     };
   }
 
-  gotoRecitationAudioPlayerPage(RecitationAllCategoryModel recitationAllCategoryModel,String imageUrl, BuildContext context) async {
+  gotoRecitationAudioPlayerPage(
+      RecitationAllCategoryModel recitationAllCategoryModel,
+      String imageUrl,
+      BuildContext context) async {
     String imageU = imageUrl;
     _selectedRecitationAll.clear();
-    _selectedRecitationAll = await HomeDb().getSelectedAll(recitationAllCategoryModel.playlistId!);
+    _selectedRecitationAll =
+        await HomeDb().getSelectedAll(recitationAllCategoryModel.playlistId!);
     if (_selectedRecitationAll.isNotEmpty) {
-      _currentRecitationIndex = _selectedRecitationAll.indexWhere((element) => element.title == recitationAllCategoryModel.title && element.surahName == recitationAllCategoryModel.surahName);
-      _selectedRecitationModel = _selectedRecitationAll[_currentRecitationIndex];
+      _currentRecitationIndex = _selectedRecitationAll.indexWhere((element) =>
+          element.title == recitationAllCategoryModel.title &&
+          element.surahName == recitationAllCategoryModel.surahName);
+      _selectedRecitationModel =
+          _selectedRecitationAll[_currentRecitationIndex];
       notifyListeners();
-      int index = _recitationCategoryList.indexWhere((element) => element.playlistId == recitationAllCategoryModel.playlistId!);
-      if(index != -1){
+      int index = _recitationCategoryList.indexWhere((element) =>
+          element.playlistId == recitationAllCategoryModel.playlistId!);
+      if (index != -1) {
         imageU = _recitationCategoryList[index].imageURl!;
       }
       // ignore: use_build_context_synchronously
-      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false).initAudioPlayer(_selectedRecitationModel!.contentUrl!, imageU, context);
+      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
+          .initAudioPlayer(
+              _selectedRecitationModel!.contentUrl!, imageU, context);
     }
   }
 }

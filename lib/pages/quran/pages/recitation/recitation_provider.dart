@@ -13,6 +13,9 @@ class RecitationProvider extends ChangeNotifier {
   List<Reciters> _recommendedReciterList = [];
   List<Reciters> get recommendedReciterList => _recommendedReciterList;
 
+  List<Reciters> _similarReciterList = [];
+  List<Reciters> get similarReciterList => _similarReciterList;
+
   List<Reciters> _popularReciterList = [];
   List<Reciters> get popularReciterList => _popularReciterList;
 
@@ -21,6 +24,19 @@ class RecitationProvider extends ChangeNotifier {
 
   List<Surah> _surahNamesList = [];
   List<Surah> get surahNamesList => _surahNamesList;
+
+  int? _currentReciterId;
+  int? get currreciterId => _currentReciterId;
+
+  void setCurrentReciterId(int reciterId) async {
+    _currentReciterId = reciterId;
+
+    print(currreciterId);
+    print('Searching similar reciters');
+    // _similarReciterList = await QuranDatabase().getRecommendedReciterr(currreciterId);
+
+    // notifyListeners();
+  }
 
   List<dynamic> tappedRecitationList =
       Hive.box(appBoxKey).get(tappedRecitationListKey) != null
@@ -55,7 +71,8 @@ class RecitationProvider extends ChangeNotifier {
     // Reverse the list to show most recent items first
     tappedRecitationList = tappedRecitationList.reversed.toList();
 
-    if(!tappedRecitationList.any((element) => element['value'] == obj["value"])){
+    if (!tappedRecitationList
+        .any((element) => element['value'] == obj["value"])) {
       // Add the new item to the end of the list
       tappedRecitationList.add(obj);
     }
@@ -68,7 +85,8 @@ class RecitationProvider extends ChangeNotifier {
     tappedRecitationList = tappedRecitationList.reversed.toList();
 
     notifyListeners();
-    Hive.box(appBoxKey).put(tappedRecitationListKey, jsonEncode(tappedRecitationList));
+    Hive.box(appBoxKey)
+        .put(tappedRecitationListKey, jsonEncode(tappedRecitationList));
   }
 
   Future<void> getRecommendedReciters() async {
@@ -79,6 +97,11 @@ class RecitationProvider extends ChangeNotifier {
 
   Future<void> getPopularReciters() async {
     _popularReciterList = await QuranDatabase().getPopularReciters();
+    notifyListeners();
+  }
+
+  Future<void> getSimilarReciters(String reciterId) async {
+    _similarReciterList = await QuranDatabase().getSimilarReciters(reciterId);
     notifyListeners();
   }
 

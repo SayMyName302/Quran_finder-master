@@ -35,6 +35,8 @@ class FeatureProvider extends ChangeNotifier {
   String get hijriDate => _hijriDate;
   String _georgeDate = '';
   String get georgeDate => _georgeDate;
+  int _hijriYear = 0;
+  int get hijriYear => _hijriYear;
 
   setDayName(String value) {
     _dayName = value;
@@ -99,14 +101,12 @@ class FeatureProvider extends ChangeNotifier {
   ///M///
 
   //d// Test method will remove when task completed
-
   void reorderStoriesforHijriDate(String hdate) {
-    sethijriDate(hdate);
+    sethijriDateInput(hdate);
     notifyListeners();
   }
 
   sethijriDate(String hdate) async {
-    // print('TODAYS HIJRI DATE IS VALID, CHECKING ROWS IN DB');
     _hijriDate = hdate;
     List<FeaturedModel> tempFeatureList = List.from(_feature);
 
@@ -124,7 +124,7 @@ class FeatureProvider extends ChangeNotifier {
       print('INDEX FOUND AT $filteredIndex');
 
       if (filteredIndex != -1) {
-        // Swap the items in tempFeatureList
+        // Swap the items in tempFeatureListt
         FeaturedModel temp = tempFeatureList[0];
         tempFeatureList[0] = tempFeatureList[filteredIndex];
         tempFeatureList[filteredIndex] = temp;
@@ -133,12 +133,79 @@ class FeatureProvider extends ChangeNotifier {
       }
     }
 
-    // Update _feature with the modified tempFeatureList
+    _feature = tempFeatureList;
+    notifyListeners();
+  }
+
+  //Test PURPOSE WILL REMOVE LATER, upper method should remain later on remove this below method only
+  sethijriDateInput(String hdate) async {
+    _hijriDate = hdate;
+    List<FeaturedModel> tempFeatureList = List.from(_feature);
+
+    List<FeaturedModel> featureListHijriDate =
+        await HomeDb().filterFeaturesByHijriDate(tempFeatureList, _hijriDate);
+
+    if (featureListHijriDate.isNotEmpty && tempFeatureList.isNotEmpty) {
+      // Find the index of the filtered item in tempFeatureList
+      int filteredIndex = tempFeatureList.indexWhere(
+        (item) =>
+            item.islamicDate == featureListHijriDate[0].islamicDate &&
+            item.monthDisplay == featureListHijriDate[0].monthDisplay &&
+            item.hijriYear == featureListHijriDate[0].hijriYear,
+      );
+      print('INDEX FOUND AT $filteredIndex');
+
+      if (filteredIndex != -1) {
+        // Swap the items in tempFeatureList
+        FeaturedModel temp = tempFeatureList[0];
+        tempFeatureList[0] = tempFeatureList[filteredIndex];
+        tempFeatureList[filteredIndex] = temp;
+      } else {
+        print('Filtered item not found in tempFeatureList');
+      }
+    }
     _feature = tempFeatureList;
     notifyListeners();
   }
 
   //d//
+
+  /////////
+  /////d// Test method will remove when task completed
+  void reorderStoriesforHijriYear(int hYear) {
+    print(hYear);
+    sethijriYearInput(hYear);
+    notifyListeners();
+  }
+
+  //Test PURPOSE WILL REMOVE LATER, upper method should remain later on remove this below method only
+  sethijriYearInput(int hYear) async {
+    _hijriYear = hYear;
+    List<FeaturedModel> tempFeatureList = List.from(_feature);
+
+    List<FeaturedModel> featureListHijriDate =
+        await HomeDb().filterFeaturesByHijriYear(tempFeatureList, _hijriYear);
+
+    if (featureListHijriDate.isNotEmpty && tempFeatureList.isNotEmpty) {
+      // Find the index of the filtered item in tempFeatureList
+      int filteredIndex = tempFeatureList.indexWhere(
+        (item) => item.hijriYear == featureListHijriDate[0].hijriYear,
+      );
+      print('INDEX FOUND AT $filteredIndex');
+
+      if (filteredIndex != -1) {
+        // Swap the items in tempFeatureList
+        FeaturedModel temp = tempFeatureList[0];
+        tempFeatureList[0] = tempFeatureList[filteredIndex];
+        tempFeatureList[filteredIndex] = temp;
+      } else {
+        print('Filtered item not found in tempFeatureList');
+      }
+    }
+    _feature = tempFeatureList;
+    notifyListeners();
+  }
+  ///////////
 
   //GeorgianDate// Test method will remove when task completed
   void reorderStoriesforGeorgeDate(String hdate) {
@@ -148,7 +215,7 @@ class FeatureProvider extends ChangeNotifier {
 
   setGeorgeDate(String hdate) async {
     _georgeDate = hdate;
-    // print(georgeDate);
+    print(georgeDate);
     List<FeaturedModel> tempFeatureList = List.from(_feature);
 
     List<FeaturedModel> _featureListHijriDate =
@@ -177,9 +244,10 @@ class FeatureProvider extends ChangeNotifier {
     _feature = tempFeatureList;
     notifyListeners();
   }
+
   //d//
 
-  // Method to check HijriDate records in db if found else checks Day else Month
+  // Method to check HijriDate records in db if found else checks Georgian date else checks Day else Month
   void scheduleReorder() async {
     HijriCalendar currentDate = HijriCalendar.now();
     String todayHijriDate = currentDate.hDay.toString();
@@ -203,7 +271,7 @@ class FeatureProvider extends ChangeNotifier {
         print("Today's Georgian date is: $formattedDate");
 
         List<FeaturedModel> featureListGeorgeDate =
-            await HomeDb().filterFeaturesByGeorgeDate(_feature, formattedDate);
+            await HomeDb().filterByGeorgeDate(_feature, formattedDate);
 
         if (featureListGeorgeDate.isNotEmpty) {
           print("Found matching rows for Georgian date: $formattedDate");

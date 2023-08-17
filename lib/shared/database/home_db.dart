@@ -208,19 +208,38 @@ class HomeDb {
     return filteredList;
   }
 
-  //GeorgeDay input for TESTING
-  List<FeaturedModel> filterFeaturesByGeorgeDate(
-      List<FeaturedModel> featureList, String inputDate) {
+  //This method is only for INPUT METHOD ONLY WILL REMOVE AFTERWARDS, upper method should remain as it is, remove below method only.
+  List<FeaturedModel> filterFeaturesByHijriDate(
+      List<FeaturedModel> featureList, String targetDate) {
     List<FeaturedModel> filteredList = [];
 
-    //CODE TO CHECK TODAYS DATE IN 80923 FORMAT
-    // DateTime currentDate = DateTime.now();
-    // String formattedDate = "${currentDate.month.toString().padLeft(1, '0')}"
-    //     "${currentDate.day.toString().padLeft(2, '0')}"
-    //     "${currentDate.year.toString().substring(2)}";
+    for (var feature in featureList) {
+      if (feature.islamicDate == targetDate) {
+        filteredList.add(feature);
+      }
+    }
+    print('records found by hijri date : $filteredList');
+    return filteredList;
+  }
 
-    // print("TODAYS DATE Formatted BY CODE: $formattedDate");
-    //
+  //This method is only for INPUT METHOD ONLY WILL REMOVE AFTERWARDS, upper method should remain as it is, remove below method only.
+  List<FeaturedModel> filterFeaturesByHijriYear(
+      List<FeaturedModel> featureList, int hijriYear) {
+    List<FeaturedModel> filteredList = [];
+
+    for (var feature in featureList) {
+      if (feature.hijriYear == hijriYear) {
+        filteredList.add(feature);
+      }
+    }
+    print('records found by hijri Year : $filteredList');
+    return filteredList;
+  }
+
+  //GeorgeDate Rows Filter
+  List<FeaturedModel> filterByGeorgeDate(
+      List<FeaturedModel> featureList, String inputDate) {
+    List<FeaturedModel> filteredList = [];
 
     for (var feature in featureList) {
       if (feature.georgeDate == inputDate) {
@@ -228,10 +247,8 @@ class HomeDb {
         String currentMonthName =
             DateFormat('MMMM').format(currentDate).toLowerCase();
         int currentYear = currentDate.year;
-
         // print(
         //     "Checking feature: Date: ${feature.georgeDate}, Month: ${feature.georgeMonth}, Year: ${feature.georgeYear}");
-
         if (feature.georgeMonth == currentMonthName &&
             feature.georgeYear == currentYear) {
           // print(
@@ -240,8 +257,36 @@ class HomeDb {
         }
       }
     }
+    //  print("FILTERED LIST: ${filteredList}");
+    return filteredList;
+  }
+
+  //GeorgeDate Input for TESTING, remove this when task completed
+  List<FeaturedModel> filterFeaturesByGeorgeDate(
+      List<FeaturedModel> featureList, String inputDate) {
+    List<FeaturedModel> filteredList = [];
+
+    for (var feature in featureList) {
+      if (feature.georgeDate == inputDate) {
+        filteredList.add(feature);
+      }
+    }
     print("FILTERED LIST: ${filteredList}");
 
+    return filteredList;
+  }
+
+  //HijriMonth Input for TESTING, remove this when task completed
+  List<FeaturedModel> filterByHijriMonth(
+      List<FeaturedModel> featureList, String inputMonth) {
+    List<FeaturedModel> filteredList = [];
+
+    for (var feature in featureList) {
+      if (feature.georgeMonth == inputMonth) {
+        filteredList.add(feature);
+      }
+    }
+    print("FILTERED LIST: ${filteredList}");
     return filteredList;
   }
 
@@ -259,13 +304,13 @@ class HomeDb {
     List<PopularRecitationModel> feature = [];
     _database = await openDb();
     var table = await _database!.query(_popular, orderBy: 'order_by');
-    print(
-        "Table Length:>> ${table.length}"); // Print the number of rows retrieved from the table
+    // print(
+    //     "Table Length:>> ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       feature.add(PopularRecitationModel.fromJson(map));
     }
-    print(
-        "Feature Length: >>${feature.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Feature Length: >>${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
   }
 
@@ -310,8 +355,8 @@ class HomeDb {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
 
-    print(
-        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
 
     return recitationCategory;
   }
@@ -320,13 +365,13 @@ class HomeDb {
     List<TranquilTalesCategoryModel> recitationCategory = [];
     _database = await openDb();
     var table = await _database!.query(_tranquilCategory);
-    print(
-        "Table Length of recitation Category: ${table.length}"); // Print the number of rows retrieved from the table
+    // print(
+    //     "Table Length of recitation Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationCategory.add(TranquilTalesCategoryModel.fromJson(map));
     }
-    print(
-        "Recitation Category Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Recitation Category Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
     return recitationCategory;
   }
 
