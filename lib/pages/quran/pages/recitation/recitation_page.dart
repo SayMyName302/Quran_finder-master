@@ -612,8 +612,6 @@ class _RecitationPageState extends State<RecitationPage> {
                                 itemBuilder: (BuildContext context, int index) {
                                   Reciters reciter =
                                       recitersValue.similarReciterList[index];
-                                  print(
-                                      'length of similar reciter is : ${recitersValue.similarReciterList.length}');
                                   return InkWell(
                                     onTap: () async {
                                       _addLastViewedRecitations(

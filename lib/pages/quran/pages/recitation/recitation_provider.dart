@@ -28,11 +28,8 @@ class RecitationProvider extends ChangeNotifier {
   int? _currentReciterId;
   int? get currreciterId => _currentReciterId;
 
-  //Future<List<CustomTitles>>
   Future<List<Reciters>> setCurrentReciterId(int reciterId) async {
     _currentReciterId = reciterId;
-    print(_currentReciterId);
-    print('Searching similar reciters');
     _similarReciterList =
         (await QuranDatabase().getRecommendedReciterr(_currentReciterId!))
             .cast<Reciters>();
