@@ -145,12 +145,14 @@ class _BottomTabsPageState extends State<BottomTabsPage>
   }
 
   void setUpRecitationNotifications() {
-    NotificationServices().dailyNotifications(
-      id: dailyQuranRecitationId,
-      title: 'Recitation Reminder',
-      body: 'It is time to recite the Holy Quran',
-      payload: 'recite',
-      dailyNotifyTime: const TimeOfDay(hour: 8, minute: 0),
-    );
+    NotificationServices().checkPermissionAndSetNotification(() {
+      NotificationServices().dailyNotifications(
+        id: dailyQuranRecitationId,
+        title: 'Recitation Reminder',
+        body: 'It is time to recite the Holy Quran',
+        payload: 'recite',
+        dailyNotifyTime: const TimeOfDay(hour: 8, minute: 0),
+      );
+    });
   }
 }

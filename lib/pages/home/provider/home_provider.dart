@@ -88,7 +88,7 @@ class HomeProvider extends ChangeNotifier {
 
   Future<List<CustomTitles>> getTitlesbyWeather(String country) async {
     List<CustomTitles> titles =
-        await QuranDatabase().getTitlesByWeather(country);
+    await QuranDatabase().getTitlesByWeather(country);
     notifyListeners();
     return titles;
   }
@@ -105,7 +105,7 @@ class HomeProvider extends ChangeNotifier {
   Future<List<CustomTitles>> getWeatherCountryTitles(
       String country, String weather) async {
     _titleText =
-        await QuranDatabase().getWeatherCountryTitles(country, weather);
+    await QuranDatabase().getWeatherCountryTitles(country, weather);
     notifyListeners();
     return _titleText;
   }
@@ -190,10 +190,23 @@ class HomeProvider extends ChangeNotifier {
     surahId = _verseOfTheDay.surahId;
     if (_verseOfTheDay.surahId != null) {
       surahName =
-          await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
+      await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
     }
 
     notifyListeners();
+    Future.delayed(Duration.zero, () {
+      bool dailyVerseNotificationEnable = OnBoardingProvider().notification[1].isSelected!;
+      if (dailyVerseNotificationEnable) {
+        NotificationServices().checkPermissionAndSetNotification(() {
+          NotificationServices().dailyNotifications(
+              id: dailyVerseNotificationId,
+              title: "Verse Of the Day",
+              body: _verseOfTheDay.verseText!,
+              payload: "dua",
+              dailyNotifyTime: const TimeOfDay(hour: 8, minute: 0));
+        });
+      }
+    });
     final currentTime = TimeOfDay.now();
     if (currentTime.hour == 16 && currentTime.minute == 37) {
       // sendVerseNotification(_verseOfTheDay.verseText!);
@@ -226,7 +239,7 @@ class HomeProvider extends ChangeNotifier {
     if (permissionStatus.isDenied) {
       Future.delayed(
         Duration.zero,
-        () => showError(
+            () => showError(
           context: context,
           msg: 'Please Allow Quran Pro to Use Location Services',
         ),
@@ -238,7 +251,7 @@ class HomeProvider extends ChangeNotifier {
     } else {
       Future.delayed(
         Duration.zero,
-        () => showError(
+            () => showError(
           context: context,
           msg: 'Please Enable Location Services',
         ),
@@ -259,7 +272,7 @@ class HomeProvider extends ChangeNotifier {
       var data = response.data;
       if (response.statusCode == 200) {
         String weatherCondition =
-            data['current']['condition']['text'].toString().toLowerCase();
+        data['current']['condition']['text'].toString().toLowerCase();
         String country = data['location']['country'].toString().toLowerCase();
 
         // String cityAPI = data['location']['name'].toString().toLowerCase();
@@ -333,7 +346,7 @@ class HomeProvider extends ChangeNotifier {
       ).timeout(const Duration(seconds: 15));
 
       List<Placemark> placeMarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
+      await placemarkFromCoordinates(position.latitude, position.longitude);
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];
@@ -374,7 +387,7 @@ class HomeProvider extends ChangeNotifier {
           } else {
             // countries naming all and weather not like rain,thunder etc
             List<CustomTitles> allCountryTitles =
-                await getTitlesByCountry('all');
+            await getTitlesByCountry('all');
             if (allCountryTitles.isNotEmpty) {
               int randomIndex = Random().nextInt(allCountryTitles.length);
               //    print('length of titles are>>>${_titleText.length}');
@@ -401,7 +414,7 @@ class HomeProvider extends ChangeNotifier {
         updateHijriDate(hijriDate);
 
         String dayName =
-            DateFormat('EEEE').format(DateTime.now()).toLowerCase();
+        DateFormat('EEEE').format(DateTime.now()).toLowerCase();
 
         UserData userData = UserData(
             country: country,
