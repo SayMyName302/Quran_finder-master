@@ -22,7 +22,7 @@ class PopularProvider extends ChangeNotifier {
   SharedPreferences? _preferences;
   Future<void> getStories() async {
     _feature = await HomeDb().getPopular();
-    print('FEATUER >>>>>>$_feature');
+    // print('FEATUER >>>>>>$_feature');
     // _loadStoriesOrder();
     notifyListeners();
   }

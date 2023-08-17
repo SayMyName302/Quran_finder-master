@@ -115,7 +115,7 @@ class QuranDatabase {
 
     var cursor = await database!.query(_rowtitlecustom,
         columns: ["title_text"],
-        where: "country_name = ? AND weather NOT LIKE '%rain%'",
+        where: "country_name = ? AND weather LIKE '%all%'",
         whereArgs: [country]);
 
     for (var row in cursor) {

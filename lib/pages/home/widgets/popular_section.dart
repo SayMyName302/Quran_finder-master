@@ -58,7 +58,7 @@ class PopularSection extends StatelessWidget {
             List<PopularRecitationModel> reorderedList = [];
             List<PopularRecitationModel> originalList = storiesProvider.feature;
 
-            print('Original List: >>$originalList');
+            //   print('Original List: >>$originalList');
 
             if (selectedIndex != -1) {
               FavReciter selectedReciter =
@@ -72,7 +72,7 @@ class PopularSection extends StatelessWidget {
                   (model) => model.reciterId != selectedReciter.reciterId));
             } else {
               reorderedList = originalList;
-              print('Re-ordered List: >>$reorderedList');
+              // print('Re-ordered List: >>$reorderedList');
             }
 
             return SizedBox(

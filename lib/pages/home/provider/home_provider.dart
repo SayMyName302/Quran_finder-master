@@ -201,11 +201,11 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-  void getPlayerId() async {
-    var deviceState = await OneSignal.shared.getDeviceState();
-    var playerId = deviceState!.userId;
-    print('OneSignal Player ID:>>>>> $playerId');
-  }
+  // void getPlayerId() async {
+  //   var deviceState = await OneSignal.shared.getDeviceState();
+  //   var playerId = deviceState!.userId;
+  //   print('OneSignal Player ID:>>>>> $playerId');
+  // }
 
   updateVerseTranslation() async {
     _verseOfTheDay = await QuranDatabase().getVerse(_verseOfTheDay);
@@ -250,7 +250,7 @@ class HomeProvider extends ChangeNotifier {
       double latitude, double longitude, BuildContext context) async {
     try {
       //Printing Player ID FOR ONE SIGNAL TEST PURPOSE ONLY
-      getPlayerId();
+      // getPlayerId();
       var dio = Dio();
       String url =
           "http://api.weatherapi.com/v1/current.json?key=73ec04d970d540f1ba3173621232602&q=$latitude,$longitude&aqi=yes";
@@ -347,6 +347,7 @@ class HomeProvider extends ChangeNotifier {
         );
         String weatherCondition = weatherData['weather'] ?? "";
         String countryfromapi = weatherData['country'] ?? "";
+        print('country fromapi is>>>${countryfromapi}');
 
         //Remove this method when All the code is ready(Right Now its only being used to update UI)
         updateWeather(weatherCondition);
@@ -363,14 +364,26 @@ class HomeProvider extends ChangeNotifier {
             _selectedTitleText = "No Title Available for Raining Weather";
           }
         } else {
-          List<CustomTitles> titles = await getTitlesByCountry(country);
+          List<CustomTitles> titles = await getTitlesByCountry(countryfromapi);
           if (titles.isNotEmpty) {
             int randomIndex = Random().nextInt(_titleText.length);
+            // print('length of titles are>>>${_titleText.length}');
             CustomTitles selectedTitle = _titleText[randomIndex];
             String? selectedTitleText = selectedTitle.titleText;
             _selectedTitleText = selectedTitleText;
           } else {
-            _selectedTitleText = "Popular Recitations";
+            // countries naming all and weather not like rain,thunder etc
+            List<CustomTitles> allCountryTitles =
+                await getTitlesByCountry('all');
+            if (allCountryTitles.isNotEmpty) {
+              int randomIndex = Random().nextInt(allCountryTitles.length);
+              //    print('length of titles are>>>${_titleText.length}');
+              CustomTitles selectedTitle = allCountryTitles[randomIndex];
+              String? selectedTitleText = selectedTitle.titleText;
+              _selectedTitleText = selectedTitleText;
+            } else {
+              _selectedTitleText = "Popular Recitations";
+            }
           }
         }
 

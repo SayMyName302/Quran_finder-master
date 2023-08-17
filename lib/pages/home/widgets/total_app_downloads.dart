@@ -182,6 +182,9 @@ class AppDownloadsSection extends StatelessWidget {
                       String lowerCasehijridate =
                           hijriDate.text.trim().toLowerCase();
                       String georgeDate = date.text.trim().toLowerCase();
+                      String lowerCasehijriYear =
+                          hijriYear.text.trim().toLowerCase();
+                      int parsedYear = int.parse(lowerCasehijriYear);
 
                       if ((lowerCaseCountry == "pakistan" ||
                               lowerCaseCountry == "saudi arabia" ||
@@ -200,36 +203,14 @@ class AppDownloadsSection extends StatelessWidget {
                       } else if (lowerCasedayName.isNotEmpty) {
                         Provider.of<FeatureProvider>(context, listen: false)
                             .reorderStoriesDayName(lowerCasedayName);
+                      } else if (lowerCasehijriYear.isNotEmpty) {
+                        //
+                        Provider.of<FeatureProvider>(context, listen: false)
+                            .reorderStoriesforHijriYear(parsedYear);
                       } else {
                         Provider.of<FeatureProvider>(context, listen: false)
                             .reorderStoriesforGeorgeDate(georgeDate);
                       }
-
-                      // if ((lowerCaseCountry == "pakistan" ||
-                      //             lowerCaseCountry == "saudi arabia" ||
-                      //             lowerCaseCountry == "indonesia") &&
-                      //         lowerCaseWeather == "rain" ||
-                      //     lowerCaseWeather == "thunder") {
-                      //   fetchRainCountryTitle(context);
-                      // } else if (lowerCaseCountry.isNotEmpty) {
-                      //   fetchCountryTitle(context);
-                      // } else if (lowerCasehijrimonth.isNotEmpty) {
-                      //   Provider.of<FeatureProvider>(context, listen: false)
-                      //       .reorderStoriesforMonth(lowerCasehijrimonth);
-                      // } else if (lowerCasehijridate.isNotEmpty) {
-                      //   Provider.of<FeatureProvider>(context, listen: false)
-                      //       .reorderStoriesforDate(lowerCasehijridate);
-                      // } else if (lowerCasedayName.isNotEmpty) {
-                      //   Provider.of<FeatureProvider>(context, listen: false)
-                      //       .reorderStoriesDayName(lowerCasedayName);
-                      // } else {
-                      //   Provider.of<FeatureProvider>(context, listen: false)
-                      //       .reorderStoriesforGeorgeDate(georgeDate);
-                      // }
-
-                      // Provider.of<FeatureProvider>(context, listen: false)
-                      //     .reorderStoriesforDate(
-                      //         lowerCasehijridate, lowerCasehijrimonth);
                     },
                   ),
                 ],

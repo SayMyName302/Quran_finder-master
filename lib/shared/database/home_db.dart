@@ -222,6 +222,20 @@ class HomeDb {
     return filteredList;
   }
 
+  //This method is only for INPUT METHOD ONLY WILL REMOVE AFTERWARDS, upper method should remain as it is, remove below method only.
+  List<FeaturedModel> filterFeaturesByHijriYear(
+      List<FeaturedModel> featureList, int hijriYear) {
+    List<FeaturedModel> filteredList = [];
+
+    for (var feature in featureList) {
+      if (feature.hijriYear == hijriYear) {
+        filteredList.add(feature);
+      }
+    }
+    print('records found by hijri Year : $filteredList');
+    return filteredList;
+  }
+
   //GeorgeDate Rows Filter
   List<FeaturedModel> filterByGeorgeDate(
       List<FeaturedModel> featureList, String inputDate) {
@@ -290,13 +304,13 @@ class HomeDb {
     List<PopularRecitationModel> feature = [];
     _database = await openDb();
     var table = await _database!.query(_popular, orderBy: 'order_by');
-    print(
-        "Table Length:>> ${table.length}"); // Print the number of rows retrieved from the table
+    // print(
+    //     "Table Length:>> ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       feature.add(PopularRecitationModel.fromJson(map));
     }
-    print(
-        "Feature Length: >>${feature.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Feature Length: >>${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
   }
 
@@ -341,8 +355,8 @@ class HomeDb {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
 
-    print(
-        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
 
     return recitationCategory;
   }
@@ -351,13 +365,13 @@ class HomeDb {
     List<TranquilTalesCategoryModel> recitationCategory = [];
     _database = await openDb();
     var table = await _database!.query(_tranquilCategory);
-    print(
-        "Table Length of recitation Category: ${table.length}"); // Print the number of rows retrieved from the table
+    // print(
+    //     "Table Length of recitation Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationCategory.add(TranquilTalesCategoryModel.fromJson(map));
     }
-    print(
-        "Recitation Category Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Recitation Category Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
     return recitationCategory;
   }
 
