@@ -639,16 +639,11 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
           .map((String reciterId) => int.parse(reciterId))
           .toList();
 
-      // Now, let's fetch the Reciters objects based on the IDs
       List<Reciters> recitersList = await getRecitersByIds(similarRecitersList);
-
-      print('similarRecitersList >>>>> $similarRecitersString');
-      print('recitersList >>>>> $recitersList');
-
-      return recitersList; // Return the list of Reciters objects
+      return recitersList;
     }
 
-    return []; // Return an empty list if no similar reciters found
+    return [];
   }
 
   Future<List<Reciters>> getRecitersByIds(List<int> reciterIds) async {
