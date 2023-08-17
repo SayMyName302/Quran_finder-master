@@ -25,6 +25,19 @@ class RecitationProvider extends ChangeNotifier {
   List<Surah> _surahNamesList = [];
   List<Surah> get surahNamesList => _surahNamesList;
 
+  int? _currentReciterId;
+  int? get currreciterId => _currentReciterId;
+
+  void setCurrentReciterId(int reciterId) async {
+    _currentReciterId = reciterId;
+
+    print(currreciterId);
+    print('Searching similar reciters');
+    // _similarReciterList = await QuranDatabase().getRecommendedReciterr(currreciterId);
+
+    // notifyListeners();
+  }
+
   List<dynamic> tappedRecitationList =
       Hive.box(appBoxKey).get(tappedRecitationListKey) != null
           ? (jsonDecode(Hive.box(appBoxKey).get(tappedRecitationListKey))
@@ -82,13 +95,13 @@ class RecitationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getSimilarReciters(int selectedReciterId) async {
-    _similarReciterList =
-        await QuranDatabase().getSimilarReciters(selectedReciterId);
-  }
-
   Future<void> getPopularReciters() async {
     _popularReciterList = await QuranDatabase().getPopularReciters();
+    notifyListeners();
+  }
+
+  Future<void> getSimilarReciters(String reciterId) async {
+    _similarReciterList = await QuranDatabase().getSimilarReciters(reciterId);
     notifyListeners();
   }
 

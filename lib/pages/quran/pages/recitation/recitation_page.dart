@@ -554,6 +554,101 @@ class _RecitationPageState extends State<RecitationPage> {
                       );
               },
             ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SubTitleText(title: localeText(context, "reciters_page")),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(RouteHelper.allReciters);
+                    analytics.logEvent(
+                      name: 'reciters_section_viewall_button',
+                      parameters: {'title': 'reciters_viewall'},
+                    );
+                  },
+                  child: Container(
+                    margin:
+                        EdgeInsets.only(bottom: 10.h, right: 20.w, left: 20.w),
+                    child: Text(
+                      localeText(context, "view_all"),
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w900,
+                          color: appColor),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // const RecitationCategorySection(),
+            Consumer<RecitationProvider>(
+              builder: (context, recitersValue, child) {
+                return recitersValue.recommendedReciterList.isNotEmpty
+                    ? SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 5 * (200.87.h) + 3 * 5.w,
+
+                              height:
+                                  170, // Adjust the width based on the item width and spacing
+                              child: GridView.builder(
+                                padding:
+                                    EdgeInsets.only(left: 20.w, right: 20.w),
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 8,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 8,
+                                  mainAxisExtent: 200.87.h,
+                                  crossAxisSpacing: 5.w,
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  Reciters reciter = recitersValue
+                                      .recommendedReciterList[index];
+                                  return InkWell(
+                                    onTap: () async {
+                                      _addLastViewedRecitations(
+                                          "reciter", reciter);
+                                      recitersValue.getSurahName();
+                                      // context.read<ReciterProvider>().setReciterList(reciter.downloadSurahList!);
+                                      /// so that is now an other way
+                                      context
+                                          .read<ReciterProvider>()
+                                          .getAvailableDownloadAudiosAsListOfInt(
+                                              reciter.reciterName!);
+                                      // updateTappedSurahNames(reciter.reciterName!);
+                                      Navigator.of(context).pushNamed(
+                                        RouteHelper.reciter,
+                                        arguments: reciter,
+                                      );
+
+                                      // tappedReciterNames.add(reciter.reciterName!);
+                                      /// please delete this
+                                      context
+                                          .read<recentProviderRecitation>()
+                                          .addTappedReciterName(
+                                              reciter.reciterName!);
+                                    },
+                                    child:
+                                        buildReciterDetailsContainer(reciter),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(appColor),
+                      );
+              },
+            ),
 
             // Column(
             //   children: [
@@ -691,7 +786,12 @@ class _RecitationPageState extends State<RecitationPage> {
                     profile.userProfile!.recitationBookmarkList;
                 // final favRecitersList = recitation.favRecitersTest;
                 final favRecitersList = profile.userProfile!.favRecitersList;
-
+                if (favRecitersList.isNotEmpty &&
+                    favRecitersList[0] is Reciters) {
+                  final initialReciterId =
+                      (favRecitersList[0] as Reciters).reciterId;
+                  recitation.setCurrentReciterId(initialReciterId!);
+                }
                 final combinedBookmarkList = [
                   ...favRecitersList,
                   ...bookmarkListRecitation
