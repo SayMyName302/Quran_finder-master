@@ -620,37 +620,32 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     return reciterList;
   }
 
-  Future<List<Reciters>> getSimilarReciters(int reciterId) async {
+  //Splitting recommended Reciters
+  Future<List<int>> getRecommendedReciterr(int reciterId) async {
     database = await openDb();
-    var reciterList = <Reciters>[];
+    var similarRecitersList = <int>[];
 
-    // Fetch the row for the selected reciter
-    var selectedCursor = await database!.query(
+    var cursor = await database!.query(
       _reciterTable,
+      columns: ['similar_reciters'],
       where: 'reciter_id = ?',
       whereArgs: [reciterId],
     );
 
-    if (selectedCursor.isNotEmpty) {
-      var selectedReciter = Reciters.fromJson(selectedCursor.first);
-      var similarReciterIds = selectedReciter.similarReciters!.split(',');
-
-      // Fetch similar reciters using the retrieved IDs
-      var cursor = await database!.query(
-        _reciterTable,
-        where:
-            'reciter_id IN (${List.filled(similarReciterIds.length, '?').join(', ')})',
-        whereArgs: similarReciterIds,
-        orderBy: 'order_by',
-      );
-
-      for (var maps in cursor) {
-        var reciter = Reciters.fromJson(maps);
-        reciterList.add(reciter);
+    if (cursor.isNotEmpty) {
+      var similarRecitersData = cursor.first['similar_reciters'] as String?;
+      if (similarRecitersData != null) {
+        var similarRecitersIds = similarRecitersData.split(',');
+        for (var idString in similarRecitersIds) {
+          var id = int.tryParse(idString);
+          if (id != null) {
+            similarRecitersList.add(id);
+          }
+        }
       }
     }
-
-    return reciterList;
+    print('similarRecitersList ${similarRecitersList}');
+    return similarRecitersList;
   }
 
   // to load all Reciter names
@@ -667,6 +662,37 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
       var reciter = Reciters.fromJson(maps);
       reciterList.add(reciter);
     }
+    return reciterList;
+  }
+
+  Future<List<Reciters>> getSimilarReciters(String reciterId) async {
+    database = await openDb();
+    var reciterList = <Reciters>[];
+
+    var cursor = await database!.query(
+      _reciterTable,
+      where: 'reciterId = ?',
+      whereArgs: [reciterId],
+    );
+
+    if (cursor.isNotEmpty) {
+      var reciter = Reciters.fromJson(cursor.first);
+      var similarReciterIds = reciter.similarReciters?.split(',') ?? [];
+
+      // Fetch the reciters based on similarReciterIds
+      var similarReciters = await database!.query(
+        _reciterTable,
+        where:
+            'reciterId IN (${List.generate(similarReciterIds.length, (_) => '?').join(', ')})',
+        whereArgs: similarReciterIds,
+      );
+
+      for (var maps in similarReciters) {
+        var reciter = Reciters.fromJson(maps);
+        reciterList.add(reciter);
+      }
+    }
+
     return reciterList;
   }
 
@@ -887,6 +913,8 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     }
     return quranTextList;
   }
+
+  getSimilarRecitersByIds(List<String> similarReciterIdList) {}
 
   //----------
   //Recitation Bookmarks
