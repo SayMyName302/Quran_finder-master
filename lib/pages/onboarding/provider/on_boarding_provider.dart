@@ -1,8 +1,10 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:nour_al_quran/pages/onboarding/models/fav_reciter.dart';
 import 'package:nour_al_quran/pages/settings/pages/notifications/notification_services.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../../settings/pages/profile/profile_provider.dart';
@@ -202,9 +204,15 @@ class OnBoardingProvider extends ChangeNotifier {
   ];
 
   List<Common> get notification => _notification;
-  void setNotification(int index, bool value) {
+  void setNotification(int index, bool value) async{
     _notification[index].setIsSelected = value;
     notifyListeners();
+    NotificationServices().checkPermissionAndSetNotification(() {
+      setOrCancelNotification(index, value);
+    });
+  }
+
+  setOrCancelNotification(int index, bool value){
     if (index == 0 && value == false) {
       NotificationServices().cancelNotifications(dailyQuranRecitationId);
     } else if (index == 1 && value == false) {

@@ -140,15 +140,16 @@ class HomeProvider extends ChangeNotifier {
     }
     notifyListeners();
     Future.delayed(Duration.zero, () {
-      bool dailyVerseNotificationEnable =
-          OnBoardingProvider().notification[1].isSelected!;
+      bool dailyVerseNotificationEnable = OnBoardingProvider().notification[1].isSelected!;
       if (dailyVerseNotificationEnable) {
-        NotificationServices().dailyNotifications(
-            id: dailyVerseNotificationId,
-            title: "Verse Of the Day",
-            body: _verseOfTheDay.verseText!,
-            payload: "dua",
-            dailyNotifyTime: const TimeOfDay(hour: 8, minute: 0));
+        NotificationServices().checkPermissionAndSetNotification(() {
+          NotificationServices().dailyNotifications(
+              id: dailyVerseNotificationId,
+              title: "Verse Of the Day",
+              body: _verseOfTheDay.verseText!,
+              payload: "dua",
+              dailyNotifyTime: const TimeOfDay(hour: 8, minute: 0));
+        });
       }
     });
   }

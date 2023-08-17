@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -187,6 +189,24 @@ class NotificationServices {
       payload: payload,
       matchDateTimeComponents: DateTimeComponents.time,
     );
+  }
+
+  /// for > 32 os version start from 13 os require notification runtime permission
+  checkPermissionAndSetNotification(VoidCallback task)async{
+    AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
+    var sdkVersion = androidInfo.version.sdkInt;
+    if(sdkVersion > 32){
+      var permissionStatus = await Permission.notification.status;
+      if(permissionStatus.isGranted){
+        task();
+      }else{
+        await Permission.notification.request().then((result) {
+          task();
+        });
+      }
+    }else{
+      task();
+    }
   }
 
   // tz.TZDateTime _scheduleDaily(Time time) {
