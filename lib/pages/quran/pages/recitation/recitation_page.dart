@@ -585,7 +585,7 @@ class _RecitationPageState extends State<RecitationPage> {
             // const RecitationCategorySection(),
             Consumer<RecitationProvider>(
               builder: (context, recitersValue, child) {
-                return recitersValue.recommendedReciterList.isNotEmpty
+                return recitersValue.similarReciterList.isNotEmpty
                     ? SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
@@ -601,7 +601,8 @@ class _RecitationPageState extends State<RecitationPage> {
                                     EdgeInsets.only(left: 20.w, right: 20.w),
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 8,
+                                itemCount:
+                                    recitersValue.similarReciterList.length,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 8,
@@ -609,8 +610,10 @@ class _RecitationPageState extends State<RecitationPage> {
                                   crossAxisSpacing: 5.w,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
-                                  Reciters reciter = recitersValue
-                                      .recommendedReciterList[index];
+                                  Reciters reciter =
+                                      recitersValue.similarReciterList[index];
+                                  print(
+                                      'length of similar reciter is : ${recitersValue.similarReciterList.length}');
                                   return InkWell(
                                     onTap: () async {
                                       _addLastViewedRecitations(
@@ -786,10 +789,8 @@ class _RecitationPageState extends State<RecitationPage> {
                     profile.userProfile!.recitationBookmarkList;
                 // final favRecitersList = recitation.favRecitersTest;
                 final favRecitersList = profile.userProfile!.favRecitersList;
-                if (favRecitersList.isNotEmpty &&
-                    favRecitersList[0] is Reciters) {
-                  final initialReciterId =
-                      (favRecitersList[0] as Reciters).reciterId;
+                if (favRecitersList.isNotEmpty) {
+                  final initialReciterId = (favRecitersList[0]).reciterId;
                   recitation.setCurrentReciterId(initialReciterId!);
                 }
                 final combinedBookmarkList = [

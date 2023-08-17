@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 class Reciters {
   int? _reciterId;
   String? _reciterName;
@@ -81,5 +83,24 @@ class Reciters {
       "similar_reciters":
           _similarReciters, // Include the similarReciters property in the JSON
     };
+  }
+
+  factory Reciters.fromMap(Map<String, dynamic> map) {
+    return Reciters(
+      reciterId: map['reciter_id'],
+      reciterName: map['reciter_name'],
+      recitationCount: jsonDecode(map['recitation_count']),
+      downloadSurahList: jsonDecode(map['download_surah_list']).cast<int>(),
+      imageUrl: map['image_url'],
+      audioUrl: map['audio_url'],
+      isFav: map['is_fav'],
+      categorize: map['categorize'],
+      similarReciters: map['similar_reciters'],
+    );
+  }
+
+  @override
+  String toString() {
+    return 'rec_id $reciterId rec_name $reciterName rec_count $recitationCount img $imageUrl title $Title';
   }
 }

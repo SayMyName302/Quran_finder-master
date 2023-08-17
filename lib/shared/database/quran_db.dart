@@ -621,9 +621,8 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   }
 
   //Splitting recommended Reciters
-  Future<List<int>> getRecommendedReciterr(int reciterId) async {
+  Future<List<Reciters>> getRecommendedReciterr(int reciterId) async {
     database = await openDb();
-    var similarRecitersList = <int>[];
 
     var cursor = await database!.query(
       _reciterTable,
@@ -633,19 +632,45 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
     );
 
     if (cursor.isNotEmpty) {
-      var similarRecitersData = cursor.first['similar_reciters'] as String?;
-      if (similarRecitersData != null) {
-        var similarRecitersIds = similarRecitersData.split(',');
-        for (var idString in similarRecitersIds) {
-          var id = int.tryParse(idString);
-          if (id != null) {
-            similarRecitersList.add(id);
-          }
-        }
+      String similarRecitersString =
+          (cursor.first['similar_reciters'] as String);
+      List<int> similarRecitersList = similarRecitersString
+          .split(',')
+          .map((String reciterId) => int.parse(reciterId))
+          .toList();
+
+      // Now, let's fetch the Reciters objects based on the IDs
+      List<Reciters> recitersList = await getRecitersByIds(similarRecitersList);
+
+      print('similarRecitersList >>>>> $similarRecitersString');
+      print('recitersList >>>>> $recitersList');
+
+      return recitersList; // Return the list of Reciters objects
+    }
+
+    return []; // Return an empty list if no similar reciters found
+  }
+
+  Future<List<Reciters>> getRecitersByIds(List<int> reciterIds) async {
+    database = await openDb();
+
+    List<Reciters> recitersList = [];
+
+    for (int reciterId in reciterIds) {
+      var cursor = await database!.query(
+        _reciterTable,
+        where: 'reciter_id = ?',
+        whereArgs: [reciterId],
+      );
+
+      if (cursor.isNotEmpty) {
+        Reciters reciter = Reciters.fromMap(
+            cursor.first); // Assuming Reciters.fromMap is a constructor
+        recitersList.add(reciter);
       }
     }
-    print('similarRecitersList ${similarRecitersList}');
-    return similarRecitersList;
+
+    return recitersList;
   }
 
   // to load all Reciter names

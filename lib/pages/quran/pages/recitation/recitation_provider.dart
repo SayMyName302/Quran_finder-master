@@ -28,14 +28,15 @@ class RecitationProvider extends ChangeNotifier {
   int? _currentReciterId;
   int? get currreciterId => _currentReciterId;
 
-  void setCurrentReciterId(int reciterId) async {
+  //Future<List<CustomTitles>>
+  Future<List<Reciters>> setCurrentReciterId(int reciterId) async {
     _currentReciterId = reciterId;
-
-    print(currreciterId);
+    print(_currentReciterId);
     print('Searching similar reciters');
-    // _similarReciterList = await QuranDatabase().getRecommendedReciterr(currreciterId);
-
-    // notifyListeners();
+    _similarReciterList =
+        (await QuranDatabase().getRecommendedReciterr(_currentReciterId!))
+            .cast<Reciters>();
+    return _similarReciterList;
   }
 
   List<dynamic> tappedRecitationList =
@@ -91,7 +92,8 @@ class RecitationProvider extends ChangeNotifier {
 
   Future<void> getRecommendedReciters() async {
     _recommendedReciterList = await QuranDatabase().getRecommendedReciters();
-    _allRecitersList = await QuranDatabase().getAllReciter();
+    // _allRecitersList = await QuranDatabase().getAllReciter();
+    print(_recommendedReciterList);
     notifyListeners();
   }
 
