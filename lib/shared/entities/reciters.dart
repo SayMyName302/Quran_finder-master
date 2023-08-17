@@ -11,7 +11,8 @@ class Reciters {
   String? _audioUrl;
   int? _isFav;
   String? _categorize;
-  String? _similarReciters; // Add the similarReciters property
+  String? _similarReciters;
+  String? _reciterShortname; // Add the reciter_shortname property
 
   int? get reciterId => _reciterId;
   String? get reciterName => _reciterName;
@@ -21,8 +22,9 @@ class Reciters {
   String? get audioUrl => _audioUrl;
   int? get isFav => _isFav;
   String? get categorize => _categorize;
-  String? get similarReciters =>
-      _similarReciters; // Getter for similarReciters property
+  String? get similarReciters => _similarReciters;
+  String? get reciterShortname =>
+      _reciterShortname; // Getter for reciter_shortname property
 
   set setDownloadSurahList(List<int> value) {
     _downloadSurahList = value;
@@ -30,8 +32,9 @@ class Reciters {
 
   set setIsFav(int value) => _isFav = value;
   set setCategorize(String? value) => _categorize = value;
-  set setSimilarReciters(String? value) =>
-      _similarReciters = value; // Setter for similarReciters property
+  set setSimilarReciters(String? value) => _similarReciters = value;
+  set setReciterShortname(String? value) =>
+      _reciterShortname = value; // Setter for reciter_shortname property
 
   Reciters({
     required int reciterId,
@@ -42,8 +45,9 @@ class Reciters {
     required String audioUrl,
     required int isFav,
     required String categorize,
+    required String? similarReciters,
     required String?
-        similarReciters, // Include the similarReciters property in the constructor
+        reciterShortname, // Include the reciter_shortname property in the constructor
   }) {
     _reciterId = reciterId;
     _reciterName = reciterName;
@@ -53,8 +57,9 @@ class Reciters {
     _audioUrl = audioUrl;
     _isFav = isFav;
     _categorize = categorize;
-    _similarReciters =
-        similarReciters; // Assign the similarReciters value to the private property
+    _similarReciters = similarReciters;
+    _reciterShortname =
+        reciterShortname; // Assign the reciter_shortname value to the private property
   }
 
   Reciters.fromJson(Map<String, dynamic> json) {
@@ -66,8 +71,9 @@ class Reciters {
     _audioUrl = json['audio_url'];
     _isFav = json['is_fav'];
     _categorize = json['categorize'];
-    _similarReciters =
-        json['similar_reciters']; // Fetch the similarReciters value from JSON
+    _similarReciters = json['similar_reciters'];
+    _reciterShortname = json[
+        'reciter_shortname']; // Fetch the reciter_shortname value from JSON
   }
 
   Map<String, dynamic> toJson() {
@@ -80,8 +86,9 @@ class Reciters {
       "audio_url": _audioUrl,
       "is_fav": _isFav,
       "categorize": _categorize,
-      "similar_reciters":
-          _similarReciters, // Include the similarReciters property in the JSON
+      "similar_reciters": _similarReciters,
+      "reciter_shortname":
+          _reciterShortname, // Include the reciter_shortname property in the JSON
     };
   }
 
@@ -96,6 +103,7 @@ class Reciters {
       isFav: map['is_fav'],
       categorize: map['categorize'],
       similarReciters: map['similar_reciters'],
+      reciterShortname: map['reciter_shortname'],
     );
   }
 

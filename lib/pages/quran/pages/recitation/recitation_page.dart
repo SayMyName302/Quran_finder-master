@@ -43,8 +43,10 @@ class _RecitationPageState extends State<RecitationPage> {
   @override
   void initState() {
     super.initState();
+
     context.read<RecitationProvider>().getRecommendedReciters();
     context.read<RecitationProvider>().getPopularReciters();
+
     // context.read<RecitationProvider>().getFavReciter();
   }
 
@@ -555,32 +557,37 @@ class _RecitationPageState extends State<RecitationPage> {
               },
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SubTitleText(title: localeText(context, "reciters_page")),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(RouteHelper.allReciters);
-                    analytics.logEvent(
-                      name: 'reciters_section_viewall_button',
-                      parameters: {'title': 'reciters_viewall'},
-                    );
-                  },
-                  child: Container(
-                    margin:
-                        EdgeInsets.only(bottom: 10.h, right: 20.w, left: 20.w),
-                    child: Text(
-                      localeText(context, "view_all"),
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w900,
-                          color: appColor),
+            Consumer<RecitationProvider>(
+                builder: (context, recitersValue, child) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SubTitleText(
+                      title:
+                          "Similar Reciters to ${recitersValue.currentReciterName}"),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(RouteHelper.allReciters);
+                      analytics.logEvent(
+                        name: 'reciters_section_viewall_button',
+                        parameters: {'title': 'reciters_viewall'},
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          bottom: 10.h, right: 20.w, left: 20.w),
+                      child: Text(
+                        localeText(context, "view_all"),
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w900,
+                            color: appColor),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              );
+            }),
 
             // const RecitationCategorySection(),
             Consumer<RecitationProvider>(
@@ -612,8 +619,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 itemBuilder: (BuildContext context, int index) {
                                   Reciters reciter =
                                       recitersValue.similarReciterList[index];
-                                  print(
-                                      'length of similar reciter is : ${recitersValue.similarReciterList.length}');
+
                                   return InkWell(
                                     onTap: () async {
                                       _addLastViewedRecitations(
@@ -791,6 +797,9 @@ class _RecitationPageState extends State<RecitationPage> {
                 final favRecitersList = profile.userProfile!.favRecitersList;
                 if (favRecitersList.isNotEmpty) {
                   final initialReciterId = (favRecitersList[0]).reciterId;
+                  String? initialReciternames =
+                      (favRecitersList[0]).reciterShortname;
+                  recitation.setReciterName(initialReciternames!);
                   recitation.setCurrentReciterId(initialReciterId!);
                 }
                 final combinedBookmarkList = [
