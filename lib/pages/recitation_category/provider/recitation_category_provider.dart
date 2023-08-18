@@ -29,7 +29,7 @@ class RecitationCategoryProvider extends ChangeNotifier {
 
   void startUpdatingPeriodically() {
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(hours: 3), (_) {
+    _timer = Timer.periodic(const Duration(minutes: 5), (_) {
       getRecitationCategoryStories();
     });
   }

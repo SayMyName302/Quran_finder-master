@@ -53,15 +53,33 @@ class QuranDatabase {
       currentTimePeriod = 'night';
     }
 
-    var table = await database!.query(
-      _rowtitlecustomrecitation,
-      where: 'period = ? AND (country_name = ? OR country_name = ?)',
-      whereArgs: [currentTimePeriod, countryName, 'all'],
-    );
+    // First, try to match both country_name and period
+    var firstMatch = await database!.query(_rowtitlecustomrecitation,
+        where: 'country_name = ? AND period = ?',
+        whereArgs: [countryName, currentTimePeriod]);
 
-    if (table.isNotEmpty) {
+    // If no first match, try to match 'all' country_name and period
+    if (firstMatch.isEmpty) {
+      var secondMatch = await database!.query(
+        _rowtitlecustomrecitation,
+        where: 'country_name = ? AND period = ?',
+        whereArgs: ['all', currentTimePeriod],
+      );
+
+      if (secondMatch.isNotEmpty) {
+        recitationTitleText = RecitationCustomTitles.fromJson(secondMatch.first)
+            .recitationTitleText;
+        print(
+            'Successful match for: country_name = all, period = $currentTimePeriod');
+      }
+    } else {
       recitationTitleText =
-          RecitationCustomTitles.fromJson(table.first).titleText;
+          RecitationCustomTitles.fromJson(firstMatch.first).recitationTitleText;
+      print(
+          'Successful match for: country_name = $countryName, period = $currentTimePeriod');
+    }
+
+    if (recitationTitleText != null) {
       print('recitationTitleTOD: $recitationTitleText');
     } else {
       print('No matching title found for the current time period and country.');
@@ -84,7 +102,7 @@ class QuranDatabase {
 
     if (table.isNotEmpty) {
       recitationTitleText =
-          RecitationCustomTitles.fromJson(table.first).titleText;
+          RecitationCustomTitles.fromJson(table.first).recitationTitleText;
       print('recitationTitleTOD: $recitationTitleText');
     } else {
       print('No matching title found for the given country and time period.');
