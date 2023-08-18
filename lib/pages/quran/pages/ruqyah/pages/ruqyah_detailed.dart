@@ -46,8 +46,10 @@ class RuqyahDetail extends StatelessWidget {
         appBar:
             buildAppBar(context: context, title: localeText(context, "dua")),
         body: SingleChildScrollView(
-          child: Consumer5<ThemProvider, DuaPlayerProvider, AppColorsProvider, RuqyahProvider,ProfileProvider>(
-              builder: (context, them, player, appColor, ruqyahProvider,profile, child) {
+          child: Consumer5<ThemProvider, DuaPlayerProvider, AppColorsProvider,
+                  RuqyahProvider, ProfileProvider>(
+              builder: (context, them, player, appColor, ruqyahProvider,
+                  profile, child) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -77,7 +79,8 @@ class RuqyahDetail extends StatelessWidget {
                                             top: 5, bottom: 5),
                                         child: CircleAvatar(
                                           radius: 17,
-                                          backgroundColor: appColor.mainBrandingColor,
+                                          backgroundColor:
+                                              appColor.mainBrandingColor,
                                           child: Container(
                                             width: 25,
                                             height: 25,
@@ -97,11 +100,16 @@ class RuqyahDetail extends StatelessWidget {
                                         width: 10.h,
                                       ),
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.6,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.6,
                                             child: Text(
                                               capitalize(duaTitle),
                                               style: TextStyle(
@@ -156,9 +164,13 @@ class RuqyahDetail extends StatelessWidget {
                                       // ),
                                       InkWell(
                                         onTap: () async {
-                                          int duaIndex = ruqyahProvider.duaList.indexWhere((element) => element.duaText == duaText);
-                                          Ruqyah dua = duaProvider.duaList[duaIndex];
-                                          profile.addOrRemoveRuqyaDuaBookmark(dua);
+                                          int duaIndex = ruqyahProvider.duaList
+                                              .indexWhere((element) =>
+                                                  element.duaText == duaText);
+                                          Ruqyah dua =
+                                              duaProvider.duaList[duaIndex];
+                                          profile
+                                              .addOrRemoveRuqyaDuaBookmark(dua);
                                         },
                                         child: Container(
                                           height: 20.h,
@@ -178,13 +190,25 @@ class RuqyahDetail extends StatelessWidget {
                                                   height: 21.h,
                                                   width: 21.w,
                                                   child: CircleAvatar(
-                                                    backgroundColor: profile.userProfile!.ruqyahBookmarksList.any((element) => element.duaText == duaText)
+                                                    backgroundColor: profile
+                                                            .userProfile!
+                                                            .ruqyahBookmarksList
+                                                            .any((element) =>
+                                                                element
+                                                                    .duaText ==
+                                                                duaText)
                                                         ? appColor
                                                             .mainBrandingColor
                                                         : Colors.white,
                                                     child: Icon(
                                                       Icons.favorite,
-                                                      color: profile.userProfile!.ruqyahBookmarksList.any((element) => element.duaText == duaText)
+                                                      color: profile
+                                                              .userProfile!
+                                                              .ruqyahBookmarksList
+                                                              .any((element) =>
+                                                                  element
+                                                                      .duaText ==
+                                                                  duaText)
                                                           ? Colors.white
                                                           : appColor
                                                               .mainBrandingColor,
@@ -232,7 +256,7 @@ class RuqyahDetail extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: fontProvider.fontSizeArabic.sp,
-                                    fontFamily: 'satoshi',
+                                    fontFamily: 'Scheherazade Font',
                                   ),
                                 ),
                               ),
@@ -255,7 +279,8 @@ class RuqyahDetail extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontSize: fontProvider.fontSizeTranslation.sp,
+                                    fontSize:
+                                        fontProvider.fontSizeTranslation.sp,
                                     fontFamily: 'satoshi',
                                   ),
                                 ),
@@ -276,7 +301,8 @@ class RuqyahDetail extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'satoshi',
-                                    fontSize: fontProvider.fontSizeTranslation.sp,
+                                    fontSize:
+                                        fontProvider.fontSizeTranslation.sp,
                                   ),
                                 ),
                               ),
