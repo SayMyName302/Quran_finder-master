@@ -7,9 +7,6 @@ import 'package:nour_al_quran/pages/home/widgets/popular_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_miracles_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/quran_stories_section.dart';
 import 'package:nour_al_quran/pages/home/widgets/user_picture.dart';
-import 'package:nour_al_quran/pages/onboarding/models/fav_reciter.dart';
-import 'package:nour_al_quran/pages/onboarding/provider/on_boarding_provider.dart';
-
 import 'package:nour_al_quran/pages/settings/pages/subscriptions/on_board/free_trial.dart';
 import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
-import 'package:nour_al_quran/pages/quran/pages/bookmarks/bookmarks_provider.dart';
 import 'package:nour_al_quran/pages/quran/providers/quran_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/translation_manager/translation_manager_provider.dart';
@@ -71,7 +70,8 @@ class _QuranTextViewState extends State<QuranTextView> {
 
   Future<void> saveLastSeen() async {
     QuranText quranText = _quranText[_lastPosition];
-    Surah? surah = await QuranDatabase().getSpecificSurahName(quranText.surahId!);
+    Surah? surah =
+        await QuranDatabase().getSpecificSurahName(quranText.surahId!);
     if (surah != null) {
       LastSeen lastSeen = LastSeen(
           surahNameArabic: surah.arabicName,
@@ -148,8 +148,10 @@ class _QuranTextViewState extends State<QuranTextView> {
                 ))
           ],
         ),
-        body: Consumer6<QuranProvider, ThemProvider, LocalizationProvider, FontProvider, AppColorsProvider,ProfileProvider>(
-          builder: (context, value, them, language, font, appColors,profile, child) {
+        body: Consumer6<QuranProvider, ThemProvider, LocalizationProvider,
+            FontProvider, AppColorsProvider, ProfileProvider>(
+          builder: (context, value, them, language, font, appColors, profile,
+              child) {
             return value.quranTextList.isNotEmpty
                 ? ScrollablePositionedList.builder(
                     padding: EdgeInsets.only(bottom: 16.h),
@@ -209,7 +211,8 @@ class _QuranTextViewState extends State<QuranTextView> {
                                               ),
                                             ),
                                             TextSpan(
-                                              text: convertToArabicNumber((quranText.verseId!)),
+                                              text: convertToArabicNumber(
+                                                  (quranText.verseId!)),
                                               style: TextStyle(
                                                 // Add the desired font style for convertToArabicNumber
                                                 // Example:
@@ -293,18 +296,21 @@ class _QuranTextViewState extends State<QuranTextView> {
                                     onTap: () async {
                                       // this will save bookmark in hive
                                       QuranText quranText = _quranText[index];
-                                      Surah? surah = await value.getSpecificSurah(quranText.surahId!);
+                                      Surah? surah = await value
+                                          .getSpecificSurah(quranText.surahId!);
                                       if (surah != null) {
                                         AyahBookmarks bookmark = AyahBookmarks(
                                             surahId: surah.surahId,
                                             verseId: quranText.verseId,
-                                            surahName: "Surah ${surah.surahName}",
+                                            surahName:
+                                                "Surah ${surah.surahName}",
                                             surahArabic: surah.arabicName,
                                             juzId: _quranProvider.juzId,
                                             juzName: _quranProvider.title,
                                             isFromJuz: _quranProvider.isJuz,
                                             bookmarkPosition: index);
-                                        profile.addOrRemoveAyahBookmark(bookmark);
+                                        profile
+                                            .addOrRemoveAyahBookmark(bookmark);
                                         // if (quranText.isBookmark == 0) {
                                         //   value.bookmark(index, 1);
                                         //
@@ -332,13 +338,28 @@ class _QuranTextViewState extends State<QuranTextView> {
                                           width: 16.w,
                                           child: CircleAvatar(
                                             backgroundColor: !them.isDark
-                                                ? profile.userProfile!.quranBookmarksList.any((element) => element.surahId == quranText.surahId && element.verseId == quranText.verseId)
+                                                ? profile.userProfile!
+                                                        .quranBookmarksList
+                                                        .any((element) =>
+                                                            element.surahId ==
+                                                                quranText
+                                                                    .surahId &&
+                                                            element.verseId ==
+                                                                quranText
+                                                                    .verseId)
                                                     ? appColor
                                                     : Colors.white
                                                 : AppColors.grey2,
                                             child: Icon(
                                               Icons.bookmark,
-                                              color: profile.userProfile!.quranBookmarksList.any((element) => element.surahId == quranText.surahId && element.verseId == quranText.verseId)
+                                              color: profile.userProfile!
+                                                      .quranBookmarksList
+                                                      .any((element) =>
+                                                          element.surahId ==
+                                                              quranText
+                                                                  .surahId &&
+                                                          element.verseId ==
+                                                              quranText.verseId)
                                                   ? Colors.white
                                                   : appColors.mainBrandingColor,
                                               size: 9.h,
@@ -373,7 +394,8 @@ class _QuranTextViewState extends State<QuranTextView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        if (quranProvider.previousSurah != null) // Conditionally show the "Previous" text
+                        if (quranProvider.previousSurah !=
+                            null) // Conditionally show the "Previous" text
                           InkWell(
                             child: Text(
                               'Previous Surah',
