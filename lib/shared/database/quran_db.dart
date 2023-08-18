@@ -53,12 +53,10 @@ class QuranDatabase {
       currentTimePeriod = 'night';
     }
 
-    // First, try to match both country_name and period
     var firstMatch = await database!.query(_rowtitlecustomrecitation,
         where: 'country_name = ? AND period = ?',
         whereArgs: [countryName, currentTimePeriod]);
 
-    // If no first match, try to match 'all' country_name and period
     if (firstMatch.isEmpty) {
       var secondMatch = await database!.query(
         _rowtitlecustomrecitation,

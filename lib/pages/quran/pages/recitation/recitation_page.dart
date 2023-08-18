@@ -373,7 +373,6 @@ class _RecitationPageState extends State<RecitationPage> {
               ],
             ),
             SizedBox(height: 15.h),
-            RecitationTestSection(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -902,6 +901,7 @@ class _RecitationPageState extends State<RecitationPage> {
                         localeText(context, "no_fav_reciter_added_yet"));
               },
             ),
+            RecitationTestSection(),
           ],
         ),
       ),
