@@ -51,7 +51,6 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:nour_al_quran/shared/utills/app_them.dart';
 import 'package:nour_al_quran/shared/utills/dimensions.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/featured/provider/featured_provider.dart';
 import 'pages/featured/provider/featurevideoProvider.dart';
