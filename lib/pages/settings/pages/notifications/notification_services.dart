@@ -29,8 +29,7 @@ class NotificationServices {
 
     /// set android local notification setting
     /// other_icon Available in drawable folder of android
-    AndroidInitializationSettings initializationSettingsAndroid =
-        const AndroidInitializationSettings('other_icon');
+    AndroidInitializationSettings initializationSettingsAndroid = const AndroidInitializationSettings('other_icon');
 
     /// set Ios local notification setting
     DarwinInitializationSettings iosInitializationSettings =
@@ -52,8 +51,8 @@ class NotificationServices {
     final appLunchDetails =
         await _notificationPlugin.getNotificationAppLaunchDetails();
     if (appLunchDetails != null && appLunchDetails.didNotificationLaunchApp) {
-      print("is Lunch ${appLunchDetails.didNotificationLaunchApp}");
-      print(appLunchDetails.notificationResponse!.payload);
+      // print("is Lunch ${appLunchDetails.didNotificationLaunchApp}");
+      // print(appLunchDetails.notificationResponse!.payload);
       onNotification.add(appLunchDetails.notificationResponse!.payload);
     }
 
@@ -98,14 +97,12 @@ class NotificationServices {
 
   /// add notification to the stream so other page can subscribe it
   /// and get the notification
-  Future _onDidReceiveLocalNotification(
-      NotificationResponse notificationResponse) async {
+  Future _onDidReceiveLocalNotification(NotificationResponse notificationResponse) async {
     onNotification.add(notificationResponse.payload!);
   }
 
   Future checkPendingNotification() async {
-    final List<PendingNotificationRequest> pendingNotificationRequests =
-        await _notificationPlugin.pendingNotificationRequests();
+    final List<PendingNotificationRequest> pendingNotificationRequests = await _notificationPlugin.pendingNotificationRequests();
     return pendingNotificationRequests;
   }
 
@@ -127,8 +124,7 @@ class NotificationServices {
             priority: Priority.max,
             visibility: NotificationVisibility.public,
             category: AndroidNotificationCategory.reminder);
-    DarwinNotificationDetails iosNotificationDetails =
-        const DarwinNotificationDetails();
+    DarwinNotificationDetails iosNotificationDetails = const DarwinNotificationDetails();
     return NotificationDetails(
         android: androidNotificationDetails, iOS: iosNotificationDetails);
   }
@@ -163,8 +159,7 @@ class NotificationServices {
           channelId: _dailyNotificationChannel.id,
           channelName: _dailyNotificationChannel.name,
           channelDes: _dailyNotificationChannel.description!),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: payload,
     );
   }
@@ -184,8 +179,7 @@ class NotificationServices {
           channelId: _dailyNotificationChannel.id,
           channelName: _dailyNotificationChannel.name,
           channelDes: _dailyNotificationChannel.description!),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: payload,
       matchDateTimeComponents: DateTimeComponents.time,
     );

@@ -7,7 +7,6 @@ import 'package:nour_al_quran/pages/onboarding/widgets/on_boarding_text_widgets.
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
-import 'package:nour_al_quran/pages/sign_in/pages/sigin_page.dart';
 import 'package:nour_al_quran/shared/localization/languages.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
@@ -16,9 +15,8 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:nour_al_quran/shared/widgets/brand_button.dart';
 import 'package:provider/provider.dart';
-
+import '../../../main.dart';
 import '../../../shared/entities/last_seen.dart';
-import '../../bottom_tabs/provider/bottom_tabs_page_provider.dart';
 import '../../quran/providers/quran_provider.dart';
 import '../../quran/widgets/quran_text_view.dart';
 import '../../settings/pages/notifications/notification_services.dart';
@@ -31,31 +29,34 @@ class SetPreferredLanguage extends StatefulWidget {
 }
 
 class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
-  bool _isListening = false;
-
-  String onBoardingDone =
-      Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
+  String onBoardingDone = Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
 
   @override
   void initState() {
     super.initState();
     listenToNotification();
-    print(onBoardingDone);
+  }
+
+  void listenToNotification() {
+    NotificationServices.onNotification.stream.listen((event) {
+      if (event != null) {
+        notificationOnClick(event);
+      }
+    });
   }
 
   void gotoQuranTextView() {
     LastSeen? lastSeen = Hive.box('myBox').get("lastSeen");
     if (lastSeen != null) {
       if (lastSeen.isJuz!) {
-        RouteHelper.currentContext.read<QuranProvider>().setJuzText(
-              juzId: lastSeen.juzId!,
-              title: lastSeen.juzArabic!,
-              fromWhere: 0,
-              isJuz: true,
-            );
-        Navigator.of(RouteHelper.currentContext)
-            .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
-        Navigator.of(RouteHelper.currentContext).push(MaterialPageRoute(
+        navigatorKey.currentContext!.read<QuranProvider>().setJuzText(
+          juzId: lastSeen.juzId!,
+          title: lastSeen.juzArabic!,
+          fromWhere: 0,
+          isJuz: true,
+        );
+
+        Navigator.of(navigatorKey.currentContext!).push(MaterialPageRoute(
           builder: (context) {
             return const QuranTextView();
           },
@@ -63,25 +64,19 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
       } else {
         // coming from surah so isJuz already false
         // coming from surah so JuzId already -1
-        RouteHelper.currentContext.read<QuranProvider>().setSurahText(
+        navigatorKey.currentContext!.read<QuranProvider>().setSurahText(
             surahId: lastSeen.surahId!,
             title: 'سورة ${lastSeen.surahNameArabic}',
             fromWhere: 0);
-        Navigator.of(RouteHelper.currentContext)
-            .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
-        Navigator.of(RouteHelper.currentContext).push(MaterialPageRoute(
+        Navigator.of(navigatorKey.currentContext!).push(MaterialPageRoute(
           builder: (context) {
             return const QuranTextView();
           },
         ));
       }
     } else {
-      RouteHelper.currentContext
-          .read<QuranProvider>()
-          .setSurahText(surahId: 1, title: 'سورةالفاتحة', fromWhere: 1);
-      Navigator.of(RouteHelper.currentContext)
-          .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
-      Navigator.of(RouteHelper.currentContext).push(MaterialPageRoute(
+      navigatorKey.currentContext!.read<QuranProvider>().setSurahText(surahId: 1, title: 'سورةالفاتحة', fromWhere: 1);
+      Navigator.of(navigatorKey.currentContext!).push(MaterialPageRoute(
         builder: (context) {
           return const QuranTextView();
         },
@@ -89,31 +84,9 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
     }
   }
 
-  void listenToNotification() {
-    NotificationServices.onNotification.stream.listen((event) {
-      if (event != null) {
-        _isListening = true;
-        // Fluttertoast.showToast(msg: "listening");
-        notificationOnClick(event);
-      } else {
-        // Fluttertoast.showToast(msg: "Not listening");
-        _isListening = false;
-      }
-    });
-  }
-
   notificationOnClick(String payload) {
     if (payload == "recite") {
       gotoQuranTextView();
-    } else if (payload == "dua") {
-      RouteHelper.currentContext
-          .read<BottomTabsPageProvider>()
-          .setCurrentPage(0);
-      Navigator.of(RouteHelper.currentContext)
-          .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
-    } else {
-      Navigator.of(RouteHelper.currentContext)
-          .pushNamedAndRemoveUntil(RouteHelper.application, (route) => false);
     }
   }
 
@@ -123,13 +96,9 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
     var isDark = context.read<ThemProvider>().isDark;
     var appColors = context.read<AppColorsProvider>();
     return Scaffold(
-      /// middleware to check where to do
-      /// this is for notification this page must be called once to init the rx listener
-      /// in order to listen to notifications
-      body: onBoardingDone == "done"
-          ? loginStatus == 1
-              ? const BottomTabsPage()
-              : const SignInPage()
+      /// middleware to check where to go
+      body: onBoardingDone == "done" ?
+        const BottomTabsPage()
           : SafeArea(
               child: SingleChildScrollView(
                 child: Container(
@@ -143,13 +112,10 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           OnBoardingTitleText(
-                              title: localeText(
-                                  context, "choose_your_preferred_language")),
+                              title: localeText(context, "choose_your_preferred_language")),
                           OnBoardingSubTitleText(
-                              title: localeText(context,
-                                  "let's_personalize_the_app_experience")),
-                          _buildLanguageList(
-                              context, localization, isDark, appColors),
+                              title: localeText(context, "let's_personalize_the_app_experience")),
+                          _buildLanguageList(context, localization, isDark, appColors),
                           SizedBox(
                             height: 6.h,
                           ),
@@ -176,8 +142,7 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
     );
   }
 
-  _buildLanguageList(BuildContext context, LocalizationProvider localization,
-      bool isDark, AppColorsProvider appColors) {
+  _buildLanguageList(BuildContext context, LocalizationProvider localization, bool isDark, AppColorsProvider appColors) {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,

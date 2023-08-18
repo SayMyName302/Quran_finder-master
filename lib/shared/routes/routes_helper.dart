@@ -147,12 +147,9 @@ class RouteHelper {
       BuildContext context) {
     return {
       initRoute: (context) {
-        String onBoardingDone =
-            Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
+        String onBoardingDone = Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
         currentContext = context;
-        return onBoardingDone == "done"
-            ? const BottomTabsPage()
-            : const SetPreferredLanguage();
+        return const SetPreferredLanguage();
       },
       achieveWithQuran: (context) {
         currentContext = context;
