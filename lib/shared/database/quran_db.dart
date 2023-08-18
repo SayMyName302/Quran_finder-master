@@ -53,10 +53,14 @@ class QuranDatabase {
       currentTimePeriod = 'night';
     }
 
-    var firstMatch = await database!.query(_rowtitlecustomrecitation,
-        where: 'country_name = ? AND period = ?',
-        whereArgs: [countryName, currentTimePeriod]);
+    // First, try to match both country_name and period
+    var firstMatch = await database!.query(
+      _rowtitlecustomrecitation,
+      where: 'country_name = ? AND period = ?',
+      whereArgs: [countryName, currentTimePeriod],
+    );
 
+    // If no first match, try to match 'all' country_name and period
     if (firstMatch.isEmpty) {
       var secondMatch = await database!.query(
         _rowtitlecustomrecitation,
@@ -92,15 +96,35 @@ class QuranDatabase {
     String? recitationTitleText;
     database = await openDb();
 
-    var table = await database!.query(
+    // First, try to match both exact country_name and period
+    var firstMatch = await database!.query(
       _rowtitlecustomrecitation,
       where: 'country_name = ? AND period = ?',
       whereArgs: [countryName, currentTimePeriod],
     );
 
-    if (table.isNotEmpty) {
+    // If no first match, try to match 'all' country_name and period
+    if (firstMatch.isEmpty) {
+      var secondMatch = await database!.query(
+        _rowtitlecustomrecitation,
+        where: 'country_name = ? AND period = ?',
+        whereArgs: ['all', currentTimePeriod],
+      );
+
+      if (secondMatch.isNotEmpty) {
+        recitationTitleText = RecitationCustomTitles.fromJson(secondMatch.first)
+            .recitationTitleText;
+        print(
+            'Matching title found for: country_name = all, period = $currentTimePeriod');
+      }
+    } else {
       recitationTitleText =
-          RecitationCustomTitles.fromJson(table.first).recitationTitleText;
+          RecitationCustomTitles.fromJson(firstMatch.first).recitationTitleText;
+      print(
+          'Matching title found for: country_name = $countryName, period = $currentTimePeriod');
+    }
+
+    if (recitationTitleText != null) {
       print('recitationTitleTOD: $recitationTitleText');
     } else {
       print('No matching title found for the given country and time period.');
