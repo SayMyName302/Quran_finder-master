@@ -318,13 +318,13 @@ class HomeDb {
     List<RecitationCategoryModel> recitationCategory = [];
     _database = await openDb();
     var table = await _database!.query(_recitationPlaylists);
-    print(
-        "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
+    // print(
+    //     "Table Length of recitation playlist: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
-    print(
-        "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
     return recitationCategory;
   }
 
@@ -335,7 +335,6 @@ class HomeDb {
     DateTime now = DateTime.now();
     String currentTimePeriod = 'morning';
 
-    // Determine the current time period based on the time of day
     if (now.hour >= 5 && now.hour < 12) {
       currentTimePeriod = 'morning';
     } else if (now.hour >= 12 && now.hour < 18) {
@@ -345,19 +344,11 @@ class HomeDb {
     } else {
       currentTimePeriod = 'night';
     }
-
     var table = await _database!.query(_recitationPlaylists,
         where: 'play_period = ?', whereArgs: [currentTimePeriod]);
-
-    // Print the number of rows retrieved from the table
-
     for (var map in table) {
       recitationCategory.add(RecitationCategoryModel.fromJson(map));
     }
-
-    // print(
-    //     "Recitation playlist Length: ${recitationCategory.length}"); // Print the number of FeaturedModel objects added to the list
-
     return recitationCategory;
   }
 

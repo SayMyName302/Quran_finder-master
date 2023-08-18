@@ -17,14 +17,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../shared/utills/app_constants.dart';
 import '../../../shared/widgets/easy_loading.dart';
 import 'package:hijri/hijri_calendar.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../onboarding/provider/on_boarding_provider.dart';
 import '../../settings/pages/notifications/notification_services.dart';
 import '../models/title_custom.dart';
-
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class HomeProvider extends ChangeNotifier {
   int? verseId = 0;
@@ -58,9 +54,20 @@ class HomeProvider extends ChangeNotifier {
   String get weather => _weather;
   String get hijriDate => _hijriDate;
 
+  //For Recitation Time of the Day
+  String _rCountryName = "";
+  String _rTimeOfTheDay = "";
+
+  String get rCountryName => _rCountryName;
+  String get rTimeOfTheDay => _rTimeOfTheDay;
+
   //Fetching all the text_title by filtering
   List<CustomTitles> _titleText = [];
   List<CustomTitles> get titleText => _titleText;
+
+  //Fetching all title_text by filtering Recitation TOD
+  String? _rtitleText = 'Recitations';
+  String? get rtitleText => _rtitleText;
 
   //For Test Users
   // bool? _user;
@@ -72,6 +79,10 @@ class HomeProvider extends ChangeNotifier {
   //this variable will be used to display in HomeScreen text change
   String? _selectedTitleText;
   String? get selectedTitleText => _selectedTitleText;
+
+  //this variable will be used to display in Quran text change
+  String? _selectedrecTitleText;
+  String? get selectedrecTitleText => _selectedrecTitleText;
 
   bool isRequestingPermission = false;
 
@@ -88,9 +99,24 @@ class HomeProvider extends ChangeNotifier {
 
   Future<List<CustomTitles>> getTitlesbyWeather(String country) async {
     List<CustomTitles> titles =
-    await QuranDatabase().getTitlesByWeather(country);
+        await QuranDatabase().getTitlesByWeather(country);
     notifyListeners();
     return titles;
+  }
+
+  //Only For Country and TOD Input in Recitations
+  void updateInput(String country, String tod) {
+    _rCountryName = country;
+    _rTimeOfTheDay = tod;
+    getTitlesForRecitationsExplicitly(_rCountryName, _rTimeOfTheDay);
+    notifyListeners();
+  }
+
+  Future<String?> getTitlesForRecitationsExplicitly(
+      String country, String tod) async {
+    _rtitleText = await QuranDatabase().getRecitationTitleExpTOD(country, tod);
+    notifyListeners();
+    return _rtitleText;
   }
 
   //Only country input by user
@@ -105,7 +131,7 @@ class HomeProvider extends ChangeNotifier {
   Future<List<CustomTitles>> getWeatherCountryTitles(
       String country, String weather) async {
     _titleText =
-    await QuranDatabase().getWeatherCountryTitles(country, weather);
+        await QuranDatabase().getWeatherCountryTitles(country, weather);
     notifyListeners();
     return _titleText;
   }
@@ -155,27 +181,27 @@ class HomeProvider extends ChangeNotifier {
   //     }
   //   });
   // }
-  void sendVerseNotification(String verse) async {
-    // Sending OneSignal notification
-    var notification = OSCreateNotification(
-      playerIds: [
-        'e1a5e8bf-a00e-49a2-90cb-9b4834fef138'
-      ], // Add the player IDs of your active users here
-      //  includedSegments: ['All'],
+  // void sendVerseNotification(String verse) async {
+  //   // Sending OneSignal notification
+  //   var notification = OSCreateNotification(
+  //     playerIds: [
+  //       'e1a5e8bf-a00e-49a2-90cb-9b4834fef138'
+  //     ], // Add the player IDs of your active users here
+  //     //  includedSegments: ['All'],
 
-      content: verse,
-      heading: "Verse of the Day",
-      additionalData: {"verse": verse}, // Attach verse data here
-    );
+  //     content: verse,
+  //     heading: "Verse of the Day",
+  //     additionalData: {"verse": verse}, // Attach verse data here
+  //   );
 
-    var response = await OneSignal.shared.postNotification(notification);
+  //   var response = await OneSignal.shared.postNotification(notification);
 
-    if (response != null && response["success"] == true) {
-      print("OneSignal Notification sent successfully");
-    } else {
-      print("OneSignal Notification sending failed");
-    }
-  }
+  //   if (response != null && response["success"] == true) {
+  //     print("OneSignal Notification sent successfully");
+  //   } else {
+  //     print("OneSignal Notification sending failed");
+  //   }
+  // }
 
   void getVerse(BuildContext context) async {
     _verseOfTheDay = await QuranDatabase().getVerseOfTheDay() ??
@@ -190,12 +216,13 @@ class HomeProvider extends ChangeNotifier {
     surahId = _verseOfTheDay.surahId;
     if (_verseOfTheDay.surahId != null) {
       surahName =
-      await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
+          await QuranDatabase().getSpecificSurahName(_verseOfTheDay.surahId!);
     }
 
     notifyListeners();
     Future.delayed(Duration.zero, () {
-      bool dailyVerseNotificationEnable = OnBoardingProvider().notification[1].isSelected!;
+      bool dailyVerseNotificationEnable =
+          OnBoardingProvider().notification[1].isSelected!;
       if (dailyVerseNotificationEnable) {
         NotificationServices().checkPermissionAndSetNotification(() {
           NotificationServices().dailyNotifications(
@@ -210,7 +237,7 @@ class HomeProvider extends ChangeNotifier {
     final currentTime = TimeOfDay.now();
     if (currentTime.hour == 16 && currentTime.minute == 37) {
       // sendVerseNotification(_verseOfTheDay.verseText!);
-      print('Selected verse: ${_verseOfTheDay.verseText!}');
+      // print('Selected verse: ${_verseOfTheDay.verseText!}');
     }
   }
 
@@ -239,19 +266,28 @@ class HomeProvider extends ChangeNotifier {
     if (permissionStatus.isDenied) {
       Future.delayed(
         Duration.zero,
-            () => showError(
+        () => showError(
           context: context,
           msg: 'Please Allow Quran Pro to Use Location Services',
         ),
       );
     } else if (permissionStatus.isGranted) {
-      UserData userData = await getRegionAndShowContent(context);
+      // UserData userData = await getRegionAndShowContent(context);
+      // updateUserData(userData);
+      // UserDataforRecitation recitationData =
+      //     (await getRegionAndShowContent(context)) as UserDataforRecitation;
+      // updateRecitationData(recitationData);
+      Map<String, dynamic> data = await getRegionAndShowContent(context);
+      UserData userData = data['userData'];
+      UserDataforRecitation recitationData = data['recitationData'];
       updateUserData(userData);
+      updateRecitationData(recitationData);
+
       notifyListeners();
     } else {
       Future.delayed(
         Duration.zero,
-            () => showError(
+        () => showError(
           context: context,
           msg: 'Please Enable Location Services',
         ),
@@ -272,7 +308,7 @@ class HomeProvider extends ChangeNotifier {
       var data = response.data;
       if (response.statusCode == 200) {
         String weatherCondition =
-        data['current']['condition']['text'].toString().toLowerCase();
+            data['current']['condition']['text'].toString().toLowerCase();
         String country = data['location']['country'].toString().toLowerCase();
 
         // String cityAPI = data['location']['name'].toString().toLowerCase();
@@ -306,6 +342,7 @@ class HomeProvider extends ChangeNotifier {
     };
   }
 
+  //Test method will remove later
   Future<void> updateUserData(UserData userData) async {
     _country = userData.country;
     _date = userData.date;
@@ -313,6 +350,13 @@ class HomeProvider extends ChangeNotifier {
     _hijriMonth = userData.hijriMonth;
     _hijriYear = userData.hijriYear;
     _dayName = userData.dayName;
+    notifyListeners();
+  }
+
+  //Test method will remove later
+  Future<void> updateRecitationData(UserDataforRecitation userData) async {
+    _rCountryName = userData.country;
+    _rTimeOfTheDay = userData.tod;
     notifyListeners();
   }
 
@@ -339,20 +383,22 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-  Future<UserData> getRegionAndShowContent(BuildContext context) async {
+  Future<Map<String, dynamic>> getRegionAndShowContent(
+      BuildContext context) async {
     try {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       ).timeout(const Duration(seconds: 15));
 
       List<Placemark> placeMarks =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
+          await placemarkFromCoordinates(position.latitude, position.longitude);
 
       if (placeMarks.isNotEmpty) {
         Placemark placeMark = placeMarks[0];
         String country = placeMark.country?.toLowerCase() ?? "";
         double latitude = position.latitude;
         double longitude = position.longitude;
+        // ignore: use_build_context_synchronously
         Map<String, String> weatherData = await checkWeather(
           latitude,
           longitude,
@@ -362,9 +408,15 @@ class HomeProvider extends ChangeNotifier {
         String countryfromapi = weatherData['country'] ?? "";
         print('country fromapi is>>>${countryfromapi}');
 
+        //Code For Recitation Title Text based on Time of The Day
+        String? recitationTitle =
+            await QuranDatabase().getRecitationTitleOnTOD(countryfromapi);
+        _rtitleText = recitationTitle;
+        //
+
         //Remove this method when All the code is ready(Right Now its only being used to update UI)
         updateWeather(weatherCondition);
-
+        //
         if (weatherCondition == "rain") {
           List<CustomTitles> titles = await getTitlesbyWeather(countryfromapi);
           if (titles.isNotEmpty) {
@@ -387,7 +439,7 @@ class HomeProvider extends ChangeNotifier {
           } else {
             // countries naming all and weather not like rain,thunder etc
             List<CustomTitles> allCountryTitles =
-            await getTitlesByCountry('all');
+                await getTitlesByCountry('all');
             if (allCountryTitles.isNotEmpty) {
               int randomIndex = Random().nextInt(allCountryTitles.length);
               //    print('length of titles are>>>${_titleText.length}');
@@ -404,6 +456,20 @@ class HomeProvider extends ChangeNotifier {
         String formattedDate = DateFormat('Mddyy').format(now);
         String formattedTime = DateFormat('HH').format(now);
 
+        // Time of Day Data for Recitation Section Will Remove Later
+        String currentTimePeriod = '';
+
+        if (now.hour >= 5 && now.hour < 12) {
+          currentTimePeriod = 'morning';
+        } else if (now.hour >= 12 && now.hour < 18) {
+          currentTimePeriod = 'afternoon';
+        } else if (now.hour >= 18 && now.hour < 22) {
+          currentTimePeriod = 'evening';
+        } else {
+          currentTimePeriod = 'night';
+        }
+        //
+
         String hijriMonthAndYear = getHijriMonthAndYear(
           HijriCalendar.now().hMonth,
         );
@@ -414,7 +480,7 @@ class HomeProvider extends ChangeNotifier {
         updateHijriDate(hijriDate);
 
         String dayName =
-        DateFormat('EEEE').format(DateTime.now()).toLowerCase();
+            DateFormat('EEEE').format(DateTime.now()).toLowerCase();
 
         UserData userData = UserData(
             country: country,
@@ -426,9 +492,14 @@ class HomeProvider extends ChangeNotifier {
             weather: weatherCondition,
             hijridate: hijriDate);
 
+        UserDataforRecitation recitationData =
+            UserDataforRecitation(country: country, tod: currentTimePeriod);
         notifyListeners();
 
-        return userData;
+        return {
+          'userData': userData,
+          'recitationData': recitationData,
+        }; // return LocationData(userData: userData, recitationData: recitationData);
       } else {
         throw Exception("PlaceMarks is empty");
       }
@@ -503,5 +574,25 @@ class UserData {
     required this.dayName,
     required this.weather,
     required this.hijridate,
+  });
+}
+
+class UserDataforRecitation {
+  String country;
+  String tod;
+
+  UserDataforRecitation({
+    required this.country,
+    required this.tod,
+  });
+}
+
+class LocationData {
+  final UserData userData;
+  final UserDataforRecitation recitationData;
+
+  LocationData({
+    required this.userData,
+    required this.recitationData,
   });
 }

@@ -12,7 +12,6 @@ import 'package:nour_al_quran/pages/popular_section/provider/popular_provider.da
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../shared/localization/localization_constants.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import 'home_row_widget.dart';
@@ -26,8 +25,8 @@ class PopularSection extends StatelessWidget {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     int network = Provider.of<int>(context);
     // final authProvider = Provider.of<SignInProvider>(context);
-    final user = Provider.of<HomeProvider>(context);
-    String? selectedTitleText = user.selectedTitleText;
+    // final user = Provider.of<HomeProvider>(context);
+    // String? selectedTitleText = user.selectedTitleText;
     // final userEmail = authProvider.userEmail;
     // bool isSpecialUser = (userEmail == "u@u.com" ||
     //     userEmail == "ahsanalikhan200@gmail.com" ||
@@ -35,17 +34,19 @@ class PopularSection extends StatelessWidget {
     //     userEmail == "canzinternal3@gmail.com");
     return Column(
       children: [
-        HomeRowWidgetTest(
-          text: selectedTitleText ?? 'Popular Recitations',
-          buttonText: localeText(context, "view_all"),
-          onTap: () {
-            Navigator.of(context).pushNamed(RouteHelper.popular);
-            analytics.logEvent(
-              name: 'popular_section_viewall_button',
-              parameters: {'title': 'popular_viewall'},
-            );
-          },
-        ),
+        Consumer<HomeProvider>(builder: (context, value, child) {
+          return HomeRowWidget(
+            text: value.selectedTitleText ?? 'Popular Recitations',
+            buttonText: localeText(context, "view_all"),
+            onTap: () {
+              Navigator.of(context).pushNamed(RouteHelper.popular);
+              analytics.logEvent(
+                name: 'popular_section_viewall_button',
+                parameters: {'title': 'popular_viewall'},
+              );
+            },
+          );
+        }),
         Consumer3<LocalizationProvider, PopularProvider,
             FeaturedMiraclesOfQuranProvider>(
           builder: (context, language, storiesProvider, featureMiraclesProvider,
