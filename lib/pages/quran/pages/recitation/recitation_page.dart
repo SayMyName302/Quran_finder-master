@@ -25,6 +25,8 @@ import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/providers/story_n_basics_audio_player_provider.dart';
+import '../../../home/provider/home_provider.dart';
+import '../../../home/widgets/recitation_Input_Test.dart';
 import '../../../onboarding/models/fav_reciter.dart';
 import '../../../recitation_category/models/bookmarks_recitation.dart';
 import '../../../recitation_category/models/recitation_all_category_model.dart';
@@ -248,17 +250,19 @@ class _RecitationPageState extends State<RecitationPage> {
             ),
             Column(
               children: [
-                HomeRowWidget(
-                  text: localeText(context, 'Recitation_Category'),
-                  buttonText: localeText(context, "view_all"),
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushNamed(RouteHelper.recitationPageList);
-                    analytics.logEvent(
-                      name: 'recitation_all_button',
-                    );
-                  },
-                ),
+                Consumer<HomeProvider>(builder: (context, value, child) {
+                  return HomeRowWidget(
+                    text: value.rtitleText ?? 'Recitations',
+                    buttonText: localeText(context, "view_all"),
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(RouteHelper.recitationPageList);
+                      analytics.logEvent(
+                        name: 'recitation_all_button',
+                      );
+                    },
+                  );
+                }),
                 Consumer2<LocalizationProvider, RecitationCategoryProvider>(
                   builder: (context, language, recitationProvider, child) {
                     return SizedBox(
@@ -368,8 +372,8 @@ class _RecitationPageState extends State<RecitationPage> {
                 )
               ],
             ),
-
             SizedBox(height: 15.h),
+            RecitationTestSection(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

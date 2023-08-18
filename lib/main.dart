@@ -66,6 +66,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'pages/tranquil_tales/provider/tranquil_tales_provider.dart';
 
 BuildContext? globalContext;
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -145,6 +146,7 @@ class MyApp extends StatelessWidget {
           builder: (context, value, dark, child) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
+              navigatorKey: navigatorKey,
               locale: value.locale,
               localizationsDelegates: [
                 LocalizationDemo.delegate,

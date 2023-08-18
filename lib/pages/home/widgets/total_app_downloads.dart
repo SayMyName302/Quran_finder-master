@@ -184,8 +184,11 @@ class AppDownloadsSection extends StatelessWidget {
                       String georgeDate = date.text.trim().toLowerCase();
                       String lowerCasehijriYear =
                           hijriYear.text.trim().toLowerCase();
-                      int parsedYear = int.parse(lowerCasehijriYear);
+                      int parsedYear = int.tryParse(lowerCasehijriYear) ?? 0;
 
+                      FeatureProvider featureProvider =
+                          Provider.of<FeatureProvider>(context, listen: false);
+//////
                       if ((lowerCaseCountry == "pakistan" ||
                               lowerCaseCountry == "saudi arabia" ||
                               lowerCaseCountry == "indonesia") &&
@@ -195,21 +198,17 @@ class AppDownloadsSection extends StatelessWidget {
                       } else if (lowerCaseCountry.isNotEmpty) {
                         fetchCountryTitle(context);
                       } else if (lowerCasehijrimonth.isNotEmpty) {
-                        Provider.of<FeatureProvider>(context, listen: false)
+                        featureProvider
                             .reorderStoriesforMonth(lowerCasehijrimonth);
                       } else if (lowerCasehijridate.isNotEmpty) {
-                        Provider.of<FeatureProvider>(context, listen: false)
+                        featureProvider
                             .reorderStoriesforHijriDate(lowerCasehijridate);
                       } else if (lowerCasedayName.isNotEmpty) {
-                        Provider.of<FeatureProvider>(context, listen: false)
-                            .reorderStoriesDayName(lowerCasedayName);
+                        featureProvider.reorderStoriesDayName(lowerCasedayName);
                       } else if (lowerCasehijriYear.isNotEmpty) {
-                        //
-                        Provider.of<FeatureProvider>(context, listen: false)
-                            .reorderStoriesforHijriYear(parsedYear);
+                        featureProvider.reorderStoriesforHijriYear(parsedYear);
                       } else {
-                        Provider.of<FeatureProvider>(context, listen: false)
-                            .reorderStoriesforGeorgeDate(georgeDate);
+                        featureProvider.reorderStoriesforGeorgeDate(georgeDate);
                       }
                     },
                   ),

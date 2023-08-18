@@ -9,35 +9,34 @@ import '../../../shared/database/home_db.dart';
 import '../../../shared/providers/story_n_basics_audio_player_provider.dart';
 
 class RecitationCategoryProvider extends ChangeNotifier {
-  void printCurrentTimeCategory() {
-    // Get the current time
-    DateTime currentTime = DateTime.now();
-    int currentHour = currentTime.hour;
+  // void printCurrentTimeCategory() {
+  //   // Get the current time
+  //   DateTime currentTime = DateTime.now();
+  //   int currentHour = currentTime.hour;
 
-    if (currentHour >= 6 && currentHour < 12) {
-      print("It's currently Morning.");
-    } else if (currentHour >= 12 && currentHour < 18) {
-      print("It's currently Afternoon.");
-    } else if (currentHour >= 18 && currentHour < 24) {
-      print("It's currently Evening.");
-    } else {
-      print("It's currently Night time.");
-    }
-  }
+  //   if (currentHour >= 6 && currentHour < 12) {
+  //     print("It's currently Morning.");
+  //   } else if (currentHour >= 12 && currentHour < 18) {
+  //     print("It's currently Afternoon.");
+  //   } else if (currentHour >= 18 && currentHour < 24) {
+  //     print("It's currently Evening.");
+  //   } else {
+  //     print("It's currently Night time.");
+  //   }
+  // }
 
   Timer? _timer;
 
   void startUpdatingPeriodically() {
-    _timer?.cancel(); // Cancel any existing timers to avoid duplicates
-    _timer = Timer.periodic(const Duration(minutes: 5), (_) {
-      // Adjust the duration as needed; here, we update every 5 minutes
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(hours: 3), (_) {
       getRecitationCategoryStories();
     });
   }
 
   @override
   void dispose() {
-    _timer?.cancel(); // Cancel the timer when the provider is disposed
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -65,13 +64,13 @@ class RecitationCategoryProvider extends ChangeNotifier {
 
   setSelectedRecitationCategory(RecitationCategoryModel value) {
     _selectedRecitationCategory = value;
-    print(_selectedRecitationCategory);
+    // print(_selectedRecitationCategory);
     notifyListeners();
   }
 
   Future<void> getRecitationCategoryStories() async {
     _recitationCategoryList = await HomeDb().getRecitationBasedOnTime();
-    printCurrentTimeCategory();
+    // printCurrentTimeCategory();
     notifyListeners();
   }
 

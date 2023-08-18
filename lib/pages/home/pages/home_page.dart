@@ -12,6 +12,7 @@ import 'package:nour_al_quran/shared/entities/last_seen.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/pages/quran/pages/resume/where_you_left_off_widget.dart';
 import 'package:provider/provider.dart';
+import '../../sign_in/provider/sign_in_provider.dart';
 import '../provider/home_provider.dart';
 import '../widgets/total_app_downloads.dart';
 import '../widgets/verse_of_the_day.dart';
@@ -35,15 +36,19 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _getLocationPermissionAndRegion() async {
     HomeProvider getCountry = Provider.of<HomeProvider>(context, listen: false);
-    // SignInProvider signInProvider =
-    //     Provider.of<SignInProvider>(context, listen: false);
+    SignInProvider signInProvider =
+        Provider.of<SignInProvider>(context, listen: false);
     try {
-      // await signInProvider.initUserEmail();
-      // String? userEmail = signInProvider.userEmail;
-      // bool isUser = userEmail == "u@u.com" ||
-      //     userEmail == "ahsanalikhan200@gmail.com" ||
-      //     userEmail == "ahsanalikhan538@gmail.com" ||
-      //     userEmail == "canzinternal3@gmail.com";
+      //>>
+      //Will remove the following code when INPUT TEST ARE DONE WITH
+      await signInProvider.initUserEmail();
+      String? userEmail = signInProvider.userEmail;
+      bool isUser = userEmail == "u@u.com" ||
+          userEmail == "ahsanalikhan200@gmail.com" ||
+          userEmail == "ahsanalikhan538@gmail.com" ||
+          userEmail == "canzinternal3@gmail.com";
+
+      //<<
 
       String userRegion = getCountry.country;
       if (userRegion.isNotEmpty) {

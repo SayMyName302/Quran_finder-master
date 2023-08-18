@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:nour_al_quran/pages/bottom_tabs/widgets/bottom_nav_widget.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart';
@@ -10,6 +11,7 @@ import 'package:nour_al_quran/pages/settings/pages/notifications/notification_se
 import 'package:nour_al_quran/pages/tranquil_tales/provider/tranquil_tales_provider.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 import 'package:provider/provider.dart';
+
 import '../../basics_of_quran/provider/islam_basics_provider.dart';
 import '../../miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import '../../quran stories/quran_stories_provider.dart';
@@ -24,8 +26,7 @@ class BottomTabsPage extends StatefulWidget {
   State<BottomTabsPage> createState() => _BottomTabsPageState();
 }
 
-class _BottomTabsPageState extends State<BottomTabsPage>
-    with WidgetsBindingObserver {
+class _BottomTabsPageState extends State<BottomTabsPage> with WidgetsBindingObserver {
   /// this is the main bottom tabs screen
   /// so in the init method of this we are initializing all important data belong to
   /// home screen to load all the data from home screen loads
@@ -85,8 +86,7 @@ class _BottomTabsPageState extends State<BottomTabsPage>
     context.read<PopularProvider>().getStories();
     context.read<RecitationCategoryProvider>().getRecitationCategoryStories();
     context.read<TranquilCategoryProvider>().getRecitationCategoryStories();
-    Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false)
-        .getMiracles();
+    Provider.of<FeaturedMiraclesOfQuranProvider>(context, listen: false).getMiracles();
 
     /// this is app usage state provider which is used to stop and start timers
     var provider = context.read<MyStateProvider>();

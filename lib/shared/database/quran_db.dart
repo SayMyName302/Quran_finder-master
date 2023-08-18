@@ -16,6 +16,7 @@ import 'package:path/path.dart';
 
 import '../../pages/duas/models/dua.dart';
 import '../../pages/duas/models/dua_category.dart';
+import '../../pages/home/models/recitation_title_text.dart';
 import '../../pages/home/models/test_users.dart';
 import '../../pages/home/models/title_custom.dart';
 import '../../pages/quran/pages/ruqyah/models/ruqyah.dart';
@@ -32,7 +33,65 @@ class QuranDatabase {
   final String _rduaAllTable = "al_ruqyah_all";
   final String _rduaCatergoryTable = "ruqyah_category";
   final String _rowtitlecustom = "row_title_custom";
+  final String _rowtitlecustomrecitation = "row_title_custom_recitation";
   final String _testUsers = "bottom_testing";
+
+  Future<String?> getRecitationTitleOnTOD(String countryName) async {
+    String? recitationTitleText;
+    database = await openDb();
+
+    DateTime now = DateTime.now();
+    String currentTimePeriod = '';
+
+    if (now.hour >= 5 && now.hour < 12) {
+      currentTimePeriod = 'morning';
+    } else if (now.hour >= 12 && now.hour < 18) {
+      currentTimePeriod = 'afternoon';
+    } else if (now.hour >= 18 && now.hour < 22) {
+      currentTimePeriod = 'evening';
+    } else {
+      currentTimePeriod = 'night';
+    }
+
+    var table = await database!.query(
+      _rowtitlecustomrecitation,
+      where: 'period = ? AND (country_name = ? OR country_name = ?)',
+      whereArgs: [currentTimePeriod, countryName, 'all'],
+    );
+
+    if (table.isNotEmpty) {
+      recitationTitleText =
+          RecitationCustomTitles.fromJson(table.first).titleText;
+      print('recitationTitleTOD: $recitationTitleText');
+    } else {
+      print('No matching title found for the current time period and country.');
+    }
+
+    return recitationTitleText;
+  }
+
+  //Explicitly Data input from user and return the result....
+  Future<String?> getRecitationTitleExpTOD(
+      String countryName, String currentTimePeriod) async {
+    String? recitationTitleText;
+    database = await openDb();
+
+    var table = await database!.query(
+      _rowtitlecustomrecitation,
+      where: 'country_name = ? AND period = ?',
+      whereArgs: [countryName, currentTimePeriod],
+    );
+
+    if (table.isNotEmpty) {
+      recitationTitleText =
+          RecitationCustomTitles.fromJson(table.first).titleText;
+      print('recitationTitleTOD: $recitationTitleText');
+    } else {
+      print('No matching title found for the given country and time period.');
+    }
+
+    return recitationTitleText;
+  }
 
   //Checking user to show custom Container for Testing
   Future<bool> checkUserInDatabase(String userEmail) async {
@@ -127,6 +186,24 @@ class QuranDatabase {
   }
 
   //Fetches Country Titles on Rain Condition
+  // Future<List<CustomTitles>> getTitlesByWeather(String country) async {
+  //   database = await openDb();
+  //   var titles = <CustomTitles>[];
+
+  //   var cursor = await database!.query(
+  //     _rowtitlecustom,
+  //     columns: ["title_text"],
+  //     where: "weather = ? AND country_name = ?",
+  //     whereArgs: ["rain", country],
+  //   );
+
+  //   for (var row in cursor) {
+  //     var customTitle = CustomTitles.fromJson(row);
+  //     titles.add(customTitle);
+  //   }
+  //   return titles;
+  // }
+  //Testing > weather is rain AND country is 'all'
   Future<List<CustomTitles>> getTitlesByWeather(String country) async {
     database = await openDb();
     var titles = <CustomTitles>[];
@@ -134,15 +211,14 @@ class QuranDatabase {
     var cursor = await database!.query(
       _rowtitlecustom,
       columns: ["title_text"],
-      where: "weather = ? AND country_name = ?",
-      whereArgs: ["rain", country],
+      where: "weather = ? AND (country_name = ? OR country_name = ?)",
+      whereArgs: ["rain", country, "all"],
     );
 
     for (var row in cursor) {
       var customTitle = CustomTitles.fromJson(row);
       titles.add(customTitle);
     }
-//iuhnbuybuytbutbububugt
     return titles;
   }
 
