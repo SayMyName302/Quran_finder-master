@@ -277,6 +277,8 @@ class HomeProvider extends ChangeNotifier {
       // UserDataforRecitation recitationData =
       //     (await getRegionAndShowContent(context)) as UserDataforRecitation;
       // updateRecitationData(recitationData);
+
+      // ignore: use_build_context_synchronously
       Map<String, dynamic> data = await getRegionAndShowContent(context);
       UserData userData = data['userData'];
       UserDataforRecitation recitationData = data['recitationData'];
