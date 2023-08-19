@@ -61,7 +61,7 @@ class FeaturedDetailsPage extends StatelessWidget {
                           text: text,
                           style: TextStyle(
                             fontFamily:
-                                font.finalFont, // Replace with your Quran font
+                                'Scheherazade Font', // Replace with your Quran font
                             fontSize: font.fontSizeArabic.sp,
                             fontWeight: FontWeight.normal,
                             color: Colors.black, // Adjust color as needed
