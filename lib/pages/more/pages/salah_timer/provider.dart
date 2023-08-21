@@ -17,6 +17,8 @@ import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import 'package:dio/dio.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../settings/pages/notifications/notification_services.dart';
+
 class PrayerTimeProvider extends ChangeNotifier {
   final List<Salah> _prayerTimesList = [];
   List<Salah> get prayerTimesList => _prayerTimesList;
@@ -179,6 +181,7 @@ class PrayerTimeProvider extends ChangeNotifier {
         time: DateFormat.jm().format(prayerTimes.isha!).toString(),
         notify: _notificationState[4],
         prayerTime: prayerTimes.isha!));
+    setUpPrayerNotification(_prayerTimesList);
     for (int i = 0; i < _prayerTimesList.length; i++) {
       if (_prayerTimesList[i].prayerTime!.isAfter(DateTime.now())) {
         upcomingPrayerIndex = i;
@@ -229,4 +232,25 @@ class PrayerTimeProvider extends ChangeNotifier {
       EasyLoadingDialog.dismiss(context);
     }
   }
+
+  setUpPrayerNotification(List<Salah> prayers){
+    for(int i=0;i<prayers.length;i++){
+      setUpPrayerNotifications(TimeOfDay(hour: prayers[i].prayerTime!.hour, minute: prayers[i].prayerTime!.minute), prayers[i].name!, i);
+    }
+  }
+
+  void setUpPrayerNotifications(TimeOfDay time,String prayerName,int index) {
+    NotificationServices().checkPermissionAndSetNotification(() {
+      NotificationServices().dailyNotifications(
+        id: prayerNotificationId+index,
+        title: 'Prayer Reminder',
+        body: 'It is time to offer $prayerName',
+        payload: 'prayer',
+        dailyNotifyTime: time,
+      );
+    });
+  }
+
+
+
 }
