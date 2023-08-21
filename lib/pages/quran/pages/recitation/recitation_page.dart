@@ -26,8 +26,6 @@ import 'package:provider/provider.dart';
 import '../../../../shared/providers/story_n_basics_audio_player_provider.dart';
 import '../../../home/provider/home_provider.dart';
 import '../../../home/widgets/recitation_Input_Test.dart';
-import '../../../onboarding/models/fav_reciter.dart';
-import '../../../recitation_category/models/bookmarks_recitation.dart';
 import '../../../recitation_category/models/recitation_all_category_model.dart';
 import '../../../recitation_category/provider/recitation_category_provider.dart';
 import '../../../settings/pages/profile/profile_provider.dart';
@@ -273,97 +271,91 @@ class _RecitationPageState extends State<RecitationPage> {
                             left: 20.w, right: 20.w, bottom: 14.h),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          try {
-                            RecitationCategoryModel model = recitationProvider
-                                .recitationCategoryList[index];
+                          RecitationCategoryModel model =
+                              recitationProvider.recitationCategoryList[index];
 
-                            return InkWell(
-                              onTap: () {
-                                Future.delayed(
-                                  Duration.zero,
-                                  () => context
-                                      .read<RecitationPlayerProvider>()
-                                      .pause(context),
-                                );
-                                recitationProvider.getSelectedRecitationAll(
-                                    model.playlistId!);
-                                recitationProvider
-                                    .setSelectedRecitationCategory(model);
-                                analytics.logEvent(
-                                  name: 'recitation_section',
-                                  parameters: {
-                                    'title': model.playlistName.toString()
-                                  },
-                                );
-                                _addLastViewedRecitations(
-                                    "recitationCategory", model);
-                                // updateTappedSurahNames(model.categoryName!);
-                                Navigator.of(context).pushNamed(
-                                  RouteHelper.recitationallcategory,
-                                  // arguments: [
-                                  //   localeText(context, model.playlistName!),
-                                  //   model.imageURl!,
-                                  //   LocalizationProvider().checkIsArOrUr()
-                                  //       ? "${model.numberOfSurahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                                  //       : "${localeText(context, 'playlist_of')} ${model.numberOfSurahs!} ${localeText(context, 'duas')}",
-                                  //   model.playlistId!,
-                                  // ],
-                                );
-                                String categoryNames =
-                                    model.playlistName!.replaceAll('_', ' ');
-                                //   tappedRecitationNames.add(model.categoryName!);
-                                context
-                                    .read<recentProviderRecitation>()
-                                    .addTappedReciterName(categoryNames!);
-                              },
+                          return InkWell(
+                            onTap: () {
+                              Future.delayed(
+                                Duration.zero,
+                                () => context
+                                    .read<RecitationPlayerProvider>()
+                                    .pause(context),
+                              );
+                              recitationProvider
+                                  .getSelectedRecitationAll(model.playlistId!);
+                              recitationProvider
+                                  .setSelectedRecitationCategory(model);
+                              analytics.logEvent(
+                                name: 'recitation_section',
+                                parameters: {
+                                  'title': model.playlistName.toString()
+                                },
+                              );
+                              _addLastViewedRecitations(
+                                  "recitationCategory", model);
+                              // updateTappedSurahNames(model.categoryName!);
+                              Navigator.of(context).pushNamed(
+                                RouteHelper.recitationallcategory,
+                                // arguments: [
+                                //   localeText(context, model.playlistName!),
+                                //   model.imageURl!,
+                                //   LocalizationProvider().checkIsArOrUr()
+                                //       ? "${model.numberOfSurahs!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                                //       : "${localeText(context, 'playlist_of')} ${model.numberOfSurahs!} ${localeText(context, 'duas')}",
+                                //   model.playlistId!,
+                                // ],
+                              );
+                              String categoryNames =
+                                  model.playlistName!.replaceAll('_', ' ');
+                              //   tappedRecitationNames.add(model.categoryName!);
+                              context
+                                  .read<recentProviderRecitation>()
+                                  .addTappedReciterName(categoryNames!);
+                            },
+                            child: Container(
+                              width: 209.w,
+                              margin: EdgeInsets.only(right: 10.w),
+                              decoration: BoxDecoration(
+                                color: Colors.amberAccent,
+                                borderRadius: BorderRadius.circular(8.r),
+                                image: DecorationImage(
+                                  image: CachedNetworkImageProvider(
+                                      model.imageURl!),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                               child: Container(
-                                width: 209.w,
-                                margin: EdgeInsets.only(right: 10.w),
                                 decoration: BoxDecoration(
-                                  color: Colors.amberAccent,
                                   borderRadius: BorderRadius.circular(8.r),
-                                  image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                        model.imageURl!),
-                                    fit: BoxFit.cover,
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Color.fromRGBO(0, 0, 0, 0),
+                                      Color.fromRGBO(0, 0, 0, 1),
+                                    ],
+                                    begin: Alignment.center,
+                                    end: Alignment.bottomCenter,
                                   ),
                                 ),
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Color.fromRGBO(0, 0, 0, 0),
-                                        Color.fromRGBO(0, 0, 0, 1),
-                                      ],
-                                      begin: Alignment.center,
-                                      end: Alignment.bottomCenter,
-                                    ),
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: 6.w, bottom: 8.h, right: 6.w),
-                                    alignment: language.checkIsArOrUr()
-                                        ? Alignment.bottomRight
-                                        : Alignment.bottomLeft,
-                                    child: Text(
-                                      localeText(context, model.playlistName!),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17.sp,
-                                          fontFamily: "satoshi",
-                                          fontWeight: FontWeight.w900),
-                                    ),
+                                  margin: EdgeInsets.only(
+                                      left: 6.w, bottom: 8.h, right: 6.w),
+                                  alignment: language.checkIsArOrUr()
+                                      ? Alignment.bottomRight
+                                      : Alignment.bottomLeft,
+                                  child: Text(
+                                    localeText(context, model.playlistName!),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17.sp,
+                                        fontFamily: "satoshi",
+                                        fontWeight: FontWeight.w900),
                                   ),
                                 ),
                               ),
-                            );
-                          } catch (error) {
-                            print("Error: $error");
-
-                            return Container(); // Placeholder for error handling
-                          }
+                            ),
+                          );
                         },
                       ),
                     );

@@ -32,7 +32,6 @@ class RecitationProvider extends ChangeNotifier {
 
   setReciterName(String name) {
     _currentReciterName = name;
-    print(_currentReciterName);
     //notifyListeners();
   }
 
@@ -40,8 +39,6 @@ class RecitationProvider extends ChangeNotifier {
   Future<void> setCurrentReciterId(int reciterId) async {
     if (_currentReciterId != reciterId) {
       _currentReciterId = reciterId;
-      print(_currentReciterId);
-      print('Searching similar reciters');
       _similarReciterList =
           (await QuranDatabase().getRecommendedReciterr(_currentReciterId!))
               .cast<Reciters>();
