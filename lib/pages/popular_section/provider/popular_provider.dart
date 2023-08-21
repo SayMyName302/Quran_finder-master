@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,31 @@ import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:video_player/video_player.dart';
 
 class PopularProvider extends ChangeNotifier {
+  List<PopularRecitationModel> _reorderedList = [];
+
+  List<PopularRecitationModel> get reorderedList => _reorderedList;
+
+  void setReorderedList(List<PopularRecitationModel> list) {
+    _reorderedList = list;
+    //notifyListeners();
+  }
+
+  Future<void> loadReorderedList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String listJson = prefs.getString('reordered_list') ?? '[]';
+    final List<dynamic> decodedList = json.decode(listJson);
+    _reorderedList = decodedList
+        .map((item) => PopularRecitationModel.fromJson(item))
+        .toList();
+    notifyListeners();
+  }
+
+  Future<void> saveReorderedList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String listJson = json.encode(_reorderedList);
+    prefs.setString('reordered_list', listJson);
+  }
+
   List<PopularRecitationModel> _feature = [];
   List<PopularRecitationModel> get feature => _feature;
   int _currentFeatureIndex = 0;

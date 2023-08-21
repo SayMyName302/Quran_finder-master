@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
+import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
 
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
@@ -34,8 +35,8 @@ class FeaturedSection extends StatelessWidget {
             );
           },
         ),
-        Consumer2<LocalizationProvider, FeatureProvider>(
-          builder: (context, language, storiesProvider, child) {
+        Consumer3<LocalizationProvider, FeatureProvider, ProfileProvider>(
+          builder: (context, language, storiesProvider, profile, child) {
             return SizedBox(
               height: 150.h,
               child: ListView.builder(
