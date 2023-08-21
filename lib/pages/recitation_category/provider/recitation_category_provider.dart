@@ -71,6 +71,7 @@ class RecitationCategoryProvider extends ChangeNotifier {
   Future<void> getRecitationCategoryStories() async {
     _recitationCategoryList = await HomeDb().getRecitationBasedOnTime();
     // printCurrentTimeCategory();
+    // print('recitationCategory $_recitationCategoryList');
     notifyListeners();
   }
 

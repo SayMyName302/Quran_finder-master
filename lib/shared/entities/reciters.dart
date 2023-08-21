@@ -107,8 +107,8 @@ class Reciters {
     );
   }
 
-  @override
-  String toString() {
-    return 'rec_id $reciterId rec_name $reciterName rec_count $recitationCount img $imageUrl title $Title';
-  }
+  // @override
+  // String toString() {
+  //   return 'rec_id $reciterId rec_name $reciterName rec_count $recitationCount img $imageUrl title $Title';
+  // }
 }

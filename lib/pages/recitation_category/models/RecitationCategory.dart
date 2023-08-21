@@ -62,7 +62,6 @@ class RecitationCategoryModel {
     _audioImageUrl = json['audio_image_url'];
     _imageURl = json['image_url'];
     _viewOrderBy = json['view_order_by'];
-
     // _categoryId = json['category_id'];
     // _categoryName = json['category_name'];
     // _numberOfPrayers = json['number_of_prayers'];
@@ -82,5 +81,23 @@ class RecitationCategoryModel {
       'number_of_sruahs': _numberOfSurahs,
       'audio_image_url': _audioImageUrl,
     };
+  }
+
+  factory RecitationCategoryModel.fromMap(Map<String, dynamic> map) {
+    return RecitationCategoryModel(
+      playlistId: map['playlist_id'],
+      playlistName: map['playlist_name'],
+      playPeriod: map['play_period'],
+      playlistContentType: map['playlist_content_type'],
+      numberOfSurahs: map['number_of_surahs'],
+      audioImageUrl: map['audio_image_url'],
+      imageURl: map['image_url'],
+      viewOrderBy: map['view_order_by'],
+    );
+  }
+
+  @override
+  String toString() {
+    return "$playlistName";
   }
 }
