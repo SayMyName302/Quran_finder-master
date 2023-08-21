@@ -12,7 +12,7 @@ class RecitationCustomTitles {
 
   String? get rowName => _rowName;
   String? get screenName => _screenName;
-  String? get titleText => _recitationTitleText;
+  String? get recitationTitleText => _recitationTitleText;
   String? get language => _language;
   String? get region => _region;
   String? get countryName => _recitationCountryName;
@@ -24,7 +24,7 @@ class RecitationCustomTitles {
   RecitationCustomTitles(
       {required rowname,
       required screenname,
-      required titleText,
+      required recitationTitleText,
       required language,
       required region,
       required countryName,
@@ -34,7 +34,7 @@ class RecitationCustomTitles {
       required period}) {
     _rowName = rowname;
     _screenName = screenname;
-    _recitationTitleText = titleText;
+    _recitationTitleText = recitationTitleText;
     _language = language;
     _region = region;
     _recitationCountryName = countryName;
@@ -58,6 +58,6 @@ class RecitationCustomTitles {
   }
   @override
   String toString() {
-    return 'titles $RecitationCustomTitles countryName $countryName';
+    return 'titles $recitationTitleText countryName $countryName';
   }
 }

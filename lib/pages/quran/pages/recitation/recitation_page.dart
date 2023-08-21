@@ -3,7 +3,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/home/widgets/home_row_widget.dart';
-import 'package:nour_al_quran/pages/onboarding/provider/on_boarding_provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/provider.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/player_provider.dart';
 
@@ -373,7 +372,6 @@ class _RecitationPageState extends State<RecitationPage> {
               ],
             ),
             SizedBox(height: 15.h),
-            RecitationTestSection(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -569,26 +567,26 @@ class _RecitationPageState extends State<RecitationPage> {
                   SubTitleText(
                       title:
                           "Similar Reciters to ${recitersValue.currentReciterName}"),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(RouteHelper.allReciters);
-                      analytics.logEvent(
-                        name: 'reciters_section_viewall_button',
-                        parameters: {'title': 'reciters_viewall'},
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(
-                          bottom: 10.h, right: 20.w, left: 20.w),
-                      child: Text(
-                        localeText(context, "view_all"),
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w900,
-                            color: appColor),
-                      ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     Navigator.of(context).pushNamed(RouteHelper.allReciters);
+                  //     analytics.logEvent(
+                  //       name: 'reciters_section_viewall_button',
+                  //       parameters: {'title': 'reciters_viewall'},
+                  //     );
+                  //   },
+                  //   child: Container(
+                  //     margin: EdgeInsets.only(
+                  //         bottom: 10.h, right: 20.w, left: 20.w),
+                  //     child: Text(
+                  //       localeText(context, "view_all"),
+                  //       style: TextStyle(
+                  //           fontSize: 14.sp,
+                  //           fontWeight: FontWeight.w900,
+                  //           color: appColor),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               );
             }),
@@ -902,6 +900,7 @@ class _RecitationPageState extends State<RecitationPage> {
                         localeText(context, "no_fav_reciter_added_yet"));
               },
             ),
+            RecitationTestSection(),
           ],
         ),
       ),

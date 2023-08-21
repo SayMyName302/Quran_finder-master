@@ -228,7 +228,7 @@ class HomeProvider extends ChangeNotifier {
           NotificationServices().dailyNotifications(
               id: dailyVerseNotificationId,
               title: "Verse Of the Day",
-              body: _verseOfTheDay.verseText!,
+              body: "It is time to See Verse of The Day",
               payload: "dua",
               dailyNotifyTime: const TimeOfDay(hour: 8, minute: 0));
         });
