@@ -36,9 +36,15 @@ class RuqyahCategoriesPage extends StatelessWidget {
                   return InkWell(
                     onTap: () async {
                       /// if recitation player is on So this line is used to pause the player
-                      Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
+                      Future.delayed(
+                        Duration.zero,
+                        () => context
+                            .read<RecitationPlayerProvider>()
+                            .pause(context),
+                      );
                       duaValue.setSelectedCategory(index);
-                      duaValue.getRDuaBasedOnCategoryId(duaCategory.categoryId!);
+                      duaValue
+                          .getRDuaBasedOnCategoryId(duaCategory.categoryId!);
                       Navigator.of(context).pushNamed(
                         RouteHelper.ruqyah,
                       );
@@ -47,12 +53,11 @@ class RuqyahCategoriesPage extends StatelessWidget {
                       height: 149.h,
                       margin: EdgeInsets.only(right: 9.w, bottom: 9.h),
                       decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(8.r),
-                        image: DecorationImage(
-                            image: AssetImage(duaCategory.imageUrl!),
-                            fit: BoxFit.cover),
-                      ),
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(8.r),
+                          image: DecorationImage(
+                              image: NetworkImage(duaCategory.imageUrl!),
+                              fit: BoxFit.cover)),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.r),

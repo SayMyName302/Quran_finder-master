@@ -29,8 +29,14 @@ class DuaCategoriesPage extends StatelessWidget {
                   return InkWell(
                     onTap: () async {
                       /// pause recitation player
-                      Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context),);
-                      duaProvider.getDuaBasedOnCategoryId(duaCategory.categoryId!);
+                      Future.delayed(
+                        Duration.zero,
+                        () => context
+                            .read<RecitationPlayerProvider>()
+                            .pause(context),
+                      );
+                      duaProvider
+                          .getDuaBasedOnCategoryId(duaCategory.categoryId!);
                       duaProvider.setSelectedCategory(index);
                       Navigator.of(context).pushNamed(
                         RouteHelper.dua,
@@ -40,13 +46,11 @@ class DuaCategoriesPage extends StatelessWidget {
                       height: 149.h,
                       margin: EdgeInsets.only(right: 9.w, bottom: 9.h),
                       decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(8.r),
-                        image: DecorationImage(
-                          image: AssetImage(duaCategory.imageUrl!),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(8.r),
+                          image: DecorationImage(
+                              image: NetworkImage(duaCategory.imageUrl!),
+                              fit: BoxFit.cover)),
                       child: Container(
                         width: double.maxFinite,
                         decoration: BoxDecoration(

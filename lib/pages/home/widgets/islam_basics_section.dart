@@ -77,7 +77,7 @@ class IslamBasicsSection extends StatelessWidget {
                               color: Colors.amberAccent,
                               borderRadius: BorderRadius.circular(8.r),
                               image: DecorationImage(
-                                  image: AssetImage(islamBasics.image!),
+                                  image: NetworkImage(islamBasics.image!),
                                   fit: BoxFit.cover)),
                           child: Container(
                             margin: EdgeInsets.only(

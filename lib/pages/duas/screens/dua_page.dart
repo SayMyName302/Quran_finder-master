@@ -53,13 +53,12 @@ class DuaPage extends StatelessWidget {
                         height: 110.h,
                         width: 120.w,
                         decoration: BoxDecoration(
-                          color: Colors.amberAccent,
-                          borderRadius: BorderRadius.circular(22),
-                          image: DecorationImage(
-                            image: AssetImage(duaProvider.selectedDuaCategory!.imageUrl!),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                            color: Colors.amberAccent,
+                            borderRadius: BorderRadius.circular(22),
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    duaProvider.selectedDuaCategory!.imageUrl!),
+                                fit: BoxFit.cover)),
                       ),
                       Expanded(
                         child: Container(
@@ -70,7 +69,10 @@ class DuaPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TitleText(
-                                title: localeText(context, duaProvider.selectedDuaCategory!.categoryName!),
+                                title: localeText(
+                                    context,
+                                    duaProvider
+                                        .selectedDuaCategory!.categoryName!),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 17.sp,
@@ -118,7 +120,7 @@ class DuaPage extends StatelessWidget {
                           itemCount: duaProvider.duaList.length,
                           itemBuilder: (context, index) {
                             Dua dua = duaProvider.duaList[index];
-                           // duaProvider.duaList[index].translations.toString();
+                            // duaProvider.duaList[index].translations.toString();
                             String duaCount = dua.ayahCount.toString();
 
                             return InkWell(
@@ -128,7 +130,10 @@ class DuaPage extends StatelessWidget {
                                   parameters: {
                                     'index': index + 1,
                                     'Name': dua.duaTitle.toString(),
-                                    'Category': localeText(context, duaProvider.selectedDuaCategory!.categoryName!)
+                                    'Category': localeText(
+                                        context,
+                                        duaProvider
+                                            .selectedDuaCategory!.categoryName!)
                                   },
                                 );
                                 duaProvider.gotoDuaPlayerPage(

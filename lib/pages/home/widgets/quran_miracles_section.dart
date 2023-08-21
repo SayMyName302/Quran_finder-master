@@ -68,7 +68,7 @@ class QuranMiraclesSection extends StatelessWidget {
                               color: Colors.amberAccent,
                               borderRadius: BorderRadius.circular(8.r),
                               image: DecorationImage(
-                                  image: AssetImage('${model.image}'),
+                                  image: NetworkImage(model.image!),
                                   fit: BoxFit.cover)),
                           child: Container(
                             margin: EdgeInsets.only(

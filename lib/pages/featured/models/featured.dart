@@ -1,7 +1,8 @@
 import 'package:hive_flutter/adapters.dart';
 import 'package:nour_al_quran/shared/utills/app_constants.dart';
 
-class FeaturedModel {
+class FeaturedModel
+ {
   int? _storyId;
   String? _storyTitle;
   String? _image;

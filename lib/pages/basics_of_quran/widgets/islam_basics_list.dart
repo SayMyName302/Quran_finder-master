@@ -59,7 +59,7 @@ class IslamBasicList extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.r),
                           image: DecorationImage(
-                              image: AssetImage(model.image!),
+                              image: NetworkImage(model.image!),
                               fit: BoxFit.cover)),
                       child: Container(
                         width: double.maxFinite,

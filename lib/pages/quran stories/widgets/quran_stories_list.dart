@@ -64,8 +64,7 @@ class QuranStoriesList extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.r),
                             image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/quran_stories/${model.image!}"),
+                                image: NetworkImage(model.image!),
                                 fit: BoxFit.cover)),
                         child: Container(
                           width: double.maxFinite,

@@ -126,14 +126,11 @@ class PopularSection extends StatelessWidget {
                       width: 250.w,
                       margin: EdgeInsets.only(right: 10.w),
                       decoration: BoxDecoration(
-                        color: Colors.amberAccent,
-                        borderRadius: BorderRadius.circular(8.r),
-                        image: DecorationImage(
-                          image: AssetImage(
-                              "assets/images/popular_recitations/${model.image}"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          color: Colors.amberAccent,
+                          borderRadius: BorderRadius.circular(8.r),
+                          image: DecorationImage(
+                              image: NetworkImage(model.image!),
+                              fit: BoxFit.cover)),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.r),

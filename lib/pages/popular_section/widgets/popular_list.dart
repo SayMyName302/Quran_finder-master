@@ -40,9 +40,14 @@ class PopularList extends StatelessWidget {
                       onTap: () {
                         if (network == 1) {
                           /// if recitation player is on So this line is used to pause the player
-                          Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
+                          Future.delayed(
+                              Duration.zero,
+                              () => context
+                                  .read<RecitationPlayerProvider>()
+                                  .pause(context));
                           if (model.contentType == "audio") {
-                            featureProvider.gotoFeaturePlayerPage(model.surahId!, context, index);
+                            featureProvider.gotoFeaturePlayerPage(
+                                model.surahId!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_audiotiles',
                               parameters: {'title': model.title},
@@ -53,7 +58,10 @@ class PopularList extends StatelessWidget {
 
                             /// two ways without creating any separate provider
                             /// directly using MiraclesOfQuranProvider
-                            Provider.of<MiraclesOfQuranProvider>(context, listen: false).goToMiracleDetailsPageFromFeatured(model.title!, context, index);
+                            Provider.of<MiraclesOfQuranProvider>(context,
+                                    listen: false)
+                                .goToMiracleDetailsPageFromFeatured(
+                                    model.title!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_videotiles',
                               parameters: {'title': model.title},
@@ -72,8 +80,7 @@ class PopularList extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.r),
                             image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/popular_recitations/${model.image!}"),
+                                image: NetworkImage(model.image!),
                                 fit: BoxFit.cover)),
                         child: Container(
                           width: double.maxFinite,
