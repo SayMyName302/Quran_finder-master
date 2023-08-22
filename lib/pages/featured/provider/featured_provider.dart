@@ -390,7 +390,7 @@ class FeatureProvider extends ChangeNotifier {
     _selectedFeatureStory = _feature[index];
     notifyListeners();
 
-    _moveStoryToEnd(index);
+    // _moveStoryToEnd(index);
     Navigator.of(context).pushNamed(RouteHelper.featureDetails);
     // _moveStoryToEnd(index);
   }
@@ -402,32 +402,32 @@ class FeatureProvider extends ChangeNotifier {
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedFeatureStory!.audioUrl!,
             "${selectedFeatureStory!.image}", context);
-    _moveStoryToEnd(index);
+    // _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
   }
 
-  void _moveStoryToEnd(int index) {
-    _selectedFeatureStory = _feature[index];
-    notifyListeners();
+  // void _moveStoryToEnd(int index) {
+  //   _selectedFeatureStory = _feature[index];
+  //   notifyListeners();
 
-    Future.delayed(const Duration(milliseconds: 300), () {
-      _feature.removeAt(index);
-      _feature.add(_selectedFeatureStory!);
-      notifyListeners();
-      _saveStoriesOrder();
+  //   Future.delayed(const Duration(milliseconds: 300), () {
+  //     _feature.removeAt(index);
+  //     _feature.add(_selectedFeatureStory!);
+  //     notifyListeners();
+  //     _saveStoriesOrder();
 
-      // Find the new index of the selected story after it has been moved
-      _currentFeatureIndex = _feature.indexOf(_selectedFeatureStory!);
-      notifyListeners();
-    });
-  }
+  //     // Find the new index of the selected story after it has been moved
+  //     _currentFeatureIndex = _feature.indexOf(_selectedFeatureStory!);
+  //     notifyListeners();
+  //   });
+  // }
 
-  void _saveStoriesOrder() async {
-    final List<String> order =
-        _feature.map((stories) => stories.storyTitle!).toList();
-    _preferences?.setStringList('feature_order', order);
-  }
+  // void _saveStoriesOrder() async {
+  //   final List<String> order =
+  //       _feature.map((stories) => stories.storyTitle!).toList();
+  //   _preferences?.setStringList('feature_order', order);
+  // }
 
   // void _loadStoriesOrder() async {
   //   final List<String>? order = _preferences?.getStringList('feature_order');

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
@@ -44,6 +45,11 @@ class RecitationCategoryProvider extends ChangeNotifier {
   List<RecitationCategoryModel> get recitationCategoryList =>
       _recitationCategoryList;
 
+  //randomly select 1 item from the recitationCategoryList
+  List<RecitationCategoryModel> _recitationCategoryItem = [];
+  List<RecitationCategoryModel> get recitationCategoryItem =>
+      _recitationCategoryItem;
+
   RecitationCategoryModel? _selectedRecitationCategory;
   RecitationCategoryModel? get selectedRecitationCategory =>
       _selectedRecitationCategory;
@@ -70,9 +76,15 @@ class RecitationCategoryProvider extends ChangeNotifier {
 
   Future<void> getRecitationCategoryStories() async {
     _recitationCategoryList = await HomeDb().getRecitationBasedOnTime();
-    // printCurrentTimeCategory();
-    // print('recitationCategory $_recitationCategoryList');
     notifyListeners();
+    //Selecting 1 random Item from List
+    if (_recitationCategoryList.isNotEmpty) {
+      int randomIndex = Random().nextInt(_recitationCategoryList.length);
+      dynamic randomItem = _recitationCategoryList[randomIndex];
+      _recitationCategoryItem.add(randomItem);
+    } else {
+      print('List is empty.');
+    }
   }
 
   Future<void> getRecitationAllCategoryStories() async {
