@@ -68,7 +68,8 @@ class _AllRecitersState extends State<AllReciters> {
                       crossAxisSpacing: 5.w,
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      Reciters reciter = recitersValue.recommendedReciterList[index];
+                      Reciters reciter =
+                          recitersValue.recommendedReciterList[index];
                       return InkWell(
                         onTap: () async {
                           recitersValue.getSurahName();

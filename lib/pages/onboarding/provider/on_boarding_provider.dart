@@ -83,7 +83,7 @@ class OnBoardingProvider extends ChangeNotifier {
     FavReciter(
       title: "Ahmed Al-Ajmi",
       isPlaying: false,
-      audioUrl: "assets/ audios/fav_reciters/ahmed_al_ajmi.mp3",
+      audioUrl: "assets/audios/fav_reciters/ahmed_al_ajmi.mp3",
       reciterId: 13,
       imageUrl: "assets/images/reciters/sheikh_ahmed_al_ajmi.webp",
     ),
@@ -204,7 +204,7 @@ class OnBoardingProvider extends ChangeNotifier {
   ];
 
   List<Common> get notification => _notification;
-  void setNotification(int index, bool value) async{
+  void setNotification(int index, bool value) async {
     _notification[index].setIsSelected = value;
     notifyListeners();
     NotificationServices().checkPermissionAndSetNotification(() {
@@ -212,7 +212,7 @@ class OnBoardingProvider extends ChangeNotifier {
     });
   }
 
-  setOrCancelNotification(int index, bool value){
+  setOrCancelNotification(int index, bool value) {
     if (index == 0 && value == false) {
       NotificationServices().cancelNotifications(dailyQuranRecitationId);
     } else if (index == 1 && value == false) {

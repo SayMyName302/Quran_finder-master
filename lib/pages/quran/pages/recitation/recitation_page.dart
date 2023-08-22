@@ -260,8 +260,10 @@ class _RecitationPageState extends State<RecitationPage> {
                     },
                   );
                 }),
-                Consumer2<LocalizationProvider, RecitationCategoryProvider>(
-                  builder: (context, language, recitationProvider, child) {
+                Consumer3<LocalizationProvider, RecitationCategoryProvider,
+                    RecitationProvider>(
+                  builder: (context, language, recitationProvider,
+                      recitersValue, child) {
                     return SizedBox(
                       height: 150.h,
                       child: ListView.builder(
@@ -370,7 +372,8 @@ class _RecitationPageState extends State<RecitationPage> {
                 SubTitleText(title: localeText(context, "popular_reciter")),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed(RouteHelper.allReciters);
+                    Navigator.of(context)
+                        .pushNamed(RouteHelper.allReciterspopular);
                     analytics.logEvent(
                       name: 'reciters_section_viewall_button',
                       parameters: {'title': 'reciters_viewall'},
@@ -417,6 +420,8 @@ class _RecitationPageState extends State<RecitationPage> {
                                   crossAxisSpacing: 5.w,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
+                                  recitersValue.currentReciterName;
+
                                   Reciters reciter =
                                       recitersValue.popularReciterList[index];
                                   return InkWell(

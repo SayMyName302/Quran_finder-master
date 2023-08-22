@@ -8,7 +8,6 @@ import 'package:nour_al_quran/pages/settings/pages/app_them/them_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
-
 import '../../../shared/widgets/app_bar.dart';
 
 class FeaturedDetailsPage extends StatelessWidget {
