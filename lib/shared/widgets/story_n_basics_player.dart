@@ -55,9 +55,7 @@ class StoryAndBasicsAudioPlayer extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24.r),
                               image: DecorationImage(
-                                  image: Image.asset(
-                                    player.image,
-                                  ).image,
+                                  image: NetworkImage(player.image),
                                   fit: BoxFit.cover)),
                           margin: EdgeInsets.only(
                               left: 20.w, right: 20.w, bottom: 25.h),

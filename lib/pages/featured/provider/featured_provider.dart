@@ -400,10 +400,8 @@ class FeatureProvider extends ChangeNotifier {
         _feature.indexWhere((element) => element.storyId == storyId);
     _selectedFeatureStory = _feature[_currentFeatureIndex];
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
-        .initAudioPlayer(
-            _selectedFeatureStory!.audioUrl!,
-            "assets/images/quran_feature/${selectedFeatureStory!.image}",
-            context);
+        .initAudioPlayer(_selectedFeatureStory!.audioUrl!,
+            "${selectedFeatureStory!.image}", context);
     _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');

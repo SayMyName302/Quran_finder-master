@@ -48,10 +48,8 @@ class QuranStoriesProvider extends ChangeNotifier {
         _stories.indexWhere((element) => element.storyId == storyId);
     _selectedQuranStory = _stories[_currentStoryIndex];
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
-        .initAudioPlayer(
-            _selectedQuranStory!.audioUrl!,
-            "assets/images/quran_stories/${selectedQuranStory!.image}",
-            context);
+        .initAudioPlayer(_selectedQuranStory!.audioUrl!,
+            "${selectedQuranStory!.image}", context);
     _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromStory');
