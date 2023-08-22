@@ -127,19 +127,17 @@ flutter:
     - assets/
     - assets/app_locales/
     - assets/images/app_icons/
-    - assets/images/quran_stories/
+
     - assets/images/salah_timer/
     - assets/images/salah_timer/them_1/
     - assets/images/salah_timer/them_2/
     - assets/images/
     - assets/images/reciters/
-    - assets/images/quran_feature/
-    - assets/images/duas/
-    - assets/images/quran_miracles/
+
     - assets/images/flags/
-    - assets/images/basics_of_islam/
+
     - assets/images/splash/
-    - assets/images/recitation/
+
     - assets/data/
     - assets/audios/fav_reciters/
     - assets/images/qaida/
@@ -162,7 +160,6 @@ flutter:
     - assets/images/qaida/page17/
     - assets/images/qaida/page18/
     - assets/images/qaida/page19/
-    - assets/images/popular_recitations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

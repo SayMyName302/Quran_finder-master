@@ -88,7 +88,7 @@ class PopularProvider extends ChangeNotifier {
             // _selectedFeatureStory!.audioUrl!,
             _selectedFeatureStory!.contentUrl!,
             // "assets/images/popular_recitations/${selectedFeatureStory!.image}",
-            "${selectedFeatureStory!.image}",
+            "${selectedFeatureStory!.audioImageUrl}",
             context);
     // _moveStoryToEnd(index);
     Navigator.of(context)

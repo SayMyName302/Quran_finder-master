@@ -22,6 +22,7 @@ import 'package:nour_al_quran/pages/quran%20stories/pages/quran_stories_page.dar
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/player/audio_player_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/reciter/reciter_page.dart';
 import 'package:nour_al_quran/pages/quran/pages/recitation/view_all/view_all.dart';
+import 'package:nour_al_quran/pages/quran/pages/recitation/view_all/view_all_popular.dart';
 import 'package:nour_al_quran/pages/recitation_category/pages/recitation_all_category.dart';
 import 'package:nour_al_quran/pages/recitation_category/pages/recitation_category_page.dart';
 import 'package:nour_al_quran/pages/recitation_category/pages/recitation_player.dart';
@@ -137,6 +138,7 @@ class RouteHelper {
   static const String ruqyahPlayList = "/ruqyahPlayList";
   static const String quranstoriespage = "/quranStoriesPage";
   static const String qaidapageindex = "/qaidapageindex";
+  static const String allReciterspopular = "/allReciterspopular";
   static const String home = "/home";
   static const String favortiesmiraclesDetails = "/favortiesmiraclesDetails";
   static const String translationManager = "/translationManager";
@@ -147,7 +149,8 @@ class RouteHelper {
       BuildContext context) {
     return {
       initRoute: (context) {
-        String onBoardingDone = Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
+        String onBoardingDone =
+            Hive.box(appBoxKey).get(onBoardingDoneKey) ?? "notDone";
         currentContext = context;
         return const SetPreferredLanguage();
       },
@@ -405,6 +408,10 @@ class RouteHelper {
       allReciters: (context) {
         currentContext = context;
         return const AllReciters();
+      },
+      allReciterspopular: (context) {
+        currentContext = context;
+        return const AllReciterspopular();
       },
       audioPlayer: (context) {
         currentContext = context;

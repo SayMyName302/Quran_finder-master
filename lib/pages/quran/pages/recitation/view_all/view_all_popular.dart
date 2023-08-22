@@ -14,14 +14,14 @@ import 'package:provider/provider.dart';
 
 import '../../../../../shared/widgets/app_bar.dart';
 
-class AllReciters extends StatefulWidget {
-  const AllReciters({Key? key}) : super(key: key);
+class AllReciterspopular extends StatefulWidget {
+  const AllReciterspopular({Key? key}) : super(key: key);
 
   @override
-  _AllRecitersState createState() => _AllRecitersState();
+  _AllReciterspopularState createState() => _AllReciterspopularState();
 }
 
-class _AllRecitersState extends State<AllReciters> {
+class _AllReciterspopularState extends State<AllReciterspopular> {
   bool _isImagesLoaded = false;
 
   @override
@@ -60,7 +60,7 @@ class _AllRecitersState extends State<AllReciters> {
                 builder: (context, recitersValue, child) {
                   return GridView.builder(
                     padding: EdgeInsets.only(left: 20.w, right: 20.w),
-                    itemCount: recitersValue.recommendedReciterList.length,
+                    itemCount: recitersValue.popularReciterList.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
                       mainAxisExtent: 116.87.h,
@@ -69,7 +69,7 @@ class _AllRecitersState extends State<AllReciters> {
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       Reciters reciter =
-                          recitersValue.recommendedReciterList[index];
+                          recitersValue.popularReciterList[index];
                       return InkWell(
                         onTap: () async {
                           recitersValue.getSurahName();
