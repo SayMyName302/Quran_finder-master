@@ -41,11 +41,17 @@ class FeaturedSection extends StatelessWidget {
             RecitationCategoryProvider>(
           builder:
               (context, language, storiesProvider, recitationProvider, child) {
-            // Combine the recitation categories and featured stories
-            List<dynamic> combinedList = [
-              ...storiesProvider.feature,
-              ...recitationProvider.recitationCategoryList,
-            ];
+            List<dynamic> combinedList = [];
+
+            if (storiesProvider.feature.isNotEmpty) {
+              combinedList.add(storiesProvider.feature.first);
+
+              if (recitationProvider.recitationCategoryItem.isNotEmpty) {
+                combinedList
+                    .add(recitationProvider.recitationCategoryItem.first);
+              }
+              combinedList.addAll(storiesProvider.feature.sublist(1));
+            }
             return SizedBox(
               height: 150.h,
               child: ListView.builder(
@@ -55,11 +61,6 @@ class FeaturedSection extends StatelessWidget {
                 itemBuilder: (context, index) {
                   dynamic model = combinedList[index];
 
-                  // FeaturedModel model = storiesProvider.feature[index];
-                  // print('Inside listview: ${model.storyTitle}');
-                  // if (model.status != 'active') {
-                  //   return Container();
-                  // }
                   return InkWell(
                     onTap: () {
                       if (network == 1) {
@@ -68,21 +69,31 @@ class FeaturedSection extends StatelessWidget {
                             () => context
                                 .read<RecitationPlayerProvider>()
                                 .pause(context));
-                        if (model.contentType == "audio") {
-                          storiesProvider.gotoFeaturePlayerPage(
-                              model.storyId!, context, index);
-                          analytics.logEvent(
-                            name: 'featured_section_tile_homescreen',
-                            parameters: {'title': model.title},
-                          );
-                        } else if (model.contentType == "Video") {
-                          Provider.of<MiraclesOfQuranProvider>(context,
-                                  listen: false)
-                              .goToMiracleDetailsPageFromFeatured(
-                                  model.storyTitle!, context, index);
-                          analytics.logEvent(
-                            name: 'featured_section_miracle_tile_homescreen',
-                            parameters: {'title': model.title},
+                        if (model is FeaturedModel) {
+                          if (model.contentType == "audio") {
+                            storiesProvider.gotoFeaturePlayerPage(
+                                model.storyId!, context, index);
+                            analytics.logEvent(
+                              name: 'featured_section_tile_homescreen',
+                              parameters: {'title': model.title},
+                            );
+                          } else if (model.contentType == "Video") {
+                            Provider.of<MiraclesOfQuranProvider>(context,
+                                    listen: false)
+                                .goToMiracleDetailsPageFromFeatured(
+                                    model.storyTitle!, context, index);
+                            analytics.logEvent(
+                              name: 'featured_section_miracle_tile_homescreen',
+                              parameters: {'title': model.title},
+                            );
+                          }
+                        } else if (model is RecitationCategoryModel) {
+                          recitationProvider
+                              .getSelectedRecitationAll(model.playlistId!);
+                          recitationProvider
+                              .setSelectedRecitationCategory(model);
+                          Navigator.of(context).pushNamed(
+                            RouteHelper.recitationallcategory,
                           );
                         }
                       } else {
