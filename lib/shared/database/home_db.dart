@@ -335,15 +335,18 @@ class HomeDb {
     DateTime now = DateTime.now();
     String currentTimePeriod = 'morning';
 
-    if (now.hour >= 5 && now.hour < 12) {
+    if (now.hour >= 4 && now.hour < 7) {
+      currentTimePeriod = 'dawn';
+    } else if (now.hour >= 7 && now.hour < 11) {
       currentTimePeriod = 'morning';
-    } else if (now.hour >= 12 && now.hour < 18) {
+    } else if (now.hour >= 11 && now.hour < 17) {
       currentTimePeriod = 'afternoon';
-    } else if (now.hour >= 18 && now.hour < 22) {
-      currentTimePeriod = 'evening';
-    } else {
+    } else if (now.hour >= 17 && now.hour < 21) {
+      currentTimePeriod = 'sunset';
+    } else if (now.hour >= 21 || now.hour < 4) {
       currentTimePeriod = 'night';
     }
+
     var table = await _database!.query(_recitationPlaylists,
         where: 'play_period = ?', whereArgs: [currentTimePeriod]);
     for (var map in table) {
