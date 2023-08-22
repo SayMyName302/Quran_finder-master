@@ -397,7 +397,21 @@ class _RecitationPageState extends State<RecitationPage> {
             // const RecitationCategorySection(),
             Consumer<RecitationProvider>(
               builder: (context, recitersValue, child) {
-                return recitersValue.popularReciterList.isNotEmpty
+                List<Reciters> reciterList =
+                    recitersValue.popularReciterList.toList();
+
+                // Find the matching reciter index
+                int matchingReciterIndex = reciterList.indexWhere((reciter) =>
+                    reciter.reciterName?.trim() ==
+                    recitersValue.currentReciterName?.trim());
+
+                // Move the matching reciter to the beginning of the list
+                if (matchingReciterIndex != -1) {
+                  Reciters matchingReciter =
+                      reciterList.removeAt(matchingReciterIndex);
+                  reciterList.insert(0, matchingReciter);
+                }
+                return reciterList.isNotEmpty
                     ? SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
@@ -412,7 +426,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                     EdgeInsets.only(left: 20.w, right: 20.w),
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 8,
+                                itemCount: reciterList.length,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 8,
@@ -420,10 +434,9 @@ class _RecitationPageState extends State<RecitationPage> {
                                   crossAxisSpacing: 5.w,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
-                                  recitersValue.currentReciterName;
+                                  recitersValue.popularReciterList.length;
+                                  Reciters reciter = reciterList[index];
 
-                                  Reciters reciter =
-                                      recitersValue.popularReciterList[index];
                                   return InkWell(
                                     onTap: () async {
                                       _addLastViewedRecitations(
@@ -797,7 +810,7 @@ class _RecitationPageState extends State<RecitationPage> {
                 if (favRecitersList.isNotEmpty) {
                   final initialReciterId = (favRecitersList[0]).reciterId;
                   String? initialReciternames =
-                      (favRecitersList[0]).reciterShortname;
+                      (favRecitersList[0]).reciterName;
                   recitation.setReciterName(initialReciternames!);
                   recitation.setCurrentReciterId(initialReciterId!);
                 }
