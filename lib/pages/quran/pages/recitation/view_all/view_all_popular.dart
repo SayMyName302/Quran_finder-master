@@ -112,7 +112,6 @@ class _AllReciterspopularState extends State<AllReciterspopular> {
               ));
   }
 
-//abcdjuou
   Container buildReciterDetailsContainer(Reciters reciter) {
     return Container(
       margin: EdgeInsets.only(right: 7.w),
