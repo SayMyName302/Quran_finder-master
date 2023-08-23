@@ -11,6 +11,7 @@ import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_ca
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/model/about_model.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
+import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../pages/basics_of_quran/models/islam_basics.dart';
@@ -34,6 +35,7 @@ class HomeDb {
   final String _tranquilCategory = "tranquil_tales_category";
   final String _recitationPlaylists = "recitation_playlists";
   final String _recitationPlaylistitems = "recitation_playlist_items";
+  final String _reciterTable = "reciters";
   initDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -101,6 +103,23 @@ class HomeDb {
       selectedRecitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
     return selectedRecitationAll;
+  }
+
+  Future<List<Reciters>> getAllReciter() async {
+    // await initDb();
+
+    _database = await openDb();
+    var reciterList = <Reciters>[];
+
+    // Add the WHERE clause to filter by 'recommended'
+    var cursor = await _database!.query(
+      _reciterTable,
+    );
+    for (var maps in cursor) {
+      var reciter = Reciters.fromJson(maps);
+      reciterList.add(reciter);
+    }
+    return reciterList;
   }
 
   Future<List<TranquilTalesModel>> getSelectedAllTranquil(
