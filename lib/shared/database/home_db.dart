@@ -346,6 +346,7 @@ class HomeDb {
     } else if (now.hour >= 21 || now.hour < 4) {
       currentTimePeriod = 'night';
     }
+    print(currentTimePeriod);
 
     var table = await _database!.query(_recitationPlaylists,
         where: 'play_period = ?', whereArgs: [currentTimePeriod]);
