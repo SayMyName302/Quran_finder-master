@@ -82,13 +82,23 @@ class FeaturedDetailsPage extends StatelessWidget {
                   customStylesBuilder: (element) {
                     // Apply custom styles for <strong> and <em> tags if needed
                     if (element.localName == 'strong') {
+                      final appColorsProvider =
+                          Provider.of<AppColorsProvider>(context);
+                      final brandingColor = appColorsProvider.mainBrandingColor;
+                      final colorValue =
+                          '#${brandingColor.value.toRadixString(16).substring(2)}';
                       return {
-                        'color': '#FF0000', // Example color
+                        'color': colorValue, // Example color
                         'font-weight': 'bold',
                       };
                     } else if (element.localName == 'em') {
+                      final appColorsProvider =
+                          Provider.of<AppColorsProvider>(context);
+                      final brandingColor = appColorsProvider.mainBrandingColor;
+                      final colorValue =
+                          '#${brandingColor.value.toRadixString(16).substring(2)}';
                       return {
-                        'color': '#00FF00', // Example color
+                        'color': colorValue, // Example color
                         'font-style': 'italic',
                       };
                     }

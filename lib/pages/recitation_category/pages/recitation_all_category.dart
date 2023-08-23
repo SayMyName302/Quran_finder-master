@@ -33,8 +33,9 @@ class RecitationAllCategory extends StatelessWidget {
         child: Consumer2<AppColorsProvider, RecitationCategoryProvider>(
           builder: (context, appColors, recitationProvider, child) {
             String collectionOfDua = LocalizationProvider().checkIsArOrUr()
-            /// "{model.numberOfPrayers!} is change to numbers of surah as there is no column with number of prayer name
-                ?  "${recitationProvider.selectedRecitationCategory!.numberOfSurahs!}${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+
+                /// "{model.numberOfPrayers!} is change to numbers of surah as there is no column with number of prayer name
+                ? "${recitationProvider.selectedRecitationCategory!.numberOfSurahs!}${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
                 : "${localeText(context, 'playlist_of')} ${recitationProvider.selectedRecitationCategory!.numberOfSurahs!} ${localeText(context, 'duas')}";
             //Split Collection
             List<String> splitText = collectionOfDua.split(' ');
@@ -66,7 +67,8 @@ class RecitationAllCategory extends StatelessWidget {
                           color: Colors.amberAccent,
                           borderRadius: BorderRadius.circular(22),
                           image: DecorationImage(
-                            image: NetworkImage(recitationProvider.selectedRecitationCategory!.imageURl!),
+                            image: NetworkImage(recitationProvider
+                                .selectedRecitationCategory!.imageURl!),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -80,7 +82,11 @@ class RecitationAllCategory extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TitleText(
-                                title: localeText(context, recitationProvider.selectedRecitationCategory!.playlistName!),
+                                title: localeText(
+                                    context,
+                                    recitationProvider
+                                        .selectedRecitationCategory!
+                                        .playlistName!),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 17.sp,
@@ -125,18 +131,22 @@ class RecitationAllCategory extends StatelessWidget {
                           ),
                         )
                       : ListView.builder(
-                          itemCount: recitationProvider.selectedRecitationAll.length,
+                          itemCount:
+                              recitationProvider.selectedRecitationAll.length,
                           itemBuilder: (context, index) {
-                            RecitationAllCategoryModel recitationModels = recitationProvider.selectedRecitationAll[index];
+                            RecitationAllCategoryModel recitationModels =
+                                recitationProvider.selectedRecitationAll[index];
                             String title = recitationModels.title!;
                             // print('======RecPlayListId LVIEW ${recitationModels.playlistId!}');
                             // print('======RecplaylistItemId LVIEW ${recitationModels.surahId}');
 
                             return InkWell(
                               onTap: () {
-                                recitationProvider.gotoRecitationAudioPlayerPage(
+                                recitationProvider
+                                    .gotoRecitationAudioPlayerPage(
                                   recitationModels,
-                                  recitationProvider.selectedRecitationCategory!.imageURl!,
+                                  recitationProvider
+                                      .selectedRecitationCategory!.imageURl!,
                                   context,
                                 );
                                 Navigator.of(context).pushNamed(
