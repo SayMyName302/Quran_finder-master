@@ -419,7 +419,7 @@ class _RecitationPageState extends State<RecitationPage> {
                           children: [
                             SizedBox(
                               height: 170,
-                              width: 5 * (200.87.h) +
+                              width: 5 * (240.87.h) +
                                   3 * 5.w, // Adjust the width based on the item width and spacing
                               child: GridView.builder(
                                 padding:
@@ -429,7 +429,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 itemCount: reciterList.length,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 8,
+                                  crossAxisCount: 10,
                                   mainAxisExtent: 200.87.h,
                                   crossAxisSpacing: 5.w,
                                 ),
@@ -511,7 +511,7 @@ class _RecitationPageState extends State<RecitationPage> {
                         child: Row(
                           children: [
                             SizedBox(
-                              width: 5 * (200.87.h) + 3 * 5.w,
+                              width: 5 * (240.87.h) + 3 * 5.w,
 
                               height:
                                   170, // Adjust the width based on the item width and spacing
@@ -523,7 +523,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                 itemCount: 8,
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 8,
+                                  crossAxisCount: 10,
                                   mainAxisExtent: 200.87.h,
                                   crossAxisSpacing: 5.w,
                                 ),

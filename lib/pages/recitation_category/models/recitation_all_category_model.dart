@@ -8,11 +8,12 @@ class RecitationAllCategoryModel {
   String? _contentType;
   String? _contentUrl;
   String? _status;
-
   int? _isFav;
   int? _playlistId;
   int? _playlistItemId;
   String? _surahName;
+  int? _reciterId;
+  String? _reciterShortname; // New field added
 
   int? get surahId => _surahId;
   int? get categoryId => _categoryId;
@@ -23,11 +24,13 @@ class RecitationAllCategoryModel {
   String? get contentType => _contentType;
   String? get contentUrl => _contentUrl;
   String? get status => _status;
-
   int? get isFav => _isFav;
   int? get playlistId => _playlistId;
   int? get playlistItemId => _playlistItemId;
   String? get surahName => _surahName;
+  int? get reciterId => _reciterId;
+  String? get reciterShortname =>
+      _reciterShortname; // New getter for reciter_shortname
 
   set setIsBookmark(int value) => _isFav = value;
 
@@ -45,6 +48,8 @@ class RecitationAllCategoryModel {
     required int playlistId,
     required int playlistItemId,
     required String surahName,
+    required int reciterId,
+    required String reciterShortname, // New parameter for reciter_shortname
   }) {
     _surahId = surahId;
     _categoryId = categoryId;
@@ -55,11 +60,13 @@ class RecitationAllCategoryModel {
     _contentType = contentType;
     _contentUrl = contentUrl;
     _status = status;
-
     _isFav = isFav;
     _playlistId = playlistId;
     _playlistItemId = playlistItemId;
     _surahName = surahName;
+    _reciterId = reciterId;
+    _reciterShortname =
+        reciterShortname; // Initialize the reciter_shortname field
   }
 
   RecitationAllCategoryModel.fromJson(Map<String, dynamic> json) {
@@ -72,11 +79,13 @@ class RecitationAllCategoryModel {
     _contentType = json['content_type'];
     _contentUrl = json['content_url'];
     _status = json['status'];
-
     _isFav = json['is_favorite'];
     _playlistId = json['playlist_id'];
     _playlistItemId = json['playlist_item_id'];
     _surahName = json['surah_name'];
+    _reciterId = json['reciter_id'];
+    _reciterShortname =
+        json['reciter_shortname']; // Populate the reciter_shortname field
   }
 
   Map<String, dynamic> toJson() {
@@ -94,6 +103,9 @@ class RecitationAllCategoryModel {
       'playlist_id': _playlistId,
       'playlist_item_id': _playlistItemId,
       'surah_name': _surahName,
+      'reciter_id': _reciterId,
+      'reciter_shortname':
+          _reciterShortname, // Include the reciter_shortname field
     };
   }
 }
