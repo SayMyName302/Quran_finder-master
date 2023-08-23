@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nour_al_quran/pages/home/models/friday_content.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
@@ -15,10 +16,15 @@ import '../models/miracles.dart';
 class MiraclesOfQuranProvider extends ChangeNotifier {
   List<Miracles> _miracles = [];
   List<Miracles> _featureMiraclesList = [];
+  List<Friday> _friday = [];
+  List<Friday> get friday => _friday;
   SharedPreferences? _preferences;
   List<Miracles> get miracles => _miracles;
   Miracles? _selectedMiracle;
   Miracles? get selectedMiracle => _selectedMiracle;
+
+  Friday? _selectedFriday;
+  Friday? get selectedFriday => _selectedFriday;
   File? _videoUrl;
   File? get videoUrl => _videoUrl;
   int currentMiracle = 0;
@@ -34,6 +40,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   /// this method will get miracles from home.db
   Future<void> getMiracles() async {
     _miracles = await HomeDb().getMiracles();
+    _friday = [await HomeDb().fridayFilter()];
     _featureMiraclesList = await HomeDb().getFeatured3();
     _loadMiraclesOrder();
     notifyListeners();
@@ -46,16 +53,35 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     _preferences = await SharedPreferences.getInstance();
   }
 
+  void gotoMiracleDetailsPage(String title, BuildContext context, int index) {
+    _selectedFriday =
+        _friday.firstWhere((friday) => friday.recitationId == index);
+    notifyListeners();
+    Navigator.of(context)
+        .pushNamed(RouteHelper.miraclesDetails, arguments: _selectedFriday);
+  }
+
+  // void gotoMiracleDetailsPageFromFeatured(
+  //     String title, BuildContext context, int index) {
+  //   int fridayIndex = _friday.indexWhere((element) => element.title == title);
+  //   _selectedFriday = _friday[fridayIndex];
+  //   notifyListeners();
+  //   Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
+  //   //_moveMiracleToEnd(index);
+  // }
+
   void goToMiracleDetailsPage(String title, BuildContext context, int index) {
     _selectedMiracle = _miracles[index];
     notifyListeners();
-    Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
+    Navigator.of(context)
+        .pushNamed(RouteHelper.miraclesDetails, arguments: _selectedMiracle);
     _moveMiracleToEnd(index);
   }
 
   void goToMiracleDetailsPageFromFeatured(
       String title, BuildContext context, int index) {
-    int miracleIndex = _featureMiraclesList.indexWhere((element) => element.title == title);
+    int miracleIndex =
+        _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
@@ -64,7 +90,8 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void goToMiracleDetailsPageFromPopular(
       String title, BuildContext context, int index) {
-    int miracleIndex = _featureMiraclesList.indexWhere((element) => element.title == title);
+    int miracleIndex =
+        _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
@@ -107,10 +134,58 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
           }
         });
     } on PlatformException catch (e) {
-      setNetworkError(true);
+      Future.delayed(Duration.zero, () {
+        setNetworkError(true);
+      });
+      // setNetworkError(true);
       Fluttertoast.showToast(msg: e.toString());
     } catch (e) {
-      setNetworkError(true);
+      Future.delayed(Duration.zero, () {
+        setNetworkError(true);
+      });
+      // setNetworkError(true);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  //initForFriday
+  void initVideoPlayerF() async {
+    try {
+      print('checking URL FOR SURAH DUHA');
+      print(_selectedFriday!.contentUrl!);
+      controller = VideoPlayerController.networkUrl(
+        Uri.parse(_selectedFriday!.contentUrl!),
+      )
+        ..initialize().then((_) {
+          setNetworkError(false);
+
+          /// if user internet connection lost during video
+          /// so after connection resolve so user can seek to the same point of video
+          if (lastPosition != Duration.zero) {
+            controller.seekTo(lastPosition);
+          }
+          notifyListeners();
+        })
+        ..addListener(() async {
+          /// if there will be any error so this block will trigger error and resolve error during video
+          if (controller.value.hasError) {
+            controller.pause();
+            setNetworkError(true);
+            lastPosition = (await controller.position)!;
+            notifyListeners();
+          }
+        });
+    } on PlatformException catch (e) {
+      Future.delayed(Duration.zero, () {
+        setNetworkError(true);
+      });
+      // setNetworkError(true);
+      Fluttertoast.showToast(msg: e.toString());
+    } catch (e) {
+      Future.delayed(Duration.zero, () {
+        setNetworkError(true);
+      });
+      // setNetworkError(true);
       Fluttertoast.showToast(msg: e.toString());
     }
   }
@@ -160,7 +235,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void favoriteMiraclesDetailsPage(String s, BuildContext context, int index) {}
 
-/// logic to download Video From Internet
+  /// logic to download Video From Internet
 // Future<void> checkVideoAvailable(String miracleTitle,BuildContext context) async {
 //   currentMiracle = _miracles.indexWhere((element) => element.title == miracleTitle);
 //   _selectedMiracle = _miracles[currentMiracle];

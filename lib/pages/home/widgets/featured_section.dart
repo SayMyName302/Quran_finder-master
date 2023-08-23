@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/provider/featured_provider.dart';
+import 'package:nour_al_quran/pages/home/models/friday_content.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 
 import 'package:nour_al_quran/shared/localization/localization_provider.dart';
@@ -37,10 +38,10 @@ class FeaturedSection extends StatelessWidget {
             );
           },
         ),
-        Consumer3<LocalizationProvider, FeatureProvider,
-            RecitationCategoryProvider>(
-          builder:
-              (context, language, storiesProvider, recitationProvider, child) {
+        Consumer4<LocalizationProvider, FeatureProvider,
+            RecitationCategoryProvider, MiraclesOfQuranProvider>(
+          builder: (context, language, storiesProvider, recitationProvider,
+              miraclesProvider, child) {
             List<dynamic> combinedList = [];
 
             if (storiesProvider.feature.isNotEmpty) {
@@ -51,6 +52,10 @@ class FeaturedSection extends StatelessWidget {
                     .add(recitationProvider.recitationCategoryItem.first);
               }
               combinedList.addAll(storiesProvider.feature.sublist(1));
+            }
+
+            if (miraclesProvider.friday.isNotEmpty) {
+              combinedList.add(miraclesProvider.friday.first);
             }
             return SizedBox(
               height: 150.h,
@@ -95,6 +100,13 @@ class FeaturedSection extends StatelessWidget {
                           Navigator.of(context).pushNamed(
                             RouteHelper.recitationallcategory,
                           );
+                        } else if (model is Friday) {
+                          miraclesProvider.gotoMiracleDetailsPage(
+                              model.title!, context, model.recitationId!);
+                          print('-----------');
+                          print(model.title);
+                          print(index);
+                          print(model.viewOrderBy);
                         }
                       } else {
                         ScaffoldMessenger.of(context)
@@ -112,8 +124,13 @@ class FeaturedSection extends StatelessWidget {
                         image: DecorationImage(
                           image: model is RecitationCategoryModel
                               ? CachedNetworkImageProvider(model.imageURl!)
-                              : NetworkImage("${model.image!}")
-                                  as ImageProvider,
+                              : model is FeaturedModel
+                                  ? NetworkImage(model.image!)
+                                  : model is Friday
+                                      ? NetworkImage(model.appImageUrl!)
+                                          as ImageProvider
+                                      : const AssetImage(
+                                          'path_to_fallback_image'),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -140,7 +157,12 @@ class FeaturedSection extends StatelessWidget {
                               context,
                               model is RecitationCategoryModel
                                   ? model.playlistName!
-                                  : model.storyTitle!,
+                                  : model is FeaturedModel
+                                      ? model.storyTitle!
+                                      : model is Friday
+                                          ? model
+                                              .title! // Adjust property accordingly
+                                          : "",
                             ),
                             textAlign: TextAlign.left,
                             style: TextStyle(

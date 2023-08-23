@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nour_al_quran/pages/featured/models/featured.dart';
 import 'package:nour_al_quran/pages/featured/models/miracles.dart';
+import 'package:nour_al_quran/pages/home/models/friday_content.dart';
 import 'package:nour_al_quran/pages/popular_section/models/popular_model.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
@@ -34,6 +36,8 @@ class HomeDb {
   final String _tranquilCategory = "tranquil_tales_category";
   final String _recitationPlaylists = "recitation_playlists";
   final String _recitationPlaylistitems = "recitation_playlist_items";
+  final String _friday = "friday_all";
+
   initDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -218,7 +222,7 @@ class HomeDb {
         filteredList.add(feature);
       }
     }
-    print('records found by hijri date : $filteredList');
+    // print('records found by hijri date : $filteredList');
     return filteredList;
   }
 
@@ -232,7 +236,7 @@ class HomeDb {
         filteredList.add(feature);
       }
     }
-    print('records found by hijri Year : $filteredList');
+    // print('records found by hijri Year : $filteredList');
     return filteredList;
   }
 
@@ -271,7 +275,7 @@ class HomeDb {
         filteredList.add(feature);
       }
     }
-    print("FILTERED LIST: ${filteredList}");
+    // print("FILTERED LIST: ${filteredList}");
 
     return filteredList;
   }
@@ -286,7 +290,7 @@ class HomeDb {
         filteredList.add(feature);
       }
     }
-    print("FILTERED LIST: ${filteredList}");
+    // print("FILTERED LIST: ${filteredList}");
     return filteredList;
   }
 
@@ -346,7 +350,6 @@ class HomeDb {
     } else if (now.hour >= 21 || now.hour < 4) {
       currentTimePeriod = 'night';
     }
-    print(currentTimePeriod);
 
     var table = await _database!.query(_recitationPlaylists,
         where: 'play_period = ?', whereArgs: [currentTimePeriod]);
@@ -374,13 +377,13 @@ class HomeDb {
     List<RecitationAllCategoryModel> recitationAll = [];
     _database = await openDb();
     var table = await _database!.query(_recitationPlaylistitems);
-    print(
-        "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
+    // print(
+    //     "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
-    print(
-        "Recitation All Length: ${recitationAll.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Recitation All Length: ${recitationAll.length}"); // Print the number of FeaturedModel objects added to the list
     return recitationAll;
   }
 
@@ -388,14 +391,52 @@ class HomeDb {
     List<TranquilTalesModel> recitationAll = [];
     _database = await openDb();
     var table = await _database!.query(_tranquilCategory);
-    print(
-        "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
+    // print(
+    //     "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationAll.add(TranquilTalesModel.fromJson(map));
     }
-    print(
-        "Recitation All Length: ${recitationAll.length}"); // Print the number of FeaturedModel objects added to the list
+    // print(
+    //     "Recitation All Length: ${recitationAll.length}"); // Print the number of FeaturedModel objects added to the list
     return recitationAll;
+  }
+
+  Future<Friday> fridayFilter() async {
+    _database = await openDb();
+    //---Uncomment this when both audio/video is required
+    // var contentTypes = ["audio", "video"];
+    // var selectedContentType =
+    //     contentTypes[Random().nextInt(contentTypes.length)];
+
+    // var table = await _database!.query(_friday,
+    //     where: "content_type = ?", whereArgs: [selectedContentType]);
+
+    // print("Selected Content Type: $selectedContentType");
+    // print("Number of Rows in Table: ${table.length}");
+    //---Till here
+    var table = await _database!
+        .query(_friday, where: "content_type = ?", whereArgs: ["video"]);
+
+    if (table.isEmpty) {
+      print("No matching rows found. Returning empty instance.");
+      return Friday(
+        viewOrderBy: 0,
+        recitationId: 0,
+        appImageUrl: null,
+        contentType: null,
+        contentUrl: null,
+        miracleTitle: null,
+        reciterId: null,
+        reciterName: null,
+        title: null,
+        text: '',
+      );
+    }
+
+    var randomRow = table[Random().nextInt(table.length)];
+    print("Randomly Selected Row: $randomRow");
+
+    return Friday.fromJson(randomRow);
   }
 
   Future<List<Miracles2>> getFeatured2() async {

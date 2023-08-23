@@ -114,21 +114,21 @@ class QuranDatabase {
       if (secondMatch.isNotEmpty) {
         recitationTitleText = RecitationCustomTitles.fromJson(secondMatch.first)
             .recitationTitleText;
-        print(
-            'Matching title found for: country_name = all, period = $currentTimePeriod');
+        // print(
+        //     'Matching title found for: country_name = all, period = $currentTimePeriod');
       }
     } else {
       recitationTitleText =
           RecitationCustomTitles.fromJson(firstMatch.first).recitationTitleText;
-      print(
-          'Matching title found for: country_name = $countryName, period = $currentTimePeriod');
+      // print(
+      //     'Matching title found for: country_name = $countryName, period = $currentTimePeriod');
     }
 
-    if (recitationTitleText != null) {
-      print('recitationTitleTOD: $recitationTitleText');
-    } else {
-      print('No matching title found for the given country and time period.');
-    }
+    // if (recitationTitleText != null) {
+    //   print('recitationTitleTOD: $recitationTitleText');
+    // } else {
+    //   print('No matching title found for the given country and time period.');
+    // }
 
     return recitationTitleText;
   }

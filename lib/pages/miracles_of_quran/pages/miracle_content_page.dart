@@ -4,6 +4,7 @@ import 'package:nour_al_quran/pages/miracles_of_quran/widgets/video_player_conta
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/widgets/app_bar.dart';
+import '../../home/models/friday_content.dart';
 import '../models/miracles.dart';
 import '../provider/miracles_of_quran_provider.dart';
 
@@ -21,11 +22,30 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
     //  NotificationServices().showNotification();
     Provider.of<MiraclesOfQuranProvider>(context, listen: false)
         .initVideoPlayer();
+    Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+        .initVideoPlayerF();
   }
 
   @override
   Widget build(BuildContext context) {
-    Miracles miracles = context.read<MiraclesOfQuranProvider>().selectedMiracle!;
+    var arguments = ModalRoute.of(context)?.settings.arguments;
+
+    Friday? selectedFriday;
+    Miracles? selectedMiracle;
+    String title = '';
+
+    if (arguments != null) {
+      if (arguments is Friday) {
+        selectedFriday = arguments;
+        title = localeText(context, selectedFriday.title?.toLowerCase() ?? '');
+        print('friday text:>>>.${selectedFriday!.text}');
+        print(selectedFriday!.contentUrl);
+      } else if (arguments is Miracles) {
+        selectedMiracle = arguments;
+        title = localeText(context, selectedMiracle.title?.toLowerCase() ?? '');
+      }
+    }
+
     return WillPopScope(
       onWillPop: () async {
         Provider.of<MiraclesOfQuranProvider>(context, listen: false)
@@ -34,9 +54,7 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
         return true;
       },
       child: Scaffold(
-        appBar: buildAppBar(
-            context: context,
-            title: localeText(context, miracles.title!.toLowerCase())),
+        appBar: buildAppBar(context: context, title: title),
         body: const Column(
           mainAxisSize: MainAxisSize.max,
           children: [
