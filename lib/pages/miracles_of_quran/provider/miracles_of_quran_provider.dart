@@ -73,16 +73,14 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   void goToMiracleDetailsPage(String title, BuildContext context, int index) {
     _selectedMiracle = _miracles[index];
     notifyListeners();
-    Navigator.of(context)
-        .pushNamed(RouteHelper.miraclesDetails, arguments: _selectedMiracle);
+    Navigator.of(context).pushNamed(RouteHelper.miraclesDetails, arguments: _selectedMiracle);
     _moveMiracleToEnd(index);
   }
 
-  void goToMiracleDetailsPageFromFeatured(
-      String title, BuildContext context, int index) {
-    int miracleIndex =
-        _featureMiraclesList.indexWhere((element) => element.title == title);
+  void goToMiracleDetailsPageFromFeatured(String title, BuildContext context, int index) {
+    int miracleIndex = _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
+    print(_selectedMiracle!.videoUrl);
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
     //_moveMiracleToEnd(index);
@@ -111,10 +109,10 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void initVideoPlayer() async {
     try {
-      controller = VideoPlayerController.networkUrl(
-        Uri.parse(_selectedMiracle!.videoUrl!),
-      )
-        ..initialize().then((_) {
+      Future.delayed(const Duration(seconds: 2),(){
+        controller = VideoPlayerController.networkUrl(
+          Uri.parse(_selectedMiracle!.videoUrl!),
+        )..initialize().then((_) {
           setNetworkError(false);
 
           /// if user internet connection lost during video
@@ -123,8 +121,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
             controller.seekTo(lastPosition);
           }
           notifyListeners();
-        })
-        ..addListener(() async {
+        })..addListener(() async {
           /// if there will be any error so this block will trigger error and resolve error during video
           if (controller.value.hasError) {
             controller.pause();
@@ -133,6 +130,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
             notifyListeners();
           }
         });
+      });
     } on PlatformException catch (e) {
       Future.delayed(Duration.zero, () {
         setNetworkError(true);

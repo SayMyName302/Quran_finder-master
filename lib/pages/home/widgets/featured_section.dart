@@ -48,8 +48,7 @@ class FeaturedSection extends StatelessWidget {
               combinedList.add(storiesProvider.feature.first);
 
               if (recitationProvider.recitationCategoryItem.isNotEmpty) {
-                combinedList
-                    .add(recitationProvider.recitationCategoryItem.first);
+                combinedList.add(recitationProvider.recitationCategoryItem.first);
               }
               combinedList.addAll(storiesProvider.feature.sublist(1));
             }
