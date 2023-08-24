@@ -59,6 +59,6 @@ class Friday {
 
   @override
   String toString() {
-    return 'title $title url$contentUrl text $text';
+    return 'title $title url $contentUrl text $text recId $recitationId';
   }
 }

@@ -54,9 +54,16 @@ class FeaturedSection extends StatelessWidget {
               combinedList.addAll(storiesProvider.feature.sublist(1));
             }
 
-            if (miraclesProvider.friday.isNotEmpty) {
-              combinedList.add(miraclesProvider.friday.first);
+            if (miraclesProvider.friday.isNotEmpty ||
+                storiesProvider.friday.isNotEmpty) {
+              if (storiesProvider.friday.isNotEmpty) {
+                combinedList.add(storiesProvider.friday.first);
+              }
+              if (miraclesProvider.friday.isNotEmpty) {
+                combinedList.add(miraclesProvider.friday.first);
+              }
             }
+
             return SizedBox(
               height: 150.h,
               child: ListView.builder(
@@ -101,16 +108,14 @@ class FeaturedSection extends StatelessWidget {
                             RouteHelper.recitationallcategory,
                           );
                         } else if (model is Friday) {
-                          if (model.contentType == "video") {
+                          if (model.contentType == "audio") {
+                            print('<<<<<<<>>>>>>>>');
+                            print(model.recitationId);
+                            storiesProvider.gotoFeaturePlayerPageF(
+                                model.recitationId!, context, index);
+                          } else if (model.contentType == "video") {
                             miraclesProvider.gotoMiracleDetailsPage(
                                 model.title!, context, model.recitationId!);
-                            print('-----------');
-                            print(model.title);
-                            print(index);
-                            print(model.viewOrderBy);
-                          } else if (model.contentType == "audio") {
-                            storiesProvider.gotoFeaturePlayerPageF(
-                                model.recitationId!, context, model.reciterId!);
                           }
                         }
                       } else {

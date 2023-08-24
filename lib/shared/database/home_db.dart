@@ -403,35 +403,16 @@ class HomeDb {
 
   Future<Friday> fridayFilter() async {
     _database = await openDb();
-    //---Uncomment this when both audio/video is required
-    // var contentTypes = ["audio", "video"];
-    // var selectedContentType =
-    //     contentTypes[Random().nextInt(contentTypes.length)];
 
-    // var table = await _database!.query(_friday,
-    //     where: "content_type = ?", whereArgs: [selectedContentType]);
+    var contentTypes = ["audio", "video"];
+    var selectedContentType =
+        contentTypes[Random().nextInt(contentTypes.length)];
 
-    // print("Selected Content Type: $selectedContentType");
-    // print("Number of Rows in Table: ${table.length}");
-    //---Till here
-    var table = await _database!
-        .query(_friday, where: "content_type = ?", whereArgs: ["audio"]);
+    var table = await _database!.query(_friday,
+        where: "content_type = ?", whereArgs: [selectedContentType]);
 
-    if (table.isEmpty) {
-      print("No matching rows found. Returning empty instance.");
-      return Friday(
-        viewOrderBy: 0,
-        recitationId: 0,
-        appImageUrl: null,
-        contentType: null,
-        contentUrl: null,
-        miracleTitle: null,
-        reciterId: null,
-        reciterName: null,
-        title: null,
-        text: '',
-      );
-    }
+    print("Selected Content Type: $selectedContentType");
+    print("Number of Rows in Table: ${table.length}");
 
     var randomRow = table[Random().nextInt(table.length)];
     print("Randomly Selected Row: $randomRow");

@@ -372,8 +372,8 @@ class FeatureProvider extends ChangeNotifier {
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
     _friday = [await HomeDb().fridayFilter()];
-
-    //Uncomment this after testing date
+    // print('----FRIDAY ON APP LOAD----');
+    // print(_friday);
     scheduleReorder();
     // _loadStoriesOrder();
     notifyListeners();
@@ -399,7 +399,14 @@ class FeatureProvider extends ChangeNotifier {
     _selectedFeatureStory = _feature[index];
     notifyListeners();
 
-    // _moveStoryToEnd(index);
+    Navigator.of(context).pushNamed(RouteHelper.featureDetails);
+  }
+
+  goToFeatureContentPageF(int index, BuildContext context) {
+    _currentFeatureIndex = index;
+    _selectedFridayStory = _friday[index];
+    notifyListeners();
+
     Navigator.of(context).pushNamed(RouteHelper.featureDetails);
     // _moveStoryToEnd(index);
   }
@@ -416,16 +423,21 @@ class FeatureProvider extends ChangeNotifier {
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
   }
 
-  gotoFeaturePlayerPageF(int storyId, BuildContext context, int index) {
+  //Code For AudioPlayer Navigation
+  gotoFeaturePlayerPageF(int recitationId, BuildContext context, int index) {
     _currentFeatureIndex =
-        _friday.indexWhere((element) => element.recitationId == storyId);
-    _selectedFridayStory = _friday[_currentFeatureIndex];
-    Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
-        .initAudioPlayer(_selectedFridayStory!.contentUrl!,
-            "${selectedFridayStory!.appImageUrl}", context);
-    // _moveStoryToEnd(index);
-    Navigator.of(context)
-        .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
+        _friday.indexWhere((element) => element.recitationId == recitationId);
+    print('Friday List Contents:');
+    print(_friday);
+
+    if (_currentFeatureIndex >= 0 && _currentFeatureIndex < _friday.length) {
+      _selectedFridayStory = _friday[_currentFeatureIndex];
+      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
+          .initAudioPlayer(_selectedFridayStory!.contentUrl!,
+              "${selectedFridayStory!.appImageUrl}", context);
+      Navigator.of(context)
+          .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeatured');
+    } else {}
   }
 
   // void _moveStoryToEnd(int index) {

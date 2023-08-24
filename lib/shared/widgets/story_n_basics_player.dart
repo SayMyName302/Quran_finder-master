@@ -76,7 +76,11 @@ class StoryAndBasicsAudioPlayer extends StatelessWidget {
                                             ? popular
                                                 .selectedFeatureStory!.title!
                                                 .toLowerCase()
-                                            : '', // Add an empty string as a fallback
+                                            : fromWhere == "fromFeatured"
+                                                ? feature
+                                                    .selectedFridayStory!.title!
+                                                    .toLowerCase()
+                                                : '',
                           ),
                           style: TextStyle(
                             fontFamily: 'satoshi',
@@ -152,6 +156,10 @@ class StoryAndBasicsAudioPlayer extends StatelessWidget {
                                     popular.goToFeatureContentPage(
                                         popular.currentFeatureIndex, context);
                                   }
+                                  // else if (fromWhere == "fromFeatured") {
+                                  //   feature.goToFeatureContentPageF(
+                                  //       feature.currentFeatureIndex, context);
+                                  // }
                                 },
                                 icon: Image.asset(
                                   'assets/images/app_icons/story.png',
