@@ -16,6 +16,8 @@ import 'package:video_player/video_player.dart';
 import 'dart:async';
 import 'package:hijri/hijri_calendar.dart';
 
+import '../../home/models/friday_content.dart';
+
 class FeatureProvider extends ChangeNotifier {
   List<FeaturedModel> _feature = [];
   List<FeaturedModel> get feature => _feature;
@@ -23,9 +25,15 @@ class FeatureProvider extends ChangeNotifier {
   int _currentFeatureIndex = 0;
   int get currentFeatureIndex => _currentFeatureIndex;
   FeaturedModel? _selectedFeatureStory;
+  FeaturedModel? get selectedFeatureStory => _selectedFeatureStory;
+
+  List<Friday> _friday = [];
+  List<Friday> get friday => _friday;
+  Friday? _selectedFridayStory;
+  Friday? get selectedFridayStory => _selectedFridayStory;
+
   File? _videoUrl;
   File? get videoUrl => _videoUrl;
-  FeaturedModel? get selectedFeatureStory => _selectedFeatureStory;
   SharedPreferences? _preferences;
   String _dayName = '';
   String get dayName => _dayName;
@@ -263,7 +271,7 @@ class FeatureProvider extends ChangeNotifier {
       DateTime now = DateTime.now();
       if (now.weekday == DateTime.friday) {
         print("Today is Friday, reordering for Friday");
-        reorderStories('friday');
+        // reorderStories('friday');
       } else {
         String formattedDate = "${now.month.toString().padLeft(1, '0')}"
             "${now.day.toString().padLeft(2, '0')}"
@@ -323,7 +331,6 @@ class FeatureProvider extends ChangeNotifier {
         Random random = Random();
         int randomIndex = random.nextInt(fridayIndices.length);
         int selectedFridayIndex = fridayIndices[randomIndex];
-        // print('FRIDAYINDICESSS>>>>>>>${fridayIndices}');
 
         FeaturedModel firstItem = _feature[0];
         FeaturedModel selectedFridayItem = _feature[selectedFridayIndex];
@@ -361,12 +368,18 @@ class FeatureProvider extends ChangeNotifier {
     }
   }
 
+  final CommonDataProvider _commonDataProvider = CommonDataProvider();
+
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
+    // _friday = [await HomeDb().fridayFilter()];
+    _friday =
+        await _commonDataProvider.getFridayData(); // Use the common function
 
-    //Uncomment this after testing date
+    if (friday.first.contentType == "audio") {
+      print('AUDIO FETCHED IN FEATURED PROVIDER');
+    }
     scheduleReorder();
-    // _loadStoriesOrder();
     notifyListeners();
   }
 
@@ -390,7 +403,14 @@ class FeatureProvider extends ChangeNotifier {
     _selectedFeatureStory = _feature[index];
     notifyListeners();
 
-    // _moveStoryToEnd(index);
+    Navigator.of(context).pushNamed(RouteHelper.featureDetails);
+  }
+
+  goToFeatureContentPageF(int index, BuildContext context) {
+    _currentFeatureIndex = index;
+    _selectedFridayStory = _friday[index];
+    notifyListeners();
+
     Navigator.of(context).pushNamed(RouteHelper.featureDetails);
     // _moveStoryToEnd(index);
   }
@@ -405,6 +425,23 @@ class FeatureProvider extends ChangeNotifier {
     // _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
+  }
+
+  //Code For AudioPlayer Navigation
+  gotoFeaturePlayerPageF(int recitationId, BuildContext context, int index) {
+    _currentFeatureIndex =
+        _friday.indexWhere((element) => element.recitationId == recitationId);
+    // print('Friday List Contents:');
+    // print(_friday);
+
+    if (_currentFeatureIndex >= 0 && _currentFeatureIndex < _friday.length) {
+      _selectedFridayStory = _friday[_currentFeatureIndex];
+      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
+          .initAudioPlayer(_selectedFridayStory!.contentUrl!,
+              "${selectedFridayStory!.appImageUrl}", context);
+      Navigator.of(context)
+          .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeatured');
+    } else {}
   }
 
   // void _moveStoryToEnd(int index) {

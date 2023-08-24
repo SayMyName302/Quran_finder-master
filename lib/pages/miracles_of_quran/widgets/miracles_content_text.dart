@@ -5,7 +5,7 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provide
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/miracles_of_quran_provider.dart';
+import '../../home/models/friday_content.dart';
 import '../models/miracles.dart';
 
 class MiraclesContentText extends StatelessWidget {
@@ -14,8 +14,21 @@ class MiraclesContentText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FontProvider fontProvider = Provider.of<FontProvider>(context);
-    Miracles miracles =
-        context.read<MiraclesOfQuranProvider>().selectedMiracle!;
+    // Miracles miracles =
+    //     context.read<MiraclesOfQuranProvider>().selectedMiracle!;
+    var arguments = ModalRoute.of(context)?.settings.arguments;
+
+    Friday? friday;
+    Miracles? miracles;
+
+    if (arguments != null) {
+      if (arguments is Friday) {
+        friday = arguments;
+        // print(friday.text);
+      } else if (arguments is Miracles) {
+        miracles = arguments;
+      }
+    }
     try {
       return Expanded(
         child: SingleChildScrollView(
@@ -31,10 +44,19 @@ class MiraclesContentText extends StatelessWidget {
               future:
                   Future<String>.delayed(const Duration(milliseconds: 100), () {
                 // Simulating an asynchronous operation
-                if (miracles.text == null) {
-                  throw Exception('Text is null');
+                if (friday != null) {
+                  if (friday.text == null) {
+                    throw Exception('Text is null');
+                  }
+                  return friday.text!;
+                } else if (miracles != null) {
+                  if (miracles.text == null) {
+                    throw Exception('Text is null');
+                  }
+                  return miracles.text!;
+                } else {
+                  return ''; // Return empty string if neither friday nor miracles is available
                 }
-                return miracles.text!;
               }),
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.hasError) {
@@ -72,8 +94,9 @@ class MiraclesContentText extends StatelessWidget {
                       final colorValue =
                           '#${brandingColor.value.toRadixString(16).substring(2)}';
                       return {
-                        'color': colorValue
-                      }; // Apply mainBrandingColor to the text color
+                        'color': colorValue,
+                        'font-family': 'Scheherazade Font',
+                      };
                     }
                     return null;
                     // Custom styles logic
@@ -86,11 +109,17 @@ class MiraclesContentText extends StatelessWidget {
       );
     } catch (e) {
       showErrorSnackBar('An error occurred: $e', context);
-      return const SizedBox.shrink(); // Return an empty widget in case of an error
+      return const SizedBox.shrink();
     }
   }
 }
 
 void showErrorSnackBar(String msg, BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+}
+
+bool checkIfArabic(String text) {
+  final arabicPattern = RegExp(
+      r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFBC1\uFE70-\uFEFF]');
+  return arabicPattern.hasMatch(text);
 }

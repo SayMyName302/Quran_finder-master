@@ -36,4 +36,9 @@ class Miracles {
     _videoUrl = json['content_url'];
     _status = json['status'];
   }
+
+  // @override
+  // String toString() {
+  //   return 'title $title text $text';
+  // }
 }
