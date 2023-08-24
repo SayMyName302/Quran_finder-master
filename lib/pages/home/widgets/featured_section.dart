@@ -44,23 +44,30 @@ class FeaturedSection extends StatelessWidget {
               miraclesProvider, child) {
             List<dynamic> combinedList = [];
 
-            if (storiesProvider.feature.isNotEmpty) {
-              combinedList.add(storiesProvider.feature.first);
-
-              if (recitationProvider.recitationCategoryItem.isNotEmpty) {
-                combinedList
-                    .add(recitationProvider.recitationCategoryItem.first);
+            if (DateTime.now().weekday != DateTime.friday) {
+              if (recitationProvider.recitationCategoryItem.length >= 2) {
+                combinedList.add(storiesProvider.feature.first);
+                combinedList.add(recitationProvider.recitationCategoryItem[1]);
+                combinedList.addAll(storiesProvider.feature.sublist(1));
               }
-              combinedList.addAll(storiesProvider.feature.sublist(1));
-            }
-
-            //This code is For Friday Filter
-            if (miraclesProvider.friday.isNotEmpty &&
-                miraclesProvider.friday.first.contentType == "video") {
-              combinedList.add(miraclesProvider.friday.first);
-            } else if (storiesProvider.friday.isNotEmpty &&
-                storiesProvider.friday.first.contentType == "audio") {
-              combinedList.add(storiesProvider.friday.first);
+            } else {
+              if (storiesProvider.friday.isNotEmpty &&
+                  storiesProvider.friday.first.contentType == "audio") {
+                combinedList.add(storiesProvider.friday.first);
+                if (recitationProvider.recitationCategoryItem.isNotEmpty) {
+                  combinedList
+                      .add(recitationProvider.recitationCategoryItem.first);
+                }
+                combinedList.addAll(storiesProvider.feature.sublist(1));
+              } else if (miraclesProvider.friday.isNotEmpty &&
+                  miraclesProvider.friday.first.contentType == "video") {
+                if (recitationProvider.recitationCategoryItem.isNotEmpty) {
+                  combinedList.insert(
+                      0, recitationProvider.recitationCategoryItem.first);
+                }
+                combinedList.insert(0, miraclesProvider.friday.first);
+                combinedList.addAll(storiesProvider.feature.sublist(1));
+              }
             }
 
             return SizedBox(
@@ -108,8 +115,6 @@ class FeaturedSection extends StatelessWidget {
                           );
                         } else if (model is Friday) {
                           if (model.contentType == "audio") {
-                            print('<<<<<<<>>>>>>>>');
-                            print(model.recitationId);
                             storiesProvider.gotoFeaturePlayerPageF(
                                 model.recitationId!, context, index);
                           } else if (model.contentType == "video") {

@@ -413,6 +413,7 @@ class HomeDb {
 
     print("Selected Content Type: $selectedContentType");
     print("Number of Rows in Table: ${table.length}");
+    print('contentType is >>> ${selectedContentType}');
 
     var randomRow = table[Random().nextInt(table.length)];
     print("Randomly Selected Row: $randomRow");
@@ -480,5 +481,11 @@ class HomeDb {
       islamBasics.add(IslamBasics.fromJson(map));
     }
     return islamBasics;
+  }
+}
+
+class CommonDataProvider {
+  Future<List<Friday>> getFridayData() async {
+    return [await HomeDb().fridayFilter()];
   }
 }

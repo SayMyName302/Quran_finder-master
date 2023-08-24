@@ -271,7 +271,7 @@ class FeatureProvider extends ChangeNotifier {
       DateTime now = DateTime.now();
       if (now.weekday == DateTime.friday) {
         print("Today is Friday, reordering for Friday");
-        reorderStories('friday');
+        // reorderStories('friday');
       } else {
         String formattedDate = "${now.month.toString().padLeft(1, '0')}"
             "${now.day.toString().padLeft(2, '0')}"
@@ -331,7 +331,6 @@ class FeatureProvider extends ChangeNotifier {
         Random random = Random();
         int randomIndex = random.nextInt(fridayIndices.length);
         int selectedFridayIndex = fridayIndices[randomIndex];
-        // print('FRIDAYINDICESSS>>>>>>>${fridayIndices}');
 
         FeaturedModel firstItem = _feature[0];
         FeaturedModel selectedFridayItem = _feature[selectedFridayIndex];
@@ -369,9 +368,17 @@ class FeatureProvider extends ChangeNotifier {
     }
   }
 
+  final CommonDataProvider _commonDataProvider = CommonDataProvider();
+
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
-    _friday = [await HomeDb().fridayFilter()];
+    // _friday = [await HomeDb().fridayFilter()];
+    _friday =
+        await _commonDataProvider.getFridayData(); // Use the common function
+
+    if (friday.first.contentType == "audio") {
+      print('AUDIO FETCHED IN FEATURED PROVIDER');
+    }
     scheduleReorder();
     notifyListeners();
   }
@@ -424,8 +431,8 @@ class FeatureProvider extends ChangeNotifier {
   gotoFeaturePlayerPageF(int recitationId, BuildContext context, int index) {
     _currentFeatureIndex =
         _friday.indexWhere((element) => element.recitationId == recitationId);
-    print('Friday List Contents:');
-    print(_friday);
+    // print('Friday List Contents:');
+    // print(_friday);
 
     if (_currentFeatureIndex >= 0 && _currentFeatureIndex < _friday.length) {
       _selectedFridayStory = _friday[_currentFeatureIndex];

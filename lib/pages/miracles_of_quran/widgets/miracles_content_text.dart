@@ -5,9 +5,7 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provide
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/localization/localization_constants.dart';
 import '../../home/models/friday_content.dart';
-import '../provider/miracles_of_quran_provider.dart';
 import '../models/miracles.dart';
 
 class MiraclesContentText extends StatelessWidget {
@@ -97,8 +95,8 @@ class MiraclesContentText extends StatelessWidget {
                           '#${brandingColor.value.toRadixString(16).substring(2)}';
                       return {
                         'color': colorValue,
-                        // 'direction': 'rtl'
-                      }; // Apply mainBrandingColor to the text color
+                        'font-family': 'Scheherazade Font',
+                      };
                     }
                     return null;
                     // Custom styles logic
@@ -111,8 +109,7 @@ class MiraclesContentText extends StatelessWidget {
       );
     } catch (e) {
       showErrorSnackBar('An error occurred: $e', context);
-      return const SizedBox
-          .shrink(); // Return an empty widget in case of an error
+      return const SizedBox.shrink();
     }
   }
 }
