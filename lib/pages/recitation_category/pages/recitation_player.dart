@@ -91,6 +91,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                       //       fontWeight: FontWeight.w900,
                       //       fontFamily: 'satoshi'),
                       // ),
+                      //commented code
                       SizedBox(
                         height: 3.h,
                       ),
