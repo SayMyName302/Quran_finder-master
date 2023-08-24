@@ -415,7 +415,7 @@ class HomeDb {
     // print("Number of Rows in Table: ${table.length}");
     //---Till here
     var table = await _database!
-        .query(_friday, where: "content_type = ?", whereArgs: ["video"]);
+        .query(_friday, where: "content_type = ?", whereArgs: ["audio"]);
 
     if (table.isEmpty) {
       print("No matching rows found. Returning empty instance.");

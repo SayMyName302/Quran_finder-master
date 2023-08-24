@@ -16,6 +16,8 @@ import 'package:video_player/video_player.dart';
 import 'dart:async';
 import 'package:hijri/hijri_calendar.dart';
 
+import '../../home/models/friday_content.dart';
+
 class FeatureProvider extends ChangeNotifier {
   List<FeaturedModel> _feature = [];
   List<FeaturedModel> get feature => _feature;
@@ -23,9 +25,15 @@ class FeatureProvider extends ChangeNotifier {
   int _currentFeatureIndex = 0;
   int get currentFeatureIndex => _currentFeatureIndex;
   FeaturedModel? _selectedFeatureStory;
+  FeaturedModel? get selectedFeatureStory => _selectedFeatureStory;
+
+  List<Friday> _friday = [];
+  List<Friday> get friday => _friday;
+  Friday? _selectedFridayStory;
+  Friday? get selectedFridayStory => _selectedFridayStory;
+
   File? _videoUrl;
   File? get videoUrl => _videoUrl;
-  FeaturedModel? get selectedFeatureStory => _selectedFeatureStory;
   SharedPreferences? _preferences;
   String _dayName = '';
   String get dayName => _dayName;
@@ -363,6 +371,7 @@ class FeatureProvider extends ChangeNotifier {
 
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
+    _friday = [await HomeDb().fridayFilter()];
 
     //Uncomment this after testing date
     scheduleReorder();
@@ -402,6 +411,18 @@ class FeatureProvider extends ChangeNotifier {
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedFeatureStory!.audioUrl!,
             "${selectedFeatureStory!.image}", context);
+    // _moveStoryToEnd(index);
+    Navigator.of(context)
+        .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
+  }
+
+  gotoFeaturePlayerPageF(int storyId, BuildContext context, int index) {
+    _currentFeatureIndex =
+        _friday.indexWhere((element) => element.recitationId == storyId);
+    _selectedFridayStory = _friday[_currentFeatureIndex];
+    Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
+        .initAudioPlayer(_selectedFridayStory!.contentUrl!,
+            "${selectedFridayStory!.appImageUrl}", context);
     // _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
