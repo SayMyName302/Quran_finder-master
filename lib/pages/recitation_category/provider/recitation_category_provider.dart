@@ -97,6 +97,7 @@ class RecitationCategoryProvider extends ChangeNotifier {
     }
   }
 
+//go to go
   Future<void> getRecitationAllCategoryStories() async {
     _recitationAllList = await HomeDb().getRecitationAll();
     notifyListeners();
