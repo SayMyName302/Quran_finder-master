@@ -37,14 +37,14 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  final CommonDataProvider _commonDataProvider = CommonDataProvider();
+  // final CommonDataProvider _commonDataProvider = CommonDataProvider();
 
   /// this method will get miracles from home.db
   Future<void> getMiracles() async {
     _miracles = await HomeDb().getMiracles();
     // _friday = [await HomeDb().fridayFilter()];
-    _friday =
-        await _commonDataProvider.getFridayData(); // Use the common function
+    // _friday =
+    //     await _commonDataProvider.getFridayData(); // Use the common function
 
     _featureMiraclesList = await HomeDb().getFeatured3();
     print('VIDEO IS FETCHED NOT DISPLAYED');

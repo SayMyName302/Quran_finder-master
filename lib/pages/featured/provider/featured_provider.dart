@@ -368,13 +368,13 @@ class FeatureProvider extends ChangeNotifier {
     }
   }
 
-  final CommonDataProvider _commonDataProvider = CommonDataProvider();
+  // final CommonDataProvider _commonDataProvider = CommonDataProvider();
 
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
     // _friday = [await HomeDb().fridayFilter()];
-    _friday =
-        await _commonDataProvider.getFridayData(); // Use the common function
+    // _friday =
+    //     await _commonDataProvider.getFridayData(); // Use the common function
 
     if (friday.first.contentType == "audio") {
       print('AUDIO FETCHED IN FEATURED PROVIDER');
