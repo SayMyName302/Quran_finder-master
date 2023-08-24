@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +12,8 @@ import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_ca
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/model/about_model.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
+import 'package:nour_al_quran/shared/entities/quran_text.dart';
+import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../pages/basics_of_quran/models/islam_basics.dart';
@@ -28,6 +29,7 @@ class HomeDb {
   final String _storiesInQuran = "stories_in_quran";
   final String _islamBasicsTb = "islam_basics";
   final String _featured = "featured_all";
+  final String _quranTextTable = "quran_text";
   // final String _appinfo = "app_info";
   // final String _recitationCategoryTb = "recitation_category";
   // final String _recitationAllTb = "recitation_all";
@@ -36,8 +38,7 @@ class HomeDb {
   final String _tranquilCategory = "tranquil_tales_category";
   final String _recitationPlaylists = "recitation_playlists";
   final String _recitationPlaylistitems = "recitation_playlist_items";
-  final String _friday = "friday_all";
-
+  final String _reciterTable = "reciters";
   initDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -87,6 +88,7 @@ class HomeDb {
     }
   }
 
+//ojectttttttttttt
   Future<Database> openDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -105,6 +107,86 @@ class HomeDb {
       selectedRecitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
     return selectedRecitationAll;
+  }
+
+  Future<String?> getReciterShortname(int reciterId) async {
+    _database = await openDb();
+
+    var cursor = await _database!.query(
+      _reciterTable,
+      where: 'reciter_id = ?',
+      whereArgs: [reciterId],
+    );
+
+    if (cursor.isNotEmpty) {
+      var reciter = Reciters.fromJson(cursor.first);
+      var reciterShortname = reciter.reciterShortname;
+
+      print('Reciter Shortname for reciter_id $reciterId: $reciterShortname');
+      return reciterShortname;
+    } else {
+      print('Reciter not found for reciter_id $reciterId');
+      return null; // Return null if reciter_id is not found
+    }
+  }
+
+  Future<String?> getReciterLongname(int reciterId) async {
+    _database = await openDb();
+
+    var cursor = await _database!.query(
+      _reciterTable,
+      where: 'reciter_id = ?',
+      whereArgs: [],
+    );
+
+    if (cursor.isNotEmpty) {
+      var reciter = Reciters.fromJson(cursor.first);
+
+      var reciterLongname = reciter.reciterName;
+      print('Reciter Longname for reciter_id $reciterId: $reciterLongname');
+      return reciterLongname;
+    } else {
+      print('Reciter not found for reciter_id $reciterId');
+      return null; // Return null if reciter_id is not found
+    }
+  }
+
+  Future<String?> getSurahName(int surahId) async {
+    _database = await openDb();
+
+    var cursor = await _database!.query(
+      _quranTextTable,
+      where: 'surah_id = ?',
+      whereArgs: [surahId],
+    );
+
+    if (cursor.isNotEmpty) {
+      var quranText = QuranText.fromJson(cursor.first);
+
+      var surahName = quranText.surahName;
+      print('Surah Name for surah_id $surahId: $surahName');
+      return surahName;
+    } else {
+      print('Surah not found for surah_id $surahId');
+      return null; // Return null if surah_id is not found
+    }
+  }
+
+  Future<List<Reciters>> getAllReciter() async {
+    // await initDb();
+
+    _database = await openDb();
+    var reciterList = <Reciters>[];
+
+    // Add the WHERE clause to filter by 'recommended'
+    var cursor = await _database!.query(
+      _reciterTable,
+    );
+    for (var maps in cursor) {
+      var reciter = Reciters.fromJson(maps);
+      reciterList.add(reciter);
+    }
+    return reciterList;
   }
 
   Future<List<TranquilTalesModel>> getSelectedAllTranquil(
@@ -222,7 +304,7 @@ class HomeDb {
         filteredList.add(feature);
       }
     }
-    // print('records found by hijri date : $filteredList');
+    print('records found by hijri date : $filteredList');
     return filteredList;
   }
 
@@ -236,7 +318,7 @@ class HomeDb {
         filteredList.add(feature);
       }
     }
-    // print('records found by hijri Year : $filteredList');
+    print('records found by hijri Year : $filteredList');
     return filteredList;
   }
 
@@ -275,7 +357,7 @@ class HomeDb {
         filteredList.add(feature);
       }
     }
-    // print("FILTERED LIST: ${filteredList}");
+    print("FILTERED LIST: ${filteredList}");
 
     return filteredList;
   }
@@ -290,7 +372,7 @@ class HomeDb {
         filteredList.add(feature);
       }
     }
-    // print("FILTERED LIST: ${filteredList}");
+    print("FILTERED LIST: ${filteredList}");
     return filteredList;
   }
 
@@ -350,6 +432,7 @@ class HomeDb {
     } else if (now.hour >= 21 || now.hour < 4) {
       currentTimePeriod = 'night';
     }
+    print(currentTimePeriod);
 
     var table = await _database!.query(_recitationPlaylists,
         where: 'play_period = ?', whereArgs: [currentTimePeriod]);
@@ -377,13 +460,13 @@ class HomeDb {
     List<RecitationAllCategoryModel> recitationAll = [];
     _database = await openDb();
     var table = await _database!.query(_recitationPlaylistitems);
-    // print(
-    //     "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
+    print(
+        "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
-    // print(
-    //     "Recitation All Length: ${recitationAll.length}"); // Print the number of FeaturedModel objects added to the list
+    print(
+        "Recitation All Length: ${recitationAll.length}"); // Print the number of FeaturedModel objects added to the list
     return recitationAll;
   }
 
@@ -391,34 +474,14 @@ class HomeDb {
     List<TranquilTalesModel> recitationAll = [];
     _database = await openDb();
     var table = await _database!.query(_tranquilCategory);
-    // print(
-    //     "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
+    print(
+        "Table Length of recitation All Category: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       recitationAll.add(TranquilTalesModel.fromJson(map));
     }
-    // print(
-    //     "Recitation All Length: ${recitationAll.length}"); // Print the number of FeaturedModel objects added to the list
+    print(
+        "Recitation All Length: ${recitationAll.length}"); // Print the number of FeaturedModel objects added to the list
     return recitationAll;
-  }
-
-  Future<Friday> fridayFilter() async {
-    _database = await openDb();
-
-    var contentTypes = ["audio", "video"];
-    var selectedContentType =
-        contentTypes[Random().nextInt(contentTypes.length)];
-
-    var table = await _database!.query(_friday,
-        where: "content_type = ?", whereArgs: [selectedContentType]);
-
-    print("Selected Content Type: $selectedContentType");
-    print("Number of Rows in Table: ${table.length}");
-    print('contentType is >>> ${selectedContentType}');
-
-    var randomRow = table[Random().nextInt(table.length)];
-    print("Randomly Selected Row: $randomRow");
-
-    return Friday.fromJson(randomRow);
   }
 
   Future<List<Miracles2>> getFeatured2() async {
@@ -426,11 +489,13 @@ class HomeDb {
     _database = await openDb();
     var table = await _database!
         .query(_featured, where: "content_type = ?", whereArgs: ["Video"]);
-
+    // print(
+    //     "Table Length: ${table.length}"); // Print the number of rows retrieved from the table
     for (var map in table) {
       feature.add(Miracles2.fromJson(map));
     }
-
+    // print(
+    //     "Feature Length: ${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
   }
 
@@ -481,11 +546,5 @@ class HomeDb {
       islamBasics.add(IslamBasics.fromJson(map));
     }
     return islamBasics;
-  }
-}
-
-class CommonDataProvider {
-  Future<List<Friday>> getFridayData() async {
-    return [await HomeDb().fridayFilter()];
   }
 }
