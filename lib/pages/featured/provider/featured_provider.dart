@@ -372,10 +372,7 @@ class FeatureProvider extends ChangeNotifier {
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
     _friday = [await HomeDb().fridayFilter()];
-    // print('----FRIDAY ON APP LOAD----');
-    // print(_friday);
     scheduleReorder();
-    // _loadStoriesOrder();
     notifyListeners();
   }
 
