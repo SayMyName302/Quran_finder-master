@@ -53,14 +53,13 @@ class FeaturedSection extends StatelessWidget {
               combinedList.addAll(storiesProvider.feature.sublist(1));
             }
 
-            if (miraclesProvider.friday.isNotEmpty ||
-                storiesProvider.friday.isNotEmpty) {
-              if (storiesProvider.friday.isNotEmpty) {
-                combinedList.add(storiesProvider.friday.first);
-              }
-              if (miraclesProvider.friday.isNotEmpty) {
-                combinedList.add(miraclesProvider.friday.first);
-              }
+            //This code is For Friday Filter
+            if (miraclesProvider.friday.isNotEmpty &&
+                miraclesProvider.friday.first.contentType == "video") {
+              combinedList.add(miraclesProvider.friday.first);
+            } else if (storiesProvider.friday.isNotEmpty &&
+                storiesProvider.friday.first.contentType == "audio") {
+              combinedList.add(storiesProvider.friday.first);
             }
 
             return SizedBox(
