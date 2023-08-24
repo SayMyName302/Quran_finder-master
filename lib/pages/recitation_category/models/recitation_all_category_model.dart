@@ -108,4 +108,9 @@ class RecitationAllCategoryModel {
           _reciterShortname, // Include the reciter_shortname field
     };
   }
+
+  @override
+  String toString() {
+    return 'playlistId $playlistId reciter_id $reciterId';
+  }
 }

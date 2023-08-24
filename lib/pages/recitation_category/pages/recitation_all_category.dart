@@ -137,9 +137,19 @@ class RecitationAllCategory extends StatelessWidget {
                             RecitationAllCategoryModel recitationModels =
                                 recitationProvider.selectedRecitationAll[index];
                             String title = recitationModels.title!;
-                            // print('======RecPlayListId LVIEW ${recitationModels.playlistId!}');
-                            // print('======RecplaylistItemId LVIEW ${recitationModels.surahId}');
+                            RecitationWithShortname recitationWithShortname =
+                                recitationProvider
+                                    .recitationsWithShortnames[index];
+                            RecitationWithLongname recitationWithLongname =
+                                recitationProvider
+                                    .recitationsWithLongnames[index];
 
+                            String reciterShortname =
+                                recitationWithShortname.reciterShortname ?? '';
+                            String reciterFullname =
+                                recitationWithLongname.reciterLongname ?? '';
+                            print(reciterFullname);
+                            print(reciterShortname);
                             return InkWell(
                               onTap: () {
                                 recitationProvider
@@ -151,7 +161,7 @@ class RecitationAllCategory extends StatelessWidget {
                                 );
                                 Navigator.of(context).pushNamed(
                                     RouteHelper.recitationAudioPlayer,
-                                    arguments: [title]);
+                                    arguments: [title, reciterFullname]);
                                 analytics.logEvent(
                                   name: 'recitation_category_listview',
                                   parameters: {
@@ -213,10 +223,7 @@ class RecitationAllCategory extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                localeText(
-                                                    context,
-                                                    recitationModels.title
-                                                        .toString()),
+                                                reciterShortname,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 15.sp,

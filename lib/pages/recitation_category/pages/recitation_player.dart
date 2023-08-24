@@ -20,11 +20,21 @@ class RecitationAudioPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List arguments = ModalRoute.of(context)!.settings.arguments! as List;
+    final List<dynamic>? arguments =
+        ModalRoute.of(context)?.settings.arguments as List<dynamic>?;
+    if (arguments == null || arguments.length < 2) {
+      // Handle the case where arguments are not passed properly
+      return SizedBox.shrink(); // Or any other widget you want to show
+    }
+
+    final String reciterFullname = arguments[1];
+    print(reciterFullname);
+    // List arguments = ModalRoute.of(context)!.settings.arguments! as List;
     // String title = arguments[0];
     // print('======AudioPlayerPage${title}');
 
-    RecitationCategoryProvider recProv = Provider.of<RecitationCategoryProvider>(context);
+    RecitationCategoryProvider recProv =
+        Provider.of<RecitationCategoryProvider>(context);
     RecitationAllCategoryModel nextDua = recProv.selectedRecitationModel!;
 
     String surahName = nextDua.surahName.toString();
@@ -57,14 +67,17 @@ class RecitationAudioPlayer extends StatelessWidget {
                       Container(
                         height: 340.h,
                         width: 353.w,
-                        margin: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 35.h),
+                        margin: EdgeInsets.only(
+                            left: 20.w, right: 20.w, bottom: 35.h),
                         child: ClipRRect(
-                            borderRadius: BorderRadius.circular(24.r),
+                          borderRadius: BorderRadius.circular(24.r),
                           child: CachedNetworkImage(
                             fit: BoxFit.cover,
                             imageUrl: player.image,
-                            placeholder: (context, url) => const Icon(Icons.image),
-                            errorWidget: (context, url, error) => const Icon(Icons.person),
+                            placeholder: (context, url) =>
+                                const Icon(Icons.image),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.person),
                           ),
                         ),
                       ),
@@ -82,7 +95,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                         height: 3.h,
                       ),
                       Text(
-                        localeText(context, recProv.selectedRecitationModel!.title!),
+                        localeText(
+                            context, recProv.selectedRecitationModel!.title!),
                         // title,
                         style: TextStyle(
                             fontSize: 18.sp,
@@ -123,7 +137,8 @@ class RecitationAudioPlayer extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               // recitationCategoryProvider.addOrRemoveBookmark(bookmark);
-                              profile.addOrRemoveRecitationBookmark(recProv.selectedRecitationModel!);
+                              profile.addOrRemoveRecitationBookmark(
+                                  recProv.selectedRecitationModel!);
                               print(recProv.selectedRecitationModel!.title);
                             },
                             child: Container(
@@ -139,8 +154,12 @@ class RecitationAudioPlayer extends StatelessWidget {
                                   height: 21.h,
                                   width: 21.w,
                                   child: CircleAvatar(
-                                    backgroundColor: profile.userProfile!.recitationBookmarkList
-                                        .any((element) => element.surahName == surahName && element.title == nextDua.title)
+                                    backgroundColor: profile
+                                            .userProfile!.recitationBookmarkList
+                                            .any((element) =>
+                                                element.surahName ==
+                                                    surahName &&
+                                                element.title == nextDua.title)
                                         ? appColor.mainBrandingColor
                                         : Colors.white,
                                     child: Icon(
@@ -149,7 +168,9 @@ class RecitationAudioPlayer extends StatelessWidget {
                                               .recitationBookmarkList!
                                               .any((element) =>
                                                   element.surahName ==
-                                                  surahName && element.title == nextDua.title)
+                                                      surahName &&
+                                                  element.title ==
+                                                      nextDua.title)
                                           ? Colors.white
                                           : appColor.mainBrandingColor,
                                       size: 13.h,

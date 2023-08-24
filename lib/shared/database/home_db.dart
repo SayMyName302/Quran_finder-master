@@ -11,6 +11,7 @@ import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_ca
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/model/about_model.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
+import 'package:nour_al_quran/shared/entities/quran_text.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -27,6 +28,7 @@ class HomeDb {
   final String _storiesInQuran = "stories_in_quran";
   final String _islamBasicsTb = "islam_basics";
   final String _featured = "featured_all";
+  final String _quranTextTable = "quran_text";
   // final String _appinfo = "app_info";
   // final String _recitationCategoryTb = "recitation_category";
   // final String _recitationAllTb = "recitation_all";
@@ -104,6 +106,69 @@ class HomeDb {
       selectedRecitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
     return selectedRecitationAll;
+  }
+
+  Future<String?> getReciterShortname(int reciterId) async {
+    _database = await openDb();
+
+    var cursor = await _database!.query(
+      _reciterTable,
+      where: 'reciter_id = ?',
+      whereArgs: [reciterId],
+    );
+
+    if (cursor.isNotEmpty) {
+      var reciter = Reciters.fromJson(cursor.first);
+      var reciterShortname = reciter.reciterShortname;
+
+      print('Reciter Shortname for reciter_id $reciterId: $reciterShortname');
+      return reciterShortname;
+    } else {
+      print('Reciter not found for reciter_id $reciterId');
+      return null; // Return null if reciter_id is not found
+    }
+  }
+
+  Future<String?> getReciterLongname(int reciterId) async {
+    _database = await openDb();
+
+    var cursor = await _database!.query(
+      _reciterTable,
+      where: 'reciter_id = ?',
+      whereArgs: [],
+    );
+
+    if (cursor.isNotEmpty) {
+      var reciter = Reciters.fromJson(cursor.first);
+
+      var reciterLongname = reciter.reciterName;
+      print('Reciter Longname for reciter_id $reciterId: $reciterLongname');
+      return reciterLongname;
+    } else {
+      print('Reciter not found for reciter_id $reciterId');
+      return null; // Return null if reciter_id is not found
+    }
+  }
+
+  Future<String?> getSurahName(int surahId) async {
+    _database = await openDb();
+
+    var cursor = await _database!.query(
+      _quranTextTable,
+      where: 'surah_id = ?',
+      whereArgs: [surahId],
+    );
+
+    if (cursor.isNotEmpty) {
+      var quranText = QuranText.fromJson(cursor.first);
+
+      var surahName = quranText.surahName;
+      print('Surah Name for surah_id $surahId: $surahName');
+      return surahName;
+    } else {
+      print('Surah not found for surah_id $surahId');
+      return null; // Return null if surah_id is not found
+    }
   }
 
   Future<List<Reciters>> getAllReciter() async {

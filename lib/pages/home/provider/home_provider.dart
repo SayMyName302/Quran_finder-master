@@ -26,6 +26,7 @@ class HomeProvider extends ChangeNotifier {
   int? verseId = 0;
   int? surahId = 0;
   QuranText _verseOfTheDay = QuranText(
+      surahName: null,
       surahId: 105,
       verseId: 4,
       verseText: "تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ",
@@ -206,6 +207,7 @@ class HomeProvider extends ChangeNotifier {
   void getVerse(BuildContext context) async {
     _verseOfTheDay = await QuranDatabase().getVerseOfTheDay() ??
         QuranText(
+            surahName: null,
             surahId: 105,
             verseId: 4,
             verseText: "تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ",

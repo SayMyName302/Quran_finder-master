@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
+import 'package:nour_al_quran/shared/database/quran_db.dart';
+import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/database/home_db.dart';
@@ -25,7 +27,8 @@ class RecitationCategoryProvider extends ChangeNotifier {
   //     print("It's currently Night time.");
   //   }
   // }
-
+  List<Reciters> _allRecitersList = [];
+  List<Reciters> get allRecitersList => _allRecitersList;
   Timer? _timer;
 
   void startUpdatingPeriodically() {
@@ -68,9 +71,16 @@ class RecitationCategoryProvider extends ChangeNotifier {
   RecitationAllCategoryModel? get selectedRecitationModel =>
       _selectedRecitationModel;
 
+  List<RecitationWithShortname> recitationsWithShortnames = [];
+  List<RecitationWithLongname> recitationsWithLongnames = [];
   setSelectedRecitationCategory(RecitationCategoryModel value) {
     _selectedRecitationCategory = value;
     // print(_selectedRecitationCategory);
+    notifyListeners();
+  }
+
+  Future<void> getAllReciters() async {
+    _allRecitersList = await QuranDatabase().getAllReciter();
     notifyListeners();
   }
 
@@ -94,6 +104,28 @@ class RecitationCategoryProvider extends ChangeNotifier {
 
   Future<void> getSelectedRecitationAll(int playlistId) async {
     _selectedRecitationAll = await HomeDb().getSelectedAll(playlistId);
+    print('<<<<<selectedRecitationAll>>>>>');
+
+    // List<RecitationWithShortname> recitationsWithShortnames = [];
+
+    for (var recitation in _selectedRecitationAll) {
+      var reciterId = recitation.reciterId;
+      print('Processing reciter with ID: $reciterId');
+
+      var reciterShortname = await HomeDb().getReciterShortname(reciterId!);
+
+      recitationsWithShortnames
+          .add(RecitationWithShortname(recitation, reciterShortname));
+      var reciterLongName = await HomeDb().getReciterLongname(reciterId!);
+      recitationsWithLongnames
+          .add(RecitationWithLongname(recitation, reciterLongName));
+    }
+
+    for (var recitation in _selectedRecitationAll) {
+      var reciterId = recitation.reciterId;
+      print('Processing reciter with ID: $reciterId');
+    }
+
     notifyListeners();
   }
 
@@ -131,7 +163,6 @@ class RecitationCategoryProvider extends ChangeNotifier {
     }
   }
 }
-
 
 /// book logic done previously
 // final List _bookmarkList = [];
@@ -183,3 +214,20 @@ class RecitationCategoryProvider extends ChangeNotifier {
 //   _selectedRecitationAll[duaId].setIsBookmark = value;
 //   notifyListeners();
 // }
+
+class RecitationWithShortname {
+  final RecitationAllCategoryModel recitation;
+  final String? reciterShortname;
+
+  RecitationWithShortname(this.recitation, this.reciterShortname);
+}
+
+class RecitationWithLongname {
+  final RecitationAllCategoryModel recitation;
+  final String? reciterLongname;
+
+  RecitationWithLongname(
+    this.recitation,
+    this.reciterLongname,
+  );
+}
