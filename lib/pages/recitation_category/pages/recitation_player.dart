@@ -27,8 +27,8 @@ class RecitationAudioPlayer extends StatelessWidget {
       return SizedBox.shrink(); // Or any other widget you want to show
     }
 
-    final String reciterFullname = arguments[1];
-    print(reciterFullname);
+    final String reciterFullname = arguments[0];
+    final String reciterSurahname = arguments[1];
     // List arguments = ModalRoute.of(context)!.settings.arguments! as List;
     // String title = arguments[0];
     // print('======AudioPlayerPage${title}');
@@ -96,8 +96,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                         height: 3.h,
                       ),
                       Text(
-                        localeText(
-                            context, recProv.selectedRecitationModel!.title!),
+                        reciterFullname,
                         // title,
                         style: TextStyle(
                             fontSize: 18.sp,
@@ -110,7 +109,7 @@ class RecitationAudioPlayer extends StatelessWidget {
                         height: 3.h,
                       ),
                       Text(
-                        nextDua.surahName!.toString(),
+                        reciterSurahname,
                         style: TextStyle(
                             fontSize: 16.sp,
                             fontFamily: 'satoshi',
