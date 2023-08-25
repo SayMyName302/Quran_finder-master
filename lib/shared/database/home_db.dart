@@ -15,6 +15,7 @@ import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart'
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
 import 'package:nour_al_quran/shared/entities/quran_text.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
+import 'package:nour_al_quran/shared/entities/surah.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../pages/basics_of_quran/models/islam_basics.dart';
@@ -41,7 +42,7 @@ class HomeDb {
   final String _recitationPlaylistitems = "recitation_playlist_items";
   final String _reciterTable = "reciters";
   final String _friday = "friday_all";
-
+  final String _surahs = "surahs";
   initDb() async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'masterdb.db');
@@ -116,8 +117,10 @@ class HomeDb {
     _database = await openDb();
 
     var contentTypes = ["audio", "video"];
-    var selectedContentType = contentTypes[Random().nextInt(contentTypes.length)];
-    var table = await _database!.query(_friday, where: "content_type = ?", whereArgs: [selectedContentType]);
+    var selectedContentType =
+        contentTypes[Random().nextInt(contentTypes.length)];
+    var table = await _database!.query(_friday,
+        where: "content_type = ?", whereArgs: [selectedContentType]);
 
     // print("Selected Content Type: $selectedContentType");
     // print("Number of Rows in Table: ${table.length}");
@@ -156,17 +159,18 @@ class HomeDb {
     var cursor = await _database!.query(
       _reciterTable,
       where: 'reciter_id = ?',
-      whereArgs: [],
+      whereArgs: [reciterId],
     );
 
     if (cursor.isNotEmpty) {
       var reciter = Reciters.fromJson(cursor.first);
 
-      var reciterLongname = reciter.reciterName;
-      print('Reciter Longname for reciter_id $reciterId: $reciterLongname');
-      return reciterLongname;
+      var reciterFullname = reciter.reciterName;
+      print(
+          '________________>Reciter Longname for reciter_id $reciterId: $reciterFullname');
+      return reciterFullname;
     } else {
-      print('Reciter not found for reciter_id $reciterId');
+      print('________________>Reciter not found for reciter_id $reciterId');
       return null; // Return null if reciter_id is not found
     }
   }
@@ -175,13 +179,13 @@ class HomeDb {
     _database = await openDb();
 
     var cursor = await _database!.query(
-      _quranTextTable,
+      _surahs,
       where: 'surah_id = ?',
       whereArgs: [surahId],
     );
 
     if (cursor.isNotEmpty) {
-      var quranText = QuranText.fromJson(cursor.first);
+      var quranText = Surah.fromJson(cursor.first);
 
       var surahName = quranText.surahName;
       print('Surah Name for surah_id $surahId: $surahName');
