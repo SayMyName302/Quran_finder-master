@@ -92,6 +92,8 @@ class RecitationCategoryProvider extends ChangeNotifier {
       int randomIndex = Random().nextInt(_recitationCategoryList.length);
       dynamic randomItem = _recitationCategoryList[randomIndex];
       _recitationCategoryItem.add(randomItem);
+      print('RANDOMLY SELECTING RECITATION');
+      print(_recitationCategoryItem);
     } else {
       print('List is empty.');
     }

@@ -45,9 +45,9 @@ class FeaturedSection extends StatelessWidget {
             List<dynamic> combinedList = [];
 
             if (DateTime.now().weekday != DateTime.friday) {
-              if (recitationProvider.recitationCategoryItem.length >= 2) {
+              if (recitationProvider.recitationCategoryItem.isNotEmpty) {
                 combinedList.add(storiesProvider.feature.first);
-                combinedList.add(recitationProvider.recitationCategoryItem[1]);
+                combinedList.add(recitationProvider.recitationCategoryItem[0]);
                 combinedList.addAll(storiesProvider.feature.sublist(1));
               }
             } else {
