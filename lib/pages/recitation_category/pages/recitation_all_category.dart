@@ -136,7 +136,7 @@ class RecitationAllCategory extends StatelessWidget {
                           itemBuilder: (context, index) {
                             RecitationAllCategoryModel recitationModels =
                                 recitationProvider.selectedRecitationAll[index];
-                            String title = recitationModels.title!;
+                            // String title = recitationModels.title!;
                             RecitationWithShortname recitationWithShortname =
                                 recitationProvider
                                     .recitationsWithShortnames[index];
