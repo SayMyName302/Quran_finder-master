@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -40,6 +41,7 @@ class HomeDb {
   final String _recitationPlaylists = "recitation_playlists";
   final String _recitationPlaylistitems = "recitation_playlist_items";
   final String _reciterTable = "reciters";
+  final String _friday = "friday_all";
   final String _surahs = "surahs";
   initDb() async {
     var dbPath = await getDatabasesPath();
@@ -109,6 +111,25 @@ class HomeDb {
       selectedRecitationAll.add(RecitationAllCategoryModel.fromJson(map));
     }
     return selectedRecitationAll;
+  }
+
+  Future<Friday> fridayFilter() async {
+    _database = await openDb();
+
+    var contentTypes = ["audio", "video"];
+    var selectedContentType =
+        contentTypes[Random().nextInt(contentTypes.length)];
+    var table = await _database!.query(_friday,
+        where: "content_type = ?", whereArgs: [selectedContentType]);
+
+    // print("Selected Content Type: $selectedContentType");
+    // print("Number of Rows in Table: ${table.length}");
+    // print('contentType is >>> ${selectedContentType}');
+
+    var randomRow = table[Random().nextInt(table.length)];
+    // print("Randomly Selected Row: $randomRow");
+
+    return Friday.fromJson(randomRow);
   }
 
   Future<String?> getReciterShortname(int reciterId) async {
@@ -549,5 +570,11 @@ class HomeDb {
       islamBasics.add(IslamBasics.fromJson(map));
     }
     return islamBasics;
+  }
+}
+
+class CommonDataProvider {
+  Future<List<Friday>> getFridayData() async {
+    return [await HomeDb().fridayFilter()];
   }
 }

@@ -368,19 +368,31 @@ class FeatureProvider extends ChangeNotifier {
     }
   }
 
-  // final CommonDataProvider _commonDataProvider = CommonDataProvider();
-
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
-    // _friday = [await HomeDb().fridayFilter()];
-    // _friday =
-    //     await _commonDataProvider.getFridayData(); // Use the common function
 
-    if (friday.first.contentType == "audio") {
-      print('AUDIO FETCHED IN FEATURED PROVIDER');
-    }
+    // _friday = MiraclesOfQuranProvider().friday;
+    // print('PRINTING FRIDAY LIST IN FEATUREDDDDD');
+    // print(friday);
+
+    // _friday = [await HomeDb().fridayFilter()];
+
+    // print('init get stories FEATURED');
+    // print(_friday);
+    // if (friday.first.contentType == "audio") {
+    //   print('AUDIO FETCHED IN FEATURED PROVIDER');
+    // }
     scheduleReorder();
     notifyListeners();
+  }
+
+  // Method to receive the list of Friday from MiraclesProvider
+  void updateFridayList(List<Friday> fridayList) {
+    _friday = fridayList;
+    notifyListeners();
+    // print('printing friday list in featured');
+    // print(_friday);
+    // ...
   }
 
   FeatureProvider() {
@@ -429,6 +441,10 @@ class FeatureProvider extends ChangeNotifier {
 
   //Code For AudioPlayer Navigation
   gotoFeaturePlayerPageF(int recitationId, BuildContext context, int index) {
+    // print('calling audio method');
+    // print(recitationId);
+
+    // print(index);
     _currentFeatureIndex =
         _friday.indexWhere((element) => element.recitationId == recitationId);
     // print('Friday List Contents:');
@@ -441,7 +457,9 @@ class FeatureProvider extends ChangeNotifier {
               "${selectedFridayStory!.appImageUrl}", context);
       Navigator.of(context)
           .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeatured');
-    } else {}
+    } else {
+      print('not found');
+    }
   }
 
   // void _moveStoryToEnd(int index) {

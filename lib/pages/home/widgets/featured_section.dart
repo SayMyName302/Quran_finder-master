@@ -43,17 +43,19 @@ class FeaturedSection extends StatelessWidget {
           builder: (context, language, storiesProvider, recitationProvider,
               miraclesProvider, child) {
             List<dynamic> combinedList = [];
-
+            print('FEATURED LIST LENGTH${storiesProvider.feature.length}');
+            print(storiesProvider.friday);
+            print(miraclesProvider.friday);
             if (DateTime.now().weekday != DateTime.friday) {
-              if (recitationProvider.recitationCategoryItem.length >= 2) {
+              if (recitationProvider.recitationCategoryItem.isNotEmpty) {
                 combinedList.add(storiesProvider.feature.first);
-                combinedList.add(recitationProvider.recitationCategoryItem[1]);
+                combinedList.add(recitationProvider.recitationCategoryItem[0]);
                 combinedList.addAll(storiesProvider.feature.sublist(1));
               }
             } else {
               if (storiesProvider.friday.isNotEmpty &&
                   storiesProvider.friday.first.contentType == "audio") {
-                combinedList.add(storiesProvider.friday.first);
+                combinedList.add(miraclesProvider.friday.first);
                 if (recitationProvider.recitationCategoryItem.isNotEmpty) {
                   combinedList
                       .add(recitationProvider.recitationCategoryItem.first);
@@ -61,11 +63,11 @@ class FeaturedSection extends StatelessWidget {
                 combinedList.addAll(storiesProvider.feature.sublist(1));
               } else if (miraclesProvider.friday.isNotEmpty &&
                   miraclesProvider.friday.first.contentType == "video") {
+                combinedList.add(miraclesProvider.friday.first);
                 if (recitationProvider.recitationCategoryItem.isNotEmpty) {
-                  combinedList.insert(
-                      0, recitationProvider.recitationCategoryItem.first);
+                  combinedList
+                      .add(recitationProvider.recitationCategoryItem.first);
                 }
-                combinedList.insert(0, miraclesProvider.friday.first);
                 combinedList.addAll(storiesProvider.feature.sublist(1));
               }
             }
@@ -82,34 +84,24 @@ class FeaturedSection extends StatelessWidget {
                   return InkWell(
                     onTap: () {
                       if (network == 1) {
-                        Future.delayed(
-                            Duration.zero,
-                            () => context
-                                .read<RecitationPlayerProvider>()
-                                .pause(context));
+                        Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
                         if (model is FeaturedModel) {
                           if (model.contentType == "audio") {
-                            storiesProvider.gotoFeaturePlayerPage(
-                                model.storyId!, context, index);
+                            storiesProvider.gotoFeaturePlayerPage(model.storyId!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_tile_homescreen',
                               parameters: {'title': model.title},
                             );
                           } else if (model.contentType == "Video") {
-                            Provider.of<MiraclesOfQuranProvider>(context,
-                                    listen: false)
-                                .goToMiracleDetailsPageFromFeatured(
-                                    model.storyTitle!, context, index);
+                            Provider.of<MiraclesOfQuranProvider>(context, listen: false).goToMiracleDetailsPageFromFeatured(model.storyTitle!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_miracle_tile_homescreen',
                               parameters: {'title': model.title},
                             );
                           }
                         } else if (model is RecitationCategoryModel) {
-                          recitationProvider
-                              .getSelectedRecitationAll(model.playlistId!);
-                          recitationProvider
-                              .setSelectedRecitationCategory(model);
+                          recitationProvider.getSelectedRecitationAll(model.playlistId!);
+                          recitationProvider.setSelectedRecitationCategory(model);
                           Navigator.of(context).pushNamed(
                             RouteHelper.recitationallcategory,
                           );

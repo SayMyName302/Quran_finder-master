@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nour_al_quran/pages/home/models/friday_content.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:nour_al_quran/shared/database/home_db.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 
+import '../../../main.dart';
+import '../../featured/provider/featured_provider.dart';
 import '../models/miracles.dart';
 
 class MiraclesOfQuranProvider extends ChangeNotifier {
@@ -37,22 +40,23 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // final CommonDataProvider _commonDataProvider = CommonDataProvider();
-
-  /// this method will get miracles from home.db
-  Future<void> getMiracles() async {
+  getMiracles() async {
     _miracles = await HomeDb().getMiracles();
-    // _friday = [await HomeDb().fridayFilter()];
-    // _friday =
-    //     await _commonDataProvider.getFridayData(); // Use the common function
-
+    Friday fridayItem = await HomeDb().fridayFilter();
+    _friday = [];
+    _friday.add(fridayItem);
     _featureMiraclesList = await HomeDb().getFeatured3();
-    print('VIDEO IS FETCHED NOT DISPLAYED');
-    if (friday.first.contentType == "video") {
-      print('VIDEO FETCHED IN MIRACLES PROVIDER');
-    }
     _loadMiraclesOrder();
     notifyListeners();
+    Provider.of<FeatureProvider>(navigatorKey.currentContext!).updateFridayList(_friday);
+    print('printing friday in MIRACLES ONLOAD');
+    print(_friday);
+
+    // print('VIDEO IS FETCHED NOT DISPLAYED');
+    // if (friday.first.contentType == "video") {
+    //   print('VIDEO FETCHED IN MIRACLES PROVIDER');
+    // }
+
   }
 
   MiraclesOfQuranProvider() {
@@ -63,8 +67,10 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   }
 
   void gotoMiracleDetailsPage(String title, BuildContext context, int index) {
-    _selectedFriday =
-        _friday.firstWhere((friday) => friday.recitationId == index);
+    // _selectedFriday =
+    //     _friday.firstWhere((friday) => friday.recitationId == index);
+    int fridayIndex = _friday.indexWhere((element) => element.title == title);
+    _selectedFriday = _friday[fridayIndex];
     notifyListeners();
     Navigator.of(context)
         .pushNamed(RouteHelper.miraclesDetails, arguments: _selectedFriday);
