@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nour_al_quran/pages/home/models/friday_content.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:nour_al_quran/shared/database/home_db.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 
+import '../../../main.dart';
 import '../../featured/provider/featured_provider.dart';
 import '../models/miracles.dart';
 
@@ -38,12 +40,15 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getMiracles() async {
+  getMiracles() async {
     _miracles = await HomeDb().getMiracles();
-    _friday = [await HomeDb().fridayFilter()];
+    Friday fridayItem = await HomeDb().fridayFilter();
+    _friday = [];
+    _friday.add(fridayItem);
     _featureMiraclesList = await HomeDb().getFeatured3();
-
-    FeatureProvider().updateFridayList(_friday);
+    _loadMiraclesOrder();
+    notifyListeners();
+    Provider.of<FeatureProvider>(navigatorKey.currentContext!).updateFridayList(_friday);
     print('printing friday in MIRACLES ONLOAD');
     print(_friday);
 
@@ -51,8 +56,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     // if (friday.first.contentType == "video") {
     //   print('VIDEO FETCHED IN MIRACLES PROVIDER');
     // }
-    _loadMiraclesOrder();
-    notifyListeners();
+
   }
 
   MiraclesOfQuranProvider() {

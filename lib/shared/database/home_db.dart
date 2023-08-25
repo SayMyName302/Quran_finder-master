@@ -116,11 +116,8 @@ class HomeDb {
     _database = await openDb();
 
     var contentTypes = ["audio", "video"];
-    var selectedContentType =
-        contentTypes[Random().nextInt(contentTypes.length)];
-
-    var table = await _database!.query(_friday,
-        where: "content_type = ?", whereArgs: [selectedContentType]);
+    var selectedContentType = contentTypes[Random().nextInt(contentTypes.length)];
+    var table = await _database!.query(_friday, where: "content_type = ?", whereArgs: [selectedContentType]);
 
     // print("Selected Content Type: $selectedContentType");
     // print("Number of Rows in Table: ${table.length}");

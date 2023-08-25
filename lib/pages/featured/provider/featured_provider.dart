@@ -389,10 +389,10 @@ class FeatureProvider extends ChangeNotifier {
   // Method to receive the list of Friday from MiraclesProvider
   void updateFridayList(List<Friday> fridayList) {
     _friday = fridayList;
+    notifyListeners();
     // print('printing friday list in featured');
     // print(_friday);
     // ...
-    notifyListeners();
   }
 
   FeatureProvider() {

@@ -84,34 +84,24 @@ class FeaturedSection extends StatelessWidget {
                   return InkWell(
                     onTap: () {
                       if (network == 1) {
-                        Future.delayed(
-                            Duration.zero,
-                            () => context
-                                .read<RecitationPlayerProvider>()
-                                .pause(context));
+                        Future.delayed(Duration.zero, () => context.read<RecitationPlayerProvider>().pause(context));
                         if (model is FeaturedModel) {
                           if (model.contentType == "audio") {
-                            storiesProvider.gotoFeaturePlayerPage(
-                                model.storyId!, context, index);
+                            storiesProvider.gotoFeaturePlayerPage(model.storyId!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_tile_homescreen',
                               parameters: {'title': model.title},
                             );
                           } else if (model.contentType == "Video") {
-                            Provider.of<MiraclesOfQuranProvider>(context,
-                                    listen: false)
-                                .goToMiracleDetailsPageFromFeatured(
-                                    model.storyTitle!, context, index);
+                            Provider.of<MiraclesOfQuranProvider>(context, listen: false).goToMiracleDetailsPageFromFeatured(model.storyTitle!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_miracle_tile_homescreen',
                               parameters: {'title': model.title},
                             );
                           }
                         } else if (model is RecitationCategoryModel) {
-                          recitationProvider
-                              .getSelectedRecitationAll(model.playlistId!);
-                          recitationProvider
-                              .setSelectedRecitationCategory(model);
+                          recitationProvider.getSelectedRecitationAll(model.playlistId!);
+                          recitationProvider.setSelectedRecitationCategory(model);
                           Navigator.of(context).pushNamed(
                             RouteHelper.recitationallcategory,
                           );
