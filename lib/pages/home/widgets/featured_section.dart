@@ -43,7 +43,9 @@ class FeaturedSection extends StatelessWidget {
           builder: (context, language, storiesProvider, recitationProvider,
               miraclesProvider, child) {
             List<dynamic> combinedList = [];
-
+            print('FEATURED LIST LENGTH${storiesProvider.feature.length}');
+            print(storiesProvider.friday);
+            print(miraclesProvider.friday);
             if (DateTime.now().weekday != DateTime.friday) {
               if (recitationProvider.recitationCategoryItem.isNotEmpty) {
                 combinedList.add(storiesProvider.feature.first);
@@ -53,7 +55,7 @@ class FeaturedSection extends StatelessWidget {
             } else {
               if (storiesProvider.friday.isNotEmpty &&
                   storiesProvider.friday.first.contentType == "audio") {
-                combinedList.add(storiesProvider.friday.first);
+                combinedList.add(miraclesProvider.friday.first);
                 if (recitationProvider.recitationCategoryItem.isNotEmpty) {
                   combinedList
                       .add(recitationProvider.recitationCategoryItem.first);
@@ -61,11 +63,11 @@ class FeaturedSection extends StatelessWidget {
                 combinedList.addAll(storiesProvider.feature.sublist(1));
               } else if (miraclesProvider.friday.isNotEmpty &&
                   miraclesProvider.friday.first.contentType == "video") {
+                combinedList.add(miraclesProvider.friday.first);
                 if (recitationProvider.recitationCategoryItem.isNotEmpty) {
-                  combinedList.insert(
-                      0, recitationProvider.recitationCategoryItem.first);
+                  combinedList
+                      .add(recitationProvider.recitationCategoryItem.first);
                 }
-                combinedList.insert(0, miraclesProvider.friday.first);
                 combinedList.addAll(storiesProvider.feature.sublist(1));
               }
             }

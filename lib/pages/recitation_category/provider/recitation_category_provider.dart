@@ -87,7 +87,8 @@ class RecitationCategoryProvider extends ChangeNotifier {
   Future<void> getRecitationCategoryStories() async {
     _recitationCategoryList = await HomeDb().getRecitationBasedOnTime();
     notifyListeners();
-    //Selecting 1 random Item from List
+
+    _recitationCategoryItem.clear();
     if (_recitationCategoryList.isNotEmpty) {
       int randomIndex = Random().nextInt(_recitationCategoryList.length);
       dynamic randomItem = _recitationCategoryList[randomIndex];

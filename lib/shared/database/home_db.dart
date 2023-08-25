@@ -122,12 +122,12 @@ class HomeDb {
     var table = await _database!.query(_friday,
         where: "content_type = ?", whereArgs: [selectedContentType]);
 
-    print("Selected Content Type: $selectedContentType");
-    print("Number of Rows in Table: ${table.length}");
-    print('contentType is >>> ${selectedContentType}');
+    // print("Selected Content Type: $selectedContentType");
+    // print("Number of Rows in Table: ${table.length}");
+    // print('contentType is >>> ${selectedContentType}');
 
     var randomRow = table[Random().nextInt(table.length)];
-    print("Randomly Selected Row: $randomRow");
+    // print("Randomly Selected Row: $randomRow");
 
     return Friday.fromJson(randomRow);
   }
