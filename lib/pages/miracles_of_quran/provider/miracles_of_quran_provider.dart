@@ -48,7 +48,8 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     _featureMiraclesList = await HomeDb().getFeatured3();
     _loadMiraclesOrder();
     notifyListeners();
-    Provider.of<FeatureProvider>(navigatorKey.currentContext!).updateFridayList(_friday);
+    Provider.of<FeatureProvider>(navigatorKey.currentContext!, listen: false)
+        .updateFridayList(_friday);
     print('printing friday in MIRACLES ONLOAD');
     print(_friday);
 
@@ -56,7 +57,6 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     // if (friday.first.contentType == "video") {
     //   print('VIDEO FETCHED IN MIRACLES PROVIDER');
     // }
-
   }
 
   MiraclesOfQuranProvider() {

@@ -20,8 +20,8 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
   void initState() {
     super.initState();
     //  NotificationServices().showNotification();
-    // Provider.of<MiraclesOfQuranProvider>(context, listen: false)
-    //     .initVideoPlayer();
+    Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+        .initVideoPlayer();
     Provider.of<MiraclesOfQuranProvider>(context, listen: false)
         .initVideoPlayerF();
   }
