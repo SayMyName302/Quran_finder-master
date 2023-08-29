@@ -11,6 +11,7 @@ import '../providers/dua_audio_player_provider.dart';
 import '../routes/routes_helper.dart';
 import '../utills/app_colors.dart';
 import '../widgets/circle_button.dart';
+import 'dart:math' as math;
 
 class DuaAudioPlayer extends StatelessWidget {
   const DuaAudioPlayer({
@@ -20,8 +21,7 @@ class DuaAudioPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DuaProvider duaProvider = Provider.of<DuaProvider>(context);
-    // Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
-    // int index = nextDuaData['index'];
+    String currentLanguage = Localizations.localeOf(context).languageCode;
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
     // ignore: unused_local_variable
@@ -29,7 +29,6 @@ class DuaAudioPlayer extends StatelessWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.max,
-      //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
           margin: EdgeInsets.only(left: 20.w, right: 20.w),
@@ -41,7 +40,6 @@ class DuaAudioPlayer extends StatelessWidget {
                 children: [
                   Container(
                     margin: EdgeInsets.only(left: 50.w, right: 35.w, top: 10.h),
-                    //decoration: BoxDecoration(border: Border.all(width: 1)),
                     child: const Row(
                       children: [],
                     ),
@@ -93,13 +91,14 @@ class DuaAudioPlayer extends StatelessWidget {
                             isLoopMoreNotifier.value = true;
                             player.audioPlayer.setLoopMode(LoopMode.one);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('Loop More On For ${'Dua ${duaProvider.selectedDua!.duaNo!}'}')));
+                                content: Text(
+                                    'Loop More On For ${'Dua ${duaProvider.selectedDua!.duaNo!}'}')));
                           } else {
                             isLoopMoreNotifier.value = false;
                             player.audioPlayer.setLoopMode(LoopMode.off);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text('Loop More Off For ${'Dua ${duaProvider.selectedDua!.duaNo!}'}')));
+                                content: Text(
+                                    'Loop More Off For ${'Dua ${duaProvider.selectedDua!.duaNo!}'}')));
                           }
                         },
                         icon: ValueListenableBuilder<bool>(
@@ -121,19 +120,30 @@ class DuaAudioPlayer extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
-                      IconButton(
-                        onPressed: () async {
-                          Provider.of<DuaProvider>(context, listen: false)
-                              .playPreviousDuaInCategory(context);
-                        },
-                        icon: Image.asset(
-                          'assets/images/app_icons/previous.png',
-                          height: 30.h,
-                          width: 30.w,
-                          color: them.isDark ? Colors.white : Colors.black,
+                      Transform(
+                        alignment:
+                            currentLanguage == 'ar' || currentLanguage == 'ur'
+                                ? Alignment.center
+                                : Alignment.center,
+                        transform: Matrix4.rotationY(
+                          (currentLanguage == 'ar' || currentLanguage == 'ur')
+                              ? math.pi
+                              : 0,
                         ),
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.center,
+                        child: IconButton(
+                          onPressed: () async {
+                            Provider.of<DuaProvider>(context, listen: false)
+                                .playPreviousDuaInCategory(context);
+                          },
+                          icon: Image.asset(
+                            'assets/images/app_icons/previous.png',
+                            height: 30.h,
+                            width: 30.w,
+                            color: them.isDark ? Colors.white : Colors.black,
+                          ),
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.center,
+                        ),
                       ),
                       Stack(
                         children: [
@@ -168,18 +178,30 @@ class DuaAudioPlayer extends StatelessWidget {
                           ),
                         ],
                       ),
-                      IconButton(
-                        onPressed: () async {
-                          Provider.of<DuaProvider>(context, listen: false).playNextDuaInCategory(context);
-                        },
-                        icon: Image.asset(
-                          'assets/images/app_icons/next.png',
-                          height: 30.h,
-                          width: 30.w,
-                          color: them.isDark ? Colors.white : Colors.black,
+                      Transform(
+                        alignment:
+                            currentLanguage == 'ar' || currentLanguage == 'ur'
+                                ? Alignment.center
+                                : Alignment.center,
+                        transform: Matrix4.rotationY(
+                          (currentLanguage == 'ar' || currentLanguage == 'ur')
+                              ? math.pi
+                              : 0,
                         ),
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.center,
+                        child: IconButton(
+                          onPressed: () async {
+                            Provider.of<DuaProvider>(context, listen: false)
+                                .playNextDuaInCategory(context);
+                          },
+                          icon: Image.asset(
+                            'assets/images/app_icons/next.png',
+                            height: 30.h,
+                            width: 30.w,
+                            color: them.isDark ? Colors.white : Colors.black,
+                          ),
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.center,
+                        ),
                       ),
                       IconButton(
                         onPressed: () {

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../../../shared/localization/localization_constants.dart';
 import '../../../../../shared/utills/app_colors.dart';
 import '../../../../../shared/widgets/app_bar.dart';
+import '../../../shared/localization/languages.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 import '../models/dua.dart';
 
@@ -55,6 +56,19 @@ class DuaPlayList extends StatelessWidget {
                     itemBuilder: (context, duaCategoryID) {
                       Dua dua = duaProvider.duaList[duaCategoryID];
                       String duaCount = dua.ayahCount.toString();
+
+                      //This code is to give margin to container if lang == ar or ur
+                      String? languageCode;
+                      String currentLanguage =
+                          Localizations.localeOf(context).languageCode;
+                      languageCode = Languages.languages
+                          .firstWhere(
+                            (language) =>
+                                language.languageCode.toLowerCase() ==
+                                currentLanguage.toLowerCase(),
+                          )
+                          .languageCode;
+                      //Till here
 
                       return InkWell(
                         onTap: () {
@@ -119,7 +133,8 @@ class DuaPlayList extends StatelessWidget {
                                                   .width *
                                               0.5,
                                           child: Text(
-                                            capitalize(dua.duaTitle.toString()),
+                                            localeText(context,
+                                                dua.duaTitle.toString()),
                                             style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 15.sp,
@@ -154,6 +169,10 @@ class DuaPlayList extends StatelessWidget {
                               Container(
                                 margin: EdgeInsets.only(
                                   right: 10.h,
+                                  left: (languageCode == 'ur' ||
+                                          languageCode == 'ar')
+                                      ? 10.h
+                                      : 0,
                                   top: 5.h,
                                   bottom: 5.h,
                                   // left: 10.w,

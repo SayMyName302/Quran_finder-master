@@ -26,7 +26,10 @@ class DuaDetail extends StatelessWidget {
     String duaTitle = nextDua.duaTitle.toString();
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
-    String duaTranslation = nextDua.translations.toString();
+
+    String currentLanguage = Localizations.localeOf(context).languageCode;
+    duaProvider.setCurrentLanguage(currentLanguage);
+    String translations = duaProvider.getTranslatedDua(nextDua);
 
     return WillPopScope(
       onWillPop: () async {
@@ -107,7 +110,8 @@ class DuaDetail extends StatelessWidget {
                                                     .width *
                                                 0.6,
                                             child: Text(
-                                              capitalize(duaTitle),
+                                              localeText(
+                                                  context, duaTitle.toString()),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 15.sp,
@@ -141,51 +145,6 @@ class DuaDetail extends StatelessWidget {
                                           Dua dua =
                                               duaProvider.duaList[duaIndex];
                                           profile.addOrRemoveDuaBookmark(dua);
-                                          // int indx = duaProv.duaList[duaIndex].duaId!;
-                                          // int? categoryId = duaProv.duaList[duaIndex].duaCategoryId;
-                                          // String categoryName = getCategoryNameById(categoryId!, duaProv.duaCategoryList);
-                                          // int duaNo = duaProv.duaList[duaIndex].duaNo!;
-                                          // BookmarksDua bookmark = BookmarksDua(
-                                          //     duaId: indx,
-                                          //     duaNo: duaNo,
-                                          //     categoryId: categoryId,
-                                          //     categoryName: categoryName,
-                                          //     duaTitle: duaTitle,
-                                          //     duaRef: duaRef,
-                                          //     ayahCount: duaCount,
-                                          //     duaText: duaText,
-                                          //     duaTranslation:
-                                          //     duaTranslation,
-                                          //     bookmarkPosition: favindex,
-                                          //     duaUrl: duaUrl);
-                                          // if (fav == 0 || fav == null) {
-                                          //   duaProv.bookmark(duaIndex, 1);
-                                          //   BookmarksDua bookmark = BookmarksDua(
-                                          //           duaId: indx,
-                                          //           duaNo: duaNo,
-                                          //           categoryId: categoryId,
-                                          //           categoryName: categoryName,
-                                          //           duaTitle: duaTitle,
-                                          //           duaRef: duaRef,
-                                          //           ayahCount: duaCount,
-                                          //           duaText: duaText,
-                                          //           duaTranslation:
-                                          //               duaTranslation,
-                                          //           bookmarkPosition: favindex,
-                                          //           duaUrl: duaUrl);
-                                          //   context.read<BookmarkProviderDua>().addBookmark(bookmark);
-                                          // } else {
-                                          //   // to change state
-                                          //   duaProv.bookmark(duaIndex, 0);
-                                          //   context
-                                          //       .read<BookmarkProviderDua>()
-                                          //       .removeBookmark(
-                                          //           duaProvider
-                                          //               .duaList[duaIndex].duaId!,
-                                          //           duaProvider
-                                          //               .duaList[duaIndex]
-                                          //               .duaCategoryId!);
-                                          // }
                                         },
                                         child: Container(
                                           height: 20.h,
@@ -263,12 +222,6 @@ class DuaDetail extends StatelessWidget {
                                   left: 22.w,
                                   right: 22.w,
                                 ),
-                                // decoration: BoxDecoration(
-                                //   borderRadius: BorderRadius.circular(6.r),
-                                //   border: Border.all(
-                                //     color: AppColors.brandingDark,
-                                //   ),
-                                // ),
                                 alignment: Alignment.centerRight,
                                 child: Text(
                                   duaText,
@@ -281,10 +234,6 @@ class DuaDetail extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // DuaContainer1(
-                              //   translation: duaTranslation,
-                              //   ref: duaRef,
-                              // ),
                               const SizedBox(height: 7),
                               Container(
                                 margin: EdgeInsets.only(
@@ -296,7 +245,7 @@ class DuaDetail extends StatelessWidget {
                                   right: 22.w,
                                 ),
                                 child: Text(
-                                  "Translation",
+                                  localeText(context, "translation"),
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
@@ -317,7 +266,7 @@ class DuaDetail extends StatelessWidget {
                                   right: 22.w,
                                 ),
                                 child: Text(
-                                  duaTranslation,
+                                  translations,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
@@ -328,48 +277,6 @@ class DuaDetail extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 7),
-                              // const SizedBox(height: 7),
-                              // Container(
-                              //   margin: EdgeInsets.only(
-                              //     left: 20.w,
-                              //     right: 20.w,
-                              //   ),
-                              //   padding: EdgeInsets.only(
-                              //     left: 22.w,
-                              //     right: 22.w,
-                              //   ),
-                              //   child: Text(
-                              //     "Benefit",
-                              //     textAlign: TextAlign.start,
-                              //     style: TextStyle(
-                              //       fontWeight: FontWeight.w700,
-                              //       fontSize: 17.sp,
-                              //       fontFamily: fontProvider.finalFont,
-                              //     ),
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 7),
-                              // Container(
-                              //   margin: EdgeInsets.only(
-                              //     left: 20.w,
-                              //     right: 20.w,
-                              //   ),
-                              //   padding: EdgeInsets.only(
-                              //     left: 22.w,
-                              //     right: 22.w,
-                              //   ),
-                              //   child: Text(
-                              //     duaTranslation,
-                              //     textAlign: TextAlign.start,
-                              //     style: TextStyle(
-                              //       fontWeight: FontWeight.w400,
-                              //       fontFamily: 'satoshi',
-                              //       fontSize:
-                              //           fontProvider.fontSizeTranslation.sp,
-                              //     ),
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 7),
                               Container(
                                 margin: EdgeInsets.only(
                                   left: 20.w,
@@ -380,7 +287,7 @@ class DuaDetail extends StatelessWidget {
                                   right: 22.w,
                                 ),
                                 child: Text(
-                                  "Reference",
+                                  localeText(context, "reference"),
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
@@ -426,13 +333,6 @@ class DuaDetail extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String capitalize(String text) {
-    if (text.isEmpty) {
-      return text;
-    }
-    return text[0].toUpperCase() + text.substring(1);
   }
 
   String getCategoryNameById(int categoryId, List<DuaCategory> categoryList) {

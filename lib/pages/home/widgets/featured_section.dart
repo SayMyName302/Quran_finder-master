@@ -174,8 +174,7 @@ class FeaturedSection extends StatelessWidget {
                                   : model is FeaturedModel
                                       ? model.storyTitle!
                                       : model is Friday
-                                          ? model
-                                              .title! // Adjust property accordingly
+                                          ? model.title!
                                           : "",
                             ),
                             textAlign: TextAlign.left,

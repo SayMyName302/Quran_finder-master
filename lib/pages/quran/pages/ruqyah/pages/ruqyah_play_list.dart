@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../shared/utills/app_colors.dart';
+import '../../../../../shared/localization/languages.dart';
 import '../../../../../shared/localization/localization_constants.dart';
 import '../../../../../shared/widgets/app_bar.dart';
 import '../../../../settings/pages/app_colors/app_colors_provider.dart';
@@ -31,6 +32,19 @@ class RuqyahPlayList extends StatelessWidget {
                     Ruqyah dua = duaProvider.duaList[duacategoryID];
                     String duaCount = dua.ayahCount.toString();
 
+                    //This code is to give margin to container if lang == ar or ur
+                    String? languageCode;
+                    String currentLanguage =
+                        Localizations.localeOf(context).languageCode;
+                    languageCode = Languages.languages
+                        .firstWhere(
+                          (language) =>
+                              language.languageCode.toLowerCase() ==
+                              currentLanguage.toLowerCase(),
+                        )
+                        .languageCode;
+                    //Till here
+
                     return InkWell(
                       onTap: () {
                         //       duaProvider.gotoDuaPlayerPage(dua.id!, context);
@@ -52,15 +66,19 @@ class RuqyahPlayList extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                margin: EdgeInsets.only(left: 10.w, right: 10.w),
-                                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                margin:
+                                    EdgeInsets.only(left: 10.w, right: 10.w),
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
                                       child: CircleAvatar(
                                         radius: 17,
-                                        backgroundColor: appColors.mainBrandingColor,
+                                        backgroundColor:
+                                            appColors.mainBrandingColor,
                                         child: Container(
                                           width: 25,
                                           height: 25,
@@ -78,13 +96,19 @@ class RuqyahPlayList extends StatelessWidget {
                                     ),
                                     SizedBox(width: 10.h),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          width: MediaQuery.of(context).size.width * 0.5,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
                                           child: Text(
-                                            capitalize(dua.duaTitle.toString()),
+                                            localeText(context,
+                                                dua.duaTitle.toString()),
                                             style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 15.sp,
@@ -96,7 +120,10 @@ class RuqyahPlayList extends StatelessWidget {
                                         ),
                                         SizedBox(height: 2.h),
                                         SizedBox(
-                                          width: MediaQuery.of(context).size.width * 0.4,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
                                           child: Text(
                                             dua.duaRef.toString(),
                                             maxLines: 1,
@@ -116,6 +143,10 @@ class RuqyahPlayList extends StatelessWidget {
                               Container(
                                 margin: EdgeInsets.only(
                                   right: 10.h,
+                                  left: (languageCode == 'ur' ||
+                                          languageCode == 'ar')
+                                      ? 10.h
+                                      : 0,
                                   top: 5.h,
                                   bottom: 5.h,
                                   // left: 10.w,

@@ -10,6 +10,7 @@ import '../../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../../../shared/routes/routes_helper.dart';
 import '../../../../../shared/utills/app_colors.dart';
 import '../../../../../shared/widgets/circle_button.dart';
+import 'dart:math' as math;
 
 class RuqyahAudioPlayer extends StatelessWidget {
   const RuqyahAudioPlayer({
@@ -19,8 +20,7 @@ class RuqyahAudioPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RuqyahProvider ruqyahProvider = Provider.of<RuqyahProvider>(context);
-    // Map<String, dynamic> nextDuaData = ruqyahProvider.getNextDua();
-    // int index = nextDuaData['index'];
+    String currentLanguage = Localizations.localeOf(context).languageCode;
     int index = ruqyahProvider.selectedDua!.duaNo!;
 
     final ValueNotifier<bool> isLoopMoreNotifier = ValueNotifier<bool>(false);
@@ -45,7 +45,8 @@ class RuqyahAudioPlayer extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text("${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
+                      Text(
+                          "${player.duration.inHours}:${player.duration.inMinutes.remainder(60)}:${player.duration.inSeconds.remainder(60)}"),
                       SliderTheme(
                         data: SliderThemeData(
                             overlayShape: SliderComponentShape.noOverlay,
@@ -73,7 +74,8 @@ class RuqyahAudioPlayer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text('- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
+                      Text(
+                          '- ${player.position.inMinutes.remainder(60)}:${player.position.inSeconds.remainder(60)}'),
                     ],
                   ),
                   SizedBox(
@@ -141,19 +143,30 @@ class RuqyahAudioPlayer extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
                       ),
-                      IconButton(
-                        onPressed: () async {
-                          Provider.of<RuqyahProvider>(context, listen: false)
-                              .playPreviousDuaInCategory(context);
-                        },
-                        icon: Image.asset(
-                          'assets/images/app_icons/previous.png',
-                          height: 30.h,
-                          width: 30.w,
-                          color: them.isDark ? Colors.white : Colors.black,
+                      Transform(
+                        alignment:
+                            currentLanguage == 'ar' || currentLanguage == 'ur'
+                                ? Alignment.center
+                                : Alignment.center,
+                        transform: Matrix4.rotationY(
+                          (currentLanguage == 'ar' || currentLanguage == 'ur')
+                              ? math.pi
+                              : 0,
                         ),
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.center,
+                        child: IconButton(
+                          onPressed: () async {
+                            Provider.of<RuqyahProvider>(context, listen: false)
+                                .playPreviousDuaInCategory(context);
+                          },
+                          icon: Image.asset(
+                            'assets/images/app_icons/previous.png',
+                            height: 30.h,
+                            width: 30.w,
+                            color: them.isDark ? Colors.white : Colors.black,
+                          ),
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.center,
+                        ),
                       ),
                       // SizedBox(
                       //   width: 20.h,
@@ -194,19 +207,30 @@ class RuqyahAudioPlayer extends StatelessWidget {
                       // SizedBox(
                       //   width: 20.h,
                       // ),
-                      IconButton(
-                        onPressed: () async {
-                          Provider.of<RuqyahProvider>(context, listen: false)
-                              .playNextDuaInCategory(context);
-                        },
-                        icon: Image.asset(
-                          'assets/images/app_icons/next.png',
-                          height: 30.h,
-                          width: 30.w,
-                          color: them.isDark ? Colors.white : Colors.black,
+                      Transform(
+                        alignment:
+                            currentLanguage == 'ar' || currentLanguage == 'ur'
+                                ? Alignment.center
+                                : Alignment.center,
+                        transform: Matrix4.rotationY(
+                          (currentLanguage == 'ar' || currentLanguage == 'ur')
+                              ? math.pi
+                              : 0,
                         ),
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.center,
+                        child: IconButton(
+                          onPressed: () async {
+                            Provider.of<RuqyahProvider>(context, listen: false)
+                                .playNextDuaInCategory(context);
+                          },
+                          icon: Image.asset(
+                            'assets/images/app_icons/next.png',
+                            height: 30.h,
+                            width: 30.w,
+                            color: them.isDark ? Colors.white : Colors.black,
+                          ),
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.center,
+                        ),
                       ),
                       // const Spacer(),
                       // IconButton(

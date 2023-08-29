@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/settings/pages/profile/profile_provider.dart';
 import 'package:provider/provider.dart';
-import '../../../../../shared/entities/bookmarks_ruqyah.dart';
 import '../../../../../shared/localization/localization_constants.dart';
 import '../../../../../shared/providers/dua_audio_player_provider.dart';
 import '../../../../../shared/utills/app_colors.dart';
@@ -21,9 +20,6 @@ class RuqyahDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RuqyahProvider duaProvider = Provider.of<RuqyahProvider>(context);
-    // Map<String, dynamic> nextDuaData = duaProvider.getNextDua();
-    // int index = nextDuaData['index'];
-    // Dua nextDua = nextDuaData['dua'];
 
     int index = duaProvider.selectedDua!.duaNo!;
     Ruqyah nextDua = duaProvider.selectedDua!;
@@ -31,11 +27,10 @@ class RuqyahDetail extends StatelessWidget {
     String duaRef = nextDua.duaRef.toString();
     String duaText = nextDua.duaText.toString();
 
-    // int? duaCount = nextDua.ayahCount;
-    String duaTranslation = nextDua.translations.toString();
-    // int? fav = nextDua.isFav;
-    // int favindex = index - 1;
-    // String duaUrl = nextDua.duaUrl.toString();
+    // String duaTranslation = nextDua.translations.toString();
+    String currentLanguage = Localizations.localeOf(context).languageCode;
+    duaProvider.setCurrentLanguage(currentLanguage);
+    String translations = duaProvider.getTranslatedDua(nextDua);
 
     return WillPopScope(
       onWillPop: () async {
@@ -111,7 +106,8 @@ class RuqyahDetail extends StatelessWidget {
                                                     .width *
                                                 0.6,
                                             child: Text(
-                                              capitalize(duaTitle),
+                                              localeText(
+                                                  context, duaTitle.toString()),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 15.sp,
@@ -275,7 +271,7 @@ class RuqyahDetail extends StatelessWidget {
                                   right: 22.w,
                                 ),
                                 child: Text(
-                                  "Translation",
+                                  localeText(context, "translation"),
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
@@ -296,7 +292,7 @@ class RuqyahDetail extends StatelessWidget {
                                   right: 22.w,
                                 ),
                                 child: Text(
-                                  duaTranslation,
+                                  translations,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
@@ -318,7 +314,7 @@ class RuqyahDetail extends StatelessWidget {
                                   right: 22.w,
                                 ),
                                 child: Text(
-                                  "Reference",
+                                  localeText(context, "reference"),
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,

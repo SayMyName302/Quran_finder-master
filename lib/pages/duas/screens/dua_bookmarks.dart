@@ -20,7 +20,8 @@ class DuaBookmarkPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            margin: EdgeInsets.only(bottom: 10.h, left: 20.h, top: 2.h, right: 20.w),
+            margin: EdgeInsets.only(
+                bottom: 10.h, left: 20.h, top: 2.h, right: 20.w),
             child: Text(
               localeText(context, "dua_bookmarks"),
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
@@ -29,7 +30,8 @@ class DuaBookmarkPage extends StatelessWidget {
           child: Consumer<ProfileProvider>(
             builder: (context, profile, child) {
               List<Dua> bookmarkListDua = profile.userProfile!.duaBookmarksList;
-              List<Ruqyah> bookmarkListRuqyah = profile.userProfile!.ruqyahBookmarksList;
+              List<Ruqyah> bookmarkListRuqyah =
+                  profile.userProfile!.ruqyahBookmarksList;
 
               List<dynamic> combinedBookmarkList = [
                 ...bookmarkListDua,
@@ -47,13 +49,16 @@ class DuaBookmarkPage extends StatelessWidget {
                         return InkWell(
                           onTap: () async {
                             if (isDuaBookmark) {
-                              Provider.of<DuaProvider>(context, listen: false).gotoDuaPlayerPage(
+                              Provider.of<DuaProvider>(context, listen: false)
+                                  .gotoDuaPlayerPage(
                                 bookmark.duaCategoryId!,
                                 bookmark.duaText!,
                                 context,
                               );
                             } else {
-                              Provider.of<RuqyahProvider>(context, listen: false).gotoDuaPlayerPage(
+                              Provider.of<RuqyahProvider>(context,
+                                      listen: false)
+                                  .gotoDuaPlayerPage(
                                 bookmark.duaCategoryId!,
                                 bookmark.duaText!,
                                 context,
@@ -65,8 +70,10 @@ class DuaBookmarkPage extends StatelessWidget {
                           },
                           child: DetailsContainerWidget(
                             // ${localeText(context, bookmark.duaCategoryId!)}
-                            title: '${bookmark.duaTitle}',
-                            subTitle: "${localeText(context, "dua")} ${bookmark.duaNo} , ${bookmark.duaRef}",
+                            // title: '${bookmark.duaTitle}',
+                            title: localeText(context, bookmark.duaTitle),
+                            subTitle:
+                                "${localeText(context, "dua")} ${bookmark.duaNo} , ${bookmark.duaRef}",
                             icon: Icons.bookmark,
                             onTapIcon: () {
                               if (isDuaBookmark) {
