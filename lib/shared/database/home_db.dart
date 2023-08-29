@@ -13,6 +13,7 @@ import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_ca
 import 'package:nour_al_quran/pages/settings/pages/about_the_app/model/about_model.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilCategory.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/models/TranquilModel.dart';
+import 'package:nour_al_quran/pages/you_may_also_like/models/youmaylike_model.dart';
 import 'package:nour_al_quran/shared/entities/quran_text.dart';
 import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:nour_al_quran/shared/entities/surah.dart';
@@ -32,6 +33,7 @@ class HomeDb {
   final String _islamBasicsTb = "islam_basics";
   final String _featured = "featured_all";
   final String _quranTextTable = "quran_text";
+  final String _youmaylike = "you_may_also_like";
   // final String _appinfo = "app_info";
   // final String _recitationCategoryTb = "recitation_category";
   // final String _recitationAllTb = "recitation_all";
@@ -421,6 +423,20 @@ class HomeDb {
     }
     // print(
     //     "Feature Length: >>${feature.length}"); // Print the number of FeaturedModel objects added to the list
+    return feature;
+  }
+
+  Future<List<YouMayAlsoLikeModel>> getYouMayLike() async {
+    List<YouMayAlsoLikeModel> feature = [];
+    _database = await openDb();
+    var table = await _database!.query(_youmaylike, orderBy: 'view_order_by');
+    print(
+        "YouMayLike Table Length:>> ${table.length}"); // Print the number of rows retrieved from the table
+    for (var map in table) {
+      feature.add(YouMayAlsoLikeModel.fromJson(map));
+    }
+    print(
+        "YouMayLike  Length: >>${feature.length}"); // Print the number of FeaturedModel objects added to the list
     return feature;
   }
 

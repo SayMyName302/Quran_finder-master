@@ -63,6 +63,7 @@ import 'pages/recitation_category/provider/recitation_category_provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'pages/tranquil_tales/provider/tranquil_tales_provider.dart';
+import 'pages/you_may_also_like/provider/youmaylike_provider.dart';
 
 BuildContext? globalContext;
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -75,6 +76,7 @@ void main() async {
   await dotenv.load(fileName: '.env');
   await Global.init();
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => YouMayAlsoLikeProvider()),
     ChangeNotifierProvider(create: (_) => recentProviderRecitation()),
     ChangeNotifierProvider(create: (_) => TranquilCategoryProvider()),
     ChangeNotifierProvider(create: (_) => PopularProvider()),
@@ -135,7 +137,8 @@ class MyApp extends StatelessWidget {
     globalContext = context;
     final oneSignalProvider = Provider.of<OneSignalProvider>(context);
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    final FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance);
+    final FirebaseAnalyticsObserver observer =
+        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance);
     oneSignalProvider.initializeOneSignal();
     return ScreenUtilInit(
       designSize: Size(Dimensions.width, Dimensions.height),
