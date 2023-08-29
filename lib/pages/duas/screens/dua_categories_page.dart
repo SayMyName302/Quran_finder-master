@@ -6,6 +6,7 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
 
+import '../../../shared/localization/languages.dart';
 import '../provider/dua_provider.dart';
 import '../models/dua_category.dart';
 
@@ -26,6 +27,19 @@ class DuaCategoriesPage extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   DuaCategory duaCategory = duaProvider.duaCategoryList[index];
+
+                  //This code is to give margin to Text inside Container if lang == ar or ur
+                  String? languageCode;
+                  String currentLanguage =
+                      Localizations.localeOf(context).languageCode;
+                  languageCode = Languages.languages
+                      .firstWhere(
+                        (language) =>
+                            language.languageCode.toLowerCase() ==
+                            currentLanguage.toLowerCase(),
+                      )
+                      .languageCode;
+                  //Till here
                   return InkWell(
                     onTap: () async {
                       /// pause recitation player
@@ -68,6 +82,10 @@ class DuaCategoriesPage extends StatelessWidget {
                           width: double.maxFinite,
                           margin: EdgeInsets.only(
                             left: 6.w,
+                            right:
+                                (languageCode == 'ur' || languageCode == 'ar')
+                                    ? 6.w
+                                    : 0,
                             bottom: 8.h,
                           ),
                           child: Column(

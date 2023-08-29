@@ -5,7 +5,7 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provide
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
-import '../../../../../shared/routes/routes_helper.dart';
+import '../../../shared/localization/languages.dart';
 import '../../../shared/localization/localization_constants.dart';
 import '../../../shared/localization/localization_provider.dart';
 import '../provider/dua_provider.dart';
@@ -120,8 +120,20 @@ class DuaPage extends StatelessWidget {
                           itemCount: duaProvider.duaList.length,
                           itemBuilder: (context, index) {
                             Dua dua = duaProvider.duaList[index];
-                            // duaProvider.duaList[index].translations.toString();
                             String duaCount = dua.ayahCount.toString();
+
+                            //This code is to give margin to container if lang == ar or ur
+                            String? languageCode;
+                            String currentLanguage =
+                                Localizations.localeOf(context).languageCode;
+                            languageCode = Languages.languages
+                                .firstWhere(
+                                  (language) =>
+                                      language.languageCode.toLowerCase() ==
+                                      currentLanguage.toLowerCase(),
+                                )
+                                .languageCode;
+                            //Till here
 
                             return InkWell(
                               onTap: () {
@@ -196,8 +208,8 @@ class DuaPage extends StatelessWidget {
                                                         .width *
                                                     0.5,
                                                 child: Text(
-                                                  capitalize(
-                                                      dua.duaTitle.toString()),
+                                                  capitalize(localeText(context,
+                                                      dua.duaTitle.toString())),
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 15.sp,
@@ -234,6 +246,10 @@ class DuaPage extends StatelessWidget {
                                     Container(
                                       margin: EdgeInsets.only(
                                         right: 10.h,
+                                        left: (languageCode == 'ur' ||
+                                                languageCode == 'ar')
+                                            ? 10.h
+                                            : 0,
                                         top: 5.h,
                                         bottom: 5.h,
                                       ),

@@ -6,13 +6,15 @@ import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/utills/app_colors.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
 import 'package:provider/provider.dart';
+import '../../../../../shared/localization/languages.dart';
 import '../../../../../shared/localization/localization_provider.dart';
-import '../../../../../shared/routes/routes_helper.dart';
 import '../models/ruqyah.dart';
 import '../provider/ruqyah_provider.dart';
 
 class RuqyahPage extends StatelessWidget {
-  const RuqyahPage({Key? key,}) : super(key: key);
+  const RuqyahPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,8 @@ class RuqyahPage extends StatelessWidget {
         child: Consumer2<AppColorsProvider, RuqyahProvider>(
           builder: (context, appColors, duaProvider, child) {
             String collectionOfDua = LocalizationProvider().checkIsArOrUr()
-                  ? "${duaProvider.selectedDuaCategory!.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-                  : "${localeText(context, 'playlist_of')} ${duaProvider.selectedDuaCategory!.noOfDua!} ${localeText(context, 'duas')}";
+                ? "${duaProvider.selectedDuaCategory!.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
+                : "${localeText(context, 'playlist_of')} ${duaProvider.selectedDuaCategory!.noOfDua!} ${localeText(context, 'duas')}";
             //Split Collection
             List<String> splitText = collectionOfDua.split(' ');
             String duaCount = splitText[0];
@@ -54,7 +56,8 @@ class RuqyahPage extends StatelessWidget {
                           color: Colors.amberAccent,
                           borderRadius: BorderRadius.circular(22),
                           image: DecorationImage(
-                            image: AssetImage(duaProvider.selectedDuaCategory!.imageUrl!),
+                            image: NetworkImage(
+                                duaProvider.selectedDuaCategory!.imageUrl!),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -68,7 +71,10 @@ class RuqyahPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TitleText(
-                                title: localeText(context, duaProvider.selectedDuaCategory!.categoryName!),
+                                title: localeText(
+                                    context,
+                                    duaProvider
+                                        .selectedDuaCategory!.categoryName!),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 17.sp,
@@ -111,6 +117,19 @@ class RuqyahPage extends StatelessWidget {
                       Ruqyah dua = duaProvider.duaList[index];
                       duaProvider.duaList[index].translations.toString();
                       String duaCount = dua.ayahCount.toString();
+
+                      //This code is to give margin to container if lang == ar or ur
+                      String? languageCode;
+                      String currentLanguage =
+                          Localizations.localeOf(context).languageCode;
+                      languageCode = Languages.languages
+                          .firstWhere(
+                            (language) =>
+                                language.languageCode.toLowerCase() ==
+                                currentLanguage.toLowerCase(),
+                          )
+                          .languageCode;
+                      //Till here
                       return InkWell(
                         onTap: () {
                           analytics.logEvent(
@@ -118,10 +137,14 @@ class RuqyahPage extends StatelessWidget {
                             parameters: {
                               'index': index + 1,
                               'Name': dua.duaTitle.toString(),
-                              'Category': localeText(context, duaProvider.selectedDuaCategory!.categoryName!)
+                              'Category': localeText(
+                                  context,
+                                  duaProvider
+                                      .selectedDuaCategory!.categoryName!)
                             },
                           );
-                          duaProvider.gotoDuaPlayerPage(dua.duaCategoryId!, dua.duaText!, context);
+                          duaProvider.gotoDuaPlayerPage(
+                              dua.duaCategoryId!, dua.duaText!, context);
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -139,15 +162,19 @@ class RuqyahPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                margin: EdgeInsets.only(left: 10.w, right: 10.w),
-                                padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                margin:
+                                    EdgeInsets.only(left: 10.w, right: 10.w),
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 5),
                                 child: Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
                                       child: CircleAvatar(
                                         radius: 17,
-                                        backgroundColor: appColors.mainBrandingColor,
+                                        backgroundColor:
+                                            appColors.mainBrandingColor,
                                         child: Container(
                                           width: 25,
                                           height: 25,
@@ -171,9 +198,13 @@ class RuqyahPage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          width: MediaQuery.of(context).size.width * 0.5,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
                                           child: Text(
-                                            capitalize(dua.duaTitle.toString()),
+                                            localeText(context,
+                                                dua.duaTitle.toString()),
                                             style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 15.sp,
@@ -185,7 +216,10 @@ class RuqyahPage extends StatelessWidget {
                                         ),
                                         SizedBox(height: 2.h),
                                         SizedBox(
-                                          width: MediaQuery.of(context).size.width * 0.4,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
                                           child: Text(
                                             dua.duaRef.toString(),
                                             style: TextStyle(
@@ -205,6 +239,10 @@ class RuqyahPage extends StatelessWidget {
                               Container(
                                 margin: EdgeInsets.only(
                                   right: 10.h,
+                                  left: (languageCode == 'ur' ||
+                                          languageCode == 'ar')
+                                      ? 10.h
+                                      : 0,
                                   top: 5.h,
                                   bottom: 5.h,
                                 ),

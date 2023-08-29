@@ -8,7 +8,6 @@ import '../../../shared/widgets/title_text.dart';
 import '../../quran/pages/ruqyah/provider/ruqyah_provider.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
 
-
 class DuaCategoriesMain extends StatefulWidget with RouteAware {
   const DuaCategoriesMain({Key? key}) : super(key: key);
 
