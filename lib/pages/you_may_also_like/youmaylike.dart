@@ -18,12 +18,12 @@ class YouMayAlsoLikePage extends StatelessWidget {
               margin: EdgeInsets.only(
                   left: 20.w, top: 60.h, bottom: 12.h, right: 20.w),
               child: TitleText(
-                  title: localeText(context, "popular"),
+                  title: localeText(context, "you_may_also_like"),
                   style: TextStyle(
                       fontFamily: 'satoshi',
                       fontSize: 22.sp,
                       fontWeight: FontWeight.bold))),
-          const PopularList()
+          const YouMayAlsoLikeList()
         ],
       ),
     );
