@@ -808,7 +808,8 @@ class _RecitationPageState extends State<RecitationPage> {
                     text: 'You may also like',
                     buttonText: localeText(context, "view_all"),
                     onTap: () {
-                      Navigator.of(context).pushNamed(RouteHelper.popular);
+                      Navigator.of(context)
+                          .pushNamed(RouteHelper.youmayalsolike);
                       analytics.logEvent(
                         name: 'popular_section_viewall_button',
                         parameters: {'title': 'popular_viewall'},
