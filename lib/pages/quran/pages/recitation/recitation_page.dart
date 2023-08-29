@@ -820,9 +820,8 @@ class _RecitationPageState extends State<RecitationPage> {
                     FeaturedMiraclesOfQuranProvider>(
                   builder: (context, language, storiesProvider,
                       featureMiraclesProvider, child) {
-                    var onBoardingProvider =
-                        Provider.of<OnBoardingProvider>(context);
-
+                    // var onBoardingProvider =
+                    //     Provider.of<OnBoardingProvider>(context);
                     //   print('Original List: >>$originalList');
 
                     return SizedBox(
@@ -835,6 +834,7 @@ class _RecitationPageState extends State<RecitationPage> {
                         itemBuilder: (context, index) {
                           YouMayAlsoLikeModel model =
                               storiesProvider.feature[index];
+                          // print(model.image!);
 
                           if (model.status != 'active') {
                             return const SizedBox.shrink();

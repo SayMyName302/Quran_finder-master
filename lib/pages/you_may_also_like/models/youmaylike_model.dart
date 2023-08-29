@@ -49,7 +49,7 @@ class YouMayAlsoLikeModel {
     text = json['text'];
     contentType = json['content_type'];
     contentUrl = json['content_url'];
-    image = json['image_url'];
+    image = json['app_image_url'];
     audioImageUrl = json['audio_image_url'];
     status = json['status'];
     orderBy = json['view_order_by'];
@@ -88,6 +88,6 @@ class YouMayAlsoLikeModel {
 
   @override
   String toString() {
-    return 'title $title, surahID $surahId';
+    return 'YOUMAYLIKE    title $title, surahID $surahId';
   }
 }
