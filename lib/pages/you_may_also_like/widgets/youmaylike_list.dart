@@ -5,13 +5,15 @@ import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart'
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import 'package:nour_al_quran/pages/popular_section/models/popular_model.dart';
 import 'package:nour_al_quran/pages/popular_section/provider/popular_provider.dart';
+import 'package:nour_al_quran/pages/you_may_also_like/models/youmaylike_model.dart';
+import 'package:nour_al_quran/pages/you_may_also_like/provider/youmaylike_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_constants.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 
-class PopularList extends StatelessWidget {
-  const PopularList({Key? key}) : super(key: key);
+class YouMayAlsoLikeList extends StatelessWidget {
+  const YouMayAlsoLikeList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +21,9 @@ class PopularList extends StatelessWidget {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return Expanded(
-      child: Consumer2<PopularProvider, FeaturedMiraclesOfQuranProvider>(
+      child: Consumer2<YouMayAlsoLikeProvider, FeaturedMiraclesOfQuranProvider>(
         builder: (context, featureProvider, featureMiraclesProvider, child) {
-          List<PopularRecitationModel> activeStories = featureProvider.feature
+          List<YouMayAlsoLikeModel> activeStories = featureProvider.feature
               .where((model) => model.status == 'active')
               .toList();
           return featureProvider.feature.isNotEmpty
@@ -32,7 +34,7 @@ class PopularList extends StatelessWidget {
                   ),
                   itemCount: activeStories.length,
                   itemBuilder: (context, index) {
-                    PopularRecitationModel model = activeStories[index];
+                    YouMayAlsoLikeModel model = activeStories[index];
                     if (model.status != 'active') {
                       return Container(); // Skip inactive items
                     }
@@ -52,16 +54,13 @@ class PopularList extends StatelessWidget {
                               name: 'featured_section_audiotiles',
                               parameters: {'title': model.title},
                             );
-                          } else if (model.contentType == "Video") {
-                            // print(index);
-                            // print(model.storyTitle!);
-
+                          } else if (model.contentType == "video") {
                             /// two ways without creating any separate provider
                             /// directly using MiraclesOfQuranProvider
                             Provider.of<MiraclesOfQuranProvider>(context,
                                     listen: false)
                                 .goToMiracleDetailsPageFromFeatured(
-                                    model.title!, context, index);
+                                    model.storyTitle!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_videotiles',
                               parameters: {'title': model.title},
@@ -101,7 +100,8 @@ class PopularList extends StatelessWidget {
                                 left: 6.w, bottom: 8.h, right: 9.w),
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                              localeText(context, model.title!.toLowerCase()),
+                              localeText(
+                                  context, model.storyTitle!.toLowerCase()),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15.sp,

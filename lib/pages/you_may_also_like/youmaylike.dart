@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nour_al_quran/pages/popular_section/widgets/popular_list.dart';
+import 'package:nour_al_quran/pages/you_may_also_like/widgets/youmaylike_list.dart';
 
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/widgets/title_text.dart';
