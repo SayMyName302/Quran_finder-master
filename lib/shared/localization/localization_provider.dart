@@ -6,8 +6,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'languages.dart';
 
 class LocalizationProvider extends ChangeNotifier {
-  Locale _locale =
-      Hive.box("myBox").get("languageCode") ?? const Locale("en", "US");
+  Locale _locale = Hive.box("myBox").get("languageCode") ?? const Locale("en", "US");
   Locale get locale => _locale;
 
   void setLocale(Languages languages) async {

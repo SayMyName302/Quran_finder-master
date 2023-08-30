@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nour_al_quran/pages/home/models/friday_content.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:nour_al_quran/shared/database/home_db.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 
+import '../../../main.dart';
+import '../../featured/provider/featured_provider.dart';
 import '../models/miracles.dart';
 
 class MiraclesOfQuranProvider extends ChangeNotifier {
@@ -37,13 +40,23 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// this method will get miracles from home.db
-  Future<void> getMiracles() async {
+  getMiracles() async {
     _miracles = await HomeDb().getMiracles();
-    _friday = [await HomeDb().fridayFilter()];
+    Friday fridayItem = await HomeDb().fridayFilter();
+    _friday = [];
+    _friday.add(fridayItem);
     _featureMiraclesList = await HomeDb().getFeatured3();
     _loadMiraclesOrder();
     notifyListeners();
+    Provider.of<FeatureProvider>(navigatorKey.currentContext!, listen: false)
+        .updateFridayList(_friday);
+    print('printing friday in MIRACLES ONLOAD');
+    print(_friday);
+
+    // print('VIDEO IS FETCHED NOT DISPLAYED');
+    // if (friday.first.contentType == "video") {
+    //   print('VIDEO FETCHED IN MIRACLES PROVIDER');
+    // }
   }
 
   MiraclesOfQuranProvider() {
@@ -54,21 +67,14 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   }
 
   void gotoMiracleDetailsPage(String title, BuildContext context, int index) {
-    _selectedFriday =
-        _friday.firstWhere((friday) => friday.recitationId == index);
+    // _selectedFriday =
+    //     _friday.firstWhere((friday) => friday.recitationId == index);
+    int fridayIndex = _friday.indexWhere((element) => element.title == title);
+    _selectedFriday = _friday[fridayIndex];
     notifyListeners();
     Navigator.of(context)
         .pushNamed(RouteHelper.miraclesDetails, arguments: _selectedFriday);
   }
-
-  // void gotoMiracleDetailsPageFromFeatured(
-  //     String title, BuildContext context, int index) {
-  //   int fridayIndex = _friday.indexWhere((element) => element.title == title);
-  //   _selectedFriday = _friday[fridayIndex];
-  //   notifyListeners();
-  //   Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
-  //   //_moveMiracleToEnd(index);
-  // }
 
   void goToMiracleDetailsPage(String title, BuildContext context, int index) {
     _selectedMiracle = _miracles[index];
@@ -111,28 +117,30 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void initVideoPlayer() async {
     try {
-      controller = VideoPlayerController.networkUrl(
-        Uri.parse(_selectedMiracle!.videoUrl!),
-      )
-        ..initialize().then((_) {
-          setNetworkError(false);
+      Future.delayed(Duration.zero, () {
+        controller = VideoPlayerController.networkUrl(
+          Uri.parse(_selectedMiracle!.videoUrl!),
+        )
+          ..initialize().then((_) {
+            setNetworkError(false);
 
-          /// if user internet connection lost during video
-          /// so after connection resolve so user can seek to the same point of video
-          if (lastPosition != Duration.zero) {
-            controller.seekTo(lastPosition);
-          }
-          notifyListeners();
-        })
-        ..addListener(() async {
-          /// if there will be any error so this block will trigger error and resolve error during video
-          if (controller.value.hasError) {
-            controller.pause();
-            setNetworkError(true);
-            lastPosition = (await controller.position)!;
+            /// if user internet connection lost during video
+            /// so after connection resolve so user can seek to the same point of video
+            if (lastPosition != Duration.zero) {
+              controller.seekTo(lastPosition);
+            }
             notifyListeners();
-          }
-        });
+          })
+          ..addListener(() async {
+            /// if there will be any error so this block will trigger error and resolve error during video
+            if (controller.value.hasError) {
+              controller.pause();
+              setNetworkError(true);
+              lastPosition = (await controller.position)!;
+              notifyListeners();
+            }
+          });
+      });
     } on PlatformException catch (e) {
       Future.delayed(Duration.zero, () {
         setNetworkError(true);
@@ -151,30 +159,30 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   //initForFriday
   void initVideoPlayerF() async {
     try {
-      print('checking URL FOR SURAH DUHA');
-      print(_selectedFriday!.contentUrl!);
-      controller = VideoPlayerController.networkUrl(
-        Uri.parse(_selectedFriday!.contentUrl!),
-      )
-        ..initialize().then((_) {
-          setNetworkError(false);
+      Future.delayed(Duration.zero, () {
+        controller = VideoPlayerController.networkUrl(
+          Uri.parse(_selectedFriday!.contentUrl!),
+        )
+          ..initialize().then((_) {
+            setNetworkError(false);
 
-          /// if user internet connection lost during video
-          /// so after connection resolve so user can seek to the same point of video
-          if (lastPosition != Duration.zero) {
-            controller.seekTo(lastPosition);
-          }
-          notifyListeners();
-        })
-        ..addListener(() async {
-          /// if there will be any error so this block will trigger error and resolve error during video
-          if (controller.value.hasError) {
-            controller.pause();
-            setNetworkError(true);
-            lastPosition = (await controller.position)!;
+            /// if user internet connection lost during video
+            /// so after connection resolve so user can seek to the same point of video
+            if (lastPosition != Duration.zero) {
+              controller.seekTo(lastPosition);
+            }
             notifyListeners();
-          }
-        });
+          })
+          ..addListener(() async {
+            /// if there will be any error so this block will trigger error and resolve error during video
+            if (controller.value.hasError) {
+              controller.pause();
+              setNetworkError(true);
+              lastPosition = (await controller.position)!;
+              notifyListeners();
+            }
+          });
+      });
     } on PlatformException catch (e) {
       Future.delayed(Duration.zero, () {
         setNetworkError(true);

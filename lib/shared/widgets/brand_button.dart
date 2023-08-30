@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 class BrandButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
-  const BrandButton({Key? key, required this.text, required this.onTap})
+  final double? height;
+  const BrandButton({Key? key, required this.text, required this.onTap,this.height = 44})
       : super(key: key);
 
   @override
@@ -16,16 +17,24 @@ class BrandButton extends StatelessWidget {
       child: Consumer<AppColorsProvider>(
         builder: (context, value, child) {
           return Container(
-              height: 50.h,
+              height: height?.h,
               width: double.maxFinite,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: value.mainBrandingColor),
+                  borderRadius: BorderRadius.circular(15.r),
+                  color: value.mainBrandingColor,
+                  boxShadow: [
+                    BoxShadow(
+                      offset: const Offset(0,4),
+                      blurRadius: 15,
+                      color: Colors.black.withOpacity(0.25)
+                    )
+                  ]
+              ),
               child: Text(
                 text,
                 style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                     fontFamily: 'DM Sans',
                     fontWeight: FontWeight.w700,
                     color: Colors.white),

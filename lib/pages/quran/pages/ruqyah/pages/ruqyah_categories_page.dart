@@ -5,6 +5,7 @@ import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provide
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:nour_al_quran/shared/routes/routes_helper.dart';
 import 'package:provider/provider.dart';
+import '../../../../../shared/localization/languages.dart';
 import '../models/ruqyah_category.dart';
 import '../provider/ruqyah_provider.dart';
 
@@ -19,19 +20,28 @@ class RuqyahCategoriesPage extends StatelessWidget {
         return duaValue.duaCategoryList.isNotEmpty
             ? GridView.builder(
                 padding: EdgeInsets.only(
-                  // top: 10.h,
                   left: 10.w,
                   right: 0.w,
-                  // bottom: 10.h
                 ),
                 itemCount: duaValue.duaCategoryList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  // crossAxisSpacing: 12.w,
-                  // mainAxisSpacing: 10.h,
                 ),
                 itemBuilder: (context, index) {
                   RuqyahCategory duaCategory = duaValue.duaCategoryList[index];
+
+                  //This code is to give margin to Text inside Container if lang == ar or ur
+                  String? languageCode;
+                  String currentLanguage =
+                      Localizations.localeOf(context).languageCode;
+                  languageCode = Languages.languages
+                      .firstWhere(
+                        (language) =>
+                            language.languageCode.toLowerCase() ==
+                            currentLanguage.toLowerCase(),
+                      )
+                      .languageCode;
+                  //Till here
 
                   return InkWell(
                     onTap: () async {
@@ -73,8 +83,12 @@ class RuqyahCategoriesPage extends StatelessWidget {
                         child: Container(
                           width: double.maxFinite,
                           margin: EdgeInsets.only(
-                            left: 6.w, bottom: 8.h,
-                            // right: 6.w
+                            left: 6.w,
+                            bottom: 8.h,
+                            right:
+                                (languageCode == 'ur' || languageCode == 'ar')
+                                    ? 6.w
+                                    : 0,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,13 +119,3 @@ class RuqyahCategoriesPage extends StatelessWidget {
     );
   }
 }
-
-
-// arguments: [
-//   localeText(context, duaCategory.categoryName!),
-//   duaCategory.imageUrl,
-//   LocalizationProvider().checkIsArOrUr()
-//       ? "${duaCategory.noOfDua!} ${localeText(context, 'duas')} ${localeText(context, 'collection_of')} "
-//       : "${localeText(context, 'playlist_of')} ${duaCategory.noOfDua!} ${localeText(context, 'duas')}",
-//   duaCategory.categoryId,
-// ],

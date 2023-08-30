@@ -271,7 +271,7 @@ class FeatureProvider extends ChangeNotifier {
       DateTime now = DateTime.now();
       if (now.weekday == DateTime.friday) {
         print("Today is Friday, reordering for Friday");
-        reorderStories('friday');
+        // reorderStories('friday');
       } else {
         String formattedDate = "${now.month.toString().padLeft(1, '0')}"
             "${now.day.toString().padLeft(2, '0')}"
@@ -331,7 +331,6 @@ class FeatureProvider extends ChangeNotifier {
         Random random = Random();
         int randomIndex = random.nextInt(fridayIndices.length);
         int selectedFridayIndex = fridayIndices[randomIndex];
-        // print('FRIDAYINDICESSS>>>>>>>${fridayIndices}');
 
         FeaturedModel firstItem = _feature[0];
         FeaturedModel selectedFridayItem = _feature[selectedFridayIndex];
@@ -371,12 +370,29 @@ class FeatureProvider extends ChangeNotifier {
 
   Future<void> getStories() async {
     _feature = await HomeDb().getFeatured();
-    _friday = [await HomeDb().fridayFilter()];
 
-    //Uncomment this after testing date
+    // _friday = MiraclesOfQuranProvider().friday;
+    // print('PRINTING FRIDAY LIST IN FEATUREDDDDD');
+    // print(friday);
+
+    // _friday = [await HomeDb().fridayFilter()];
+
+    // print('init get stories FEATURED');
+    // print(_friday);
+    // if (friday.first.contentType == "audio") {
+    //   print('AUDIO FETCHED IN FEATURED PROVIDER');
+    // }
     scheduleReorder();
-    // _loadStoriesOrder();
     notifyListeners();
+  }
+
+  // Method to receive the list of Friday from MiraclesProvider
+  void updateFridayList(List<Friday> fridayList) {
+    _friday = fridayList;
+    notifyListeners();
+    // print('printing friday list in featured');
+    // print(_friday);
+    // ...
   }
 
   FeatureProvider() {
@@ -399,7 +415,14 @@ class FeatureProvider extends ChangeNotifier {
     _selectedFeatureStory = _feature[index];
     notifyListeners();
 
-    // _moveStoryToEnd(index);
+    Navigator.of(context).pushNamed(RouteHelper.featureDetails);
+  }
+
+  goToFeatureContentPageF(int index, BuildContext context) {
+    _currentFeatureIndex = index;
+    _selectedFridayStory = _friday[index];
+    notifyListeners();
+
     Navigator.of(context).pushNamed(RouteHelper.featureDetails);
     // _moveStoryToEnd(index);
   }
@@ -416,16 +439,27 @@ class FeatureProvider extends ChangeNotifier {
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
   }
 
-  gotoFeaturePlayerPageF(int storyId, BuildContext context, int index) {
+  //Code For AudioPlayer Navigation
+  gotoFeaturePlayerPageF(int recitationId, BuildContext context, int index) {
+    // print('calling audio method');
+    // print(recitationId);
+
+    // print(index);
     _currentFeatureIndex =
-        _friday.indexWhere((element) => element.recitationId == storyId);
-    _selectedFridayStory = _friday[_currentFeatureIndex];
-    Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
-        .initAudioPlayer(_selectedFridayStory!.contentUrl!,
-            "${selectedFridayStory!.appImageUrl}", context);
-    // _moveStoryToEnd(index);
-    Navigator.of(context)
-        .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
+        _friday.indexWhere((element) => element.recitationId == recitationId);
+    // print('Friday List Contents:');
+    // print(_friday);
+
+    if (_currentFeatureIndex >= 0 && _currentFeatureIndex < _friday.length) {
+      _selectedFridayStory = _friday[_currentFeatureIndex];
+      Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
+          .initAudioPlayer(_selectedFridayStory!.contentUrl!,
+              "${selectedFridayStory!.appImageUrl}", context);
+      Navigator.of(context)
+          .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeatured');
+    } else {
+      print('not found');
+    }
   }
 
   // void _moveStoryToEnd(int index) {

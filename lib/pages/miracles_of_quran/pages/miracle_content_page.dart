@@ -38,8 +38,8 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
       if (arguments is Friday) {
         selectedFriday = arguments;
         title = localeText(context, selectedFriday.title?.toLowerCase() ?? '');
-        print('friday text:>>>.${selectedFriday!.text}');
-        print(selectedFriday!.contentUrl);
+        // print('friday text:>>>.${selectedFriday!.text}');
+        // print(selectedFriday!.contentUrl);
       } else if (arguments is Miracles) {
         selectedMiracle = arguments;
         title = localeText(context, selectedMiracle.title?.toLowerCase() ?? '');

@@ -9,6 +9,7 @@ import '../../../shared/routes/routes_helper.dart';
 import '../../../shared/widgets/circle_button.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 import '../../settings/pages/app_colors/app_colors_provider.dart';
+import 'dart:math' as math;
 
 class QaidaPlayer extends StatefulWidget {
   final bool updateLoopVal;
@@ -53,6 +54,8 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    String currentLanguage = Localizations.localeOf(context).languageCode;
+
     isActive = widget.updateMultipleSelectionEnabled;
     loop = widget.updateLoopVal;
     Color appColor = context.read<AppColorsProvider>().mainBrandingColor;
@@ -216,23 +219,34 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                     padding: EdgeInsets.zero,
                     alignment: Alignment.center,
                   ),
-                  IconButton(
-                    onPressed: () async {
-                      // Provider.of<DuaProvider>(context, listen: false)
-                      //     .playPreviousDuaInCategory(context);
-                      widget.skipNext();
-                      analytics.logEvent(
-                        name: 'qaida_skipNext_tap',
-                      );
-                    },
-                    icon: Image.asset(
-                      'assets/images/app_icons/previous.png',
-                      height: 30.h,
-                      width: 30.w,
-                      color: them.isDark ? Colors.white : Colors.black,
+                  Transform(
+                    alignment:
+                        currentLanguage == 'ar' || currentLanguage == 'ur'
+                            ? Alignment.center
+                            : Alignment.center,
+                    transform: Matrix4.rotationY(
+                      (currentLanguage == 'ar' || currentLanguage == 'ur')
+                          ? math.pi
+                          : 0,
                     ),
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.center,
+                    child: IconButton(
+                      onPressed: () async {
+                        // Provider.of<DuaProvider>(context, listen: false)
+                        //     .playPreviousDuaInCategory(context);
+                        widget.skipNext();
+                        analytics.logEvent(
+                          name: 'qaida_skipNext_tap',
+                        );
+                      },
+                      icon: Image.asset(
+                        'assets/images/app_icons/previous.png',
+                        height: 30.h,
+                        width: 30.w,
+                        color: them.isDark ? Colors.white : Colors.black,
+                      ),
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.center,
+                    ),
                   ),
                   Stack(
                     children: [
@@ -259,22 +273,33 @@ class _QaidaPlayerState extends State<QaidaPlayer> {
                       ),
                     ],
                   ),
-                  IconButton(
-                    onPressed: () async {
-                      widget.skipPrevious();
-
-                      analytics.logEvent(
-                        name: 'qaida_skipPrevious_tap',
-                      );
-                    },
-                    icon: Image.asset(
-                      'assets/images/app_icons/next.png',
-                      height: 30.h,
-                      width: 30.w,
-                      color: them.isDark ? Colors.white : Colors.black,
+                  Transform(
+                    alignment:
+                        currentLanguage == 'ar' || currentLanguage == 'ur'
+                            ? Alignment.center
+                            : Alignment.center,
+                    transform: Matrix4.rotationY(
+                      (currentLanguage == 'ar' || currentLanguage == 'ur')
+                          ? math.pi
+                          : 0,
                     ),
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.center,
+                    child: IconButton(
+                      onPressed: () async {
+                        widget.skipPrevious();
+
+                        analytics.logEvent(
+                          name: 'qaida_skipPrevious_tap',
+                        );
+                      },
+                      icon: Image.asset(
+                        'assets/images/app_icons/next.png',
+                        height: 30.h,
+                        width: 30.w,
+                        color: them.isDark ? Colors.white : Colors.black,
+                      ),
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.center,
+                    ),
                   ),
                   IconButton(
                     onPressed: () {

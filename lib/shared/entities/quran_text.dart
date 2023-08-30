@@ -11,6 +11,8 @@ class QuranText {
   String? _verseText;
   String? _translationText;
   int? _isBookmark;
+  String? _surahName; // Added surah_name property
+
   int? get juzId => _juzId;
 
   int? get surahId => _surahId;
@@ -19,6 +21,7 @@ class QuranText {
   String? get verseText => _verseText;
   String? get translationText => _translationText;
   int? get isBookmark => _isBookmark;
+  String? get surahName => _surahName; // Getter for surah_name
 
   set setIsBookmark(int value) => _isBookmark = value;
 
@@ -30,13 +33,16 @@ class QuranText {
       required juzId,
       required verseText,
       required translationText,
-      required isBookmark}) {
+      required isBookmark,
+      required surahName}) {
+    // Added surahName parameter
     _surahId = surahId;
     _verseId = verseId;
     _juzId = juzId;
     _verseText = verseText;
     _translationText = translationText;
     _isBookmark = isBookmark;
+    _surahName = surahName; // Set surah_name property
   }
 
   static QuranText fromJson(Map<String, dynamic> json) {
@@ -51,7 +57,8 @@ class QuranText {
                         Hive.box(appBoxKey).get(selectedQuranTranslationKey)))
                     .translationName
                 : "translation_english_hilali"],
-        isBookmark: json['is_bookmark']);
+        isBookmark: json['is_bookmark'],
+        surahName: json['surah_name']); // Parse surah_name from JSON
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +67,7 @@ class QuranText {
       "verse_id": _verseId,
       "juz_id": _juzId,
       "quran_text_uthmani": _verseText,
+      "surah_name": _surahName, // Include surah_name in JSON
       Hive.box(appBoxKey).get(selectedQuranTranslationKey) != null
           ? Translations.fromJson(jsonDecode(
                   Hive.box(appBoxKey).get(selectedQuranTranslationKey)))

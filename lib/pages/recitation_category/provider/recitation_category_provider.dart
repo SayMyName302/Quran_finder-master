@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/RecitationCategory.dart';
 import 'package:nour_al_quran/pages/recitation_category/models/recitation_all_category_model.dart';
+import 'package:nour_al_quran/shared/database/quran_db.dart';
+import 'package:nour_al_quran/shared/entities/reciters.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/database/home_db.dart';
@@ -25,7 +27,8 @@ class RecitationCategoryProvider extends ChangeNotifier {
   //     print("It's currently Night time.");
   //   }
   // }
-
+  List<Reciters> _allRecitersList = [];
+  List<Reciters> get allRecitersList => _allRecitersList;
   Timer? _timer;
 
   void startUpdatingPeriodically() {
@@ -68,25 +71,37 @@ class RecitationCategoryProvider extends ChangeNotifier {
   RecitationAllCategoryModel? get selectedRecitationModel =>
       _selectedRecitationModel;
 
+  List<RecitationWithShortname> recitationsWithShortnames = [];
+  List<RecitationWithLongname> recitationsWithLongnames = [];
+  List<RecitationWithSurahname> recitationsWithSurahnames = [];
   setSelectedRecitationCategory(RecitationCategoryModel value) {
     _selectedRecitationCategory = value;
     // print(_selectedRecitationCategory);
     notifyListeners();
   }
 
+  Future<void> getAllReciters() async {
+    _allRecitersList = await QuranDatabase().getAllReciter();
+    notifyListeners();
+  }
+
   Future<void> getRecitationCategoryStories() async {
     _recitationCategoryList = await HomeDb().getRecitationBasedOnTime();
     notifyListeners();
-    //Selecting 1 random Item from List
+
+    _recitationCategoryItem.clear();
     if (_recitationCategoryList.isNotEmpty) {
       int randomIndex = Random().nextInt(_recitationCategoryList.length);
       dynamic randomItem = _recitationCategoryList[randomIndex];
       _recitationCategoryItem.add(randomItem);
+      print('RANDOMLY SELECTING RECITATION');
+      print(_recitationCategoryItem);
     } else {
       print('List is empty.');
     }
   }
 
+//go to go
   Future<void> getRecitationAllCategoryStories() async {
     _recitationAllList = await HomeDb().getRecitationAll();
     notifyListeners();
@@ -94,6 +109,31 @@ class RecitationCategoryProvider extends ChangeNotifier {
 
   Future<void> getSelectedRecitationAll(int playlistId) async {
     _selectedRecitationAll = await HomeDb().getSelectedAll(playlistId);
+
+    // List<RecitationWithShortname> recitationsWithShortnames = [];
+
+    for (var recitation in _selectedRecitationAll) {
+      var reciterId = recitation.reciterId;
+      var surahId = recitation.surahId;
+
+      var reciterShortname = await HomeDb().getReciterShortname(reciterId!);
+
+      recitationsWithShortnames
+          .add(RecitationWithShortname(recitation, reciterShortname));
+
+      var reciterFullname = await HomeDb().getReciterLongname(reciterId!);
+      recitationsWithLongnames
+          .add(RecitationWithLongname(recitation, reciterFullname));
+
+      var surahname = await HomeDb().getSurahName(surahId!);
+      recitationsWithSurahnames
+          .add(RecitationWithSurahname(recitation, surahname));
+    }
+
+    for (var recitation in _selectedRecitationAll) {
+      var reciterId = recitation.reciterId;
+    }
+
     notifyListeners();
   }
 
@@ -131,7 +171,6 @@ class RecitationCategoryProvider extends ChangeNotifier {
     }
   }
 }
-
 
 /// book logic done previously
 // final List _bookmarkList = [];
@@ -183,3 +222,30 @@ class RecitationCategoryProvider extends ChangeNotifier {
 //   _selectedRecitationAll[duaId].setIsBookmark = value;
 //   notifyListeners();
 // }
+
+class RecitationWithShortname {
+  final RecitationAllCategoryModel recitation;
+  final String? reciterShortname;
+
+  RecitationWithShortname(this.recitation, this.reciterShortname);
+}
+
+class RecitationWithLongname {
+  final RecitationAllCategoryModel recitation;
+  final String? reciterFullname;
+
+  RecitationWithLongname(
+    this.recitation,
+    this.reciterFullname,
+  );
+}
+
+class RecitationWithSurahname {
+  final RecitationAllCategoryModel recitation;
+  final String? surahFullname;
+
+  RecitationWithSurahname(
+    this.recitation,
+    this.surahFullname,
+  );
+}

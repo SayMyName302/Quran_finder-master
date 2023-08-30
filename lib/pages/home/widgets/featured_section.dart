@@ -44,19 +44,32 @@ class FeaturedSection extends StatelessWidget {
               miraclesProvider, child) {
             List<dynamic> combinedList = [];
 
-            if (storiesProvider.feature.isNotEmpty) {
-              combinedList.add(storiesProvider.feature.first);
-
+            if (DateTime.now().weekday != DateTime.friday) {
               if (recitationProvider.recitationCategoryItem.isNotEmpty) {
-                combinedList
-                    .add(recitationProvider.recitationCategoryItem.first);
+                combinedList.add(storiesProvider.feature.first);
+                combinedList.add(recitationProvider.recitationCategoryItem[0]);
+                combinedList.addAll(storiesProvider.feature.sublist(1));
               }
-              combinedList.addAll(storiesProvider.feature.sublist(1));
+            } else {
+              if (storiesProvider.friday.isNotEmpty &&
+                  storiesProvider.friday.first.contentType == "audio") {
+                combinedList.add(miraclesProvider.friday.first);
+                if (recitationProvider.recitationCategoryItem.isNotEmpty) {
+                  combinedList
+                      .add(recitationProvider.recitationCategoryItem.first);
+                }
+                combinedList.addAll(storiesProvider.feature.sublist(1));
+              } else if (miraclesProvider.friday.isNotEmpty &&
+                  miraclesProvider.friday.first.contentType == "video") {
+                combinedList.add(miraclesProvider.friday.first);
+                if (recitationProvider.recitationCategoryItem.isNotEmpty) {
+                  combinedList
+                      .add(recitationProvider.recitationCategoryItem.first);
+                }
+                combinedList.addAll(storiesProvider.feature.sublist(1));
+              }
             }
 
-            if (miraclesProvider.friday.isNotEmpty) {
-              combinedList.add(miraclesProvider.friday.first);
-            }
             return SizedBox(
               height: 150.h,
               child: ListView.builder(
@@ -101,16 +114,12 @@ class FeaturedSection extends StatelessWidget {
                             RouteHelper.recitationallcategory,
                           );
                         } else if (model is Friday) {
-                          if (model.contentType == "video") {
+                          if (model.contentType == "audio") {
+                            storiesProvider.gotoFeaturePlayerPageF(
+                                model.recitationId!, context, index);
+                          } else if (model.contentType == "video") {
                             miraclesProvider.gotoMiracleDetailsPage(
                                 model.title!, context, model.recitationId!);
-                            print('-----------');
-                            print(model.title);
-                            print(index);
-                            print(model.viewOrderBy);
-                          } else if (model.contentType == "audio") {
-                            storiesProvider.gotoFeaturePlayerPageF(
-                                model.recitationId!, context, model.reciterId!);
                           }
                         }
                       } else {
@@ -165,8 +174,7 @@ class FeaturedSection extends StatelessWidget {
                                   : model is FeaturedModel
                                       ? model.storyTitle!
                                       : model is Friday
-                                          ? model
-                                              .title! // Adjust property accordingly
+                                          ? model.title!
                                           : "",
                             ),
                             textAlign: TextAlign.left,

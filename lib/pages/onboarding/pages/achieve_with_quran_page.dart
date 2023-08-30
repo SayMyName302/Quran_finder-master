@@ -50,14 +50,10 @@ class AchieveWithQuranPage extends StatelessWidget {
                         text: localeText(context, "continue"),
                         onTap: () {
                           if (achieve.selectAchieveWithQuranList.length < 3) {
-                            ScaffoldMessenger.of(context)
-                              ..removeCurrentSnackBar()
-                              ..showSnackBar(SnackBar(
-                                  duration: const Duration(milliseconds: 500),
+                            ScaffoldMessenger.of(context)..removeCurrentSnackBar()..showSnackBar(SnackBar(
+                                duration: const Duration(milliseconds: 500),
                                   content: Text(
-                                    localeText(context,
-                                        "please_select_at_least_three_goals"),
-                                  )));
+                                    localeText(context, "please_select_at_least_three_goals"),)));
                           } else {
                             print("The tags list in final phase arev $tagsList");
                             OneSignal.shared.sendTags({'App Feature preference': tagsList});
