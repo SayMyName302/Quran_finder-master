@@ -424,7 +424,6 @@ class FeatureProvider extends ChangeNotifier {
     notifyListeners();
 
     Navigator.of(context).pushNamed(RouteHelper.featureDetails);
-    // _moveStoryToEnd(index);
   }
 
   gotoFeaturePlayerPage(int storyId, BuildContext context, int index) {
@@ -434,21 +433,14 @@ class FeatureProvider extends ChangeNotifier {
     Provider.of<StoryAndBasicPlayerProvider>(context, listen: false)
         .initAudioPlayer(_selectedFeatureStory!.audioUrl!,
             "${selectedFeatureStory!.image}", context);
-    // _moveStoryToEnd(index);
     Navigator.of(context)
         .pushNamed(RouteHelper.storyPlayer, arguments: 'fromFeature');
   }
 
   //Code For AudioPlayer Navigation
   gotoFeaturePlayerPageF(int recitationId, BuildContext context, int index) {
-    // print('calling audio method');
-    // print(recitationId);
-
-    // print(index);
     _currentFeatureIndex =
         _friday.indexWhere((element) => element.recitationId == recitationId);
-    // print('Friday List Contents:');
-    // print(_friday);
 
     if (_currentFeatureIndex >= 0 && _currentFeatureIndex < _friday.length) {
       _selectedFridayStory = _friday[_currentFeatureIndex];

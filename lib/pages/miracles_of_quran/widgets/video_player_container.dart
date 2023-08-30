@@ -18,6 +18,9 @@ class VideoPlayerContainer extends StatelessWidget {
       builder: (context, miraclesOfQuranProvider, child) {
         bool isPlaying = miraclesOfQuranProvider.controller.value.isPlaying;
         print(miraclesOfQuranProvider.isNetworkError);
+        print('-------------');
+        print('Controller State: ${miraclesOfQuranProvider.controller.value}');
+
         return Column(
           children: [
             network != 1
@@ -82,7 +85,8 @@ class VideoPlayerContainer extends StatelessWidget {
                                   builder: (context) => LandScapePlayer(
                                     //  controller: miraclesOfQuranProvider.controller,
                                     //video: miraclesOfQuranProvider.controller.value.isPlaying,
-                                    featuremiraclesOfQuranProvider: miraclesOfQuranProvider,
+                                    featuremiraclesOfQuranProvider:
+                                        miraclesOfQuranProvider,
                                     isPlaying: isPlaying,
                                   ),
                                 ));
@@ -105,8 +109,7 @@ class VideoPlayerContainer extends StatelessWidget {
                         ? const CircularProgressIndicator()
                         : InkWell(
                             onTap: () {
-                              miraclesOfQuranProvider
-                                  .setNetworkError(false);
+                              miraclesOfQuranProvider.setNetworkError(false);
                               miraclesOfQuranProvider.initVideoPlayer();
                             },
                             child: Row(

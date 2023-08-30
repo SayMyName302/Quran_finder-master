@@ -50,13 +50,6 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     notifyListeners();
     Provider.of<FeatureProvider>(navigatorKey.currentContext!, listen: false)
         .updateFridayList(_friday);
-    print('printing friday in MIRACLES ONLOAD');
-    print(_friday);
-
-    // print('VIDEO IS FETCHED NOT DISPLAYED');
-    // if (friday.first.contentType == "video") {
-    //   print('VIDEO FETCHED IN MIRACLES PROVIDER');
-    // }
   }
 
   MiraclesOfQuranProvider() {

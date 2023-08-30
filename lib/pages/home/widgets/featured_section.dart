@@ -58,7 +58,7 @@ class FeaturedSection extends StatelessWidget {
                   combinedList
                       .add(recitationProvider.recitationCategoryItem.first);
                 }
-                combinedList.addAll(storiesProvider.feature.sublist(1));
+                combinedList.addAll(storiesProvider.feature.sublist(0));
               } else if (miraclesProvider.friday.isNotEmpty &&
                   miraclesProvider.friday.first.contentType == "video") {
                 combinedList.add(miraclesProvider.friday.first);
@@ -66,7 +66,7 @@ class FeaturedSection extends StatelessWidget {
                   combinedList
                       .add(recitationProvider.recitationCategoryItem.first);
                 }
-                combinedList.addAll(storiesProvider.feature.sublist(1));
+                combinedList.addAll(storiesProvider.feature.sublist(0));
               }
             }
 
