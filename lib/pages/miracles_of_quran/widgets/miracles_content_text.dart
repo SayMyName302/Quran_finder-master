@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:nour_al_quran/pages/settings/pages/app_colors/app_colors_provider.dart';
 import 'package:nour_al_quran/pages/settings/pages/fonts/font_provider.dart';
+import 'package:nour_al_quran/pages/you_may_also_like/models/youmaylike_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../home/models/friday_content.dart';
@@ -20,6 +21,7 @@ class MiraclesContentText extends StatelessWidget {
 
     Friday? friday;
     Miracles? miracles;
+    YouMayAlsoLikeModel? ymal;
 
     if (arguments != null) {
       if (arguments is Friday) {
@@ -27,6 +29,8 @@ class MiraclesContentText extends StatelessWidget {
         // print(friday.text);
       } else if (arguments is Miracles) {
         miracles = arguments;
+      } else if (arguments is YouMayAlsoLikeModel) {
+        ymal = arguments;
       }
     }
     try {
@@ -54,6 +58,11 @@ class MiraclesContentText extends StatelessWidget {
                     throw Exception('Text is null');
                   }
                   return miracles.text!;
+                } else if (ymal != null) {
+                  if (ymal.text == null) {
+                    throw Exception('Text is null');
+                  }
+                  return ymal.text!;
                 } else {
                   return ''; // Return empty string if neither friday nor miracles is available
                 }
