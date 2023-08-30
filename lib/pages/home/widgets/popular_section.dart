@@ -104,7 +104,7 @@ class PopularSection extends StatelessWidget {
                             name: 'featured_section_tile_homescreen',
                             parameters: {'title': model.title},
                           );
-                        } else if (model.contentType == "Video") {
+                        } else if (model.contentType == "video") {
                           /// go to miracle Details Page
                           Provider.of<MiraclesOfQuranProvider>(context,
                                   listen: false)

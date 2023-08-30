@@ -1,6 +1,5 @@
 class YouMayAlsoLikeModel {
   int? surahId;
-
   String? title;
   int? reciterId;
   String? reciterName;
@@ -17,7 +16,8 @@ class YouMayAlsoLikeModel {
   String? timePeriod;
   int? isFavorite;
   String? mood;
-  int? recitationId; // Added field: recitation_id
+  int? recitationId;
+  String? storyTitle; // Added field: story_title
 
   YouMayAlsoLikeModel({
     this.surahId,
@@ -38,12 +38,12 @@ class YouMayAlsoLikeModel {
     this.isFavorite,
     this.mood,
     this.recitationId,
+    this.storyTitle, // Initialize the story_title field
   });
 
   YouMayAlsoLikeModel.fromJson(Map<String, dynamic> json) {
     surahId = json['surah_id'];
-
-    title = json['title'];
+    title = json['miracle_title'];
     reciterId = json['reciter_id'];
     reciterName = json['reciter_name'];
     text = json['text'];
@@ -59,20 +59,20 @@ class YouMayAlsoLikeModel {
     timePeriod = json['time_period'];
     isFavorite = json['is_favorite'];
     mood = json['mood'];
-    recitationId = json['recitation_id']; // Extract recitation_id from JSON
+    recitationId = json['recitation_id'];
+    storyTitle = json['story_title']; // Extract story_title from JSON
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['surah_id'] = surahId;
-
-    data['title'] = title;
+    data['miracle_title'] = title;
     data['reciter_id'] = reciterId;
     data['reciter_name'] = reciterName;
     data['text'] = text;
     data['content_type'] = contentType;
     data['content_url'] = contentUrl;
-    data['image_url'] = image;
+    data['app_image_url'] = image;
     data['audio_image_url'] = audioImageUrl;
     data['status'] = status;
     data['view_order_by'] = orderBy;
@@ -82,7 +82,8 @@ class YouMayAlsoLikeModel {
     data['time_period'] = timePeriod;
     data['is_favorite'] = isFavorite;
     data['mood'] = mood;
-    data['recitation_id'] = recitationId; // Include recitation_id in JSON
+    data['recitation_id'] = recitationId;
+    data['story_title'] = storyTitle; // Include story_title in JSON
     return data;
   }
 

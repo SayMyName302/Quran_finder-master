@@ -5,15 +5,13 @@ import 'package:nour_al_quran/pages/featured/provider/featurevideoProvider.dart'
 import 'package:nour_al_quran/pages/miracles_of_quran/provider/miracles_of_quran_provider.dart';
 import 'package:nour_al_quran/pages/popular_section/models/popular_model.dart';
 import 'package:nour_al_quran/pages/popular_section/provider/popular_provider.dart';
-import 'package:nour_al_quran/pages/you_may_also_like/models/youmaylike_model.dart';
-import 'package:nour_al_quran/pages/you_may_also_like/provider/youmaylike_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/localization/localization_constants.dart';
 import '../../quran/pages/recitation/reciter/player/player_provider.dart';
 
-class YouMayAlsoLikeList extends StatelessWidget {
-  const YouMayAlsoLikeList({Key? key}) : super(key: key);
+class PopularList extends StatelessWidget {
+  const PopularList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +19,9 @@ class YouMayAlsoLikeList extends StatelessWidget {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return Expanded(
-      child: Consumer2<YouMayAlsoLikeProvider, FeaturedMiraclesOfQuranProvider>(
+      child: Consumer2<PopularProvider, FeaturedMiraclesOfQuranProvider>(
         builder: (context, featureProvider, featureMiraclesProvider, child) {
-          List<YouMayAlsoLikeModel> activeStories = featureProvider.feature
+          List<PopularRecitationModel> activeStories = featureProvider.feature
               .where((model) => model.status == 'active')
               .toList();
           return featureProvider.feature.isNotEmpty
@@ -34,7 +32,7 @@ class YouMayAlsoLikeList extends StatelessWidget {
                   ),
                   itemCount: activeStories.length,
                   itemBuilder: (context, index) {
-                    YouMayAlsoLikeModel model = activeStories[index];
+                    PopularRecitationModel model = activeStories[index];
                     if (model.status != 'active') {
                       return Container(); // Skip inactive items
                     }

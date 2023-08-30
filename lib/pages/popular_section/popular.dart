@@ -23,7 +23,7 @@ class PopularPage extends StatelessWidget {
                       fontFamily: 'satoshi',
                       fontSize: 22.sp,
                       fontWeight: FontWeight.bold))),
-          const YouMayAlsoLikeList()
+          const PopularList()
         ],
       ),
     );
