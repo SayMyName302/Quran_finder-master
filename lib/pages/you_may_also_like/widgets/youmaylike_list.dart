@@ -21,12 +21,14 @@ class YouMayAlsoLikeList extends StatelessWidget {
     final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return Expanded(
-      child: Consumer2<YouMayAlsoLikeProvider, FeaturedMiraclesOfQuranProvider>(
-        builder: (context, featureProvider, featureMiraclesProvider, child) {
-          List<YouMayAlsoLikeModel> activeStories = featureProvider.feature
+      child: Consumer3<MiraclesOfQuranProvider, YouMayAlsoLikeProvider,
+          FeaturedMiraclesOfQuranProvider>(
+        builder: (context, featureProvider, ymalprov, featureMiraclesProvider,
+            child) {
+          List<YouMayAlsoLikeModel> activeStories = featureProvider.ymal
               .where((model) => model.status == 'active')
               .toList();
-          return featureProvider.feature.isNotEmpty
+          return featureProvider.ymal.isNotEmpty
               ? GridView.builder(
                   padding: EdgeInsets.only(left: 10.w, right: 0.w),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -48,7 +50,7 @@ class YouMayAlsoLikeList extends StatelessWidget {
                                   .read<RecitationPlayerProvider>()
                                   .pause(context));
                           if (model.contentType == "audio") {
-                            featureProvider.gotoFeaturePlayerPage(
+                            ymalprov.gotoFeaturePlayerPage(
                                 model.surahId!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_audiotiles',
@@ -59,7 +61,7 @@ class YouMayAlsoLikeList extends StatelessWidget {
                             /// directly using MiraclesOfQuranProvider
                             Provider.of<MiraclesOfQuranProvider>(context,
                                     listen: false)
-                                .goToMiracleDetailsPageFromFeatured(
+                                .goToMiracleDetailsPageY(
                                     model.storyTitle!, context, index);
                             analytics.logEvent(
                               name: 'featured_section_videotiles',

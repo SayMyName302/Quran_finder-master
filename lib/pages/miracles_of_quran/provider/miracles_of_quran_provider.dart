@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nour_al_quran/pages/home/models/friday_content.dart';
+import 'package:nour_al_quran/pages/you_may_also_like/models/youmaylike_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -42,6 +43,8 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   getMiracles() async {
     _miracles = await HomeDb().getMiracles();
+    _ymal = await HomeDb().getYouMayLike();
+
     Friday fridayItem = await HomeDb().fridayFilter();
     _friday = [];
     _friday.add(fridayItem);
@@ -57,6 +60,20 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     // if (friday.first.contentType == "video") {
     //   print('VIDEO FETCHED IN MIRACLES PROVIDER');
     // }
+  }
+
+  List<YouMayAlsoLikeModel> _ymal = [];
+  List<YouMayAlsoLikeModel> get ymal => _ymal;
+  YouMayAlsoLikeModel? _selectedymal;
+  YouMayAlsoLikeModel? get selectedymal => _selectedymal;
+
+  void goToMiracleDetailsPageY(String title, BuildContext context, int index) {
+    int miracleIndex = _ymal.indexWhere((element) => element.title == title);
+    _selectedymal = _ymal[miracleIndex];
+    notifyListeners();
+    Navigator.of(context)
+        .pushNamed(RouteHelper.miraclesDetails, arguments: _ymal);
+    //_moveMiracleToEnd(index);
   }
 
   MiraclesOfQuranProvider() {
@@ -158,6 +175,47 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   //initForFriday
   void initVideoPlayerF() async {
+    try {
+      Future.delayed(Duration.zero, () {
+        controller = VideoPlayerController.networkUrl(
+          Uri.parse(_selectedFriday!.contentUrl!),
+        )
+          ..initialize().then((_) {
+            setNetworkError(false);
+
+            /// if user internet connection lost during video
+            /// so after connection resolve so user can seek to the same point of video
+            if (lastPosition != Duration.zero) {
+              controller.seekTo(lastPosition);
+            }
+            notifyListeners();
+          })
+          ..addListener(() async {
+            /// if there will be any error so this block will trigger error and resolve error during video
+            if (controller.value.hasError) {
+              controller.pause();
+              setNetworkError(true);
+              lastPosition = (await controller.position)!;
+              notifyListeners();
+            }
+          });
+      });
+    } on PlatformException catch (e) {
+      Future.delayed(Duration.zero, () {
+        setNetworkError(true);
+      });
+      // setNetworkError(true);
+      Fluttertoast.showToast(msg: e.toString());
+    } catch (e) {
+      Future.delayed(Duration.zero, () {
+        setNetworkError(true);
+      });
+      // setNetworkError(true);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  void initVideoPlayerY() async {
     try {
       Future.delayed(Duration.zero, () {
         controller = VideoPlayerController.networkUrl(
