@@ -101,14 +101,30 @@ class YouMayAlsoLikeList extends StatelessWidget {
                             margin: EdgeInsets.only(
                                 left: 6.w, bottom: 8.h, right: 9.w),
                             alignment: Alignment.bottomLeft,
-                            child: Text(
-                              localeText(
-                                  context, model.storyTitle!.toLowerCase()),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.sp,
-                                  fontFamily: "satoshi",
-                                  fontWeight: FontWeight.w900),
+                            child: Column(
+                              // mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  localeText(
+                                      context, model.storyTitle!.toLowerCase()),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.sp,
+                                      fontFamily: "satoshi",
+                                      fontWeight: FontWeight.w900),
+                                ),
+                                Text(
+                                  localeText(context,
+                                      model.reciterName!.toLowerCase()),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.sp,
+                                      fontFamily: "satoshi",
+                                      fontWeight: FontWeight.w900),
+                                ),
+                              ],
                             ),
                           ),
                         ),

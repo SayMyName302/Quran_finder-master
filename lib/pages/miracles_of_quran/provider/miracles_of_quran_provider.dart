@@ -211,8 +211,9 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   void initVideoPlayerY() async {
     try {
       Future.delayed(Duration.zero, () {
+        print('URL >>>${_selectedymal!.contentUrl!}');
         controller = VideoPlayerController.networkUrl(
-          Uri.parse(_selectedFriday!.contentUrl!),
+          Uri.parse(_selectedymal!.contentUrl!),
         )
           ..initialize().then((_) {
             setNetworkError(false);

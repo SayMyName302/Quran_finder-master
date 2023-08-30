@@ -52,7 +52,7 @@ class YouMayAlsoLikeProvider extends ChangeNotifier {
   // List<YouMayAlsoLikeModel> get ymal => _ymal;
 
   Future<void> getStories() async {
-    // _feature = await HomeDb().getYouMayLike();
+    _feature = await HomeDb().getYouMayLike();
     // print('FEATUER >>>>>>$_ymal');
     // _loadStoriesOrder();
     // notifyListeners();

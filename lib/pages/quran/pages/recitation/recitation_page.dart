@@ -817,10 +817,10 @@ class _RecitationPageState extends State<RecitationPage> {
                     },
                   );
                 }),
-                Consumer3<LocalizationProvider, YouMayAlsoLikeProvider,
-                    FeaturedMiraclesOfQuranProvider>(
+                Consumer4<LocalizationProvider, YouMayAlsoLikeProvider,
+                    FeaturedMiraclesOfQuranProvider, MiraclesOfQuranProvider>(
                   builder: (context, language, storiesProvider,
-                      featureMiraclesProvider, child) {
+                      featureMiraclesProvider, miracles, child) {
                     // var onBoardingProvider =
                     //     Provider.of<OnBoardingProvider>(context);
                     //   print('Original List: >>$originalList');
@@ -828,15 +828,13 @@ class _RecitationPageState extends State<RecitationPage> {
                     return SizedBox(
                       height: 150.h,
                       child: ListView.builder(
-                        itemCount: storiesProvider.feature.length,
+                        itemCount: miracles.ymal.length,
                         padding: EdgeInsets.only(
                             left: 20.w, right: 20.w, bottom: 14.h),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          YouMayAlsoLikeModel model =
-                              storiesProvider.feature[index];
+                          YouMayAlsoLikeModel model = miracles.ymal[index];
                           // print(model.image!);
-
                           if (model.status != 'active') {
                             return const SizedBox.shrink();
                           }
@@ -860,7 +858,7 @@ class _RecitationPageState extends State<RecitationPage> {
                                   /// go to miracle Details Page
                                   Provider.of<MiraclesOfQuranProvider>(context,
                                           listen: false)
-                                      .goToMiracleDetailsPageFromFeatured(
+                                      .goToMiracleDetailsPageY(
                                           model.title!, context, index);
                                   analytics.logEvent(
                                     name:
@@ -910,6 +908,16 @@ class _RecitationPageState extends State<RecitationPage> {
                                     children: [
                                       Text(
                                         localeText(context, model.title!),
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 17.sp,
+                                          fontFamily: "satoshi",
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                      Text(
+                                        localeText(context, model.reciterName!),
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           color: Colors.white,
