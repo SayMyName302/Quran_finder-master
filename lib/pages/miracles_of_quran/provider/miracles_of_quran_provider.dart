@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nour_al_quran/pages/home/models/friday_content.dart';
+import 'package:nour_al_quran/pages/you_may_also_like/models/youmaylike_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -42,21 +43,30 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   getMiracles() async {
     _miracles = await HomeDb().getMiracles();
+    _ymal = await HomeDb().getYouMayLike();
+
     Friday fridayItem = await HomeDb().fridayFilter();
     _friday = [];
     _friday.add(fridayItem);
     _featureMiraclesList = await HomeDb().getFeatured3();
     _loadMiraclesOrder();
     notifyListeners();
-    Provider.of<FeatureProvider>(navigatorKey.currentContext!).updateFridayList(_friday);
-    print('printing friday in MIRACLES ONLOAD');
-    print(_friday);
+    Provider.of<FeatureProvider>(navigatorKey.currentContext!, listen: false)
+        .updateFridayList(_friday);
+  }
 
-    // print('VIDEO IS FETCHED NOT DISPLAYED');
-    // if (friday.first.contentType == "video") {
-    //   print('VIDEO FETCHED IN MIRACLES PROVIDER');
-    // }
+  List<YouMayAlsoLikeModel> _ymal = [];
+  List<YouMayAlsoLikeModel> get ymal => _ymal;
+  YouMayAlsoLikeModel? _selectedymal;
+  YouMayAlsoLikeModel? get selectedymal => _selectedymal;
 
+  void goToMiracleDetailsPageY(String title, BuildContext context, int index) {
+    int miracleIndex = _ymal.indexWhere((element) => element.title == title);
+    _selectedymal = _ymal[miracleIndex];
+    notifyListeners();
+    Navigator.of(context)
+        .pushNamed(RouteHelper.miraclesDetails, arguments: _ymal);
+    //_moveMiracleToEnd(index);
   }
 
   MiraclesOfQuranProvider() {
@@ -87,7 +97,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   void goToMiracleDetailsPageFromFeatured(
       String title, BuildContext context, int index) {
     int miracleIndex =
-        _featureMiraclesList.indexWhere((element) => element.title == title);
+    _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
@@ -97,7 +107,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   void goToMiracleDetailsPageFromPopular(
       String title, BuildContext context, int index) {
     int miracleIndex =
-        _featureMiraclesList.indexWhere((element) => element.title == title);
+    _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
@@ -198,6 +208,48 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     }
   }
 
+  void initVideoPlayerY() async {
+    try {
+      Future.delayed(Duration.zero, () {
+        print('URL >>>${_selectedymal!.contentUrl!}');
+        controller = VideoPlayerController.networkUrl(
+          Uri.parse(_selectedymal!.contentUrl!),
+        )
+          ..initialize().then((_) {
+            setNetworkError(false);
+
+            /// if user internet connection lost during video
+            /// so after connection resolve so user can seek to the same point of video
+            if (lastPosition != Duration.zero) {
+              controller.seekTo(lastPosition);
+            }
+            notifyListeners();
+          })
+          ..addListener(() async {
+            /// if there will be any error so this block will trigger error and resolve error during video
+            if (controller.value.hasError) {
+              controller.pause();
+              setNetworkError(true);
+              lastPosition = (await controller.position)!;
+              notifyListeners();
+            }
+          });
+      });
+    } on PlatformException catch (e) {
+      Future.delayed(Duration.zero, () {
+        setNetworkError(true);
+      });
+      // setNetworkError(true);
+      Fluttertoast.showToast(msg: e.toString());
+    } catch (e) {
+      Future.delayed(Duration.zero, () {
+        setNetworkError(true);
+      });
+      // setNetworkError(true);
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   setNetworkError(value) {
     isNetworkError = value;
     notifyListeners();
@@ -221,7 +273,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void _saveMiraclesOrder() {
     final List<String> order =
-        _miracles.map((miracle) => miracle.title!).toList();
+    _miracles.map((miracle) => miracle.title!).toList();
     _preferences?.setStringList('miracles_order', order);
   }
 
@@ -232,7 +284,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
       final List<Miracles> sortedMiracles = [];
       for (final title in order) {
         final miracle = _miracles.firstWhere(
-          (m) => m.title == title,
+              (m) => m.title == title,
         );
         sortedMiracles.add(miracle);
       }
@@ -243,7 +295,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void favoriteMiraclesDetailsPage(String s, BuildContext context, int index) {}
 
-  /// logic to download Video From Internet
+/// logic to download Video From Internet
 // Future<void> checkVideoAvailable(String miracleTitle,BuildContext context) async {
 //   currentMiracle = _miracles.indexWhere((element) => element.title == miracleTitle);
 //   _selectedMiracle = _miracles[currentMiracle];
