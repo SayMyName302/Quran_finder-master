@@ -44,6 +44,7 @@ import 'package:nour_al_quran/pages/sign_in/pages/sign_up_page.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/pages/recitation_all_category.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/pages/tranquil_tales_page.dart';
 import 'package:nour_al_quran/pages/tranquil_tales/pages/tranquil_Player.dart';
+import 'package:nour_al_quran/pages/you_may_also_like/youmaylike.dart';
 //import 'package:nour_al_quran/shared/widgets/easy_loading.dart';
 import '../../pages/basics_of_quran/pages/basics_content_page.dart';
 import '../../pages/basics_of_quran/pages/basics_of_quran_page.dart';
@@ -73,6 +74,7 @@ class RouteHelper {
   static const String paywallscreen2 = "/paywall2";
   static const String featured = "/featuredList";
   static const String popular = "/popularList";
+  static const String youmayalsolike = "/youmayalsolike";
   static const String featureDetails = "/featuredDetailPage";
   static late BuildContext currentContext;
   static bool paywallVisibility = true;
@@ -194,6 +196,10 @@ class RouteHelper {
       recitationPageList: (context) {
         currentContext = context;
         return const RecitationCategoryPage1();
+      },
+      youmayalsolike: (context) {
+        currentContext = context;
+        return const YouMayAlsoLikePage();
       },
       tranquildstoriesviewall: (context) {
         currentContext = context;

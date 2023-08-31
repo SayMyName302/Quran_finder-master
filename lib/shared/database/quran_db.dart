@@ -668,7 +668,7 @@ Say, "I seek refuge in the Lord of mankind, (1) The Sovereign of mankind.
   Future<Surah?> getSpecificSurahName(int surahId) async {
     database = await openDb();
     var cursor = await database!
-        .query(_surahNameTable, where: "Id=?", whereArgs: [surahId]);
+        .query(_surahNameTable, where: "surah_id=?", whereArgs: [surahId]);
     for (var maps in cursor) {
       return Surah.fromJson(maps);
     }

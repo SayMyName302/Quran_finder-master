@@ -28,24 +28,19 @@ class DuaProvider extends ChangeNotifier {
   int _currentPage = 0;
   int get currentPage => _currentPage;
 
+  late String _currentLanguage;
+
   void setCurrentPage(int page) {
     _currentPage = page;
     notifyListeners();
   }
 
-  var pageNames = [
-    "duas",
-    "al_ruqyah",
-    "favorites"
-  ];
+  var pageNames = ["duas", "al_ruqyah", "favorites"];
   var pages = [
     const DuaCategoriesPage(),
     const RuqyahCategoriesPage(),
     const DuaBookmarkPage(),
   ];
-
-
-
 
   /// get dua categories list
   Future<void> getDuaCategories() async {
@@ -54,7 +49,7 @@ class DuaProvider extends ChangeNotifier {
   }
 
   /// set Current Selected Category
-  setSelectedCategory(int index){
+  setSelectedCategory(int index) {
     _selectedDuaCategory = _duaCategoryList[index];
     notifyListeners();
   }
@@ -71,12 +66,13 @@ class DuaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  gotoDuaPlayerPage(int duaCategoryId, String duaText, BuildContext context) async {
+  gotoDuaPlayerPage(
+      int duaCategoryId, String duaText, BuildContext context) async {
     // _duaList = [];
     // _duaList = await QuranDatabase().getDuas(duaCategoryId);
     if (_duaList.isNotEmpty) {
-      _currentDuaIndex = _duaList.indexWhere((element) => element.duaText == duaText);
+      _currentDuaIndex =
+          _duaList.indexWhere((element) => element.duaText == duaText);
       if (_currentDuaIndex != -1) {
         _selectedDua = _duaList[_currentDuaIndex];
         notifyListeners();
@@ -92,9 +88,9 @@ class DuaProvider extends ChangeNotifier {
   }
 
   void playNextDuaInCategory(BuildContext context) {
-    if(_currentDuaIndex < _duaList.length){
+    if (_currentDuaIndex < _duaList.length) {
       _currentDuaIndex++;
-    }else{
+    } else {
       _currentDuaIndex = 0;
     }
     // _currentDuaIndex = (_currentDuaIndex + 1) % _duaList.length;
@@ -126,8 +122,55 @@ class DuaProvider extends ChangeNotifier {
     // getNextDua();
   }
 
+  void setCurrentLanguage(String languageCode) {
+    _currentLanguage = languageCode;
+    // notifyListeners();
+  }
+
+  String getTranslatedDua(Dua nextDua) {
+    String translations;
+    switch (_currentLanguage) {
+      case 'ar':
+        translations = nextDua.translationArabic!;
+        break;
+      case 'id':
+        translations = nextDua.translationIndo!;
+        break;
+      case 'ur':
+        translations = nextDua.translationUrdu!;
+        break;
+      case 'hi':
+        translations = nextDua.translationHindi!;
+        break;
+      case 'bn':
+        translations = nextDua.translationBengali!;
+        break;
+      case 'fr':
+        translations = nextDua.translationFrench!;
+        break;
+      case 'zh':
+        translations = nextDua.translationChinese!;
+        break;
+      case 'so':
+        translations = nextDua.translationSomalia!;
+        break;
+      case 'de':
+        translations = nextDua.translationGerman!;
+        break;
+      case 'es':
+        translations = nextDua.translationSpanish!;
+        break;
+      default:
+        translations = nextDua.translations!;
+    }
+
+    return translations;
+  }
+}
+
+
   // void bookmark(int duaId, int value) {
   //   _duaList[duaId].setIsBookmark = value;
   //   notifyListeners();
   // }
-}
+

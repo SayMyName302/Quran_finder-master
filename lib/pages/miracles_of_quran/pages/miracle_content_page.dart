@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/widgets/miracles_content_text.dart';
 import 'package:nour_al_quran/pages/miracles_of_quran/widgets/video_player_container.dart';
+import 'package:nour_al_quran/pages/you_may_also_like/models/youmaylike_model.dart';
 import 'package:nour_al_quran/shared/localization/localization_constants.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/widgets/app_bar.dart';
@@ -20,10 +21,12 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
   void initState() {
     super.initState();
     //  NotificationServices().showNotification();
-    // Provider.of<MiraclesOfQuranProvider>(context, listen: false)
-    //     .initVideoPlayer();
+    Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+        .initVideoPlayer();
     Provider.of<MiraclesOfQuranProvider>(context, listen: false)
         .initVideoPlayerF();
+    Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+        .initVideoPlayerY();
   }
 
   @override
@@ -32,6 +35,7 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
 
     Friday? selectedFriday;
     Miracles? selectedMiracle;
+    YouMayAlsoLikeModel? selectedYmal;
     String title = '';
 
     if (arguments != null) {
@@ -43,6 +47,9 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
       } else if (arguments is Miracles) {
         selectedMiracle = arguments;
         title = localeText(context, selectedMiracle.title?.toLowerCase() ?? '');
+      } else if (arguments is YouMayAlsoLikeModel) {
+        selectedYmal = arguments;
+        title = localeText(context, selectedYmal.title?.toLowerCase() ?? '');
       }
     }
 

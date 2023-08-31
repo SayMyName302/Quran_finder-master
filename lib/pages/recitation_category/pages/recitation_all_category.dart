@@ -136,7 +136,7 @@ class RecitationAllCategory extends StatelessWidget {
                           itemBuilder: (context, index) {
                             RecitationAllCategoryModel recitationModels =
                                 recitationProvider.selectedRecitationAll[index];
-                            String title = recitationModels.title!;
+                            // String title = recitationModels.title!;
                             RecitationWithShortname recitationWithShortname =
                                 recitationProvider
                                     .recitationsWithShortnames[index];
@@ -147,9 +147,15 @@ class RecitationAllCategory extends StatelessWidget {
                             String reciterShortname =
                                 recitationWithShortname.reciterShortname ?? '';
                             String reciterFullname =
-                                recitationWithLongname.reciterLongname ?? '';
-                            print(reciterFullname);
-                            print(reciterShortname);
+                                recitationWithLongname.reciterFullname ?? '';
+
+                            RecitationWithSurahname recitationWithSurahname =
+                                recitationProvider
+                                    .recitationsWithSurahnames[index];
+
+                            String reciterSurahname =
+                                recitationWithSurahname.surahFullname ?? '';
+
                             return InkWell(
                               onTap: () {
                                 recitationProvider
@@ -161,7 +167,11 @@ class RecitationAllCategory extends StatelessWidget {
                                 );
                                 Navigator.of(context).pushNamed(
                                     RouteHelper.recitationAudioPlayer,
-                                    arguments: [title, reciterFullname]);
+                                    arguments: [
+                                      // title,
+                                      reciterFullname,
+                                      reciterSurahname
+                                    ]);
                                 analytics.logEvent(
                                   name: 'recitation_category_listview',
                                   parameters: {
@@ -234,8 +244,7 @@ class RecitationAllCategory extends StatelessWidget {
                                               ),
                                               SizedBox(height: 2.h),
                                               Text(
-                                                recitationModels.surahName
-                                                    .toString(),
+                                                "Surah " + reciterSurahname,
                                                 style: TextStyle(
                                                   fontSize: 12.sp,
                                                   fontFamily: "satoshi",

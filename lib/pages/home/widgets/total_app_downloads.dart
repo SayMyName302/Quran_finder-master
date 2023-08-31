@@ -47,11 +47,9 @@ class AppDownloadsSection extends StatelessWidget {
 
   void fetchRainCountryTitle(BuildContext context) async {
     String countryName = country.text.trim().toLowerCase();
-
     String lowerCaseWeather = weather.text.trim().toLowerCase();
+
     final user = Provider.of<HomeProvider>(context, listen: false);
-    // print(weather.text);
-    // print(country.text);
 
     List<CustomTitles> titles =
         await user.getWeatherCountryTitles(countryName, lowerCaseWeather);

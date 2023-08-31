@@ -20,20 +20,19 @@ class Surah {
     _arabicName = arabicName;
   }
 
-  static Surah fromJson(Map<String, dynamic> map) {
-    return Surah(
-        surahId: map['Id'],
-        surahName: map['surah_name'],
-        englishName: map['english_name'],
-        arabicName: map['arabic_name']);
+  Surah.fromJson(Map<String, dynamic> map) {
+    _surahId = map['surah_id'];
+    _surahName = map['surah_name'];
+    _englishName = map['english_name'];
+    _arabicName = map['arabic_name'];
   }
 
-  Map toJson(){
+  Map<String, dynamic> toJson() {
     return {
-      'Id':_surahId,
-      'surah_name':_surahName,
-      'english_name':_englishName,
-      'arabic_name':_arabicName
+      'surah_id': _surahId,
+      'surah_name': _surahName,
+      'english_name': _englishName,
+      'arabic_name': _arabicName
     };
   }
 }

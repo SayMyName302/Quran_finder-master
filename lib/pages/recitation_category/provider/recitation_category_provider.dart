@@ -73,6 +73,7 @@ class RecitationCategoryProvider extends ChangeNotifier {
 
   List<RecitationWithShortname> recitationsWithShortnames = [];
   List<RecitationWithLongname> recitationsWithLongnames = [];
+  List<RecitationWithSurahname> recitationsWithSurahnames = [];
   setSelectedRecitationCategory(RecitationCategoryModel value) {
     _selectedRecitationCategory = value;
     // print(_selectedRecitationCategory);
@@ -108,26 +109,29 @@ class RecitationCategoryProvider extends ChangeNotifier {
 
   Future<void> getSelectedRecitationAll(int playlistId) async {
     _selectedRecitationAll = await HomeDb().getSelectedAll(playlistId);
-    print('<<<<<selectedRecitationAll>>>>>');
 
     // List<RecitationWithShortname> recitationsWithShortnames = [];
 
     for (var recitation in _selectedRecitationAll) {
       var reciterId = recitation.reciterId;
-      print('Processing reciter with ID: $reciterId');
+      var surahId = recitation.surahId;
 
       var reciterShortname = await HomeDb().getReciterShortname(reciterId!);
 
       recitationsWithShortnames
           .add(RecitationWithShortname(recitation, reciterShortname));
-      var reciterLongName = await HomeDb().getReciterLongname(reciterId!);
+
+      var reciterFullname = await HomeDb().getReciterLongname(reciterId!);
       recitationsWithLongnames
-          .add(RecitationWithLongname(recitation, reciterLongName));
+          .add(RecitationWithLongname(recitation, reciterFullname));
+
+      var surahname = await HomeDb().getSurahName(surahId!);
+      recitationsWithSurahnames
+          .add(RecitationWithSurahname(recitation, surahname));
     }
 
     for (var recitation in _selectedRecitationAll) {
       var reciterId = recitation.reciterId;
-      print('Processing reciter with ID: $reciterId');
     }
 
     notifyListeners();
@@ -228,10 +232,20 @@ class RecitationWithShortname {
 
 class RecitationWithLongname {
   final RecitationAllCategoryModel recitation;
-  final String? reciterLongname;
+  final String? reciterFullname;
 
   RecitationWithLongname(
     this.recitation,
-    this.reciterLongname,
+    this.reciterFullname,
+  );
+}
+
+class RecitationWithSurahname {
+  final RecitationAllCategoryModel recitation;
+  final String? surahFullname;
+
+  RecitationWithSurahname(
+    this.recitation,
+    this.surahFullname,
   );
 }
