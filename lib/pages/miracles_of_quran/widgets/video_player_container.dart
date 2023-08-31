@@ -17,9 +17,21 @@ class VideoPlayerContainer extends StatelessWidget {
     return Consumer<MiraclesOfQuranProvider>(
       builder: (context, miraclesOfQuranProvider, child) {
         bool isPlaying = miraclesOfQuranProvider.controller.value.isPlaying;
-        print(miraclesOfQuranProvider.isNetworkError);
-        print('-------------');
-        print('Controller State: ${miraclesOfQuranProvider.controller.value}');
+//         print(miraclesOfQuranProvider.isNetworkError);
+//         print('-------------');
+//         print('Controller State: ${miraclesOfQuranProvider.controller.value}');
+
+//         VideoPlayerValue videoPlayerValue =
+//             miraclesOfQuranProvider.controller.value;
+
+// // Extract position from VideoPlayerValue
+//         Duration currentPosition = videoPlayerValue.position;
+
+// // Convert the duration to seconds
+//         double currentPositionInSeconds = currentPosition.inSeconds.toDouble();
+
+// // Now you can use currentPositionInSeconds in your app
+//         print('Current position in seconds: $currentPositionInSeconds');
 
         return Column(
           children: [
@@ -183,7 +195,6 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
   // Add a state variable
   @override
   Widget build(BuildContext context) {
-    // isPlaying = widget.miraclesOfQuranProvider.isPlaying;
     return Material(
       child: InkWell(
         onTap: () {
@@ -197,6 +208,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
           alignment: Alignment.center,
           children: [
             VideoPlayer(widget.featuremiraclesOfQuranProvider.controller),
+            //Progress Bar code
             Positioned(
                 left: 0,
                 right: 0,
@@ -207,6 +219,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
                     child: VideoProgressIndicator(
                         widget.featuremiraclesOfQuranProvider.controller,
                         allowScrubbing: true))),
+            //Play button code
             Positioned(
                 left: 0,
                 right: 0,
@@ -217,6 +230,7 @@ class _LandScapePlayerState extends State<LandScapePlayer> {
                         width: 100.h,
                         icon: const Icon(Icons.play_arrow_rounded),
                       )),
+            //Exit full screen button code
             Positioned(
                 bottom: 0,
                 right: 15.w,

@@ -77,8 +77,6 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   }
 
   void gotoMiracleDetailsPage(String title, BuildContext context, int index) {
-    // _selectedFriday =
-    //     _friday.firstWhere((friday) => friday.recitationId == index);
     int fridayIndex = _friday.indexWhere((element) => element.title == title);
     _selectedFriday = _friday[fridayIndex];
     notifyListeners();
@@ -97,7 +95,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   void goToMiracleDetailsPageFromFeatured(
       String title, BuildContext context, int index) {
     int miracleIndex =
-    _featureMiraclesList.indexWhere((element) => element.title == title);
+        _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
@@ -107,7 +105,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   void goToMiracleDetailsPageFromPopular(
       String title, BuildContext context, int index) {
     int miracleIndex =
-    _featureMiraclesList.indexWhere((element) => element.title == title);
+        _featureMiraclesList.indexWhere((element) => element.title == title);
     _selectedMiracle = _featureMiraclesList[miracleIndex];
     notifyListeners();
     Navigator.of(context).pushNamed(RouteHelper.miraclesDetails);
@@ -124,44 +122,76 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   bool isNetworkError = false;
   Duration lastPosition = Duration.zero;
   bool isBuffering = false;
+  double watchedProgress = 0.0;
+
+  Future<void> saveWatchedProgress(int miracleId, double progress) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('watchedProgress_$miracleId', progress);
+  }
+
+  Future<double> getWatchedProgress(int? miracleId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getDouble('watchedProgress_$miracleId') ?? 0.0;
+  }
+
+  void updateWatchedProgress(int miracleId, double progress) {
+    saveWatchedProgress(miracleId, progress);
+    notifyListeners();
+  }
 
   void initVideoPlayer() async {
     try {
-      Future.delayed(Duration.zero, () {
-        controller = VideoPlayerController.networkUrl(
-          Uri.parse(_selectedMiracle!.videoUrl!),
-        )
-          ..initialize().then((_) {
-            setNetworkError(false);
+      controller = VideoPlayerController.networkUrl(
+        Uri.parse(_selectedMiracle!.videoUrl!),
+      );
 
-            /// if user internet connection lost during video
-            /// so after connection resolve so user can seek to the same point of video
-            if (lastPosition != Duration.zero) {
-              controller.seekTo(lastPosition);
-            }
-            notifyListeners();
-          })
-          ..addListener(() async {
-            /// if there will be any error so this block will trigger error and resolve error during video
-            if (controller.value.hasError) {
-              controller.pause();
-              setNetworkError(true);
-              lastPosition = (await controller.position)!;
-              notifyListeners();
-            }
-          });
+      await controller.initialize();
+
+      setNetworkError(false);
+
+      // Get the total duration of the video
+      double totalDurationInSeconds =
+          controller.value.duration.inSeconds.toDouble();
+
+      bool shouldPlayAutomatically = false;
+      double savedProgress =
+          await getWatchedProgress(_selectedMiracle!.miracleId);
+
+      if (savedProgress > 0 && savedProgress < 1) {
+        shouldPlayAutomatically = true;
+        int seekPosition = (savedProgress * totalDurationInSeconds).toInt();
+        await controller.seekTo(Duration(seconds: seekPosition));
+      }
+
+      // Set up listener for video playback
+      controller.addListener(() async {
+        if (controller.value.hasError) {
+          // Handle error
+          controller.pause();
+          setNetworkError(true);
+          lastPosition = controller.value.position;
+          notifyListeners();
+        }
+
+        Duration currentPosition = controller.value.position;
+        double currentPositionInSeconds = currentPosition.inSeconds.toDouble();
+
+        // Calculate watched progress
+        double watchedProgress =
+            currentPositionInSeconds / totalDurationInSeconds;
+
+        // Update the watched progress for the currently playing miracle
+        updateWatchedProgress(_selectedMiracle!.miracleId!, watchedProgress);
       });
-    } on PlatformException catch (e) {
-      Future.delayed(Duration.zero, () {
-        setNetworkError(true);
-      });
-      // setNetworkError(true);
-      Fluttertoast.showToast(msg: e.toString());
+
+      // Start playing the video automatically if shouldPlayAutomatically is true
+      if (shouldPlayAutomatically) {
+        controller.play();
+      }
+
+      notifyListeners();
     } catch (e) {
-      Future.delayed(Duration.zero, () {
-        setNetworkError(true);
-      });
-      // setNetworkError(true);
+      setNetworkError(true);
       Fluttertoast.showToast(msg: e.toString());
     }
   }
@@ -273,7 +303,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void _saveMiraclesOrder() {
     final List<String> order =
-    _miracles.map((miracle) => miracle.title!).toList();
+        _miracles.map((miracle) => miracle.title!).toList();
     _preferences?.setStringList('miracles_order', order);
   }
 
@@ -284,7 +314,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
       final List<Miracles> sortedMiracles = [];
       for (final title in order) {
         final miracle = _miracles.firstWhere(
-              (m) => m.title == title,
+          (m) => m.title == title,
         );
         sortedMiracles.add(miracle);
       }
@@ -295,7 +325,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
 
   void favoriteMiraclesDetailsPage(String s, BuildContext context, int index) {}
 
-/// logic to download Video From Internet
+  /// logic to download Video From Internet
 // Future<void> checkVideoAvailable(String miracleTitle,BuildContext context) async {
 //   currentMiracle = _miracles.indexWhere((element) => element.title == miracleTitle);
 //   _selectedMiracle = _miracles[currentMiracle];

@@ -30,8 +30,8 @@ class QuranMiraclesSection extends StatelessWidget {
             );
           },
         ),
-        Consumer<LocalizationProvider>(
-          builder: (context, language, child) {
+        Consumer2<LocalizationProvider, MiraclesOfQuranProvider>(
+          builder: (context, language, miracles, child) {
             return SizedBox(
               height: 150.h,
               child: Consumer<MiraclesOfQuranProvider>(
@@ -46,6 +46,7 @@ class QuranMiraclesSection extends StatelessWidget {
                       if (model.status != 'active') {
                         return Container(); // Skip inactive items
                       }
+
                       return InkWell(
                         onTap: () {
                           // miraclesProvider.checkVideoAvailable(model.title!, context);
@@ -70,22 +71,51 @@ class QuranMiraclesSection extends StatelessWidget {
                               image: DecorationImage(
                                   image: NetworkImage(model.image!),
                                   fit: BoxFit.cover)),
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: 6.w, bottom: 8.h, right: 8.w),
-                            alignment: language.locale.languageCode == "ur" ||
-                                    language.locale.languageCode == "ar"
-                                ? Alignment.bottomRight
-                                : Alignment.bottomLeft,
-                            child: Text(
-                              localeText(context, model.title!.toLowerCase()),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17.sp,
-                                  fontFamily: "satoshi",
-                                  fontWeight: FontWeight.w900),
+                          child: Stack(children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 6.w, bottom: 8.h, right: 8.w),
+                              alignment: language.locale.languageCode == "ur" ||
+                                      language.locale.languageCode == "ar"
+                                  ? Alignment.bottomRight
+                                  : Alignment.bottomLeft,
+                              child: Text(
+                                localeText(context, model.title!.toLowerCase()),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17.sp,
+                                    fontFamily: "satoshi",
+                                    fontWeight: FontWeight.w900),
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                height: 6,
+                                color: Colors.white10,
+                                child: FutureBuilder<double>(
+                                  future: miraclesProvider
+                                      .getWatchedProgress(model.miracleId),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Container();
+                                    }
+                                    double progress = snapshot.data ?? 0.0;
+                                    return FractionallySizedBox(
+                                      alignment: Alignment.centerLeft,
+                                      widthFactor: progress,
+                                      child: Container(
+                                        color: Colors.red,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ]),
                         ),
                       );
                     },
