@@ -17,21 +17,43 @@ class MiraclesDetailsPage extends StatefulWidget {
 }
 
 class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
+  bool _isInitialized = false;
+
   @override
-  void initState() {
-    super.initState();
-    //  NotificationServices().showNotification();
-    Provider.of<MiraclesOfQuranProvider>(context, listen: false)
-        .initVideoPlayer();
-    // Provider.of<MiraclesOfQuranProvider>(context, listen: false)
-    //     .initVideoPlayerF();
-    // Provider.of<MiraclesOfQuranProvider>(context, listen: false)
-    //     .initVideoPlayerY();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_isInitialized) {
+      final arguments = ModalRoute.of(context)!.settings.arguments;
+
+      if (arguments is Map<String, dynamic> &&
+          arguments["source"] == "fromMiracle") {
+        Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+            .initVideoPlayer();
+        setState(() {
+          _isInitialized = true;
+        });
+      } else if (arguments is Map<String, dynamic> &&
+          arguments["source"] == "fromFriday") {
+        Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+            .initVideoPlayerF();
+        setState(() {
+          _isInitialized = true;
+        });
+      } else if (arguments is Map<String, dynamic> &&
+          arguments["source"] == "fromYmal") {
+        Provider.of<MiraclesOfQuranProvider>(context, listen: false)
+            .initVideoPlayerY();
+        setState(() {
+          _isInitialized = true;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var arguments = ModalRoute.of(context)?.settings.arguments;
+    final arguments = ModalRoute.of(context)?.settings.arguments;
 
     Friday? selectedFriday;
     Miracles? selectedMiracle;
@@ -39,17 +61,22 @@ class _MiraclesDetailsPageState extends State<MiraclesDetailsPage> {
     String title = '';
 
     if (arguments != null) {
-      if (arguments is Friday) {
-        selectedFriday = arguments;
-        title = localeText(context, selectedFriday.title?.toLowerCase() ?? '');
-        // print('friday text:>>>.${selectedFriday!.text}');
-        // print(selectedFriday!.contentUrl);
-      } else if (arguments is Miracles) {
-        selectedMiracle = arguments;
-        title = localeText(context, selectedMiracle.title?.toLowerCase() ?? '');
-      } else if (arguments is YouMayAlsoLikeModel) {
-        selectedYmal = arguments;
-        title = localeText(context, selectedYmal.title?.toLowerCase() ?? '');
+      if (arguments is Map<String, dynamic> &&
+          arguments["source"] == "fromFriday") {
+        var friday = arguments["friday"];
+        selectedFriday = friday;
+        title = localeText(context, selectedFriday!.title?.toLowerCase() ?? '');
+      } else if (arguments is Map<String, dynamic> &&
+          arguments["source"] == "fromMiracle") {
+        var miracle = arguments["miracle"];
+        selectedMiracle = miracle;
+        title =
+            localeText(context, selectedMiracle!.title?.toLowerCase() ?? '');
+      } else if (arguments is Map<String, dynamic> &&
+          arguments["source"] == "fromYmal") {
+        var ymal = arguments["ymal"];
+        selectedYmal = ymal;
+        title = localeText(context, selectedYmal!.title?.toLowerCase() ?? '');
       }
     }
 

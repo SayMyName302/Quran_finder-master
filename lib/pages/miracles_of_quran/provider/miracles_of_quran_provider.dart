@@ -64,8 +64,13 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     int miracleIndex = _ymal.indexWhere((element) => element.title == title);
     _selectedymal = _ymal[miracleIndex];
     notifyListeners();
-    Navigator.of(context)
-        .pushNamed(RouteHelper.miraclesDetails, arguments: _ymal);
+    Navigator.of(context).pushNamed(
+      RouteHelper.miraclesDetails,
+      arguments: {
+        "ymal": _selectedymal,
+        "source": "fromYmal",
+      },
+    );
     //_moveMiracleToEnd(index);
   }
 
@@ -80,16 +85,26 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     int fridayIndex = _friday.indexWhere((element) => element.title == title);
     _selectedFriday = _friday[fridayIndex];
     notifyListeners();
-    Navigator.of(context)
-        .pushNamed(RouteHelper.miraclesDetails, arguments: _selectedFriday);
+    Navigator.of(context).pushNamed(
+      RouteHelper.miraclesDetails,
+      arguments: {
+        "friday": _selectedFriday,
+        "source": "fromFriday",
+      },
+    );
   }
 
   void goToMiracleDetailsPage(String title, BuildContext context, int index) {
     _selectedMiracle = _miracles[index];
     notifyListeners();
-    Navigator.of(context)
-        .pushNamed(RouteHelper.miraclesDetails, arguments: _selectedMiracle);
-    _moveMiracleToEnd(index);
+    Navigator.of(context).pushNamed(
+      RouteHelper.miraclesDetails,
+      arguments: {
+        "miracle": _selectedMiracle,
+        "source": "fromMiracle",
+      },
+    );
+    // _moveMiracleToEnd(index);
   }
 
   void goToMiracleDetailsPageFromFeatured(
@@ -139,6 +154,7 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //initForMiraclesVideo
   void initVideoPlayer() async {
     try {
       controller = VideoPlayerController.networkUrl(
@@ -199,86 +215,140 @@ class MiraclesOfQuranProvider extends ChangeNotifier {
   //initForFriday
   void initVideoPlayerF() async {
     try {
-      Future.delayed(Duration.zero, () {
-        controller = VideoPlayerController.networkUrl(
-          Uri.parse(_selectedFriday!.contentUrl!),
-        )
-          ..initialize().then((_) {
-            setNetworkError(false);
+      // Initialize the VideoPlayerController
+      controller = VideoPlayerController.networkUrl(Uri.parse(
+        _selectedFriday!.contentUrl!,
+      ) // Make sure this URL is valid
+          );
 
-            /// if user internet connection lost during video
-            /// so after connection resolve so user can seek to the same point of video
-            if (lastPosition != Duration.zero) {
-              controller.seekTo(lastPosition);
-            }
+      await controller.initialize();
+
+      // Check if the controller has been successfully initialized
+      if (controller.value.isInitialized) {
+        setNetworkError(false);
+
+        // If the video was previously paused, resume from the last position
+        if (lastPosition != Duration.zero) {
+          await controller.seekTo(lastPosition);
+        }
+
+        // Add a listener to handle errors during playback
+        controller.addListener(() {
+          if (controller.value.hasError) {
+            controller.pause();
+            setNetworkError(true);
+            lastPosition = controller.value.position;
             notifyListeners();
-          })
-          ..addListener(() async {
-            /// if there will be any error so this block will trigger error and resolve error during video
-            if (controller.value.hasError) {
-              controller.pause();
-              setNetworkError(true);
-              lastPosition = (await controller.position)!;
-              notifyListeners();
-            }
-          });
-      });
+          }
+        });
+
+        // Notify listeners after successful initialization
+        notifyListeners();
+      } else {
+        // Handle initialization failure
+        setNetworkError(true);
+        Fluttertoast.showToast(msg: 'Video initialization failed.');
+      }
     } on PlatformException catch (e) {
-      Future.delayed(Duration.zero, () {
-        setNetworkError(true);
-      });
-      // setNetworkError(true);
-      Fluttertoast.showToast(msg: e.toString());
+      // Handle specific platform exceptions
+      setNetworkError(true);
+      Fluttertoast.showToast(msg: 'Platform Exception: ${e.toString()}');
     } catch (e) {
-      Future.delayed(Duration.zero, () {
-        setNetworkError(true);
-      });
-      // setNetworkError(true);
-      Fluttertoast.showToast(msg: e.toString());
+      // Handle other exceptions
+      setNetworkError(true);
+      Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
     }
   }
 
+  //initForYouMayAlsoLike
   void initVideoPlayerY() async {
     try {
-      Future.delayed(Duration.zero, () {
-        print('URL >>>${_selectedymal!.contentUrl!}');
-        controller = VideoPlayerController.networkUrl(
-          Uri.parse(_selectedymal!.contentUrl!),
-        )
-          ..initialize().then((_) {
-            setNetworkError(false);
+      // Initialize the VideoPlayerController
+      controller = VideoPlayerController.networkUrl(Uri.parse(
+        _selectedymal!.contentUrl!,
+      ) // Make sure this URL is valid
+          );
 
-            /// if user internet connection lost during video
-            /// so after connection resolve so user can seek to the same point of video
-            if (lastPosition != Duration.zero) {
-              controller.seekTo(lastPosition);
-            }
+      await controller.initialize();
+
+      // Check if the controller has been successfully initialized
+      if (controller.value.isInitialized) {
+        setNetworkError(false);
+
+        // If the video was previously paused, resume from the last position
+        if (lastPosition != Duration.zero) {
+          await controller.seekTo(lastPosition);
+        }
+
+        // Add a listener to handle errors during playback
+        controller.addListener(() {
+          if (controller.value.hasError) {
+            controller.pause();
+            setNetworkError(true);
+            lastPosition = controller.value.position;
             notifyListeners();
-          })
-          ..addListener(() async {
-            /// if there will be any error so this block will trigger error and resolve error during video
-            if (controller.value.hasError) {
-              controller.pause();
-              setNetworkError(true);
-              lastPosition = (await controller.position)!;
-              notifyListeners();
-            }
-          });
-      });
+          }
+        });
+
+        // Notify listeners after successful initialization
+        notifyListeners();
+      } else {
+        // Handle initialization failure
+        setNetworkError(true);
+        Fluttertoast.showToast(msg: 'Video initialization failed.');
+      }
     } on PlatformException catch (e) {
-      Future.delayed(Duration.zero, () {
-        setNetworkError(true);
-      });
-      // setNetworkError(true);
-      Fluttertoast.showToast(msg: e.toString());
+      // Handle specific platform exceptions
+      setNetworkError(true);
+      Fluttertoast.showToast(msg: 'Platform Exception: ${e.toString()}');
     } catch (e) {
-      Future.delayed(Duration.zero, () {
-        setNetworkError(true);
-      });
-      // setNetworkError(true);
-      Fluttertoast.showToast(msg: e.toString());
+      // Handle other exceptions
+      setNetworkError(true);
+      Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
     }
   }
+
+  // void initVideoPlayerY() async {
+  //   try {
+  //     Future.delayed(Duration.zero, () {
+  //       print('URL >>>${_selectedymal!.contentUrl!}');
+  //       controller = VideoPlayerController.networkUrl(
+  //         Uri.parse(_selectedymal!.contentUrl!),
+  //       )
+  //         ..initialize().then((_) {
+  //           setNetworkError(false);
+
+  //           /// if user internet connection lost during video
+  //           /// so after connection resolve so user can seek to the same point of video
+  //           if (lastPosition != Duration.zero) {
+  //             controller.seekTo(lastPosition);
+  //           }
+  //           notifyListeners();
+  //         })
+  //         ..addListener(() async {
+  //           /// if there will be any error so this block will trigger error and resolve error during video
+  //           if (controller.value.hasError) {
+  //             controller.pause();
+  //             setNetworkError(true);
+  //             lastPosition = (await controller.position)!;
+  //             notifyListeners();
+  //           }
+  //         });
+  //     });
+  //   } on PlatformException catch (e) {
+  //     Future.delayed(Duration.zero, () {
+  //       setNetworkError(true);
+  //     });
+  //     // setNetworkError(true);
+  //     Fluttertoast.showToast(msg: e.toString());
+  //   } catch (e) {
+  //     Future.delayed(Duration.zero, () {
+  //       setNetworkError(true);
+  //     });
+  //     // setNetworkError(true);
+  //     Fluttertoast.showToast(msg: e.toString());
+  //   }
+  // }
 
   setNetworkError(value) {
     isNetworkError = value;

@@ -19,16 +19,19 @@ class MiraclesContentText extends StatelessWidget {
     //     context.read<MiraclesOfQuranProvider>().selectedMiracle!;
     var arguments = ModalRoute.of(context)?.settings.arguments;
 
-    Friday? friday;
+    Friday? fridayM;
     Miracles? miracles;
     YouMayAlsoLikeModel? ymal;
 
     if (arguments != null) {
-      if (arguments is Friday) {
-        friday = arguments;
-        // print(friday.text);
-      } else if (arguments is Miracles) {
-        miracles = arguments;
+      if (arguments is Map<String, dynamic> &&
+          arguments["source"] == "fromFriday") {
+        var friday = arguments["friday"];
+        fridayM = friday;
+      } else if (arguments is Map<String, dynamic> &&
+          arguments["source"] == "fromMiracle") {
+        var miracle = arguments["miracle"];
+        miracles = miracle;
       } else if (arguments is YouMayAlsoLikeModel) {
         ymal = arguments;
       }
@@ -48,11 +51,11 @@ class MiraclesContentText extends StatelessWidget {
               future:
                   Future<String>.delayed(const Duration(milliseconds: 100), () {
                 // Simulating an asynchronous operation
-                if (friday != null) {
-                  if (friday.text == null) {
+                if (fridayM != null) {
+                  if (fridayM.text == null) {
                     throw Exception('Text is null');
                   }
-                  return friday.text!;
+                  return fridayM.text!;
                 } else if (miracles != null) {
                   if (miracles.text == null) {
                     throw Exception('Text is null');
@@ -64,7 +67,7 @@ class MiraclesContentText extends StatelessWidget {
                   }
                   return ymal.text!;
                 } else {
-                  return ''; // Return empty string if neither friday nor miracles is available
+                  return '';
                 }
               }),
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
