@@ -68,7 +68,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   http: 
-  intl: ^0.17.0
+  intl: ^0.18.1
   just_audio: ^0.9.33
 
   onesignal_flutter: ^3.5.1
@@ -176,5 +176,8 @@ flutter:
     - family: Scheherazade Font
       fonts:
         - asset: assets/fonts/scheherazade.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

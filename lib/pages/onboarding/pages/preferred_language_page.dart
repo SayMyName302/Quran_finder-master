@@ -181,62 +181,71 @@ class _SetPreferredLanguageState extends State<SetPreferredLanguage> {
       context: context,
       removeTop: true,
       removeBottom: true,
-      child: ListView.builder(
-        itemCount: Languages.languages.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          Languages lang = Languages.languages[index];
-          return InkWell(
-            onTap: () {
-              localization.setLocale(lang);
-            },
-            child: Container(
-              margin: EdgeInsets.only(
-                bottom: 10.h,
-              ),
-              padding: EdgeInsets.only(
-                  left: 10.w, right: 10.w, top: 15.h, bottom: 15.h),
-              decoration: BoxDecoration(
-                  color: localization.locale.languageCode == lang.languageCode
-                      ? isDark
-                          ? AppColors.brandingDark
-                          : AppColors.lightBrandingColor
-                      : Colors.transparent,
-                  border: Border.all(
-                      color:
-                          localization.locale.languageCode == lang.languageCode
-                              ? appColors.mainBrandingColor
-                              : isDark
-                                  ? AppColors.grey3
-                                  : AppColors.grey5),
-                  borderRadius: BorderRadius.circular(6.r)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    localeText(context, lang.name),
-                    style: TextStyle(
-                        fontFamily: 'satoshi',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Icon(
-                    localization.locale.languageCode == lang.languageCode
-                        ? Icons.check_circle
-                        : Icons.circle,
-                    size: 17.h,
-                    color: localization.locale.languageCode == lang.languageCode
+      child: Container(
+        margin: EdgeInsets.only(left: 40, right: 40),
+        child: ListView.builder(
+          itemCount: Languages.languages.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            Languages lang = Languages.languages[index];
+            bool isSelected =
+                localization.locale.languageCode == lang.languageCode;
+
+            return InkWell(
+              onTap: () {
+                localization.setLocale(lang);
+              },
+              child: Transform.scale(
+                scale: isSelected ? 1.1 : 1.0, // Scale factor for selected item
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 15.h),
+                  padding: EdgeInsets.only(
+                      left: 10.w, right: 10.w, top: 25.h, bottom: 25.h),
+                  decoration: BoxDecoration(
+                    color: isSelected
                         ? isDark
-                            ? Colors.white
-                            : appColors.mainBrandingColor
-                        : AppColors.grey5,
-                  )
-                ],
+                            ? AppColors.brandingDark
+                            : AppColors.lightBrandingColor
+                        : Colors.transparent,
+                    border: Border.all(
+                      color: isSelected
+                          ? appColors.mainBrandingColor
+                          : isDark
+                              ? AppColors.grey3
+                              : AppColors.grey5,
+                    ),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.abc),
+                      const SizedBox(width: 20),
+                      Text(
+                        localeText(context, lang.name),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      Icon(
+                        isSelected ? Icons.check_circle : Icons.circle,
+                        size: 17.h,
+                        color: isSelected
+                            ? isDark
+                                ? Colors.white
+                                : appColors.mainBrandingColor
+                            : AppColors.grey5,
+                      )
+                    ],
+                  ),
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
